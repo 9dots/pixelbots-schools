@@ -1,0 +1,10 @@
+{
+  "name": "middleware",
+  "browser": "client.js",
+  "main": "server.js",
+  "browserify": {
+    "transform": [
+      ["babelify", {"presets": ["es2015"]}]
+    ]
+  }
+}
