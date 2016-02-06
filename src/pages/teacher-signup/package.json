@@ -1,0 +1,5 @@
+{
+  "name": "teacher-signup",
+  "main": "teacher-signup.js",
+  "browser": "teacher-signup.js"
+}

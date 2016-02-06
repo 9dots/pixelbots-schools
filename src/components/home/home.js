@@ -22,10 +22,10 @@ function render ({props}) {
       <div>
         <Content />
         <span class={[mrg_top, pad_top, row, align.center_center]}>
-          <button class={[btn, mrg_right, flex_35]} onClick={e => setUrl('/teachers/')}>
+          <button class={[btn, mrg_right, flex_35]} onClick={e => setUrl('/teacher')}>
             Teachers, Sign Up
           </button>
-          <button id='students' class={[btn, btn_primary, mrg_left, flex_35]} onClick={e => setUrl('/students')}>
+          <button id='students' class={[btn, btn_primary, mrg_left, flex_35]} onClick={e => setUrl('/student')}>
             Students, Join Class
           </button>
         </span>

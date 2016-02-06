@@ -8,7 +8,7 @@ const l = '30px'
 const m = '22px'
 const s = '17px'
 const xs = '13px'
-const mini = '11px'
+const xxs = '11px'
 
 /**
  * Exports
@@ -21,5 +21,5 @@ export {
   m,
   s,
   xs,
-  mini
+  xxs
 }

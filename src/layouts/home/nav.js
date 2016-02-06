@@ -49,7 +49,7 @@ const links = {
 function render () {
   return (
     <div class={[outer, align.start_center, flex, row]}>
-      <a class={[anchor, row, align.start_center]} href='https://www.weo.io' style={{padding: 0, marginRight: 12}}>
+      <a class={[anchor, row, align.start_center]} href='/' style={{padding: 0, marginRight: 12}}>
         <img src={logo120} width='28' />
       </a>
       {
