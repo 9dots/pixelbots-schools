@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {wide, col_sm, pad, mrg, white, link, grey_light, center} from 'lib/styles'
+import {wide, col_sm, pad, mrg, mrg_top, white, link, grey_light, center} from 'lib/styles'
 import {gplusIcon, fbIcon} from 'lib/assets'
 import {row, align} from 'lib/layout'
 import BlockInput from 'components/block-input'
@@ -33,7 +33,11 @@ function render () {
           Sign in with Facebook
         </button>
       </div>
-      <a href='/forgot' class={[grey_light, center, link]}>Forgot your password?</a>
+      <a href='/forgot'>
+        <div class={[grey_light, center, link, mrg_top]}>
+          Forgot your password?
+        </div>
+      </a>
     </div>
   )
 }

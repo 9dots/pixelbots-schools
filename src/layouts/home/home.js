@@ -2,8 +2,9 @@
  * Imports
  */
 
-import {row, align} from 'lib/layout'
+import FloatingArrow from './floating-arrow'
 import InfoBlocks from './info-blocks'
+import {row, align} from 'lib/layout'
 import element from 'vdux/element'
 import {chalk} from 'lib/assets'
 import {tall} from 'lib/styles'
@@ -40,6 +41,7 @@ function render ({props, children}) {
       <Header action={action} />
       <div class={[tall, inner, row, align.center_center]}>
         {children}
+        <FloatingArrow />
       </div>
       <InfoBlocks />
     </div>

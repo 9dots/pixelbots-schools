@@ -5,7 +5,7 @@
 import css from 'jss-simple'
 import * as colors from 'lib/colors'
 import capitalize from '@f/capitalize'
-import mixins from './mixins'
+import * as mixins from './mixins'
 import * as constants from './constants'
 
 /**
@@ -54,18 +54,12 @@ const styles = {
     width: 360
   },
   center: {
-    margin: 'auto'
+    textAlign: 'center'
   },
   link: {
-    color: 'rgba(color, .85)',
-    ...mixins.pointer(),
-    textDecoration: 'underline',
-    transition: 'color .3s',
+    cursor: 'pointer',
     '&:hover': {
-      color: 'rgba(color, 1)'
-    },
-    '&:active': {
-      color: 'rgba(color, .85)'
+      textDecoration: 'underline'
     }
   }
 }

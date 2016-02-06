@@ -6,7 +6,6 @@ import {white, mrg, mrg_top, pad_top, mrg_right, mrg_left} from 'lib/styles'
 import {row, flex, flex_35, align} from 'lib/layout'
 import * as constants from 'lib/styles/constants'
 import {setUrl} from 'redux-effects-location'
-import FloatingArrow from './floating-arrow'
 import * as mixins from 'lib/styles/mixins'
 import * as colors from 'lib/colors'
 import element from 'vdux/element'
@@ -30,7 +29,6 @@ function render ({props}) {
             Students, Join Class
           </button>
         </span>
-        <FloatingArrow />
       </div>
     </div>
   )
