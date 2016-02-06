@@ -1,0 +1,5 @@
+{
+  "name": "block-input",
+  "main": "block-input.js",
+  "browser": "block-input.js"
+}

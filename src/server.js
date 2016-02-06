@@ -23,7 +23,11 @@ function render (req, urls) {
 
 function replace () {
   invalidate(new RegExp('^' + path.resolve('./src')))
-  main = require('./server/').default
+  try {
+    main = require('./server').default
+  } catch (e) {
+    console.log('server replace error', e)
+  }
 }
 
 function invalidate (re) {
@@ -44,4 +48,3 @@ export default render
 export {
   replace
 }
-

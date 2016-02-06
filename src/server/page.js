@@ -1,4 +1,17 @@
 /**
+ * Imports
+ */
+
+import fs from 'fs'
+import path from 'path'
+
+/**
+ * Constants
+ */
+
+const globalStyle = fs.readFileSync(path.join(__dirname, 'global.css'))
+
+/**
  * Render a page
  */
 
@@ -6,13 +19,14 @@ function page ({html, vtree, state}, urls) {
   return `
     <html>
       <head>
+        <base href='/' />
+        <meta name='google' content='notranslate' />
+
         <title>Weo</title>
         <style>
-          body {
-            margin: 0;
-            padding: 0;
-          }
+          ${globalStyle}
         </style>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <script type='text/javascript' src='${urls.js}'></script>
         <script type='text/javascript'>
           window.__initialState__ = ${JSON.stringify(state)}

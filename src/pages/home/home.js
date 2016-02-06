@@ -13,7 +13,7 @@ import css from 'jss-simple'
 
 function render ({props}) {
   return (
-    <HomeLayout>
+    <HomeLayout action='login'>
       <Home />
     </HomeLayout>
   )

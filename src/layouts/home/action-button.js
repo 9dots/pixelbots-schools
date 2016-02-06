@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {lighter, white} from 'lib/styles'
 import element from 'vdux/element'
 import css from 'jss-simple'
 
@@ -9,19 +10,20 @@ import css from 'jss-simple'
  * Style
  */
 
-const style = css({
+const {btn, anchor} = css({
   btn: {
     textAlign: 'right',
     lineHeight: '21px',
     cursor: 'pointer'
   },
-  link: {
+  anchor: {
     display: 'block',
     padding: '4px 12px',
     color: '#fff',
     border: '2px solid white',
     opacity: '0.8',
-    fontWeight: '400'
+    fontWeight: '400',
+    '-webkit-font-smoothing': 'antialiased'
   }
 })
 
@@ -29,12 +31,12 @@ const style = css({
  * Render
  */
 
-function render ({props}) {
-  const {children, link} = props
+function render ({props, children}) {
+  const {link} = props
 
   return (
-    <div class={style.btn}>
-      <a href={link} class={style.link}>
+    <div class={[lighter, white, btn]}>
+      <a href={link} class={anchor}>
         {children}
       </a>
     </div>

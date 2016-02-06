@@ -8,6 +8,7 @@ import fetch from 'redux-effects-fetch'
 import effects from 'redux-effects'
 import logger from 'redux-logger'
 import multi from 'redux-multi'
+import scroll from './scroll'
 
 /**
  * Middleware
@@ -18,6 +19,7 @@ const middleware = [
   effects,
   cookie(),
   fetch,
+  scroll,
   location(window),
   logger()
 ]

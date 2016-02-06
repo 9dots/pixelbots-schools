@@ -1,0 +1,5 @@
+{
+  "name": "layout",
+  "main": "layout.js",
+  "browser": "layout.js"
+}

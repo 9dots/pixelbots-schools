@@ -2,6 +2,8 @@
  * Imports
  */
 
+import HomeLayout from 'layouts/home'
+import Login from 'components/login'
 import element from 'vdux/element'
 import css from 'jss-simple'
 
@@ -11,7 +13,9 @@ import css from 'jss-simple'
 
 function render ({props}) {
   return (
-    <div>Login page</div>
+    <HomeLayout action='signup'>
+      <Login />
+    </HomeLayout>
   )
 }
 
