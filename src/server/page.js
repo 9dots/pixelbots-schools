@@ -15,7 +15,7 @@ const globalStyle = fs.readFileSync(path.join(__dirname, 'global.css'))
  * Render a page
  */
 
-function page ({html, vtree, state}, urls) {
+function page ({html, state}, urls) {
   return `
     <html>
       <head>

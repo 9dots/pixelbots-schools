@@ -1,0 +1,5 @@
+{
+  "name": "resize-image",
+  "main": "resize-image.js",
+  "browser": "resize-image.js"
+}

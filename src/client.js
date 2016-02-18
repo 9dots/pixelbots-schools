@@ -2,6 +2,7 @@
  * Imports
  */
 
+import 'babel-runtime/regenerator/runtime'
 import domready from '@f/domready'
 import element from 'vdux/element'
 import middleware from 'middleware'
@@ -45,6 +46,7 @@ jss.attach()
 
 if (module.hot) {
   module.hot.decline()
+  module.hot.unaccepted(() => window.location.reload())
   module.hot.accept(['./components/app', './reducer'], () => {
     jss.detach()
     App = require('./components/app').default

@@ -3,6 +3,7 @@
   "comments": false,
   "plugins": [
     ["transform-react-jsx", {"pragma": "element"}],
+    "transform-runtime",
     "jss-simple"
   ]
 }

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {userDidLoad} from 'actions'
+import {userDidLoad, userDidLogout} from 'actions'
 import handleActions from '@f/handle-actions'
 
 /**
@@ -10,7 +10,8 @@ import handleActions from '@f/handle-actions'
  */
 
 const reducer = handleActions({
-  [userDidLoad]: (state, user) => user
+  [userDidLoad]: (state, user) => user,
+  [userDidLogout]: (state, user) => null
 })
 
 /**

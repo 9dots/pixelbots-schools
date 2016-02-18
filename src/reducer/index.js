@@ -3,18 +3,24 @@
  */
 
 import combineReducers from '@f/combine-reducers'
-import currentUserReducer from './currentUser'
-import authReducer from './auth'
-import urlReducer from './url'
+import collections from './collections'
+import currentUser from './currentUser'
+import entities from './entities'
+import ready from './ready'
+import auth from './auth'
+import url from './url'
 
 /**
  * Reducer
  */
 
 const reducer = combineReducers({
-  url: urlReducer,
-  auth: authReducer,
-  currentUser: currentUserReducer
+  ready,
+  url,
+  auth,
+  currentUser,
+  entities,
+  collections
 })
 
 /**

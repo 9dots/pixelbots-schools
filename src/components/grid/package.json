@@ -1,0 +1,5 @@
+{
+  "name": "grid",
+  "main": "grid.js",
+  "browser": "grid.js"
+}

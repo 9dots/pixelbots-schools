@@ -23,6 +23,7 @@ const grey_medium =  '#B1B7BC'
 const grey_light =  '#DCDEE2'
 
 const off_white = '#F9F9F9'
+const white = '#FFF'
 
 const black = '#343434'
 
@@ -55,6 +56,7 @@ export {
   grey_medium,
   grey_light,
   off_white,
+  white,
 
   placeholder_color,
   text_color,

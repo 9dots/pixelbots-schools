@@ -1,0 +1,5 @@
+{
+  "name": "oauth-buttons",
+  "main": "oauth-buttons.js",
+  "browser": "oauth-buttons.js"
+}

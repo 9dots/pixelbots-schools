@@ -4,6 +4,7 @@
 
 import Router from 'components/router'
 import {initializeApp} from 'actions'
+import Loading from 'pages/loading'
 import element from 'vdux/element'
 import css from 'jss-simple'
 
@@ -16,7 +17,17 @@ function onCreate () {
 }
 
 function render ({props}) {
-  return <Router {...props.state} />
+  return isReady(props.state)
+    ? <Router {...props.state} />
+    : <Loading />
+}
+
+/**
+ * Helpers
+ */
+
+function isReady (state) {
+  return state.ready
 }
 
 /**

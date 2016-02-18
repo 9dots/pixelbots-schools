@@ -1,0 +1,5 @@
+{
+  "name": "collection",
+  "main": "collection.js",
+  "browser": "collection.js"
+}

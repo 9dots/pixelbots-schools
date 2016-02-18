@@ -26,7 +26,8 @@ function render (request) {
     middleware: middleware(request),
     initialState,
     reducer,
-    app: state => <App state={state} />
+    app: state => <App state={state} />,
+    ready: state => state.ready
   })
 }
 

@@ -2,9 +2,11 @@
  * Imports
  */
 
+import HomeOwl from 'components/home-owl'
 import {row, flex, align} from 'lib/layout'
 import {logo120} from 'lib/assets'
 import element from 'vdux/element'
+import {anchor} from 'lib/styles'
 import css from 'jss-simple'
 
 /**
@@ -22,23 +24,12 @@ const links = {
  * Style
  */
 
- const {outer, inner, anchor} = css({
+ const {outer, inner} = css({
   outer: {
     color: '#fff',
     display: 'flex',
     fontFamily: 'lato',
     padding: '2px 0'
-  },
-  anchor: {
-    padding: '13px',
-    display: 'inline-block',
-    textTransform: 'uppercase',
-    letterSpacing: '2px',
-    fontWeight: '400',
-    lineHeight: '1em',
-    color: '#fff',
-    '-webkit-font-smoothing': 'antialiased',
-    transition: 'color 0.1s 0s ease-in-out'
   }
 })
 
@@ -49,9 +40,7 @@ const links = {
 function render () {
   return (
     <div class={[outer, align.start_center, flex, row]}>
-      <a class={[anchor, row, align.start_center]} href='/' style={{padding: 0, marginRight: 12}}>
-        <img src={logo120} width='28' />
-      </a>
+      <HomeOwl />
       {
         Object
           .keys(links)

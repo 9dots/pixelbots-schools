@@ -2,6 +2,7 @@
  * Imports
  */
 
+import 'babel-runtime/regenerator/runtime'
 import forEach from '@f/foreach-obj'
 import _main from './server/'
 import page from 'server/page'
@@ -18,11 +19,16 @@ let main = _main
  */
 
 function render (req, urls) {
-  return main(req).then(params => page(params, urls))
+  return main(req).then(params => page(params, urls), err => console.log('ERROR', err, err.stack))
 }
+
+/**
+ * Hot reloading
+ */
 
 function replace () {
   invalidate(new RegExp('^' + path.resolve('./src')))
+
   try {
     main = require('./server').default
   } catch (e) {

@@ -1,0 +1,5 @@
+{
+  "name": "feed",
+  "main": "feed.js",
+  "browser": "feed.js"
+}

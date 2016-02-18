@@ -86,6 +86,51 @@ function link (color = colors.text_color) {
   }
 }
 
+function placeholder (style) {
+  return {
+    '&:-moz-placeholder': style,
+    '&::-moz-placeholder': style,
+    '&:-ms-input-placeholder': style,
+    '&::-webkit-input-placeholder': style
+  }
+}
+
+function textInput (height) {
+  var obj = {
+    borderRadius: 0,
+    resize: 'none',
+    background: 'transparent',
+    outline: 0,
+    color: '#777',
+    padding: '7px 0 8px',
+    boxShadow: '0 0',
+    border: 0,
+    borderBottom: `1px solid rgba(${colors.grey}, .15)`,
+    ...placeholder({color: colors.placeholder_color}),
+    '&:focus': {
+      padding: '7px 0',
+      borderBottom: `2px solid ${colors.blue}`,
+      '&.invalid.dirty': {
+        borderBottomColor: colors.red
+      }
+    }
+  }
+
+  if (height) {
+    obj.minHeight = height
+  }
+
+  return textInput
+}
+
+function ellipsis () {
+  return {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+  }
+}
+
 /**
  * Exports
  */
@@ -95,5 +140,8 @@ export {
   btn,
   circle,
   rect,
-  link
+  link,
+  textInput,
+  placeholder,
+  ellipsis
 }

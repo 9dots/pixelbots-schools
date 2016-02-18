@@ -2,25 +2,34 @@
  * Imports
  */
 
+import {query} from 'redux-effects-credentials'
 import location from 'redux-effects-location'
+import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
 import fetch from 'redux-effects-fetch'
-import effects from 'redux-effects'
+import normalize from './normalize'
+import {isApiServer} from 'lib/api'
 import logger from 'redux-logger'
-import multi from 'redux-multi'
 import scroll from './scroll'
+import flo from 'redux-flo'
+
+/**
+ * API Regex
+ */
 
 /**
  * Middleware
  */
 
 const middleware = [
-  multi,
-  effects,
+  flo(),
   cookie(),
+  events(),
+  query(isApiServer, 'access_token', state => state.auth && state.auth.token),
+  normalize(isApiServer),
   fetch,
   scroll,
-  location(window),
+  location(),
   logger()
 ]
 

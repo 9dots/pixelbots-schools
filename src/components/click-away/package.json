@@ -1,0 +1,5 @@
+{
+  "name": "click-away",
+  "main": "click-away.js",
+  "browser": "click-away.js"
+}

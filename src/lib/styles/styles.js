@@ -43,21 +43,27 @@ const styles = {
   mrg: {
     margin
   },
+  mrg_left_small: {
+    marginLeft: constants.spacingSmall
+  },
+  mrg_right_small: {
+    marginRight: constants.spacingSmall
+  },
   mrg_side: {
     marginLeft: constants.spacing,
     marginRight: constants.spacing
   },
   mrg_side_small: {
-    marginLeft: constants.spacing_small,
-    marginRight: constants.spacing_small
+    marginLeft: constants.spacingSmall,
+    marginRight: constants.spacingSmall
   },
   mrg_vert: {
     marginTop: constants.spacing,
     marginBottom: constants.spacing
   },
   mrg_vert_small: {
-    marginTop: constants.spacing_small,
-    marginBottom: constants.spacing_small
+    marginTop: constants.spacingSmall,
+    marginBottom: constants.spacingSmall
   },
   pad: {
     padding
@@ -67,16 +73,16 @@ const styles = {
     paddingRight: constants.spacing
   },
   pad_side_small: {
-    paddingLeft: constants.spacing_small,
-    paddingRight: constants.spacing_small
+    paddingLeft: constants.spacingSmall,
+    paddingRight: constants.spacingSmall
   },
   pad_vert: {
     paddingTop: constants.spacing,
     paddingBottom: constants.spacing
   },
   pad_vert_small: {
-    paddingTop: constants.spacing_small,
-    paddingBottom: constants.spacing_small
+    paddingTop: constants.spacingSmall,
+    paddingBottom: constants.spacingSmall
   },
   bold: {
     fontWeight: 'bold'
@@ -105,6 +111,10 @@ const styles = {
   col_lrg: {
     width: 520
   },
+  col_main: {
+    width: 968,
+    margin: '0 auto'
+  },
   left: {
     textAlign: 'left'
   },
@@ -119,6 +129,15 @@ const styles = {
     '&:hover': {
       textDecoration: 'underline'
     }
+  },
+  capitalize: {
+    textTransform: 'capitalize'
+  },
+  uppercase: {
+    textTransform: 'uppercase'
+  },
+  underline: {
+    textTransform: 'underline'
   },
   xx_large: {
     fontSize: fontSizes.xxl,
@@ -173,6 +192,26 @@ const styles = {
   alignCenter: {
     display: 'block',
     margin: '0 auto'
+  },
+  relative: {
+    position: 'relative'
+  },
+  anchor: {
+    padding: '13px',
+    display: 'inline-block',
+    textTransform: 'uppercase',
+    letterSpacing: '2px',
+    fontWeight: '400',
+    lineHeight: '1em',
+    color: '#fff',
+    '-webkit-font-smoothing': 'antialiased',
+    transition: 'color 0.1s 0s ease-in-out'
+  },
+  input: {
+    ...mixins.textInput()
+  },
+  ellipsis: {
+    ...mixins.ellipsis()
   }
 }
 
