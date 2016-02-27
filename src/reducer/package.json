@@ -1,0 +1,5 @@
+{
+  "name": "reducer",
+  "main": "reducer.js",
+  "browser": "reducer.js"
+}

@@ -2,13 +2,14 @@
  * Imports
  */
 
-import {mrg_vert, xx_small} from 'lib/styles'
-import {column, row} from 'lib/layout'
+import {mrg_vert, mrg_right, xx_small, bold, link, ellipsis} from 'lib/styles'
+import {column, row, align, flex} from 'lib/layout'
 import Avatar from 'components/avatar'
 import Figure from 'components/figure'
 import Card from 'components/card'
 import element from 'vdux/element'
 import css from 'jss-simple'
+import Meta from './meta'
 
 /**
  * Activity Tile
@@ -16,25 +17,20 @@ import css from 'jss-simple'
 
 function render ({props}) {
   const {activity} = props
+  const {actor, tags, commonCore, image, displayName, description} = activity
 
   return (
     <Card class={tile}>
       <div class={[column]}>
         <actions/>
-        <div class={[image, mrg_vert]}>
-          <Figure {...activity.image} />
+        <div class={[thumb, mrg_vert]}>
+          <Figure {...image} thumb={true} />
         </div>
         <div>
-          <h2>{activity.displayName}</h2>
-          <p>{activity.description}</p>
+          <h2>{displayName}</h2>
+          <p>{description}</p>
         </div>
-        <div class={[row, meta, xx_small]}>
-          <Avatar actor={activity.actor} />
-          <div class={[column]}>
-            <span>{activity.actor.displayName}</span>
-            <span>{activity.tags}</span>
-          </div>
-        </div>
+        <Meta actor={actor} tags={tags} commonCore={commonCore} />
       </div>
     </Card>
   )
@@ -44,20 +40,14 @@ function render ({props}) {
  * Styles
  */
 
-const {image, tile, meta} = css({
+const {thumb, tile, meta} = css({
   tile: {
     width: 230,
     position: 'relative',
     margin: '8px 6px'
   },
-  image: {
+  thumb: {
     maxHeight: 350
-  },
-  meta: {
-    margin: '12px 0 0',
-    borderTop: '1px solid rgba(0, 0, 0, 0.04)',
-    padding: '6px 12px',
-    background: '#FCFCFC'
   }
 })
 

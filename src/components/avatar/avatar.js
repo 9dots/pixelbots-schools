@@ -28,7 +28,7 @@ function render ({props}) {
   const dim = sizes[size]
 
   return (
-    <div class={avatar} style={{width: dim, height: dim}}>
+    <div class={[avatar, props.class]} style={{width: dim, height: dim}}>
       <Figure url={avatarUrl(actor)} ratio='1' />
     </div>
   )

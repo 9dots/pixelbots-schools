@@ -28,7 +28,11 @@ const alignments = hAlign.reduce((acc, h) => {
   }))
 
   return acc
-}, {})
+}, {
+  stretch: {
+    alignSelf: 'stretch'
+  }
+})
 
 /**
  * Layout styles

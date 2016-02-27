@@ -4,18 +4,14 @@
 
 import {query} from 'redux-effects-credentials'
 import location from 'redux-effects-location'
+import normalize from 'middleware/normalize'
 import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
 import fetch from 'redux-effects-fetch'
-import normalize from './normalize'
+import scroll from 'middleware/scroll'
 import {isApiServer} from 'lib/api'
 import logger from 'redux-logger'
-import scroll from './scroll'
 import flo from 'redux-flo'
-
-/**
- * API Regex
- */
 
 /**
  * Middleware

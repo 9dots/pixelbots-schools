@@ -1,9 +1,0 @@
-{
-  "name": "app",
-  "main": "actions.js",
-  "browserify": {
-    "transform": [
-      ["babelify", {"presets": ["es2015"]}]
-    ]
-  }
-}

@@ -2,11 +2,11 @@
  * Imports
  */
 
-import middleware from 'middleware/server'
-import App from 'components/app'
+import middleware from './middleware'
 import element from 'vdux/element'
-import reducer from 'reducer/'
+import App from 'components/app'
 import vdux from 'vdux/string'
+import reducer from 'reducer/'
 
 /**
  * initialState

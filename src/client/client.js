@@ -3,15 +3,15 @@
  */
 
 import 'babel-runtime/regenerator/runtime'
+import vendorPrefixer from 'jss-vendor-prefixer'
+import defaultUnits from 'jss-default-unit'
+import camelCase from 'jss-camel-case'
+import middleware from './middleware'
 import domready from '@f/domready'
 import element from 'vdux/element'
-import middleware from 'middleware'
 import * as jss from 'jss-simple'
-import vendorPrefixer from 'jss-vendor-prefixer'
-import camelCase from 'jss-camel-case'
-import defaultUnits from 'jss-default-unit'
 import nested from 'jss-nested'
-import reducer from './reducer'
+import reducer from 'reducer'
 import vdux from 'vdux/dom'
 
 /**
@@ -29,7 +29,7 @@ jss
  */
 
 let hmr
-let App = require('./components/app').default
+let App = require('components/app').default
 domready(() => hmr = vdux({
   middleware,
   reducer,
@@ -47,10 +47,10 @@ jss.attach()
 if (module.hot) {
   module.hot.decline()
   module.hot.unaccepted(() => window.location.reload())
-  module.hot.accept(['./components/app', './reducer'], () => {
+  module.hot.accept(['components/app', 'reducer'], () => {
     jss.detach()
-    App = require('./components/app').default
-    hmr.replace(app, require('./reducer').default)
+    App = require('components/app').default
+    hmr.replace(app, require('reducer').default)
     jss.attach()
   })
 }

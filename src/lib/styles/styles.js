@@ -215,8 +215,8 @@ const styles = {
   }
 }
 
-forEach(side => styles['mrg_' + side] = {['margin-' + side]: side}, sides)
-forEach(side => styles['pad_' + side] = {['padding-' + side]: side}, sides)
+forEach(side => styles['mrg_' + side] = {['margin-' + side]: constants.spacing}, sides)
+forEach(side => styles['pad_' + side] = {['padding-' + side]: constants.spacing}, sides)
 forEach((color, name) => styles[name] = {color}, colors)
 
 /**

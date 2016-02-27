@@ -4,6 +4,7 @@
   "repository": "git://github.com/weo-edu/weo.git",
   "version": "0.1.0",
   "main": "lib/index.js",
+  "license": "none",
   "scripts": {
     "prepublish": "make build",
     "postpublish": "make clean",
@@ -16,12 +17,14 @@
     "@f/combine-reducers": "^1.2.1",
     "@f/create-action": "^1.1.1",
     "@f/domready": "^1.0.0",
+    "@f/element-rect": "^1.0.0",
     "@f/foreach": "^1.2.2",
     "@f/handle-actions": "^1.1.1",
     "@f/has": "^1.0.0",
     "@f/hyphenate": "^1.0.0",
     "@f/identity": "^1.1.1",
     "@f/map": "^1.5.3",
+    "@f/maybe-over": "^1.0.0",
     "@f/noop": "^1.2.0",
     "@f/rgba": "^1.0.0",
     "@f/serialize-form": "^1.0.0",
@@ -45,7 +48,11 @@
     "redux-effects-location": "^0.1.14",
     "redux-flo": "^2.1.1",
     "redux-logger": "^2.3.2",
-    "vdux": "^2.2.9"
+    "vdux": "^2.3.8",
+    "vdux-delay": "^1.0.5",
+    "vdux-hover": "^1.0.0",
+    "vdux-position": "^1.0.0",
+    "vdux-tooltip": "^1.0.1"
   },
   "devDependencies": {
     "ava": "^0.10.0",

@@ -57,6 +57,7 @@ export {
   grey_light,
   off_white,
   white,
+  black,
 
   placeholder_color,
   text_color,

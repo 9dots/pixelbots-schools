@@ -4,6 +4,7 @@
 
 import TeacherSignup from 'pages/teacher-signup'
 import StudentSignup from 'pages/student-signup'
+import MyActivities from 'pages/my-activities'
 import Feed from 'pages/feed'
 import Home from 'pages/home'
 import Login from 'pages/login'
@@ -20,6 +21,7 @@ const router = enroute({
     ? <Feed {...props} />
     : <Home {...props} />,
   '/login': (params, props) => <Login {...props} />,
+  '/activities/all': (params, props) => <MyActivities {...props} />,
   '/teacher': (params, props) => <TeacherSignup {...props} />,
   '/student': (params, props) => <StudentSignup {...props} />,
   '*': (params, props) => <div>404: Page not found</div>

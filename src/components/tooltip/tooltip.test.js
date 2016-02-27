@@ -3,10 +3,10 @@
  */
 
 import test from 'ava'
-import ducks from '.'
+import tooltip from '.'
 
 /**
- * ducks tests
+ * tooltip tests
  */
 
 test(t => {

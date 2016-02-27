@@ -4,8 +4,8 @@
 
 import 'babel-runtime/regenerator/runtime'
 import forEach from '@f/foreach-obj'
-import _main from './server/'
-import page from 'server/page'
+import _main from './render'
+import page from './page'
 import path from 'path'
 
 /**

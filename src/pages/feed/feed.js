@@ -2,10 +2,10 @@
  * Imports
  */
 
+import {following} from 'reducer/collections'
 import TileFeed from 'components/tile-feed'
 import {col_main} from 'lib/styles'
 import AppLayout from 'layouts/app'
-import {getHomeFeed} from 'actions'
 import element from 'vdux/element'
 import css from 'jss-simple'
 import map from '@f/map'
@@ -14,8 +14,8 @@ import map from '@f/map'
  * onCreate - Load the following feed
  */
 
-function *onCreate () {
-  yield getHomeFeed()
+function onCreate () {
+  return following.fetch()
 }
 
 /**

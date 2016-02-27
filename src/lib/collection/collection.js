@@ -9,7 +9,7 @@ import createAction from '@f/create-action'
  * Collection
  */
 
-function collection (name) {
+function collection (name, get) {
   const request = createAction('requesting collection: ' + name)
   const success = createAction('request collection success: ' + name)
   const failure = createAction('request collection failure: ' + name)
@@ -43,6 +43,16 @@ function collection (name) {
   reducer.success = success
   reducer.failure = failure
   reducer.destroy = destroy
+
+  reducer.fetch = function *fetch (opts) {
+    const res = yield reducer.request()
+    try {
+      const res = yield get(opts)
+      yield reducer.success(res.value)
+    } catch (err) {
+      yield reducer.failure(err)
+    }
+  }
 
   return reducer
 }
