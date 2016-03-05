@@ -23,7 +23,8 @@ function render ({path, props, children}) {
       {...props}
       placement={placement}
       message={msgWithArrow}
-      class={[props.class, tooltip, places[placement]]}>
+      transition={150}
+      class={[props.class, fade, tooltip, places[placement]]}>
       {children}
     </Tooltip>
   )
@@ -36,7 +37,7 @@ function render ({path, props, children}) {
 const color = colors.black
 const width = '6px'
 
-const {tooltip, arrow, inner} = css({
+const {tooltip, arrow, inner, fade} = css({
   arrow: {
     position: 'absolute',
     width: 0,
@@ -48,6 +49,22 @@ const {tooltip, arrow, inner} = css({
     whiteSpace: 'nowrap',
     marginTop: '-3px',
     padding: `${width} 0`
+  },
+  fade: {
+    '&.enter': {
+      opacity: 0,
+      '&.enter-active': {
+        transition: 'opacity .15s linear',
+        opacity: 1
+      },
+    },
+    '&.leave': {
+      opacity: 1,
+      '&.leave-active': {
+        opacity: 0,
+        transition: 'opacity .15s linear'
+      }
+    }
   },
   inner: {
     backgroundColor: color,

@@ -226,3 +226,4 @@ forEach((color, name) => styles[name] = {color}, colors)
 exports = module.exports = css(styles)
 exports.mixins = mixins
 exports.constants = constants
+exports.fontSizes = fontSizes

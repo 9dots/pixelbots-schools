@@ -68,5 +68,6 @@ export {
   userDidLoad,
   userDidLogin,
   userLoginFailed,
-  userDidLogout
+  userDidLogout,
+  logoutUser
 }

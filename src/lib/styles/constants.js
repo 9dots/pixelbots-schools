@@ -13,6 +13,7 @@ const defaultColor = '#54738E'
 const spacingSmall = spacing / 2
 const docMarg = spacing * 2
 const metaHeight = 225
+const navBtnHeight = 34
 
 const cardShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.2)'
 const shadow = {
@@ -49,6 +50,7 @@ export {
   tileWidth,
   spacing,
   navHeight,
+  navBtnHeight,
   defaultColor,
   spacing,
   spacingSmall,

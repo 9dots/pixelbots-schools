@@ -15,6 +15,7 @@ import map from '@f/map'
  */
 
 function onCreate () {
+  console.log('onCreate')
   return following.fetch()
 }
 
@@ -23,6 +24,7 @@ function onCreate () {
  */
 
 function render ({props}) {
+  console.log('render')
   const {currentUser, collections, entities} = props
   const {following = {}} = collections
 

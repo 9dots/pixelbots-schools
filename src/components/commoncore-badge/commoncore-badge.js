@@ -13,7 +13,7 @@ import css from 'jss-simple'
 
 function render ({props}) {
   return (
-    <Tooltip message='Common Core Aligned' delay={500}>
+    <Tooltip message='Common Core Aligned'>
       <img src={badge} />
     </Tooltip>
   )

@@ -24,7 +24,7 @@ function render ({props}) {
     <HomeLayout action='signup'>
       <div class={[col_sm, pad, white]}>
         <Form onSubmit={loginUser}>
-          <BlockInput class={[wide, mrg]} placeholder='USERNAME OR EMAIL' name='username' />
+          <BlockInput autofocus={true} class={[wide, mrg]} placeholder='USERNAME OR EMAIL' name='username' />
           <BlockInput class={[wide, mrg]} placeholder='PASSWORD' type='password' name='password' />
           <button type='submit' class={[btn, wide]}>Log In</button>
           <div class={[row, align.spaceAround_center, mrg]}>

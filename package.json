@@ -33,6 +33,7 @@
     "@f/xargs": "^1.0.0",
     "@weo-edu/schema": "^0.1.7",
     "@weo-edu/validate": "^2.12.4",
+    "babel-plugin-react-transform": "^2.0.2",
     "cookie": "^0.2.3",
     "debug": "^2.2.0",
     "jss-camel-case": "^1.0.0",
@@ -45,14 +46,15 @@
     "redux-effects-credentials": "^0.1.12",
     "redux-effects-events": "^0.2.7",
     "redux-effects-fetch": "^0.4.5",
-    "redux-effects-location": "^0.1.14",
+    "redux-effects-location": "^0.2.0",
     "redux-flo": "^2.1.1",
-    "redux-logger": "^2.3.2",
-    "vdux": "^2.3.8",
+    "vdux": "^2.3.17",
+    "vdux-css-transition": "^1.2.0",
     "vdux-delay": "^1.0.5",
     "vdux-hover": "^1.0.0",
     "vdux-position": "^1.0.0",
-    "vdux-tooltip": "^1.0.1"
+    "vdux-tooltip": "^1.0.3",
+    "weo-redux-logger": "^2.6.1"
   },
   "devDependencies": {
     "ava": "^0.10.0",

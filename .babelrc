@@ -4,6 +4,13 @@
   "plugins": [
     ["transform-react-jsx", {"pragma": "element"}],
     "transform-runtime",
+    ["vdux-transform", {
+      "transforms": [
+        {
+          "transform": "vdux-transform-hmr"
+        }
+      ]
+    }],
     "jss-simple"
   ]
 }

@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {lookup, isEphemeral} from 'redux-ephemeral'
 import {query} from 'redux-effects-credentials'
 import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
@@ -9,8 +10,8 @@ import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
 import fetch from 'redux-effects-fetch'
 import scroll from 'middleware/scroll'
+import logger from 'weo-redux-logger'
 import {isApiServer} from 'lib/api'
-import logger from 'redux-logger'
 import flo from 'redux-flo'
 
 /**
@@ -26,7 +27,12 @@ const middleware = [
   fetch,
   scroll,
   location(),
-  logger()
+  logger({
+    predicate: (getState, action) => action.type !== 'CREATE_EPHEMERAL' && action.type !== 'DESTROY_EPHEMERAL',
+    stateTransformer: (state, action) => isEphemeral(action)
+      ? lookup(state.ui, action.meta.ephemeral.key)
+      : state
+  })
 ]
 
 /**

@@ -3,10 +3,11 @@
  */
 
 import {wide, mrg_left_small, small, mrg_side, medium} from 'lib/styles'
-import {row, align, flex_45} from 'lib/layout'
+import {row, align, flex, flex_45} from 'lib/layout'
 import {logoutUser} from 'reducer/currentUser'
 import ClassNav from 'components/class-nav'
 import HomeOwl from 'components/home-owl'
+import SearchBox from './search-box'
 import Icon from 'components/icon'
 import element from 'vdux/element'
 import {grey} from 'lib/colors'
@@ -33,7 +34,13 @@ function render ({props}) {
             </Item>
           </ClassNav>
         </span>
-        <span>
+        <span class={[row, flex, align.end_center]}>
+          <SearchBox />
+          <div>
+            <Icon class={medium} name='notifications' />
+          </div>
+          <div>Avatar</div>
+          <div>Create Activity</div>
           <button onClick={logoutUser}>Logout</button>
         </span>
       </div>

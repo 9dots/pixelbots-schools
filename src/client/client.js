@@ -47,11 +47,14 @@ jss.attach()
 if (module.hot) {
   module.hot.decline()
   module.hot.unaccepted(() => window.location.reload())
-  module.hot.accept(['components/app', 'reducer'], () => {
+  module.hot.accept(['components/app', 'reducer'], (...args) => {
     jss.detach()
-    App = require('components/app').default
     hmr.replace(app, require('reducer').default)
     jss.attach()
+  })
+
+  module.hot.accept(err => {
+    console.log('err', err)
   })
 }
 
