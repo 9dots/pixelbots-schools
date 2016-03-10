@@ -7,6 +7,11 @@ module "assets" {
   bucket = "assets.${var.domain}"
 }
 
+module "builds" {
+  source = "./modules/builds"
+  bucket = "builds.${var.domain}"
+}
+
 module "tf-backend-s3" {
   source = "./modules/tf-backend-s3"
   bucket = "terraform.${var.domain}"
