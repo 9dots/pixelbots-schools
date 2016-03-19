@@ -16,7 +16,7 @@ import cookieMiddleware from 'redux-effects-cookie'
  */
 
 function middleware (req) {
-  const cookieObj = cookie.parse(req.headers.cookie)
+  const cookieObj = cookie.parse(req.headers.cookie || '')
 
   return [
     query(isApiServer, 'access_token', state => state.auth && state.auth.token),
@@ -24,7 +24,7 @@ function middleware (req) {
     cookieMiddleware(cookieObj),
     normalize(isApiServer),
     fetch,
-    flo(),
+    flo()
     // logger
   ]
 }

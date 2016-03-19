@@ -3,10 +3,8 @@
  */
 
 import {mrg_vert, mrg_right, xx_small, bold, link, ellipsis} from 'lib/styles'
-import {column, row, align, flex} from 'lib/layout'
-import Avatar from 'components/avatar'
+import {Flex, Block, Card, Text} from 'vdux-ui'
 import Figure from 'components/figure'
-import Card from 'components/card'
 import element from 'vdux/element'
 import css from 'jss-simple'
 import Meta from './meta'
@@ -17,21 +15,19 @@ import Meta from './meta'
 
 function render ({props}) {
   const {activity} = props
-  const {actor, tags, commonCore, image, displayName, description} = activity
+  const {image, displayName, description} = activity
 
   return (
     <Card class={tile}>
-      <div class={[column]}>
+      <Flex column>
         <actions/>
-        <div class={[thumb, mrg_vert]}>
-          <Figure {...image} thumb={true} />
-        </div>
-        <div>
-          <h2>{displayName}</h2>
-          <p>{description}</p>
-        </div>
-        <Meta actor={actor} tags={tags} commonCore={commonCore} />
-      </div>
+        <Figure {...image} thumb={true} />
+        <Block textAlign='center' m={2}>
+          <Text p={1} my={2} fs={2}>{displayName}</Text>
+          <Text fs={1}>{description}</Text>
+        </Block>
+        <Meta activity={activity} />
+      </Flex>
     </Card>
   )
 }
@@ -40,14 +36,11 @@ function render ({props}) {
  * Styles
  */
 
-const {thumb, tile, meta} = css({
+const {tile} = css({
   tile: {
     width: 230,
     position: 'relative',
     margin: '8px 6px'
-  },
-  thumb: {
-    maxHeight: 350
   }
 })
 

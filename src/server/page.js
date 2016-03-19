@@ -17,6 +17,7 @@ const globalStyle = fs.readFileSync(path.join(__dirname, 'global.css'))
 
 function page ({html, state}, urls) {
   return `
+    <!DOCTYPE html>
     <html>
       <head>
         <base href='/' />

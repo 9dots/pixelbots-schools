@@ -22,12 +22,26 @@ const initialState = {
  */
 
 function render (request) {
-  return vdux({
-    middleware: middleware(request),
-    initialState,
-    reducer,
-    app: state => <App state={state} />,
-    ready: state => state.ready
+  return new Promise((resolve, reject) => {
+    const {subscribe, render} = vdux({
+      middleware: middleware(request),
+      initialState,
+      reducer
+    })
+
+    const stop = subscribe(state => {
+      try {
+        const html = render(<App state={state} />)
+
+        if (state.ready) {
+          stop()
+          resolve(html)
+        }
+      } catch (err) {
+        reject(err)
+        stop()
+      }
+    })
   })
 }
 

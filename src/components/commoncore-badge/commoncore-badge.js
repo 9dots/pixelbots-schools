@@ -11,9 +11,9 @@ import css from 'jss-simple'
  * commoncoreBadge
  */
 
-function render ({props}) {
+function render ({props, state}) {
   return (
-    <Tooltip message='Common Core Aligned'>
+    <Tooltip message='Common Core Aligned' space={15}>
       <img src={badge} />
     </Tooltip>
   )

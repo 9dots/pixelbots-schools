@@ -5,7 +5,6 @@
 import serialize from '@f/serialize-form'
 import identity from '@f/identity'
 import element from 'vdux/element'
-import css from 'jss-simple'
 
 /**
  * Constants

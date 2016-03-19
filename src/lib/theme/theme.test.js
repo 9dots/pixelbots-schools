@@ -3,10 +3,10 @@
  */
 
 import test from 'ava'
-import click-away from '.'
+import theme from '.'
 
 /**
- * click-away tests
+ * theme tests
  */
 
 test(t => {

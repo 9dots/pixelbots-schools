@@ -3,9 +3,9 @@
  */
 
 import ActivityTile from 'components/activity-tile'
-import Grid from 'components/grid'
 import element from 'vdux/element'
 import css from 'jss-simple'
+import {Grid} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -16,13 +16,11 @@ function render ({props}) {
   const {items} = props
 
   return (
-    <div>
-      <Grid>
-        {
-          map(activity => <ActivityTile activity={activity} />, items)
-        }
-      </Grid>
-    </div>
+    <Grid>
+      {
+        map(activity => <ActivityTile activity={activity} />, items)
+      }
+    </Grid>
   )
 }
 

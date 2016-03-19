@@ -1,0 +1,5 @@
+{
+  "name": "button",
+  "main": "button.js",
+  "browser": "button.js"
+}

@@ -25,8 +25,6 @@ const {oauth} = css({
   oauth: {
     padding: '0 25px',
     marginBottom: 0,
-    fontSize: '13px',
-    lineHeight: '2.1em',
     textAlign: 'center',
     cursor: 'pointer',
     userSelect: 'none',

@@ -3,7 +3,7 @@
  */
 
 import css from 'jss-simple'
-import Icon from 'components/icon'
+import {Icon} from 'vdux-ui'
 import element from 'vdux/element'
 import {scrollTo} from 'middleware/scroll'
 

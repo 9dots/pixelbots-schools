@@ -3,7 +3,7 @@
  */
 
 import {input, capitalize, ellipsis, constants, mixins} from 'lib/styles'
-import Dropdown from 'components/dropdown'
+import Dropdown from 'vdux-dropdown'
 import * as colors from 'lib/colors'
 import element from 'vdux/element'
 import css from 'jss-simple'
@@ -17,10 +17,7 @@ function render ({props, children}) {
   const {classes = []} = props
 
   return (
-    <Dropdown class={nav}>
-      {
-        toggle => <div onClick={toggle}>{children}</div>
-      }
+    <Dropdown btn={<div>{children}</div>} class={nav}>
       <div class={filter}>
         <input type='search' placeholder='Filter classes…' class={input} />
       </div>

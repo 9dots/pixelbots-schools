@@ -3,10 +3,10 @@
  */
 
 import test from 'ava'
-import card from '.'
+import button from '.'
 
 /**
- * card tests
+ * button tests
  */
 
 test(t => {

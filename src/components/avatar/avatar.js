@@ -3,54 +3,24 @@
  */
 
 import {avatarServer} from 'lib/config'
-import Figure from 'components/figure'
 import element from 'vdux/element'
-import css from 'jss-simple'
-
-/**
- * Sizes
- */
-
-const sizes = {
-  small: '25px',
-  default: '32px',
-  medium: '40px',
-  large: '100px'
-}
-
+import {Avatar} from 'vdux-ui'
 
 /**
  * Avatar component
  */
 
 function render ({props}) {
-  const {actor, size = 'default'} = props
-  const dim = sizes[size]
-
-  return (
-    <div class={[avatar, props.class]} style={{width: dim, height: dim}}>
-      <Figure url={avatarUrl(actor)} ratio='1' />
-    </div>
-  )
+  const {actor, circle, size} = props
+  return <Avatar {...props} src={avatarUrl(actor)} />
 }
-
-/**
- * Styles
- */
-
-const {avatar} = css({
-  avatar: {
-    borderRadius: '50%',
-    overflow: 'hidden'
-  }
-})
 
 /**
  * Helpers
  */
 
 function avatarUrl (actor) {
-  return avatarServer + (actor.id || actor)
+  return avatarServer + (actor.id || actor._id || actor)
 }
 
 /**

@@ -27,10 +27,6 @@ const styles = {
   wide: {
     width: '100%'
   },
-  medium: {
-    fontSize: '22px',
-    lineHeight: '1.2em'
-  },
   ln30: {
     lineHeight: '30px'
   },
@@ -84,20 +80,11 @@ const styles = {
     paddingTop: constants.spacingSmall,
     paddingBottom: constants.spacingSmall
   },
-  bold: {
-    fontWeight: 'bold'
-  },
   off_white: {
     color: '#f9f9f9'
   },
   white: {
     color: '#fff'
-  },
-  lighter: {
-    fontWeight: 'lighter'
-  },
-  ln30: {
-    lineHeight: '30px'
   },
   col_xsm: {
     width: 200
