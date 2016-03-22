@@ -1,5 +1,5 @@
 {
-  "name": "app",
-  "main": "app.js",
-  "browser": "app.js"
+  "name": "App",
+  "main": "App.js",
+  "browser": "App.js"
 }

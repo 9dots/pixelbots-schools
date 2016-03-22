@@ -7,10 +7,10 @@ import {row, flex, flex_35, align} from 'lib/layout'
 import * as constants from 'lib/styles/constants'
 import {setUrl} from 'redux-effects-location'
 import * as mixins from 'lib/styles/mixins'
-import HomeLayout from 'layouts/home'
+import HomeLayout from 'layouts/Home'
 import * as colors from 'lib/colors'
 import element from 'vdux/element'
-import Content from './content'
+import Content from './Content'
 import css from 'jss-simple'
 
 /**

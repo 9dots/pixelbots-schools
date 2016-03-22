@@ -1,5 +1,5 @@
 {
-  "name": "tooltip",
-  "main": "tooltip.js",
-  "browser": "tooltip.js"
+  "name": "Tooltip",
+  "main": "Tooltip.js",
+  "browser": "Tooltip.js"
 }

@@ -3,10 +3,10 @@
  */
 
 import test from 'ava'
-import router from '.'
+import Router from '.'
 
 /**
- * router tests
+ * Router tests
  */
 
 test(t => {

@@ -2,13 +2,13 @@
  * Imports
  */
 
-import FloatingArrow from './floating-arrow'
-import InfoBlocks from './info-blocks'
+import FloatingArrow from './FloatingArrow'
+import InfoBlocks from './InfoBlocks'
 import {row, align} from 'lib/layout'
 import element from 'vdux/element'
 import {chalk} from 'lib/assets'
 import {tall} from 'lib/styles'
-import Header from './header'
+import Header from './Header'
 import css from 'jss-simple'
 
 /**

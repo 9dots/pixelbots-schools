@@ -4,7 +4,7 @@
 
 import element from 'vdux/element'
 import css from 'jss-simple'
-import Nav from './nav'
+import Nav from './Nav'
 
 /**
  * App

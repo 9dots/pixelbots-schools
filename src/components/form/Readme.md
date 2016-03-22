@@ -1,6 +1,0 @@
-# form
-
-Form component
-
-## Usage
-

@@ -1,5 +1,5 @@
 {
-  "name": "feed",
-  "main": "feed.js",
-  "browser": "feed.js"
+  "name": "Feed",
+  "main": "Feed.js",
+  "browser": "Feed.js"
 }

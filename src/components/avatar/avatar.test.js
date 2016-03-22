@@ -3,10 +3,10 @@
  */
 
 import test from 'ava'
-import avatar from '.'
+import Avatar from '.'
 
 /**
- * avatar tests
+ * Avatar tests
  */
 
 test(t => {

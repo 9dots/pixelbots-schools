@@ -1,5 +1,5 @@
 {
-  "name": "router",
-  "main": "router.js",
-  "browser": "router.js"
+  "name": "Router",
+  "main": "Router.js",
+  "browser": "Router.js"
 }

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import Tooltip from 'components/tooltip'
+import Tooltip from 'components/Tooltip'
 import element from 'vdux/element'
 import {Button} from 'vdux-ui'
 

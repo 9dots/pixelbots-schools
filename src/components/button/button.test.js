@@ -3,7 +3,7 @@
  */
 
 import test from 'ava'
-import button from '.'
+import Button from '.'
 
 /**
  * button tests

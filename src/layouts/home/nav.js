@@ -2,8 +2,8 @@
  * Imports
  */
 
-import HomeOwl from 'components/home-owl'
 import {row, flex, align} from 'lib/layout'
+import HomeOwl from 'components/HomeOwl'
 import {logo120} from 'lib/assets'
 import element from 'vdux/element'
 import {anchor} from 'lib/styles'

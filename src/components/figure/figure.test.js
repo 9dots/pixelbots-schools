@@ -3,7 +3,7 @@
  */
 
 import test from 'ava'
-import figure from '.'
+import Figure from '.'
 
 /**
  * figure tests

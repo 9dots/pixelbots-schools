@@ -1,0 +1,5 @@
+{
+  "name": "CommoncoreBadge",
+  "main": "CommoncoreBadge.js",
+  "browser": "CommoncoreBadge.js"
+}

@@ -3,16 +3,16 @@
  */
 
 import {wide, col_sm, pad, mrg, mrg_top, white, link, grey_light, center} from 'lib/styles'
-import {Facebook, Google} from 'components/oauth-buttons'
-import BlockInput from 'components/block-input'
+import {Facebook, Google} from 'components/OAuthButtons'
+import BlockInput from 'components/BlockInput'
 import {loginUser} from 'reducer/currentUser'
-import DecoLine from 'components/deco-line'
+import DecoLine from 'components/DecoLine'
 import * as mixins from 'lib/styles/mixins'
 import {row, align} from 'lib/layout'
-import HomeLayout from 'layouts/home'
+import HomeLayout from 'layouts/Home'
 import * as colors from 'lib/colors'
 import element from 'vdux/element'
-import Form from 'components/form'
+import Form from 'vdux-form'
 import css from 'jss-simple'
 
 /**

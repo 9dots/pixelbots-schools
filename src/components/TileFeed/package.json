@@ -1,0 +1,5 @@
+{
+  "name": "TileFeed",
+  "main": "TileFeed.js",
+  "browser": "TileFeed.js"
+}

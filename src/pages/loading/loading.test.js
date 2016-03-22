@@ -3,7 +3,7 @@
  */
 
 import test from 'ava'
-import loading from '.'
+import Loading from '.'
 
 /**
  * loading tests
