@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {LogoButton} from 'vdux-ui'
 import element from 'vdux/element'
 import {fbIcon} from 'lib/assets'
 import OAuthButton from './Btn'
@@ -13,9 +14,9 @@ import css from 'jss-simple'
 
 function render ({props, children}) {
   return (
-    <OAuthButton {...props} class={[props.class, facebook]}>
+    <LogoButton fs='12px' logo={fbIcon} logoSize='18px' pl='8px' bgColor='facebook_blue'>
       {children}
-    </OAuthButton>
+    </LogoButton>
   )
 }
 

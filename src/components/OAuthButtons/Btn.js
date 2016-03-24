@@ -2,8 +2,9 @@
  * Imports
  */
 
+import {Button, Block, Text} from 'vdux-ui'
 import element from 'vdux/element'
-import css from 'jss-simple'
+import Hover from 'vdux-hover'
 
 /**
  * Generic OAuth Button
@@ -11,41 +12,22 @@ import css from 'jss-simple'
 
 function render ({props, children}) {
   return (
-    <button {...props} class={[oauth, props.class]}>
-      {children}
-    </button>
+    <Hover>
+      {
+        hover => (
+          <Button rounded relative px='25px' width='calc(50% - 6px)' float='left' {...props} border='rgba(0, 0, 0, 0.15)' style={{
+            opacity: hover ? 1 : 0.9
+          }}>
+            <Block absolute='top left 33px' height='100%' borderLeft='rgba(52, 52, 52, 0.08)' />
+            <Text ml='15px' fs='12px' lh='41px'>
+              {children}
+            </Text>
+          </Button>
+        )
+      }
+    </Hover>
   )
 }
-
-/**
- * Styles
- */
-
-const {oauth} = css({
-  oauth: {
-    padding: '0 25px',
-    marginBottom: 0,
-    textAlign: 'center',
-    cursor: 'pointer',
-    userSelect: 'none',
-    borderRadius: '3px',
-    whiteSpace: 'nowrap',
-    outline: 0,
-    border: 0,
-    lineHeight: '41px !important',
-    position: 'relative',
-    fontSize: '12px !important',
-    float: 'left',
-    width: 'calc(50% - 6px) !important',
-    '&:before': {
-      content: '""',
-      position: 'absolute',
-      left: 33,
-      height: '100%',
-      borderLeft: '1px solid rgba(52,52,52,0.08)'
-    }
-  }
-})
 
 /**
  * Exports

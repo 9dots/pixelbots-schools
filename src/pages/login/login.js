@@ -6,8 +6,8 @@ import {wide, col_sm, pad, mrg, mrg_top, white, link, grey_light, center} from '
 import {Facebook, Google} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
 import {loginUser} from 'reducer/currentUser'
-import DecoLine from 'components/DecoLine'
 import * as mixins from 'lib/styles/mixins'
+import {DecoLine, Flex} from 'vdux-ui'
 import {row, align} from 'lib/layout'
 import HomeLayout from 'layouts/Home'
 import * as colors from 'lib/colors'
@@ -24,17 +24,17 @@ function render ({props}) {
     <HomeLayout action='signup'>
       <div class={[col_sm, pad, white]}>
         <Form onSubmit={loginUser}>
-          <BlockInput autofocus={true} class={[wide, mrg]} placeholder='USERNAME OR EMAIL' name='username' />
+          <BlockInput autofocus class={[wide, mrg]} placeholder='USERNAME OR EMAIL' name='username' />
           <BlockInput class={[wide, mrg]} placeholder='PASSWORD' type='password' name='password' />
           <button type='submit' class={[btn, wide]}>Log In</button>
-          <div class={[row, align.spaceAround_center, mrg]}>
+          <Flex align='space-around center' m={2}>
             <DecoLine />or<DecoLine />
-          </div>
+          </Flex>
         </Form>
-        <div class={[row, align.spaceAround_center]}>
+        <Flex align='space-around center'>
           <Google>Sign in With Google</Google>
           <Facebook>Sign in With Facebook</Facebook>
-        </div>
+        </Flex>
         <a href='/forgot'>
           <div class={[grey_light, center, link, mrg_top]}>
             Forgot your password?

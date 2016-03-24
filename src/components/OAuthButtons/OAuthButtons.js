@@ -2,8 +2,8 @@
  * Imports
  */
 
-import Google from './google'
-import Facebook from './facebook'
+import Google from './Google'
+import Facebook from './Facebook'
 
 /**
  * Exports

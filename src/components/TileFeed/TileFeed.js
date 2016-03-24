@@ -4,7 +4,6 @@
 
 import ActivityTile from 'components/ActivityTile'
 import element from 'vdux/element'
-import css from 'jss-simple'
 import {Grid} from 'vdux-ui'
 import map from '@f/map'
 

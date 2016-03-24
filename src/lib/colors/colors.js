@@ -62,6 +62,8 @@ export {
   placeholder_color,
   text,
   link_color,
+  google_red,
+  facebook_blue,
 
   blue as primary,
   green as accent,

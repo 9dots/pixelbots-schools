@@ -2,21 +2,19 @@
  * Imports
  */
 
-import {row, align} from 'lib/layout'
 import element from 'vdux/element'
 import {logo120} from 'lib/assets'
-import {anchor} from 'lib/styles'
-import css from 'jss-simple'
+import {Flex} from 'vdux-ui'
 
 /**
- * homeOwl
+ * <HomeOwl/>
  */
 
-function render ({props}) {
+function render () {
   return (
-    <a class={[anchor, row, align.start_center, props.class]} href='/' style={{padding: 0, marginRight: 12}}>
+    <Flex tag='a' align='start center' mr={12} href='/'>
       <img src={logo120} width='28' />
-    </a>
+    </Flex>
   )
 }
 

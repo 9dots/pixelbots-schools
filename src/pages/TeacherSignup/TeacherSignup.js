@@ -3,14 +3,15 @@
  */
 
 import {col_med, col_sm, white, x_large, bolder, mrg_bottom, medium, mrg_vert, ln30, small, mrg_top, wide, mrg} from 'lib/styles'
+import {Flex} from 'vdux-ui'
 import {Google, Facebook} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
 import {column, row, align} from 'lib/layout'
 import * as mixins from 'lib/styles/mixins'
-import DecoLine from 'components/DecoLine'
 import HomeLayout from 'layouts/Home'
 import * as colors from 'lib/colors'
 import element from 'vdux/element'
+import {DecoLine} from 'vdux-ui'
 import css from 'jss-simple'
 
 /**
@@ -33,20 +34,20 @@ function render () {
             Free for teachers. Forever.
           </div>
         </div>
-        <div class={[column, col_sm, white, align.center_center]}>
+        <div style={{width: '360px', color: 'white'}}>
           <BlockInput placeholder='FULL NAME' />
           <BlockInput placeholder='EMAIL' />
           <BlockInput placeholder='PASSWORD' type='password' />
           <button class={[btn, wide]}>
             Sign Up Now
           </button>
-          <div class={[row, align.spaceAround_center, mrg]}>
-            <DecoLine />or<DecoLine />
-          </div>
-          <span>
-            <Google style={{float: 'left', display: 'inline-block'}}>Sign in With Google</Google>
-            <Facebook style={{float: 'right', display: 'inline-block'}}>Sign in With Facebook</Facebook>
-          </span>
+          <Flex align='space-around center' m={2}>
+            <DecoLine width='36%' />or<DecoLine width='36%' />
+          </Flex>
+          <Flex align='space-around center' mt={10}>
+            <Google width='calc(50% - 6px)'>Sign in With Google</Google>
+            <Facebook width='calc(50% - 6px)'>Sign in With Facebook</Facebook>
+          </Flex>
         </div>
       </div>
     </HomeLayout>

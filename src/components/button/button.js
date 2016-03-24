@@ -4,6 +4,7 @@
 
 import Tooltip from 'components/Tooltip'
 import element from 'vdux/element'
+import Hover from 'vdux-hover'
 import {Button} from 'vdux-ui'
 
 /**
@@ -11,8 +12,11 @@ import {Button} from 'vdux-ui'
  */
 
 function render ({props, children}) {
-  const {text, tooltip, ttPlacement} = props
-  const vnode = <Button {...props}>{children}</Button>
+  const {text, tooltip, ttPlacement, hover = true} = props
+  const btn = hover => <Button opacity={hover ? 1 : 0.9} {...props}>{children}</Button>
+  const vnode = hover
+    ? <Hover>{btn}</Hover>
+    : btn(false)
 
   if (tooltip) {
     return (

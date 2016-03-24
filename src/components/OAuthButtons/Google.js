@@ -2,10 +2,9 @@
  * Imports
  */
 
-import element from 'vdux/element'
 import {gplusIcon} from 'lib/assets'
-import OAuthButton from './Btn'
-import css from 'jss-simple'
+import {LogoButton} from 'vdux-ui'
+import element from 'vdux/element'
 
 /**
  * Google OAuth Button
@@ -13,29 +12,11 @@ import css from 'jss-simple'
 
 function render ({props, children}) {
   return (
-    <OAuthButton {...props} class={[props.class, google]}>
+    <LogoButton fs='12px' logo={gplusIcon} bgColor='google_red' {...props}>
       {children}
-    </OAuthButton>
+    </LogoButton>
   )
 }
-
-/**
- * Style
- */
-
-const {google} = css({
-  google: {
-    marginLeft: 0,
-    backgroundSize: 25,
-    backgroundPosition: 'left 4px center',
-    backgroundImage: `url('${gplusIcon}')`,
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: '#dd4b39',
-    display: 'inline-block',
-    color: 'rgba(255, 255, 255, 0.85)',
-    padding: '0 6px 0 33px'
-  }
-})
 
 /**
  * Exports
