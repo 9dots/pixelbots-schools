@@ -14,23 +14,29 @@ const theme = {
     ...defaultTheme.colors,
     ...colors
   },
-  scale: [
-    0,
-    6,
-    12,
-    24,
-    32,
-    64
-  ],
-  fontScale: [
-    11,
-    13,
-    17,
-    22,
-    30,
-    45,
-    120
-  ]
+  scale: {
+    z: 0,
+    s: 6,
+    m: 12,
+    l: 24,
+    xl: 32,
+    xxl: 64,
+    col_xsm: 200,
+    col_sm: 360,
+    col_med: 440,
+    col_med: 440,
+    col_lrg: 520,
+    col_main: 968
+  },
+  fontScale: {
+    xxs: 11,
+    xs: 13,
+    s: 17,
+    m: 22,
+    l: 30,
+    xl: 45,
+    xxl: 120
+  }
 }
 
 /**

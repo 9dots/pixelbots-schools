@@ -2,11 +2,9 @@
  * Imports
  */
 
-import {medium, mrg_left, off_white, bold} from 'lib/styles'
-import {align, row, flex} from 'lib/layout'
+import {Flex, Block, Text} from 'vdux-ui'
 import ActionButton from './ActionButton'
 import element from 'vdux/element'
-import css from 'jss-simple'
 import Nav from './Nav'
 
 /**
@@ -19,22 +17,6 @@ const buttons = {
 }
 
 /**
- * Style
- */
-
-const {header} = css({
-  header: {
-    zIndex: 1,
-    width: '100%',
-    padding: '4px 30px',
-    position: 'absolute',
-    height: '53px',
-    background: 'rgba(255, 255, 255, 0.2)',
-    flex: '1'
-  }
-})
-
-/**
  * Home Header
  */
 
@@ -43,15 +25,15 @@ function render ({props}) {
   const button = buttons[action]
 
   return (
-    <header class={[header, row, align.start_center]}>
+    <Flex tag='header' align='start center' wide py='4px' px='30px' zIndex={1} flex absolute h='53px' bgColor='rgba(255, 255, 255, 0.2)'>
       <Nav />
-      <a href='/' class={[medium, mrg_left, off_white, bold]} style={{letterSpacing: 1}}>
+      <Text tag='a' href='/' ml='m' color='off_white' fs='m' bold style={{letterSpacing: 1}}>
         WEO
-      </a>
-      <div class={[row, flex, align.end_center]}>
+      </Text>
+      <Flex flex align='end center'>
         {button}
-      </div>
-    </header>
+      </Flex>
+    </Flex>
   )
 }
 

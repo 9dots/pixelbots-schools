@@ -3,42 +3,34 @@
  */
 
 import element from 'vdux/element'
-import css from 'jss-simple'
+import {Input} from 'vdux-ui'
 
 /**
- * blockInput
+ * <BlockInput/>
  */
 
 function render ({props}) {
-  const {type = 'text'} = props
-
-  return (
-    <div class={container}>
-      <input {...props} class={input} type={type} />
-    </div>
-  )
+  return <Input
+    wide
+    mb='s'
+    inputStyle={inputStyle}
+    inputProps={{m: 'm'}}
+    {...props} />
 }
 
 /**
  * Styles
  */
 
-const {container, input} = css({
-  container: {
-    width: '100%',
-    marginBottom: 6
-  },
-  input: {
-    padding: '12px 14px',
-    border: 0,
-    color: '#666',
-    fontSize: '13px',
-    fontWeight: 500,
-    outline: 0,
-    width: '100%',
-    background: '#ececec'
-  }
-})
+const inputStyle = {
+  padding: '12px 14px',
+  border: 0,
+  color: '#666',
+  fontSize: '13px',
+  fontWeight: 500,
+  outline: 0,
+  background: '#ececec'
+}
 
 /**
  * Exports

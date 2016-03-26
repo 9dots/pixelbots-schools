@@ -12,7 +12,10 @@ import {scrollTo} from 'middleware/scroll'
  */
 
 function render () {
-  return <Icon name='keyboard_arrow_down' class={arrow} onClick={e => scrollTo('#students')} />
+  return <Icon
+    name='keyboard_arrow_down'
+    class={arrow}
+    onClick={e => scrollTo('#students')} />
 }
 
 /**

@@ -3,21 +3,7 @@
  */
 
 import element from 'vdux/element'
-import css from 'jss-simple'
-
-/**
- * Styles
- */
-
-const {info_blocks, col_main} = css({
-  info_blocks: {
-
-  },
-  col_main: {
-    maxWidth: 1100,
-    margin: '0 auto'
-  }
-})
+import {Block} from 'vdux-ui'
 
 /**
  * Render
@@ -25,9 +11,10 @@ const {info_blocks, col_main} = css({
 
 function render () {
   return (
-    <div id='info' class={info_blocks}>
-      <div class={col_main}></div>
-    </div>
+    <Block id='info'>
+      <Block w='col_main'>
+      </Block>
+    </Block>
   )
 }
 
@@ -35,4 +22,6 @@ function render () {
  * Exports
  */
 
-export default render
+export default {
+  render
+}
