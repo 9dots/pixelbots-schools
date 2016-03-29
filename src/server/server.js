@@ -3,54 +3,71 @@
  */
 
 import 'babel-runtime/regenerator/runtime'
-import forEach from '@f/foreach-obj'
-import _main from './render'
-import page from './page'
-import path from 'path'
-
-/**
- * Vars
- */
-
-let main = _main
+import style from './global.css'
+import middleware from './middleware'
+import element from 'vdux/element'
+import App from 'components/app'
+import vdux from 'vdux/string'
+import reducer from 'reducer/'
 
 /**
  * Render
  */
 
-function render (req, urls) {
-  return main(req).then(params => page(params, urls), err => console.log('ERROR', err, err.stack))
+module.exports = handler
+
+/**
+ * Handle requests
+ */
+
+function handler (event) {
+  return render(event).then(page)
 }
 
 /**
- * Hot reloading
+ * Page
  */
 
-function replace () {
-  invalidate(new RegExp('^' + path.resolve('./src')))
-
-  try {
-    main = require('./server').default
-  } catch (e) {
-    console.log('server replace error', e)
-  }
-}
-
-function invalidate (re) {
-  forEach(remove, require.cache)
-
-  function remove (val, key) {
-    if (re.test(key)) {
-      delete require.cache[key]
-    }
-  }
+function page ({html, state}) {
+  return `
+    <html>
+      <head>
+        <base href='/' />
+        <meta name='google' content='notranslate' />
+        <title>Weo</title>
+        <style>
+          ${style}
+        </style>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <script type='text/javascript' src='${process.env.JS_ENTRY}'></script>
+        <script type='text/javascript'>
+          window.__initialState__ = ${JSON.stringify(state)}
+        </script>
+      </head>
+      <body>${html}</body>
+    </html>
+  `
 }
 
 /**
- * Exports
+ * InitialState
  */
 
-export default render
-export {
-  replace
+const initialState = {
+  auth: {},
+  user: {}
+}
+
+/**
+ * Render to html string
+ */
+
+function render (opts) {
+  return vdux({
+    middleware: middleware(opts),
+    initialState,
+    reducer,
+    app: state => <App state={state} />,
+    ready: state => state.ready
+  })
 }
