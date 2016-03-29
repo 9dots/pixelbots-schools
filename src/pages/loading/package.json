@@ -1,5 +1,5 @@
 {
-  "name": "loading",
-  "main": "loading.js",
-  "browser": "loading.js"
+  "name": "Loading",
+  "main": "Loading.js",
+  "browser": "Loading.js"
 }

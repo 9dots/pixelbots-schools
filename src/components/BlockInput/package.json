@@ -1,0 +1,5 @@
+{
+  "name": "BlockInput",
+  "main": "BlockInput.js",
+  "browser": "BlockInput.js"
+}

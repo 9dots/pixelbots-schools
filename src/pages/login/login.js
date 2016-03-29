@@ -2,18 +2,14 @@
  * Imports
  */
 
-import {wide, col_sm, pad, mrg, mrg_top, white, link, grey_light, center} from 'lib/styles'
-import {Facebook, Google} from 'components/oauth-buttons'
-import BlockInput from 'components/block-input'
+import {DecoLine, Flex, Block, Button, Text} from 'vdux-ui'
+import {Facebook, Google} from 'components/OAuthButtons'
+import BlockInput from 'components/BlockInput'
 import {loginUser} from 'reducer/currentUser'
-import DecoLine from 'components/deco-line'
-import * as mixins from 'lib/styles/mixins'
-import {row, align} from 'lib/layout'
-import HomeLayout from 'layouts/home'
-import * as colors from 'lib/colors'
+import HomeLayout from 'layouts/Home'
 import element from 'vdux/element'
-import Form from 'components/form'
-import css from 'jss-simple'
+import {link} from 'lib/styles'
+import Form from 'vdux-form'
 
 /**
  * Login page
@@ -22,43 +18,30 @@ import css from 'jss-simple'
 function render ({props}) {
   return (
     <HomeLayout action='signup'>
-      <div class={[col_sm, pad, white]}>
+      <Block w='col_sm' color='white' p='m'>
         <Form onSubmit={loginUser}>
-          <BlockInput autofocus={true} class={[wide, mrg]} placeholder='USERNAME OR EMAIL' name='username' />
-          <BlockInput class={[wide, mrg]} placeholder='PASSWORD' type='password' name='password' />
-          <button type='submit' class={[btn, wide]}>Log In</button>
-          <div class={[row, align.spaceAround_center, mrg]}>
-            <DecoLine />or<DecoLine />
-          </div>
+          <BlockInput autofocus placeholder='USERNAME OR EMAIL' name='username' />
+          <BlockInput placeholder='PASSWORD' type='password' name='password' />
+          <Button type='submit' wide bgColor='green' h={43} mt={10} lh={43} fs={15}>
+            Log In
+          </Button>
+          <Flex align='space-around center' m='m'>
+            <DecoLine w='36%' />or<DecoLine w='36%' />
+          </Flex>
         </Form>
-        <div class={[row, align.spaceAround_center]}>
-          <Google>Sign in With Google</Google>
-          <Facebook>Sign in With Facebook</Facebook>
-        </div>
-        <a href='/forgot'>
-          <div class={[grey_light, center, link, mrg_top]}>
+        <Flex align='space-between center' pt={10}>
+          <Google w='calc(50% - 6px)'>Sign in With Google</Google>
+          <Facebook w='calc(50% - 6px)'>Sign in With Facebook</Facebook>
+        </Flex>
+        <a class={link} href='/forgot'>
+          <Block color='grey_light' mx='auto' mt='m' style={{textAlign: 'center'}}>
             Forgot your password?
-          </div>
+          </Block>
         </a>
-      </div>
+      </Block>
     </HomeLayout>
   )
 }
-
-/**
- * Styles
- */
-
-const {btn} = css({
-  btn: {
-    ...mixins.btn(colors.green, '#fff'),
-    marginTop: 10,
-    height: 43,
-    lineHeight: '43px',
-    width: '100%',
-    fontSize: '15px'
-  }
-})
 
 /**
  * Exports

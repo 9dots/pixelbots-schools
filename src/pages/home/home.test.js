@@ -3,7 +3,7 @@
  */
 
 import test from 'ava'
-import home from '.'
+import Home from '.'
 
 /**
  * home tests

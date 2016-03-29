@@ -68,7 +68,6 @@ const {tooltip, arrow, inner, fade} = css({
   },
   inner: {
     backgroundColor: color,
-    color: colors.white,
     padding: '6px 9px',
     maxWidth: 200,
     color: colors.white,

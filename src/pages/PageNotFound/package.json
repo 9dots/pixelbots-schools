@@ -1,0 +1,5 @@
+{
+  "name": "PageNotFound",
+  "main": "PageNotFound.js",
+  "browser": "PageNotFound.js"
+}

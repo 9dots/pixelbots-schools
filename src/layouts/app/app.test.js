@@ -3,7 +3,7 @@
  */
 
 import test from 'ava'
-import app from '.'
+import App from '.'
 
 /**
  * app tests

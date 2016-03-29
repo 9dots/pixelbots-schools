@@ -3,8 +3,8 @@
  */
 
 const config = {
-  apiServer: 'http://localhost:1337/',
-  avatarServer: 'http://localhost:1337/avatar/',
+  apiServer: 'http://76.95.33.101:1337/',
+  avatarServer: 'http://76.95.33.101:1337/avatar/',
   imageResize: 'http://images.weo.io',
   text: {
     site_name: 'Teach better, together.',

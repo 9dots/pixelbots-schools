@@ -1,6 +1,0 @@
-# card
-
-Card component
-
-## Usage
-

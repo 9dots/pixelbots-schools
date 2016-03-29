@@ -4,11 +4,14 @@
 
 import {wide, mrg_left_small, small, mrg_side, medium} from 'lib/styles'
 import {row, align, flex, flex_45} from 'lib/layout'
+import {Icon, Flex, Block, Menu} from 'vdux-ui'
 import {logoutUser} from 'reducer/currentUser'
-import ClassNav from 'components/class-nav'
-import HomeOwl from 'components/home-owl'
-import SearchBox from './search-box'
-import Icon from 'components/icon'
+import ClassNav from 'components/ClassNav'
+import HomeOwl from 'components/HomeOwl'
+import Tooltip from 'components/Tooltip'
+import Button from 'components/Button'
+import Avatar from 'components/Avatar'
+import Dropdown from 'vdux-dropdown'
 import element from 'vdux/element'
 import {grey} from 'lib/colors'
 import css from 'jss-simple'
@@ -23,9 +26,11 @@ function render ({props}) {
 
   return (
     <div>
-      <div class={[row, align.space_between, bar, wide]}>
-        <span class={[row, flex_45, align.start_center]}>
-          <HomeOwl class={[mrg_side, row, align.center_center]} />
+      <Flex align='space-between' wide bgColor='grey' color='white'>
+        <Flex align='start center'>
+          <Flex align='center center' mx={2}>
+            <HomeOwl />
+          </Flex>
           <Item href='/' icon='home' text='Home' />
           <Item href='/activities/all' icon='assignment' text='My Activities' />
           <ClassNav classes={currentUser.groups}>
@@ -33,17 +38,28 @@ function render ({props}) {
               <Icon name='arrow_drop_down' />
             </Item>
           </ClassNav>
-        </span>
-        <span class={[row, flex, align.end_center]}>
-          <SearchBox />
-          <div>
-            <Icon class={medium} name='notifications' />
-          </div>
-          <div>Avatar</div>
-          <div>Create Activity</div>
+        </Flex>
+        <Menu spacing={2} flex align='end center'>
+          <Button fs={3} tooltip='Search Weo' ttPlacement='bottom' icon='search' />
+          <Button fs={3} tooltip='Notifications' ttPlacement='bottom' icon='notifications' />
+          <Dropdown p={2} bgColor='white' color='text' btn={<Avatar actor={currentUser} />}>
+            <div>My Profile</div>
+            <div>My Drafts</div>
+            <div>Connect</div>
+            <div>Notifications</div>
+            <div>Settings</div>
+            <div>Help Center</div>
+            <div>Log Out</div>
+          </Dropdown>
+          <Button pill style={{height: '34px'}}>
+            <Flex align='center center'>
+              <Icon fs={2} mr={1} name='edit' />
+              Create Activity
+            </Flex>
+          </Button>
           <button onClick={logoutUser}>Logout</button>
-        </span>
-      </div>
+        </Menu>
+      </Flex>
       <div class={spacer}></div>
     </div>
   )

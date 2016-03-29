@@ -3,7 +3,7 @@
  */
 
 import test from 'ava'
-import feed from '.'
+import Feed from '.'
 
 /**
  * feed tests

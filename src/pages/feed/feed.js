@@ -3,9 +3,9 @@
  */
 
 import {following} from 'reducer/collections'
-import TileFeed from 'components/tile-feed'
+import TileFeed from 'components/TileFeed'
 import {col_main} from 'lib/styles'
-import AppLayout from 'layouts/app'
+import AppLayout from 'layouts/App'
 import element from 'vdux/element'
 import css from 'jss-simple'
 import map from '@f/map'
@@ -15,7 +15,6 @@ import map from '@f/map'
  */
 
 function onCreate () {
-  console.log('onCreate')
   return following.fetch()
 }
 
@@ -24,7 +23,6 @@ function onCreate () {
  */
 
 function render ({props}) {
-  console.log('render')
   const {currentUser, collections, entities} = props
   const {following = {}} = collections
 

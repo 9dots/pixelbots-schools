@@ -1,6 +1,0 @@
-# menu
-
-Menu component
-
-## Usage
-

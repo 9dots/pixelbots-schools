@@ -2,32 +2,12 @@
  * Imports
  */
 
-import FloatingArrow from './floating-arrow'
-import InfoBlocks from './info-blocks'
-import {row, align} from 'lib/layout'
+import FloatingArrow from './FloatingArrow'
+import InfoBlocks from './InfoBlocks'
+import {Block, Flex} from 'vdux-ui'
 import element from 'vdux/element'
 import {chalk} from 'lib/assets'
-import {tall} from 'lib/styles'
-import Header from './header'
-import css from 'jss-simple'
-
-/**
- * Style
- */
-
-const {frame, inner} = css({
-  frame: {
-    backgroundColor: '#fdfdfd'
-  },
-  inner: {
-    background: `url(${chalk})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center bottom',
-    position: 'absolute',
-    height: '100vh',
-    width: '100%'
-  }
-})
+import Header from './Header'
 
 /**
  * Home Layout
@@ -37,14 +17,14 @@ function render ({props, children}) {
   const {action} = props
 
   return (
-    <div class={frame}>
+    <Block bgColor='#fdfdfd'>
       <Header action={action} />
-      <div class={[tall, inner, row, align.center_center]}>
+      <Flex wide align='center center' bg={`url(${chalk})`} bgSize='cover' bgPos='center bottom' absolute h='100vh'>
         {children}
         <FloatingArrow />
-      </div>
+      </Flex>
       <InfoBlocks />
-    </div>
+    </Block>
   )
 }
 

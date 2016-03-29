@@ -3,17 +3,8 @@
  */
 
 import {get, put, post, del} from './req'
+import {apiServer} from 'lib/config'
 import qs from 'qs'
-
-/**
- * API Regex (tests whether or not a url points at our api server)
- */
-
-const regex = /\https?\:\/\/localhost\:1337\/.*/
-
-function isApiServer (url) {
-  return regex.test(url)
-}
 
 /**
  * API Wrappers
@@ -29,6 +20,15 @@ const user = {
   getHomeFeed (opts = {maxResults: 16}) {
     return get('share/feed?' + qs.stringify(opts))
   }
+}
+
+/**
+ * Test whether or not a URL points to our API server
+ * Useful for adding credentials and such
+ */
+
+function isApiServer (url) {
+  return url.indexOf(apiServer) === 0
 }
 
 /**

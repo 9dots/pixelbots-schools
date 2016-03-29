@@ -2,11 +2,10 @@
  * Imports
  */
 
-import HomeOwl from 'components/home-owl'
-import {row, flex, align} from 'lib/layout'
+import {Flex, Block, Text} from 'vdux-ui'
+import HomeOwl from 'components/HomeOwl'
 import {logo120} from 'lib/assets'
 import element from 'vdux/element'
-import {anchor} from 'lib/styles'
 import css from 'jss-simple'
 
 /**
@@ -21,34 +20,45 @@ const links = {
 }
 
 /**
- * Style
- */
-
- const {outer, inner} = css({
-  outer: {
-    color: '#fff',
-    display: 'flex',
-    fontFamily: 'lato',
-    padding: '2px 0'
-  }
-})
-
-/**
  * Render
  */
 
 function render () {
   return (
-    <div class={[outer, align.start_center, flex, row]}>
+    <Flex align='start center' flex color='white' py={2}>
       <HomeOwl />
       {
         Object
           .keys(links)
-          .map((text) => <a class={anchor} href={links[text]}>{text}</a>)
+          .map(item)
       }
-    </div>
+    </Flex>
   )
 }
+
+function item (text) {
+  return (
+    <Block tag='a' href={links[text]} p={13} class={hover}>
+      <Text transform='uppercase' weight='400' lh='1em' letterSpacing='2px' antialiased>
+        {text}
+      </Text>
+    </Block>
+  )
+}
+
+/**
+ * Styles
+ */
+
+const {hover} = css({
+  hover: {
+    color: '#fff',
+    transition: 'color 0.1s 0s ease-in-out',
+    '&:hover': {
+      color: '#9c9999'
+    }
+  }
+})
 
 /**
  * Exports

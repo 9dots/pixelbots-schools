@@ -1,5 +1,5 @@
 {
-  "name": "home",
-  "main": "home.js",
-  "browser": "home.js"
+  "name": "Home",
+  "main": "Home.js",
+  "browser": "Home.js"
 }

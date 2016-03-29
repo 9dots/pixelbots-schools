@@ -1,0 +1,5 @@
+{
+  "name": "ActivityTile",
+  "main": "ActivityTile.js",
+  "browser": "ActivityTile.js"
+}

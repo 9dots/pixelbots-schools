@@ -2,13 +2,13 @@
  * Imports
  */
 
-import TeacherSignup from 'pages/teacher-signup'
-import StudentSignup from 'pages/student-signup'
-import MyActivities from 'pages/my-activities'
-import Feed from 'pages/feed'
-import Home from 'pages/home'
-import Login from 'pages/login'
+import TeacherSignup from 'pages/TeacherSignup'
+import StudentSignup from 'pages/StudentSignup'
+import MyActivities from 'pages/MyActivities'
 import element from 'vdux/element'
+import Login from 'pages/Login'
+import Feed from 'pages/Feed'
+import Home from 'pages/Home'
 import enroute from 'enroute'
 import css from 'jss-simple'
 

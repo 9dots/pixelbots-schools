@@ -3,7 +3,7 @@
  */
 
 import test from 'ava'
-import login from '.'
+import Login from '.'
 
 /**
  * login tests

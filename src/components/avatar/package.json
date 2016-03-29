@@ -1,5 +1,5 @@
 {
-  "name": "avatar",
-  "main": "avatar.js",
-  "browser": "avatar.js"
+  "name": "Avatar",
+  "main": "Avatar.js",
+  "browser": "Avatar.js"
 }

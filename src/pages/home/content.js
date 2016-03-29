@@ -3,7 +3,7 @@
  */
 
 import element from 'vdux/element'
-import Icon from 'components/icon'
+import {Icon} from 'vdux-ui'
 import css from 'jss-simple'
 
 /**

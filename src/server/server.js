@@ -9,6 +9,8 @@ import element from 'vdux/element'
 import App from 'components/app'
 import vdux from 'vdux/string'
 import reducer from 'reducer/'
+import fs from 'fs'
+import path from 'path'
 
 /**
  * Render
@@ -28,25 +30,29 @@ function handler (event) {
  * Page
  */
 
+const globalStyle = fs.readFileSync(path.join(__dirname, 'global.css'), 'utf8')
+
 function page ({html, state}) {
-  return `
-    <html>
-      <head>
-        <base href='/' />
-        <meta name='google' content='notranslate' />
-        <title>Weo</title>
-        <style>
-          ${style}
-        </style>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-        <script type='text/javascript' src='${process.env.JS_ENTRY}'></script>
-        <script type='text/javascript'>
-          window.__initialState__ = ${JSON.stringify(state)}
-        </script>
-      </head>
-      <body>${html}</body>
-    </html>
-  `
+  return   return `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <base href='/' />
+          <meta name='google' content='notranslate' />
+
+          <title>Weo</title>
+          <style>
+            ${globalStyle}
+          </style>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+          <script type='text/javascript' src='${process.env.JSON_ENTRY}'></script>
+          <script type='text/javascript'>
+            window.__initialState__ = ${JSON.stringify(state)}
+          </script>
+        </head>
+        <body>${html}</body>
+      </html>
+    `
 }
 
 /**
@@ -63,11 +69,26 @@ const initialState = {
  */
 
 function render (opts) {
-  return vdux({
-    middleware: middleware(opts),
-    initialState,
-    reducer,
-    app: state => <App state={state} />,
-    ready: state => state.ready
+  return new Promise((resolve, reject) => {
+    const {subscribe, render} = vdux({
+      middleware: middleware(opts),
+      initialState,
+      reducer
+    })
+
+    const stop = subscribe(state => {
+      try {
+        const html = render(<App state={state} />)
+
+        if (state.ready) {
+          stop()
+          resolve({html, state})
+        }
+      } catch (err) {
+        reject(err)
+        stop()
+      }
+    })
   })
+
 }

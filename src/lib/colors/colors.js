@@ -32,7 +32,7 @@ const facebook_blue = '#3B5998'
 const khan_green = '#96AE3A'
 
 const placeholder_color = '#AEAEBB'
-const text_color = '#6A6A6A'
+const text = '#6A6A6A'
 const link_color = blue
 
 /**
@@ -60,8 +60,10 @@ export {
   black,
 
   placeholder_color,
-  text_color,
+  text,
   link_color,
+  google_red,
+  facebook_blue,
 
   blue as primary,
   green as accent,
