@@ -17,9 +17,9 @@ function render ({props, children}) {
   const {action} = props
 
   return (
-    <Block bgColor='#fdfdfd'>
+    <Block bg='#fdfdfd'>
       <Header action={action} />
-      <Flex wide align='center center' bg={`url(${chalk})`} bgSize='cover' bgPos='center bottom' absolute h='100vh'>
+      <Flex wide align='center center' bg={`url(${chalk}) center bottom/cover`} absolute h='100vh'>
         {children}
         <FloatingArrow />
       </Flex>

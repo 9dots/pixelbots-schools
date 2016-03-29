@@ -22,7 +22,7 @@ function render ({props}) {
         <Form onSubmit={loginUser}>
           <BlockInput autofocus placeholder='USERNAME OR EMAIL' name='username' />
           <BlockInput placeholder='PASSWORD' type='password' name='password' />
-          <Button type='submit' wide bgColor='green' h={43} mt={10} lh={43} fs={15}>
+          <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
             Log In
           </Button>
           <Flex align='space-around center' m='m'>

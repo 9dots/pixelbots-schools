@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {center, mrg_top, pad_top, ln30, lighter} from 'lib/styles'
 import {red, yellow, green, blue} from 'lib/colors'
+import {Block, Text} from 'vdux-ui'
 import element from 'vdux/element'
 import times from '@f/times'
 import css from 'jss-simple'
@@ -14,13 +14,15 @@ import css from 'jss-simple'
 
 function render ({props}) {
   return (
-    <span class={[loader, center]}>
-      <div class={[mrg_top, ln30, lighter]}>Loading…</div>
-      <div class={[mrg_top, pad_top]}>
+    <span class={loader} style={{textAlign: 'center'}}>
+      <Block mt='m'>
+        <Text lh='30px' weight='lighter'>Loading…</Text>
+      </Block>
+      <Block mt='m' pt='m'>
         {
           times(4, i => <div class={dot} style={dotStyle(i)}></div>)
         }
-      </div>
+      </Block>
     </span>
   )
 }

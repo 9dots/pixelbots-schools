@@ -2,25 +2,23 @@
  * Imports
  */
 
-import {input, capitalize, ellipsis, constants, mixins} from 'lib/styles'
+import {Block, Text, Input} from 'vdux-ui'
 import Dropdown from 'vdux-dropdown'
-import * as colors from 'lib/colors'
 import element from 'vdux/element'
-import css from 'jss-simple'
 import map from '@f/map'
 
 /**
- * classNav
+ * <ClassNav/>
  */
 
 function render ({props, children}) {
   const {classes = []} = props
 
   return (
-    <Dropdown btn={<div>{children}</div>} class={nav}>
-      <div class={filter}>
-        <input type='search' placeholder='Filter classes…' class={input} />
-      </div>
+    <Dropdown btn={<div>{children}</div>} bg='white' color='black' style={{maxHeight: 350, overflow: 'auto'}}>
+      <Block bg='transparent'>
+        <Input type='search' placeholder='Filter classes…' />
+      </Block>
       {
         map(classItem, classes)
       }
@@ -30,46 +28,16 @@ function render ({props, children}) {
 
 function classItem (cls) {
   return (
-    <span class={[capitalize, link]}>
-      <span class={letter}>
+    <Text transform='capitalize' color='text_color' py='m' px='s'>
+      <Text inlineBlock circle mx='s' bg='green' color='white' lh='25px' transform='uppercase' style={{textAlign: 'center'}}>
         {cls.displayName[0]}
-      </span>
-      <span class={ellipsis}>
+      </Text>
+      <Text ellipsis>
         {cls.displayName}
-      </span>
-    </span>
+      </Text>
+    </Text>
   )
 }
-
-/**
- * Style
- */
-
-const {nav, filter, letter, link} = css({
-  letter: {
-    ...mixins.circle(25),
-    margin: `0 ${constants.spacingSmall}`,
-    background: colors.green,
-    color: colors.white,
-    lineHeight: '25px',
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    display: 'inline-block'
-  },
-  link: {
-    color: colors.text_color,
-    padding: `${constants.spacing} ${constants.spacingSmall}`
-  },
-  nav: {
-    maxHeight: 350,
-    backgroundColor: 'white',
-    color: 'black',
-    overflow: 'auto'
-  },
-  filter: {
-    backgroundColor: 'transparent'
-  }
-})
 
 /**
  * Exports

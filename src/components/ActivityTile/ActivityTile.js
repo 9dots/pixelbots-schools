@@ -2,12 +2,10 @@
  * Imports
  */
 
-import {mrg_vert, mrg_right, xx_small, bold, link, ellipsis} from 'lib/styles'
 import {Flex, Block, Card, Text} from 'vdux-ui'
 import Figure from 'components/Figure'
 import element from 'vdux/element'
-import css from 'jss-simple'
-import Meta from './meta'
+import Meta from './Meta'
 
 /**
  * Activity Tile
@@ -18,31 +16,19 @@ function render ({props}) {
   const {image, displayName, description} = activity
 
   return (
-    <Card class={tile}>
+    <Card w={230} relative my={8} mx={6}>
       <Flex column>
         <actions/>
         <Figure {...image} thumb={true} />
-        <Block textAlign='center' m={2}>
-          <Text p={1} my={2} fs={2}>{displayName}</Text>
-          <Text fs={1}>{description}</Text>
+        <Block textAlign='center' m='m'>
+          <Text p='m' my='s' fs='s'>{displayName}</Text>
+          <Text fs='xs'>{description}</Text>
         </Block>
         <Meta activity={activity} />
       </Flex>
     </Card>
   )
 }
-
-/**
- * Styles
- */
-
-const {tile} = css({
-  tile: {
-    width: 230,
-    position: 'relative',
-    margin: '8px 6px'
-  }
-})
 
 /**
  * Exports

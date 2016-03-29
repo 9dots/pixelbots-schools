@@ -7,6 +7,7 @@ import {DecoLine, Block, Button, Flex} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
 import HomeLayout from 'layouts/Home'
 import element from 'vdux/element'
+import {hover} from 'lib/styles'
 
 /**
  * Teacher signup page
@@ -32,7 +33,7 @@ function render () {
           <BlockInput placeholder='FULL NAME' />
           <BlockInput placeholder='EMAIL' />
           <BlockInput placeholder='PASSWORD' type='password' />
-          <Button wide bgColor='green' h={43} mt={10} lh={43} fs={15}>
+          <Button class={hover} wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
             Sign Up Now
           </Button>
           <Flex align='space-around center' m='m'>

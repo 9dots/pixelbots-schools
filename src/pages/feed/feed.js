@@ -4,10 +4,9 @@
 
 import {following} from 'reducer/collections'
 import TileFeed from 'components/TileFeed'
-import {col_main} from 'lib/styles'
 import AppLayout from 'layouts/App'
 import element from 'vdux/element'
-import css from 'jss-simple'
+import {Block} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -28,26 +27,16 @@ function render ({props}) {
 
   return (
     <AppLayout {...props}>
-      <div class={[col_main, feed]}>
+      <Block w='col_main' mt={12} mx='auto'>
         {
           following && !following.loading
             ? <TileFeed items={map(id => entities[id], following.ids)} />
             : <span>Loading...</span>
         }
-      </div>
+      </Block>
     </AppLayout>
   )
 }
-
-/**
- * Style
- */
-
-const {feed} = css({
-  feed: {
-    marginTop: 12
-  }
-})
 
 /**
  * Exports
