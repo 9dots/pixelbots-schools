@@ -19,12 +19,6 @@ test: node_modules
 validate: node_modules
 	@standard
 
-clean:
-	@rm -rf lib
-
-build: clean
-	babel src --out-dir lib
-
 deploy-assets:
 	aws s3 sync build s3://assets.weo.io
 	aws s3 cp --recursive build s3://builds.weo.io/`git rev-parse HEAD`
