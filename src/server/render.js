@@ -5,6 +5,7 @@
 import middleware from './middleware'
 import element from 'vdux/element'
 import App from 'components/app'
+import uiTheme from 'lib/theme'
 import vdux from 'vdux/string'
 import reducer from 'reducer/'
 
@@ -31,7 +32,7 @@ function render (request) {
 
     const stop = subscribe(state => {
       try {
-        const html = render(<App state={state} />)
+        const html = render(<App state={state} />, {uiTheme})
 
         if (state.app.ready) {
           stop()
