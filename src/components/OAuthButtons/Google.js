@@ -2,8 +2,9 @@
  * Imports
  */
 
+import {Button} from 'vdux-containers'
 import {gplusIcon} from 'lib/assets'
-import {LogoButton} from 'vdux-ui'
+import {IconButton} from 'vdux-ui'
 import element from 'vdux/element'
 
 /**
@@ -12,9 +13,9 @@ import element from 'vdux/element'
 
 function render ({props, children}) {
   return (
-    <LogoButton fs='12px' logo={gplusIcon} bgColor='google_red' {...props}>
+    <Button ui={IconButton} fs='12px' img={gplusIcon} bgColor='google_red' {...props}>
       {children}
-    </LogoButton>
+    </Button>
   )
 }
 

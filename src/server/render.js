@@ -33,7 +33,7 @@ function render (request) {
       try {
         const html = render(<App state={state} />)
 
-        if (state.ready) {
+        if (state.app.ready) {
           stop()
           resolve(html)
         }

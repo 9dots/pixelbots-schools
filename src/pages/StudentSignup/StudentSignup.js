@@ -4,7 +4,6 @@
 
 import HomeLayout from 'layouts/Home'
 import element from 'vdux/element'
-import css from 'jss-simple'
 
 /**
  * Student signup page

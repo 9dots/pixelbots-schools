@@ -6,7 +6,6 @@ import Router from 'components/Router'
 import {initializeApp} from 'reducer'
 import Loading from 'pages/Loading'
 import element from 'vdux/element'
-import css from 'jss-simple'
 
 /**
  * Root app component

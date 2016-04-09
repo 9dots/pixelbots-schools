@@ -2,16 +2,11 @@
  * Imports
  */
 
-import {Fixed, Text, Icon, Flex, Block, Menu} from 'vdux-ui'
-import {logoutUser} from 'reducer/currentUser'
+import {CSSContainer, Fixed, Text, Icon, Flex, Block, Menu, Button, MenuItem} from 'vdux-containers'
 import ClassNav from 'components/ClassNav'
 import HomeOwl from 'components/HomeOwl'
-import Tooltip from 'components/Tooltip'
-import Button from 'components/Button'
-import Avatar from 'components/Avatar'
-import Dropdown from 'vdux-dropdown'
+import AccountMenu from './AccountMenu'
 import element from 'vdux/element'
-import css from 'jss-simple'
 
 /**
  * Main nav
@@ -22,8 +17,8 @@ function render ({props}) {
   const Item = navItem(url)
 
   return (
-    <div>
-      <Fixed wide top zIndex={2}>
+    <Block>
+      <Fixed wide top z={2}>
         <Flex align='space-between' wide bgColor='grey' color='white'>
           <Flex align='start center'>
             <Flex align='center center' mx='m'>
@@ -40,28 +35,27 @@ function render ({props}) {
           <Menu spacing='m' flex align='end center'>
             <Button fs='m' tooltip='Search Weo' ttPlacement='bottom' icon='search' />
             <Button fs='m' tooltip='Notifications' ttPlacement='bottom' icon='notifications' />
-            <Dropdown p='m' bgColor='white' color='text' btn={<Avatar actor={currentUser} />}>
-              <div>My Profile</div>
-              <div>My Drafts</div>
-              <div>Connect</div>
-              <div>Notifications</div>
-              <div>Settings</div>
-              <div>Help Center</div>
-              <div>Log Out</div>
-            </Dropdown>
+            <AccountMenu currentUser={currentUser} />
             <Button pill h={34}>
               <Flex align='center center'>
                 <Icon fs='s' mr='s' name='edit' />
                 Create Activity
               </Flex>
             </Button>
-            <button onClick={logoutUser}>Logout</button>
           </Menu>
         </Flex>
       </Fixed>
       <Block pt={53} hidden/>
-    </div>
+    </Block>
   )
+}
+
+const activeStyle = {
+  borderBottom: '3px solid #fff'
+}
+
+const inactiveStyle = {
+  borderBottom: '3px solid transparent'
 }
 
 function navItem (url) {
@@ -69,7 +63,8 @@ function navItem (url) {
     const {text, icon, href, onClick} = props
 
     return (
-      <Flex
+      <CSSContainer
+        ui={Flex}
         tag={href ? 'a' : 'div'}
         onClick={onClick}
         href={href}
@@ -79,30 +74,15 @@ function navItem (url) {
         px={9}
         mr={9}
         transition='all 0.15s'
-        class={[item, {[active]: url === href}]}>
+        baseStyle={url === href ? activeStyle : inactiveStyle}
+        hoverProps={{baseStyle: activeStyle}}>
         <Icon fs='m' name={icon} />
         <Text ml='s'>{text}</Text>
         {children}
-      </Flex>
+      </CSSContainer>
     )
   }
 }
-
-/**
- * Style
- */
-
-const activeStyle = {
-  borderBottom: '3px solid #fff'
-}
-
-const {item, active} = css({
-  item: {
-    borderBottom: '3px solid transparent',
-    '&:hover': activeStyle
-  },
-  active: activeStyle
-})
 
 /**
  * Exports

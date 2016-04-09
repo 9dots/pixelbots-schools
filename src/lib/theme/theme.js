@@ -16,6 +16,7 @@ const theme = {
   },
   scale: {
     z: 0,
+    xs: 3,
     s: 6,
     m: 12,
     l: 24,

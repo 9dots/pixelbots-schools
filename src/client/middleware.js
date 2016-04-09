@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {shouldLog, setLogLevel} from 'lib/log-level'
 import {lookup, isEphemeral} from 'redux-ephemeral'
 import {query} from 'redux-effects-credentials'
 import location from 'redux-effects-location'
@@ -22,18 +23,20 @@ const middleware = [
   flo(),
   cookie(),
   events(),
-  query(isApiServer, 'access_token', state => state.auth && state.auth.token),
+  query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
   normalize(isApiServer),
   fetch,
   scroll,
   location(),
   logger({
-    predicate: (getState, action) => action.type !== 'CREATE_EPHEMERAL' && action.type !== 'DESTROY_EPHEMERAL',
+    predicate: (getState, action) => shouldLog((action.meta && action.meta.logLevel) || 'info'),
     stateTransformer: (state, action) => isEphemeral(action)
       ? lookup(state.ui, action.meta.ephemeral.key)
       : state
   })
 ]
+
+window.setLogLevel = setLogLevel
 
 /**
  * Exports

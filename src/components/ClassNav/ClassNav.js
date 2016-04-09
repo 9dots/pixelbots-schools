@@ -2,8 +2,7 @@
  * Imports
  */
 
-import {Block, Text, Input} from 'vdux-ui'
-import Dropdown from 'vdux-dropdown'
+import {Block, Text, Input, Dropdown} from 'vdux-containers'
 import element from 'vdux/element'
 import map from '@f/map'
 

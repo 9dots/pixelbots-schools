@@ -2,8 +2,9 @@
  * Imports
  */
 
-import {Flex, Button, Box, Text} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
+import {Flex, Box, Text} from 'vdux-ui'
+import {Button} from 'vdux-containers'
 import HomeLayout from 'layouts/Home'
 import element from 'vdux/element'
 import Content from './Content'
@@ -19,7 +20,7 @@ function render ({props}) {
         <Content />
         <Flex align='center center' my='m' mx='s' pt='m' wide>
           <Box flex='35%'>
-            <Button pill mr='m' bg='green' wide onClick={e => setUrl('/teacher')}>
+            <Button pill mr='m' bgColor='green' wide onClick={e => setUrl('/teacher')}>
               <Text lh='47px' fs='14px' weight='bolder'>
                 Teachers, Sign Up
               </Text>

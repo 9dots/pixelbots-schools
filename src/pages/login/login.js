@@ -2,10 +2,11 @@
  * Imports
  */
 
-import {DecoLine, Flex, Block, Button, Text} from 'vdux-ui'
+import {DecoLine, Flex, Block} from 'vdux-ui'
 import {Facebook, Google} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
 import {loginUser} from 'reducer/currentUser'
+import {Button} from 'vdux-containers'
 import HomeLayout from 'layouts/Home'
 import element from 'vdux/element'
 import {link} from 'lib/styles'

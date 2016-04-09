@@ -25,7 +25,7 @@ function render ({props}) {
   const button = buttons[action]
 
   return (
-    <Flex tag='header' align='start center' wide py='4px' px='30px' zIndex={1} flex absolute h='53px' bgColor='rgba(255, 255, 255, 0.2)'>
+    <Flex tag='header' align='start center' wide py='4px' px='30px' z={1} flex absolute h='53px' bgColor='rgba(255, 255, 255, 0.2)'>
       <Nav />
       <Text tag='a' href='/' ml='m' color='off_white' fs='m' bold style={{letterSpacing: 1}}>
         WEO
