@@ -82,9 +82,9 @@ function render (opts) {
       try {
         const html = render(<App state={state} />)
 
-        if (state.ready) {
+        if (state.app.ready) {
           stop()
-          resolve({html, state})
+          resolve(html)
         }
       } catch (err) {
         reject(err)
@@ -92,5 +92,4 @@ function render (opts) {
       }
     })
   })
-
 }

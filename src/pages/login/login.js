@@ -2,10 +2,11 @@
  * Imports
  */
 
-import {DecoLine, Flex, Block, Button, Text} from 'vdux-ui'
+import {DecoLine, Flex, Block} from 'vdux-ui'
 import {Facebook, Google} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
 import {loginUser} from 'reducer/currentUser'
+import {Button} from 'vdux-containers'
 import HomeLayout from 'layouts/Home'
 import element from 'vdux/element'
 import {link} from 'lib/styles'
@@ -22,7 +23,7 @@ function render ({props}) {
         <Form onSubmit={loginUser}>
           <BlockInput autofocus placeholder='USERNAME OR EMAIL' name='username' />
           <BlockInput placeholder='PASSWORD' type='password' name='password' />
-          <Button type='submit' wide bgColor='green' h={43} mt={10} lh={43} fs={15}>
+          <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
             Log In
           </Button>
           <Flex align='space-around center' m='m'>

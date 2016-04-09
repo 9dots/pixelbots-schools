@@ -2,7 +2,8 @@
  * Imports
  */
 
-import {LogoButton} from 'vdux-ui'
+import {Button} from 'vdux-containers'
+import {IconButton} from 'vdux-ui'
 import element from 'vdux/element'
 import {fbIcon} from 'lib/assets'
 
@@ -12,9 +13,9 @@ import {fbIcon} from 'lib/assets'
 
 function render ({props, children}) {
   return (
-    <LogoButton fs='12px' logo={fbIcon} logoSize='18px' pl='8px' bgColor='facebook_blue' {...props}>
+    <Button ui={IconButton} fs='12px' img={fbIcon} logoSize='18px' pl='8px' bgColor='facebook_blue' {...props}>
       {children}
-    </LogoButton>
+    </Button>
   )
 }
 

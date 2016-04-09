@@ -3,7 +3,6 @@
  */
 
 import element from 'vdux/element'
-import css from 'jss-simple'
 
 /**
  * pageNotFound

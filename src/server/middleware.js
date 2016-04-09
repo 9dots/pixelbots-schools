@@ -19,7 +19,7 @@ function middleware ({url, headers}) {
   const cookieObj = cookie.parse(headers.cookie) || ''
 
   return [
-    query(isApiServer, 'access_token', state => state.auth && state.auth.token),
+    query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
     location(url),
     cookieMiddleware(cookieObj),
     normalize(isApiServer),
@@ -33,7 +33,7 @@ function logger (api) {
   return next => action => {
     const result = next(action)
     const state = api.getState()
-    console.log('action', action.type, state.url, state.ready, state.currentUser)
+    console.log('action', action.type, state.app.url, state.app.ready, state.app.currentUser)
 
     return result
   }

@@ -13,8 +13,8 @@ function render ({props, children}) {
   const {link} = props
 
   return (
-    <Block pointer border='white' borderWidth='2px' py='4px' px='12px' opacity='0.8'>
-      <Text tag='a' href={link} antialiased lh='21px' color='white' weight='400'>
+    <Block tag='a' href={link} pointer border='white' borderWidth='2px' py='4px' px='12px' opacity='0.8'>
+      <Text antialiased lh='21px' color='white' weight='400'>
         {children}
       </Text>
     </Block>

@@ -2,19 +2,11 @@
  * Imports
  */
 
-import {wide, mrg_left_small, small, mrg_side, medium} from 'lib/styles'
-import {row, align, flex, flex_45} from 'lib/layout'
-import {Icon, Flex, Block, Menu} from 'vdux-ui'
-import {logoutUser} from 'reducer/currentUser'
+import {CSSContainer, Fixed, Text, Icon, Flex, Block, Menu, Button, MenuItem} from 'vdux-containers'
 import ClassNav from 'components/ClassNav'
 import HomeOwl from 'components/HomeOwl'
-import Tooltip from 'components/Tooltip'
-import Button from 'components/Button'
-import Avatar from 'components/Avatar'
-import Dropdown from 'vdux-dropdown'
+import AccountMenu from './AccountMenu'
 import element from 'vdux/element'
-import {grey} from 'lib/colors'
-import css from 'jss-simple'
 
 /**
  * Main nav
@@ -25,100 +17,72 @@ function render ({props}) {
   const Item = navItem(url)
 
   return (
-    <div>
-      <Flex align='space-between' wide bgColor='grey' color='white'>
-        <Flex align='start center'>
-          <Flex align='center center' mx={2}>
-            <HomeOwl />
-          </Flex>
-          <Item href='/' icon='home' text='Home' />
-          <Item href='/activities/all' icon='assignment' text='My Activities' />
-          <ClassNav classes={currentUser.groups}>
-            <Item class={[small, mrg_left_small]} icon='school' text='Classes'>
-              <Icon name='arrow_drop_down' />
-            </Item>
-          </ClassNav>
-        </Flex>
-        <Menu spacing={2} flex align='end center'>
-          <Button fs={3} tooltip='Search Weo' ttPlacement='bottom' icon='search' />
-          <Button fs={3} tooltip='Notifications' ttPlacement='bottom' icon='notifications' />
-          <Dropdown p={2} bgColor='white' color='text' btn={<Avatar actor={currentUser} />}>
-            <div>My Profile</div>
-            <div>My Drafts</div>
-            <div>Connect</div>
-            <div>Notifications</div>
-            <div>Settings</div>
-            <div>Help Center</div>
-            <div>Log Out</div>
-          </Dropdown>
-          <Button pill style={{height: '34px'}}>
-            <Flex align='center center'>
-              <Icon fs={2} mr={1} name='edit' />
-              Create Activity
+    <Block>
+      <Fixed wide top z={2}>
+        <Flex align='space-between' wide bgColor='grey' color='white'>
+          <Flex align='start center'>
+            <Flex align='center center' mx='m'>
+              <HomeOwl />
             </Flex>
-          </Button>
-          <button onClick={logoutUser}>Logout</button>
-        </Menu>
-      </Flex>
-      <div class={spacer}></div>
-    </div>
+            <Item href='/' icon='home' text='Home' />
+            <Item href='/activities/all' icon='assignment' text='My Activities' />
+            <ClassNav classes={currentUser.groups}>
+              <Item ml='s' fs='s' icon='school' text='Classes'>
+                <Icon name='arrow_drop_down' />
+              </Item>
+            </ClassNav>
+          </Flex>
+          <Menu spacing='m' flex align='end center'>
+            <Button fs='m' tooltip='Search Weo' ttPlacement='bottom' icon='search' />
+            <Button fs='m' tooltip='Notifications' ttPlacement='bottom' icon='notifications' />
+            <AccountMenu currentUser={currentUser} />
+            <Button pill h={34}>
+              <Flex align='center center'>
+                <Icon fs='s' mr='s' name='edit' />
+                Create Activity
+              </Flex>
+            </Button>
+          </Menu>
+        </Flex>
+      </Fixed>
+      <Block pt={53} hidden/>
+    </Block>
   )
 }
-
-function navItem (url) {
-  return function ({props, children}) {
-    const Tag = props.href ? 'a' : 'div'
-
-    return (
-      <Tag
-        onClick={props.onClick}
-        href={props.href}
-        class={[row, align.center_center, item, {[active]: url === props.href}]}>
-        <Icon class={medium} name={props.icon} />
-        <span class={mrg_left_small}>{props.text}</span>
-        {children}
-      </Tag>
-    )
-  }
-}
-
-/**
- * Style
- */
 
 const activeStyle = {
   borderBottom: '3px solid #fff'
 }
 
-const {bar, item, active, spacer} = css({
-  bar: {
-    height: 53,
-    transition: 'box-shadow .3s',
-    zIndex: 999,
-    fixed: 'top',
-    width: '100%',
-    color: 'white',
-    position: 'fixed',
-    whiteSpace: 'nowrap',
-    backgroundColor: grey,
-    fontSmoothing: 'subpixel-antialiased',
-    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.22)'
-  },
-  item: {
-    height: 53,
-    cursor: 'pointer',
-    padding: '0 9px',
-    marginRight: 9,
-    transition: 'all 0.15s',
-    borderBottom: '3px solid transparent',
-    '&:hover': activeStyle
-  },
-  spacer: {
-    paddingTop: 53,
-    visibility: 'hidden'
-  },
-  active: activeStyle
-})
+const inactiveStyle = {
+  borderBottom: '3px solid transparent'
+}
+
+function navItem (url) {
+  return function ({props, children}) {
+    const {text, icon, href, onClick} = props
+
+    return (
+      <CSSContainer
+        ui={Flex}
+        tag={href ? 'a' : 'div'}
+        onClick={onClick}
+        href={href}
+        align='center center'
+        h={53}
+        pointer
+        px={9}
+        mr={9}
+        transition='all 0.15s'
+        baseStyle={url === href ? activeStyle : inactiveStyle}
+        hoverProps={{baseStyle: activeStyle}}>
+        <Icon fs='m' name={icon} />
+        <Text ml='s'>{text}</Text>
+        {children}
+      </CSSContainer>
+    )
+  }
+}
 
 /**
  * Exports

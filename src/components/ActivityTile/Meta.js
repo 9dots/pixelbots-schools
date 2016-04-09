@@ -20,12 +20,12 @@ function render ({props}) {
   const board = getBoard(activity)
 
   return (
-    <Block px={12} py={6} mt={12} fs={0} borderTop='rgba(0, 0, 0, 0.04)' bgColor='#FCFCFC'>
+    <Block px={12} py={6} mt={12} fs='xxs' borderTop='rgba(0, 0, 0, 0.04)' bgColor='#FCFCFC'>
       <Flex align='start center'>
-        <Avatar mr={1} actor={actor} />
-        <Box flex ellipsis style={{lineHeight: '18px'}}>
+        <Avatar mr='s' actor={actor} />
+        <Box flex ellipsis lh='18px'>
           <Flex column align='space-around'>
-            <Text bold class={link}>{actor.displayName}</Text>
+            <Text class={link} bold>{actor.displayName}</Text>
             <Text>{board.displayName}</Text>
           </Flex>
         </Box>

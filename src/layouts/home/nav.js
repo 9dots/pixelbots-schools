@@ -2,11 +2,10 @@
  * Imports
  */
 
-import {Flex, Block, Text} from 'vdux-ui'
+import {CSSContainer, Flex, Block, Text} from 'vdux-containers'
 import HomeOwl from 'components/HomeOwl'
 import {logo120} from 'lib/assets'
 import element from 'vdux/element'
-import css from 'jss-simple'
 
 /**
  * Menu
@@ -38,30 +37,18 @@ function render () {
 
 function item (text) {
   return (
-    <Block tag='a' href={links[text]} p={13} class={hover}>
+    <CSSContainer ui={Block} tag='a' href={links[text]} p={13} color='white' transition='color 0.1s 0s ease-in-out' hoverProps={{color: '#9c9999'}} >
       <Text transform='uppercase' weight='400' lh='1em' letterSpacing='2px' antialiased>
         {text}
       </Text>
-    </Block>
+    </CSSContainer>
   )
 }
-
-/**
- * Styles
- */
-
-const {hover} = css({
-  hover: {
-    color: '#fff',
-    transition: 'color 0.1s 0s ease-in-out',
-    '&:hover': {
-      color: '#9c9999'
-    }
-  }
-})
 
 /**
  * Exports
  */
 
-export default {render}
+export default {
+  render
+}

@@ -12,7 +12,7 @@ import {Avatar} from 'vdux-ui'
 
 function render ({props}) {
   const {actor, circle, size} = props
-  return <Avatar {...props} src={avatarUrl(actor)} />
+  return <Avatar {...props} hoverStyle={{width: 100}} src={avatarUrl(actor)} />
 }
 
 /**

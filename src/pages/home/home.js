@@ -2,16 +2,12 @@
  * Imports
  */
 
-import {white, mrg, mrg_top, pad_top, mrg_right, mrg_left} from 'lib/styles'
-import {row, flex, flex_35, align} from 'lib/layout'
-import * as constants from 'lib/styles/constants'
 import {setUrl} from 'redux-effects-location'
-import * as mixins from 'lib/styles/mixins'
+import {Flex, Box, Text} from 'vdux-ui'
+import {Button} from 'vdux-containers'
 import HomeLayout from 'layouts/Home'
-import * as colors from 'lib/colors'
 import element from 'vdux/element'
 import Content from './Content'
-import css from 'jss-simple'
 
 /**
  * Home Page
@@ -20,45 +16,28 @@ import css from 'jss-simple'
 function render ({props}) {
   return (
     <HomeLayout action='login'>
-      <div class={[one_col, row, align.center_center, white]}>
-        <div>
-          <Content />
-          <span class={[mrg_top, pad_top, row, align.center_center]}>
-            <button class={[btn, mrg_right, flex_35]} onClick={e => setUrl('/teacher')}>
-              Teachers, Sign Up
-            </button>
-            <button id='students' class={[btn, btn_primary, mrg_left, flex_35]} onClick={e => setUrl('/student')}>
-              Students, Join Class
-            </button>
-          </span>
-        </div>
-      </div>
+      <Flex column align='center center' color='white' style={{maxWidth: 714, textAlign: 'center'}}>
+        <Content />
+        <Flex align='center center' my='m' mx='s' pt='m' wide>
+          <Box flex='35%'>
+            <Button pill mr='m' bgColor='green' wide onClick={e => setUrl('/teacher')}>
+              <Text lh='47px' fs='14px' weight='bolder'>
+                Teachers, Sign Up
+              </Text>
+            </Button>
+          </Box>
+          <Box flex='35%'>
+            <Button id='students' pill ml='m' mr='s' my='m' wide onClick={e => setUrl('/student')}>
+              <Text lh='47px' fs='14px' weight='bolder'>
+                Students, Join Class
+              </Text>
+            </Button>
+          </Box>
+        </Flex>
+      </Flex>
     </HomeLayout>
   )
 }
-
-/**
- * Styles
- */
-
-const {one_col, btn, btn_primary} = css({
-  one_col: {
-    maxWidth: 714,
-    textAlign: 'center'
-  },
-  btn: {
-    ...mixins.btn(colors.green, '#FFF'),
-    height: '47px',
-    lineHeight: '47px',
-    fontSize: '14px',
-    fontWeight: 'bolder',
-    margin: '6px ' + constants.spacing,
-    borderRadius: '50px'
-  },
-  btn_primary: {
-    backgroundColor: '#25a8e0'
-  }
-})
 
 /**
  * Exports

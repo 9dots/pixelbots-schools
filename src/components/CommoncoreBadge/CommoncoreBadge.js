@@ -2,10 +2,9 @@
  * Imports
  */
 
-import Tooltip from 'components/Tooltip'
 import badge from './ccbadge30x30.png'
+import Tooltip from 'vdux-tooltip'
 import element from 'vdux/element'
-import css from 'jss-simple'
 
 /**
  * commoncoreBadge
@@ -13,7 +12,7 @@ import css from 'jss-simple'
 
 function render ({props, state}) {
   return (
-    <Tooltip message='Common Core Aligned' space={15}>
+    <Tooltip delay={300} message='Common Core Aligned' space={15}>
       <img src={badge} />
     </Tooltip>
   )

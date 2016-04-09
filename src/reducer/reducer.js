@@ -30,12 +30,14 @@ function *initializeApp (ready) {
  */
 
 const reducer = combineReducers({
-  ready,
-  url,
-  auth,
-  currentUser,
-  entities,
-  collections
+  app: combineReducers({
+    ready,
+    url,
+    auth,
+    currentUser,
+    entities,
+    collections
+  })
 })
 
 /**

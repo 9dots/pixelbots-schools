@@ -10,7 +10,6 @@ import Login from 'pages/Login'
 import Feed from 'pages/Feed'
 import Home from 'pages/Home'
 import enroute from 'enroute'
-import css from 'jss-simple'
 
 /**
  * Enroute
