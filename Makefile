@@ -16,6 +16,9 @@ node_modules: package.json
 test: node_modules
 	babel test/*.js
 
+dev:
+	@${BIN}/unv dev
+
 validate: node_modules
 	@standard
 
