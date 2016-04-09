@@ -1,16 +1,18 @@
 /**
  * Imports
  */
+require('source-map-support').install()
+
 
 import 'babel-runtime/regenerator/runtime'
-import style from './global.css'
 import middleware from './middleware'
 import element from 'vdux/element'
 import App from 'components/app'
 import vdux from 'vdux/string'
 import reducer from 'reducer/'
-import fs from 'fs'
 import path from 'path'
+
+var fs = require('fs')
 
 /**
  * Render
@@ -30,10 +32,10 @@ function handler (event) {
  * Page
  */
 
-const globalStyle = fs.readFileSync(path.join(__dirname, 'global.css'), 'utf8')
+const globalStyle = fs.readFileSync(__dirname + '/global.css', 'utf8')
 
 function page ({html, state}) {
-  return   return `
+  return `
       <!DOCTYPE html>
       <html>
         <head>
@@ -45,7 +47,7 @@ function page ({html, state}) {
             ${globalStyle}
           </style>
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          <script type='text/javascript' src='${process.env.JSON_ENTRY}'></script>
+          <script type='text/javascript' src='${process.env.CLIENT_JS_BUILD}'></script>
           <script type='text/javascript'>
             window.__initialState__ = ${JSON.stringify(state)}
           </script>

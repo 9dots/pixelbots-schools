@@ -1,5 +1,5 @@
 {
-  "name": "@weo-edu/weo",
+  "name": "weo",
   "description": "Weo frontend",
   "repository": "git://github.com/weo-edu/weo.git",
   "version": "0.1.0",
@@ -38,6 +38,7 @@
     "babel-plugin-react-transform": "^2.0.2",
     "cookie": "^0.2.3",
     "debug": "^2.2.0",
+    "enroute": "^1.0.1",
     "es6-promise": "^3.1.2",
     "jss-camel-case": "^1.0.0",
     "jss-default-unit": "^2.1.0",
@@ -51,6 +52,7 @@
     "redux-effects-fetch": "^0.4.5",
     "redux-effects-location": "^0.2.0",
     "redux-flo": "^2.2.0",
+    "source-map-support": "^0.4.0",
     "vdux": "^2.4.5",
     "vdux-css-transition": "^1.2.0",
     "vdux-delay": "^1.0.5",
@@ -76,5 +78,19 @@
     "tape": "^4.2.0",
     "unv": "^0.1.7",
     "vdux-transform-hmr": "^1.0.3"
+  },
+  "unv": {
+    "modules": "src/"
+  },
+  "environment": {
+    "base": {
+
+    },
+    "development": {
+
+    },
+    "production": {
+
+    }
   }
 }
