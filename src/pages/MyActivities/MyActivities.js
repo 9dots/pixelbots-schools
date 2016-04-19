@@ -2,21 +2,19 @@
  * Imports
  */
 
-import TileFeed from 'components/TileFeed'
-import AppLayout from 'layouts/App'
+import ActivitiesLayout from 'layouts/ActivitiesLayout'
 import element from 'vdux/element'
-import map from '@f/map'
-
 
 /**
- * myActivities
+ * <MyActivities/> page
  */
 
 function render ({props}) {
+  const {boards = [], activities = []} = props
+
   return (
-    <AppLayout {...props}>
-      <div>Hello world</div>
-    </AppLayout>
+    <ActivitiesLayout {...props}>
+    </ActivitiesLayout>
   )
 }
 

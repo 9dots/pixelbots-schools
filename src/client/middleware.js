@@ -2,6 +2,7 @@
  * Imports
  */
 
+import transformErrors from 'middleware/transform-errors'
 import {shouldLog, setLogLevel} from 'lib/log-level'
 import {lookup, isEphemeral} from 'redux-ephemeral'
 import {query} from 'redux-effects-credentials'
@@ -12,6 +13,7 @@ import cookie from 'redux-effects-cookie'
 import fetch from 'redux-effects-fetch'
 import scroll from 'middleware/scroll'
 import logger from 'weo-redux-logger'
+import OAuth from 'middleware/oauth'
 import {isApiServer} from 'lib/api'
 import flo from 'redux-flo'
 
@@ -24,10 +26,12 @@ const middleware = [
   cookie(),
   events(),
   query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
+  transformErrors(isApiServer),
   normalize(isApiServer),
   fetch,
   scroll,
   location(),
+  OAuth,
   logger({
     predicate: (getState, action) => shouldLog((action.meta && action.meta.logLevel) || 'info'),
     stateTransformer: (state, action) => isEphemeral(action)
@@ -35,6 +39,11 @@ const middleware = [
       : state
   })
 ]
+
+/**
+ * Expose setLogLevel so it can be called
+ * from the console
+ */
 
 window.setLogLevel = setLogLevel
 

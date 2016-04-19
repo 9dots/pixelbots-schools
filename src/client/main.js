@@ -38,7 +38,10 @@ jss.attach()
 domready(() => subscribe(app))
 
 function app (state, forceUpdate) {
-  render(<App state={state.app} />, {uiTheme: theme}, forceUpdate)
+  render(<App state={state.app} />, {
+    uiTheme: theme,
+    currentUrl: state.app.url
+  }, forceUpdate)
 }
 
 /**
@@ -47,10 +50,10 @@ function app (state, forceUpdate) {
 
 if (module.hot) {
   module.hot.decline()
-  module.hot.unaccepted(() => window.location.reload())
-  module.hot.accept(['components/app', 'reducer'], () => {
+  module.hot.unaccepted(() => window.location.reload(true))
+  module.hot.accept(['components/App', 'reducer'], (...args) => {
     jss.detach()
-    require('components/app')
+    require('components/App')
     replaceReducer(require('reducer').default)
     jss.attach()
     app(getState(), true)

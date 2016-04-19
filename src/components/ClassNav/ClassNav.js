@@ -14,7 +14,7 @@ function render ({props, children}) {
   const {classes = []} = props
 
   return (
-    <Dropdown btn={<div>{children}</div>} bg='white' color='black' style={{maxHeight: 350, overflow: 'auto'}}>
+    <Dropdown btn={<div>{children}</div>} bg='white' color='black' maxHeight={350} overflow='auto'>
       <Block bg='transparent'>
         <Input type='search' placeholder='Filter classes…' />
       </Block>
@@ -28,7 +28,7 @@ function render ({props, children}) {
 function classItem (cls) {
   return (
     <Text transform='capitalize' color='text_color' py='m' px='s'>
-      <Text inlineBlock circle mx='s' bg='green' color='white' lh='25px' transform='uppercase' style={{textAlign: 'center'}}>
+      <Text inlineBlock circle mx='s' bg='green' color='white' lh='25px' transform='uppercase' textAlign='center'>
         {cls.displayName[0]}
       </Text>
       <Text ellipsis>

@@ -16,7 +16,7 @@ import Content from './Content'
 function render ({props}) {
   return (
     <HomeLayout action='login'>
-      <Flex column align='center center' color='white' style={{maxWidth: 714, textAlign: 'center'}}>
+      <Flex column align='center center' color='white' maxWidth={714} textAlign='center'>
         <Content />
         <Flex align='center center' my='m' mx='s' pt='m' wide>
           <Box flex='35%'>

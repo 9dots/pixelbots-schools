@@ -23,12 +23,12 @@ function shouldLog (level) {
 }
 
 /**
- * logLevel
+ * setLogLevel
  *
  * Set the log level
  */
 
-function logLevel (level) {
+function setLogLevel (level) {
   logLevel = level
 }
 
@@ -48,5 +48,5 @@ function getLevelIndex (level) {
 
 export {
   shouldLog,
-  logLevel
+  setLogLevel
 }

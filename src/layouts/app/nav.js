@@ -50,14 +50,6 @@ function render ({props}) {
   )
 }
 
-const activeStyle = {
-  borderBottom: '3px solid #fff'
-}
-
-const inactiveStyle = {
-  borderBottom: '3px solid transparent'
-}
-
 function navItem (url) {
   return function ({props, children}) {
     const {text, icon, href, onClick} = props
@@ -73,9 +65,9 @@ function navItem (url) {
         pointer
         px={9}
         mr={9}
+        borderBottom={url === href ? '3px solid #fff' : '3px solid transparent'}
         transition='all 0.15s'
-        baseStyle={url === href ? activeStyle : inactiveStyle}
-        hoverProps={{baseStyle: activeStyle}}>
+        hoverProps={{borderBottom: '3px solid #fff'}}>
         <Icon fs='m' name={icon} />
         <Text ml='s'>{text}</Text>
         {children}

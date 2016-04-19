@@ -2,40 +2,39 @@
  * Imports
  */
 
-import fs from 'fs'
-import path from 'path'
+const fs = require('fs')
 
 /**
- * Constants
+ * Read in global styles
  */
 
-const globalStyle = fs.readFileSync(path.join(__dirname, 'global.css'))
+const globalStyle = fs.readFileSync(__dirname + '/global.css', 'utf8')
 
 /**
- * Render a page
+ * Page
  */
 
-function page ({html, state}, urls) {
+function page ({html, state}) {
   return `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <base href='/' />
-        <meta name='google' content='notranslate' />
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <base href='/' />
+          <meta name='google' content='notranslate' />
 
-        <title>Weo</title>
-        <style>
-          ${globalStyle}
-        </style>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-        <script type='text/javascript' src='${urls.js}'></script>
-        <script type='text/javascript'>
-          window.__initialState__ = ${JSON.stringify(state)}
-        </script>
-      </head>
-      <body>${html}</body>
-    </html>
-  `
+          <title>Weo</title>
+          <style>
+            ${globalStyle}
+          </style>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+          <script type='text/javascript' src='${process.env.CLIENT_JS_BUILD}'></script>
+          <script type='text/javascript'>
+            window.__initialState__ = ${JSON.stringify(state)}
+          </script>
+        </head>
+        <body>${html}</body>
+      </html>
+    `
 }
 
 /**

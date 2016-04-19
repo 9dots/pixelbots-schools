@@ -1,0 +1,6 @@
+# <link/>
+
+Link component
+
+## Usage
+

@@ -9,10 +9,10 @@ import Schema from '@weo-edu/schema'
  */
 
 const username = Schema('string')
-  .min(3)
+  .min(3, 'Username must be at least 3 characters long')
 
 const password = Schema('string')
-  .min(6)
+  .min(6, 'Password must be at least 6 characters long')
 
 const email = Schema('string')
   .format('email', 'Invalid email address')

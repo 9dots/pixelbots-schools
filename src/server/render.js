@@ -4,7 +4,7 @@
 
 import middleware from './middleware'
 import element from 'vdux/element'
-import App from 'components/app'
+import App from 'components/App'
 import uiTheme from 'lib/theme'
 import vdux from 'vdux/string'
 import reducer from 'reducer/'
@@ -22,17 +22,20 @@ const initialState = {
  * Render to string
  */
 
-function render (request) {
+function render (opts) {
   return new Promise((resolve, reject) => {
     const {subscribe, render} = vdux({
-      middleware: middleware(request),
+      middleware: middleware(opts),
       initialState,
       reducer
     })
 
     const stop = subscribe(state => {
       try {
-        const html = render(<App state={state} />, {uiTheme})
+        const html = render(<App state={state} />, {
+          uiTheme,
+          currentUrl: state.app.url
+        })
 
         if (state.app.ready) {
           stop()

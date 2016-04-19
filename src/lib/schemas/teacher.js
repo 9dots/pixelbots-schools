@@ -10,7 +10,7 @@ import user from './user'
  */
 
 const teacher = user
-  .required('email')
+  .required('email', 'Required')
 
 /**
  * Exports

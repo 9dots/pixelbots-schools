@@ -19,7 +19,7 @@ const colors = [red, yellow, green, blue]
 
 function render ({props}) {
   return (
-    <Text absolute m='auto' w={200} h={100} style={{textAlign: 'center', top: 0, right: 0, bottom: 0, left: 0}}>
+    <Text absolute m='auto' w={200} h={100} textAlign='center' top={0} right={0} bottom={0} left={0}>
       <Block mt='m'>
         <Text lh='30px' weight='lighter'>Loading…</Text>
       </Block>

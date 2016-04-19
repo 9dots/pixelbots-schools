@@ -16,11 +16,10 @@ function render ({props}) {
   if (!url) return <span></span>
 
   const ratio = props.ratio || height / width
-  const paddingBottom = ratio * 100 + '%'
 
   return (
-    <Block m={0} relative style={{overflow: 'hidden', maxWidth: '100%'}}>
-      <Block style={{paddingBottom}}>
+    <Block m={0} relative overflow='hidden' maxWidth='100%'>
+      <Block paddingBottom={ratio * 100 + '%'}>
         <Block tag='img' tall wide absolute m='auto' src={thumb ? resize(url, 350) : url} />
       </Block>
     </Block>

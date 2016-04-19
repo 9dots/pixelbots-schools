@@ -19,6 +19,18 @@ const user = {
   },
   getHomeFeed (opts = {maxResults: 16}) {
     return get('share/feed?' + qs.stringify(opts))
+  },
+  createTeacher (teacher) {
+    return post('auth/user', teacher)
+  },
+  createStudent (student) {
+    return post('auth/user', student)
+  },
+  oauthCreate (provider, data) {
+    return post('auth/' + provider, data)
+  },
+  oauthLogin (provider, data) {
+    return put('auth/login/' + provider, data)
   }
 }
 

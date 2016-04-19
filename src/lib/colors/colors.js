@@ -1,4 +1,10 @@
 /**
+ * Imports
+ */
+
+import rgba from '@f/rgba'
+
+/**
  * Colors
  */
 
@@ -35,6 +41,8 @@ const placeholder_color = '#AEAEBB'
 const text = '#6A6A6A'
 const link_color = blue
 
+const error = rgba(red, 0.85)
+
 /**
  * Exports
  */
@@ -58,6 +66,8 @@ export {
   off_white,
   white,
   black,
+
+  error,
 
   placeholder_color,
   text,

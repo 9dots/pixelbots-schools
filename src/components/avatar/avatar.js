@@ -2,9 +2,14 @@
  * Imports
  */
 
-import {avatarServer} from 'lib/config'
 import element from 'vdux/element'
 import {Avatar} from 'vdux-ui'
+
+/**
+ * Config
+ */
+
+const {AVATAR_SERVER} = process.env
 
 /**
  * Avatar component
@@ -12,7 +17,7 @@ import {Avatar} from 'vdux-ui'
 
 function render ({props}) {
   const {actor, circle, size} = props
-  return <Avatar {...props} hoverStyle={{width: 100}} src={avatarUrl(actor)} />
+  return <Avatar {...props} src={avatarUrl(actor)} />
 }
 
 /**
@@ -20,7 +25,7 @@ function render ({props}) {
  */
 
 function avatarUrl (actor) {
-  return avatarServer + (actor.id || actor._id || actor)
+  return AVATAR_SERVER + '/avatar/' + (actor.id || actor._id || actor)
 }
 
 /**
