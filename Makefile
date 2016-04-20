@@ -19,12 +19,15 @@ test: node_modules
 dev:
 	@${BIN}/unv dev
 
+build:
+	@${BIN}/unv build --base a.weo.io
+
 validate: node_modules
 	@standard
 
 deploy-assets:
-	aws s3 sync build s3://assets.weo.io
-	aws s3 cp --recursive build s3://builds.weo.io/`git rev-parse HEAD`
+	aws s3 sync assets s3://a.weo.io --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+	aws s3 sync assets s3://builds.weo.io/`git rev-parse HEAD`
 
 all: validate test
 
