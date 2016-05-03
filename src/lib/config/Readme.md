@@ -1,6 +1,0 @@
-# config
-
-Config file
-
-## Usage
-

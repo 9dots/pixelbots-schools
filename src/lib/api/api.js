@@ -3,7 +3,6 @@
  */
 
 import {get, put, post, del} from './req'
-import {apiServer} from 'lib/config'
 import qs from 'qs'
 
 /**
@@ -54,7 +53,7 @@ const user = {
  */
 
 function isApiServer (url) {
-  return url.indexOf(apiServer) === 0
+  return url.indexOf(process.env.API_SERVER) === 0
 }
 
 /**

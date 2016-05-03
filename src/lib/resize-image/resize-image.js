@@ -2,7 +2,6 @@
  * Imports
  */
 
-import {imageResize} from 'lib/config'
 import qs from 'qs'
 
 /**
@@ -12,7 +11,7 @@ import qs from 'qs'
 function resize (url, opts = {}) {
   if (typeof opts === 'number') opts = {width: opts}
 
-  return [imageResize, qs.stringify({...opts, url})]
+  return [process.env.IMAGE_RESIZE, qs.stringify({...opts, url})]
     .filter(Boolean)
     .join('?')
 }

@@ -4,7 +4,6 @@
 
 import Router from 'components/Router'
 import {initializeApp} from 'reducer'
-import {apiServer} from 'lib/config'
 import Loading from 'pages/Loading'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -44,7 +43,7 @@ function isReady (state) {
 }
 
 summon.defaults({
-  baseUrl: apiServer
+  baseUrl: process.env.API_SERVER
 })
 
 /**
