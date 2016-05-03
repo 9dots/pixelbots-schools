@@ -1,0 +1,6 @@
+# <redirect/>
+
+Redirect component
+
+## Usage
+

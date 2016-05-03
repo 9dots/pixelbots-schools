@@ -52,10 +52,15 @@ if (module.hot) {
   module.hot.decline()
   module.hot.unaccepted(() => window.location.reload(true))
   module.hot.accept(['components/App', 'reducer'], (...args) => {
-    jss.detach()
-    require('components/App')
-    replaceReducer(require('reducer').default)
-    jss.attach()
-    app(getState(), true)
+    try {
+      jss.detach()
+      require('components/App')
+      replaceReducer(require('reducer').default)
+      jss.attach()
+      app(getState(), true)
+    } catch (err) {
+      console.log('hot update err', err)
+      throw err
+    }
   })
 }

@@ -1,0 +1,61 @@
+/**
+ * Imports
+ */
+
+import CommoncoreBadge from 'components/CommoncoreBadge'
+import {Flex, Box, Text, Block} from 'vdux-containers'
+import Avatar from 'components/Avatar'
+import Link from 'components/Link'
+import element from 'vdux/element'
+import filter from '@f/filter'
+import moment from 'moment'
+import map from '@f/map'
+
+/**
+ * Meta bar
+ */
+
+function render ({props}) {
+  const {activity} = props
+  const {actor, pinnedFrom} = activity
+
+  if (!isPublic(activity)) {
+    return (
+      <Block>
+        {`Edited ${moment(activity.updatedAt).fromNow()}`}
+      </Block>
+    )
+  }
+
+  const href = pinnedFrom ? `/` : `/${actor.username}/boards`
+  const location = pinnedFrom ? pinnedFrom.displayName : actor.displayName
+  const message = pinnedFrom ? 'Pinned from' : 'Created by'
+
+  return (
+    <Flex>
+      <Avatar mr='s' actor={actor} />
+      <Flex column>
+        {message}
+        <Link href={href} pointer hoverProps={{underline: true}}>
+          {location}
+        </Link>
+      </Flex>
+    </Flex>
+  )
+}
+
+/**
+ * Helpers
+ */
+
+function isPublic (activity) {
+  return !!(activity.contexts.length && activity.contexts[0].descriptor.id === 'public')
+}
+
+/**
+ * Exports
+ */
+
+export default {
+  render
+}

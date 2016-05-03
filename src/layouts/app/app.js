@@ -3,6 +3,7 @@
  */
 
 import element from 'vdux/element'
+import {Block} from 'vdux-ui'
 import Nav from './Nav'
 
 /**
@@ -11,10 +12,10 @@ import Nav from './Nav'
 
 function render ({props, children}) {
   return (
-    <div>
+    <Block>
       <Nav {...props} />
       {children}
-    </div>
+    </Block>
   )
 }
 

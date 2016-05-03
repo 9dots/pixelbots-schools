@@ -6,9 +6,9 @@ import ready, {appIsInitializing, appDidInitialize} from './ready'
 import currentUser, {initializeUser} from './currentUser'
 import combineReducers from '@f/combine-reducers'
 import auth, {initializeAuth} from './auth'
-import collections from './collections'
 import url, {watchUrl} from './url'
 import entities from './entities'
+import modal from './modal'
 
 /**
  * Actions
@@ -36,7 +36,7 @@ const reducer = combineReducers({
     auth,
     currentUser,
     entities,
-    collections
+    modal
   })
 })
 

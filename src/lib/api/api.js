@@ -17,8 +17,22 @@ const user = {
   getCurrentUser () {
     return get('user/')
   },
-  getHomeFeed (opts = {maxResults: 16}) {
+  getHomeFeed (opts = {maxResults: 20}) {
     return get('share/feed?' + qs.stringify(opts))
+  },
+  getDrafts ({userId, ...rest}) {
+    return get('share?' + qs.stringify({
+      channel: `user!${userId}.drafts`,
+      maxResults: 20,
+      ...rest
+    }))
+  },
+  getAllActivities ({userId, ...rest}) {
+    return get('share?' + qs.stringify({
+      channel: `user!${userId}.drafts`,
+      maxResults: 20,
+      ...rest
+    }))
   },
   createTeacher (teacher) {
     return post('auth/user', teacher)

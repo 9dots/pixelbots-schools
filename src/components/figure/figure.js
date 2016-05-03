@@ -20,7 +20,10 @@ function render ({props}) {
   return (
     <Block m={0} relative overflow='hidden' maxWidth='100%'>
       <Block paddingBottom={ratio * 100 + '%'}>
-        <Block tag='img' tall wide absolute m='auto' src={thumb ? resize(url, 350) : url} />
+        <Block tag='img' tall wide absolute m='auto' src={thumb
+            ? resize(url, thumb === true ? 350 : thumb)
+            : url
+          } />
       </Block>
     </Block>
   )

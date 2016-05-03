@@ -10,9 +10,9 @@ import {Flex} from 'vdux-ui'
  * <HomeOwl/>
  */
 
-function render () {
+function render ({props}) {
   return (
-    <Flex tag='a' align='start center' mr={12} href='/'>
+    <Flex tag='a' align='start center' href='/' {...props}>
       <img src={logo120} width='28' />
     </Flex>
   )

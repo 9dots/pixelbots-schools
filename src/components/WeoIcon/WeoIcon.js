@@ -47,6 +47,7 @@ const {weoIcon} = css({
     whiteSpace: 'nowrap',
     wordWrap: 'normal',
     direction: 'ltr',
+    verticalAlign: 'middle',
     fontFeatureSettings: "'liga'",
     '-webkit-font-feature-settings': "'liga'",
     '-webkit-font-smoothing': 'antialiased'

@@ -2,47 +2,47 @@
  * Imports
  */
 
-import {following} from 'reducer/collections'
+import InfiniteScroll from 'components/InfiniteScroll'
 import TileFeed from 'components/TileFeed'
-import AppLayout from 'layouts/App'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
-import map from '@f/map'
-
-/**
- * onCreate - Load the following feed
- */
-
-function onCreate () {
-  return following.fetch()
-}
 
 /**
  * Following feed
  */
 
 function render ({props}) {
-  const {currentUser, collections, entities} = props
-  const {following = {}} = collections
+  const {currentUser, following, more} = props
+  const {value, loaded} = following
 
   return (
-    <AppLayout {...props}>
-      <Block w='col_main' mt={12} mx='auto'>
-        {
-          following && !following.loading
-            ? <TileFeed items={map(id => entities[id], following.ids)} />
-            : <span>Loading...</span>
-        }
-      </Block>
-    </AppLayout>
+    <Block>
+      <InfiniteScroll more={() => more(value && value.nextPageToken)}>
+        <Block w='col_main' mt={12} mx='auto'>
+          {
+            loaded
+              ? <TileFeed items={value.items} />
+              : <span>Loading...</span>
+          }
+        </Block>
+      </InfiniteScroll>
+    </Block>
   )
 }
+
 
 /**
  * Exports
  */
 
-export default {
-  onCreate,
+export default summon(props => ({
+  following: '/share/feed?maxResults=10',
+  more: pageToken => ({
+    following: {
+      fragment: pageToken && `&pageToken=${pageToken}`
+    }
+  })
+}), {
   render
-}
+})

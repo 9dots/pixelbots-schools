@@ -37,6 +37,10 @@ const theme = {
     l: 30,
     xl: 45,
     xxl: 120
+  },
+  shadow: {
+    ...defaultTheme.shadow,
+    inner: 'inset 0px 2px 2px 0px rgba(0,0,0,0.22)'
   }
 }
 

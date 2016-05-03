@@ -1,0 +1,5 @@
+{
+  "name": "UserTile",
+  "main": "UserTile.js",
+  "browser": "UserTile.js"
+}

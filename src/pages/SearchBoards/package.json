@@ -1,0 +1,5 @@
+{
+  "name": "SearchBoards",
+  "main": "SearchBoards.js",
+  "browser": "SearchBoards.js"
+}

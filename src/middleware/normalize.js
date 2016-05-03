@@ -9,7 +9,7 @@ import {FETCH} from 'redux-effects-fetch'
  */
 
 function normalizeMiddleware (isMatch) {
-  return api => next => action => isGetRequest(action, isMatch)
+  return api => next => action => isApiRequest(action, isMatch)
     ? next(action).then(normalize)
     : next(action)
 }
@@ -35,32 +35,27 @@ function normalize (res) {
           nextPageToken: value.nextPageToken
         })
     }
-  }
-
-  return {
-    ...res,
-    value: {
-      result: value._id,
-      entities: {
-        [value._id]: value
+  } else if (value.hasOwnProperty('_id')) {
+    return {
+      ...res,
+      value: {
+        result: value._id,
+        entities: {
+          [value._id]: value
+        }
       }
     }
+  } else {
+    return res
   }
 }
 
 /**
- * Check if an action is a GET request
+ * Check if an action is an API request
  */
 
-function isGetRequest (action, isMatch) {
-  if (action.type === FETCH && isMatch(action.payload.url)) {
-    const {params = {}} = action.payload
-    const {method = 'GET'} = params
-
-    return /^GET$/i.test(method)
-  }
-
-  return false
+function isApiRequest (action, isMatch) {
+  return action.type === FETCH && isMatch(action.payload.url)
 }
 
 /**

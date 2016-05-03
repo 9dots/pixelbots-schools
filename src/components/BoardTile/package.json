@@ -1,0 +1,5 @@
+{
+  "name": "BoardTile",
+  "main": "BoardTile.js",
+  "browser": "BoardTile.js"
+}

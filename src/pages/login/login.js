@@ -2,14 +2,12 @@
  * Imports
  */
 
+import {DecoLine, Flex, Block, Text} from 'vdux-containers'
 import {loginUser, oauthLogin} from 'reducer/currentUser'
 import {Facebook, Google} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
-import {DecoLine, Flex, Block} from 'vdux-ui'
 import {Button} from 'vdux-containers'
-import HomeLayout from 'layouts/Home'
 import element from 'vdux/element'
-import {link} from 'lib/styles'
 import Form from 'vdux-form'
 
 /**
@@ -18,29 +16,27 @@ import Form from 'vdux-form'
 
 function render ({props}) {
   return (
-    <HomeLayout action='signup'>
-      <Block w='col_sm' color='white' p='m'>
-        <Form onSubmit={submitLogin}>
-          <BlockInput autofocus placeholder='USERNAME OR EMAIL' name='username' />
-          <BlockInput placeholder='PASSWORD' type='password' name='password' />
-          <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
-            Log In
-          </Button>
-          <Flex align='space-around center' m='m'>
-            <DecoLine w='36%' />or<DecoLine w='36%' />
-          </Flex>
-        </Form>
-        <Flex align='space-between center' pt={10}>
-          <Google w='calc(50% - 6px)' onClick={() => oauthLogin('google')}>Sign in With Google</Google>
-          <Facebook w='calc(50% - 6px)' onClick={() => oauthLogin('facebook')}>Sign in With Facebook</Facebook>
+    <Block w='col_sm' color='white' p='m'>
+      <Form onSubmit={submitLogin}>
+        <BlockInput autofocus placeholder='USERNAME OR EMAIL' name='username' />
+        <BlockInput placeholder='PASSWORD' type='password' name='password' />
+        <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
+          Log In
+        </Button>
+        <Flex align='space-around center' m='m'>
+          <DecoLine w='36%' />or<DecoLine w='36%' />
         </Flex>
-        <a class={link} href='/forgot'>
-          <Block color='grey_light' mx='auto' mt='m' textAlign='center'>
-            Forgot your password?
-          </Block>
-        </a>
-      </Block>
-    </HomeLayout>
+      </Form>
+      <Flex align='space-between center' pt={10}>
+        <Google w='calc(50% - 6px)' onClick={() => oauthLogin('google')}>Sign in With Google</Google>
+        <Facebook w='calc(50% - 6px)' onClick={() => oauthLogin('facebook')}>Sign in With Facebook</Facebook>
+      </Flex>
+      <Text tag='a' href='/forgot' hoverProps={{textDecoration: 'underline'}} pointer>
+        <Block color='grey_light' mx='auto' mt='m' textAlign='center'>
+          Forgot your password?
+        </Block>
+      </Text>
+    </Block>
   )
 }
 

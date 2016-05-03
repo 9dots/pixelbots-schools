@@ -25,7 +25,7 @@ const links = {
 function render () {
   return (
     <Flex align='start center' flex color='white' py={2}>
-      <HomeOwl />
+      <HomeOwl mr='m' />
       {
         Object
           .keys(links)

@@ -18,12 +18,13 @@ function collection (name, get) {
   const reducer = handleActions({
     [request]: state => ({
       ...state,
+      items: [],
       loading: true
     }),
-    [success]: (state, {result = [], nextPageToken}) => ({
+    [success]: (state, {items = [], nextPageToken}) => ({
       ...state,
       loading: false,
-      ids: [...(state.ids || []), ...result],
+      items: [...(state.items || []), ...items],
       nextPageToken
     }),
     [failure]: (state, error) => ({
@@ -35,7 +36,7 @@ function collection (name, get) {
   }, {
     loading: false,
     error: null,
-    ids: [],
+    items: [],
     nextPageToken: null
   })
 

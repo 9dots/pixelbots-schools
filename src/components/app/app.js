@@ -4,8 +4,11 @@
 
 import Router from 'components/Router'
 import {initializeApp} from 'reducer'
+import {apiServer} from 'lib/config'
 import Loading from 'pages/Loading'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
+import {Block} from 'vdux-ui'
 
 /**
  * Root app component
@@ -16,9 +19,20 @@ function *onCreate ({props}) {
 }
 
 function render ({props}) {
-  return isReady(props.state)
-    ? <Router {...props.state} />
-    : <Loading />
+  const {state} = props
+
+  return (
+    <Block>
+      {state.modal}
+      <Block z={0}>
+        {
+          isReady(state)
+            ? <Router {...state} />
+            : <Loading />
+        }
+      </Block>
+    </Block>
+  )
 }
 
 /**
@@ -28,6 +42,10 @@ function render ({props}) {
 function isReady (state) {
   return state.ready
 }
+
+summon.defaults({
+  baseUrl: apiServer
+})
 
 /**
  * Exports

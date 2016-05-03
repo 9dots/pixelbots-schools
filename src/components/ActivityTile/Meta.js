@@ -3,10 +3,9 @@
  */
 
 import CommoncoreBadge from 'components/CommoncoreBadge'
-import {Flex, Box, Text, Block} from 'vdux-ui'
+import {Flex, Box, Text, Block} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
-import {link} from 'lib/styles'
 import filter from '@f/filter'
 import map from '@f/map'
 
@@ -17,7 +16,7 @@ import map from '@f/map'
 function render ({props}) {
   const {activity} = props
   const {commonCore, actor} = activity
-  const board = getBoard(activity)
+  const board = getBoard(activity) || {}
 
   return (
     <Block px={12} py={6} mt={12} fs='xxs' borderTop='rgba(0, 0, 0, 0.04)' bgColor='#FCFCFC'>
@@ -25,7 +24,7 @@ function render ({props}) {
         <Avatar mr='s' actor={actor} />
         <Box flex ellipsis lh='18px'>
           <Flex column align='space-around'>
-            <Text class={link} bold>{actor.displayName}</Text>
+            <Text pointer hoverProps={{textDecoration: 'underline'}} bold>{actor.displayName}</Text>
             <Text>{board.displayName}</Text>
           </Flex>
         </Box>

@@ -1,0 +1,5 @@
+{
+  "name": "BgImg",
+  "main": "BgImg.js",
+  "browser": "BgImg.js"
+}

@@ -12,6 +12,7 @@ import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
 import fetch from 'redux-effects-fetch'
 import scroll from 'middleware/scroll'
+import * as summon from 'vdux-summon'
 import logger from 'weo-redux-logger'
 import OAuth from 'middleware/oauth'
 import {isApiServer} from 'lib/api'
@@ -27,10 +28,11 @@ const middleware = [
   events(),
   query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
   transformErrors(isApiServer),
-  normalize(isApiServer),
+  // normalize(isApiServer),
   fetch,
   scroll,
   location(),
+  summon.middleware,
   OAuth,
   logger({
     predicate: (getState, action) => shouldLog((action.meta && action.meta.logLevel) || 'info'),

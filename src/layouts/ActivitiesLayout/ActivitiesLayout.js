@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Block, Card, Menu, MenuItem, Divider} from 'vdux-containers'
+import {Block, Flex, Card, Menu, MenuItem, Divider} from 'vdux-containers'
 import AppLayout from 'layouts/App'
 import Link from 'components/Link'
 import element from 'vdux/element'
@@ -17,7 +17,7 @@ function render ({props, children}) {
 
   return (
     <AppLayout {...props}>
-      <Block w='col_main' mx='auto' px='s' mt='s'>
+      <Flex w='col_main' mx='auto' px='s' mt='s'>
         <Card w={230} mr='m'>
           <Menu column>
             <Item href='/activities/all'>All Activities</Item>
@@ -27,22 +27,29 @@ function render ({props, children}) {
             <Item href='/activities/drafts'>Drafts</Item>
             <Divider/>
             <Item>New Board</Item>
-            <Item>Trash</Item>
+            <Item href='/activities/trash'>Trash</Item>
           </Menu>
         </Card>
-        {children}
-      </Block>
+        <Block w='col_main' maxWidth='714px'>
+          {children}
+        </Block>
+      </Flex>
     </AppLayout>
   )
 }
 
 function Item ({props, children}) {
   return (
-    <Link ui={MenuItem} {...props} borderLeft='3px solid transparent' currentProps={{borderLeftColor: 'blue'}}>
+    <Link
+      ui={MenuItem}
+      {...props}
+      borderLeft='3px solid transparent'
+      currentProps={{borderLeftColor: 'blue', highlight: true}}>
       {children}
     </Link>
   )
 }
+
 
 /**
  * Exports
