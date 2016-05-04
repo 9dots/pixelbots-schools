@@ -21,7 +21,7 @@ function render ({props}) {
 
   if (!isPublic(activity)) {
     return (
-      <Block>
+      <Block color='grey_medium' fs='xxs'>
         {`Edited ${moment(activity.updatedAt).fromNow()}`}
       </Block>
     )

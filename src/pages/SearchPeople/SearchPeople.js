@@ -12,7 +12,7 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {people} = props
+  const {people, currentUser} = props
   const {value, loading} = people
 
   return (
@@ -23,7 +23,9 @@ function render ({props}) {
           : (
               <Grid>
                 {
-                  value.items.map(user => <UserTile user={user} />)
+                  value.items.map(user => <UserTile
+                    currentUser={currentUser._id === user._id}
+                    user={user} />)
                 }
               </Grid>
             )

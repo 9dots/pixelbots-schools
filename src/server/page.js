@@ -27,10 +27,10 @@ function page ({html, state}) {
             ${globalStyle}
           </style>
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          <script type='text/javascript' src='${process.env.CLIENT_JS_BUILD}'></script>
           <script type='text/javascript'>
             window.__initialState__ = ${JSON.stringify(state)}
           </script>
+          <script type='text/javascript' src='${process.env.CLIENT_JS_BUILD}'></script>
         </head>
         <body>${html}</body>
       </html>

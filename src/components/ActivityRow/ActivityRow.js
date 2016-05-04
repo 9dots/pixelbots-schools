@@ -17,15 +17,13 @@ function render ({props}) {
 
   return (
     <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)'>
-      <Flex>
-        <Flex column>
-          <Text p='m' my='s' fs='s'>{displayName}</Text>
-          <Text fs='xs'>{description}</Text>
+      <Flex tall align='start center'>
+        <Flex p='m' tall column align='space-around'>
+          <Block my='s' fs='s'>{displayName}</Block>
+          <Block fs='xs'>{description}</Block>
           <Meta activity={activity} />
         </Flex>
         <Figure {...image} thumb />
-        <badge/>
-        <actions/>
       </Flex>
     </Card>
   )

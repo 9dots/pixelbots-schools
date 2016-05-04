@@ -24,6 +24,7 @@
     "@f/has": "^1.0.0",
     "@f/hyphenate": "^1.0.0",
     "@f/identity": "^1.1.1",
+    "@f/is-same-day": "^1.0.0",
     "@f/map": "^1.5.3",
     "@f/maybe-over": "^1.0.0",
     "@f/noop": "^1.2.0",

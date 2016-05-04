@@ -2,8 +2,7 @@
  * Imports
  */
 
-import InfiniteScroll from 'components/InfiniteScroll'
-import ActivityRow from 'components/ActivityRow'
+import RowFeed from 'components/RowFeed'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
@@ -13,16 +12,14 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {activities, boards = [], currentUser, more} = props
+  const {activities, boards = [], more} = props
   const {value, loading} = activities
 
   return (
     <Block>
-      <InfiniteScroll more={() => more(value && value.nextPageToken)}>
-        {
-          loading || value.items.map(activity => <ActivityRow activity={activity} />)
-        }
-      </InfiniteScroll>
+      {
+        loading || <RowFeed items={value.items} more={() => more(value && value.nextPageToken)} />
+      }
     </Block>
   )
 }
