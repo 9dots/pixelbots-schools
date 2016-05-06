@@ -5,7 +5,7 @@
 import {Button} from 'vdux-containers'
 import {IconButton} from 'vdux-ui'
 import element from 'vdux/element'
-import {fbIcon} from 'lib/fixins'
+import fbIcon from './fbIcon.png'
 
 /**
  * Facebook OAuth Button

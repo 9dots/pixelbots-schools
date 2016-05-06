@@ -4,7 +4,6 @@
 
 import {CSSContainer, Flex, Block, Text} from 'vdux-containers'
 import HomeOwl from 'components/HomeOwl'
-import {logo120} from 'lib/fixins'
 import element from 'vdux/element'
 
 /**

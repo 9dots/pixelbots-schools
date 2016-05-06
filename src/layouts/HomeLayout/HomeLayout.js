@@ -3,13 +3,13 @@
  */
 
 import FloatingArrow from './FloatingArrow'
-import InfoBlocks from './InfoBlocks'
 import Testimonials from './Testimonials'
 import CallToAction from './CallToAction'
-import {Button} from 'vdux-containers'
 import {Block, Flex, Text} from 'vdux-ui'
+import {Button} from 'vdux-containers'
+import InfoBlocks from './InfoBlocks'
+import desk from './files/desk.jpg'
 import element from 'vdux/element'
-import {desk} from 'lib/fixins'
 import Header from './Header'
 import Footer from './Footer'
 

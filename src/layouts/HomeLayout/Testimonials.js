@@ -2,10 +2,13 @@
  * Imports
  */
 
-import {jon, ari, lauren} from 'lib/fixins'
 import {Block, Flex, Icon, Text, Image} from 'vdux-ui'
 import element from 'vdux/element'
 import map from '@f/map'
+
+import lauren from './files/testimonials/lahey.jpg'
+import jon from './files/testimonials/jon.png'
+import ari from './files/testimonials/ari.jpg'
 
 /**
  * Home Layout

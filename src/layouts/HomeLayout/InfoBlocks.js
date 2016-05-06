@@ -2,10 +2,20 @@
  * Imports
  */
 
-import element from 'vdux/element'
 import {Block, Image, Text, Flex} from 'vdux-ui'
-import {spark, comp, target, bolt, speedGrades, teacherTalk, telepathy, xray, students} from 'lib/fixins'
+import element from 'vdux/element'
 import map from '@f/map'
+
+import speedGrades from './files/speed-grades.png'
+import teacherTalk from './files/teacher-talk.png'
+import telepathy from './files/telepathy.png'
+import students from './files/students.png'
+import target from './files/target.png'
+import spark from './files/spark.png'
+import comp from './files/comp.png'
+import bolt from './files/bolt.png'
+import xray from './files/xray.png'
+
 
 /**
  * Render

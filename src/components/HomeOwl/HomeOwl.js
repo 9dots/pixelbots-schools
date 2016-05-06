@@ -2,8 +2,8 @@
  * Imports
  */
 
+import logo120 from './logo120x120.png'
 import element from 'vdux/element'
-import {logo120} from 'lib/fixins'
 import {Flex} from 'vdux-ui'
 
 /**

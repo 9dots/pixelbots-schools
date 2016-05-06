@@ -2,10 +2,10 @@
  * Imports
  */
 
-import {schoolPattern} from 'lib/fixins'
+import schoolPattern from './files/pattern.png'
 import {Block, Text, Button} from 'vdux-ui'
-import element from 'vdux/element'
 import {scrollTo} from 'middleware/scroll'
+import element from 'vdux/element'
 
 /**
  * Call To Action Layout
