@@ -46,7 +46,7 @@ function render ({props, state}) {
           </Menu>
         </Flex>
       </Fixed>
-      <Block pt={53} hidden/>
+      <Block pt={53} hidden />
     </Block>
   )
 }

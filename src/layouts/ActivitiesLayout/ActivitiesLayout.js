@@ -3,7 +3,7 @@
  */
 
 import {Block, Flex, Card, Menu, MenuItem, Divider} from 'vdux-containers'
-import AppLayout from 'layouts/App'
+import AppLayout from 'layouts/AppLayout'
 import Link from 'components/Link'
 import element from 'vdux/element'
 import map from '@f/map'

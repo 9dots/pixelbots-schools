@@ -1,0 +1,5 @@
+{
+  "name": "ProfileBoards",
+  "main": "ProfileBoards.js",
+  "browser": "ProfileBoards.js"
+}

@@ -13,7 +13,7 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {currentUser, following, more} = props
+  const {following, more} = props
   const {value, loaded} = following
 
   return (

@@ -11,9 +11,9 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {isFollowing, follow, unfollow, board, user} = props
+  const {isFollowing, follow, unfollow, board, user, ...rest} = props
   const {loading, value, reload} = isFollowing
-  const noun = board ? 'Board' : 'User'
+  const noun = board ? 'Board' : ''
   const verb = loading && !reload
     ? ''
     : value ? 'Unfollow' : 'Follow'
@@ -27,7 +27,8 @@ function render ({props}) {
       rounded
       bgColor='off_white'
       activeProps={{highlight: false}}
-      border='1px solid rgba(0,0,0,0.15)'>
+      border='1px solid rgba(0,0,0,0.15)'
+      {...rest}>
       {verb} {noun}
     </Button>
   )

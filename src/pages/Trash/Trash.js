@@ -2,7 +2,7 @@
  * Imports
  */
 
-import ActivityRow from 'components/ActivityRow'
+import RowFeed from 'components/RowFeed'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
@@ -18,7 +18,7 @@ function render ({props}) {
   return (
     <Block>
       {
-        loading || value.items.map(draft => <ActivityRow activity={draft} />)
+        loading || <RowFeed items={value.items} more={() => more(value && value.nextPageToken)} />
       }
     </Block>
   )

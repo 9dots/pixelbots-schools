@@ -2,7 +2,7 @@
  * Imports
  */
 
-import AppLayout from 'layouts/App'
+import AppLayout from 'layouts/AppLayout'
 import {Flex, Block, Text} from 'vdux-ui'
 import Link from 'components/Link'
 import element from 'vdux/element'
