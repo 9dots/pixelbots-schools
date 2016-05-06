@@ -12,7 +12,9 @@ import {defaultTheme} from 'vdux-ui'
 const theme = {
   colors: {
     ...defaultTheme.colors,
-    ...colors
+    ...colors,
+    graydark: '#4b5257',
+    divider: '#CCC'
   },
   scale: {
     z: 0,
@@ -40,7 +42,8 @@ const theme = {
   },
   shadow: {
     ...defaultTheme.shadow,
-    inner: 'inset 0px 2px 2px 0px rgba(0,0,0,0.22)'
+    inner: 'inset 0px 2px 2px 0px rgba(0,0,0,0.22)',
+    menu: 'rgba(52, 52, 52, 0.2) 0px 0px 20px 0px, rgba(52, 52, 52, 0.08) 0px 0px 0px 1px'
   }
 }
 

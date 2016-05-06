@@ -24,7 +24,7 @@ const links = {
 
 function render () {
   return (
-    <Flex align='start center' flex color='white' py={2}>
+    <Flex align='start center' flex color='white' py={2} id='home-nav'>
       <HomeOwl mr='m' />
       {
         Object
@@ -38,7 +38,7 @@ function render () {
 function item (text) {
   return (
     <CSSContainer ui={Block} tag='a' href={links[text]} p={13} color='white' transition='color 0.1s 0s ease-in-out' hoverProps={{color: '#9c9999'}} >
-      <Text uppercase weight='400' lh='1em' letterSpacing='2px' antialiased>
+      <Text uppercase fw='400' lh='1em' letterSpacing='2px' antialiased>
         {text}
       </Text>
     </CSSContainer>

@@ -2,9 +2,10 @@
  * Imports
  */
 
-import {Block, Text, Input, Dropdown} from 'vdux-containers'
+import {Block, Input, Dropdown, MenuItem, Icon, Divider, CSSContainer} from 'vdux-containers'
 import element from 'vdux/element'
 import map from '@f/map'
+import ClassItem from './ClassItem'
 
 /**
  * <ClassNav/>
@@ -14,27 +15,19 @@ function render ({props, children}) {
   const {classes = []} = props
 
   return (
-    <Dropdown btn={<div>{children}</div>} bg='white' color='black' maxHeight={350} overflow='auto'>
+    <Dropdown btn={<div>{children}</div>} bg='white' color='black' maxHeight={350} overflow='auto' mt='-6' w='200' left>
       <Block bg='transparent'>
         <Input type='search' placeholder='Filter classes…' />
       </Block>
       {
-        map(classItem, classes)
+        map(cls => <CSSContainer ui={ClassItem} cls={cls} hoverProps={{showIcon: true, highlight: true}}/>, classes)
       }
+      <Divider />
+      <MenuItem py='m' color='text_color' display='flex' align='start center'>
+        <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
+        New Class
+      </MenuItem>
     </Dropdown>
-  )
-}
-
-function classItem (cls) {
-  return (
-    <Text transform='capitalize' color='text_color' py='m' px='s'>
-      <Text inlineBlock circle mx='s' bg='green' color='white' lh='25px' transform='uppercase' textAlign='center'>
-        {cls.displayName[0]}
-      </Text>
-      <Text ellipsis>
-        {cls.displayName}
-      </Text>
-    </Text>
   )
 }
 

@@ -19,14 +19,14 @@ function render ({props}) {
       <Flex align='center center' my='m' mx='s' pt='m' wide>
         <Box flex='35%'>
           <Button pill mr='m' bgColor='green' wide onClick={e => setUrl('/teacher')}>
-            <Text lh='47px' fs='14px' weight='bolder'>
+            <Text lh='47px' fs='14px' fw='bolder'>
               Teachers, Sign Up
             </Text>
           </Button>
         </Box>
         <Box flex='35%'>
           <Button id='students' pill ml='m' mr='s' my='m' wide onClick={e => setUrl('/student')}>
-            <Text lh='47px' fs='14px' weight='bolder'>
+            <Text lh='47px' fs='14px' fw='bolder'>
               Students, Join Class
             </Text>
           </Button>

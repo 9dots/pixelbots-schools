@@ -15,7 +15,7 @@ function render () {
   return <Icon
     name='keyboard_arrow_down'
     class={arrow}
-    onClick={e => scrollTo('#students')} />
+    onClick={e => scrollTo('#info', {easing: 'easeOutCubic', duration: 500})} />
 }
 
 /**
@@ -28,7 +28,7 @@ const {arrow} = css({
     position: 'absolute',
     left: '0',
     right: '0',
-    bottom: '50px',
+    bottom: '20px',
     margin: 'auto',
     width: '70px',
     height: '70px',

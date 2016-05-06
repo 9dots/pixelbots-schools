@@ -8,6 +8,7 @@ import Loading from 'pages/Loading'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
+import 'lib/fonts'
 
 /**
  * Root app component

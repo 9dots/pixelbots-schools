@@ -17,19 +17,21 @@ function render ({props, children}) {
 
   return (
     <AppLayout {...props}>
-      <Flex w='col_main' mx='auto' px='s' mt='s'>
-        <Card w={230} mr='m'>
-          <Menu column>
-            <Item href='/activities/all'>All Activities</Item>
-            {
-              map(board => <Item>{board.name}</Item>, boards)
-            }
-            <Item href='/activities/drafts'>Drafts</Item>
-            <Divider/>
-            <Item>New Board</Item>
-            <Item href='/activities/trash'>Trash</Item>
-          </Menu>
-        </Card>
+      <Flex w='col_main' mt='s' mx='auto' px='s' py='l'>
+        <Block>
+          <Card w={230} mr='m'>
+            <Menu column>
+              <Item href='/activities/all'>All Activities</Item>
+              {
+                map(board => <Item>{board.name}</Item>, boards)
+              }
+              <Item href='/activities/drafts'>Drafts</Item>
+              <Divider/>
+              <Item>New Board</Item>
+              <Item href='/activities/trash'>Trash</Item>
+            </Menu>
+          </Card>
+        </Block>
         <Block w='col_main' maxWidth='714px'>
           {children}
         </Block>
@@ -43,6 +45,7 @@ function Item ({props, children}) {
     <Link
       ui={MenuItem}
       {...props}
+      py='m'
       borderLeft='3px solid transparent'
       currentProps={{borderLeftColor: 'blue', highlight: true}}>
       {children}

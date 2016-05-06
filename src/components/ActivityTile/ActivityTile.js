@@ -21,8 +21,8 @@ function render ({props}) {
         <actions/>
         <Figure {...image} thumb={true} />
         <Block textAlign='center' m='m'>
-          <Text p='m' my='s' fs='s'>{displayName}</Text>
-          <Text fs='xs'>{description}</Text>
+          <Text my='s' fs='s' display='block' fw='200'>{displayName}</Text>
+          <Text fs='xxs'>{description}</Text>
         </Block>
         <Meta activity={activity} />
       </Flex>

@@ -4,7 +4,8 @@
 
 import {createTeacher, oauthCreate} from 'reducer/currentUser'
 import {Google, Facebook} from 'components/OAuthButtons'
-import {DecoLine, Block, Button, Flex} from 'vdux-ui'
+import {DecoLine, Block, Flex} from 'vdux-ui'
+import {Button} from 'vdux-containers'
 import BlockInput from 'components/BlockInput'
 import validate from 'lib/validate'
 import element from 'vdux/element'

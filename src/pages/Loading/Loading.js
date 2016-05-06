@@ -21,7 +21,7 @@ function render ({props}) {
   return (
     <Text absolute m='auto' w={200} h={100} textAlign='center' top={0} right={0} bottom={0} left={0}>
       <Block mt='m'>
-        <Text lh='30px' weight='lighter'>Loading…</Text>
+        <Text lh='30px' fw='lighter'>Loading…</Text>
       </Block>
       <Block mt='m' pt='m'>
         {

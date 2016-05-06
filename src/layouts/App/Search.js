@@ -33,8 +33,9 @@ function render ({props}) {
           borderWidth={0}
           outline='none'
           pill
-          placeholder='Search Weo' />
-      : <Button onClick={() => setUrl('/search/activities')} fs='m' tooltip='Search Weo' ttPlacement='bottom' icon='search' />
+          placeholder='Search Weo'
+          mb='0' />
+      : <Button onClick={() => setUrl('/search/activities')} fs='m' tooltip='Search Weo' ttPlacement='bottom' icon='search' tag='div' align='center' display='flex'/>
   )
 }
 

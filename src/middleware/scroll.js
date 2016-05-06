@@ -4,6 +4,7 @@
 
 import animate from '@f/animate'
 import createAction from '@f/create-action'
+import * as easingUtil from 'easing-utils'
 
 /**
  * Action types
@@ -28,6 +29,9 @@ function middleware () {
 
 function scrollToElement ({element, duration, easing}) {
   element = asElement(element)
+  easing =  typeof easing === 'string'
+    ? easingUtil[easing]
+    : easing
 
   const {left, top} = element.getBoundingClientRect()
   const start = {

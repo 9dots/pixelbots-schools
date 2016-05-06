@@ -1,0 +1,5 @@
+{
+  "name": "fonts",
+  "main": "fonts.js",
+  "browser": "fonts.js"
+}

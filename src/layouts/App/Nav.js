@@ -19,7 +19,7 @@ function render ({props, state}) {
 
   return (
     <Block>
-      <Fixed wide top z={2}>
+      <Fixed wide top z={2} boxShadow='card'>
         <Flex align='space-between' wide bgColor={bgColor} color='white'>
           <Flex align='start center'>
             <Flex align='center center' mx='m'>
@@ -29,13 +29,13 @@ function render ({props, state}) {
             <Item href='/activities' icon='assignment' text='My Activities' />
             <ClassNav classes={currentUser.groups}>
               <Item ml='s' fs='s' icon='school' text='Classes'>
-                <Icon name='arrow_drop_down' />
+                <Icon name='arrow_drop_down' fs='s' ml='s' />
               </Item>
             </ClassNav>
           </Flex>
           <Menu spacing='m' flex align='end center'>
-            <Search url={url} searching={search} query={query} />
-            <Button fs='m' tooltip='Notifications' ttPlacement='bottom' icon='notifications' />
+            <Search url={url} searching={search} query={query}/>
+            <Button fs='m' px='s' tooltip='Notifications' ttPlacement='bottom' icon='notifications' tag='div' align='center' display='flex' />
             <AccountMenu currentUser={currentUser} />
             <Button pill h={34}>
               <Flex align='center center'>
