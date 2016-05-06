@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {schoolPattern} from 'lib/assets'
+import {schoolPattern} from 'lib/fixins'
 import {Block, Text, Button} from 'vdux-ui'
 import element from 'vdux/element'
 import {scrollTo} from 'middleware/scroll'

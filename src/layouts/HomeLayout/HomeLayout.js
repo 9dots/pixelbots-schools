@@ -9,7 +9,7 @@ import CallToAction from './CallToAction'
 import {Button} from 'vdux-containers'
 import {Block, Flex, Text} from 'vdux-ui'
 import element from 'vdux/element'
-import {desk} from 'lib/assets'
+import {desk} from 'lib/fixins'
 import Header from './Header'
 import Footer from './Footer'
 

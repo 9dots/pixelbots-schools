@@ -3,7 +3,7 @@
  */
 
 import {Button} from 'vdux-containers'
-import {gplusIcon} from 'lib/assets'
+import {gplusIcon} from 'lib/fixins'
 import {IconButton} from 'vdux-ui'
 import element from 'vdux/element'
 

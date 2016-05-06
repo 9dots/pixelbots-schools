@@ -4,7 +4,7 @@
 
 import element from 'vdux/element'
 import {Block, Image, Text, Flex} from 'vdux-ui'
-import {spark, comp, target, bolt, speedGrades, teacherTalk, telepathy, xray, students} from 'lib/assets'
+import {spark, comp, target, bolt, speedGrades, teacherTalk, telepathy, xray, students} from 'lib/fixins'
 import map from '@f/map'
 
 /**

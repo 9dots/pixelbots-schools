@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {jon, ari, lauren} from 'lib/assets'
+import {jon, ari, lauren} from 'lib/fixins'
 import {Block, Flex, Icon, Text, Image} from 'vdux-ui'
 import element from 'vdux/element'
 import map from '@f/map'

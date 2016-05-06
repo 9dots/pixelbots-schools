@@ -3,7 +3,7 @@
  */
 
 import element from 'vdux/element'
-import {logo120} from 'lib/assets'
+import {logo120} from 'lib/fixins'
 import {Flex} from 'vdux-ui'
 
 /**
