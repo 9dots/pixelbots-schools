@@ -3,17 +3,23 @@
  */
 
 import ActivitiesLayout from 'layouts/ActivitiesLayout'
+import ProfileLayout from 'layouts/ProfileLayout'
 import SearchLayout from 'layouts/SearchLayout'
-import HomeLayout from 'layouts/Home'
-import AppLayout from 'layouts/App'
+import HomeLayout from 'layouts/HomeLayout'
+import AppLayout from 'layouts/AppLayout'
 
 import SearchMyActivities from 'pages/SearchMyActivities'
 import SearchActivities from 'pages/SearchActivities'
-import TeacherSignup from 'pages/TeacherSignup'
-import StudentSignup from 'pages/StudentSignup'
-import MyActivities from 'pages/MyActivities'
 import SearchPeople from 'pages/SearchPeople'
 import SearchBoards from 'pages/SearchBoards'
+
+import TeacherSignup from 'pages/TeacherSignup'
+import StudentSignup from 'pages/StudentSignup'
+
+import ProfileBoards from 'pages/ProfileBoards'
+
+import MyActivities from 'pages/MyActivities'
+import FourOhFour from 'pages/FourOhFour'
 import Drafts from 'pages/Drafts'
 import Trash from 'pages/Trash'
 import Login from 'pages/Login'
@@ -97,8 +103,17 @@ const internal = enroute({
       <SearchPeople {...props} {...params} />
     </SearchLayout>,
 
+  // Profile
+  '/:username/boards': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileBoards {...props} user={user} />}
+    </ProfileLayout>,
+
   // 404
-  '*': (params, props) => <div>404: Page not found</div>
+  '*': (params, props) =>
+    <AppLayout {...props} {...params}>
+      <FourOhFour />
+    </AppLayout>
 })
 
 /**

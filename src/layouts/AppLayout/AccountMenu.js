@@ -4,6 +4,7 @@
 
 import {Dropdown, MenuItem, Divider, Icon} from 'vdux-containers'
 import {logoutUser} from 'reducer/currentUser'
+import {setUrl} from 'redux-effects-location'
 import WeoIcon from 'components/WeoIcon'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
@@ -17,7 +18,7 @@ function render ({props}) {
 
   return (
     <Dropdown w='180px' btn={<Avatar actor={currentUser} />}>
-      <MenuItem>
+      <MenuItem onClick={() => setUrl(`/${currentUser.username}/boards`)}>
         <Icon name='person' />
         My Profile
       </MenuItem>
