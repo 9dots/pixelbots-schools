@@ -4,24 +4,23 @@
 
 import BoardTile from 'components/BoardTile'
 import element from 'vdux/element'
-import {Block} from 'vdux-ui'
+import {Grid} from 'vdux-ui'
 
 /**
  * <ProfileBoards/>
  */
 
 function render ({props}) {
-  const {user} = props
-  console.log('groups', user.groups)
+  const {user, currentUser} = props
 
   return (
-    <Block>
+    <Grid>
       {
         user.groups
           .filter(group => group.groupType === 'board')
-          .map(group => <BoardTile board={group} />)
+          .map(group => <BoardTile board={group} currentUser={currentUser} />)
       }
-    </Block>
+    </Grid>
   )
 }
 
