@@ -16,8 +16,8 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {board, currentUser} = props
-  const {owners, displayName, images = []} = board
-  const [owner] = owners
+  const {owners = [], displayName, images = []} = board
+  const [owner = {}] = owners
 
   return (
     <Card w={230} h={250} relative my={8} mx={6} pointer>
@@ -43,7 +43,7 @@ function render ({props}) {
           <Block color='grey_medium' lh='30px'>
             <WeoIcon name='pin' fs='14px' />
             <Text fs='xxs'>
-              {board.board.canonicalTotal.items}
+              {board.board && board.board.canonicalTotal.items}
             </Text>
           </Block>
         </Flex>
