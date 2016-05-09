@@ -1,0 +1,5 @@
+{
+  "name": "CreateBoardModal",
+  "main": "CreateBoardModal.js",
+  "browser": "CreateBoardModal.js"
+}

@@ -2,14 +2,14 @@
  * Imports
  */
 
+import fetch, {fetchEncodeJSON} from 'redux-effects-fetch'
+import cookieMiddleware from 'redux-effects-cookie'
+import {query} from 'redux-effects-credentials'
+import location from 'redux-effects-location'
+import normalize from 'middleware/normalize'
+import {isApiServer} from 'lib/api'
 import flo from 'redux-flo'
 import cookie from 'cookie'
-import {isApiServer} from 'lib/api'
-import fetch from 'redux-effects-fetch'
-import normalize from 'middleware/normalize'
-import location from 'redux-effects-location'
-import {query} from 'redux-effects-credentials'
-import cookieMiddleware from 'redux-effects-cookie'
 
 /**
  * Middleware
@@ -23,6 +23,7 @@ function middleware ({url, headers}) {
     location(url),
     cookieMiddleware(cookieObj),
     // normalize(isApiServer),
+    fetchEncodeJSON,
     fetch,
     flo()
     // logger

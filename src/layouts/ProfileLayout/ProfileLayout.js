@@ -19,7 +19,7 @@ function render ({props, children}) {
 
   return (
     <AppLayout {...props} bgColor={user.value ? user.value.color : undefined}>
-      <Flex px='s' column m='auto' align='center center' w='col_main'>
+      <Flex mt={18} px='s' column mx='auto' align='center center' w='col_main'>
         {internal(user, children)}
       </Flex>
     </AppLayout>

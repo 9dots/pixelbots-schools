@@ -3,6 +3,7 @@
  */
 
 import user from './user'
+import board from './board'
 import teacher from './teacher'
 import student from './student'
 
@@ -12,6 +13,7 @@ import student from './student'
 
 const schemas = {
   user,
+  board,
   student,
   teacher
 }

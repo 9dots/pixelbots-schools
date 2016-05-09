@@ -22,8 +22,8 @@ function render ({props}) {
   } = user
 
   return (
-    <Card mt={14} wide relative>
-      <Flex p='m'>
+    <Card wide relative>
+      <Flex p>
         <Avatar mr='m' actor={user} w='18%' h='auto' alignSelf='center' />
         <Flex column flex='60%'>
           <Flex p={4} ml={-4} align='start center'>

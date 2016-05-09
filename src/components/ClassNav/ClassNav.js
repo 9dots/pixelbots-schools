@@ -20,7 +20,7 @@ function render ({props, children}) {
         <Input type='search' placeholder='Filter classes…' />
       </Block>
       {
-        map(cls => <CSSContainer ui={ClassItem} cls={cls} hoverProps={{showIcon: true, highlight: true}}/>, classes)
+        map(cls => <ClassItem cls={cls} />, classes)
       }
       <Divider />
       <MenuItem py='m' color='text_color' display='flex' align='start center'>

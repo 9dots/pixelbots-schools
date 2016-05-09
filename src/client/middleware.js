@@ -2,6 +2,7 @@
  * Imports
  */
 
+import fetch, {fetchEncodeJSON} from 'redux-effects-fetch'
 import transformErrors from 'middleware/transform-errors'
 import {shouldLog, setLogLevel} from 'lib/log-level'
 import {lookup, isEphemeral} from 'redux-ephemeral'
@@ -10,7 +11,6 @@ import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
 import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
-import fetch from 'redux-effects-fetch'
 import scroll from 'middleware/scroll'
 import * as summon from 'vdux-summon'
 import logger from 'weo-redux-logger'
@@ -29,6 +29,7 @@ const middleware = [
   query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
   transformErrors(isApiServer),
   // normalize(isApiServer),
+  fetchEncodeJSON,
   fetch,
   scroll,
   location(),

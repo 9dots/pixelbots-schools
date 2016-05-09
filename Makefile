@@ -13,8 +13,12 @@ node_modules: package.json
 	@npm install
 	@touch node_modules
 
-test: node_modules
-	babel test/*.js
+# Fix this at some point
+test: $(src) $(tests) node_modules
+	@NODE_ENV=development hihat src/components/RoundedInput/RoundedInput.test.js -- \
+		--debug \
+		-t babelify \
+		-p tap-dev-tool
 
 dev:
 	@${BIN}/unv dev

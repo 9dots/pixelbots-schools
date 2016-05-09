@@ -22,8 +22,10 @@ function render ({props}) {
   const {state} = props
 
   return (
-    <Block>
-      {state.modal}
+    <Block pb={48}>
+      <Block>
+        {state.modal}
+      </Block>
       <Block z={0}>
         {
           isReady(state)

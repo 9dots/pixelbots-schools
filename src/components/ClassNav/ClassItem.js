@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {Text, Button, CSSContainer} from 'vdux-containers'
-import {MenuItem} from 'vdux-ui'
+import {Button, CSSContainer, wrap} from 'vdux-containers'
+import {Text, MenuItem} from 'vdux-ui'
 import element from 'vdux/element'
 
 function render ({props}) {
@@ -26,6 +26,11 @@ function render ({props}) {
  * Exports
  */
 
-export default {
+export default wrap(CSSContainer, {
+  hoverProps: {
+    showIcon: true,
+    highlight: true
+  }
+})({
   render
-}
+})
