@@ -24,7 +24,7 @@ function render ({props}) {
           const date = new Date(item.publishedAt || item.createdAt)
           if (!isSameDay(date, prevDate)) {
             list.push((
-              <Block p='m' mt='m' fs='m' weight='lighter' color='blue'>
+              <Block p='m' mt='m' fs='s' fw='lighter' color='blue'>
                 {moment(date).format('MMMM DD, YYYY')}
               </Block>
             ))
