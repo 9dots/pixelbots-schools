@@ -8,6 +8,7 @@ import Loading from 'pages/Loading'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
+import Form from 'vdux-form'
 import 'lib/fonts'
 
 /**
@@ -38,16 +39,27 @@ function render ({props}) {
 }
 
 /**
+ * Global component config
+ */
+
+summon.defaults({
+  baseUrl: process.env.API_SERVER
+})
+
+Form.setTransformError(err => {
+  if (err.status === 400) {
+    return err.value && err.value.errors
+  }
+})
+
+
+/**
  * Helpers
  */
 
 function isReady (state) {
   return state.ready
 }
-
-summon.defaults({
-  baseUrl: process.env.API_SERVER
-})
 
 /**
  * Exports

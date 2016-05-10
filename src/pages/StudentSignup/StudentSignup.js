@@ -4,19 +4,22 @@
 
 import {Flex, Block, DecoLine, Button} from 'vdux-containers'
 import {Google, Facebook} from 'components/OAuthButtons'
-import {createStudent} from 'reducer/currentUser'
 import BlockInput from 'components/BlockInput'
+import {postLogin} from 'reducer/currentUser'
 import validate from 'lib/validate'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
  * Student signup page
  */
 
-function render () {
+function render ({props}) {
+  const {createStudent} = props
+
   return (
-    <Form onSubmit={submitStudent} validate={validateStudent}>
+    <Form onSubmit={createStudent} onSuccess={user => postLogin(user, user.token)} validate={validateStudent}>
       <input type='hidden' name='userType' value='student' />
       <Flex>
         <BlockInput name='name[givenName]' placeholder='FIRST NAME' />
@@ -24,8 +27,8 @@ function render () {
       </Flex>
       <BlockInput name='username' placeholder='USERNAME' />
       <BlockInput name='email' placeholder='EMAIL (OPTIONAL)' />
-      <BlockInput name='password' placeholder='PASSWORD' />
-      <BlockInput name='confirm_password' placeholder='CONFIRM PASSWORD' />
+      <BlockInput type='password' name='password' placeholder='PASSWORD' />
+      <BlockInput type='password' name='confirm_password' placeholder='CONFIRM PASSWORD' />
       <Block color='white'>
         <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
           Sign Up Now
@@ -40,23 +43,6 @@ function render () {
       </Block>
     </Form>
   )
-}
-
-/**
- * submitStudent
- *
- * Submit the student model and pass the error back to the
- * form if we get one
- */
-
-function *submitStudent (model, cb) {
-  try {
-    yield createStudent(model)
-  } catch (err) {
-    if (err.status === 400) {
-      cb(null, err.value.errors)
-    }
-  }
 }
 
 /**
@@ -75,6 +61,7 @@ function validateStudent (model) {
     })
   }
 
+  delete model.confirm_password
   return result
 }
 
@@ -82,4 +69,14 @@ function validateStudent (model) {
  * Exports
  */
 
-export default render
+export default summon(props => ({
+  createStudent: body => ({
+    newStudent: {
+      url: '/auth/user',
+      method: 'POST',
+      body
+    }
+  })
+}), {
+  render
+})

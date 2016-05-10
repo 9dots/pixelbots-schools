@@ -3,11 +3,12 @@
  */
 
 import {DecoLine, Flex, Block, Text} from 'vdux-containers'
-import {loginUser, oauthLogin} from 'reducer/currentUser'
+import {postLogin, oauthLogin} from 'reducer/currentUser'
 import {Facebook, Google} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
@@ -15,9 +16,11 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
+  const {loginUser} = props
+
   return (
     <Block w='col_sm' color='white' p='m'>
-      <Form onSubmit={submitLogin}>
+      <Form onSubmit={loginUser} onSuccess={user => postLogin(user, user.token)}>
         <BlockInput autofocus placeholder='USERNAME OR EMAIL' name='username' />
         <BlockInput placeholder='PASSWORD' type='password' name='password' />
         <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
@@ -41,26 +44,17 @@ function render ({props}) {
 }
 
 /**
- * submitLogin
- *
- * Submit login credentials and pass back any errors that might
- * occur
- */
-
-function *submitLogin (model, cb) {
-  try {
-    yield loginUser(model)
-  } catch (err) {
-    if (err.status >= 400 && err.status < 500) {
-      cb(null, err.value.errors)
-    }
-  }
-}
-
-/**
  * Exports
  */
 
-export default {
+export default summon(props => ({
+  loginUser: body => ({
+    loggedIn: {
+      url: '/auth/login',
+      method: 'POST',
+      body
+    }
+  })
+}), {
   render
-}
+})

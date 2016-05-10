@@ -33,12 +33,6 @@ const user = {
       ...rest
     }))
   },
-  createTeacher (teacher) {
-    return post('auth/user', teacher)
-  },
-  createStudent (student) {
-    return post('auth/user', student)
-  },
   oauthCreate (provider, data) {
     return post('auth/' + provider, data)
   },

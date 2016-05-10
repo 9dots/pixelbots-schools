@@ -2,13 +2,14 @@
  * Imports
  */
 
-import {createTeacher, oauthCreate} from 'reducer/currentUser'
+import {postLogin, oauthCreate} from 'reducer/currentUser'
 import {Google, Facebook} from 'components/OAuthButtons'
+import BlockInput from 'components/BlockInput'
 import {DecoLine, Block, Flex} from 'vdux-ui'
 import {Button} from 'vdux-containers'
-import BlockInput from 'components/BlockInput'
 import validate from 'lib/validate'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 import {parse} from 'parse-name'
 import Form from 'vdux-form'
 
@@ -16,7 +17,9 @@ import Form from 'vdux-form'
  * Teacher signup page
  */
 
-function render () {
+function render ({props}) {
+  const {createTeacher} = props
+
   return (
     <Flex>
       <Flex column w='col_med' color='white' align='center'>
@@ -24,14 +27,14 @@ function render () {
           Welcome to Weo
         </Block>
         <Block ln='30px' fs='m'>
-          Join our growing community<br />
-          of edudcators today.
+          Join our growing community<br/>
+          of educators today.
         </Block>
         <Block fs='s' mt='m'>
           Free for teachers. Forever.
         </Block>
       </Flex>
-      <Form onSubmit={submitTeacher} validate={validate.teacher} cast={cast}>
+      <Form onSubmit={createTeacher} onSuccess={user => postLogin(user, user.token)} validate={validate.teacher} cast={cast}>
         <Block w='col_sm' color='white'>
           <input type='hidden' name='userType' value='teacher' />
           <BlockInput name='name' placeholder='FULL NAME' />
@@ -51,23 +54,6 @@ function render () {
       </Form>
     </Flex>
   )
-}
-
-/**
- * submitTeacher
- *
- * Submit the teacher model and pass the error
- * back to the form if we get one
- */
-
-function *submitTeacher (model, cb) {
-  try {
-    yield createTeacher(model)
-  } catch (err) {
-    if (err.status === 400) {
-      cb(null, err.value.errors)
-    }
-  }
 }
 
 /**
@@ -94,4 +80,14 @@ function cast (user) {
  * Exports
  */
 
-export default render
+export default summon(props => ({
+  createTeacher: body => ({
+    newTeacher: {
+      url: '/auth/user',
+      method: 'POST',
+      body
+    }
+  })
+}), {
+  render
+})
