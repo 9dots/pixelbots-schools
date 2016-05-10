@@ -54,7 +54,7 @@ function render ({props}) {
           </Block>
         </Flex>
         <Flex absolute='top 12px right 12px'>
-          <Button align='center center' tag='div' sq={30} circle bgColor={user.color} hoverProps={{text: <Icon fs='s' name='colorize' />}} />
+          <Button align='center center' tag='div' circle='30' bgColor={user.color} hoverProps={{text: <Icon fs='s' name='colorize' />}} />
           <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white'>
             Edit Profile
           </Button>

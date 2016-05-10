@@ -31,8 +31,7 @@ function render ({props}) {
               mx={3}
               inlineBlock
               bgColor={colors[i]}
-              circle
-              sq={15}
+              circle='15'
               transform='translateY(0)'
               animation='wave 2s infinite ease-in-out'
               animationDelay={0.1 * (i + 1) + 's'} />))

@@ -27,7 +27,7 @@ function render ({props}) {
           <Block fs='xs'>{description}</Block>
           <Meta activity={activity} />
         </Flex>
-        <Block flex='20%' my='m' h='100px' boxShadow='card' overflow='hidden' rounded relative hide={!url}>
+        <Block flex='20%' my='m' h='108px' boxShadow='card' overflow='hidden' rounded relative hide={!url}>
           <Image src={url && resize(url, 350)} absolute m='auto' h={isWide ? '100%' : 'auto'} w={isWide ? 'auto' : '100%'}
             top={offset} left={offset} right={offset} bottom={offset} />
         </Block>

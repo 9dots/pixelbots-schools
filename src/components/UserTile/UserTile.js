@@ -23,9 +23,9 @@ function render ({props}) {
           !currentUser && <FollowButton m='s' absolute='bottom right' user={user} />
         }
       </Block>
-      <Flex align='center center' column ellipsis>
-        <Flex fs='s' weight='lighter'>
-          <Text ellipsis>{displayName}</Text>
+      <Flex align='center center' column ellipsis p='m'>
+        <Flex fs='s' fw='lighter' ellipsis w='100%' align='center'>
+          <Text>{displayName}</Text>
           <Text mx='s'>&middot;</Text>
           <Text ellipsis color='grey_medium'>{username}</Text>
         </Flex>
