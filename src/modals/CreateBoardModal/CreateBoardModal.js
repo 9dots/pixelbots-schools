@@ -20,13 +20,13 @@ function render ({props}) {
 
   return (
     <Modal onDismiss={closeModal} opacity='1' h={200}>
-      <Form onSubmit={createBoard} tall validate={validate.board}>
+      <Form onSubmit={createBoard} onSuccess={closeModal} tall validate={validate.board} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
             <Block mt={25} mb={15} fs='l' fw='lighter' color='blue' textAlign='center'>
               Create Board
             </Block>
-            <RoundedInput name='displayName' placeholder='Board name' />
+            <RoundedInput autofocus name='displayName' placeholder='Board name' />
           </Flex>
         </ModalBody>
         <ModalFooter>
@@ -34,23 +34,11 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
              &ensp;or&ensp;
           </Text>
-          <Button type='submit' onClick={() => console.log('create')}>Create</Button>
+          <Button type='submit'>Create</Button>
         </ModalFooter>
       </Form>
     </Modal>
   )
-}
-
-/**
- * onUpdate - Close the modal if we successfuly create the board
- */
-
-function onUpdate (prev, {props}) {
-  const {newBoard = {}} = props
-
-  if (newBoard.loaded) {
-    return closeModal()
-  }
 }
 
 /**
@@ -67,6 +55,5 @@ export default summon(props => ({
     }
   })
 }), {
-  render,
-  onUpdate
+  render
 })

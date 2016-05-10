@@ -26,11 +26,6 @@ function *initializeUser () {
   }
 }
 
-function *loginUser (credentials, cb) {
-  const {value} = yield user.login(credentials)
-  yield postLogin(value, value.token, cb)
-}
-
 function *oauthLogin (provider, params, cb) {
   const data = yield beginOAuthFlow(provider)
   const {value} = yield user.oauthLogin(provider, data)
@@ -47,16 +42,6 @@ function *logoutUser () {
   yield setAuthToken('')
   yield userDidLogout()
   yield setUrl('/')
-}
-
-function *createTeacher (teacher, cb) {
-  const {value} = yield user.createTeacher(teacher)
-  yield postLogin(value, value.token, cb)
-}
-
-function *createStudent (student, cb) {
-  const {value} = yield user.createStudent(student)
-  yield postLogin(value, value.token, cb)
 }
 
 /**
@@ -92,12 +77,10 @@ const reducer = handleActions({
 export default reducer
 export {
   initializeUser,
-  loginUser,
-  createTeacher,
-  createStudent,
   userDidLoad,
   userDidLogout,
   logoutUser,
   oauthLogin,
-  oauthCreate
+  oauthCreate,
+  postLogin
 }
