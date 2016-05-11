@@ -25,11 +25,11 @@ function render ({props}) {
         placeholder='Search your activities...'
         type='search' />
       {
-        items.reduce((list, item) => {
+        items.reduce((list, item, i) => {
           const date = new Date(item.publishedAt || item.createdAt)
           if (!isSameDay(date, prevDate)) {
             list.push((
-              <Block p='m' mt='m' fs='s' fw='lighter' color='blue'>
+              <Block p='m' mt={!i ? 0 : 'm'} fs='s' fw='lighter' color='blue'>
                 {moment(date).format('MMMM DD, YYYY')}
               </Block>
             ))

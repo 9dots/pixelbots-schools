@@ -17,12 +17,11 @@ function render ({props}) {
   const verb = loading && !reload
     ? ''
     : value ? 'Unfollow' : 'Follow'
-
   return (
     <Button
       onClick={(value ? unfollow : follow)}
       disabled={loading}
-      color='blue'
+      color={value ? 'midgray' : 'blue'}
       px={25}
       rounded
       bgColor='off_white'

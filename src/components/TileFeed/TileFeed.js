@@ -11,11 +11,11 @@ import map from '@f/map'
  * Tile feed
  */
 
-function render ({props}) {
+function render ({children, props}) {
   const {items} = props
-
   return (
     <Grid>
+      {children}
       {
         map(activity => <ActivityTile activity={activity} />, items)
       }

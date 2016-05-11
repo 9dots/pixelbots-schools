@@ -22,7 +22,7 @@ function render ({props}) {
         <Figure {...image} thumb={true} />
         <Block textAlign='center' m='m'>
           <Text my='s' fs='s' display='block' fw='200'>{displayName}</Text>
-          <Text fs='xxs'>{description}</Text>
+          <Text fs='xxs' wordBreak='break-word'>{description}</Text>
         </Block>
         <Meta activity={activity} />
       </Flex>
