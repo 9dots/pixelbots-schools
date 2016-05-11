@@ -1,0 +1,5 @@
+{
+  "name": "FeedWidgets",
+  "main": "FeedWidgets.js",
+  "browser": "FeedWidgets.js"
+}

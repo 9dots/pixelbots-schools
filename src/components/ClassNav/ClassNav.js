@@ -2,7 +2,8 @@
  * Imports
  */
 
-import {Block, Input, Dropdown, MenuItem, Icon, Divider, CSSContainer} from 'vdux-containers'
+import {Block, Dropdown, MenuItem, Icon, Divider, CSSContainer} from 'vdux-containers'
+import LineInput from 'components/LineInput'
 import element from 'vdux/element'
 import map from '@f/map'
 import ClassItem from './ClassItem'
@@ -16,8 +17,8 @@ function render ({props, children}) {
 
   return (
     <Dropdown btn={<div>{children}</div>} bg='white' color='black' maxHeight={350} overflow='auto' mt='-6' w='200' left>
-      <Block bg='transparent'>
-        <Input type='search' placeholder='Filter classes…' />
+      <Block bg='transparent' pt='s' px onClick={e => e.stopPropagation()}>
+        <LineInput type='search' placeholder='Filter classes…' focusProps={{highlight: true}} />
       </Block>
       {
         map(cls => <ClassItem cls={cls} />, classes)

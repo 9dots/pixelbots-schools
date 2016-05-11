@@ -1,0 +1,5 @@
+{
+  "name": "LineInput",
+  "main": "LineInput.js",
+  "browser": "LineInput.js"
+}
