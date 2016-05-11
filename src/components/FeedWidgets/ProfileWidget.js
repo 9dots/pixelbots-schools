@@ -7,28 +7,31 @@ import element from 'vdux/element'
 import Avatar from 'components/Avatar'
 
 function render ({props}) {
+  const {user} = props
+  const {displayName, username, color, pinCount, followers, following} = user
+
   return (
     <Card {...props}>
-      <Block bg='blue' h='60'/>
+      <Block bg={color} h='60'/>
       <Flex p='s'>
-        <Avatar circle='75px' actor={{id: 1}} m='-37.5px 6px 0 0' boxShadow='card' border='2px solid white'/>
+        <Avatar circle='75px' actor={user} m='-37.5px 6px 0 0' boxShadow='card' border='2px solid white'/>
         <Block flex overflow='hidden'>
-          <Text tag='div' ellipsis fw='bolder'>Full Name and other stuff and things and stuff</Text>
-          <Text ellsipis color='midgray' fs='xxs'>Username</Text>
+          <Text tag='div' ellipsis fw='bolder'>{displayName}</Text>
+          <Text ellsipis color='midgray' fs='xxs'>{username}</Text>
         </Block>
       </Flex>
       <Flex py='s' px color='blue' fw='bolder'>
         <Block flex='30%'>
           <Block>Pins</Block>
-          <Block>XX</Block>
+          <Block>{pinCount}</Block>
         </Block>
         <Block flex='40%'>
           <Block>Following</Block>
-          <Block>XX</Block>
+          <Block>{following}</Block>
         </Block>
         <Block flex='40%'>
           <Block>Followers</Block>
-          <Block>XX</Block>
+          <Block>{followers}</Block>
         </Block>
       </Flex>
     </Card>
