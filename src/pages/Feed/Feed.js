@@ -40,7 +40,9 @@ export default summon(props => ({
   following: '/share/feed?maxResults=10',
   more: pageToken => ({
     following: {
-      fragment: pageToken && `&pageToken=${pageToken}`
+      params: {
+        pageToken
+      }
     }
   })
 }), {

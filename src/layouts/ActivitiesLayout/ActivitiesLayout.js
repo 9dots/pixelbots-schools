@@ -3,11 +3,16 @@
  */
 
 import {Block, Flex, Card, Menu, MenuItem, Divider} from 'vdux-containers'
-import {Icon} from 'vdux-ui'
-import WeoIcon from 'components/WeoIcon'
+import CreateBoardModal from 'modals/CreateBoardModal'
 import AppLayout from 'layouts/AppLayout'
+import WeoIcon from 'components/WeoIcon'
+import {openModal} from 'reducer/modal'
+import resize from 'lib/resize-image'
 import Link from 'components/Link'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
+import NavItem from './NavItem'
+import {Icon} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -15,8 +20,9 @@ import map from '@f/map'
  */
 
 function render ({props, children}) {
-  const {boards = [], activities = []} = props
+  const {boards} = props
   const iconSize = '25px'
+  const {value = [], loading} = boards
 
   return (
     <AppLayout {...props}>
@@ -24,26 +30,32 @@ function render ({props, children}) {
         <Block>
           <Card w={230} mr='m'>
             <Menu column>
-              <Item href='/activities/all' display='flex' align='start center'>
+              <NavItem href='/activities/all' display='flex' align='start center'>
                 <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr='m' textAlign='center' />
                 All Activities
-              </Item>
+              </NavItem>
               {
-                map(board => <Item display='flex' align='start center'>{board.name}</Item>, boards)
+                !loading
+                  ? map(board =>
+                    <NavItem href={`/activities/${board._id}`} board={board} display='flex' align='start center'>
+                      {boardIcon(board)}
+                      {board.displayName}
+                    </NavItem>, value.items)
+                  : ''
               }
-              <Item href='/activities/drafts' display='flex' align='start center'>
+              <NavItem href='/activities/drafts' display='flex' align='start center'>
                 <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr='m' textAlign='center' />
                 Drafts
-              </Item>
+              </NavItem>
               <Divider/>
-              <Item display='flex' align='start center'>
-                <Icon name='add' sq={iconSize} lh={iconSize} fs='s' mr='m' textAlign='center' />
+              <NavItem onClick={() => openModal(<CreateBoardModal/>)} display='flex' align='start center'>
+                <Icon name='add' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                 New Board
-              </Item>
-              <Item href='/activities/trash' display='flex' align='start center'>
-                <Icon name='delete' sq={iconSize} lh={iconSize} fs='s' mr='m' textAlign='center' />
+              </NavItem>
+              <NavItem href='/activities/trash' display='flex' align='start center'>
+                <Icon name='delete' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                 Trash
-              </Item>
+              </NavItem>
             </Menu>
           </Card>
         </Block>
@@ -55,24 +67,28 @@ function render ({props, children}) {
   )
 }
 
-function Item ({props, children}) {
+function boardIcon (board) {
+  const {images = []} = board
+  const [img] = images
+
+  // Why 300? Who knows, but that is what we were doing before
+  const url = img && img.url ? resize(img.url, 300) : ''
+
   return (
-    <Link
-      ui={MenuItem}
-      {...props}
-      py='m'
-      borderLeft='3px solid transparent'
-      currentProps={{borderLeftColor: 'blue', highlight: true}}>
-      {children}
-    </Link>
+    <Block circle={25} mr='s' bgColor='grey_light' align='center center' bgImg={url} bgSize='cover' bgPos='center'>
+      {
+        <Icon color='text' hide={img} fs='s' name='dashboard' />
+      }
+    </Block>
   )
 }
-
 
 /**
  * Exports
  */
 
-export default {
+export default summon(props => ({
+  boards: '/user/boards',
+}), {
   render
-}
+})

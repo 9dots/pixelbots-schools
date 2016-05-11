@@ -5,9 +5,9 @@
 import InfiniteScroll from 'components/InfiniteScroll'
 import ActivityRow from 'components/ActivityRow'
 import isSameDay from '@f/is-same-day'
+import {Block, Input} from 'vdux-ui'
 import element from 'vdux/element'
 import moment from 'moment'
-import {Block} from 'vdux-ui'
 
 /**
  * <RowFeed/>
@@ -19,6 +19,11 @@ function render ({props}) {
 
   return (
     <InfiniteScroll more={more}>
+      <Input
+        w='25%'
+        keypress={{enter: e => props.search(e.target.value)}}
+        placeholder='Search your activities...'
+        type='search' />
       {
         items.reduce((list, item) => {
           const date = new Date(item.publishedAt || item.createdAt)

@@ -18,14 +18,15 @@ import StudentSignup from 'pages/StudentSignup'
 
 import ProfileBoards from 'pages/ProfileBoards'
 
+import ActivitiesBoard from 'pages/ActivitiesBoard'
 import MyActivities from 'pages/MyActivities'
-import FourOhFour from 'pages/FourOhFour'
 import Drafts from 'pages/Drafts'
 import Trash from 'pages/Trash'
 import Login from 'pages/Login'
 import Feed from 'pages/Feed'
 import Home from 'pages/Home'
 
+import FourOhFour from 'pages/FourOhFour'
 import Redirect from 'components/Redirect'
 import element from 'vdux/element'
 import enroute from 'enroute'
@@ -83,6 +84,10 @@ const internal = enroute({
   '/activities/trash': (params, props) =>
     <ActivitiesLayout {...props}>
       <Trash {...props} />
+    </ActivitiesLayout>,
+  '/activities/:boardId': (params, props) =>
+    <ActivitiesLayout {...props}>
+      <ActivitiesBoard {...params} {...props} />
     </ActivitiesLayout>,
 
   // Search

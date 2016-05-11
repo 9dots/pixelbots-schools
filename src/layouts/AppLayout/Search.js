@@ -19,7 +19,6 @@ function render ({props}) {
     searching
       ? <Input
           color='#666'
-          bgColor='rgba(255, 255, 255, 0.8)'
           onKeypress={{enter: submitSearch(url)}}
           defaultValue={query}
           inputProps={{
@@ -28,11 +27,12 @@ function render ({props}) {
             pr: 30,
             pl: 12,
             fs: 'xs',
-            autofocus: true
+            pill: true,
+            bgColor: 'rgba(255, 255, 255, 0.8)',
+            autofocus: true,
+            borderWidth: 0,
+            outline: 'none'
           }}
-          borderWidth={0}
-          outline='none'
-          pill
           placeholder='Search Weo'
           mb='0' />
       : <Button onClick={() => setUrl('/search/activities')} fs='m' tooltip='Search Weo' ttPlacement='bottom' icon='search' tag='div' align='center' display='flex'/>

@@ -12,13 +12,13 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {activities, boards = [], more} = props
+  const {activities, boards = [], more, search} = props
   const {value, loading} = activities
 
   return (
     <Block>
       {
-        loading || <RowFeed items={value.items} more={() => more(value && value.nextPageToken)} />
+        loading || <RowFeed items={value.items} more={() => more(value && value.nextPageToken)} search={search} />
       }
     </Block>
   )
@@ -37,14 +37,21 @@ function boards (user) {
  */
 
 export default summon(props => ({
-  activities: `/share?channel=${
+  activities: `/share?${
     boards(props.currentUser)
-      .map(board => 'group!' + board.id + '.activities')
-      .join(',')
+      .map(board => 'channel=group!' + board.id + '.board')
+      .join('&')
     }&maxResults=20`,
   more: pageToken => ({
     activities: {
-      fragment: pageToken && `&pageToken=${pageToken}`
+      pageToken
+    }
+  }),
+  search: query => ({
+    activities: {
+      params: {
+        query
+      }
     }
   })
 }), {

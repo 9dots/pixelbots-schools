@@ -1,0 +1,5 @@
+{
+  "name": "ActivitiesBoard",
+  "main": "ActivitiesBoard.js",
+  "browser": "ActivitiesBoard.js"
+}

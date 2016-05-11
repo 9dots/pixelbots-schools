@@ -8,12 +8,12 @@ import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
 
 /**
- * <Trash/> page
+ * <ActivitiesBoard/> page
  */
 
 function render ({props}) {
-  const {trash, more} = props
-  const {loading, value} = trash
+  const {activities, more} = props
+  const {loading, value} = activities
 
   return (
     <Block>
@@ -29,9 +29,9 @@ function render ({props}) {
  */
 
 export default summon(props => ({
-  trash: `/share?channel=user!${props.currentUser._id}.trash&maxResults=20`,
+  activities: `/share?channel=group!${props.boardId}.board&maxResults=20`,
   more: pageToken => ({
-    trash: {
+    activities: {
       fragment: pageToken && `&pageToken=${pageToken}`
     }
   })
