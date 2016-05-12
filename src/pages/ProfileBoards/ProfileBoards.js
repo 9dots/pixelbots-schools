@@ -34,8 +34,8 @@ function renderGrid (boards, currentUser) {
   return (
     <Grid>
       <Flex bgColor='rgba(0,0,0,0.025)' mx={8} my={6} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
-        <Block fs='s'>Create New Board</Block>
-        <Button onClick={() => openModal(<CreateBoardModal />)} bgColor='white' color='grey' boxShadow='card' fs='l' circle>
+        <Block fs='s' fw='lighter' mb>Create New Board</Block>
+        <Button onClick={() => openModal(<CreateBoardModal />)} bgColor='white' color='midgray' boxShadow='card' fs='l' circle='40px' lh='43px' p='0' mt fw='lighter' hoverProps={{highlight: 0.02}}>
           +
         </Button>
       </Flex>

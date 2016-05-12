@@ -17,7 +17,7 @@ function render ({props}) {
       <Text ellipsis capitalize inlineBlock flex>
         {cls.displayName}
       </Text>
-      <Button icon='settings' fs='xs' color='midgray' px='m' h='25' hide={!showIcon} opacity={1} hoverProps={{opacity: 0.8}} activeProps={{opacity: 1}}/>
+      <Button icon='settings' fs='xs' color='midgray' px='m' h='25' hide={!showIcon} opacity={0.7} hoverProps={{opacity: 1}} activeProps={{opacity: 0.7}}/>
     </MenuItem>
   )
 }

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Dropdown, MenuItem, Divider, Icon, Flex} from 'vdux-containers'
+import {Dropdown, MenuItem, Divider, Icon, Flex, Text} from 'vdux-containers'
 import {logoutUser} from 'reducer/currentUser'
 import {setUrl} from 'redux-effects-location'
 import WeoIcon from 'components/WeoIcon'
@@ -22,9 +22,10 @@ function render ({props}) {
         <Icon name='person' fs='s' mr='s'/>
         My Profile
       </MenuItem>
-      <MenuItem display='flex' align='start center'>
+      <MenuItem display='flex' align='start center' onClick={() => setUrl('/activities/drafts')}>
         <WeoIcon name='draft' fs='s' mr='s'/>
           My Drafts
+          <Text color='midgray' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
         </MenuItem>
       <Divider/>
       <MenuItem display='flex' align='start center'>
