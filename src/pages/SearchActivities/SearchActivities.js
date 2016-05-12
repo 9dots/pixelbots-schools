@@ -32,6 +32,6 @@ function render ({props}) {
 
 export default summon(props => ({
   activities: `/search/shares?query=${props.query}&maxResults=12`
-}), {
+}))({
   render
 })

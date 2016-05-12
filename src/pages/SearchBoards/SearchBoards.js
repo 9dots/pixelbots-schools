@@ -38,6 +38,6 @@ function render ({props}) {
 
 export default summon(props => ({
   boards: `/search/boards?query=${props.query}&maxResults=12`
-}), {
+}))({
   render
 })

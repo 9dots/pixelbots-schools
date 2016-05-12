@@ -46,6 +46,6 @@ export default summon(props => ({
       }
     }
   })
-}), {
+}))({
   render
 })

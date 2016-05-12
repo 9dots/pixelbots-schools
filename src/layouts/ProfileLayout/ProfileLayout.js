@@ -42,6 +42,6 @@ function internal ({value, loading, error}, children) {
 
 export default summon(props => ({
   user: `/user/${props.username}`
-}), {
+}))({
   render
 })

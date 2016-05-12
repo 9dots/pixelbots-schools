@@ -26,7 +26,7 @@ function render ({props, state}) {
               <HomeOwl />
             </Flex>
             <Item href='/feed' icon='home' text='Home' />
-            <Item href='/activities' icon='assignment' text='My Activities' />
+            <Item href='/activities/all' icon='assignment' text='My Activities' />
             <ClassNav classes={currentUser.groups.filter(group => group.groupType === 'class')}>
               <Item ml='s' fs='s' icon='school' text='Classes'>
                 <Icon name='arrow_drop_down' fs='s' ml='s' />

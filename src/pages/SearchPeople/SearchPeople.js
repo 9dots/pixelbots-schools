@@ -40,6 +40,6 @@ function render ({props}) {
 
 export default summon(props => ({
   people: `/search/people?query=${props.query}&maxResults=12`
-}), {
+}))({
   render
 })

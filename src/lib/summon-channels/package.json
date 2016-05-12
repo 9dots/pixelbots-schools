@@ -1,0 +1,5 @@
+{
+  "name": "summon-channels",
+  "main": "summon-channels.js",
+  "browser": "summon-channels.js"
+}

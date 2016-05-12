@@ -89,6 +89,6 @@ function boardIcon (board) {
 
 export default summon(props => ({
   boards: '/user/boards',
-}), {
+}))({
   render
 })
