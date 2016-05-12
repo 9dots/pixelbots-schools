@@ -3,12 +3,11 @@
  */
 
 import {Block, Menu, MenuItem, Icon, Card, Flex, Text} from 'vdux-ui'
+import {Button, Tooltip} from 'vdux-containers'
 import NavTile from 'components/NavTile'
-import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import element from 'vdux/element'
-import Tooltip from 'vdux-tooltip'
 
 /**
  * Profile Layout Header
@@ -33,22 +32,10 @@ function render ({props}) {
             <Text fs='s' color='blue'>{username}</Text>
           </Flex>
           <Flex p={4} color='grey_medium' fs='xs' align='start center'>
-            <Tooltip tag='div' message={website} mr='m' align='start center' hide={!website} target='_blank' pointer tag='a' href={website}>
-              <Icon fs='inherit' name='language' mr='s' />
-              <Text ellipsis>{website}</Text>
-            </Tooltip>
-            <Tooltip message={location} tag='div' maxWidth='25%' mr='m' hide={!location} align='start center'>
-              <Icon fs='inherit' name='place' mr='s' />
-              <Text ellipsis>{location}</Text>
-            </Tooltip>
-            <Tooltip message={gradeLevels.join(', ')} tag='div' maxWidth='25%' mr='m' align='start center' hide={!gradeLevels.length}>
-              <Icon fs='inherit' name='school' mr='s' />
-              <Text ellipsis>{gradeLevels.join(', ')}</Text>
-            </Tooltip>
-            <Tooltip message={subjects.join(', ')} tag='div' maxWidth='25%' mr='m' align='start center' hide={!subjects.length}>
-              <Icon fs='inherit' name='class' mr='s' />
-              <Text ellipsis>{subjects.join(', ')}</Text>
-            </Tooltip>
+            <ProfileItem message={website} icon='language' tag='a' href={website} pointer />
+            <ProfileItem message={location} icon='place' />
+            <ProfileItem message={gradeLevels.join(', ')} icon='school' />
+            <ProfileItem message={subjects.join(', ')} icon='class' />
           </Flex>
           <Block color='grey' mt='m'>
             {aboutMe}
@@ -77,6 +64,22 @@ function render ({props}) {
     </Card>
   )
 }
+
+/**
+ * Profile description item
+ */
+
+function ProfileItem ({props}) {
+  const {icon, message, ...rest} = props
+
+  return (
+    <Tooltip mr align='start center' maxWidth='25%' message={message} hide={!message} tooltipProps={{whiteSpace: 'normal'}} {...rest}>
+      <Icon fs='inherit' name={icon} mr='s' />
+      <Text ellipsis>{message}</Text>
+    </Tooltip>
+  )
+}
+
 
 /**
  * Exports

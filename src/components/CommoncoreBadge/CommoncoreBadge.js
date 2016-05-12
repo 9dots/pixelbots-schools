@@ -2,8 +2,8 @@
  * Imports
  */
 
+import {Tooltip} from 'vdux-containers'
 import badge from './ccbadge30x30.png'
-import Tooltip from 'vdux-tooltip'
 import element from 'vdux/element'
 
 /**
@@ -12,7 +12,7 @@ import element from 'vdux/element'
 
 function render ({props, state}) {
   return (
-    <Tooltip delay={300} message='Common Core Aligned' space={15}>
+    <Tooltip delay={300} message='Common Core Aligned'>
       <img src={badge} />
     </Tooltip>
   )
