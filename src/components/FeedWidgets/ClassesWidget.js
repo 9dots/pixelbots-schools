@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {setUrl} from 'redux-effects-location'
 import {Block, Card, Text} from 'vdux-ui'
 import {MenuItem} from 'vdux-containers'
 import element from 'vdux/element'
@@ -27,10 +28,11 @@ function render ({props}) {
 }
 
 function Item (cls) {
+  const {id, displayName} = cls
   return (
-    <MenuItem align='start center' p>
-      <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{cls.displayName[0]}</Block>
-      <Text capitalize>{cls.displayName}</Text>
+    <MenuItem align='start center' p onClick={() => setUrl(`/class/${id}/feed`)}>
+      <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
+      <Text capitalize>{displayName}</Text>
     </MenuItem>
   )
 }
