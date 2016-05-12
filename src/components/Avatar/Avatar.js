@@ -2,6 +2,8 @@
  * Imports
  */
 
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
 import element from 'vdux/element'
 import {Avatar} from 'vdux-ui'
 
@@ -15,10 +17,31 @@ const {AVATAR_SERVER} = process.env
  * Avatar component
  */
 
-function render ({props}) {
+function render ({props, state, local}) {
   const {actor, circle, size} = props
-  return <Avatar {...props} src={avatarUrl(actor)} />
+
+  return <Avatar
+    {...props}
+    src={avatarUrl(state.loadFailed ? 'default' : actor)}
+    onError={local(loadFailed)} />
 }
+
+/**
+ * Actions
+ */
+
+const loadFailed = createAction('<Avatar/>: Image load failed')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [loadFailed]: state => ({
+    ...state,
+    loadFailed: true
+  })
+})
 
 /**
  * Helpers
@@ -33,5 +56,6 @@ function avatarUrl (actor) {
  */
 
 export default {
-  render
+  render,
+  reducer
 }
