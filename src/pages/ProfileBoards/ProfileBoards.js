@@ -53,6 +53,6 @@ function renderGrid (boards, currentUser) {
 
 export default summon(props => ({
   boards: '/user/boards',
-}), {
+}))({
   render
 })

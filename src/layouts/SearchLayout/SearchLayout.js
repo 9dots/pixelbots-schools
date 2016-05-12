@@ -81,6 +81,6 @@ function Item ({props, children}) {
 
 export default summon(props => ({
   counts: `/search/counts?query=${props.query}`
-}), {
+}))({
   render
 })

@@ -88,6 +88,6 @@ export default summon(props => ({
       body
     }
   })
-}), {
+}))({
   render
 })

@@ -7,6 +7,7 @@ import ActivityRow from 'components/ActivityRow'
 import isSameDay from '@f/is-same-day'
 import {Block, Input} from 'vdux-ui'
 import element from 'vdux/element'
+import reduce from '@f/reduce'
 import moment from 'moment'
 
 /**
@@ -14,42 +15,41 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {items = [], more} = props
-  let prevDate = new Date(0)
+  const {activities = [], more, search} = props
+  const {value, loading} = activities
 
   return (
     <InfiniteScroll more={more}>
       <Input
         w='25%'
-        keypress={{enter: e => props.search(e.target.value)}}
+        onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
         type='search' />
-      {
-        items.reduce((list, item, i) => {
-          const date = new Date(item.publishedAt || item.createdAt)
-          if (!isSameDay(date, prevDate)) {
-            list.push((
-              <Block p='m' mt={!i ? 0 : 'm'} fs='s' fw='lighter' color='blue'>
-                {moment(date).format('MMMM DD, YYYY')}
-              </Block>
-            ))
-            prevDate = date
-          }
-
-          list.push(<ActivityRow activity={item} />)
-          return list
-        }, [])
-      }
+        {
+          loading || renderItems(value.items)
+        }
     </InfiniteScroll>
   )
 }
 
-/**
- * Helpers
- */
+function renderItems (items) {
+  let prevDate = new Date(0)
 
-function formatDate (date) {
-  return
+  return reduce((list, item, i) => {
+    const date = new Date(item.publishedAt || item.createdAt)
+
+    if (!isSameDay(date, prevDate)) {
+      list.push((
+        <Block p='m' mt={!i ? 0 : 'm'} fs='s' fw='lighter' color='blue'>
+          {moment(date).format('MMMM DD, YYYY')}
+        </Block>
+      ))
+      prevDate = date
+    }
+
+    list.push(<ActivityRow activity={item} />)
+    return list
+  }, [], items)
 }
 
 /**

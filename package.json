@@ -28,6 +28,7 @@
     "@f/map": "^1.5.3",
     "@f/maybe-over": "^1.0.0",
     "@f/noop": "^1.2.0",
+    "@f/reduce": "^1.0.0",
     "@f/rgba": "^1.0.0",
     "@f/serialize-form": "^1.0.0",
     "@f/set-proto": "^1.0.1",
