@@ -29,15 +29,17 @@ function render ({props}) {
             <RoundedInput my autofocus name='displayName' placeholder='Board name' defaultValue={board.displayName} />
           </Flex>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter align='space-between center'>
           <Button bgColor='danger' onClick={deleteBoard}>
             Delete
           </Button>
-          <Text fs='xxs'>
-            <Text pointer underline onClick={closeModal}>cancel</Text>
-            <Text mx>or</Text>
-          </Text>
-          <Button type='submit'>Update</Button>
+          <Block>
+            <Text fs='xxs'>
+              <Text pointer underline onClick={closeModal}>cancel</Text>
+              <Text mx>or</Text>
+            </Text>
+            <Button type='submit'>Update</Button>
+          </Block>
         </ModalFooter>
       </Form>
     </Modal>
