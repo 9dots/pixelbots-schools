@@ -72,7 +72,10 @@ const internal = enroute({
     </AppLayout>,
 
   // My Activities
-  '/activities': (params, props) => <Redirect to='/activities/all' />,
+  '/activities': (params, props) =>
+    <ActivitiesLayout {...props}>
+      <Redirect to='/activities/all' />
+    </ActivitiesLayout>,
   '/activities/all': (params, props) =>
     <ActivitiesLayout {...props}>
       <MyActivities {...props} />

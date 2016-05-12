@@ -8,6 +8,7 @@ import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import filter from '@f/filter'
 import map from '@f/map'
+import {setUrl} from 'redux-effects-location'
 
 /**
  * Meta bar
@@ -24,7 +25,7 @@ function render ({props}) {
         <Avatar mr='s' actor={actor} />
         <Box flex ellipsis lh='18px'>
           <Flex column align='space-around'>
-            <Text pointer hoverProps={{textDecoration: 'underline'}} bold>{actor.displayName}</Text>
+            <Text pointer hoverProps={{textDecoration: 'underline'}} bold onClick={() => setUrl(`/${actor.username}/boards`)}>{actor.displayName}</Text>
             <Text>{board.displayName}</Text>
           </Flex>
         </Box>

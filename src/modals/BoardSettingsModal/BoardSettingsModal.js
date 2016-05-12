@@ -29,16 +29,26 @@ function render ({props}) {
             <RoundedInput my autofocus name='displayName' placeholder='Board name' defaultValue={board.displayName} />
           </Flex>
         </ModalBody>
-        <ModalFooter bg='greydark'>
-          <Text fs='xxs'>
-            <Text pointer underline onClick={closeModal}>cancel</Text>
-            <Text mx>or</Text>
-          </Text>
-          <Button type='submit'>Update</Button>
+        <ModalFooter bg='greydark' align='space-between center'>
+          <Button bgColor='danger' onClick={deleteBoard}>
+            Delete
+          </Button>
+          <Block>
+            <Text fs='xxs'>
+              <Text pointer underline onClick={closeModal}>cancel</Text>
+              <Text mx>or</Text>
+            </Text>
+            <Button type='submit'>Update</Button>
+          </Block>
         </ModalFooter>
       </Form>
     </Modal>
   )
+
+  function *deleteBoard () {
+    yield props.deleteBoard()
+    yield closeModal()
+  }
 }
 
 /**
@@ -52,6 +62,13 @@ export default summon(props => ({
       method: 'PUT',
       invalidates: '/user/boards',
       body
+    }
+  }),
+  deleteBoard: () => ({
+    deleting: {
+      url: `/board/${props.board._id}`,
+      method: 'DELETE',
+      invalidates: '/user/boards'
     }
   })
 }))({

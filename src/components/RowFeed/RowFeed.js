@@ -5,7 +5,8 @@
 import InfiniteScroll from 'components/InfiniteScroll'
 import ActivityRow from 'components/ActivityRow'
 import isSameDay from '@f/is-same-day'
-import {Block, Input} from 'vdux-ui'
+import {Block} from 'vdux-ui'
+import RoundedInput from 'components/RoundedInput'
 import element from 'vdux/element'
 import reduce from '@f/reduce'
 import moment from 'moment'
@@ -16,17 +17,21 @@ import moment from 'moment'
 
 function render ({props}) {
   const {activities = [], more, search} = props
-  const {value, loading} = activities
+  const {value, loaded} = activities
 
   return (
     <InfiniteScroll more={more}>
-      <Input
+      <RoundedInput
         w='25%'
         onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
-        type='search' />
+        type='search'
+        absolute
+        inputProps={{textAlign: 'left'}}
+        icon='search'
+        right='6px' />
         {
-          loading || renderItems(value.items)
+          loaded && renderItems(value.items)
         }
     </InfiniteScroll>
   )

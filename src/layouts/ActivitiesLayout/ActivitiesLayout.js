@@ -26,7 +26,7 @@ function render ({props, children}) {
 
   return (
     <AppLayout {...props}>
-      <Flex w='col_main' mt='s' mx='auto' px='s' py='l'>
+      <Flex w='col_main' mt='s' mx='auto' px='s' py='l' relative>
         <Block>
           <Card w={230} mr>
             <Menu column>
