@@ -4,7 +4,7 @@
 
 import CreateBoardModal from 'modals/CreateBoardModal'
 import BoardTile from 'components/BoardTile'
-import {Flex, Block, Grid} from 'vdux-ui'
+import {Flex, Block, Grid, Icon} from 'vdux-ui'
 import {openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import EmptyState from './EmptyState'
@@ -31,12 +31,13 @@ function render ({props}) {
 }
 
 function renderGrid (boards, currentUser) {
+  const btnSize = '42px'
   return (
     <Grid>
       <Flex bgColor='rgba(0,0,0,0.025)' mx={8} my={6} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
-        <Block fs='s'>Create New Board</Block>
-        <Button onClick={() => openModal(<CreateBoardModal />)} bgColor='white' color='grey' boxShadow='card' fs='l' circle>
-          +
+        <Block fs='s' fw='lighter' mb>Create New Board</Block>
+        <Button onClick={() => openModal(<CreateBoardModal />)} bgColor='white' boxShadow='card' fs='l' circle={btnSize} p='0' mt hoverProps={{highlight: 0.02}}>
+          <Icon name='add' lh={btnSize} fw='lighter' color='midgray' />
         </Button>
       </Flex>
       {

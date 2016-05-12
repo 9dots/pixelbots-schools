@@ -32,11 +32,11 @@ function render ({props}) {
   const message = pinnedFrom ? 'Pinned from' : 'Created by'
 
   return (
-    <Flex>
-      <Avatar mr='s' actor={actor} />
-      <Flex column>
-        {message}
-        <Link href={href} pointer hoverProps={{underline: true}}>
+    <Flex align='start center'>
+      <Avatar mr actor={actor} />
+      <Flex column fs='xxs' align='space-around'>
+        <Text color='midgray' mb='xs'>{message}</Text>
+        <Link href={href} pointer hoverProps={{underline: true}} fw='bold'>
           {location}
         </Link>
       </Flex>

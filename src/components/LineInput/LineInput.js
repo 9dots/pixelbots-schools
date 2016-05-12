@@ -13,6 +13,15 @@ function render ({props}) {
   return <Input
     wide
     inputProps={inputProps}
+    borderStyle='solid'
+    borderWidth='0 0 1px 0'
+    pb='1px'
+    borderColor='gray'
+    focusProps={{
+      borderBottomWidth: '2px',
+      borderColor: 'blue',
+      pb: '0'
+    }}
     {...props} />
 }
 
@@ -21,8 +30,8 @@ function render ({props}) {
  */
 
 const inputProps = {
+  borderWidth: 0,
   p: '6px 0 7px',
-  borderWidth: '0 0 1px 0',
   color: '#666',
   fs: '13px',
   outline: 0,

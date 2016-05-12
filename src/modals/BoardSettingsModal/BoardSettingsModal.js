@@ -19,20 +19,20 @@ function render ({props}) {
   const {renameBoard, board} = props
 
   return (
-    <Modal onDismiss={closeModal} opacity='1' h={200}>
+    <Modal onDismiss={closeModal} opacity='1'>
       <Form onSubmit={renameBoard} onSuccess={closeModal} cast={changes => ({...board, ...changes})} tall validate={validate.board} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
-            <Block mt={25} mb={15} fs='l' fw='lighter' color='blue' textAlign='center'>
+            <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
               Board Settings
             </Block>
-            <RoundedInput autofocus name='displayName' placeholder='Board name' defaultValue={board.displayName} />
+            <RoundedInput my autofocus name='displayName' placeholder='Board name' defaultValue={board.displayName} />
           </Flex>
         </ModalBody>
         <ModalFooter>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
-             &ensp;or&ensp;
+            <Text mx>or</Text>
           </Text>
           <Button type='submit'>Update</Button>
         </ModalFooter>

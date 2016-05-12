@@ -28,10 +28,10 @@ function render ({props, children}) {
     <AppLayout {...props}>
       <Flex w='col_main' mt='s' mx='auto' px='s' py='l'>
         <Block>
-          <Card w={230} mr='m'>
+          <Card w={230} mr>
             <Menu column>
               <NavItem href='/activities/all' display='flex' align='start center'>
-                <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr='m' textAlign='center' />
+                <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                 All Activities
               </NavItem>
               {
@@ -44,7 +44,7 @@ function render ({props, children}) {
                   : ''
               }
               <NavItem href='/activities/drafts' display='flex' align='start center'>
-                <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr='m' textAlign='center' />
+                <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr textAlign='center' />
                 Drafts
               </NavItem>
               <Divider/>
@@ -75,7 +75,7 @@ function boardIcon (board) {
   const url = img && img.url ? resize(img.url, 300) : ''
 
   return (
-    <Block circle={25} mr='s' bgColor='grey_light' align='center center' bgImg={url} bgSize='cover' bgPos='center'>
+    <Block circle={25} mr bgColor='grey_light' align='center center' bgImg={url} bgSize='cover' bgPos='center'>
       {
         <Icon color='text' hide={img} fs='s' name='dashboard' />
       }

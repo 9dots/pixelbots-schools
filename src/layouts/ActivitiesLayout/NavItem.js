@@ -31,7 +31,7 @@ function render ({props, children}) {
         {children}
       </Block>
       <Icon
-        onClick={() => openModal(<BoardSettingsModal board={board} />)}
+        onClick={e => openSettings(e, board)}
         hide={!board}
         transition='opacity 0.15s'
         fs='xs'
@@ -40,6 +40,11 @@ function render ({props, children}) {
         hoverProps={{opacity: 1}} />
     </Link>
   )
+}
+
+function openSettings(e, board) {
+  e.stopPropagation()
+  return openModal(<BoardSettingsModal board={board} />)
 }
 
 /**
