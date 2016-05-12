@@ -30,6 +30,9 @@ function render ({props}) {
           </Flex>
         </ModalBody>
         <ModalFooter>
+          <Button bgColor='danger' onClick={deleteBoard}>
+            Delete
+          </Button>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>
@@ -39,6 +42,11 @@ function render ({props}) {
       </Form>
     </Modal>
   )
+
+  function *deleteBoard () {
+    yield props.deleteBoard()
+    yield closeModal()
+  }
 }
 
 /**
@@ -52,6 +60,13 @@ export default summon(props => ({
       method: 'PUT',
       invalidates: '/user/boards',
       body
+    }
+  }),
+  deleteBoard: () => ({
+    deleting: {
+      url: `/board/${props.board._id}`,
+      method: 'DELETE',
+      invalidates: '/user/boards'
     }
   })
 }))({
