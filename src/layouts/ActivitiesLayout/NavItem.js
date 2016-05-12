@@ -25,8 +25,8 @@ function render ({props, children}) {
       {...rest}
       py='m'
       borderLeft='3px solid transparent'
-      hoverProps={{highlight: 0.05, color: 'text'}}
-      currentProps={{borderLeftColor: 'blue', highlight: true, color: 'text'}}>
+      hoverProps={{color: 'text'}}
+      currentProps={{borderLeftColor: 'blue', highlight: 0.05, color: 'text'}}>
       <Block flex align='start center'>
         {children}
       </Block>

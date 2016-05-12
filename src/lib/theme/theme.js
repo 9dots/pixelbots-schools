@@ -13,7 +13,9 @@ const theme = {
   colors: {
     ...defaultTheme.colors,
     ...colors,
-    graydark: '#4b5257',
+    greydark: '#4B5257',
+    grey:  '#B1B7BC',
+    greylight: '#DCDEE2',
     divider: '#CCC'
   },
   scale: {

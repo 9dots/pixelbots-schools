@@ -56,7 +56,7 @@ function render ({props}) {
         </Flex>
         <Flex absolute='top 12px right 12px'>
           <Button align='center center' tag='div' circle='30' bgColor={user.color} hoverProps={{text: <Icon fs='s' name='colorize' />}} />
-          <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white'>
+          <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}}>
             Edit Profile
           </Button>
         </Flex>

@@ -15,7 +15,7 @@ import Search from './Search'
  */
 
 function render ({props, state}) {
-  const {currentUser, url, bgColor = 'grey', search, query} = props
+  const {currentUser, url, bgColor = 'greydark', search, query} = props
 
   return (
     <Block>

@@ -42,7 +42,7 @@ function render ({props}) {
         <Flex h='42px' p='s' align='space-between center'>
           {
             currentUser._id === owner.id
-              ? <Button onClick={'test'} color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)'>Edit</Button>
+              ? <Button onClick={'test'} color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>Edit</Button>
               : <FollowButton board={board} />
           }
           <Block color='grey_medium' lh='30px'>

@@ -31,7 +31,7 @@ function render ({props}) {
 export default wrap(CSSContainer, {
   hoverProps: {
     showIcon: true,
-    highlight: true
+    highlight: 0.05
   }
 })({
   render
