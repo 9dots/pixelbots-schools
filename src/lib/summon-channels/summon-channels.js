@@ -17,7 +17,6 @@ function summonChannels (fn) {
     }&maxResults=20`,
     more: pageToken => ({
       activities: {
-        merge: 'concat',
         params: {
           pageToken
         }
@@ -25,7 +24,7 @@ function summonChannels (fn) {
     }),
     search: query => ({
       activities: {
-        merge: 'replace',
+        clear: true,
         params: {
           query
         }
