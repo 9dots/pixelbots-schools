@@ -33,7 +33,7 @@ function render ({props}) {
 
   return (
     <Flex align='start center'>
-      <Avatar mr actor={actor} />
+      <Avatar mr thumb actor={actor} />
       <Flex column fs='xxs' align='space-around'>
         <Text color='midgray' mb='xs'>{message}</Text>
         <Link href={href} pointer hoverProps={{underline: true}} fw='bold'>

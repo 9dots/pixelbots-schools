@@ -73,7 +73,7 @@ function ProfileItem ({props}) {
   const {icon, message, ...rest} = props
 
   return (
-    <Tooltip mr align='start center' maxWidth='25%' message={message} hide={!message} tooltipProps={{whiteSpace: 'normal'}} {...rest}>
+    <Tooltip mr align='start center' maxWidth='25%' message={message} hide={!message} tooltipProps={{whiteSpace: 'normal'}} placement='bottom' {...rest}>
       <Icon fs='inherit' name={icon} mr='s' />
       <Text ellipsis>{message}</Text>
     </Tooltip>

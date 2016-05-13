@@ -22,7 +22,7 @@ function render ({props}) {
   return (
     <Block px={12} py={6} mt={12} fs='xxs' borderTop='rgba(0, 0, 0, 0.04)' bgColor='#FCFCFC'>
       <Flex align='start center'>
-        <Avatar mr='s' actor={actor} />
+        <Avatar mr='s' thumb actor={actor} />
         <Box flex ellipsis lh='18px'>
           <Flex column align='space-around'>
             <Text pointer hoverProps={{textDecoration: 'underline'}} bold onClick={() => setUrl(`/${actor.username}/boards`)}>{actor.displayName}</Text>

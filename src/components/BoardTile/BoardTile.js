@@ -23,13 +23,13 @@ function render ({props}) {
     <Card w={230} h={250} relative my={8} mx={6} pointer>
       <Flex column tall>
         <Flex p='m' align='start center'>
-          <Avatar actor={owner} size={40} />
+          <Avatar thumb actor={owner} />
           <Flex column ml='m'>
             <Text bold mb='xs'>{displayName}</Text>
             <Text color='grey_medium'>by {owner.displayName}</Text>
           </Flex>
         </Flex>
-        <Flex wrap h={144} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop>
+        <Flex wrap h={152} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop>
           <Text hide={images.length} p fs='xxs'>
             <Text fw='bolder'>{displayName}</Text>
             <Text px='xs'>by</Text>
