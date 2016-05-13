@@ -24,9 +24,9 @@ function render ({props}) {
       </MenuItem>
       <MenuItem align='start center' onClick={() => setUrl('/activities/drafts')}>
         <WeoIcon name='draft' fs='s' mr='s'/>
-          My Drafts
-          <Text color='midgray' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
-        </MenuItem>
+        My Drafts
+        <Text color='grey' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
+      </MenuItem>
       <Divider/>
       <MenuItem align='start center'>
         <Icon name='people' fs='s' mr='s'/>

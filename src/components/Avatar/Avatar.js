@@ -4,8 +4,10 @@
 
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import resize from 'lib/resize-image'
 import element from 'vdux/element'
 import {Avatar} from 'vdux-ui'
+import theme from 'lib/theme'
 
 /**
  * Config
@@ -18,11 +20,11 @@ const {AVATAR_SERVER} = process.env
  */
 
 function render ({props, state, local}) {
-  const {actor, circle, size} = props
+  const {actor, circle, thumb, size} = props
 
   return <Avatar
     {...props}
-    src={avatarUrl(state.loadFailed ? 'default' : actor)}
+    src={avatarUrl(state.loadFailed ? 'default' : actor, thumb)}
     onError={local(loadFailed)} />
 }
 
@@ -47,8 +49,10 @@ const reducer = handleActions({
  * Helpers
  */
 
-function avatarUrl (actor) {
-  return AVATAR_SERVER + '/avatar/' + (actor.id || actor._id || actor)
+function avatarUrl (actor, thumb) {
+  const {avatarScale} = theme
+  const url = AVATAR_SERVER + '/avatar/' + (actor.id || actor._id || actor)
+  return thumb ? resize(url, avatarScale['s']) : url
 }
 
 /**

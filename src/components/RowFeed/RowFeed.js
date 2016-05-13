@@ -5,7 +5,10 @@
 import InfiniteScroll from 'components/InfiniteScroll'
 import ActivityRow from 'components/ActivityRow'
 import isSameDay from '@f/is-same-day'
-import {Block, Input} from 'vdux-ui'
+import {Block, Text, Flex, Icon} from 'vdux-ui'
+import RoundedInput from 'components/RoundedInput'
+import Loading from 'components/Loading'
+import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import reduce from '@f/reduce'
 import moment from 'moment'
@@ -16,19 +19,26 @@ import moment from 'moment'
 
 function render ({props}) {
   const {activities = [], more, search} = props
-  const {value, loading, loaded} = activities
+  const {value, loaded, loading, params} = activities
+  const searching = !!(params && params.query)
 
   return (
     <InfiniteScroll more={() => more(value && value.nextPageToken)}>
-      <Input
-        key={props.boardId}
-        w='25%'
+      <RoundedInput
+        hide={!loading && !value.items.length && !searching}
         onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
-        type='search' />
-      {
-        loading || renderItems(value.items)
-      }
+        inputProps={{textAlign: 'left'}}
+        key={props.boardId}
+        type='search'
+        icon='search'
+        right='6px'
+        absolute
+        w='25%' />
+        {
+          loaded && renderBody(value.items, loading, params)
+        }
+      <Loading show={activities.loading} h='200'/>
     </InfiniteScroll>
   )
 }
@@ -51,6 +61,37 @@ function renderItems (items) {
     list.push(<ActivityRow activity={item} />)
     return list
   }, [], items)
+}
+
+function renderBody(items, loading, searching) {
+  if(!loading && !items.length)
+    return searching ? EmptySearch() : EmptyBoard()
+  else
+    return renderItems(items)
+}
+
+function EmptySearch() {
+  return (
+    <Flex column align='center center' p h='150px'>
+      <Text fw='200' fs='s'>
+        Sorry, we couldn't find any activities
+      </Text>
+    </Flex>
+  )
+}
+
+function EmptyBoard() {
+  return (
+    <Flex column align='center center' p='12px 12px 24px' fw='200' bg='#E4E5E7' border='1px solid #D8DADD'>
+      <Icon name='dashboard' color='green' fs='120px' p m/>
+      <Text fs='m' mb='l'>This is your Board</Text>
+      <Button bgColor='green' color='white' my fs='s' fw='lighter' lh='3em' px='35px' boxShadow='card'>Add My First Activity</Button>
+      <Text fs='s' lh='30px' textAlign='center' m w='66%' pt pb='l'>
+        <Text fw='bold'>Boards </Text>
+        are collections of Activities. Save Activities to Boards to keep them organized and easy to find.
+      </Text>
+    </Flex>
+  )
 }
 
 /**

@@ -37,13 +37,13 @@ function render ({props}) {
             <ProfileItem message={gradeLevels.join(', ')} icon='school' />
             <ProfileItem message={subjects.join(', ')} icon='class' />
           </Flex>
-          <Block color='grey' mt='m'>
+          <Block color='text' mt='m'>
             {aboutMe}
           </Block>
         </Flex>
         <Flex absolute='top 12px right 12px'>
           <Button align='center center' tag='div' circle='30' bgColor={user.color} hoverProps={{text: <Icon fs='s' name='colorize' />}} />
-          <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white'>
+          <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}}>
             Edit Profile
           </Button>
         </Flex>
@@ -73,7 +73,7 @@ function ProfileItem ({props}) {
   const {icon, message, ...rest} = props
 
   return (
-    <Tooltip mr align='start center' maxWidth='25%' message={message} hide={!message} tooltipProps={{whiteSpace: 'normal'}} {...rest}>
+    <Tooltip mr align='start center' maxWidth='25%' message={message} hide={!message} tooltipProps={{whiteSpace: 'normal'}} placement='bottom' {...rest}>
       <Icon fs='inherit' name={icon} mr='s' />
       <Text ellipsis>{message}</Text>
     </Tooltip>

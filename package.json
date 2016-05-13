@@ -34,6 +34,7 @@
     "@f/set-proto": "^1.0.1",
     "@f/times": "^1.0.0",
     "@f/tween": "^1.0.0",
+    "@f/values": "^1.2.0",
     "@f/xargs": "^1.0.0",
     "@weo-edu/schema": "github:weo-edu/schema",
     "@weo-edu/validate": "github:weo-edu/validate",
@@ -68,7 +69,8 @@
     "vdux-css-transition": "^1.2.0",
     "vdux-delay": "^1.0.6",
     "vdux-form": "^1.0.9",
-    "vdux-summon": "^0.1.8",
+    "vdux-position": "^1.0.3",
+    "vdux-summon": "^0.1.12",
     "vdux-ui": "^1.2.0",
     "virtex-string": "^0.3.6",
     "weo-redux-logger": "^2.6.1"
