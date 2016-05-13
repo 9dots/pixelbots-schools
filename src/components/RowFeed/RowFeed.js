@@ -5,7 +5,7 @@
 import InfiniteScroll from 'components/InfiniteScroll'
 import ActivityRow from 'components/ActivityRow'
 import isSameDay from '@f/is-same-day'
-import {Block} from 'vdux-ui'
+import {Block, Text, Flex} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import Loading from 'components/Loading'
 import element from 'vdux/element'
@@ -35,7 +35,7 @@ function render ({props}) {
           loaded && renderItems(value.items)
         }
         {
-          loaded && <Block hide={loading || value.items.length}>Nada</Block>
+          (loaded && (loading || !value.items.length)) && Empty()
         }
       <Loading show={loading}/>
     </InfiniteScroll>
@@ -60,6 +60,16 @@ function renderItems (items) {
     list.push(<ActivityRow activity={item} />)
     return list
   }, [], items)
+}
+
+function Empty() {
+  return (
+    <Flex column align='center center' p h='150px'>
+      <Text fw='200' fs='s'>
+        Sorry, we couldn't find any activities
+      </Text>
+    </Flex>
+  )
 }
 
 /**

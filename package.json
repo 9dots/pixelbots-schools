@@ -69,7 +69,7 @@
     "vdux-delay": "^1.0.6",
     "vdux-form": "^1.0.9",
     "vdux-position": "^1.0.3",
-    "vdux-summon": "^0.1.9",
+    "vdux-summon": "^0.1.10",
     "vdux-ui": "^1.2.0",
     "virtex-string": "^0.3.6",
     "weo-redux-logger": "^2.6.1"
