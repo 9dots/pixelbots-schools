@@ -41,7 +41,7 @@ export default summon(props => ({
   following: '/share/feed?maxResults=10',
   more: pageToken => ({
     following: {
-      params: {
+      params: pageToken && {
         pageToken
       }
     }

@@ -17,7 +17,7 @@ function summonChannels (fn) {
     }&maxResults=20`,
     more: pageToken => ({
       activities: {
-        params: {
+        params: pageToken && {
           pageToken
         }
       }

@@ -19,7 +19,7 @@ function render ({props}) {
   const {value, loading} = activities
 
   return (
-    <InfiniteScroll more={more}>
+    <InfiniteScroll more={() => more(value && value.nextPageToken)}>
       <Input
         w='25%'
         onKeypress={{enter: e => search(e.target.value)}}
