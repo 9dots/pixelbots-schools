@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {postLogin, oauthCreate} from 'reducer/currentUser'
 import {Google, Facebook} from 'components/OAuthButtons'
+import {postLogin, oauthCreate} from 'reducer/auth'
 import BlockInput from 'components/BlockInput'
 import {DecoLine, Block, Flex} from 'vdux-ui'
 import {Button} from 'vdux-containers'
@@ -34,7 +34,7 @@ function render ({props}) {
           Free for teachers. Forever.
         </Block>
       </Flex>
-      <Form onSubmit={createTeacher} onSuccess={user => postLogin(user, user.token)} validate={validate.teacher} cast={cast}>
+      <Form onSubmit={createTeacher} onSuccess={user => postLogin(user.token)} validate={validate.teacher} cast={cast}>
         <Block w='col_sm' color='white'>
           <input type='hidden' name='userType' value='teacher' />
           <BlockInput name='name' placeholder='FULL NAME' />

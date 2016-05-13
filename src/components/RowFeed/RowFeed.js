@@ -25,6 +25,7 @@ function render ({props}) {
   return (
     <InfiniteScroll more={() => more(value && value.nextPageToken)}>
       <RoundedInput
+        key={props.boardId}
         w='25%'
         hide={!loading && !value.items.length && !searching}
         onKeypress={{enter: e => search(e.target.value)}}
@@ -37,7 +38,6 @@ function render ({props}) {
         {
           loaded && renderBody(value.items, loading, params)
         }
-
       <Loading show={activities.loading} h='200'/>
     </InfiniteScroll>
   )

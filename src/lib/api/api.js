@@ -10,9 +10,6 @@ import qs from 'qs'
  */
 
 const user = {
-  getCurrentUser () {
-    return get('user/')
-  },
   oauthCreate (provider, data) {
     return post('auth/' + provider, data)
   },

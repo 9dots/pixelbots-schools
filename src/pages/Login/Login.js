@@ -3,8 +3,8 @@
  */
 
 import {DecoLine, Flex, Block, Text} from 'vdux-containers'
-import {postLogin, oauthLogin} from 'reducer/currentUser'
 import {Facebook, Google} from 'components/OAuthButtons'
+import {postLogin, oauthLogin} from 'reducer/auth'
 import BlockInput from 'components/BlockInput'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
@@ -20,7 +20,7 @@ function render ({props}) {
 
   return (
     <Block w='col_sm' color='white' p='m'>
-      <Form onSubmit={loginUser} onSuccess={user => postLogin(user, user.token)}>
+      <Form onSubmit={loginUser} onSuccess={user => postLogin(user.token)}>
         <BlockInput autofocus placeholder='USERNAME OR EMAIL' name='username' />
         <BlockInput placeholder='PASSWORD' type='password' name='password' />
         <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>

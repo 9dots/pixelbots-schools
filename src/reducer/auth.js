@@ -2,10 +2,14 @@
  * Imports
  */
 
+import combineReducers from '@f/combine-reducers'
+import {beginOAuthFlow} from 'middleware/oauth'
+import handleActions from '@f/handle-actions'
+import {setUrl} from 'redux-effects-location'
 import {cookie} from 'redux-effects-cookie'
 import createAction from '@f/create-action'
-import handleActions from '@f/handle-actions'
-import combineReducers from '@f/combine-reducers'
+import {invalidate} from 'vdux-summon'
+import {user} from 'lib/api'
 
 /**
  * Actions
@@ -13,18 +17,41 @@ import combineReducers from '@f/combine-reducers'
 
 const userDidAuthenticate = createAction('User did authenticate')
 
-function *initializeAuth () {
+function * initializeAuth () {
   const token = yield getAuthToken()
   yield userDidAuthenticate(token)
 }
 
-function *setAuthToken (token) {
+function * setAuthToken (token) {
   yield cookie('authToken', token)
+  yield userDidAuthenticate(token)
 }
 
-function *getAuthToken () {
+function * getAuthToken () {
   const token = yield cookie('authToken')
   return token
+}
+
+function * postLogin (token) {
+  yield setAuthToken(token)
+  yield invalidate('/user')
+  yield setUrl('/')
+}
+
+function * oauthLogin (provider, params, cb) {
+  const data = yield beginOAuthFlow(provider)
+  const {value} = yield user.oauthLogin(provider, data)
+  yield postLogin(value.token)
+}
+
+function * logoutUser () {
+  yield postLogin('')
+}
+
+function *oauthCreate (provider, params) {
+  const data = yield beginOAuthFlow(provider)
+  const {value} = yield user.oauthCreate(provider, data)
+  yield postLogin(value.token)
 }
 
 /**
@@ -46,5 +73,8 @@ export {
   initializeAuth,
   setAuthToken,
   getAuthToken,
-  userDidAuthenticate
+  postLogin,
+  oauthLogin,
+  oauthCreate,
+  logoutUser
 }
