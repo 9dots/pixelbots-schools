@@ -1,0 +1,5 @@
+{
+  "name": "summon-search",
+  "main": "summon-search.js",
+  "browser": "summon-search.js"
+}
