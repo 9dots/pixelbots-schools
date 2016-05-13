@@ -37,7 +37,7 @@ function render ({props}) {
             <ProfileItem message={gradeLevels.join(', ')} icon='school' />
             <ProfileItem message={subjects.join(', ')} icon='class' />
           </Flex>
-          <Block color='grey' mt='m'>
+          <Block color='text' mt='m'>
             {aboutMe}
           </Block>
         </Flex>

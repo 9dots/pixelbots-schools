@@ -4,6 +4,7 @@
 
 import FollowButton from 'components/FollowButton'
 import {Card, Text, Flex, Block, Icon} from 'vdux-ui'
+import {setUrl} from 'redux-effects-location'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 
@@ -14,13 +15,13 @@ import element from 'vdux/element'
 function render ({props}) {
   const {user, currentUser} = props
   const {followers, pinCount, username, displayName, gradeLevels = [], subjects = []} = user
-
+  console.log('kajhsd', currentUser)
   return (
-    <Card w={230} h={317} my={8} mx={6}>
+    <Card w={230} h={317} my={8} mx={6} pointer onClick={() => setUrl(`/${user.username}/boards`)} >
       <Block relative>
         <Avatar circle={false} size={null} wide tall actor={user} display='block' />
         {
-          !currentUser && <FollowButton m='s' absolute='bottom right' user={user} />
+          !currentUser && <Block onClick={e => e.stopPropagation()}><FollowButton m='s' absolute='bottom right' user={user} /></Block>
         }
       </Block>
       <Block p='m' whiteSpace='nowrap'>

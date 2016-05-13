@@ -7,6 +7,7 @@ import ActivityRow from 'components/ActivityRow'
 import isSameDay from '@f/is-same-day'
 import {Block} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
+import Loading from 'components/Loading'
 import element from 'vdux/element'
 import reduce from '@f/reduce'
 import moment from 'moment'
@@ -17,7 +18,7 @@ import moment from 'moment'
 
 function render ({props}) {
   const {activities = [], more, search} = props
-  const {value, loaded} = activities
+  const {value, loaded, loading} = activities
 
   return (
     <InfiniteScroll more={more}>
@@ -33,6 +34,10 @@ function render ({props}) {
         {
           loaded && renderItems(value.items)
         }
+        {
+          loaded && <Block hide={loading || value.items.length}>Nada</Block>
+        }
+      <Loading show={loading}/>
     </InfiniteScroll>
   )
 }
