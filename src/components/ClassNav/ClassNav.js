@@ -3,12 +3,14 @@
  */
 
 import {Block, Dropdown, MenuItem, Icon, Divider, CSSContainer} from 'vdux-containers'
+import CreateClassModal from 'modals/CreateClassModal'
+import handleActions from '@f/handle-actions'
 import LineInput from 'components/LineInput'
+import createAction from '@f/create-action'
+import {openModal} from 'reducer/modal'
+import ClassItem from './ClassItem'
 import element from 'vdux/element'
 import map from '@f/map'
-import ClassItem from './ClassItem'
-import createAction from '@f/create-action'
-import handleActions from '@f/handle-actions'
 
 /**
  * <ClassNav/>
@@ -31,7 +33,7 @@ function render ({props, state, local, children}) {
       </Block>
       { map(cls => <ClassItem cls={cls} />, sortedClasses) }
       <Divider />
-      <MenuItem py='m' color='text_color' display='flex' align='start center'>
+      <MenuItem onClick={() => openModal(<CreateClassModal />)} py='m' color='text_color' display='flex' align='start center'>
         <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
         New Class
       </MenuItem>

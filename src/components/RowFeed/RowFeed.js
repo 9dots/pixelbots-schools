@@ -16,18 +16,19 @@ import moment from 'moment'
 
 function render ({props}) {
   const {activities = [], more, search} = props
-  const {value, loading} = activities
+  const {value, loading, loaded} = activities
 
   return (
     <InfiniteScroll more={() => more(value && value.nextPageToken)}>
       <Input
+        key={props.boardId}
         w='25%'
         onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
         type='search' />
-        {
-          loading || renderItems(value.items)
-        }
+      {
+        loading || renderItems(value.items)
+      }
     </InfiniteScroll>
   )
 }

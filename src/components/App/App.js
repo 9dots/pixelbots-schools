@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {appDidInitialize} from 'reducer/ready'
 import Router from 'components/Router'
 import {initializeApp} from 'reducer'
 import Loading from 'pages/Loading'
@@ -17,10 +18,11 @@ import 'lib/fonts'
 
 function *onCreate ({props}) {
   yield initializeApp(props.state.ready)
+  yield props.getCurrentUser()
 }
 
 function render ({props}) {
-  const {state} = props
+  const {state, currentUser} = props
 
   return (
     <Block pb={48}>
@@ -29,13 +31,19 @@ function render ({props}) {
       </Block>
       <Block z={0}>
         {
-          isReady(state)
-            ? <Router {...state} />
+          isReady(state) && currentUser && !currentUser.loading
+            ? <Router {...state} currentUser={currentUser.value} />
             : <Loading />
         }
       </Block>
     </Block>
   )
+}
+
+function onUpdate (prev, next) {
+  if (!next.props.currentUser.loading) {
+    return appDidInitialize()
+  }
 }
 
 /**
@@ -52,7 +60,6 @@ Form.setTransformError(err => {
   }
 })
 
-
 /**
  * Helpers
  */
@@ -65,7 +72,12 @@ function isReady (state) {
  * Exports
  */
 
-export default {
+export default summon(props => ({
+  getCurrentUser: () => ({
+    currentUser: '/user'
+  })
+}))({
   onCreate,
+  onUpdate,
   render
-}
+})
