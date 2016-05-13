@@ -25,16 +25,16 @@ function render ({props}) {
   return (
     <InfiniteScroll more={() => more(value && value.nextPageToken)}>
       <RoundedInput
-        key={props.boardId}
-        w='25%'
         hide={!loading && !value.items.length && !searching}
         onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
-        type='search'
-        absolute
         inputProps={{textAlign: 'left'}}
+        key={props.boardId}
+        type='search'
         icon='search'
-        right='6px' />
+        right='6px'
+        absolute
+        w='25%' />
         {
           loaded && renderBody(value.items, loading, params)
         }
