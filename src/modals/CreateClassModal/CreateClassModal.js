@@ -50,7 +50,7 @@ export default summon(props => ({
     newClass: {
       url: '/group/',
       method: 'POST',
-      invalidates: '/user/classes',
+      invalidates: ['/user/classes', '/user'],
       body
     }
   })
