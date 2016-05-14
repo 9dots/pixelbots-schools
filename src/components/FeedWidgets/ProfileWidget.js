@@ -16,7 +16,7 @@ function render ({props}) {
     <Card {...props}>
       <Block bg={color} h='60'/>
       <Flex p='s'>
-        <Avatar circle='75px' actor={user} m='-37.5px 6px 0 0' boxShadow='card' border='2px solid white' pointer onClick={() => setUrl(`/${username}/boards`)}/>
+        <Avatar circle='75px' actor={user} m='-37.5px 6px 0 0' boxShadow='card' border='2px solid white'/>
         <Block overflow='hidden' >
           <Text ellipsis fw='bolder' pointer onClick={() => setUrl(`/${username}/boards`)} hoverProps={{textDecoration: 'underline'}}>{displayName}</Text>
           <br/>

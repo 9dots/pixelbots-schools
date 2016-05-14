@@ -3,12 +3,15 @@
  */
 
 import FollowButton from 'components/FollowButton'
-import {Block, Card, Flex, Text} from 'vdux-ui'
+import {Block, Card, Text} from 'vdux-ui'
+import {setUrl} from 'redux-effects-location'
 import WeoIcon from 'components/WeoIcon'
 import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import BgImg from 'components/BgImg'
+import {Flex} from 'vdux-containers'
 import element from 'vdux/element'
+import Link from 'components/Link'
 
 /**
  * <BoardTile/>
@@ -18,33 +21,38 @@ function render ({props}) {
   const {board, currentUser} = props
   const {owners = [], displayName, images = []} = board
   const [owner = {}] = owners
+  const url = '/' + owner.username + '/board/' + board._id + '/activities/'
 
   return (
-    <Card w={230} h={250} relative my={8} mx={6} pointer>
+    <Card w={230} h={250} relative my={8} mx={6}>
       <Flex column tall>
         <Flex p='m' align='start center'>
-          <Avatar thumb actor={owner} />
+          <Avatar link thumb actor={owner} />
           <Flex column ml='m'>
-            <Text bold mb='xs'>{displayName}</Text>
-            <Text color='grey_medium'>by {owner.displayName}</Text>
+            <Link hoverProps={{underline: true}} href={url} bold>{displayName}</Link>
+            <Link color='grey_medium' fs='xxs' hoverProps={{underline: true}} href={`/${owner.username}/boards`}>
+              by {owner.displayName}
+            </Link>
           </Flex>
         </Flex>
-        <Flex wrap h={152} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop>
-          <Text hide={images.length} p fs='xxs'>
-            <Text fw='bolder'>{displayName}</Text>
-            <Text px='xs'>by</Text>
-            <Text color='blue'>{owner.displayName}</Text>
-          </Text>
-          {
-            images.map(img => <BgImg flex='50%' maxWidth='100%' img={img} thumb />)
-          }
-        </Flex>
+        <Block bg='greydark'>
+          <Flex wrap h={152} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop pointer onClick={() => setUrl(url)} hoverProps={{opacity: 0.92}}>
+            <Text hide={images.length} p fs='xxs'>
+              <Text fw='bolder'>{displayName}</Text>
+              <Text px='xs'>by</Text>
+              <Text color='blue'>{owner.displayName}</Text>
+            </Text>
+            {
+              images.map(img => <BgImg flex='50%' maxWidth='100%' img={img} thumb />)
+            }
+          </Flex>
+        </Block>
         <Flex h='42px' p='s' align='space-between center'>
-          {
-            currentUser._id === owner.id
-              ? <Button onClick={'test'} color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>Edit</Button>
-              : <FollowButton board={board} />
-          }
+            {
+              currentUser._id === owner.id
+                ? <Button onClick={'test'} color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>Edit</Button>
+                : <FollowButton w='150' px='0' board={board}/>
+            }
           <Block color='grey_medium' lh='30px'>
             <WeoIcon name='pin' fs='14px' />
             <Text fs='xxs'>

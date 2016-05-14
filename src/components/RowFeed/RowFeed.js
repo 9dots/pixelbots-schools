@@ -33,6 +33,7 @@ function render ({props}) {
         type='search'
         icon='search'
         right='6px'
+        py='8px'
         absolute
         w='25%' />
         {

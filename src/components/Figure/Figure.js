@@ -18,7 +18,7 @@ function render ({props}) {
   const ratio = props.ratio || height / width
 
   return (
-    <Block m={0} relative overflow='hidden' maxWidth='100%'>
+    <Block m={0} relative overflow='hidden' maxWidth='100%' {...props}>
       <Block paddingBottom={ratio * 100 + '%'}>
         <Block tag='img' tall wide absolute m='auto' src={thumb
             ? resize(url, thumb === true ? 350 : thumb)

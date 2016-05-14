@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {setUrl} from 'redux-effects-location'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import resize from 'lib/resize-image'
@@ -20,12 +21,14 @@ const {AVATAR_SERVER} = process.env
  */
 
 function render ({props, state, local}) {
-  const {actor, circle, thumb, size} = props
+  const {actor, circle, thumb, size, link} = props
 
   return <Avatar
-    {...props}
+    onClick={() => (link && setUrl(`/${actor.username}/boards`))}
     src={avatarUrl(state.loadFailed ? 'default' : actor, thumb)}
-    onError={local(loadFailed)} />
+    onError={local(loadFailed)}
+    pointer={link}
+    {...props} />
 }
 
 /**
