@@ -44,6 +44,7 @@ function render ({props}) {
       <MenuItem align='start center'>
         <Icon name='help' fs='s' mr='s'/>
         Help Center
+        <Icon name='open_in_new' fs='11' ml='s'/>
       </MenuItem>
       <MenuItem onClick={logoutUser} align='start center'>
         <Icon name='exit_to_app' fs='s' mr='s'/>
