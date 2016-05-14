@@ -3,11 +3,11 @@
  */
 
 import InfiniteScroll from 'components/InfiniteScroll'
-import ActivityRow from 'components/ActivityRow'
-import isSameDay from '@f/is-same-day'
-import {Block, Text, Flex, Icon} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
+import ActivityRow from 'components/ActivityRow'
+import {Block, Text, Flex, Icon} from 'vdux-ui'
 import Loading from 'components/Loading'
+import isSameDay from '@f/is-same-day'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import reduce from '@f/reduce'
@@ -36,10 +36,9 @@ function render ({props}) {
         py='8px'
         absolute
         w='25%' />
-        {
-          loaded && renderBody(value.items, loading, params)
-        }
-      <Loading show={activities.loading} h='200'/>
+      {
+        loaded && renderBody(value.items, loading, params)
+      }
     </InfiniteScroll>
   )
 }

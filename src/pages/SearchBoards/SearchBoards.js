@@ -2,33 +2,34 @@
  * Imports
  */
 
+import InfiniteScroll from 'components/InfiniteScroll'
+import summonSearch from 'lib/summon-search'
 import BoardTile from 'components/BoardTile'
-import {Grid, Block} from 'vdux-ui'
 import element from 'vdux/element'
-import summon from 'vdux-summon'
+import {Grid} from 'vdux-ui'
+import map from '@f/map'
 
 /**
- * <SearchMyActivities/>
+ * <SearchBoards/>
  */
 
 function render ({props}) {
-  const {boards, currentUser} = props
-  const {value, loading} = boards
+  const {boards, currentUser, more} = props
+  const {value, loaded, loading} = boards
 
   return (
-    <Block>
+    <InfiniteScroll loading={loading} more={() => value && more(value.nextPageToken)}>
       {
-        loading
-          ? 'Loading...'
-          : (
-              <Grid>
-                {
-                  value.items.map(board => <BoardTile board={board} currentUser={currentUser} />)
-                }
-              </Grid>
-            )
+        <Grid>
+          {
+            loaded && map(board =>
+              <BoardTile
+                currentUser={currentUser}
+                board={board} />, value.items)
+          }
+        </Grid>
       }
-    </Block>
+    </InfiniteScroll>
   )
 }
 
@@ -36,8 +37,6 @@ function render ({props}) {
  * Exports
  */
 
-export default summon(props => ({
-  boards: `/search/boards?query=${props.query}&maxResults=12`
-}))({
+export default summonSearch('boards', 'boards')({
   render
 })

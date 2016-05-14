@@ -31,7 +31,7 @@ function render ({props}) {
       </Block>
       <Block z={0}>
         {
-          isReady(state) && currentUser && !currentUser.loading
+          isReady(state) && currentUser && currentUser.loaded
             ? <Router {...state} currentUser={currentUser.value} />
             : <Loading />
         }
@@ -41,7 +41,7 @@ function render ({props}) {
 }
 
 function onUpdate (prev, next) {
-  if (!next.props.currentUser.loading) {
+  if (!isReady(next.props.state) && !next.props.currentUser.loading) {
     return appDidInitialize()
   }
 }

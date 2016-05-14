@@ -50,7 +50,7 @@ export default summon(props => ({
     newBoard: {
       url: '/board/',
       method: 'POST',
-      invalidates: '/user/boards',
+      invalidates: ['/user/boards', '/user'],
       body
     }
   })

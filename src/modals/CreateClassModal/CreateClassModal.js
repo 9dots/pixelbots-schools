@@ -29,7 +29,7 @@ function render ({props}) {
             <RoundedInput my autofocus name='displayName' placeholder='Class name' />
           </Flex>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter bg='greydark'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
              <Text mx>or</Text>
@@ -50,7 +50,7 @@ export default summon(props => ({
     newClass: {
       url: '/group/',
       method: 'POST',
-      invalidates: '/user/classes',
+      invalidates: ['/user/classes', '/user'],
       body
     }
   })
