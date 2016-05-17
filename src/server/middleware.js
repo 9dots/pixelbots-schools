@@ -26,7 +26,7 @@ function middleware ({url, headers}) {
     fetchEncodeJSON,
     fetch,
     flo()
-    // logger
+    // logger,
   ]
 }
 

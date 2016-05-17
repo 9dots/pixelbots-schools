@@ -16,12 +16,7 @@ import 'lib/fonts'
  * Root app component
  */
 
-function *onCreate ({props}) {
-  yield initializeApp(props.state.ready)
-  yield props.getCurrentUser()
-}
-
-function render ({props}) {
+function render ({path, props}) {
   const {state, currentUser} = props
 
   return (
@@ -31,7 +26,7 @@ function render ({props}) {
       </Block>
       <Block z={0}>
         {
-          isReady(state) && currentUser && currentUser.loaded
+          isReady(state)
             ? <Router {...state} currentUser={currentUser.value} />
             : <Loading />
         }
@@ -41,7 +36,10 @@ function render ({props}) {
 }
 
 function onUpdate (prev, next) {
-  if (!isReady(next.props.state) && !next.props.currentUser.loading) {
+  const {props} = next
+  const {currentUser = {}, state} = props
+
+  if (!isReady(state) && currentUser.loaded) {
     return appDidInitialize()
   }
 }
@@ -73,11 +71,8 @@ function isReady (state) {
  */
 
 export default summon(props => ({
-  getCurrentUser: () => ({
-    currentUser: '/user'
-  })
+  currentUser: '/user'
 }))({
-  onCreate,
   onUpdate,
   render
 })

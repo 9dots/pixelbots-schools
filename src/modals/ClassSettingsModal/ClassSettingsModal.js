@@ -12,25 +12,25 @@ import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
- * <BoardSettingsModal/>
+ * <ClassSettingsModal/>
  */
 
 function render ({props}) {
-  const {renameBoard, board} = props
+  const {renameClass, group} = props
 
   return (
     <Modal onDismiss={closeModal} opacity='1'>
-      <Form onSubmit={renameBoard} onSuccess={closeModal} cast={changes => ({...board, ...changes})} tall validate={validate.board} autocomplete='off'>
+      <Form onSubmit={renameClass} onSuccess={closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
             <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
-              Board Settings
+              Class Settings
             </Block>
-            <RoundedInput my autofocus name='displayName' placeholder='Board name' defaultValue={board.displayName} />
+            <RoundedInput my autofocus name='displayName' placeholder='Class name' defaultValue={group.displayName} />
           </Flex>
         </ModalBody>
         <ModalFooter bg='greydark' align='space-between center'>
-          <Button bgColor='danger' onClick={deleteBoard}>
+          <Button bgColor='danger' onClick={deleteClass}>
             Delete
           </Button>
           <Block>
@@ -45,8 +45,8 @@ function render ({props}) {
     </Modal>
   )
 
-  function *deleteBoard () {
-    yield props.deleteBoard()
+  function *deleteClass () {
+    yield props.deleteClass()
     yield closeModal()
   }
 }
@@ -55,20 +55,20 @@ function render ({props}) {
  * Exports
  */
 
-export default summon(props => ({
+export default summon(({group}) => ({
   renameClass: body => ({
     nameChange: {
-      url: `/group/${props.class._id}`,
+      url: `/group/${group._id}`,
       method: 'PUT',
-      invalidates: '/user/boards',
+      invalidates: ['/user/classes', '/user'],
       body
     }
   }),
-  deleteBoard: () => ({
+  deleteClass: () => ({
     deleting: {
-      url: `/board/${props.board._id}`,
+      url: `/group/${group._id}`,
       method: 'DELETE',
-      invalidates: '/user/boards'
+      invalidates: ['/user/classes', '/user']
     }
   })
 }))({

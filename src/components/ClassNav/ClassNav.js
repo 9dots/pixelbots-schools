@@ -10,13 +10,15 @@ import createAction from '@f/create-action'
 import {openModal} from 'reducer/modal'
 import ClassItem from './ClassItem'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 
 /**
  * <ClassNav/>
  */
 
 function render ({props, state, local, children}) {
-  const {classes = []} = props
+  const {classes} = props
+  const {value, loading} = classes
 
   return (
     <Dropdown btn={<div>{children}</div>} bg='white' color='black' maxHeight={350} overflow='auto' mt='-6' w='200' left>
@@ -24,7 +26,7 @@ function render ({props, state, local, children}) {
         <LineInput type='search' onInput={local(setFilter)} placeholder='Filter classes…' />
       </Block>
       {
-        classes
+        !loading && value.items
           .filter(search(state.filter))
           .sort(cmp)
           .map(cls => <ClassItem cls={cls} />)
@@ -59,8 +61,9 @@ const reducer = handleActions({
  * Helpers
  */
 
-function search (text) {
-  return cls => text === undefined
+function search (text = '') {
+  text = text.toUpperCase()
+  return cls => !text
     ? true
     : cls.displayName.toUpperCase().indexOf(text) !== -1
 }
@@ -75,7 +78,9 @@ function cmp (a, b) {
  * Exports
  */
 
-export default {
+export default summon(() => ({
+  classes: '/user/classes'
+}))({
   render,
   reducer
-}
+})

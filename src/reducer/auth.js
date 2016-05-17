@@ -28,8 +28,7 @@ function * setAuthToken (token) {
 }
 
 function * getAuthToken () {
-  const token = yield cookie('authToken')
-  return token
+  return yield cookie('authToken')
 }
 
 function * postLogin (token) {

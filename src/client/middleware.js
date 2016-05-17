@@ -33,7 +33,7 @@ const middleware = [
   fetch,
   scroll,
   location(),
-  summon.middleware,
+  summon.middleware('app.summon'),
   OAuth,
   logger({
     predicate: (getState, action) => shouldLog((action.meta && action.meta.logLevel) || 'info'),
