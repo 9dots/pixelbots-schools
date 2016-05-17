@@ -2,7 +2,9 @@
  * Imports
  */
 
+import {wrap, CSSContainer} from 'vdux-containers'
 import {Flex, Block, Card, Text} from 'vdux-ui'
+import {setUrl} from 'redux-effects-location'
 import Figure from 'components/Figure'
 import element from 'vdux/element'
 import Meta from './Meta'
@@ -17,18 +19,30 @@ function render ({props}) {
 
   return (
     <Card w={230} relative my={8} mx={6}>
-      <Flex column>
+      <Activity {...props} hoverProps={{hover: true}} />
+      <Meta activity={activity} />
+    </Card>
+  )
+}
+
+const Activity = wrap(CSSContainer)({
+  render ({props}) {
+    const {activity, hover} = props
+    const {image, displayName, description, _id} = activity
+    const url = `/activity/${_id}/public/preview`
+
+    return (
+      <Flex column cursor='zoom-in' pb onClick={() => setUrl(url)}>
         <actions/>
-        <Figure {...image} thumb={true} />
+        <Figure {...image} thumb={true} opacity={hover && .88} />
         <Block textAlign='center' m='m'>
           <Text my='s' fs='s' display='block' fw='200'>{displayName}</Text>
           <Text fs='xxs' wordBreak='break-word'>{description}</Text>
         </Block>
-        <Meta activity={activity} />
       </Flex>
-    </Card>
-  )
-}
+    )
+  }
+})
 
 /**
  * Exports

@@ -4,7 +4,6 @@
 
 import InfiniteScroll from 'components/InfiniteScroll'
 import ActivityTile from 'components/ActivityTile'
-import Loading from 'components/Loading'
 import element from 'vdux/element'
 import {Grid} from 'vdux-ui'
 import map from '@f/map'
@@ -18,7 +17,7 @@ function render ({children, props}) {
   const {value, loaded, loading} = activities
 
   return (
-    <InfiniteScroll more={() => value && more(value.nextPageToken)}>
+    <InfiniteScroll loading={loading} more={() => value && more(value.nextPageToken)}>
       <Grid>
         {children}
         {

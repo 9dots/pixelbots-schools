@@ -25,7 +25,8 @@ function render ({props}) {
       px={25}
       rounded
       bgColor='off_white'
-      activeProps={{highlight: false}}
+      hoverProps={{highlight: 0.03}}
+      focusProps={{highlight: 0.03}}
       border='1px solid rgba(0,0,0,0.15)'
       {...rest}>
       {verb} {noun}

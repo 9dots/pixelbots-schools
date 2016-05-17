@@ -3,7 +3,8 @@
  */
 
 import CommoncoreBadge from 'components/CommoncoreBadge'
-import {Flex, Box, Text, Block} from 'vdux-containers'
+import {Flex, Text, Block} from 'vdux-containers'
+import {setUrl} from 'redux-effects-location'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import element from 'vdux/element'
@@ -17,7 +18,7 @@ import map from '@f/map'
 
 function render ({props}) {
   const {activity} = props
-  const {actor, pinnedFrom} = activity
+  const {pinnedFrom} = activity
 
   if (!isPublic(activity)) {
     return (
@@ -27,13 +28,16 @@ function render ({props}) {
     )
   }
 
-  const href = pinnedFrom ? `/` : `/${actor.username}/boards`
-  const location = pinnedFrom ? pinnedFrom.displayName : actor.displayName
+  const actor = pinnedFrom ? pinnedFrom.actor : activity.actor
+  const location = pinnedFrom ? pinnedFrom.board.displayName : actor.displayName
   const message = pinnedFrom ? 'Pinned from' : 'Created by'
+  const href = pinnedFrom
+    ? `/${actor.username}/board/${pinnedFrom.board.id}/activities`
+    : `/${actor.username}/boards`
 
   return (
     <Flex align='start center'>
-      <Avatar mr thumb actor={actor} />
+      <Avatar pointer mr thumb actor={actor} onClick={e => goToProfile(e, actor)}/>
       <Flex column fs='xxs' align='space-around'>
         <Text color='midgray' mb='xs'>{message}</Text>
         <Link href={href} pointer hoverProps={{underline: true}} fw='bold'>
@@ -47,6 +51,11 @@ function render ({props}) {
 /**
  * Helpers
  */
+
+function goToProfile(e, actor) {
+  e.stopPropagation()
+  return setUrl(`/${actor.username}/boards`)
+}
 
 function isPublic (activity) {
   return !!(activity.contexts.length && activity.contexts[0].descriptor.id === 'public')

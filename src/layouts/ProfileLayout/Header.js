@@ -24,7 +24,11 @@ function render ({props}) {
   return (
     <Card wide relative>
       <Flex p>
-        <Avatar mr='m' actor={user} w='18%' h='auto' alignSelf='center' />
+        <Block w='18%' mr='m' relative>
+          <Block pb='100%'>
+            <Avatar actor={user} w='100%' h='auto' alignSelf='center' absolute />
+          </Block>
+        </Block>
         <Flex column flex='60%'>
           <Flex p={4} ml={-4} fw='lighter' fs='m' align='start center'>
             <Text capitalize>{displayName}</Text>
