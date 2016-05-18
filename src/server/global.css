@@ -4,7 +4,7 @@ a {
   color: inherit;
 }
 
-a:focus {
+*:focus {
   outline: none;
 }
 
@@ -54,6 +54,12 @@ p {
 
 input, textarea, select {
   font: inherit;
+}
+
+*:disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: .5;
 }
 
 *, *:before, *:after {

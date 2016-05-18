@@ -7,8 +7,6 @@ import {Flex, Box, Text, Block} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import Link from 'components/Link'
-import filter from '@f/filter'
-import map from '@f/map'
 import {setUrl} from 'redux-effects-location'
 
 /**
