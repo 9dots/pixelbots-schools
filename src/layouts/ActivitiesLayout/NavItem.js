@@ -44,7 +44,7 @@ function render ({props, children}) {
 
 function openSettings(e, board) {
   e.stopPropagation()
-  return openModal(<BoardSettingsModal board={board} />)
+  return openModal(() => <BoardSettingsModal board={board} />)
 }
 
 /**

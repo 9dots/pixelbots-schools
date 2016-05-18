@@ -32,7 +32,7 @@ function render ({props, state, local, children}) {
           .map(cls => <ClassItem cls={cls} />)
       }
       <Divider />
-      <MenuItem onClick={() => openModal(<CreateClassModal />)} py='m' color='text_color' display='flex' align='start center'>
+      <MenuItem onClick={() => openModal(() => <CreateClassModal />)} py='m' color='text_color' display='flex' align='start center'>
         <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
         New Class
       </MenuItem>

@@ -48,7 +48,7 @@ function render ({props, children}) {
                 Drafts
               </NavItem>
               <Divider/>
-              <NavItem onClick={() => openModal(<CreateBoardModal/>)} display='flex' align='start center'>
+              <NavItem onClick={() => openModal(() => <CreateBoardModal/>)} display='flex' align='start center'>
                 <Icon name='add' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                 New Board
               </NavItem>
