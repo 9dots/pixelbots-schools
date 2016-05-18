@@ -51,10 +51,10 @@ function app (state, forceUpdate) {
 if (module.hot) {
   module.hot.decline()
   module.hot.unaccepted(() => window.location.reload(true))
-  module.hot.accept(['components/App', 'reducer'], (...args) => {
+  module.hot.accept(['components/Boot', 'reducer'], (...args) => {
     try {
       jss.detach()
-      require('components/App')
+      require('components/Boot')
       replaceReducer(require('reducer').default)
       jss.attach()
       app(getState(), true)
