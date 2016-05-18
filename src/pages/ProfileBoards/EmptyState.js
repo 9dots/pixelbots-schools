@@ -39,7 +39,7 @@ function renderCurrentUserEmptyState () {
       <Icon display='block' textAlign='center' fs='xxl' color='blue_medium' name='dashboard' />
       <Block w='col_med' p>
         <Block mb pb fs='m' fw='lighter' textAlign='center'>Organize Activities with Boards</Block>
-        <Button onClick={() => openModal(<CreateBoardModal />)} display='block' mx='auto' px={35} h='3em' boxShadow='card' fs='s' bgColor='accent' fw='lighter'>Create My First Board</Button>
+        <Button onClick={() => openModal(() => <CreateBoardModal />)} display='block' mx='auto' px={35} h='3em' boxShadow='card' fs='s' bgColor='accent' fw='lighter'>Create My First Board</Button>
         <Block mt py fs='s' lh='20px' textAlign='center'>
           <Text fw='lighter'>
             <Text fw='bold'>Boards </Text>

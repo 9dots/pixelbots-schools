@@ -24,7 +24,7 @@ function render ({props}) {
         </Text>
       </Block>
       <Button
-        onClick={() => openModal(<ClassSettingsModal group={cls} />)}
+        onClick={() => openModal(() => <ClassSettingsModal group={cls} />)}
         activeProps={{opacity: 0.7}}
         hoverProps={{opacity: 1}}
         hide={!showIcon}

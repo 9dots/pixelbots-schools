@@ -22,7 +22,7 @@ function render ({path, props}) {
   return (
     <Block pb={48}>
       <Block>
-        {state.modal}
+        {state.modal && state.modal()}
       </Block>
       <Block z={0}>
         {
