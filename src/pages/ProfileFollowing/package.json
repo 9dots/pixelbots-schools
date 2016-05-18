@@ -1,0 +1,5 @@
+{
+  "name": "ProfileFollowing",
+  "main": "ProfileFollowing.js",
+  "browser": "ProfileFollowing.js"
+}

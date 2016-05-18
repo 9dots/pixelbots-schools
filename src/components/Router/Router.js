@@ -17,6 +17,10 @@ import TeacherSignup from 'pages/TeacherSignup'
 import StudentSignup from 'pages/StudentSignup'
 
 import ProfileBoards from 'pages/ProfileBoards'
+import ProfileLikes from 'pages/ProfileLikes'
+import ProfileFollowers from 'pages/ProfileFollowers'
+import ProfileFollowing from 'pages/ProfileFollowing'
+import ProfileStream from 'pages/ProfileStream'
 
 import ActivitiesBoard from 'pages/ActivitiesBoard'
 import MyActivities from 'pages/MyActivities'
@@ -115,6 +119,22 @@ const internal = enroute({
   '/:username/boards': (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileBoards {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/likes': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileLikes {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/following': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileFollowing {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/followers': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileFollowers {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/stream': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileStream {...props} user={user} />}
     </ProfileLayout>,
 
   // 404

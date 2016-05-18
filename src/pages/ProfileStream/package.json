@@ -1,0 +1,5 @@
+{
+  "name": "ProfileStream",
+  "main": "ProfileStream.js",
+  "browser": "ProfileStream.js"
+}

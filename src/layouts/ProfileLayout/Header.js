@@ -53,17 +53,17 @@ function render ({props}) {
         </Flex>
       </Flex>
       <Flex fs='xxs' align='center center' h='46px' bgColor='off_white' uppercase>
-        <NavTile highlight='red' href={`/${username}/boards`}>Boards</NavTile>
-        <NavTile highlight='green'>Likes</NavTile>
-        <NavTile highlight='blue'>
+        <NavTile href={`/${username}/boards`} highlight='red'>Boards</NavTile>
+        <NavTile href={`/${username}/likes`} highlight='green'>Likes</NavTile>
+        <NavTile href={`/${username}/following`} highlight='blue'>
           <Text mr={3} weight='bolder' fs='xs'>{following}</Text>
           Following
         </NavTile>
-        <NavTile highlight='yellow'>
+        <NavTile href={`/${username}/followers`} highlight='yellow'>
           <Text mr={3} weight='bolder' fs='xs'>{followers}</Text>
           Followers
         </NavTile>
-        <NavTile highlight='grey_medium'>Stream</NavTile>
+        <NavTile href={`/${username}/stream`} highlight='grey_medium'>Stream</NavTile>
       </Flex>
     </Card>
   )
