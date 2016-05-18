@@ -1,0 +1,5 @@
+{
+  "name": "GradeSelector",
+  "main": "GradeSelector.js",
+  "browser": "GradeSelector.js"
+}

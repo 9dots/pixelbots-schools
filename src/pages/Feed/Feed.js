@@ -3,10 +3,16 @@
  */
 
 import FeedWidgets from 'components/FeedWidgets'
+import IntroModal from 'modals/IntroModal'
 import TileFeed from 'components/TileFeed'
+import {openModal} from 'reducer/modal'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
+
+function onCreate() {
+  return false && openModal(<IntroModal/>)
+}
 
 /**
  * Following feed
@@ -30,7 +36,7 @@ function render ({props}) {
  */
 
 export default summon(props => ({
-  activities: '/share/feed?maxResults=10',
+  activities: '/share/feed?maxResults=30',
   more: pageToken => ({
     activities: {
       params: pageToken && {
@@ -39,5 +45,6 @@ export default summon(props => ({
     }
   })
 }))({
+  onCreate,
   render
 })

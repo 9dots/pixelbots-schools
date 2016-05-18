@@ -29,7 +29,7 @@ function render ({props}) {
         <Flex p='m' align='start center'>
           <Avatar link thumb actor={owner} />
           <Flex column ml='m'>
-            <Link hoverProps={{underline: true}} href={url} bold>{displayName}</Link>
+            <Link hoverProps={{underline: true}} href={url} mb='2px' bold>{displayName}</Link>
             <Link color='grey_medium' fs='xxs' hoverProps={{underline: true}} href={`/${owner.username}/boards`}>
               by {owner.displayName}
             </Link>

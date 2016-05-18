@@ -16,7 +16,10 @@ const theme = {
     greydark: '#4B5257',
     grey:  '#B1B7BC',
     greylight: '#DCDEE2',
-    divider: '#DDD'
+    divider: '#DDD',
+    blue: '#25A8E0',
+    bluemedium: '#65C2E8',
+    bluelight: '#91D2ED'
   },
   scale: {
     z: 0,

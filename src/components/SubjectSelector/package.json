@@ -1,0 +1,5 @@
+{
+  "name": "SubjectSelector",
+  "main": "SubjectSelector.js",
+  "browser": "SubjectSelector.js"
+}

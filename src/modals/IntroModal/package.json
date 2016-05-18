@@ -1,0 +1,5 @@
+{
+  "name": "IntroModal",
+  "main": "IntroModal.js",
+  "browser": "IntroModal.js"
+}

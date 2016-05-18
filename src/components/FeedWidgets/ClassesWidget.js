@@ -6,7 +6,6 @@ import {setUrl} from 'redux-effects-location'
 import {Block, Card, Text} from 'vdux-ui'
 import {MenuItem} from 'vdux-containers'
 import element from 'vdux/element'
-import map from '@f/map'
 
 function render ({props}) {
   const {classes = []} = props

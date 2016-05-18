@@ -10,7 +10,6 @@ import Link from 'components/Link'
 import element from 'vdux/element'
 import filter from '@f/filter'
 import moment from 'moment'
-import map from '@f/map'
 
 /**
  * Meta bar
