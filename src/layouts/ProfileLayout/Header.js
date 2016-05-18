@@ -22,7 +22,7 @@ function render ({props}) {
   } = user
 
   return (
-    <Card wide relative>
+    <Card wide relative mb>
       <Flex p>
         <Block w='18%' mr='m' relative>
           <Block pb='100%'>

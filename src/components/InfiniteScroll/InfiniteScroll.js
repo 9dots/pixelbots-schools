@@ -3,6 +3,7 @@
  */
 
 import Loading from 'components/Loading'
+import {Block} from 'vdux-ui'
 import Document from 'vdux/document'
 import element from 'vdux/element'
 
@@ -11,14 +12,14 @@ import element from 'vdux/element'
  */
 
 function render ({props, children}) {
-  const {more, threshold = 0, loading} = props
+  const {more, threshold = 0, loading, ...rest} = props
 
   return (
-    <div>
+    <Block {...rest}>
       {children}
       <Loading show={loading} h='200' />
       <Document onScroll={handleScroll(more, threshold)} />
-    </div>
+    </Block>
   )
 }
 

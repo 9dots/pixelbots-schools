@@ -20,7 +20,7 @@ function render ({props}) {
   const {value, loading} = boards
 
   return (
-    <Block hide={loading} mt>
+    <Block hide={loading}>
       {
         value && value.items.length
           ? renderGrid(value.items, currentUser)
@@ -33,7 +33,7 @@ function render ({props}) {
 function renderGrid (boards, currentUser) {
   const btnSize = '42px'
   return (
-    <Grid>
+    <Grid w='calc(100% + 12px)'>
       <Flex bgColor='rgba(0,0,0,0.025)' mx={6} my={8} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
         <Block fs='s' fw='lighter' mb>Create New Board</Block>
         <Button onClick={() => openModal(<CreateBoardModal />)} bgColor='white' boxShadow='card' fs='l' circle={btnSize} p='0' mt hoverProps={{highlight: 0.02}}>

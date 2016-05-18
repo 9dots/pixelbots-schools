@@ -18,7 +18,7 @@ function render ({props}) {
   const {value, loaded, loading} = following
 
   return (
-    <InfiniteScroll loading={loading} more={() => value && more(value.nextPageToken)}>
+    <InfiniteScroll loading={loading} more={() => value && more(value.nextPageToken)} w='calc(100% + 12px)'>
       {
         <Grid>
           {
