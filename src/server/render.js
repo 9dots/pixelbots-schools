@@ -4,7 +4,7 @@
 
 import middleware from './middleware'
 import element from 'vdux/element'
-import App from 'components/App'
+import Boot from 'components/Boot'
 import uiTheme from 'lib/theme'
 import vdux from 'vdux/string'
 import reducer from 'reducer/'
@@ -32,7 +32,7 @@ function render (opts) {
 
     const stop = subscribe(state => {
       try {
-        const html = render(<App state={state.app} />, {
+        const html = render(<Boot state={state.app} />, {
           uiTheme,
           currentUrl: state.app.url
         })

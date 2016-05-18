@@ -9,7 +9,6 @@ import handleActions from '@f/handle-actions'
  * Actions
  */
 
-const appIsInitializing = createAction('App is initializing')
 const appDidInitialize = createAction('App did initialize')
 
 /**
@@ -17,7 +16,6 @@ const appDidInitialize = createAction('App did initialize')
  */
 
 const reducer = handleActions({
-  [appIsInitializing]: () => false,
   [appDidInitialize]: () => true
 })
 
@@ -27,6 +25,5 @@ const reducer = handleActions({
 
 export default reducer
 export {
-  appIsInitializing,
   appDidInitialize
 }

@@ -3,24 +3,10 @@
  */
 
 import combineReducers from '@f/combine-reducers'
-import ready, {appIsInitializing} from './ready'
-import auth, {initializeAuth} from './auth'
-import url, {watchUrl} from './url'
-import entities from './entities'
+import ready from './ready'
 import modal from './modal'
-
-/**
- * Actions
- */
-
-function *initializeApp (ready) {
-  yield watchUrl()
-
-  if (!ready) {
-    yield appIsInitializing()
-    yield initializeAuth()
-  }
-}
+import auth from './auth'
+import url from './url'
 
 /**
  * Reducer
@@ -31,7 +17,6 @@ const reducer = combineReducers({
     ready,
     url,
     auth,
-    entities,
     modal
   })
 })
@@ -41,6 +26,3 @@ const reducer = combineReducers({
  */
 
 export default reducer
-export {
-  initializeApp
-}

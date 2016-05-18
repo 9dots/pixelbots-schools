@@ -5,7 +5,7 @@
 import middleware from './middleware'
 import domready from '@f/domready'
 import element from 'vdux/element'
-import App from 'components/App'
+import Boot from 'components/Boot'
 import theme from 'lib/theme'
 import reducer from 'reducer'
 import vdux from 'vdux/dom'
@@ -38,7 +38,7 @@ jss.attach()
 domready(() => subscribe(app))
 
 function app (state, forceUpdate) {
-  render(<App state={state.app} />, {
+  render(<Boot state={state.app} />, {
     uiTheme: theme,
     currentUrl: state.app.url
   }, forceUpdate)

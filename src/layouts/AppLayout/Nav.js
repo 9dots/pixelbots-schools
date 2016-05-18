@@ -27,7 +27,7 @@ function render ({props, state}) {
             </Flex>
             <Item href='/feed' icon='home' text='Home' />
             <Item href='/activities' icon='assignment' text='My Activities' />
-            <ClassNav classes={currentUser.groups.filter(group => group.groupType === 'class')}>
+            <ClassNav>
               <Item ml='s' fs='s' icon='school' text='Classes'>
                 <Icon name='arrow_drop_down' fs='s' ml='s' />
               </Item>
