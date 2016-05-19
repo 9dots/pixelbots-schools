@@ -4,7 +4,6 @@
 
 import InfiniteScroll from 'components/InfiniteScroll'
 import RoundedInput from 'components/RoundedInput'
-import ActivityRow from 'components/ActivityRow'
 import {Block, Text, Flex, Icon} from 'vdux-ui'
 import Loading from 'components/Loading'
 import isSameDay from '@f/is-same-day'
@@ -18,13 +17,18 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {activities = [], more, search} = props
+  const {
+    activities = [], more, search,
+    emptyState: Empty, item: Item,
+    ...rest
+  } = props
   const {value, loaded, loading, params} = activities
   const searching = !!(params && params.query)
 
   return (
-    <InfiniteScroll more={() => more(value && value.nextPageToken)}>
-      <RoundedInput
+    <InfiniteScroll more={() => more(value && value.nextPageToken)} {...rest}>
+      {
+        search && <RoundedInput
         hide={!loading && !value.items.length && !searching}
         onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
@@ -36,14 +40,23 @@ function render ({props}) {
         py='8px'
         absolute
         w='25%' />
+      }
       {
-        loaded && renderBody(value.items, loading, params)
+        loaded && renderItems(
+          value.items,
+          Item,
+          loading
+            ? null
+            : (searching ? EmptySearch : Empty)
+        )
       }
     </InfiniteScroll>
   )
 }
 
-function renderItems (items) {
+function renderItems (items, Item, Empty) {
+  if (!items.length && Empty) return <Empty />
+
   let prevDate = new Date(0)
 
   return reduce((list, item, i) => {
@@ -51,23 +64,16 @@ function renderItems (items) {
 
     if (!isSameDay(date, prevDate)) {
       list.push((
-        <Block p='m' mt={!i ? 0 : 'm'} fs='s' fw='lighter' color='blue'>
-          {moment(date).format('MMMM DD, YYYY')}
+        <Block p='m' mt={!i ? 0 : 'm'} fs='s' fw='lighter' color='blue' capitalize>
+          {moment(startOfDay(date)).calendar()}
         </Block>
       ))
       prevDate = date
     }
 
-    list.push(<ActivityRow activity={item} />)
+    list.push(<Item activity={item} />)
     return list
   }, [], items)
-}
-
-function renderBody(items, loading, searching) {
-  if(!loading && !items.length)
-    return searching ? EmptySearch() : EmptyBoard()
-  else
-    return renderItems(items)
 }
 
 function EmptySearch() {
@@ -80,18 +86,12 @@ function EmptySearch() {
   )
 }
 
-function EmptyBoard() {
-  return (
-    <Flex column align='center center' p='12px 12px 24px' fw='200' bg='#E4E5E7' border='1px solid #D8DADD'>
-      <Icon name='dashboard' color='green' fs='120px' p m/>
-      <Text fs='m' mb='l'>This is your Board</Text>
-      <Button bgColor='green' color='white' my fs='s' fw='lighter' lh='3em' px='35px' boxShadow='card'>Add My First Activity</Button>
-      <Text fs='s' lh='30px' textAlign='center' m w='66%' pt pb='l'>
-        <Text fw='bold'>Boards </Text>
-        are collections of Activities. Save Activities to Boards to keep them organized and easy to find.
-      </Text>
-    </Flex>
-  )
+/**
+ * Helpers
+ */
+
+function startOfDay (date) {
+ return (new Date(date)).setHours(0, 0, 0, 0)
 }
 
 /**

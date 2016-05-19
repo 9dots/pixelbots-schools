@@ -59,7 +59,7 @@ function *oauthCreate (provider, params) {
 
 const reducer = combineReducers({
   token: handleActions({
-    [userDidAuthenticate]: (state, token) => token
+    [userDidAuthenticate]: (state, token) => token || ''
   })
 })
 

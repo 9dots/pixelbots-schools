@@ -19,7 +19,7 @@ import Color from 'Color'
  */
 
 function render ({props}) {
-  const {user} = props
+  const {user, isCurrentUser} = props
   const {
     displayName, username, website,
     aboutMe, gradeLevels = [], subjects = [],
@@ -49,7 +49,8 @@ function render ({props}) {
         </Flex>
         <Flex absolute='top 12px right 12px'>
           <Button
-            onClick={() => openModal(() => <ColorPickerModal/>)}
+            hide={!isCurrentUser}
+            onClick={() => openModal(() => <ColorPickerModal currentUser={user} />)}
             hoverProps={{text: <Icon fs='s' name='colorize' />}}
             align='center center'
             bgColor={user.color}
@@ -89,7 +90,7 @@ const AvatarPicker = wrap(CSSContainer)({
     const overlayActive = Color(blue).alpha(0.4).rgbaString()
     const shadow = Color(blue).alpha(0.5).rgbaString()
     return (
-      <Block w='18%' mr='m' relative pointer onClick={() => openModal(() => <AvatarPickerModal/>)}>
+      <Block w='18%' mr='m' relative pointer onClick={() => openModal(() => <AvatarPickerModal currentUser={user}/>)}>
         <Block pb='100%'>
           <Avatar actor={user} w='100%' h='auto' alignSelf='center' absolute />
           <Flex
