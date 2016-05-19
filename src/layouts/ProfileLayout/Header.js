@@ -4,7 +4,9 @@
 
 import {Block, Menu, MenuItem, Icon, Card, Flex, Text} from 'vdux-ui'
 import {Button, Tooltip} from 'vdux-containers'
+import ColorPickerModal from 'modals/ColorPickerModal'
 import NavTile from 'components/NavTile'
+import {openModal} from 'reducer/modal'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import element from 'vdux/element'
@@ -46,7 +48,13 @@ function render ({props}) {
           </Block>
         </Flex>
         <Flex absolute='top 12px right 12px'>
-          <Button align='center center' tag='div' circle='30' bgColor={user.color} hoverProps={{text: <Icon fs='s' name='colorize' />}} />
+          <Button
+            onClick={() => openModal(() => <ColorPickerModal/>)}
+            hoverProps={{text: <Icon fs='s' name='colorize' />}}
+            align='center center'
+            bgColor={user.color}
+            circle='30'
+            tag='div'/>
           <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}}>
             Edit Profile
           </Button>

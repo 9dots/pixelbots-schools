@@ -41,6 +41,12 @@ const placeholder_color = '#AEAEBB'
 const text = '#6A6A6A'
 const link_color = blue
 
+const pickerColors = [
+  '#54738E', '#77B4D3', '#979AD8', '#A4789F',
+  '#92A5B3', '#EAA1A1', '#F2987C', '#AFAB93',
+  '#818181', '#92D2C7', '#42AD9C', '#25A8E0'
+]
+
 const error = rgba(red, 0.85)
 
 /**
@@ -66,6 +72,7 @@ export {
   off_white,
   white,
   black,
+  pickerColors,
 
   error,
 

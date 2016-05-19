@@ -1,0 +1,5 @@
+{
+  "name": "ColorPickerModal",
+  "main": "ColorPickerModal.js",
+  "browser": "ColorPickerModal.js"
+}
