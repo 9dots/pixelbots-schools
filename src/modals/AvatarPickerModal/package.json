@@ -1,0 +1,5 @@
+{
+  "name": "AvatarPickerModal",
+  "main": "AvatarPickerModal.js",
+  "browser": "AvatarPickerModal.js"
+}
