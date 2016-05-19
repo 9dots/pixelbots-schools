@@ -18,7 +18,7 @@ import mapValues from '@f/map-values'
  * Constants
  */
 
-let avatars = []
+let avatars = [null, null]
 mapValues(function(path) { avatars.push(path) }, avatarMap)
 const pageSize = 12
 const numPages = Math.ceil(avatars.length / pageSize)
