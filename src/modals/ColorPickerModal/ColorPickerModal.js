@@ -3,43 +3,89 @@
  */
 
 import {Modal, ModalBody, ModalFooter, Grid, Text, Icon, Block} from 'vdux-ui'
-import {wrap, CSSContainer, Button} from 'vdux-containers'
+import {Button, CSSContainer, wrap} from 'vdux-containers'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
 import {closeModal} from 'reducer/modal'
 import * as colors from 'lib/colors'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
+import Form from 'vdux-form'
+
+/**
+ * Constants
+ */
+
+const {pickerColors, blue} = colors
+
+/**
+ * initialState
+ */
+
+function initialState ({props}) {
+  const {currentUser} = props
+
+  return {
+    selected: currentUser.color
+  }
+}
 
 /**
  * <ColorPickerModal/>
  */
 
-const {pickColors, blue} = colors
-function render ({props}) {
+function render ({props, state, local}) {
+  const {updateColor, currentUser} = props
+  const {selected} = state
+
   return (
     <Modal>
-      <ModalBody>
-        <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
-          Select a Color
-        </Block>
-        <Grid rowAlign='center'>
-          {
-            colors.pickerColors.map(color => <ColorBlock color={color} hoverProps={{hovered: true}} focusProps={{selected: true}} />)
-          }
-        </Grid>
-      </ModalBody>
-      <ModalFooter bg='greydark'>
-        <Text fs='xxs'>
-          <Text pointer underline onClick={closeModal}>cancel</Text>
-           <Text mx>or</Text>
-        </Text>
-        <Button type='submit'>Update</Button>
-      </ModalFooter>
+      <Form onSubmit={() => updateColor(selected)} onSuccess={closeModal}>
+        <ModalBody>
+          <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
+            Select a Color
+          </Block>
+          <Grid rowAlign='center'>
+            {
+              pickerColors.map(
+                color => <ColorBlock onClick={local(choose, color)} color={color} selected={color === selected} />)
+            }
+          </Grid>
+        </ModalBody>
+        <ModalFooter bg='greydark'>
+          <Text fs='xxs'>
+            <Text pointer underline onClick={closeModal}>cancel</Text>
+             <Text mx>or</Text>
+          </Text>
+          <Button type='submit'>Update</Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 }
 
-const ColorBlock = wrap(CSSContainer)({
+/**
+ * Actions
+ */
+
+const choose = createAction('<ColorPickerModal/>: select color')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [choose]: (state, selected) => ({...state, selected})
+})
+
+/**
+ * <ColorBlock/> component
+ */
+
+const ColorBlock = wrap(CSSContainer, {hoverProps: {hovered: true}})({
   render({props}) {
-    const {color, hovered, selected} = props
+    const {color, hovered, selected, ...rest} = props
+
     return (
       <Block
         tabindex='-1'
@@ -51,8 +97,8 @@ const ColorBlock = wrap(CSSContainer)({
         relative
         sq='100'
         pointer
-        m='10'>
-
+        m='10'
+        {...rest}>
         <Icon
           transition='transform .35s'
           transform={selected ? 'scale(1)' : 'scale(0)'}
@@ -66,18 +112,28 @@ const ColorBlock = wrap(CSSContainer)({
           right
           top
           m='s' />
-
       </Block>
     )
-
   }
 })
-
 
 /**
  * Exports
  */
 
-export default {
-  render
-}
+export default summon(({currentUser}) => ({
+  updateColor: color => ({
+    submitting: {
+      url: '/user',
+      method: 'PUT',
+      body: {
+        ...currentUser,
+        color
+      }
+    }
+  })
+}))({
+  initialState,
+  render,
+  reducer
+})
