@@ -64,7 +64,7 @@ function renderItems (items, Item, Empty) {
 
     if (!isSameDay(date, prevDate)) {
       list.push((
-        <Block p='m' mt={!i ? 0 : 'm'} fs='s' fw='lighter' color='blue'>
+        <Block p='m' mt={!i ? 0 : 'm'} fs='s' fw='lighter' color='blue' capitalize>
           {moment(startOfDay(date)).calendar()}
         </Block>
       ))
