@@ -38,7 +38,7 @@ function render ({props}) {
  */
 
 export default summon(props => ({
-  following: `/user/${props.user._id}/following`,
+  following: `/user/${props.user._id}/following?maxResults=20`,
   more: pageToken => ({
     following: {
       params: pageToken && {
