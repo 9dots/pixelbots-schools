@@ -19,14 +19,14 @@ function render ({props}) {
         My Classes
       </Block>
       <Block maxHeight='245px' overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
-        { sortedClasses.map(cls => Item(cls)) }
+        { sortedClasses.map(item) }
       </Block>
       <Block boxShadow={isOverflown && '0 -2px 1px rgba(75,82,87,0.1)'} z='1' relative p/>
     </Card>
   )
 }
 
-function Item (cls) {
+function item (cls) {
   const {id, displayName} = cls
   return (
     <MenuItem align='start center' p onClick={() => setUrl(`/class/${id}/feed`)}>

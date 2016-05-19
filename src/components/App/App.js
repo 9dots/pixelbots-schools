@@ -10,6 +10,7 @@ import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
 import Form from 'vdux-form'
+import moment from 'moment'
 import 'lib/fonts'
 
 /**
@@ -55,6 +56,17 @@ summon.defaults({
 Form.setTransformError(err => {
   if (err.status === 400) {
     return err.value && err.value.errors
+  }
+})
+
+moment.updateLocale('en', {
+  calendar: {
+    lastDay: '[Yesterday]',
+    sameDay: '[Today]',
+    nextDay: '[Tomorrow]',
+    lastWeek: '[last] dddd',
+    nextWeek: 'dddd',
+    sameElse: 'MMMM D, YYYY'
   }
 })
 

@@ -2,7 +2,9 @@
  * Imports
  */
 
+import StreamActivity from 'components/StreamActivity'
 import summonChannels from 'lib/summon-channels'
+import RowFeed from 'components/RowFeed'
 import element from 'vdux/element'
 
 /**
@@ -11,7 +13,7 @@ import element from 'vdux/element'
 
 function render ({props}) {
   return (
-    <div>Stream!</div>
+    <RowFeed {...props} search={false} item={StreamActivity} wide />
   )
 }
 
@@ -20,7 +22,7 @@ function render ({props}) {
  */
 
 export default summonChannels(
-  props => `user!${props.currentUser._id}.activities`
+  ({currentUser}) => `user!${currentUser._id}.activities`
 )({
   render
 })

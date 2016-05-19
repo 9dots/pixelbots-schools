@@ -1,0 +1,5 @@
+{
+  "name": "StreamActivity",
+  "main": "StreamActivity.js",
+  "browser": "StreamActivity.js"
+}
