@@ -3,13 +3,16 @@
  */
 
 import {Block, Menu, MenuItem, Icon, Card, Flex, Text} from 'vdux-ui'
-import {Button, Tooltip} from 'vdux-containers'
+import {Button, Tooltip, wrap, CSSContainer} from 'vdux-containers'
 import ColorPickerModal from 'modals/ColorPickerModal'
+import AvatarPickerModal from 'modals/AvatarPickerModal'
 import NavTile from 'components/NavTile'
 import {openModal} from 'reducer/modal'
 import Avatar from 'components/Avatar'
+import * as colors from 'lib/colors'
 import Link from 'components/Link'
 import element from 'vdux/element'
+import Color from 'Color'
 
 /**
  * Profile Layout Header
@@ -22,15 +25,12 @@ function render ({props}) {
     aboutMe, gradeLevels = [], subjects = [],
     location, following, followers
   } = user
+  const displayUrl = website.replace(/.*?:\/\//g, "")
 
   return (
     <Card wide relative mb>
       <Flex p>
-        <Block w='18%' mr='m' relative>
-          <Block pb='100%'>
-            <Avatar actor={user} w='100%' h='auto' alignSelf='center' absolute />
-          </Block>
-        </Block>
+        <AvatarPicker user={user} hoverProps={{hover: true}}  activeProps={{active: true}}/>
         <Flex column flex='60%'>
           <Flex p={4} ml={-4} fw='lighter' fs='m' align='start center'>
             <Text capitalize>{displayName}</Text>
@@ -38,7 +38,7 @@ function render ({props}) {
             <Text fs='s' color='blue'>{username}</Text>
           </Flex>
           <Flex p={4} color='grey_medium' fs='xs' align='start center'>
-            <ProfileItem message={website} icon='language' tag='a' href={website} pointer />
+            <ProfileItem message={displayUrl} icon='language' tag='a' href={website} pointer />
             <ProfileItem message={location} icon='place' />
             <ProfileItem message={gradeLevels.join(', ')} icon='school' />
             <ProfileItem message={subjects.join(', ')} icon='class' />
@@ -76,6 +76,40 @@ function render ({props}) {
     </Card>
   )
 }
+
+/**
+ * Avatar modal open
+ */
+
+const AvatarPicker = wrap(CSSContainer)({
+  render({props}) {
+    const {blue} = colors
+    const {user, hover, active} = props
+    const overlayBg = Color(blue).alpha(0.3).rgbaString()
+    const overlayActive = Color(blue).alpha(0.4).rgbaString()
+    const shadow = Color(blue).alpha(0.5).rgbaString()
+    return (
+      <Block w='18%' mr='m' relative pointer onClick={() => openModal(() => <AvatarPickerModal/>)}>
+        <Block pb='100%'>
+          <Avatar actor={user} w='100%' h='auto' alignSelf='center' absolute />
+          <Flex
+            transition='opacity .35s'
+            opacity={hover ? 1 : 0}
+            align='center center'
+            bg={active ? overlayActive : overlayBg}
+            boxShadow={'0 0 1px 1px ' + shadow}
+            circle='100%'
+            color='white'
+            absolute >
+            Change Avatar
+          </Flex>
+        </Block>
+      </Block>
+    )
+  }
+})
+
+
 
 /**
  * Profile description item

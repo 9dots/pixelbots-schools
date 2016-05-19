@@ -16,7 +16,7 @@ const {pickColors, blue} = colors
 function render ({props}) {
   return (
     <Modal>
-      <ModalBody>
+      <ModalBody pb>
         <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
           Select a Color
         </Block>
