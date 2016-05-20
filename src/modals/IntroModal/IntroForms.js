@@ -2,19 +2,21 @@
  * Imports
  */
 
-import {Flex, Icon} from 'vdux-ui'
 import {Button, Text, Block, Tooltip} from 'vdux-containers'
-import GradeSelector from 'components/GradeSelector'
 import SubjectSelector from 'components/SubjectSelector'
+import GradeSelector from 'components/GradeSelector'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {closeModal} from 'reducer/modal'
+import {Flex, Icon} from 'vdux-ui'
 import element from 'vdux/element'
+
+/**
+ * initialState
+ */
 
 function initialState () {
   return {
-    gradeSelected: false,
-    subjectSelected: false,
     grades: [],
     subjects: []
   }
@@ -26,7 +28,7 @@ function initialState () {
 
 function render ({props, state, local}) {
   const {cur} = props
-  const {isDone, gradeSelected, subjectSelected, grades, subjects} = state
+  const {isDone, grades, subjects} = state
   const ttProps = {
     placement: 'bottom',
     tooltipProps: {
@@ -54,8 +56,8 @@ function render ({props, state, local}) {
           What Grades Do You Teach?
         </Text>
         <GradeSelector toggle={local(toggleGrade)} selected={grades} />
-        <Tooltip message={!gradeSelected && 'Please select one or more grades'} {...ttProps}>
-          <Button {...btnProps} onClick={local(next)} disabled={!gradeSelected}>
+        <Tooltip message={!grades.length && 'Please select one or more grades'} {...ttProps}>
+          <Button {...btnProps} onClick={local(next)} disabled={!grades.length}>
             <Flex align='center center' fw='lighter'>
               Next
               <Icon name='keyboard_arrow_right' />
@@ -69,8 +71,8 @@ function render ({props, state, local}) {
           What Subjects Do You Teach?
         </Text>
         <SubjectSelector toggle={local(toggleSubject)} selected={subjects} />
-        <Tooltip message={!subjectSelected && 'Please select one or more subjects'} {...ttProps}>
-          <Button {...btnProps} onClick={closeModal} disabled={!subjectSelected}>
+        <Tooltip message={!subjects.length && 'Please select one or more subjects'} {...ttProps}>
+          <Button {...btnProps} onClick={closeModal} disabled={!subjects.length}>
             <Flex align='center center' fw='lighter'>
               <Icon name='check' mr/>
               Let's Get Started

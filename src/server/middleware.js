@@ -16,7 +16,7 @@ import cookie from 'cookie'
  */
 
 function middleware ({url, headers}) {
-  const cookieObj = cookie.parse(headers.cookie) || ''
+  const cookieObj = cookie.parse(headers.cookie || '')
 
   return [
     // logger,

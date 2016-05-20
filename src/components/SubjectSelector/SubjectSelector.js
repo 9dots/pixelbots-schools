@@ -3,14 +3,17 @@
  */
 
 import {Flex, Block} from 'vdux-containers'
-import element from 'vdux/element'
 import mapValues from '@f/map-values'
+import element from 'vdux/element'
+import {Checkbox} from 'vdux-ui'
 
 /**
  * <SubjectSelector/>
  */
 
 function render ({props}) {
+  const {selected, toggle} = props
+
   return (
     <Block
       focusProps={{
@@ -26,30 +29,27 @@ function render ({props}) {
       wrap
       p >
       {
-        mapValues(item, subjectMap)
+        mapValues((subjects, category) => item(subjects, category, selected, toggle), subjectMap)
       }
     </Block>
   )
 }
 
-function item(subjects, category)  {
+function item (subjects, category, selected, toggle)  {
   return (
     <Block whiteSpace='nowrap' pl='s'>
       <Block capitalize fw='bolder' py='s'>{category}:</Block>
       {
-        subjects.map(option)
+        subjects.map(subject => option(subject, selected.indexOf(subject) !== -1, () => toggle(subject)))
       }
     </Block>
   )
 }
 
-function option(subject)  {
+function option (subject, selected, toggle)  {
   return (
     <Flex align='start center' px py='s'>
-      <Block mr>
-        <Block sq='16' rounded border='1px solid #BBB' />
-      </Block>
-      <Block flex>{subject}</Block>
+      <Checkbox label={subject} checked={selected} mr onChange={toggle} />
     </Flex>
   )
 }

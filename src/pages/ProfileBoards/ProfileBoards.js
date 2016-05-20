@@ -51,8 +51,10 @@ function renderGrid (boards, currentUser) {
  * Exports
  */
 
-export default summon(({user}) => ({
-  boards: `/user/${user._id}/boards`,
+export default summon(({user, currentUser}) => ({
+  boards: user._id === currentUser._id
+    ? '/user/boards'
+    : `/user/${user._id}/boards`,
 }))({
   render
 })
