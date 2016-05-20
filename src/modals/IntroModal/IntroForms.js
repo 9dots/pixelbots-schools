@@ -52,7 +52,7 @@ function render ({props, state, local}) {
   return (
     <Flex column align='center center' tall wide>
       <Flex column align='center center' tall wide hide={isDone}>
-        <Text color='blue' fs='m' mb='l' fw='200'>
+        <Text py='l' fs='m' fw='200' color='blue' textAlign='center'>
           What Grades Do You Teach?
         </Text>
         <GradeSelector toggle={local(toggleGrade)} selected={grades} />

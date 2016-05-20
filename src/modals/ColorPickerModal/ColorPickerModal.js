@@ -42,7 +42,7 @@ function render ({props, state, local}) {
     <Modal>
       <Form onSubmit={() => updateColor(selected)} onSuccess={closeModal}>
         <ModalBody pb>
-          <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
+          <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
             Select a Color
           </Block>
           <Grid rowAlign='center'>

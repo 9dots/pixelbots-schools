@@ -23,23 +23,25 @@ function render ({props}) {
     <Block hide={loading} w='calc(100% + 12px)'>
       {
         value && value.items.length
-          ? renderGrid(value.items, currentUser)
+          ? renderGrid(value.items, currentUser, user)
           : <EmptyState user={user} currentUser={currentUser} />
       }
     </Block>
   )
 }
 
-function renderGrid (boards, currentUser) {
+function renderGrid (boards, currentUser, user) {
   const btnSize = '42px'
+
   return (
-    <Grid>
-      <Flex bgColor='rgba(0,0,0,0.025)' mx={6} my={8} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
-        <Block fs='s' fw='lighter' mb>Create New Board</Block>
-        <Button onClick={() => openModal(() => <CreateBoardModal />)} bgColor='white' boxShadow='card' fs='l' circle={btnSize} p='0' mt hoverProps={{highlight: 0.02}}>
-          <Icon name='add' lh={btnSize} fw='lighter' color='midgray' />
-        </Button>
-      </Flex>
+    <Grid alignRow='start'>
+      {
+        currentUser._id === user._id &&
+        <Flex bgColor='rgba(0,0,0,0.025)' mx={6} my={8} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
+          <Block fs='s' fw='lighter' mb>Create New Board</Block>
+          <Button onClick={() => openModal(() => <CreateBoardModal />)} bgColor='white' boxShadow='card' fs='m' circle={btnSize} p='0' mt hoverProps={{highlight: 0.02}} icon='add' fw='200' color='midgray'/>
+        </Flex>
+      }
       {
         boards.map(board => <BoardTile board={board} currentUser={currentUser} />)
       }

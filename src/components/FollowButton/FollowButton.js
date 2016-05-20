@@ -19,6 +19,7 @@ function render ({props}) {
     : value ? 'Unfollow' : 'Follow'
   return (
     <Button
+      hide={loading}
       onClick={(value ? unfollow : follow)}
       disabled={loading}
       color={value ? 'midgray' : 'blue'}
