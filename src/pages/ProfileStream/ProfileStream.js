@@ -22,7 +22,7 @@ function render ({props}) {
  */
 
 export default summonChannels(
-  ({currentUser}) => `user!${currentUser._id}.activities`
+  ({user}) => `user!${user._id}.activities`
 )({
   render
 })

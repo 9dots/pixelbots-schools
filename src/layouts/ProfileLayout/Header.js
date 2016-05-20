@@ -6,6 +6,7 @@ import {Block, Menu, MenuItem, Icon, Card, Flex, Text} from 'vdux-ui'
 import {Button, Tooltip, wrap, CSSContainer} from 'vdux-containers'
 import ColorPickerModal from 'modals/ColorPickerModal'
 import AvatarPickerModal from 'modals/AvatarPickerModal'
+import FollowButton from 'components/FollowButton'
 import NavTile from 'components/NavTile'
 import {openModal} from 'reducer/modal'
 import Avatar from 'components/Avatar'
@@ -21,7 +22,7 @@ import Color from 'Color'
 function render ({props}) {
   const {user, isCurrentUser} = props
   const {
-    displayName, username, website,
+    displayName, username, website = '',
     aboutMe, gradeLevels = [], subjects = [],
     location, following, followers
   } = user
@@ -47,9 +48,8 @@ function render ({props}) {
             {aboutMe}
           </Block>
         </Flex>
-        <Flex absolute='top 12px right 12px'>
+        <Flex hide={!isCurrentUser} absolute='top 12px right 12px'>
           <Button
-            hide={!isCurrentUser}
             onClick={() => openModal(() => <ColorPickerModal currentUser={user} />)}
             hoverProps={{text: <Icon fs='s' name='colorize' />}}
             align='center center'
@@ -59,6 +59,9 @@ function render ({props}) {
           <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}}>
             Edit Profile
           </Button>
+        </Flex>
+        <Flex hide={isCurrentUser} absolute='top 12px right 12px'>
+          <FollowButton user={user} />
         </Flex>
       </Flex>
       <Flex fs='xxs' align='center center' h='46px' bgColor='off_white' uppercase>
