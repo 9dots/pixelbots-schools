@@ -19,7 +19,7 @@ function render ({props}) {
   const {createBoard} = props
 
   return (
-    <Modal onDismiss={closeModal} opacity='1'>
+    <Modal onDismiss={closeModal}>
       <Form onSubmit={createBoard} onSuccess={closeModal} tall validate={validate.board} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>

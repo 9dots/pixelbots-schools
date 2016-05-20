@@ -1,0 +1,5 @@
+{
+  "name": "Confirm",
+  "main": "Confirm.js",
+  "browser": "Confirm.js"
+}
