@@ -2,29 +2,24 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Grid, Text, Icon, Block, Image, Flex} from 'vdux-ui'
-import {wrap, CSSContainer, Button} from 'vdux-containers'
+import {Modal, ModalBody, ModalFooter, Grid, Text, Block, Flex} from 'vdux-ui'
+import {closeModal} from 'reducer/modal'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {closeModal} from 'reducer/modal'
+import AvatarBlock from './AvatarBlock'
 import * as avatarMap from './avatars'
-import apple from './avatars/apple.png'
-import redpanda from './avatars/redpanda.png'
-import octopus from './avatars/octopus.png'
-import element from 'vdux/element'
+import {Button} from 'vdux-containers'
 import mapValues from '@f/map-values'
+import element from 'vdux/element'
 
 /**
  * Constants
  */
 
-let avatars = [null, null]
-mapValues(function(path) { avatars.push(path) }, avatarMap)
+let avatars = ['upload', 'letters']
+mapValues(path => avatars.push(path), avatarMap)
 const pageSize = 12
 const numPages = Math.ceil(avatars.length / pageSize)
-const avtrHeight = 100
-const avtrMargin = 10
-const rows = 3
 
 /**
  * initialState
@@ -38,23 +33,24 @@ function initialState({props}) {
   }
 }
 
-
 /**
  * <AvatarPickerModal/>
  */
 
 function render ({props, state, local}) {
+  const {user} = props
   const {page} = state
   const curAvatars = avatars.slice(page * pageSize, (page + 1) * pageSize)
+
   return (
     <Modal>
       <ModalBody pb>
         <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
           Select an Avatar
         </Block>
-        <Grid rowAlign='center' minHeight={(avtrHeight + avtrMargin * 2) * rows}>
+        <Grid rowAlign='center' minHeight={360}>
           {
-            curAvatars.map(avatar => <AvatarBlock avatar={avatar} hoverProps={{hovered: true}} focusProps={{selected: true}} />)
+            curAvatars.map(avatar => <AvatarBlock avatar={avatar} hoverProps={{hovered: true}} focusProps={{selected: true}} user={user}/>)
           }
         </Grid>
       </ModalBody>
@@ -63,7 +59,7 @@ function render ({props, state, local}) {
           <Button bgColor='black' icon='keyboard_arrow_left' mr='s' fs='s' lh='30px' px='25' onClick={local(prev)}/>
           <Button bgColor='black' icon='keyboard_arrow_right' mr fs='s' lh='30px' px='25' onClick={local(next)}/>
           <Flex>
-            { dots(page, local)}
+            { dots(page, local) }
           </Flex>
         </Block>
         <Text fs='xxs'>
@@ -76,46 +72,12 @@ function render ({props, state, local}) {
   )
 }
 
-function dots(cur, local) {
+function dots(page, local) {
   const arr = Array.apply(null, Array(numPages))
   return (
-    arr.map((_, i) => <Block pointer circle='5' bgColor={cur == i ? 'white' : 'rgba(255,255,255,.5)'} ml='s' onClick={local(go, i)}></Block>)
+    arr.map((_, i) => <Block pointer circle='5' bgColor={page == i ? 'white' : 'rgba(255,255,255,.5)'} ml='s' onClick={local(go, i)}></Block>)
   )
 }
-
-const AvatarBlock = wrap(CSSContainer)({
-  render({props}) {
-    const {avatar, hovered, selected} = props
-    return (
-      <Block
-        tabindex='-1'
-        outline='3px solid transparent'
-        outlineColor={hovered || selected ? 'blue' : 'transparent'}
-        transition='outline-color .35s'
-        outlineOffset='2px'
-        relative
-        sq={avtrHeight}
-        pointer
-        m={avtrMargin}>
-        <Image sq='100%' src={avatar} />
-        <Icon
-          transition='transform .35s'
-          transform={selected ? 'scale(1)' : 'scale(0)'}
-          name='check'
-          align='center center'
-          color='blue'
-          bg='white'
-          fs='19'
-          circle='25'
-          absolute
-          right
-          top
-          m='s' />
-      </Block>
-    )
-
-  }
-})
 
 /**
  * Actions

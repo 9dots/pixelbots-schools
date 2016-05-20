@@ -25,12 +25,16 @@ function render ({props}) {
     aboutMe, gradeLevels = [], subjects = [],
     location, following, followers
   } = user
-  const displayUrl = website.replace(/.*?:\/\//g, "")
+  const displayUrl = website && website.replace(/.*?:\/\//g, "")
 
   return (
     <Card wide relative mb>
       <Flex p>
-        <AvatarPicker user={user} hoverProps={{hover: true}}  activeProps={{active: true}}/>
+        <AvatarPicker user={user}
+          onClick={() => openAvatarModal(isCurrentUser, user)}
+          hoverProps={{hover: isCurrentUser}}
+          activeProps={{active: isCurrentUser}}
+          pointer={isCurrentUser} />
         <Flex column flex='60%'>
           <Flex p={4} ml={-4} fw='lighter' fs='m' align='start center'>
             <Text capitalize>{displayName}</Text>
@@ -78,6 +82,11 @@ function render ({props}) {
   )
 }
 
+function openAvatarModal(isCurrentUser, user) {
+  if(isCurrentUser)
+    return openModal(() => <AvatarPickerModal user={user}/>)
+}
+
 /**
  * Avatar modal open
  */
@@ -85,20 +94,21 @@ function render ({props}) {
 const AvatarPicker = wrap(CSSContainer)({
   render({props}) {
     const {blue} = colors
-    const {user, hover, active} = props
+    const {user, hover, active, ...rest} = props
     const overlayBg = Color(blue).alpha(0.3).rgbaString()
     const overlayActive = Color(blue).alpha(0.4).rgbaString()
     const shadow = Color(blue).alpha(0.5).rgbaString()
+
     return (
-      <Block w='18%' mr='m' relative pointer onClick={() => openModal(() => <AvatarPickerModal currentUser={user}/>)}>
+      <Block w='18%' mr='m' relative {...rest}>
         <Block pb='100%'>
           <Avatar actor={user} w='100%' h='auto' alignSelf='center' absolute />
           <Flex
+            bg={active ? overlayActive : overlayBg}
+            boxShadow={'0 0 1px 1px ' + shadow}
             transition='opacity .35s'
             opacity={hover ? 1 : 0}
             align='center center'
-            bg={active ? overlayActive : overlayBg}
-            boxShadow={'0 0 1px 1px ' + shadow}
             circle='100%'
             color='white'
             absolute >
@@ -109,8 +119,6 @@ const AvatarPicker = wrap(CSSContainer)({
     )
   }
 })
-
-
 
 /**
  * Profile description item
