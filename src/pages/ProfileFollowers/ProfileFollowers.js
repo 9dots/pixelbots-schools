@@ -36,8 +36,8 @@ function render ({props}) {
  * Exports
  */
 
-export default summon(props => ({
-  followers: `/user/${props.user._id}/followers?maxResults=20`,
+export default summon(({user}) => ({
+  followers: `/user/${user._id}/followers?maxResults=20`,
   more: pageToken => ({
     followers: {
       params: pageToken && {

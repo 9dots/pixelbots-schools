@@ -2,15 +2,17 @@
  * Imports
  */
 
+import {Block, Checkbox} from 'vdux-ui'
 import {Flex} from 'vdux-containers'
 import element from 'vdux/element'
-import {Block} from 'vdux-ui'
 
 /**
  * <GradeSelector/>
  */
 
 function render ({props}) {
+  const {toggle, selected} = props
+
   return (
     <Flex
       focusProps={{
@@ -26,19 +28,16 @@ function render ({props}) {
       wrap
       p >
       {
-        grades.map(grade => item(grade))
+        grades.map(grade => item(grade, selected.indexOf(grade) !== -1, () => toggle(grade)))
       }
     </Flex>
   )
 }
 
-function item(grade)  {
+function item (grade, selected, toggle)  {
   return (
     <Flex align='start center' flex='20%' w='33%' whiteSpace='nowrap' pl='s'>
-      <Block mr>
-        <Block sq='16' rounded border='1px solid #BBB' />
-      </Block>
-      <Block flex>{grade}</Block>
+      <Checkbox label={grade} checked={selected} mr onChange={toggle} />
     </Flex>
   )
 }

@@ -10,8 +10,14 @@ import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
 
-function onCreate() {
-  return false && openModal(<IntroModal/>)
+function onCreate ({props}) {
+  const {currentUser} = props
+  const {preferences = {}} = currentUser
+  const {slideshow = {}} = preferences
+
+  if (!slideshow.done) {
+    return openModal(() => <IntroModal/>)
+  }
 }
 
 /**

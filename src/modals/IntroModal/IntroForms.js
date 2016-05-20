@@ -14,7 +14,9 @@ import element from 'vdux/element'
 function initialState () {
   return {
     gradeSelected: false,
-    subjectSelected: false
+    subjectSelected: false,
+    grades: [],
+    subjects: []
   }
 }
 
@@ -24,7 +26,7 @@ function initialState () {
 
 function render ({props, state, local}) {
   const {cur} = props
-  const {isDone, gradeSelected, subjectSelected} = state
+  const {isDone, gradeSelected, subjectSelected, grades, subjects} = state
   const ttProps = {
     placement: 'bottom',
     tooltipProps: {
@@ -51,12 +53,12 @@ function render ({props, state, local}) {
         <Text color='blue' fs='m' mb='l' fw='200'>
           What Grades Do You Teach?
         </Text>
-        <GradeSelector />
+        <GradeSelector toggle={local(toggleGrade)} selected={grades} />
         <Tooltip message={!gradeSelected && 'Please select one or more grades'} {...ttProps}>
           <Button {...btnProps} onClick={local(next)} disabled={!gradeSelected}>
             <Flex align='center center' fw='lighter'>
               Next
-              <Icon name='keyboard_arrow_right'/>
+              <Icon name='keyboard_arrow_right' />
             </Flex>
           </Button>
         </Tooltip>
@@ -66,7 +68,7 @@ function render ({props, state, local}) {
         <Text color='blue' fs='m' mb='l' fw='200'>
           What Subjects Do You Teach?
         </Text>
-        <SubjectSelector />
+        <SubjectSelector toggle={local(toggleSubject)} selected={subjects} />
         <Tooltip message={!subjectSelected && 'Please select one or more subjects'} {...ttProps}>
           <Button {...btnProps} onClick={closeModal} disabled={!subjectSelected}>
             <Flex align='center center' fw='lighter'>
@@ -88,7 +90,9 @@ function render ({props, state, local}) {
  * Actions
  */
 
-const next = createAction('<InforForms/>: next')
+const next = createAction('<InfoForms/>: next')
+const toggleGrade = createAction('<IntroForms/>: toggle grade')
+const toggleSubject = createAction('<IntroForms/>: toggle subject')
 
 /**
  * Reducer
@@ -98,6 +102,18 @@ const reducer = handleActions({
   [next]: state => ({
     ...state,
     isDone: true
+  }),
+  [toggleGrade]: (state, grade) => ({
+    ...state,
+    grades: state.grades.indexOf(grade) === -1
+      ? [...state.grades, grade]
+      : state.grades.filter(g => g !== grade)
+  }),
+  [toggleSubject]: (state, subject) => ({
+    ...state,
+    subjects: state.subjects.indexOf(subject) === -1
+      ? [...state.subjects, subject]
+      : state.subjects.filter(s => s !== subject)
   })
 })
 

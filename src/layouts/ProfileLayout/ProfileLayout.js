@@ -4,6 +4,7 @@
 
 import AppLayout from 'layouts/AppLayout'
 import FourOhFour from 'pages/FourOhFour'
+import {pickerColors} from 'lib/colors'
 import maybeOver from '@f/maybe-over'
 import {Card, Flex} from 'vdux-ui'
 import element from 'vdux/element'
@@ -22,7 +23,7 @@ function render ({props, children}) {
     : props.user
 
   return (
-    <AppLayout {...props} bgColor={user.value ? user.value.color : undefined}>
+    <AppLayout {...props} bgColor={user.value && (user.value.color || pickerColors[0])}>
       <Flex mt={18} px='s' column mx='auto' align='center center' w='col_main'>
         {internal(isCurrentUser, user, children)}
       </Flex>

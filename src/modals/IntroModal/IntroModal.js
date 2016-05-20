@@ -2,19 +2,20 @@
  * Imports
  */
 
-import {Block, Modal} from 'vdux-ui'
 import handleActions from '@f/handle-actions'
+import {Button, Text} from 'vdux-containers'
 import createAction from '@f/create-action'
+import {closeModal} from 'reducer/modal'
 import IntroSteps from './IntroSteps'
 import IntroForms from './IntroForms'
-import {Button, Text} from 'vdux-containers'
+import {Block, Modal} from 'vdux-ui'
 import element from 'vdux/element'
 
 /**
  * <IntroModal/>
  */
 
-function initialState() {
+function initialState () {
   return {
     cur: 0,
     counts: {}
@@ -30,7 +31,7 @@ function render ({props, state, local}) {
     align: 'center center',
     fs: 'm',
     p: 0,
-    boxSadhow: 'card'
+    boxShadow: 'card'
   }
 
   return (

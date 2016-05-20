@@ -23,7 +23,7 @@ function * initializeAuth () {
 }
 
 function * setAuthToken (token) {
-  yield cookie('authToken', token)
+  yield cookie('authToken', token, {path: '/'})
   yield userDidAuthenticate(token)
 }
 
