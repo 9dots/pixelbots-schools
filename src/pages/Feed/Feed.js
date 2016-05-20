@@ -16,7 +16,7 @@ function onCreate ({props}) {
   const {slideshow = {}} = preferences
 
   if (!slideshow.done) {
-    return openModal(() => <IntroModal/>)
+    return openModal(() => <IntroModal currentUser={currentUser} />)
   }
 }
 

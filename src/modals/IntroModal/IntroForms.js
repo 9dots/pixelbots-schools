@@ -10,6 +10,7 @@ import createAction from '@f/create-action'
 import {closeModal} from 'reducer/modal'
 import {Flex, Icon} from 'vdux-ui'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 
 /**
  * initialState
@@ -27,7 +28,7 @@ function initialState () {
  */
 
 function render ({props, state, local}) {
-  const {cur} = props
+  const {cur, finishedIntroModal, saveGradesAndSubjects} = props
   const {isDone, grades, subjects} = state
   const ttProps = {
     placement: 'bottom',
@@ -72,7 +73,7 @@ function render ({props, state, local}) {
         </Text>
         <SubjectSelector toggle={local(toggleSubject)} selected={subjects} />
         <Tooltip message={!subjects.length && 'Please select one or more subjects'} {...ttProps}>
-          <Button {...btnProps} onClick={closeModal} disabled={!subjects.length}>
+          <Button {...btnProps} onClick={() => submit(grades, subjects)} disabled={!subjects.length}>
             <Flex align='center center' fw='lighter'>
               <Icon name='check' mr/>
               Let's Get Started
@@ -81,11 +82,17 @@ function render ({props, state, local}) {
         </Tooltip>
       </Flex>
 
-      <Text pointer onClick={() => closeModal()} absolute bottom right m color='grey' hoverProps={{underline: true}}>
+      <Text pointer onClick={[finishedIntroModal, closeModal]} absolute bottom right m color='grey' hoverProps={{underline: true}}>
         Skip
       </Text>
     </Flex>
   )
+
+  function * submit () {
+    yield saveGradesAndSubjects(grades, subjects)
+    yield finishedIntroModal()
+    yield closeModal()
+  }
 }
 
 /**
@@ -123,10 +130,31 @@ const reducer = handleActions({
  * Exports
  */
 
-export default {
+export default summon(({currentUser}) => ({
+  saveGradesAndSubjects: (gradeLevels, subjects) => ({
+    savingGradesAndSubjects: {
+      url: '/user/',
+      method: 'PUT',
+      body: {
+        ...currentUser,
+        gradeLevels,
+        subjects
+      }
+    }
+  }),
+  finishedIntroModal: () => ({
+    savingPreference: {
+      url: '/preference/' + encodeURIComponent('slideshow.done'),
+      method: 'PUT',
+      body: {
+        value: true
+      }
+    }
+  })
+}))({
   render,
   initialState,
   reducer
-}
+})
 
 
