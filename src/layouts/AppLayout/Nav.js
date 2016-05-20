@@ -35,7 +35,7 @@ function render ({props, state}) {
           </Flex>
           <Menu spacing='m' flex align='end center'>
             <Search url={url} searching={search} query={query}/>
-            <Button fs='m' px='s' tooltip='Notifications' ttPlacement='bottom' ttSpace={5} icon='notifications' tag='div' align='center' display='flex' />
+            <Button fs='m' px='s' tooltip='Notifications' ttPlacement='bottom' ttSpace={5} icon='notifications' tag='div'/>
             <AccountMenu currentUser={currentUser} />
             <Button pill h={34}>
               <Flex align='center center'>

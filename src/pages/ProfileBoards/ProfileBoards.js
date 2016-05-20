@@ -39,7 +39,17 @@ function renderGrid (boards, currentUser, user) {
         currentUser._id === user._id &&
         <Flex bgColor='rgba(0,0,0,0.025)' mx={6} my={8} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
           <Block fs='s' fw='lighter' mb>Create New Board</Block>
-          <Button onClick={() => openModal(() => <CreateBoardModal />)} bgColor='white' boxShadow='card' fs='m' circle={btnSize} p='0' mt hoverProps={{highlight: 0.02}} icon='add' fw='200' color='midgray'/>
+          <Button onClick={() => openModal(() => <CreateBoardModal />)}
+            hoverProps={{highlight: 0.02}}
+            boxShadow='card'
+            circle={btnSize}
+            bgColor='white'
+            color='midgray'
+            icon='add'
+            fw='200'
+            fs='m'
+            p='0'
+            mt/>
         </Flex>
       }
       {
