@@ -1,0 +1,5 @@
+{
+  "name": "AvatarUploadModal",
+  "main": "AvatarUploadModal.js",
+  "browser": "AvatarUploadModal.js"
+}
