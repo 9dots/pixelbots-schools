@@ -44,7 +44,7 @@ function * oauthLogin (provider, params, cb) {
 }
 
 function * logoutUser () {
-  yield postLogin('')
+  yield postLogin(null)
 }
 
 function *oauthCreate (provider, params) {

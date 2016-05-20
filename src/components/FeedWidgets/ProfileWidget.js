@@ -8,6 +8,7 @@ import {Block} from 'vdux-containers'
 import {Flex, Card} from 'vdux-ui'
 import element from 'vdux/element'
 import Link from 'components/Link'
+import * as colors from 'lib/colors'
 
 function render ({props}) {
   const {user} = props
@@ -15,7 +16,7 @@ function render ({props}) {
 
   return (
     <Card {...props}>
-      <Block bg={color} h='60'/>
+      <Block bg={color || colors.pickerColors[0]} h='60'/>
       <Flex p='s'>
         <Avatar circle='75px' link actor={user} m='-37.5px 6px 0 0' boxShadow='card' border='2px solid white'/>
         <Block overflow='hidden'>

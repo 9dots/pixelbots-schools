@@ -23,7 +23,7 @@ function render ({props}) {
       <Form onSubmit={renameClass} onSuccess={closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
-            <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
+            <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
               Class Settings
             </Block>
             <RoundedInput my autofocus name='displayName' placeholder='Class name' defaultValue={group.displayName} />

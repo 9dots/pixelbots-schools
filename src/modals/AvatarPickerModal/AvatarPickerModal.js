@@ -45,7 +45,7 @@ function render ({props, state, local}) {
   return (
     <Modal>
       <ModalBody pb>
-        <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
+        <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
           Select an Avatar
         </Block>
         <Grid rowAlign='center' minHeight={360}>
@@ -56,8 +56,8 @@ function render ({props, state, local}) {
       </ModalBody>
       <ModalFooter bg='greydark'>
         <Block flex align='start center'>
-          <Button bgColor='black' icon='keyboard_arrow_left' mr='s' fs='s' lh='30px' px='25' onClick={local(prev)}/>
-          <Button bgColor='black' icon='keyboard_arrow_right' mr fs='s' lh='30px' px='25' onClick={local(next)}/>
+          <Button bgColor='black' icon='keyboard_arrow_left' mr='s' fs='s' h='30px' px='25' onClick={local(prev)} disabled={page == 0}/>
+          <Button bgColor='black' icon='keyboard_arrow_right' mr fs='s' h='30px' px='25' onClick={local(next)} disabled={page == (numPages - 1)}/>
           <Flex>
             { dots(page, local) }
           </Flex>

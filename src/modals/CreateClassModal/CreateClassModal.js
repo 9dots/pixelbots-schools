@@ -23,7 +23,7 @@ function render ({props}) {
       <Form onSubmit={createClass} onSuccess={closeModal} tall validate={validate.group} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
-            <Block mt={35} mb={15} fs='m' fw='lighter' color='blue' textAlign='center'>
+            <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
               Create Class
             </Block>
             <RoundedInput my autofocus name='displayName' placeholder='Class name' />
