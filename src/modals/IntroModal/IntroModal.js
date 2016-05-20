@@ -23,6 +23,7 @@ function initialState () {
 }
 
 function render ({props, state, local}) {
+  const {currentUser} = props
   const {cur, counts} = state
   const btnProps = {
     bgColor: 'white',
@@ -40,7 +41,7 @@ function render ({props, state, local}) {
         (cur < numSteps) && <IntroSteps cur={cur} counts={counts} />
       }
       {
-        (cur >= numSteps) && <IntroForms cur={cur}/>
+        (cur >= numSteps) && <IntroForms cur={cur} currentUser={currentUser} />
       }
       <Block hide={cur >= numSteps}>
         <Block absolute top='100%' wide h={btnProps.circle} top  bottom m='auto'>

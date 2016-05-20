@@ -2,10 +2,11 @@
  * Imports
  */
 
-import {CSSContainer, wrap} from 'vdux-containers'
-import {Block, Text, Icon, Image, Flex} from 'vdux-ui'
 import AvatarUploadModal from 'modals/AvatarUploadModal'
+import {Block, Text, Icon, Image, Flex} from 'vdux-ui'
+import {CSSContainer, wrap} from 'vdux-containers'
 import {openModal} from 'reducer/modal'
+import * as colors from 'lib/colors'
 import element from 'vdux/element'
 
 /**
