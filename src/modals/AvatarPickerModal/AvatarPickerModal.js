@@ -2,14 +2,14 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Grid, Text, Block, Flex} from 'vdux-ui'
-import {Radio} from 'vdux-containers'
+import {Modal, ModalBody, ModalFooter, Grid, Text, Block, Flex, Radio} from 'vdux-ui'
 import {closeModal} from 'reducer/modal'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import AvatarBlock from './AvatarBlock'
 import * as avatarMap from './avatars'
 import {Button} from 'vdux-containers'
+import {form} from 'vdux-containers'
 import element from 'vdux/element'
 import reduce from '@f/reduce'
 
@@ -42,8 +42,8 @@ function initialState({props}) {
  */
 
 function render ({props, state, local}) {
-  const {user} = props
-  const {page, selected} = state
+  const {user, fields} = props
+  const {page} = state
   const curAvatars = avatars.slice(page * pageSize, (page + 1) * pageSize)
 
   return (
@@ -57,9 +57,10 @@ function render ({props, state, local}) {
             curAvatars.map(avatar =>
               <Radio
                 btn={AvatarBlock}
+                checked={fields.avatar.value === avatar}
                 uiProps={{avatar, user}}
                 checkedProps={{checked: true}}
-                onChange={local(select, avatar)} />
+                 />
             )
           }
         </Grid>
@@ -93,7 +94,6 @@ function dots(page, local) {
  * Actions
  */
 
-const select = createAction('<AvatarPickerModal/>: select')
 const next = createAction('<AvatarPickerModal/>: next')
 const prev = createAction('<AvatarPickerModal/>: prev')
 const go = createAction('<AvatarPickerModal/>: go')
@@ -114,12 +114,6 @@ const reducer = handleActions({
   [go]: (state, i) => ({
     ...state,
     page: i
-  }),
-  [select]: (state, selected) => ({
-    ...state,
-    selected: selected === state.selected
-      ? null
-      : selected
   })
 })
 
@@ -127,8 +121,10 @@ const reducer = handleActions({
  * Exports
  */
 
-export default {
+export default form(props => ({
+  fields: ['avatar']
+}))({
   initialState,
   render,
   reducer
-}
+})
