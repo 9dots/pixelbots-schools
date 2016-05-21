@@ -3,21 +3,25 @@
  */
 
 import {Modal, ModalBody, ModalFooter, Grid, Text, Block, Flex} from 'vdux-ui'
+import {Radio} from 'vdux-containers'
 import {closeModal} from 'reducer/modal'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import AvatarBlock from './AvatarBlock'
 import * as avatarMap from './avatars'
 import {Button} from 'vdux-containers'
-import mapValues from '@f/map-values'
 import element from 'vdux/element'
+import reduce from '@f/reduce'
 
 /**
  * Constants
  */
 
-let avatars = ['upload', 'letters']
-mapValues(path => avatars.push(path), avatarMap)
+const avatars = reduce((avatars, avatar) => {
+  avatars.push(avatar)
+  return avatars
+}, ['upload', 'letters'], avatarMap)
+
 const pageSize = 12
 const numPages = Math.ceil(avatars.length / pageSize)
 
@@ -39,7 +43,7 @@ function initialState({props}) {
 
 function render ({props, state, local}) {
   const {user} = props
-  const {page} = state
+  const {page, selected} = state
   const curAvatars = avatars.slice(page * pageSize, (page + 1) * pageSize)
 
   return (
@@ -50,7 +54,13 @@ function render ({props, state, local}) {
         </Block>
         <Grid rowAlign='center' minHeight={360}>
           {
-            curAvatars.map(avatar => <AvatarBlock avatar={avatar} hoverProps={{hovered: true}} focusProps={{selected: true}} user={user}/>)
+            curAvatars.map(avatar =>
+              <Radio
+                btn={AvatarBlock}
+                uiProps={{avatar, user}}
+                checkedProps={{checked: true}}
+                onChange={local(select, avatar)} />
+            )
           }
         </Grid>
       </ModalBody>
@@ -83,6 +93,7 @@ function dots(page, local) {
  * Actions
  */
 
+const select = createAction('<AvatarPickerModal/>: select')
 const next = createAction('<AvatarPickerModal/>: next')
 const prev = createAction('<AvatarPickerModal/>: prev')
 const go = createAction('<AvatarPickerModal/>: go')
@@ -103,6 +114,12 @@ const reducer = handleActions({
   [go]: (state, i) => ({
     ...state,
     page: i
+  }),
+  [select]: (state, selected) => ({
+    ...state,
+    selected: selected === state.selected
+      ? null
+      : selected
   })
 })
 

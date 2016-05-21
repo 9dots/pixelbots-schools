@@ -89,6 +89,10 @@ function letterAvatar(user) {
  * Exports
  */
 
-export default wrap(CSSContainer)({
+export default wrap(CSSContainer, {
+  hoverProps: {
+    hovered: true
+  }
+})({
   render
 })
