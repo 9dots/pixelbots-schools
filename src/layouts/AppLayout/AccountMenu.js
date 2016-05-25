@@ -37,7 +37,7 @@ function render ({props}) {
         Notifications
       </MenuItem>
       <Divider/>
-      <MenuItem align='start center'>
+      <MenuItem align='start center' onClick={() => setUrl('/account/settings')}>
         <Icon name='settings' fs='s' mr='s'/>
         Settings
       </MenuItem>

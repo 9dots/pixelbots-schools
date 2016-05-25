@@ -3,7 +3,8 @@
  */
 
 import schoolPattern from './files/pattern.png'
-import {Block, Text, Button} from 'vdux-ui'
+import {Block, Text} from 'vdux-ui'
+import {Button} from 'vdux-containers'
 import {scrollTo} from 'middleware/scroll'
 import element from 'vdux/element'
 
@@ -23,7 +24,9 @@ function render () {
       </Text>
       <Button
         bgColor='yellow'
-        boxShadow='menu'
+        boxShadow='z2'
+        hoverProps={{boxShadow: 'z3', highlight: true}}
+        transition='all .15s'
         p='s'
         fs='18px'
         w='200'

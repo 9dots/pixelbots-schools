@@ -20,7 +20,7 @@ function render ({props}) {
   const {renameClass, group} = props
 
   return (
-    <Modal onDismiss={closeModal} opacity='1'>
+    <Modal onDismiss={closeModal}>
       <Form onSubmit={renameClass} onSuccess={closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>

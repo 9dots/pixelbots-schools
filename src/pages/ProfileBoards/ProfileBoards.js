@@ -40,8 +40,10 @@ function renderGrid (boards, currentUser, user) {
         <Flex bgColor='rgba(0,0,0,0.025)' mx={6} my={8} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
           <Block fs='s' fw='lighter' mb>Create New Board</Block>
           <Button onClick={() => openModal(() => <CreateBoardModal />)}
-            hoverProps={{highlight: 0.02}}
-            boxShadow='card'
+            hoverProps={{highlight: 0.02, boxShadow: 'z3'}}
+            focusProps={{highlight: 0.02}}
+            transition='box-shadow .15s'
+            boxShadow='z2'
             circle={btnSize}
             bgColor='white'
             color='midgray'

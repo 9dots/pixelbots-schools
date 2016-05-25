@@ -21,7 +21,7 @@ function render ({path, props}) {
   const {state, currentUser} = props
 
   return (
-    <Block pb={48}>
+    <Block>
       <Block>
         {state.modal && state.modal()}
       </Block>

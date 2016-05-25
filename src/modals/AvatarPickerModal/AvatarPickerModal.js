@@ -43,7 +43,7 @@ function render ({props, state, local}) {
   const curAvatars = avatars.slice(page * pageSize, (page + 1) * pageSize)
 
   return (
-    <Modal>
+    <Modal onDismiss={closeModal}>
       <ModalBody pb>
         <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
           Select an Avatar

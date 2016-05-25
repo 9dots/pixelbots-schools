@@ -1,0 +1,5 @@
+{
+  "name": "SubjectPickerModal",
+  "main": "SubjectPickerModal.js",
+  "browser": "SubjectPickerModal.js"
+}

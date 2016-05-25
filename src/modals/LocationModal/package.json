@@ -1,0 +1,5 @@
+{
+  "name": "LocationModal",
+  "main": "LocationModal.js",
+  "browser": "LocationModal.js"
+}

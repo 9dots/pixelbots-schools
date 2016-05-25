@@ -4,9 +4,10 @@
 
 import {Block, Menu, MenuItem, Icon, Card, Flex, Text} from 'vdux-ui'
 import {Button, Tooltip, wrap, CSSContainer} from 'vdux-containers'
-import ColorPickerModal from 'modals/ColorPickerModal'
 import AvatarPickerModal from 'modals/AvatarPickerModal'
+import ColorPickerModal from 'modals/ColorPickerModal'
 import FollowButton from 'components/FollowButton'
+import {setUrl} from 'redux-effects-location'
 import NavTile from 'components/NavTile'
 import {openModal} from 'reducer/modal'
 import Avatar from 'components/Avatar'
@@ -54,13 +55,13 @@ function render ({props}) {
         </Flex>
         <Flex hide={!isCurrentUser} absolute='top 12px right 12px'>
           <Button
-            onClick={() => openModal(() => <ColorPickerModal currentUser={user} />)}
+            onClick={() => openModal(() => <ColorPickerModal user={user} />)}
             hoverProps={{text: <Icon fs='s' name='colorize' />}}
             align='center center'
             bgColor={user.color}
             circle='30'
             tag='div'/>
-          <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}}>
+          <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}} onClick={() => setUrl('/account/profile')}>
             Edit Profile
           </Button>
         </Flex>

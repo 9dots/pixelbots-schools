@@ -23,10 +23,10 @@ const {pickerColors, blue} = colors
  */
 
 function initialState ({props}) {
-  const {currentUser} = props
+  const {user} = props
 
   return {
-    selected: currentUser.color
+    selected: user.color
   }
 }
 
@@ -35,11 +35,11 @@ function initialState ({props}) {
  */
 
 function render ({props, state, local}) {
-  const {updateColor, currentUser} = props
+  const {updateColor, user} = props
   const {selected} = state
 
   return (
-    <Modal>
+    <Modal onDismiss={closeModal}>
       <Form onSubmit={() => updateColor(selected)} onSuccess={closeModal}>
         <ModalBody pb>
           <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
@@ -121,13 +121,13 @@ const ColorBlock = wrap(CSSContainer, {hoverProps: {hovered: true}})({
  * Exports
  */
 
-export default summon(({currentUser}) => ({
+export default summon(({user}) => ({
   updateColor: color => ({
     submitting: {
       url: '/user',
       method: 'PUT',
       body: {
-        ...currentUser,
+        ...user,
         color
       }
     }

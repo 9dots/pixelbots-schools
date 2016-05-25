@@ -48,7 +48,10 @@ const theme = {
   shadow: {
     ...defaultTheme.shadow,
     inner: 'inset 0px 2px 2px 0px rgba(0,0,0,0.22)',
-    menu: 'rgba(52, 52, 52, 0.2) 0px 0px 20px 0px, rgba(52, 52, 52, 0.08) 0px 0px 0px 1px'
+    menu: 'rgba(52, 52, 52, 0.2) 0px 0px 20px 0px, rgba(52, 52, 52, 0.08) 0px 0px 0px 1px',
+    'z1': '0px 1px 2px rgba(0, 0, 0, 0.2)',
+    'z2': '0 1px 4px 0 rgba(0, 0, 0, 0.25)',
+    'z3': '0 1px 7px 0 rgba(0, 0, 0, 0.3)'
   },
   avatarScale: {
     s: 32,
