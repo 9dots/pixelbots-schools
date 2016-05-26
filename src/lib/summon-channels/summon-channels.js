@@ -8,7 +8,7 @@ import summon from 'vdux-summon'
  * Summon channels
  */
 
-function summonChannels (fn) {
+function summonChannels (fn, extras = {}) {
   return summon(props => ({
     activities: `/share?${
       [].concat(fn(props))
@@ -29,7 +29,8 @@ function summonChannels (fn) {
           query
         }
       }
-    })
+    }),
+    ...extras
   }))
 }
 
