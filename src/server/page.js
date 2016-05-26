@@ -2,13 +2,7 @@
  * Imports
  */
 
-const fs = require('fs')
-
-/**
- * Read in global styles
- */
-
-const globalStyle = fs.readFileSync(__dirname + '/global.css', 'utf8')
+import css from './css'
 
 /**
  * Page
@@ -23,9 +17,9 @@ function page ({html, state}) {
           <meta name='google' content='notranslate' />
 
           <title>Weo</title>
-          <style>
-            ${globalStyle}
-          </style>
+          ${
+            css.map(str => `<style>${str}</style>`).join('')
+          }
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
           <script type='text/javascript'>
             window.__initialState__ = ${JSON.stringify(state)}

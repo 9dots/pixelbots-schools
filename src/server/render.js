@@ -34,7 +34,8 @@ function render (opts) {
       try {
         const html = render(<Boot state={state.app} />, {
           uiTheme,
-          currentUrl: state.app.url
+          currentUrl: state.app.url,
+          avatarUpdates: state.app.avatarUpdates
         })
 
         if (state.app.ready) {

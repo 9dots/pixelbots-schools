@@ -40,7 +40,8 @@ domready(() => subscribe(app))
 function app (state, forceUpdate) {
   render(<Boot state={state.app} />, {
     uiTheme: theme,
-    currentUrl: state.app.url
+    currentUrl: state.app.url,
+    avatarUpdates: state.app.avatarUpdates
   }, forceUpdate)
 }
 

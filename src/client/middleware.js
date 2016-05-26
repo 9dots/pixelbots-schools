@@ -11,6 +11,7 @@ import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
 import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
+import upload from 'middleware/upload'
 import scroll from 'middleware/scroll'
 import * as summon from 'vdux-summon'
 import logger from 'weo-redux-logger'
@@ -32,6 +33,7 @@ const middleware = [
   fetchEncodeJSON,
   fetch,
   scroll,
+  upload,
   location(),
   summon.middleware('app.summon'),
   OAuth,

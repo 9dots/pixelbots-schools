@@ -1,0 +1,6 @@
+# <Cropper/>
+
+Crop images
+
+## Usage
+

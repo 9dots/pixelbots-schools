@@ -1,0 +1,5 @@
+{
+  "name": "FileUpload",
+  "main": "FileUpload.js",
+  "browser": "FileUpload.js"
+}

@@ -2,11 +2,15 @@
  * Imports
  */
 
-import css from 'jss-simple'
-import {Block} from 'vdux-ui'
-import element from 'vdux/element'
 import * as colors from 'lib/colors'
+import element from 'vdux/element'
+import {Block} from 'vdux-ui'
+import css from 'jss-simple'
 import Color from 'color'
+
+/**
+ * Constants
+ */
 
 const clr = Color(colors.blue).lighten(0.15)
 
@@ -40,8 +44,11 @@ css({
   }
 })
 
-function rgba(clr, a) {
-  a = a !== undefined ? a : 1
+/**
+ * Helpers
+ */
+
+function rgba (clr, a = 1) {
   return Color(clr).alpha(a).rgbaString()
 }
 

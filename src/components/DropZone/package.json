@@ -1,0 +1,5 @@
+{
+  "name": "DropZone",
+  "main": "DropZone.js",
+  "browser": "DropZone.js"
+}

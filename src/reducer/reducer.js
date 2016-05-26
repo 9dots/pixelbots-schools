@@ -3,6 +3,7 @@
  */
 
 import combineReducers from '@f/combine-reducers'
+import avatarUpdates from './avatarUpdates'
 import ready from './ready'
 import modal from './modal'
 import auth from './auth'
@@ -17,7 +18,8 @@ const reducer = combineReducers({
     ready,
     url,
     auth,
-    modal
+    modal,
+    avatarUpdates
   })
 })
 
