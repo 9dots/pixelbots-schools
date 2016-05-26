@@ -13,7 +13,8 @@ import summon from 'vdux-summon'
 
 function render ({props}) {
   const {user, setSpeed} = props
-  const speed = user.preferences.speech_speed
+  const speed = user.preferences.speech_speed || 1
+
   return (
     <Block display='inline-block' fw='normal'>
       <Dropdown mb='l' wide btn={
