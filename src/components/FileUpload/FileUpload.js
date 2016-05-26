@@ -32,7 +32,8 @@ function render ({props, state, local}) {
 
   return (
     <DropZone
-      accepts={'Files'}
+      relative
+      accepts='Files'
       dragonProps={{
         message: 'Drop File',
         color: 'blue'
@@ -48,8 +49,9 @@ function render ({props, state, local}) {
       <ProgressBar hide={!uploading} progress={progress} />
       <ErrorTip show={!!error} message={error} placement='right' />
       <Base
+        tall wide
         onChange={upload}
-        tag='input' type='file' wide tall opacity='0' absolute pointer />
+        tag='input' type='file' opacity='0' absolute pointer />
     </DropZone>
   )
 
