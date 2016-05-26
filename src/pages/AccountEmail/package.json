@@ -1,0 +1,5 @@
+{
+  "name": "AccountEmail",
+  "main": "AccountEmail.js",
+  "browser": "AccountEmail.js"
+}

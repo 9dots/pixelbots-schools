@@ -1,0 +1,5 @@
+{
+  "name": "AccountProfile",
+  "main": "AccountProfile.js",
+  "browser": "AccountProfile.js"
+}
