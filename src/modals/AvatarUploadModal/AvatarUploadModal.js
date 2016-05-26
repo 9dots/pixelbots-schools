@@ -33,14 +33,16 @@ function render ({props, local, state}) {
   return (
     <Modal onDismiss={closeModal}>
       <ModalBody pb>
-        <Block py='l' fs='l' fw='200' color='blue' textAlign='center'>
+        <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
           Upload An Image
         </Block>
-        {
-          url
-            ? <Cropper url={url} onCrop={local(setCrop)} />
-            : <FileUpload onUpload={local(setImage)} validate={validateFile} />
-        }
+        <Block align='center center' h='360'>
+          {
+            url
+              ? <Cropper url={url} onCrop={local(setCrop)} />
+              : <FileUpload onUpload={local(setImage)} validate={validateFile} />
+          }
+        </Block>
       </ModalBody>
       <ModalFooter bg='greydark'>
         <Block flex>

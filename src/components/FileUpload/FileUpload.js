@@ -43,9 +43,11 @@ function render ({props, state, local}) {
       bgColor='grey_light'
       sq={300}
       fs='s'
+      relative
       fw='lighter'
-      mx='auto'>
-      <ProgressBar hide={!uploading} progress={progress} />
+      mx='auto'
+      uploading={uploading}>
+      <ProgressBar w='50%' h='5' absolute top bottom right left m='auto' hide={!uploading} progress={progress} />
       <ErrorTip show={!!error} message={error} placement='right' />
       <Base
         onChange={upload}
