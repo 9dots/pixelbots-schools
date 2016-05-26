@@ -1,0 +1,5 @@
+{
+  "name": "SettingsRow",
+  "main": "SettingsRow.js",
+  "browser": "SettingsRow.js"
+}

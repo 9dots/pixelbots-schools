@@ -1,0 +1,5 @@
+{
+  "name": "ReadingSpeedDropdown",
+  "main": "ReadingSpeedDropdown.js",
+  "browser": "ReadingSpeedDropdown.js"
+}
