@@ -16,17 +16,17 @@ function render ({props}) {
   return (
     <Flex
       focusProps={{
-        boxShadow: '0 0 3px rgba(35,168,223,0.5)',
+        boxShadow: '0 0 3px rgba(blue, 0.5)',
         borderColor: 'bluemedium'
       }}
       border='1px solid #CCC'
       tabindex='-1'
-      w='col_med'
+      w='420px'
       rounded
       h='200'
       column
       wrap
-      p >
+      p>
       {
         grades.map(grade => item(grade, selected.indexOf(grade) !== -1, () => toggle(grade)))
       }

@@ -29,8 +29,7 @@ function render ({props}) {
         background: 'transparent',
         textAlign: 'center',
         ...(props.inputProps || {})
-      }}
-      />
+      }}/>
   )
 }
 

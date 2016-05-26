@@ -1,0 +1,5 @@
+{
+  "name": "PasswordModal",
+  "main": "PasswordModal.js",
+  "browser": "PasswordModal.js"
+}
