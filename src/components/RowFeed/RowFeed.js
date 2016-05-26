@@ -26,7 +26,7 @@ function render ({props}) {
   const searching = !!(params && params.query)
 
   return (
-    <InfiniteScroll more={() => more(value && value.nextPageToken)} {...rest}>
+    <InfiniteScroll loading={loading} more={() => more(value && value.nextPageToken)} {...rest}>
       {
         search && <RoundedInput
         hide={!loading && !value.items.length && !searching}

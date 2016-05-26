@@ -22,7 +22,7 @@ function render ({props}) {
 
   return (
     <Flex>
-      <Flex column w='col_med' color='white' align='center'>
+      <Flex column w='col_m' color='white' align='center'>
         <Block mt='-30px' fs='xl' mb='m'>
           Welcome to Weo
         </Block>
@@ -35,7 +35,7 @@ function render ({props}) {
         </Block>
       </Flex>
       <Form onSubmit={createTeacher} onSuccess={user => postLogin(user.token)} validate={validate.teacher} cast={cast}>
-        <Block w='col_sm' color='white'>
+        <Block w='col_s' color='white'>
           <input type='hidden' name='userType' value='teacher' />
           <BlockInput name='name' placeholder='FULL NAME' />
           <BlockInput name='email' placeholder='EMAIL' />

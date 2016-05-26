@@ -23,7 +23,7 @@ function render ({props}) {
       border='1px solid #CCC'
       overflow='auto'
       tabindex='-1'
-      w='col_med'
+      w='col_m'
       rounded
       h='200'
       wrap

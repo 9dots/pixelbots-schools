@@ -32,7 +32,7 @@ function render ({props}) {
         <Icon name='people' fs='s' mr='s'/>
         Connect
       </MenuItem>
-      <MenuItem align='start center'>
+      <MenuItem align='start center' onClick={() => setUrl('/notifications')}>
         <Icon name='notifications' fs='s' mr='s'/>
         Notifications
       </MenuItem>
