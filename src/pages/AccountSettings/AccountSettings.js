@@ -24,7 +24,7 @@ function render ({props}) {
 
   return (
     <Card>
-      <Block fs='l' color='blue' pt='l' pb px>
+      <Block fs='m' color='blue' pt='l' pb px>
         User Settings
       </Block>
 
@@ -33,7 +33,7 @@ function render ({props}) {
       <SettingsRow name='Email' placeholder={'What\'s your email?'} Modal={EmailModal} prop={email} user={currentUser} />
       <SettingsRow name='Password' Modal={PasswordModal} user={currentUser} prop='*******' />
 
-      <Block fs='l' color='blue' pt='l' pb px>
+      <Block fs='m' color='blue' pt='l' pb px>
         Activity Settings
       </Block>
 

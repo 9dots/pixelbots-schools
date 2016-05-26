@@ -22,7 +22,7 @@ function render ({props}) {
           <Block pt='xl' fs='m' fw='200' color='blue' textAlign='center'>
             Confirm
           </Block>
-          <Block textAlign='center' w='col_med' m='0 auto' p='l'>
+          <Block textAlign='center' w='col_m' m='0 auto' p='l'>
             {message}
           </Block>
         </ModalBody>

@@ -3,6 +3,7 @@
  */
 
 import {CSSContainer, Fixed, Text, Icon, Flex, Block, Menu, Button, MenuItem} from 'vdux-containers'
+import {setUrl} from 'redux-effects-location'
 import ClassNav from 'components/ClassNav'
 import HomeOwl from 'components/HomeOwl'
 import AccountMenu from './AccountMenu'
@@ -35,7 +36,7 @@ function render ({props, state}) {
           </Flex>
           <Menu spacing='m' flex align='end center'>
             <Search url={url} searching={search} query={query}/>
-            <Button fs='m' px='s' tooltip='Notifications' ttPlacement='bottom' ttSpace={5} icon='notifications' tag='div'/>
+            <Button fs='m' px='s' tooltip='Notifications' ttPlacement='bottom' ttSpace={5} icon='notifications' tag='div' onClick={() => setUrl('/notifications')}/>
             <AccountMenu currentUser={currentUser} />
             <Button pill h={34} border='1px solid rgba(#000, .1)'>
               <Flex align='center center'>

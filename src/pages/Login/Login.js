@@ -19,7 +19,7 @@ function render ({props}) {
   const {loginUser} = props
 
   return (
-    <Block w='col_sm' color='white' p='m'>
+    <Block w='col_s' color='white' p='m'>
       <Form onSubmit={loginUser} onSuccess={user => postLogin(user.token)}>
         <BlockInput autofocus placeholder='USERNAME OR EMAIL' name='username' />
         <BlockInput placeholder='PASSWORD' type='password' name='password' />

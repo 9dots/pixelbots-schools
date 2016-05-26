@@ -23,6 +23,8 @@ import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
 import ProfileStream from 'pages/ProfileStream'
 
+import NotificationsFeed from 'pages/NotificationsFeed'
+
 import AccountSettings from 'pages/AccountSettings'
 import AccountProfile from 'pages/AccountProfile'
 import AccountEmail from 'pages/AccountEmail'
@@ -155,6 +157,12 @@ const internal = enroute({
     <SettingsLayout {...props} {...params}>
       <AccountEmail {...props} />
     </SettingsLayout>,
+
+  // Notifications
+  '/notifications': (params, props) =>
+    <AppLayout {...props} {...params}>
+      <NotificationsFeed {...props}/>
+    </AppLayout>,
 
   // 404
   '*': (params, props) =>

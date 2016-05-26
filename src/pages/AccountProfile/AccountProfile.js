@@ -26,7 +26,7 @@ function render ({props}) {
 
   return (
     <Card>
-      <Block fs='l' color='blue' pt='l' pb px>
+      <Block fs='m' color='blue' pt='l' pb px>
         Profile Details
       </Block>
 

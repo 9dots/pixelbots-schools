@@ -29,11 +29,11 @@ const theme = {
     l: 24,
     xl: 32,
     xxl: 64,
-    col_xsm: 200,
-    col_sm: 360,
-    col_med: 440,
-    col_med: 440,
-    col_lrg: 520,
+    col_xs: 200,
+    col_s: 360,
+    col_m: 440,
+    col_l: 520,
+    col_xl: 714,
     col_main: 968
   },
   fontScale: {
