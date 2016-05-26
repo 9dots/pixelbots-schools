@@ -1,0 +1,5 @@
+{
+  "name": "NameModal",
+  "main": "NameModal.js",
+  "browser": "NameModal.js"
+}

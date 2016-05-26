@@ -14,7 +14,7 @@ import map from '@f/map'
 function render () {
 
   return (
-    <Flex tag='footer' align='center center' bg='graydark' color='white' p='l' relative>
+    <Flex tag='footer' align='center center' bg='greydark' color='white' p='l' relative>
       <Text color='gray'>© 2015 WEO All rights reserved</Text>
       { map(link, links) }
       <Link href="https://mixpanel.com/f/partner" rel="nofollow" absolute right='12px' top bottom h='36' m='auto' target='_blank'>

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Block, Flex, Card, Menu, MenuItem, Divider} from 'vdux-containers'
+import {Block, Flex, Card, Menu, Divider} from 'vdux-containers'
 import CreateBoardModal from 'modals/CreateBoardModal'
 import AppLayout from 'layouts/AppLayout'
 import WeoIcon from 'components/WeoIcon'

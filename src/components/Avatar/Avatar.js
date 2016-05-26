@@ -34,6 +34,7 @@ function render ({props, state, local}) {
   const {actor, circle, thumb, size, link, avatarUpdates} = props
 
   return <Avatar
+    bgColor='greylight'
     onClick={() => (link && setUrl(`/${actor.username}/boards`))}
     src={avatarUrl(state.loadFailed ? 'default' : actor, thumb, avatarUpdates)}
     onError={local(loadFailed)}

@@ -1,0 +1,5 @@
+{
+  "name": "EmailModal",
+  "main": "EmailModal.js",
+  "browser": "EmailModal.js"
+}

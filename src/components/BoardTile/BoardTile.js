@@ -2,10 +2,12 @@
  * Imports
  */
 
+import BoardSettingsModal from 'modals/BoardSettingsModal'
 import FollowButton from 'components/FollowButton'
 import {Block, Card, Text} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
 import WeoIcon from 'components/WeoIcon'
+import {openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import BgImg from 'components/BgImg'
@@ -50,7 +52,7 @@ function render ({props}) {
         <Flex h='42px' p='s' align='space-between center'>
             {
               currentUser._id === owner.id
-                ? <Button onClick={'test'} color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>Edit</Button>
+                ? <Button color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}} onClick={() => openModal(() => <BoardSettingsModal board={board} />)}>Edit</Button>
                 : <FollowButton w='150' px='0' board={board}/>
             }
           <Block color='grey_medium' lh='30px'>

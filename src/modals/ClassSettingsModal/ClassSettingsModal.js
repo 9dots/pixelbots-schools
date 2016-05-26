@@ -4,8 +4,9 @@
 
 import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
-import {closeModal} from 'reducer/modal'
+import {closeModal, openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
+import Confirm from 'modals/Confirm'
 import validate from 'lib/validate'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -19,7 +20,7 @@ function render ({props}) {
   const {renameClass, group} = props
 
   return (
-    <Modal onDismiss={closeModal} opacity='1'>
+    <Modal onDismiss={closeModal}>
       <Form onSubmit={renameClass} onSuccess={closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
@@ -45,11 +46,20 @@ function render ({props}) {
     </Modal>
   )
 
-  function *deleteClass () {
-    yield props.deleteClass()
-    yield closeModal()
+  function deleteClass () {
+    return openModal(() => <ConfirmDeleteClass classId={group._id} message={'Are you sure you want to delete your class "' + group.displayName + '?"'}/>)
   }
 }
+
+const ConfirmDeleteClass = summon(({classId}) => ({
+  onAccept: () => ({
+    deleting: {
+      url: `/group/${classId}`,
+      method: 'DELETE',
+      invalidates: ['/user/classes', '/user']
+    }
+  })
+}))(Confirm)
 
 /**
  * Exports
@@ -62,13 +72,6 @@ export default summon(({group}) => ({
       method: 'PUT',
       invalidates: ['/user/classes', '/user'],
       body
-    }
-  }),
-  deleteClass: () => ({
-    deleting: {
-      url: `/group/${group._id}`,
-      method: 'DELETE',
-      invalidates: ['/user/classes', '/user']
     }
   })
 }))({

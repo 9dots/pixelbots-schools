@@ -18,7 +18,7 @@ function render ({props}) {
     <Card {...props}>
       <Block bg={color || colors.pickerColors[0]} h='60'/>
       <Flex p='s'>
-        <Avatar circle='75px' link actor={user} m='-37.5px 6px 0 0' boxShadow='card' border='2px solid white'/>
+        <Avatar circle='75px' link actor={user} m='-37.5px 6px 0 0' boxShadow='z1' border='2px solid white'/>
         <Block overflow='hidden'>
           <Link ellipsis fw='bolder' href={`/${username}/boards`} hoverProps={{underline: true}}>
             {displayName}

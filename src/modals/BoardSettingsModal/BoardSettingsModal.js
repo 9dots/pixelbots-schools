@@ -4,8 +4,9 @@
 
 import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
-import {closeModal} from 'reducer/modal'
+import {closeModal, openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
+import Confirm from 'modals/Confirm'
 import validate from 'lib/validate'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -45,11 +46,20 @@ function render ({props}) {
     </Modal>
   )
 
-  function *deleteBoard () {
-    yield props.deleteBoard()
-    yield closeModal()
+  function deleteBoard() {
+    return openModal(() => <ConfirmDeleteBoard boardId={board._id} message={'Are you sure you want to delete your board "' +  board.displayName + '?"'}/>)
   }
 }
+
+const ConfirmDeleteBoard = summon(({boardId}) => ({
+  onAccept: () => ({
+    deleting: {
+      url: `/board/${boardId}`,
+      method: 'DELETE',
+      invalidates: '/user/boards'
+    }
+  })
+}))(Confirm)
 
 /**
  * Exports
@@ -62,13 +72,6 @@ export default summon(props => ({
       method: 'PUT',
       invalidates: '/user/boards',
       body
-    }
-  }),
-  deleteBoard: () => ({
-    deleting: {
-      url: `/board/${props.board._id}`,
-      method: 'DELETE',
-      invalidates: '/user/boards'
     }
   })
 }))({

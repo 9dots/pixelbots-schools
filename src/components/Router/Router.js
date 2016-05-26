@@ -3,6 +3,7 @@
  */
 
 import ActivitiesLayout from 'layouts/ActivitiesLayout'
+import SettingsLayout from 'layouts/SettingsLayout'
 import ProfileLayout from 'layouts/ProfileLayout'
 import SearchLayout from 'layouts/SearchLayout'
 import HomeLayout from 'layouts/HomeLayout'
@@ -21,6 +22,10 @@ import ProfileLikes from 'pages/ProfileLikes'
 import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
 import ProfileStream from 'pages/ProfileStream'
+
+import AccountSettings from 'pages/AccountSettings'
+import AccountProfile from 'pages/AccountProfile'
+import AccountEmail from 'pages/AccountEmail'
 
 import ActivitiesBoard from 'pages/ActivitiesBoard'
 import MyActivities from 'pages/MyActivities'
@@ -136,6 +141,20 @@ const internal = enroute({
     <ProfileLayout {...props} {...params}>
       {user => <ProfileStream {...props} user={user} />}
     </ProfileLayout>,
+
+  // Acount
+  '/account/settings': (params, props) =>
+    <SettingsLayout {...props} {...params}>
+      <AccountSettings {...props} />
+    </SettingsLayout>,
+  '/account/profile': (params, props) =>
+    <SettingsLayout {...props} {...params}>
+      <AccountProfile {...props} />
+    </SettingsLayout>,
+  '/account/email': (params, props) =>
+    <SettingsLayout {...props} {...params}>
+      <AccountEmail {...props} />
+    </SettingsLayout>,
 
   // 404
   '*': (params, props) =>
