@@ -18,7 +18,7 @@ function render ({props, children, local, state}) {
     : props
 
   const {
-    accepts = [], dragonProps, message,
+    accepts = [], dragonProps, message, uploading,
     onDragOver, onDragEnter, onDragLeave, onDrop,
     ...rest
   } = mergedProps
@@ -34,7 +34,7 @@ function render ({props, children, local, state}) {
       onDrop={[stop, local(leave), onDrop]}>
       {children}
 
-      <Block wide tall align='center center'>
+      <Block wide tall align='center center' hide={uploading}>
         {message}
       </Block>
     </Block>

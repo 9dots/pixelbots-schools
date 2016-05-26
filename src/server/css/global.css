@@ -82,3 +82,15 @@ button {
   border: 1px solid rgba(0,0,0,0.09);
   -webkit-appearance: button;
 }
+
+.cropper-modal {
+  background: white;
+  opacity: .75;
+}
+.cropper-dashed, .cropper-center {
+  display: none;
+}
+
+.cropper-bg {
+  background: #909294
+}

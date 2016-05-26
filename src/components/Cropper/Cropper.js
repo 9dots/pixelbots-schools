@@ -41,7 +41,7 @@ function render ({path, props}) {
 
   return (
     <Block>
-      <Base tag='img' id={path} src={url} maxWidth='100%' crossorigin='anonymous' />
+      <Base tag='img' sq='300' id={path} src={url} maxWidth='100%' crossorigin='anonymous' />
     </Block>
   )
 }
