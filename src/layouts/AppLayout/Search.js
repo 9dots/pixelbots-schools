@@ -18,9 +18,7 @@ function initialState({props}) {
   const {url} = props
   const isSearch = url.split('/').filter(Boolean)[0] === 'search'
 
-  return {
-    opened: isSearch
-  }
+  return { opened: isSearch }
 }
 
 function render ({props, local, state}) {
@@ -38,7 +36,7 @@ function render ({props, local, state}) {
         borderColor={!opened && 'transparent'}
         defaultValue={query}
         focusProps={{}}
-        w={opened ? 200 : 0}
+        w={opened ? 250 : 0}
         h='34'
         placeholder='Search Weo'
         autofocus={opened}
