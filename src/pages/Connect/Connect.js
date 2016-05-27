@@ -3,9 +3,11 @@
  */
 
 
+import InviteTeacherModal from 'modals/InviteTeacherModal'
 import InfiniteScroll from 'components/InfiniteScroll'
 import RoundedInput from 'components/RoundedInput'
 import {Block, Flex, Icon, Grid} from 'vdux-ui'
+import {openModal} from 'reducer/modal'
 import {setUrl} from 'redux-effects-location'
 import summonSearch from 'lib/summon-search'
 import UserTile from 'components/UserTile'
@@ -29,7 +31,7 @@ function render ({props}) {
     <Block w='col_main' mx='auto' mt='l' py>
       <Flex align='space-between center' mb='l'>
         <RoundedInput m='0' icon='search' inputProps={inputProps} flex='35%' placeholder='Find teachers to follow…'  />
-        <Button bgColor='green' py='m' px='xl' fs='s' fw='lighter' boxShadow='z2'>
+        <Button bgColor='green' py='m' px='xl' fs='s' fw='lighter' boxShadow='z2' onClick={() => openModal(() => <InviteTeacherModal />)}>
           <Flex align='center center'>
             <Icon name='local_attraction' fs='l' mr='s' />
             Invite a Friend
