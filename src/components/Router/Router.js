@@ -23,7 +23,6 @@ import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
 import ProfileStream from 'pages/ProfileStream'
 
-import NotificationsFeed from 'pages/NotificationsFeed'
 
 import AccountSettings from 'pages/AccountSettings'
 import AccountProfile from 'pages/AccountProfile'
@@ -36,6 +35,9 @@ import Trash from 'pages/Trash'
 import Login from 'pages/Login'
 import Feed from 'pages/Feed'
 import Home from 'pages/Home'
+
+import NotificationsFeed from 'pages/NotificationsFeed'
+import Connect from 'pages/Connect'
 
 import FourOhFour from 'pages/FourOhFour'
 import Redirect from 'components/Redirect'
@@ -162,6 +164,12 @@ const internal = enroute({
   '/notifications': (params, props) =>
     <AppLayout {...props} {...params}>
       <NotificationsFeed {...props}/>
+    </AppLayout>,
+
+  // Connect
+  '/connect/:query?': (params, props) =>
+    <AppLayout {...props} {...params}>
+      <Connect {...props} {...params}/>
     </AppLayout>,
 
   // 404

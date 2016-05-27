@@ -14,7 +14,7 @@ function summonChannels (fn, extras = {}) {
       [].concat(fn(props))
         .map(ch => `channel=${ch}`)
         .join('&')
-    }&maxResults=20`,
+    }&maxResults=30`,
     more: pageToken => ({
       activities: {
         params: pageToken && {

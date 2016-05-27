@@ -1,0 +1,5 @@
+{
+  "name": "Connect",
+  "main": "Connect.js",
+  "browser": "Connect.js"
+}

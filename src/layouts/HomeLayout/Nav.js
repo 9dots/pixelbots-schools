@@ -36,7 +36,7 @@ function render () {
 
 function item (text) {
   return (
-    <CSSContainer ui={Block} tag='a' href={links[text]} p={13} color='white' transition='color 0.1s 0s ease-in-out' hoverProps={{color: '#9c9999'}} >
+    <CSSContainer ui={Block} tag='a' target='_blank' href={links[text]} p={13} color='white' transition='color 0.1s 0s ease-in-out' hoverProps={{color: '#9c9999'}} >
       <Text uppercase fw='400' lh='1em' letterSpacing='2px' antialiased>
         {text}
       </Text>
