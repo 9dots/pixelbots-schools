@@ -7,12 +7,12 @@ import InviteTeacherModal from 'modals/InviteTeacherModal'
 import InfiniteScroll from 'components/InfiniteScroll'
 import RoundedInput from 'components/RoundedInput'
 import {Block, Flex, Icon, Grid} from 'vdux-ui'
-import {openModal} from 'reducer/modal'
 import {setUrl} from 'redux-effects-location'
-import summonSearch from 'lib/summon-search'
 import UserTile from 'components/UserTile'
+import {openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 import map from '@f/map'
 
 /**
@@ -52,6 +52,10 @@ function render ({props}) {
   )
 }
 
+/**
+ * Helpers
+ */
+
 function submitSearch (url) {
   return e => {
     const parts = url.split('/').filter(Boolean)
@@ -64,6 +68,17 @@ function submitSearch (url) {
  * Exports
  */
 
-export default summonSearch('people', 'people')({
+export default summon(({query}) => ({
+  people: {
+    url: query
+      ? `/search/people?query=${query}&maxResults=12`
+      : '/user/similar?maxResults=12'
+  },
+  more: pageToken => ({
+    people: {
+      params: pageToken && {pageToken}
+    }
+  })
+}))({
   render
 })
