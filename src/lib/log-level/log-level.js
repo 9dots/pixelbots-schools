@@ -10,7 +10,7 @@ const levels = [
   'error'
 ]
 
-let logLevel = 'info'
+let logLevel = 'warn'
 
 /**
  * shouldLog

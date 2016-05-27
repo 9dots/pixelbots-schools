@@ -29,7 +29,7 @@ function render ({props}) {
         &nbsp;
         {target(object)}
       </Block>
-      <Block mr color='grey' fs='xxs'>
+      <Block mr color='grey_medium' fs='xxs'>
         {moment(activity.createdAt).fromNow()}
       </Block>
     </Card>

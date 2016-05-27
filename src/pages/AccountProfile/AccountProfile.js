@@ -40,7 +40,7 @@ function render ({props}) {
 
       <SettingsRow name='Grades' placeholder='Where grades do you teach?' Modal={GradePickerModal} prop={gradeLevels} user={currentUser} />
       <SettingsRow name='Subjects' placeholder='What subjects do you teach?' Modal={SubjectPickerModal} prop={subjects} user={currentUser} />
-      <SettingsRow name='Website' placeholder='http://…' Modal={WebsiteModal} prop={website} user={currentUser} />
+      <SettingsRow name='Website' placeholder='http://…' Modal={WebsiteModal} prop={website && website.replace(/.*?:\/\//g, "")} user={currentUser} />
       <SettingsRow name='Location' placeholder='Where are you located?' Modal={LocationModal} prop={location} user={currentUser} />
       <SettingsRow name='Description' placeholder='Share a few words about yourself!' Modal={DescriptionModal} prop={aboutMe} user={currentUser} borderBottomWidth='0'/>
     </Card>

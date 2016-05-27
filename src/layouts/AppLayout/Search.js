@@ -2,40 +2,59 @@
  * Imports
  */
 
+import RoundedInput from 'components/RoundedInput'
+import handleActions from '@f/handle-actions'
 import {setUrl} from 'redux-effects-location'
-import {Input, Button} from 'vdux-ui'
+import createAction from '@f/create-action'
+import {Button, Block} from 'vdux-ui'
 import element from 'vdux/element'
-import qs from 'qs'
 
 /**
  * <Search/> site search input/icon (depending on whether
  * we are currently searching)
  */
 
-function render ({props}) {
+function initialState({props}) {
+  const {searching} = props
+  return {
+    opened: searching
+  }
+}
+
+
+function render ({props, local, state}) {
   const {url, searching, query} = props
+  const {opened} = state
 
   return (
-    searching
-      ? <Input
-          color='#666'
-          onKeypress={{enter: submitSearch(url)}}
-          defaultValue={query}
-          inputProps={{
-            h: 34,
-            w: 230,
-            pr: 30,
-            pl: 12,
-            fs: 'xs',
-            pill: true,
-            bgColor: 'rgba(255, 255, 255, 0.8)',
-            autofocus: true,
-            borderWidth: 0,
-            outline: 'none'
-          }}
-          placeholder='Search Weo'
-          mb='0' />
-      : <Button onClick={() => setUrl('/search/activities')} fs='m' tooltip='Search Weo' ttPlacement='bottom' icon='search' tag='div' align='center' display='flex'/>
+    <Block relative h='34px'>
+      <RoundedInput
+        bgColor={opened ? 'rgba(white,0.8)' : 'transparent'}
+        pointerEvents={opened ? 'auto' : 'none'}
+        onKeypress={{enter: submitSearch(url)}}
+        inputProps={{textAlign: 'left'}}
+        borderColor='transparent'
+        placeholder='Search Weo'
+        transition='all .35s'
+        defaultValue={query}
+        w={opened ? 220 : 0}
+        autofocus={opened}
+        activeProps={{}}
+        focusProps={{}}
+        h='34'
+        m='0'/>
+      <Button
+        icon={opened ? 'close' : 'search'}
+        color={opened ? 'text' : 'white'}
+        onClick={local(toggle)}
+        absolute
+        m='auto'
+        bottom
+        right={opened ? 9 : 8}
+        top='1'
+        fs='m'
+        />
+    </Block>
   )
 }
 
@@ -47,14 +66,31 @@ function submitSearch (url) {
   return e => {
     const parts = url.split('/').filter(Boolean)
     parts[2] = e.target.value
-    return setUrl('/' + parts.join('/'))
+    return parts[0] === 'search'
+        ? setUrl('/' + parts.join('/'))
+        : setUrl('/search/activities/' + e.target.value)
   }
 }
+
+/**
+ * Actions
+ */
+
+const toggle = createAction('<Search />: toggle')
+
+/**
+ * Reducer
+ */
+const reducer = handleActions({
+  [toggle]: state => ({...state, opened: !state.opened })
+})
 
 /**
  * Exports
  */
 
 export default {
-  render
+  initialState,
+  render,
+  reducer
 }

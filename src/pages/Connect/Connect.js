@@ -20,7 +20,7 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {people, currentUser, more, url} = props
+  const {people, currentUser, more, url, query} = props
   const {value, loaded, loading} = people
   const inputProps = {
     textAlign: 'left',
@@ -38,6 +38,9 @@ function render ({props}) {
           </Flex>
         </Button>
       </Flex>
+      <Block hide={query} fw='200' fs='m' color='blue' p>
+        Recommended Teachers
+      </Block>
       <InfiniteScroll loading={loading} more={() => value && more(value.nextPageToken)}>
         <Grid>
           {

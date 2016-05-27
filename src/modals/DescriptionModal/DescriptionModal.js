@@ -31,7 +31,10 @@ function render ({props}) {
           defaultValue={aboutMe}
           name='aboutMe'
           placeholder='A few words about yourself...'
-          w='300px' m
+          w='300px'
+          p
+          m
+          h='100px'
           autofocus
           focusProps={{border: 'rgba(blue, .35)'}}
           border='rgba(grey, 0.15)'

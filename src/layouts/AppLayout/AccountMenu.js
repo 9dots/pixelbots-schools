@@ -15,7 +15,7 @@ import Link from 'components/Link'
  */
 
 function render ({props}) {
-  const {currentUser} = props
+  const {currentUser, ...rest} = props
   const itemProps = {
     ui: MenuItem,
     currentProps: {highlight: true},
@@ -23,7 +23,7 @@ function render ({props}) {
   }
 
   return (
-    <Dropdown w='180px' btn={<Flex align='center'><Avatar actor={currentUser} /></Flex>}>
+    <Dropdown w='180px' btn={<Flex {...rest} align='center'><Avatar actor={currentUser} /></Flex>}>
       <Link {...itemProps} href={`/${currentUser.username}/boards`}>
         <Icon name='person' fs='s' mr='s'/>
         My Profile
@@ -31,10 +31,10 @@ function render ({props}) {
       <Link {...itemProps} href='/activities/drafts'>
         <WeoIcon name='draft' fs='s' mr='s'/>
         My Drafts
-        <Text color='grey' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
+        <Text color='grey_medium' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
       </Link>
       <Divider/>
-      <Link {...itemProps} href='/connect/andrew'>
+      <Link {...itemProps} href='/connect'>
         <Icon name='people' fs='s' mr='s'/>
         Connect
       </Link>

@@ -44,7 +44,7 @@ function render ({props, children}) {
 
 function count (n) {
   return (
-    <Text color='grey_medium'>{n}&nbsp;</Text>
+    <Text color='grey_medium'>{n || 0}&nbsp;</Text>
   )
 }
 

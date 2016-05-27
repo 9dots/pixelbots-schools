@@ -44,7 +44,7 @@ function render ({props}) {
             <Text fs='s' color='blue'>{username}</Text>
           </Flex>
           <Flex p={4} color='grey_medium' fs='xs' align='start center'>
-            <ProfileItem message={displayUrl} icon='language' tag='a' href={website} pointer />
+            <ProfileItem message={displayUrl} icon='language' tag='a' href={website} pointer target='_blank' />
             <ProfileItem message={location} icon='place' />
             <ProfileItem message={gradeLevels.join(', ')} icon='school' />
             <ProfileItem message={subjects.join(', ')} icon='class' />
