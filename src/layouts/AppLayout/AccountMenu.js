@@ -31,10 +31,10 @@ function render ({props}) {
       <Link {...itemProps} href='/activities/drafts'>
         <WeoIcon name='draft' fs='s' mr='s'/>
         My Drafts
-        <Text color='grey' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
+        <Text color='grey_medium' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
       </Link>
       <Divider/>
-      <Link {...itemProps} href='/connect/andrew'>
+      <Link {...itemProps} href='/connect'>
         <Icon name='people' fs='s' mr='s'/>
         Connect
       </Link>
