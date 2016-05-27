@@ -5,6 +5,7 @@
 import ActivitiesLayout from 'layouts/ActivitiesLayout'
 import SettingsLayout from 'layouts/SettingsLayout'
 import ProfileLayout from 'layouts/ProfileLayout'
+import ClassLayout from 'layouts/ClassLayout'
 import SearchLayout from 'layouts/SearchLayout'
 import HomeLayout from 'layouts/HomeLayout'
 import AppLayout from 'layouts/AppLayout'
@@ -22,6 +23,10 @@ import ProfileLikes from 'pages/ProfileLikes'
 import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
 import ProfileStream from 'pages/ProfileStream'
+
+import ClassGradebook from 'pages/ClassGradebook'
+import ClassStudents from 'pages/ClassStudents'
+import ClassFeed from 'pages/ClassFeed'
 
 
 import AccountSettings from 'pages/AccountSettings'
@@ -145,6 +150,20 @@ const internal = enroute({
     <ProfileLayout {...props} {...params}>
       {user => <ProfileStream {...props} user={user} />}
     </ProfileLayout>,
+
+  // Class
+  '/class/:groupId/feed': (params, props) =>
+    <ClassLayout {...props} {...params}>
+      {group => <ClassFeed {...props} group={group} />}
+    </ClassLayout>,
+  '/class/:groupId/students': (params, props) =>
+    <ClassLayout {...props} {...params}>
+      {group => <ClassStudents {...props} group={group} />}
+    </ClassLayout>,
+  '/class/:groupId/gradebook': (params, props) =>
+    <ClassLayout {...props} {...params}>
+      {group => <ClassGradebook {...props} group={group} />}
+    </ClassLayout>,
 
   // Acount
   '/account/settings': (params, props) =>

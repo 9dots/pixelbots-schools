@@ -39,7 +39,7 @@ function render ({props}) {
         right='6px'
         py='8px'
         absolute
-        w='25%' />
+        w='242px' />
       }
       {
         loaded && renderItems(
