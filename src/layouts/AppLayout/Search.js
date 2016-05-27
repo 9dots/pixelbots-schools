@@ -15,43 +15,44 @@ import element from 'vdux/element'
  */
 
 function initialState({props}) {
-  const {url} = props
-  const isSearch = url.split('/').filter(Boolean)[0] === 'search'
-
-  return { opened: isSearch }
+  const {searching} = props
+  return {
+    opened: searching
+  }
 }
+
 
 function render ({props, local, state}) {
   const {url, searching, query} = props
   const {opened} = state
-  console.log(searching, opened)
 
   return (
     <Block relative h='34px'>
       <RoundedInput
+        bgColor={opened ? 'rgba(white,0.8)' : 'transparent'}
+        pointerEvents={opened ? 'auto' : 'none'}
         onKeypress={{enter: submitSearch(url)}}
         inputProps={{textAlign: 'left'}}
-        bgColor={opened ? 'rgba(white,0.8)' : 'transparent'}
-        pointerEvents={!opened && 'none'}
-        borderColor={!opened && 'transparent'}
-        defaultValue={query}
-        focusProps={{}}
-        w={opened ? 250 : 0}
-        h='34'
+        borderColor='transparent'
         placeholder='Search Weo'
-        autofocus={opened}
         transition='all .35s'
+        defaultValue={query}
+        w={opened ? 220 : 0}
+        autofocus={opened}
+        activeProps={{}}
+        focusProps={{}}
+        h='34'
         m='0'/>
         <Button
           icon={opened ? 'close' : 'search'}
           color={opened ? 'text' : 'white'}
+          onClick={local(toggle)}
           absolute
           m='auto'
           bottom
           right={opened ? 9 : 8}
           top='1'
           fs='m'
-          onClick={local(toggle)}
           />
     </Block>
   )

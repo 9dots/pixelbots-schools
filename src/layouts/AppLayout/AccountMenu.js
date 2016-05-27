@@ -15,7 +15,7 @@ import Link from 'components/Link'
  */
 
 function render ({props}) {
-  const {currentUser} = props
+  const {currentUser, ...rest} = props
   const itemProps = {
     ui: MenuItem,
     currentProps: {highlight: true},
@@ -23,7 +23,7 @@ function render ({props}) {
   }
 
   return (
-    <Dropdown w='180px' btn={<Flex align='center'><Avatar actor={currentUser} /></Flex>}>
+    <Dropdown w='180px' btn={<Flex {...rest} align='center'><Avatar actor={currentUser} /></Flex>}>
       <Link {...itemProps} href={`/${currentUser.username}/boards`}>
         <Icon name='person' fs='s' mr='s'/>
         My Profile

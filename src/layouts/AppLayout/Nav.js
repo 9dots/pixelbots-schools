@@ -34,11 +34,11 @@ function render ({props, state}) {
               </Item>
             </ClassNav>
           </Flex>
-          <Menu spacing='m' flex align='end center'>
+          <Menu flex align='end center'>
             <Search url={url} searching={search} query={query}/>
-            <NotificationsButton mr='s' currentUser={currentUser} />
-            <AccountMenu currentUser={currentUser} />
-            <Button pill h={34} border='1px solid rgba(#000, .1)'>
+            <NotificationsButton ml='s' currentUser={currentUser} />
+            <AccountMenu mx currentUser={currentUser} />
+            <Button mr pill h={34} border='1px solid rgba(#000, .1)' px='22'>
               <Flex align='center center'>
                 <Icon fs='s' mr='s' name='edit' />
                 Create Activity
