@@ -1,0 +1,5 @@
+{
+  "name": "NotificationsButton",
+  "main": "NotificationsButton.js",
+  "browser": "NotificationsButton.js"
+}
