@@ -6,10 +6,9 @@
   "main": "lib/index.js",
   "license": "none",
   "scripts": {
-    "prepublish": "make build",
-    "postpublish": "make clean",
     "postversion": "git push && git push --tags && npm publish --access=public",
-    "start": "unv dev --modules src/"
+    "start": "unv dev",
+    "build": "unv build --base assets.weo.io"
   },
   "dependencies": {
     "@f/animate": "^1.0.1",
