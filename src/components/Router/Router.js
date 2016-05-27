@@ -162,7 +162,7 @@ const internal = enroute({
 
   // Notifications
   '/notifications': (params, props) =>
-    <AppLayout {...props} {...params}>
+    <AppLayout bgColor='red_medium' {...props} {...params}>
       <NotificationsFeed {...props}/>
     </AppLayout>,
 

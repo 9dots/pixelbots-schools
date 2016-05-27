@@ -38,7 +38,7 @@ function render ({props, state}) {
             <Search url={url} searching={search} query={query}/>
             <NotificationsButton ml='s' currentUser={currentUser} />
             <AccountMenu mx currentUser={currentUser} />
-            <Button mr pill h={34} border='1px solid rgba(#000, .1)' px='22'>
+            <Button mr pill h={34} border='1px solid rgba(#000, .1)' px='21'>
               <Flex align='center center'>
                 <Icon fs='s' mr='s' name='edit' />
                 Create Activity

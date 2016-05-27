@@ -43,17 +43,17 @@ function render ({props, local, state}) {
         focusProps={{}}
         h='34'
         m='0'/>
-        <Button
-          icon={opened ? 'close' : 'search'}
-          color={opened ? 'text' : 'white'}
-          onClick={local(toggle)}
-          absolute
-          m='auto'
-          bottom
-          right={opened ? 9 : 8}
-          top='1'
-          fs='m'
-          />
+      <Button
+        icon={opened ? 'close' : 'search'}
+        color={opened ? 'text' : 'white'}
+        onClick={local(toggle)}
+        absolute
+        m='auto'
+        bottom
+        right={opened ? 9 : 8}
+        top='1'
+        fs='m'
+        />
     </Block>
   )
 }
