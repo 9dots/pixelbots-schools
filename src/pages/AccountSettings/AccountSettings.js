@@ -2,15 +2,15 @@
  * Imports
  */
 
+import ReadingSpeedDropdown from 'components/ReadingSpeedDropdown'
 import PointValueModal from 'modals/PointValueModal'
 import PasswordModal from 'modals/PasswordModal'
 import UsernameModal from 'modals/UsernameModal'
 import SettingsRow from 'components/SettingsRow'
 import EmailModal from 'modals/EmailModal'
 import NameModal from 'modals/NameModal'
-import ReadingSpeedDropdown from 'components/ReadingSpeedDropdown'
-import {Block, Card} from 'vdux-ui'
 import {openModal} from 'reducer/modal'
+import {Block, Card} from 'vdux-ui'
 import element from 'vdux/element'
 
 /**
