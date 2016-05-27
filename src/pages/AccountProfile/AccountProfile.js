@@ -21,7 +21,7 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {currentUser} = props
-  const {color, grades = [], subjects = [], website, location, description} = currentUser
+  const {color, gradeLevels = [], subjects = [], website, location, aboutMe} = currentUser
   const me = currentUser
 
   return (
@@ -38,16 +38,11 @@ function render ({props}) {
           <Block circle='40px' bg={color} />
       </SettingsRow>
 
-      <SettingsRow name='Grades' placeholder='Where grades do you teach?' Modal={GradePickerModal} prop={grades} user={currentUser} />
-
+      <SettingsRow name='Grades' placeholder='Where grades do you teach?' Modal={GradePickerModal} prop={gradeLevels} user={currentUser} />
       <SettingsRow name='Subjects' placeholder='What subjects do you teach?' Modal={SubjectPickerModal} prop={subjects} user={currentUser} />
-
       <SettingsRow name='Website' placeholder='http://…' Modal={WebsiteModal} prop={website} user={currentUser} />
-
       <SettingsRow name='Location' placeholder='Where are you located?' Modal={LocationModal} prop={location} user={currentUser} />
-
-      <SettingsRow name='Description' placeholder='Share a few words about yourself!' Modal={DescriptionModal} prop={description} user={currentUser} borderBottomWidth='0'/>
-
+      <SettingsRow name='Description' placeholder='Share a few words about yourself!' Modal={DescriptionModal} prop={aboutMe} user={currentUser} borderBottomWidth='0'/>
     </Card>
   )
 }

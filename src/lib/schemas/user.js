@@ -34,3 +34,9 @@ const user = Schema()
  */
 
 export default user
+export {
+  username,
+  password,
+  email,
+  name
+}
