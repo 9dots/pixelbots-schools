@@ -14,7 +14,6 @@ const theme = {
     ...defaultTheme.colors,
     ...colors,
     greydark: '#4B5257',
-    grey:  '#B1B7BC',
     greylight: '#DCDEE2',
     divider: '#DDD',
     blue: '#25A8E0',

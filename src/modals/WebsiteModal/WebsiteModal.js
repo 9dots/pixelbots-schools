@@ -54,7 +54,9 @@ export default summon(({user}) => ({
       invalidates: `/user/${user._id}`,
       body: {
         ...user,
-        website
+        website: /^https?\:\/\//.test(website)
+          ? website
+          : 'http://' + website
       }
     }
   })
