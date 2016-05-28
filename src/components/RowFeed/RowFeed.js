@@ -20,7 +20,7 @@ function render ({props}) {
   const {
     activities = [], more, search,
     emptyState: Empty, item: Item,
-    ...rest
+    currentUser, ...rest
   } = props
   const {value, loaded, loading, params} = activities
   const searching = !!(params && params.query)
@@ -47,14 +47,15 @@ function render ({props}) {
           Item,
           loading
             ? null
-            : (searching ? EmptySearch : Empty)
+            : (searching ? EmptySearch : Empty),
+          currentUser
         )
       }
     </InfiniteScroll>
   )
 }
 
-function renderItems (items, Item, Empty) {
+function renderItems (items, Item, Empty, currentUser) {
   if (!items.length && Empty) return <Empty />
 
   let prevDate = new Date(0)
@@ -71,7 +72,7 @@ function renderItems (items, Item, Empty) {
       prevDate = date
     }
 
-    list.push(<Item activity={item} />)
+    list.push(<Item activity={item} currentUser={currentUser} />)
     return list
   }, [], items)
 }

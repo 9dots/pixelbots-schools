@@ -32,7 +32,7 @@ function Header ({props}) {
 
   return (
     <Flex align='space-between center' h={46} bgColor='off_white' boxShadow='0 1px 2px 0 rgba(0,0,0,0.22)'>
-      <Block ml pl fs='s' fw='lighter' capitalize>
+      <Block ml pl fs='s' fw='lighter' capitalize flex>
         {displayName}
         <Text ml>
           Class Code: &nbsp;
@@ -50,7 +50,7 @@ function Header ({props}) {
         </Text>
       </Block>
 
-      <Flex align='center center'>
+      <Flex align='center center' flex>
         <NavTile href={`/class/${id}/feed`} highlight='red'>
           Feed
         </NavTile>
@@ -61,7 +61,7 @@ function Header ({props}) {
           Gradebook
         </NavTile>
       </Flex>
-      <Block />
+      <Block flex />
     </Flex>
   )
 }

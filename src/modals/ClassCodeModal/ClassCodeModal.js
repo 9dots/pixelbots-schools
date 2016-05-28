@@ -27,7 +27,7 @@ function render ({props}) {
         </Flex>
       </ModalBody>
       <ModalFooter bg='greydark'>
-        <Button onClick={closeModal}>Create</Button>
+        <Button onClick={closeModal}>Close</Button>
       </ModalFooter>
     </Modal>
   )
