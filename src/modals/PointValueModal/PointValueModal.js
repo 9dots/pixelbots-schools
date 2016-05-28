@@ -26,7 +26,7 @@ function render ({props}) {
           <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
             Point Value
           </Block>
-          <RoundedInput name='value' defaultValue={max_points} placeholder='Enter a number' w='300px' m autofocus inputProps={{type: 'number', min: '1'}}/>
+          <RoundedInput name='value' defaultValue={max_points} placeholder='Enter a number' w='150px' m autofocus inputProps={{type: 'number', min: '1'}}/>
         </Flex>
         <ModalFooter bg='greydark'>
           <Text fs='xxs'>

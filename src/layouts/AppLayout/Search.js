@@ -35,7 +35,7 @@ function render ({props, local, state}) {
         inputProps={{textAlign: 'left'}}
         borderColor='transparent'
         placeholder='Search Weo'
-        transition='all .35s'
+        transition='all .24s'
         defaultValue={query}
         w={opened ? 220 : 0}
         autofocus={opened}

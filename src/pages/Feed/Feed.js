@@ -28,7 +28,7 @@ function render ({props}) {
   const {activities, more, currentUser} = props
 
   return (
-    <Block w='col_main' mt={12} mx='auto'>
+    <Block w='col_main' mt mx='auto'>
       <TileFeed activities={activities} more={more}>
         <FeedWidgets user={currentUser}/>
       </TileFeed>
