@@ -20,6 +20,7 @@ function render ({props}) {
 
 function ClassBadge ({props}) {
   const {activity, currentUser} = props
+  const {actors = {}} = activity.instances.total[0] || {}
   const counts = reduce((acc, actor) => {
     const type = actor.status <= 2
       ? 'notDone'
@@ -27,7 +28,7 @@ function ClassBadge ({props}) {
 
     acc[type]++
     return acc
-  }, {returned: 0, turnedIn: 0, notDone: 0}, activity.instances.total[0].actors || {})
+  }, {returned: 0, turnedIn: 0, notDone: 0}, actors)
 
   return (
     <Flex align='start center' mt mr fs='xxs'>
