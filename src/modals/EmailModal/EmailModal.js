@@ -31,7 +31,7 @@ function render ({props}) {
             defaultValue={user.email}
             name='email'
             placeholder='Please enter your email'
-            w='300px'
+            w='250px'
             m
             autofocus
             inputProps={{textAlign: 'left'}} />

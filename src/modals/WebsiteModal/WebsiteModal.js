@@ -28,7 +28,7 @@ function render ({props}) {
           <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
             Website
           </Block>
-          <RoundedInput name='website' defaultValue={website} placeholder='http://…' w='300px' m autofocus inputProps={{textAlign: 'left'}}/>
+          <RoundedInput name='website' defaultValue={website} placeholder='http://…' w='250px' m autofocus inputProps={{textAlign: 'left'}}/>
         </Flex>
         <ModalFooter bg='greydark'>
           <Text fs='xxs'>

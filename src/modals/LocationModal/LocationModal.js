@@ -25,7 +25,7 @@ function render ({props}) {
           <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
             Location
           </Block>
-          <RoundedInput defaultValue={location} name='location' placeholder='Where are you located?' w='300px' m autofocus inputProps={{textAlign: 'left'}}/>
+          <RoundedInput defaultValue={location} name='location' placeholder='Where are you located?' w='250px' m autofocus inputProps={{textAlign: 'left'}}/>
         </Flex>
         <ModalFooter bg='greydark'>
           <Text fs='xxs'>

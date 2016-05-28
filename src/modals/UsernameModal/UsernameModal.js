@@ -31,7 +31,7 @@ function render ({props}) {
             name='username'
             defaultValue={user.username}
             placeholder='Change your username'
-            w='300px'
+            w='250px'
             m
             autofocus
             inputProps={{textAlign: 'left'}} />

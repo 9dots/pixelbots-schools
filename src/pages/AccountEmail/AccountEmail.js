@@ -30,7 +30,7 @@ function render ({props}) {
         Email Notifications
       </Block>
       {
-        emailPrefs.map(({message, prop}) => <Toggle onChange={() => togglePref(prop)} checked={!getProp(prop, currentUser.preferences)} {...rowProps} label={message}/>)
+        emailPrefs.map(({message, prop}) => <Toggle onChange={() => togglePref(prop)} checked={!getProp(prop, currentUser.preferences)} {...rowProps} label={message} tWidth='20'/>)
       }
     </Card>
   )
