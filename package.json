@@ -110,21 +110,18 @@
   "environment": {
     "base": {
       "IMAGE_RESIZE": "http://images.weo.io",
-      "TEXT": {
-        "SITE_NAME": "Teach better, together.",
-        "CALL_TO_ACTION": "Sign Up Today!",
-        "TITLE": "Your Assignments Simplified | WEO",
-        "TAGLINE": "Your Assignments Simplified",
-        "DESCRIPTION": "Weo is a place to create and discover activities for your classroom that can be assigned to your students with a simple click."
-      }
+      "GOOGLE_CLIENT_ID": "696300823052-2696vo4mtj8off6d577sn1vjjrr14o6t.apps.googleusercontent.com",
+      "CLEVER_CLIENT_ID": "9e85d73ee95c90414fbd"
+    },
+    "staging": {
+      "API_SERVER": "//staging-api.weo.io/",
+      "AVATAR_SERVER": "//staging-avatars.global.ssl.fastly.net",
+      "FACEBOOK_APP_ID": "1696938930540934"
     },
     "development": {
-      "GOOGLE_CLIENT_ID": "696300823052-2696vo4mtj8off6d577sn1vjjrr14o6t.apps.googleusercontent.com",
-      "FACEBOOK_APP_ID": "1768047533430073",
-      "CLEVER_CLIENT_ID": "9e85d73ee95c90414fbd",
       "API_SERVER": "http://localhost:1337/",
-      "AVATAR_SERVER": "http://localhost:1337"
-    },
-    "production": {}
+      "AVATAR_SERVER": "http://localhost:1337",
+      "FACEBOOK_APP_ID": "1768047533430073"
+    }
   }
 }
