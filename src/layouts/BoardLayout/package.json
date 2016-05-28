@@ -1,0 +1,5 @@
+{
+  "name": "BoardLayout",
+  "main": "BoardLayout.js",
+  "browser": "BoardLayout.js"
+}
