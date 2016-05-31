@@ -1,0 +1,5 @@
+{
+  "name": "CreateActivityModal",
+  "main": "CreateActivityModal.js",
+  "browser": "CreateActivityModal.js"
+}

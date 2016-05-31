@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
@@ -23,9 +23,9 @@ function render ({props}) {
       <Form onSubmit={createClass} onSuccess={closeModal} tall validate={validate.group} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
-            <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+            <ModalHeader>
               Create Class
-            </Block>
+            </ModalHeader>
             <RoundedInput my autofocus name='displayName' placeholder='Class name' />
           </Flex>
         </ModalBody>

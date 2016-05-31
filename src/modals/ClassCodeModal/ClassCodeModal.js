@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Text, Block} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text, Block} from 'vdux-ui'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
@@ -16,9 +16,9 @@ function render ({props}) {
     <Modal onDismiss={closeModal}>
       <ModalBody w='col_m' m='auto'>
         <Flex column align='space-around center'>
-          <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+          <ModalHeader>
             Class Code
-          </Block>
+          </ModalHeader>
           <Block mx='auto' fs='s' fw='lighter' textAlign='center' pb lh='30px'>
             Students can sign up at <Text bold>www.weo.io/student</Text>&nbsp;
             and click the Join Class button and enter the code&nbsp;

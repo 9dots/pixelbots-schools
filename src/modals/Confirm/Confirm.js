@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Block} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Block} from 'vdux-ui'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
@@ -19,9 +19,9 @@ function render ({props}) {
     <Modal>
       <Form onSubmit={accept}>
         <ModalBody pb>
-          <Block pt='xl' fs='m' fw='200' color='blue' textAlign='center'>
+          <ModalHeader>
             Confirm
-          </Block>
+          </ModalHeader>
           <Block textAlign='center' w='col_m' m='0 auto' p='l'>
             {message}
           </Block>

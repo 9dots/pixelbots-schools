@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {Button, Input} from 'vdux-containers'
 import {closeModal} from 'reducer/modal'
@@ -22,10 +22,10 @@ function render ({props}) {
   return (
     <Modal onDismiss={closeModal}>
       <Form onSubmit={setPointValue} onSuccess={closeModal}>
-        <Flex ui={ModalBody} column align='center center' pt pb='l'>
-          <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+        <Flex ui={ModalBody} column align='center center' pb='l'>
+          <ModalHeader>
             Point Value
-          </Block>
+          </ModalHeader>
           <RoundedInput name='value' defaultValue={max_points} placeholder='Enter a number' w='150px' m autofocus inputProps={{type: 'number', min: '1'}}/>
         </Flex>
         <ModalFooter bg='greydark'>

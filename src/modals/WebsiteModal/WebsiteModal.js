@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {Button, Input} from 'vdux-containers'
 import {closeModal} from 'reducer/modal'
@@ -24,10 +24,10 @@ function render ({props}) {
   return (
     <Modal onDismiss={closeModal}>
       <Form onSubmit={changeWebsite} onSuccess={closeModal}>
-        <Flex ui={ModalBody} column align='center center' pt pb='l'>
-          <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+        <Flex ui={ModalBody} column align='center center' pb='l'>
+          <ModalHeader>
             Website
-          </Block>
+          </ModalHeader>
           <RoundedInput name='website' defaultValue={website} placeholder='http://…' w='250px' m autofocus inputProps={{textAlign: 'left'}}/>
         </Flex>
         <ModalFooter bg='greydark'>

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import SubjectSelector from 'components/SubjectSelector'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -36,10 +36,10 @@ function render ({props, state, local}) {
   return (
     <Modal onDismiss={closeModal}>
       <Form onSubmit={() => changeSubjects(subjects)} onSuccess={closeModal}>
-        <Flex ui={ModalBody} column align='center center' pt pb='l'>
-          <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+        <Flex ui={ModalBody} column align='center center' pb='l'>
+          <ModalHeader>
             Select Your Grades
-          </Block>
+          </ModalHeader>
           <SubjectSelector selected={subjects} toggle={local(toggle)} />
         </Flex>
         <ModalFooter bg='greydark'>
