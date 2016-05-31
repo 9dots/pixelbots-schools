@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Text, Block, Flex, Icon, Base} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Text, Block, Flex, Icon, Base} from 'vdux-ui'
 import AvatarPickerModal from 'modals/AvatarPickerModal'
 import {closeModal, openModal} from 'reducer/modal'
 import {avatarDidUpdate} from 'reducer/avatarUpdates'
@@ -33,9 +33,9 @@ function render ({props, local, state}) {
   return (
     <Modal onDismiss={closeModal}>
       <ModalBody pb>
-        <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+        <ModalHeader>
           Upload An Image
-        </Block>
+        </ModalHeader>
         <Block align='center center' h='360'>
           {
             url

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import {Button, Input, Dropdown, MenuItem} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import LineInput from 'components/LineInput'
@@ -45,10 +45,10 @@ function render ({props, state, local}) {
   return (
     <Modal onDismiss={closeModal}>
       <Form onSubmit={changeName} onSuccess={closeModal} validate={validateName}>
-        <Flex ui={ModalBody} column align='center center' pt pb='l'>
-          <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+        <Flex ui={ModalBody} column align='center center' pb='l'>
+          <ModalHeader>
             Name
-          </Block>
+          </ModalHeader>
           <Flex align='center center' py>
             <Block flex='20%'>
               <input type='hidden' name='honorificPrefix' value={honorificPrefix} />

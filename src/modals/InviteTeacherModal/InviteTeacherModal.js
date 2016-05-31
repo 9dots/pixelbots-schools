@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Block, Text, Icon} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Icon} from 'vdux-ui'
 import LineInput from 'components/LineInput'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
@@ -21,9 +21,9 @@ function render ({props}) {
     <Modal onDismiss={closeModal}>
       <Form onSubmit={submit} onSuccess={closeModal}>
         <ModalBody textAlign='center'>
-          <Block pt='l' fs='m' fw='200' color='blue' textAlign='center'>
+          <ModalHeader>
             Invite Friends to Join Weo!
-          </Block>
+          </ModalHeader>
           <Icon name='local_attraction' fs='75px' m p color='yellow' />
           <LineInput name='emails' w='60%' mx='auto' mt='-12px' autofocus />
           <Block mb='s' mt>

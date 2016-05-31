@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ErrorTip, Grid, Text, Block, Flex, Radio} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, ErrorTip, Grid, Text, Block, Flex, Radio} from 'vdux-ui'
 import {avatarDidUpdate} from 'reducer/avatarUpdates'
 import handleActions from '@f/handle-actions'
 import {uploadFile} from 'middleware/upload'
@@ -59,9 +59,9 @@ function render ({props, state, local}) {
   return (
     <Modal onDismiss={closeModal}>
       <ModalBody pb>
-        <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+        <ModalHeader>
           Select an Avatar
-        </Block>
+        </ModalHeader>
         <Grid rowAlign='center' minHeight={360}>
           {
             curAvatars.map(({url, name}) =>

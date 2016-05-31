@@ -8,7 +8,7 @@ import GradeSelector from 'components/GradeSelector'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {closeModal} from 'reducer/modal'
-import {Flex, Icon} from 'vdux-ui'
+import {Flex, Icon, ModalHeader} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 
@@ -53,9 +53,9 @@ function render ({props, state, local}) {
   return (
     <Flex column align='center center' tall wide>
       <Flex column align='center center' tall wide hide={isDone}>
-        <Text py='l' fs='m' fw='200' color='blue' textAlign='center'>
+        <ModalHeader>
           What Grades Do You Teach?
-        </Text>
+        </ModalHeader>
         <GradeSelector toggle={local(toggleGrade)} selected={grades} />
         <Tooltip message={!grades.length && 'Please select one or more grades'} {...ttProps}>
           <Button {...btnProps} onClick={local(next)} disabled={!grades.length}>
@@ -68,9 +68,9 @@ function render ({props, state, local}) {
       </Flex>
 
       <Flex column align='center center' tall wide hide={!isDone}>
-        <Text color='blue' fs='m' mb='l' fw='200'>
+        <ModalHeader>
           What Subjects Do You Teach?
-        </Text>
+        </ModalHeader>
         <SubjectSelector toggle={local(toggleSubject)} selected={subjects} />
         <Tooltip message={!subjects.length && 'Please select one or more subjects'} {...ttProps}>
           <Button {...btnProps} onClick={() => submit(grades, subjects)} disabled={!subjects.length}>
