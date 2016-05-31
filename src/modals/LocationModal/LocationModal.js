@@ -27,7 +27,7 @@ function render ({props}) {
           </Block>
           <RoundedInput defaultValue={location} name='location' placeholder='Where are you located?' w='250px' m autofocus inputProps={{textAlign: 'left'}}/>
         </Flex>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>

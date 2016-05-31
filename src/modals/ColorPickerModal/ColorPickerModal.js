@@ -52,7 +52,7 @@ function render ({props, state, local}) {
             }
           </Grid>
         </ModalBody>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
              <Text mx>or</Text>

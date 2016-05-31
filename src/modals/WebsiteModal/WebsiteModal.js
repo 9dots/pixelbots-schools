@@ -30,7 +30,7 @@ function render ({props}) {
           </Block>
           <RoundedInput name='website' defaultValue={website} placeholder='http://…' w='250px' m autofocus inputProps={{textAlign: 'left'}}/>
         </Flex>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>

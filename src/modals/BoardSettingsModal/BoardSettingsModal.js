@@ -30,7 +30,7 @@ function render ({props}) {
             <RoundedInput my autofocus name='displayName' placeholder='Board name' defaultValue={board.displayName} />
           </Flex>
         </ModalBody>
-        <ModalFooter bg='greydark' align='space-between center'>
+        <ModalFooter bg='grey' align='space-between center'>
           <Button bgColor='danger' onClick={deleteBoard}>
             Delete
           </Button>

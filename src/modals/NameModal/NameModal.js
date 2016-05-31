@@ -63,7 +63,7 @@ function render ({props, state, local}) {
             <LineInput name='familyName' placeholder='Last Name' value={familyName} flex='30%' />
           </Flex>
         </Flex>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>

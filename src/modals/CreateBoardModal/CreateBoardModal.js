@@ -29,7 +29,7 @@ function render ({props}) {
             <RoundedInput my autofocus name='displayName' placeholder='Board name' />
           </Flex>
         </ModalBody>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
              <Text mx>or</Text>

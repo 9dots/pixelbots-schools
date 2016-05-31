@@ -26,7 +26,7 @@ function render ({props}) {
           </Block>
         </Flex>
       </ModalBody>
-      <ModalFooter bg='greydark'>
+      <ModalFooter bg='grey'>
         <Button onClick={closeModal}>Close</Button>
       </ModalFooter>
     </Modal>

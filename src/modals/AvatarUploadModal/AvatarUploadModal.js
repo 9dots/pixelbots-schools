@@ -44,7 +44,7 @@ function render ({props, local, state}) {
           }
         </Block>
       </ModalBody>
-      <ModalFooter bg='greydark'>
+      <ModalFooter bg='grey'>
         <Block flex>
           <Button bgColor='black' mr='s' h='30' px='25' onClick={() => openModal(() => <AvatarPickerModal user={user} />)}>
             <Flex align='center center'>

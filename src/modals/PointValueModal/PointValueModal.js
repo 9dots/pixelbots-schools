@@ -28,7 +28,7 @@ function render ({props}) {
           </Block>
           <RoundedInput name='value' defaultValue={max_points} placeholder='Enter a number' w='150px' m autofocus inputProps={{type: 'number', min: '1'}}/>
         </Flex>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>

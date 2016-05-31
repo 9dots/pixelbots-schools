@@ -42,7 +42,7 @@ function render ({props, state, local}) {
           </Block>
           <SubjectSelector selected={subjects} toggle={local(toggle)} />
         </Flex>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>

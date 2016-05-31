@@ -23,7 +23,7 @@ function render({props}) {
         outline='1px dashed #AAA'
         align='center center'
         outlineOffset='2px'
-        bg='greylight'
+        bg='grey_light'
         color='#AAA'
         sq='100'
         pointer

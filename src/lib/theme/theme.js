@@ -12,13 +12,7 @@ import {defaultTheme} from 'vdux-ui'
 const theme = {
   colors: {
     ...defaultTheme.colors,
-    ...colors,
-    greydark: '#4B5257',
-    greylight: '#DCDEE2',
-    divider: '#DDD',
-    blue: '#25A8E0',
-    bluemedium: '#65C2E8',
-    bluelight: '#91D2ED'
+    ...colors
   },
   scale: {
     z: 0,

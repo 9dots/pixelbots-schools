@@ -26,8 +26,8 @@ function render ({props}) {
             {message}
           </Block>
         </ModalBody>
-        <ModalFooter bg='greydark'>
-          <Button mr bgColor='greylight' color='text' onClick={reject} hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>
+        <ModalFooter bg='grey'>
+          <Button mr bgColor='grey_light' color='text' onClick={reject} hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>
             Cancel
           </Button>
           <Button type='submit'>Ok</Button>
