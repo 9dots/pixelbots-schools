@@ -13,8 +13,8 @@ function render ({props}) {
   const {students} = props
 
   return (
-    <Table>
-      <TableRow bgColor='grey_dark'>
+    <Table bgColor='white' wide tall>
+      <TableRow bgColor='grey' color='white'>
         <TableHeader>
           First Name
         </TableHeader>

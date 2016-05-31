@@ -19,7 +19,7 @@ import 'lib/fonts'
 
 function render ({path, props}) {
   const {state, currentUser} = props
-  if (currentUser.loading) return <span/>
+  if (!currentUser.loaded) return <span/>
 
   return (
     <Block>
