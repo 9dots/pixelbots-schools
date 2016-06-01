@@ -65,12 +65,12 @@ const ConfirmDeleteBoard = summon(({boardId}) => ({
  * Exports
  */
 
-export default summon(props => ({
+export default summon(({board}) => ({
   renameBoard: body => ({
     nameChange: {
-      url: `/board/${props.board._id}`,
+      url: `/board/${board._id}`,
       method: 'PUT',
-      invalidates: '/user/boards',
+      invalidates: ['/user/boards', `/group/${board._id}`],
       body
     }
   })

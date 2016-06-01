@@ -14,7 +14,7 @@ import element from 'vdux/element'
 function render ({props}) {
   return (
     <Modal onDismiss={closeModal}>
-      <ModalBody w='col_m' m='auto'>
+      <ModalBody m='auto'>
         <Flex column align='space-around center'>
           <ModalHeader>
             Class Code

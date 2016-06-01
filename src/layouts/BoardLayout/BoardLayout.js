@@ -19,18 +19,18 @@ function render ({props, children}) {
 
   return (
     <AppLayout {...props}>
-      { internal(board, children) }
+      { internal(board, currentUser, children) }
     </AppLayout>
   )
 }
 
-function internal({value, loading, error}, children) {
+function internal({value, loading, error}, currentUser, children) {
   if (loading) return ''
   if (error) return <FourOhFour />
 
   return [
-    <Header value={value} />,
-    maybeOver(null, children)
+    <Header value={value} currentUser={currentUser}/>,
+    maybeOver(value, children)
   ]
 }
 
