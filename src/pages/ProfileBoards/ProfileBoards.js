@@ -31,8 +31,6 @@ function render ({props}) {
 }
 
 function renderGrid (boards, currentUser, user) {
-  const btnSize = '42px'
-
   return (
     <Grid alignRow='start'>
       {
@@ -44,7 +42,7 @@ function renderGrid (boards, currentUser, user) {
             focusProps={{highlight: 0.02}}
             transition='box-shadow .15s'
             boxShadow='z2'
-            circle={btnSize}
+            circle='42'
             bgColor='white'
             color='midgray'
             icon='add'

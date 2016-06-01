@@ -68,7 +68,7 @@ function TemplateItem ({props}) {
     <Block
       hide={displayName === 'Announcement'}
       m>
-      <Image hoverProps={{borderColor: 'blue_medium', boxShadow: '0 0 2px rgba(blue, .5)'}}
+      <Image hoverProps={{borderColor: 'blue_light', boxShadow: '0 0 1px 1px rgba(blue, .3)'}}
       display='block'
       border='1px solid grey_medium'
       src={resize(image.url, 350)}
