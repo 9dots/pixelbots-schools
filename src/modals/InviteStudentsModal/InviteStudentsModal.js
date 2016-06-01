@@ -44,7 +44,7 @@ function render ({props}) {
   )
 
   function * submit ({emails}) {
-    yield emails.split(',').map(email => sendInvite(email.replace(/\s/g, '')))
+    yield sendInvite(emails.split(',').map(email => email.replace(/\s/g, '')))
   }
 }
 
@@ -55,7 +55,7 @@ function render ({props}) {
 export default summon(({group}) => ({
   sendInvite: emails => ({
     sendingInvites: {
-      url: `/${group._id}/invite`,
+      url: `/group/${group._id}/invite`,
       method: 'POST',
       body: {
         emails
