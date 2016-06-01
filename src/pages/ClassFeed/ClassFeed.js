@@ -15,13 +15,10 @@ import {Block} from 'vdux-ui'
 
 function render ({props}) {
   const {activities} = props
-  const {loaded, value} = activities
   return (
     <Block>
       {
-        loaded && value.items.length
-          ? <RowFeed {...props} item={ClassActivityRow} />
-          : <EmptyClassFeed />
+        <RowFeed {...props} item={ClassActivityRow} emptyState={EmptyClassFeed} />
       }
     </Block>
   )

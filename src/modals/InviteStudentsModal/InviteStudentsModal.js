@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Icon} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text} from 'vdux-ui'
 import LineInput from 'components/LineInput'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
@@ -11,7 +11,7 @@ import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
- * <InviteTeacherModal/>
+ * <InviteStudentsModal/>
  */
 
 function render ({props}) {
@@ -22,10 +22,9 @@ function render ({props}) {
       <Form onSubmit={submit} onSuccess={closeModal}>
         <ModalBody textAlign='center'>
           <ModalHeader>
-            Invite Friends to Join Weo!
+            Invite Students
           </ModalHeader>
-          <Icon name='local_attraction' fs='75px' m p color='yellow' />
-          <LineInput name='emails' w='88%' mx='auto' mt='-12px' autofocus />
+          <LineInput name='emails' w='88%' mx='auto' autofocus />
           <Block mb='s' mt>
             Enter a list of emails separated by commas
           </Block>
@@ -53,13 +52,13 @@ function render ({props}) {
  * Exports
  */
 
-export default summon(props => ({
-  sendInvite: email => ({
+export default summon(({group}) => ({
+  sendInvite: emails => ({
     sendingInvites: {
-      url: '/invite',
+      url: `/${group._id}/invite`,
       method: 'POST',
       body: {
-        email
+        emails
       }
     }
   })

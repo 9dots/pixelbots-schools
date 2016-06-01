@@ -2,9 +2,11 @@
  * Imports
  */
 
+import EmptyClassStudents from './EmptyClassStudents'
 import {Icon, Flex, Block, Checkbox} from 'vdux-ui'
-import StudentGrid from './StudentGrid'
 import {Button, form} from 'vdux-containers'
+import Loading from 'components/Loading'
+import StudentGrid from './StudentGrid'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 
@@ -15,17 +17,19 @@ import summon from 'vdux-summon'
 function render ({props}) {
   const {group, students, toggleAll, fields} = props
   const {selected} = fields
-  const {value, loading} = students
+  const {value, loading, loaded} = students
 
-  if (loading) return <span/>
+  if (loading) return <Loading show={true} h='200' />
 
   const {items: studentList} = value
 
   return (
-    <Block>
-      <StudentMenu students={studentList} />
-      <StudentGrid students={studentList} selected={selected.value || []} toggleAll={toggleAll} />
-    </Block>
+    loaded && studentList.length
+      ? <Block>
+          <StudentMenu students={studentList} />
+          <StudentGrid students={studentList} selected={selected.value || []} toggleAll={toggleAll} />
+        </Block>
+      : <EmptyClassStudents group={group} />
   )
 }
 
