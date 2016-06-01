@@ -1,4 +1,4 @@
-module: default
+service: default
 runtime: nodejs
 vm: true
 automatic_scaling:
@@ -7,4 +7,4 @@ automatic_scaling:
   cpu_utilization:
     target_utilization: 0.4
 env_variables:
-  NODE_ENV: 'production'
+  NODE_ENV: 'staging'

@@ -7,8 +7,9 @@
   "license": "none",
   "scripts": {
     "postversion": "git push && git push --tags && npm publish --access=public",
-    "start": "unv dev",
-    "build": "unv build --base assets.weo.io"
+    "dev": "unv dev",
+    "build": "unv build --base //storage.googleapis.com/assets-weo-io/",
+    "start": "unv serve"
   },
   "dependencies": {
     "@f/animate": "^1.0.1",
@@ -56,6 +57,7 @@
     "debug": "^2.2.0",
     "easing-utils": "0.0.4",
     "enroute": "^1.0.1",
+    "envitro": "^1.0.2",
     "es6-promise": "^3.2.1",
     "is-datauri": "^0.1.0",
     "jss-camel-case": "^1.1.0",
@@ -114,7 +116,7 @@
       "CLEVER_CLIENT_ID": "9e85d73ee95c90414fbd"
     },
     "staging": {
-      "API_SERVER": "//staging-api.weo.io/",
+      "API_SERVER": "https://staging-api.weo.io/",
       "AVATAR_SERVER": "//staging-avatars.global.ssl.fastly.net",
       "FACEBOOK_APP_ID": "1696938930540934"
     },
@@ -123,5 +125,8 @@
       "AVATAR_SERVER": "http://localhost:1337",
       "FACEBOOK_APP_ID": "1768047533430073"
     }
+  },
+  "engines": {
+    "npm": "~4.2.0"
   }
 }
