@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {closeModal, openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
@@ -24,13 +24,13 @@ function render ({props}) {
       <Form onSubmit={renameClass} onSuccess={closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
-            <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+            <ModalHeader>
               Class Settings
-            </Block>
+            </ModalHeader>
             <RoundedInput my autofocus name='displayName' placeholder='Class name' defaultValue={group.displayName} />
           </Flex>
         </ModalBody>
-        <ModalFooter bg='greydark' align='space-between center'>
+        <ModalFooter bg='grey' align='space-between center'>
           <Button bgColor='danger' onClick={deleteClass}>
             Delete
           </Button>

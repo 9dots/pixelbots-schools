@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
@@ -23,13 +23,13 @@ function render ({props}) {
       <Form onSubmit={createBoard} onSuccess={closeModal} tall validate={validate.board} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
-            <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+            <ModalHeader>
               Create Board
-            </Block>
+            </ModalHeader>
             <RoundedInput my autofocus name='displayName' placeholder='Board name' />
           </Flex>
         </ModalBody>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
              <Text mx>or</Text>

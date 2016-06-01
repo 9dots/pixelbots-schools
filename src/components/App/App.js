@@ -19,6 +19,7 @@ import 'lib/fonts'
 
 function render ({path, props}) {
   const {state, currentUser} = props
+  if (!currentUser.loaded) return <span/>
 
   return (
     <Block>
@@ -28,7 +29,7 @@ function render ({path, props}) {
       <Block z={0}>
         {
           isReady(state)
-            ? <Router {...state} currentUser={currentUser.value} />
+            ? <Router {...state} currentUser={currentUser.error ? null : currentUser.value} />
             : <Loading />
         }
       </Block>
@@ -40,7 +41,7 @@ function onUpdate (prev, next) {
   const {props} = next
   const {currentUser = {}, state} = props
 
-  if (!isReady(state) && currentUser.loaded) {
+  if (!isReady(state) && (currentUser.loaded || currentUser.error)) {
     return appDidInitialize()
   }
 }

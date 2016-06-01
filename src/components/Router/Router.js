@@ -9,6 +9,7 @@ import ClassLayout from 'layouts/ClassLayout'
 import SearchLayout from 'layouts/SearchLayout'
 import HomeLayout from 'layouts/HomeLayout'
 import AppLayout from 'layouts/AppLayout'
+import BoardLayout from 'layouts/BoardLayout'
 
 import SearchMyActivities from 'pages/SearchMyActivities'
 import SearchActivities from 'pages/SearchActivities'
@@ -24,10 +25,12 @@ import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
 import ProfileStream from 'pages/ProfileStream'
 
+import BoardActivities from 'pages/BoardActivities'
+import BoardFollowers from 'pages/BoardFollowers'
+
 import ClassGradebook from 'pages/ClassGradebook'
 import ClassStudents from 'pages/ClassStudents'
 import ClassFeed from 'pages/ClassFeed'
-
 
 import AccountSettings from 'pages/AccountSettings'
 import AccountProfile from 'pages/AccountProfile'
@@ -150,6 +153,16 @@ const internal = enroute({
     <ProfileLayout {...props} {...params}>
       {user => <ProfileStream {...props} user={user} />}
     </ProfileLayout>,
+
+  //Board
+  '/:username/board/:boardId/activities': (params, props) =>
+    <BoardLayout {...props} {...params}>
+      {board => <BoardActivities {...props} {...params} board={board} />}
+    </BoardLayout>,
+  '/:username/board/:boardId/followers': (params, props) =>
+    <BoardLayout {...props} {...params}>
+      {board => <BoardFollowers {...props} {...params} board={board} />}
+    </BoardLayout>,
 
   // Class
   '/class/:groupId/feed': (params, props) =>

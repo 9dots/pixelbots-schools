@@ -41,6 +41,8 @@ const placeholder_color = '#AEAEBB'
 const text = '#6A6A6A'
 const link_color = blue
 
+const divider = '#DDD'
+
 const pickerColors = [
   '#54738E', '#77B4D3', '#979AD8', '#A4789F',
   '#92A5B3', '#EAA1A1', '#F2987C', '#AFAB93',
@@ -81,6 +83,7 @@ export {
   link_color,
   google_red,
   facebook_blue,
+  divider,
 
   blue as primary,
   green as accent,

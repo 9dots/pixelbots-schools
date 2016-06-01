@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Grid, Text, Icon, Block} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Grid, Text, Icon, Block} from 'vdux-ui'
 import {Button, CSSContainer, wrap} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -42,9 +42,9 @@ function render ({props, state, local}) {
     <Modal onDismiss={closeModal}>
       <Form onSubmit={() => updateColor(selected)} onSuccess={closeModal}>
         <ModalBody pb>
-          <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+          <ModalHeader>
             Select a Color
-          </Block>
+          </ModalHeader>
           <Grid rowAlign='center'>
             {
               pickerColors.map(
@@ -52,7 +52,7 @@ function render ({props, state, local}) {
             }
           </Grid>
         </ModalBody>
-        <ModalFooter bg='greydark'>
+        <ModalFooter bg='grey'>
           <Text fs='xxs'>
             <Text pointer underline onClick={closeModal}>cancel</Text>
              <Text mx>or</Text>

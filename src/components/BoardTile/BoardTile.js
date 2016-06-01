@@ -37,7 +37,7 @@ function render ({props}) {
             </Link>
           </Flex>
         </Flex>
-        <Block bg='greydark'>
+        <Block bg='grey'>
           <Flex wrap h={152} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop pointer onClick={() => setUrl(url)} hoverProps={{opacity: 0.92}}>
             <Text hide={images.length} p fs='xxs'>
               <Text fw='bolder'>{displayName}</Text>

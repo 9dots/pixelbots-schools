@@ -8,6 +8,7 @@ import AppLayout from 'layouts/AppLayout'
 import FourOhFour from 'pages/FourOhFour'
 import NavTile from 'components/NavTile'
 import {openModal} from 'reducer/modal'
+import {Button} from 'vdux-containers'
 import maybeOver from '@f/maybe-over'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -32,25 +33,32 @@ function Header ({props}) {
 
   return (
     <Flex align='space-between center' h={46} bgColor='off_white' boxShadow='0 1px 2px 0 rgba(0,0,0,0.22)'>
-      <Block ml pl fs='s' fw='lighter' capitalize>
-        {displayName}
-        <Text ml>
+      <Block ml pl fs='s' fw='lighter' capitalize flex align='start center'>
+        <Block ellipsis>
+          {displayName}
+        </Block>
+        <Button
+          onClick={() => openModal(() => <ClassCodeModal code={code} />)}
+          border='1px solid grey_medium'
+          align='start center'
+          bgColor='off_white'
+          hoverProps={{highlight: .03}}
+          focusProps={{highlight: .03}}
+          color='text'
+          fw='normal'
+          fs='xs'
+          px='m'
+          h='30'
+          mx>
           Class Code: &nbsp;
-          <Text color='blue'>
+          <Text color='blue' fw='bolder'>
             {code}
           </Text>
-          <Icon
-            onClick={() => openModal(() => <ClassCodeModal code={code} />)}
-            pointer
-            ml='s'
-            fs='s'
-            name='help'
-            color='black'
-            circle />
-        </Text>
+          <Icon ml='s' fs='xs' name='help' circle />
+        </Button>
       </Block>
 
-      <Flex align='center center'>
+      <Flex align='center center' flex>
         <NavTile href={`/class/${id}/feed`} highlight='red'>
           Feed
         </NavTile>
@@ -61,7 +69,7 @@ function Header ({props}) {
           Gradebook
         </NavTile>
       </Flex>
-      <Block />
+      <Block flex />
     </Flex>
   )
 }

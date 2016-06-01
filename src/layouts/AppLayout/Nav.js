@@ -4,8 +4,10 @@
 
 import {CSSContainer, Fixed, Text, Icon, Flex, Block, Menu, Button, MenuItem} from 'vdux-containers'
 import NotificationsButton from 'components/NotificationsButton'
+import CreateActivityModal from 'modals/CreateActivityModal'
 import ClassNav from 'components/ClassNav'
 import HomeOwl from 'components/HomeOwl'
+import {openModal} from 'reducer/modal'
 import AccountMenu from './AccountMenu'
 import Link from 'components/Link'
 import element from 'vdux/element'
@@ -16,7 +18,7 @@ import Search from './Search'
  */
 
 function render ({props, state}) {
-  const {currentUser, url, bgColor = 'greydark', search, query} = props
+  const {currentUser, url, bgColor = 'grey', search, query} = props
 
   return (
     <Block>
@@ -38,7 +40,13 @@ function render ({props, state}) {
             <Search url={url} searching={search} query={query}/>
             <NotificationsButton ml='s' currentUser={currentUser} />
             <AccountMenu mx currentUser={currentUser} />
-            <Button mr pill h={34} border='1px solid rgba(#000, .1)' px='21'>
+            <Button
+              onClick={() => openModal(() => <CreateActivityModal />)}
+              border='1px solid rgba(#000, .1)'
+              px='21'
+              h={34}
+              pill
+              mr>
               <Flex align='center center'>
                 <Icon fs='s' mr='s' name='edit' />
                 Create Activity

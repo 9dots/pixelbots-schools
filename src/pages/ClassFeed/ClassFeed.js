@@ -2,7 +2,7 @@
  * Imports
  */
 
-import ActivityRow from 'components/ActivityRow'
+import ClassActivityRow from 'components/ClassActivityRow'
 import summonChannels from 'lib/summon-channels'
 import RowFeed from 'components/RowFeed'
 import element from 'vdux/element'
@@ -14,7 +14,7 @@ import {Block} from 'vdux-ui'
 
 function render ({props}) {
   return (
-    <RowFeed {...props} item={ActivityRow} />
+    <RowFeed {...props} item={ClassActivityRow} />
   )
 }
 

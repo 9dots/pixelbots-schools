@@ -18,7 +18,7 @@ function render ({props}) {
     <Block
       focusProps={{
         boxShadow: '0 0 3px rgba(blue, 0.5)',
-        borderColor: 'bluemedium'
+        borderColor: 'blue_medium'
       }}
       border='1px solid #CCC'
       overflow='auto'

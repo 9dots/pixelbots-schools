@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {closeModal, openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
@@ -24,13 +24,13 @@ function render ({props}) {
       <Form onSubmit={renameBoard} onSuccess={closeModal} cast={changes => ({...board, ...changes})} tall validate={validate.board} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
-            <Block py='l' fs='m' fw='200' color='blue' textAlign='center'>
+            <ModalHeader>
               Board Settings
-            </Block>
+            </ModalHeader>
             <RoundedInput my autofocus name='displayName' placeholder='Board name' defaultValue={board.displayName} />
           </Flex>
         </ModalBody>
-        <ModalFooter bg='greydark' align='space-between center'>
+        <ModalFooter bg='grey' align='space-between center'>
           <Button bgColor='danger' onClick={deleteBoard}>
             Delete
           </Button>
