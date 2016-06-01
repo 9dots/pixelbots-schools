@@ -2,19 +2,25 @@
  * Imports
  */
 
-import {Table, TableRow, TableHeader, TableCell} from 'vdux-ui'
+import {Flex, Checkbox, Table, TableRow, TableHeader, TableCell} from 'vdux-ui'
+import Avatar from 'components/Avatar'
 import element from 'vdux/element'
+import map from '@f/map'
 
 /**
  * <StudentGrid/> in class -> students page
  */
 
 function render ({props}) {
-  const {students} = props
+  const {students, selected, toggleAll} = props
+  console.log('selected', selected)
 
   return (
     <Table bgColor='white' wide tall>
-      <TableRow bgColor='grey' color='white'>
+      <TableRow py bgColor='grey' color='white'>
+        <TableHeader>
+          <Checkbox />
+        </TableHeader>
         <TableHeader>
           First Name
         </TableHeader>
@@ -26,8 +32,13 @@ function render ({props}) {
         </TableHeader>
       </TableRow>
       {
-        students.map(student => (
-          <TableRow>
+        map(student => (
+          <TableRow py>
+            <TableCell>
+              <Checkbox checkedValue={student._id} checked={selected.indexOf(student._id) !== -1}>
+                <Avatar actor={student} />
+              </Checkbox>
+            </TableCell>
             <TableCell>
               {student.name.givenName}
             </TableCell>
@@ -38,7 +49,7 @@ function render ({props}) {
               {student.username}
             </TableCell>
           </TableRow>
-        ))
+        ), students)
       }
     </Table>
   )
