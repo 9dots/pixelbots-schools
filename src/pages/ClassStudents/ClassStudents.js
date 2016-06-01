@@ -4,7 +4,7 @@
 
 import {Icon, Flex, Block, Checkbox} from 'vdux-ui'
 import StudentGrid from './StudentGrid'
-import {Button} from 'vdux-containers'
+import {Button, form} from 'vdux-containers'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 
@@ -13,7 +13,8 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {group, students} = props
+  const {group, students, toggleAll, fields} = props
+  const {selected} = fields
   const {value, loading} = students
 
   if (loading) return <span/>
@@ -23,7 +24,7 @@ function render ({props}) {
   return (
     <Block>
       <StudentMenu students={studentList} />
-      <StudentGrid students={studentList} />
+      <StudentGrid students={studentList} selected={selected.value || []} toggleAll={toggleAll} />
     </Block>
   )
 }
@@ -61,6 +62,10 @@ function StudentMenu ({props}) {
 
 export default summon(({group}) => ({
   students: `/group/students?group=${group._id}`
-}))({
-  render
-})
+}))(
+  form(() => ({
+    fields: ['selected']
+  }))({
+    render
+  })
+)
