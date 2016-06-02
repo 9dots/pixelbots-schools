@@ -29,7 +29,7 @@ function render ({props, children}) {
       <Flex w='col_main' mt='s' mx='auto' px='s' py='l' relative>
         <Block>
           <Card w={230} mr>
-            <Menu column>
+            <Menu column pt='s'>
               <NavItem href='/activities/all' display='flex' align='start center'>
                 <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                 All Activities

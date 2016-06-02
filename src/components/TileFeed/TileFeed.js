@@ -13,7 +13,7 @@ import map from '@f/map'
  */
 
 function render ({children, props}) {
-  const {activities, more} = props
+  const {activities, more, emptyState} = props
   const {value, loaded, loading} = activities
 
   return (
@@ -21,10 +21,18 @@ function render ({children, props}) {
       <Grid>
         {children}
         {
-          loaded && map(activity => <ActivityTile activity={activity} />, value.items)
+          loaded && renderItems(value.items, emptyState)
         }
       </Grid>
     </InfiniteScroll>
+  )
+}
+
+function renderItems(items, emptyState) {
+  return (
+    items.length
+      ? map(activity => <ActivityTile activity={activity} />, items)
+      : emptyState
   )
 }
 
