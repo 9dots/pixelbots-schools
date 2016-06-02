@@ -30,7 +30,9 @@ function render ({props}) {
   return (
     <Block w='col_main' mt mx='auto'>
       <TileFeed activities={activities} more={more}>
-        <FeedWidgets user={currentUser}/>
+        {
+          activities.loaded && <FeedWidgets user={currentUser}/>
+        }
       </TileFeed>
     </Block>
   )
