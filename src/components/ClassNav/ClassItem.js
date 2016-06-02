@@ -19,7 +19,7 @@ function render ({props}) {
 
   return (
     <MenuItem px='0' py='0' capitalize color='text_color' align='start stretch' {...props}>
-      <Link py flex align='start center' href={`/class/${_id}/feed`}>
+      <Link py flex align='start center' href={`/class/${_id}`}>
         <Text circle='25' lh='25px' mx bg='green' color='white' textAlign='center'>
           {displayName[0]}
         </Text>
@@ -46,11 +46,17 @@ function render ({props}) {
  * Exports
  */
 
-export default wrap(CSSContainer, {
+export default wrap(Link, ({cls}) => ({
+  disabled: true,
+  href: `/class/${cls._id}`,
+  currentProps: {
+    highlight: true
+  }
+}))(wrap(CSSContainer, {
   hoverProps: {
     showIcon: true,
     highlight: 0.05
   }
 })({
   render
-})
+}))

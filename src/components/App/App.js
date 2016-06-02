@@ -46,10 +46,17 @@ function onUpdate (prev, next) {
     return appDidInitialize()
   }
 
-  if (next.props.state.modal && !prev.props.state.modal) {
-    applyClasses({modal: true}, document.body)
-  } else if (!next.props.state.modal && prev.props.state.modal) {
-    applyClasses({modal: false}, document.body)
+  // This try-catch is temporary to see if this is the cause
+  // of a certain issue
+  try {
+    if (next.props.state.modal && !prev.props.state.modal) {
+      applyClasses({modal: true}, document.body)
+    } else if (!next.props.state.modal && prev.props.state.modal) {
+      applyClasses({modal: false}, document.body)
+    }
+  } catch (err) {
+    console.log('ITS HERE')
+    throw err
   }
 }
 

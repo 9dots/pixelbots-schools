@@ -165,6 +165,10 @@ const internal = enroute({
     </BoardLayout>,
 
   // Class
+  '/class/:groupId': (params, props) =>
+    <ClassLayout {...props} {...params}>
+      <Redirect to={`/class/${params.groupId}/feed`} />
+    </ClassLayout>,
   '/class/:groupId/feed': (params, props) =>
     <ClassLayout {...props} {...params}>
       {group => <ClassFeed {...props} group={group} />}
