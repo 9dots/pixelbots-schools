@@ -3,6 +3,7 @@
  */
 
 import {appDidInitialize} from 'reducer/ready'
+import applyClasses from '@f/apply-classes'
 import Router from 'components/Router'
 import {initializeApp} from 'reducer'
 import Loading from 'pages/Loading'
@@ -43,6 +44,12 @@ function onUpdate (prev, next) {
 
   if (!isReady(state) && (currentUser.loaded || currentUser.error)) {
     return appDidInitialize()
+  }
+
+  if (next.props.state.modal && !prev.props.state.modal) {
+    applyClasses({modal: true}, document.body)
+  } else if (!next.props.state.modal && prev.props.state.modal) {
+    applyClasses({modal: false}, document.body)
   }
 }
 
