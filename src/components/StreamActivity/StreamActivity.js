@@ -14,8 +14,8 @@ import moment from 'moment'
 
 function render ({props}) {
   const {activity} = props
-  const {actor} = activity
   const [object] = activity._object
+  const actor = object.actor || activity.actor
 
   return (
     <Card wide align='space-between center'>
