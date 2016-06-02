@@ -4,6 +4,7 @@
 
 import {Block, Flex, Card, Menu, Divider} from 'vdux-containers'
 import CreateBoardModal from 'modals/CreateBoardModal'
+import PageTitle from 'components/PageTitle'
 import AppLayout from 'layouts/AppLayout'
 import WeoIcon from 'components/WeoIcon'
 import {openModal} from 'reducer/modal'
@@ -26,6 +27,7 @@ function render ({props, children}) {
 
   return (
     <AppLayout {...props}>
+      <PageTitle title='Weo Activities' />
       <Flex w='col_main' mt='s' mx='auto' px='s' py='l' relative>
         <Block>
           <Card w={230} mr>

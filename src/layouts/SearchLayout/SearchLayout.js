@@ -2,6 +2,7 @@
  * Imports
  */
 
+import PageTitle from 'components/PageTitle'
 import AppLayout from 'layouts/AppLayout'
 import {Flex, Block, Text} from 'vdux-ui'
 import NavTile from 'components/NavTile'
@@ -19,6 +20,7 @@ function render ({props, children}) {
 
   return (
     <AppLayout bgColor='grey_medium' search {...props}>
+      <PageTitle title='Search | Weo' />
       <Flex align='center center' h={46} bgColor='off_white' boxShadow='0 1px 2px 0 rgba(0,0,0,0.22)'>
         <NavTile href={`/search/activities/${query}`} highlight='red'>
           {count(value.activities)} Activities

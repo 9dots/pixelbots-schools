@@ -5,6 +5,7 @@
 import {Block, Flex, Card, Icon} from 'vdux-ui'
 import {Menu, MenuItem} from 'vdux-containers'
 import {setUrl} from 'redux-effects-location'
+import PageTitle from 'components/PageTitle'
 import AppLayout from 'layouts/AppLayout'
 import {logoutUser} from 'reducer/auth'
 import Link from 'components/Link'
@@ -18,6 +19,7 @@ function render ({props, children}) {
 
   return (
     <AppLayout {...props}>
+      <PageTitle title='Account Settings' />
       <Flex w='col_main' mt='s' mx='auto' px='s' py='l' relative>
         <Block>
           <Card w={230} mr pb='l'>

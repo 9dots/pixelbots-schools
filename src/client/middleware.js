@@ -17,6 +17,7 @@ import * as summon from 'vdux-summon'
 import logger from 'weo-redux-logger'
 import OAuth from 'middleware/oauth'
 import modal from 'middleware/modal'
+import title from 'middleware/title'
 import {isApiServer} from 'lib/api'
 import flo from 'redux-flo'
 
@@ -36,6 +37,7 @@ const middleware = [
   scroll,
   upload,
   modal,
+  title(),
   location(),
   summon.middleware('app.summon'),
   OAuth,

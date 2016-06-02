@@ -7,6 +7,7 @@ import cookieMiddleware from 'redux-effects-cookie'
 import {query} from 'redux-effects-credentials'
 import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
+import title from 'middleware/title'
 import {isApiServer} from 'lib/api'
 import flo from 'redux-flo'
 import cookie from 'cookie'
@@ -15,7 +16,7 @@ import cookie from 'cookie'
  * Middleware
  */
 
-function middleware ({url, headers}) {
+function middleware ({url, headers}, setTitle) {
   const cookieObj = cookie.parse(headers.cookie || '')
 
   return [
@@ -25,6 +26,7 @@ function middleware ({url, headers}) {
     cookieMiddleware(cookieObj),
     // normalize(isApiServer),
     fetchEncodeJSON,
+    title(setTitle),
     fetch,
     flo()
   ]

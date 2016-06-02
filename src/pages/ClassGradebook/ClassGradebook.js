@@ -2,15 +2,21 @@
  * Imports
  */
 
+import PageTitle from 'components/PageTitle'
 import element from 'vdux/element'
+import {Block} from 'vdux-ui'
 
 /**
  * <ClassGradebook/>
  */
 
 function render ({props}) {
+  const {group} = props
+
   return (
-    <div/>
+    <Block>
+      <PageTitle title={`${group.displayName} | Gradebook`} />
+    </Block>
   )
 }
 

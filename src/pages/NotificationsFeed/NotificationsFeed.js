@@ -4,8 +4,10 @@
 
 import StreamActivity from 'components/StreamActivity'
 import summonChannels from 'lib/summon-channels'
+import PageTitle from 'components/PageTitle'
 import RowFeed from 'components/RowFeed'
 import element from 'vdux/element'
+import {Block} from 'vdux-ui'
 
 /**
  * <NotificationsFeed/>
@@ -17,14 +19,17 @@ function onCreate({props}) {
 
 function render ({props}) {
   return (
-    <RowFeed
-      item={StreamActivity}
-      w='col_xl'
-      mt='l'
-      mx='auto'
-      {...props}
-      search={false}
-       />
+    <Block>
+      <PageTitle title='Notifications | Weo' />
+      <RowFeed
+        item={StreamActivity}
+        w='col_xl'
+        mt='l'
+        mx='auto'
+        {...props}
+        search={false}
+         />
+    </Block>
   )
 }
 

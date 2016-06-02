@@ -3,12 +3,17 @@
  */
 
 import FeedWidgets from 'components/FeedWidgets'
+import PageTitle from 'components/PageTitle'
 import IntroModal from 'modals/IntroModal'
 import TileFeed from 'components/TileFeed'
 import {openModal} from 'reducer/modal'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
+
+/**
+ * onCreate
+ */
 
 function onCreate ({props}) {
   const {currentUser} = props
@@ -29,6 +34,7 @@ function render ({props}) {
 
   return (
     <Block w='col_main' mt mx='auto'>
+      <PageTitle title='Weo' />
       <TileFeed activities={activities} more={more}>
         {
           activities.loaded && <FeedWidgets user={currentUser}/>
