@@ -82,11 +82,16 @@ function render ({props, state, local}) {
         </Tooltip>
       </Flex>
 
-      <Text pointer onClick={[finishedIntroModal, closeModal]} absolute bottom right m color='grey' hoverProps={{underline: true}}>
+      <Text pointer onClick={skip} absolute bottom right m color='grey' hoverProps={{underline: true}}>
         Skip
       </Text>
     </Flex>
   )
+
+  function * skip () {
+    yield finishedIntroModal()
+    yield closeModal()
+  }
 
   function * submit () {
     yield saveGradesAndSubjects(grades, subjects)
