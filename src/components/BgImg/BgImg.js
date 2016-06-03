@@ -17,8 +17,10 @@ function * onCreate ({props, local}) {
   const {img, thumb} = props
   const url = getUrl(img, thumb)
 
-  yield loadImage(url)
-  yield local(loaded)()
+  if (url) {
+    yield loadImage(url)
+    yield local(loaded)()
+  }
 }
 
 /**
@@ -49,7 +51,7 @@ function * onUpdate (prev, next) {
   const purl = getUrl(pprops.img, pprops.thumb)
   const nurl = getUrl(nprops.img, nprops.thumb)
 
-  if (purl !== nurl) {
+  if (nurl && purl !== nurl) {
     yield next.local(unloaded)()
     yield loadImage(nurl)
     yield next.local(loaded)()
