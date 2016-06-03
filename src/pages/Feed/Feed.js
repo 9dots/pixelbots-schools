@@ -6,6 +6,7 @@ import FeedWidgets from 'components/FeedWidgets'
 import IntroModal from 'modals/IntroModal'
 import TileFeed from 'components/TileFeed'
 import {openModal} from 'reducer/modal'
+import EmptyFeed from './EmptyFeed'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
@@ -26,14 +27,20 @@ function onCreate ({props}) {
 
 function render ({props}) {
   const {activities, more, currentUser} = props
+  const prefs = currentUser.preferences || {}
+  const {loaded, value} = activities
+
+  if (!prefs.group_joined) return <EmptyFeed />
 
   return (
     <Block w='col_main' mt mx='auto'>
-      <TileFeed activities={activities} more={more}>
-        {
-          activities.loaded && <FeedWidgets user={currentUser}/>
-        }
-      </TileFeed>
+      {
+        <TileFeed activities={activities} more={more} emptyState={<EmptyFeed follow />}>
+          {
+            activities.loaded && <FeedWidgets user={currentUser}/>
+          }
+        </TileFeed>
+      }
     </Block>
   )
 }

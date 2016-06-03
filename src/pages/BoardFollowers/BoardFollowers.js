@@ -3,10 +3,11 @@
  */
 
 import InfiniteScroll from 'components/InfiniteScroll'
+import EmptyState from 'components/EmptyState'
 import UserTile from 'components/UserTile'
+import {Grid, Block} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
-import {Grid, Block} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -16,6 +17,7 @@ import map from '@f/map'
 function render ({props}) {
   const {followers, more, currentUser} = props
   const {value, loaded, loading} = followers
+  if(!loaded) return <span/>
 
   return (
     <Block w='col_main' mx='auto' my>
@@ -23,10 +25,13 @@ function render ({props}) {
         {
           <Grid rowAlign='start'>
             {
-              loaded && map(user =>
-                <UserTile
+              value.items && value.items.length
+                ? map(user => <UserTile
                   currentUser={currentUser._id === user._id}
                   user={user} />, value.items)
+                : <EmptyState icon='person_outline' color='green'>
+                    No one is following this board yet.
+                  </EmptyState>
             }
           </Grid>
         }

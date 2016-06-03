@@ -18,7 +18,7 @@ function render ({props}) {
   return (
     <Block>
       {
-        <RowFeed {...props} item={ClassActivityRow} emptyState={EmptyClassFeed} />
+        <RowFeed {...props} item={ClassActivityRow} emptyState={<EmptyClassFeed />} />
       }
     </Block>
   )

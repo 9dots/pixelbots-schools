@@ -4,9 +4,10 @@
 
 import CreateBoardModal from 'modals/CreateBoardModal'
 import InfiniteScroll from 'components/InfiniteScroll'
-import {Grid, Block, Icon, Text} from 'vdux-ui'
+import EmptyState from 'components/EmptyState'
 import summonSearch from 'lib/summon-search'
 import BoardTile from 'components/BoardTile'
+import {Grid, Block, Text} from 'vdux-ui'
 import {openModal} from 'reducer/modal'
 import element from 'vdux/element'
 import Link from 'components/Link'
@@ -37,28 +38,25 @@ function renderItems(user, items, query) {
   return (
     items.length
       ? map(board => <BoardTile currentUser={user} board={board} />, items)
-      : <EmptyState query={query} currentUser={user} />
+      : <EmptySearch query={query} currentUser={user} />
   )
 }
 
-function EmptyState({props}) {
+function EmptySearch({props}) {
   const {currentUser, query} = props
   return (
-    <Block p textAlign='center' w='col_main'>
-      <Icon name='dashboard' fs='xxl' color='blue'/>
-      <Block fs='s' lighter mx='auto' w='col_m'>
-        Sorry, we couldn't find any boards for <Text bold>{query}</Text>
-        <br/>
-        Be the first to&nbsp;
-          <Link
-            href={`/${currentUser.username}/boards`}
-            hoverProps={{underline: true}}
-            color='blue'
-            pointer>
-            create your own!
-          </Link>
-      </Block>
-    </Block>
+    <EmptyState icon='dashboard' color='blue'>
+      Sorry, we couldn't find any boards for <Text bold>{query}</Text>
+      <br/>
+      Be the first to&nbsp;
+      <Link
+        href={`/${currentUser.username}/boards`}
+        hoverProps={{underline: true}}
+        color='blue'
+        pointer>
+        create your own!
+      </Link>
+    </EmptyState>
   )
 }
 
