@@ -29,6 +29,7 @@
     "@f/hyphenate": "^1.0.0",
     "@f/identity": "^1.1.1",
     "@f/is-same-day": "^1.0.0",
+    "@f/load-image": "^2.0.0",
     "@f/map": "^1.5.3",
     "@f/map-values": "^1.0.0",
     "@f/maybe-over": "^1.0.0",

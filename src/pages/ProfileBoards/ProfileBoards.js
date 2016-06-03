@@ -68,5 +68,8 @@ export default summon(({user, currentUser}) => ({
     ? '/user/boards'
     : `/user/${user._id}/boards`,
 }))({
-  render
+  render,
+  onRemove () {
+    console.log('remove')
+  }
 })

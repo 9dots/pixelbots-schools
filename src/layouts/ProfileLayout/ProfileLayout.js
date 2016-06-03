@@ -25,7 +25,7 @@ function render ({props, children}) {
 
   return (
     <AppLayout {...props} bgColor={user.value && (user.value.color || pickerColors[0])}>
-      <PageTitle title={`${user.value && user.value.displayName} | Profile`} />
+      <PageTitle title={`${user.value && user.value.displayName || ''} | Profile`} />
       <Flex mt={18} px='s' column mx='auto' align='center center' w='col_main'>
         {internal(isCurrentUser, user, children)}
       </Flex>
