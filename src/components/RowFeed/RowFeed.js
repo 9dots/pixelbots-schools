@@ -56,7 +56,7 @@ function render ({props}) {
 }
 
 function renderItems (items, Item, Empty, currentUser) {
-  if (!items.length && Empty) return <Empty />
+  if (!items.length && Empty) return Empty
 
   let prevDate = new Date(0)
 

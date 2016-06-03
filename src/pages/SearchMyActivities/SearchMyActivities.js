@@ -3,6 +3,7 @@
  */
 
 import CreateActivityModal from 'modals/CreateActivityModal'
+import EmptyState from 'components/EmptyState'
 import summonSearch from 'lib/summon-search'
 import {Text, Block} from 'vdux-containers'
 import TileFeed from 'components/TileFeed'
@@ -16,25 +17,22 @@ import {Icon} from 'vdux-ui'
 
 function render({props}) {
   return (
-    <TileFeed emptyState={<EmptyState query={props.query} />} {...props} />
+    <TileFeed emptyState={<EmptySearch query={props.query} />} {...props} />
   )
 }
 
-function EmptyState({props}) {
+function EmptySearch({props}) {
   return(
-    <Block p textAlign='center' w='col_main'>
-      <Icon name='assignment_ind' fs='xxl' color='green'/>
-      <Block fs='s' lighter mx='auto' w='col_m'>
-        You haven't created any activities for <Text bold>{props.query}</Text>
-        <Block
-          onClick={() => openModal(() => <CreateActivityModal />)}
-          hoverProps={{underline: true}}
-          color='blue'
-          pointer>
-          Create one now!
-        </Block>
+    <EmptyState icon='assignment_ind' color='green'>
+      You haven't created any activities for <Text bold>{props.query}</Text>
+      <Block
+        onClick={() => openModal(() => <CreateActivityModal />)}
+        hoverProps={{underline: true}}
+        color='blue'
+        pointer>
+        Create one now!
       </Block>
-    </Block>
+    </EmptyState>
   )
 }
 

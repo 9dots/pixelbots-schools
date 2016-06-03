@@ -18,20 +18,20 @@ function render ({children, props}) {
 
   return (
     <InfiniteScroll w='calc(100% + 12px)' loading={loading} more={() => value && more(value.nextPageToken)}>
-      <Grid>
-        {children}
         {
-          loaded && renderItems(value.items, emptyState)
+          loaded && renderItems(value.items, emptyState, children)
         }
-      </Grid>
     </InfiniteScroll>
   )
 }
 
-function renderItems(items, emptyState) {
+function renderItems(items, emptyState, children) {
   return (
     items.length
-      ? map(activity => <ActivityTile activity={activity} />, items)
+      ? <Grid>
+          {children}
+          {map(activity => <ActivityTile activity={activity} />, items)}
+        </Grid>
       : emptyState
   )
 }

@@ -2,6 +2,7 @@
  * Imports
  */
 
+import EmptyProfileLikes from './EmptyProfileLikes'
 import TileFeed from 'components/TileFeed'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -11,10 +12,10 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {likes, more} = props
+  const {likes, more, currentUser, user} = props
 
   return (
-    <TileFeed activities={likes} more={more} />
+    <TileFeed activities={likes} more={more} emptyState={<EmptyProfileLikes me={currentUser} user={user} />} />
   )
 }
 

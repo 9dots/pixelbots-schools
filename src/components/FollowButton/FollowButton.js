@@ -15,11 +15,10 @@ function render ({props}) {
   const {loading, value, reload} = isFollowing
   const noun = board ? 'Board' : ''
   const verb = loading && !reload
-    ? ''
+    ? '&nbsp;'
     : value ? 'Unfollow' : 'Follow'
   return (
     <Button
-      hide={loading}
       onClick={(value ? unfollow : follow)}
       disabled={loading}
       color={value ? 'midgray' : 'blue'}

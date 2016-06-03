@@ -20,7 +20,7 @@ function render ({props}) {
     <Block>
       <PageTitle title={`${group.displayName} | Feed`} />
       {
-        <RowFeed {...props} item={ClassActivityRow} emptyState={EmptyClassFeed} />
+        <RowFeed {...props} item={ClassActivityRow} emptyState={<EmptyClassFeed />} />
       }
     </Block>
   )

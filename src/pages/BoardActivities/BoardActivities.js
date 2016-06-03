@@ -3,6 +3,7 @@
  */
 
 import CreateActivityModal from 'modals/CreateActivityModal'
+import EmptyBoardActivities from './EmptyBoardActivities'
 import summonChannels from 'lib/summon-channels'
 import TileFeed from 'components/TileFeed'
 import {openModal} from 'reducer/modal'
@@ -19,7 +20,7 @@ function render ({props}) {
   const isOwner = currentUser._id === board.owners[0].id
   return (
     <Block w='col_main' mt mx='auto' pb='xl'>
-      <TileFeed activities={activities} more={more}>
+      <TileFeed activities={activities} more={more} emptyState={<EmptyBoardActivities isOwner={isOwner} />}>
         {
           isOwner &&
           <Flex bgColor='rgba(0,0,0,0.025)' mx={6} my={8} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
