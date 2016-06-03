@@ -2,6 +2,7 @@
  * Imports
  */
 
+import PageTitle from 'components/PageTitle'
 import AppLayout from 'layouts/AppLayout'
 import maybeOver from '@f/maybe-over'
 import element from 'vdux/element'
@@ -30,6 +31,7 @@ function internal({value, loading, error}, currentUser, children) {
 
   return [
     <Header value={value} currentUser={currentUser}/>,
+    <PageTitle title={`${value.displayName} | Board`} />,
     maybeOver(value, children)
   ]
 }

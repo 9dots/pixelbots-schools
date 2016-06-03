@@ -3,6 +3,7 @@
  */
 
 import FeedWidgets from 'components/FeedWidgets'
+import PageTitle from 'components/PageTitle'
 import IntroModal from 'modals/IntroModal'
 import TileFeed from 'components/TileFeed'
 import {openModal} from 'reducer/modal'
@@ -10,6 +11,10 @@ import EmptyFeed from './EmptyFeed'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
+
+/**
+ * onCreate
+ */
 
 function onCreate ({props}) {
   const {currentUser} = props
@@ -34,13 +39,12 @@ function render ({props}) {
 
   return (
     <Block w='col_main' mt mx='auto'>
-      {
-        <TileFeed activities={activities} more={more} emptyState={<EmptyFeed follow />}>
-          {
-            activities.loaded && <FeedWidgets user={currentUser}/>
-          }
-        </TileFeed>
-      }
+      <PageTitle title='Weo' />
+      <TileFeed activities={activities} more={more} emptyState={<EmptyFeed follow />}>
+        {
+          activities.loaded && <FeedWidgets user={currentUser}/>
+        }
+      </TileFeed>
     </Block>
   )
 }

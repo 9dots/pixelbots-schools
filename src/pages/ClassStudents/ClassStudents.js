@@ -2,8 +2,10 @@
  * Imports
  */
 
+import ClassActivityRow from 'components/ClassActivityRow'
 import EmptyClassStudents from './EmptyClassStudents'
 import {Icon, Flex, Block, Checkbox} from 'vdux-ui'
+import PageTitle from 'components/PageTitle'
 import {Button, form} from 'vdux-containers'
 import Loading from 'components/Loading'
 import StudentGrid from './StudentGrid'
@@ -24,12 +26,17 @@ function render ({props}) {
   const {items: studentList} = value
 
   return (
-    loaded && studentList.length
-      ? <Block>
-          <StudentMenu students={studentList} />
-          <StudentGrid students={studentList} selected={selected.value || []} toggleAll={toggleAll} />
-        </Block>
-      : <EmptyClassStudents group={group} />
+    <Block>
+      <PageTitle title={`${group.displayName} | Students`} />
+      {
+        loaded && studentList.length
+          ? <Block>
+              <StudentMenu students={studentList} />
+              <StudentGrid students={studentList} selected={selected.value || []} toggleAll={toggleAll} />
+            </Block>
+          : <EmptyClassStudents group={group} />
+      }
+    </Block>
   )
 }
 
