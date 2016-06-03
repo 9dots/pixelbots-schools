@@ -51,7 +51,7 @@ function Header ({props}) {
           h='30'
           mx>
           Class Code: &nbsp;
-          <Text color='blue' fs='s' fontFamily='monospace'>
+          <Text color='blue' fs='15px' fontFamily='monospace'>
             {code}
           </Text>
           <Icon ml='s' fs='xs' name='help' circle />

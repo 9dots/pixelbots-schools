@@ -4,6 +4,7 @@
 
 import StreamActivity from 'components/StreamActivity'
 import summonChannels from 'lib/summon-channels'
+import EmptyState from 'components/EmptyState'
 import PageTitle from 'components/PageTitle'
 import RowFeed from 'components/RowFeed'
 import element from 'vdux/element'
@@ -28,7 +29,9 @@ function render ({props}) {
         mx='auto'
         {...props}
         search={false}
+        emptyState={<EmptyState wide icon='cast' color='red_medium'>You have no notifications</EmptyState>}
          />
+        }
     </Block>
   )
 }

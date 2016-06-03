@@ -20,17 +20,20 @@ function render ({props}) {
     <Block>
       <PageTitle title={`${group.displayName} | Gradebook`} />
       <EmptyState icon='book' color='green' wide>
-        You don't have any students in your class.
+        <Block lh='30px' mt>
+          You don't have any students in your class. Add students and assign them Activities.
+        </Block>
         <Button
           onClick={() => setUrl(`/class/${group._id}/students`)}
           boxShadow='z2'
+          bgColor='green'
           px='35px'
           lighter
           h='3em'
           fs='s'
           my='l'>
           <Block align='center center'>
-            <Icon name='person_add' mr='s' />
+            <Icon name='person_add' mr />
             Add Students
           </Block>
         </Button>
