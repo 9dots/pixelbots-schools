@@ -52,8 +52,8 @@ function render ({props}) {
         <Flex h='42px' p='s' align='space-between center'>
             {
               currentUser._id === owner.id
-                ? <Button color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}} onClick={() => openModal(() => <BoardSettingsModal board={board} />)} text='Edit' />
-                : <FollowButton w='150' px='0' board={board}/>
+                ? <Button color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}} onClick={() => openModal(() => <BoardSettingsModal board={board} />)}>Edit</Button>
+                : <FollowButton w='150' px='0' board={board} />
             }
           <Block color='grey_medium' lh='30px'>
             <WeoIcon name='pin' fs='14px' />

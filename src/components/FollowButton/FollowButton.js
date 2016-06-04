@@ -17,6 +17,7 @@ function render ({props}) {
   const verb = loading && !reload
     ? '&nbsp;'
     : value ? 'Unfollow' : 'Follow'
+
   return (
     <Button
       onClick={(value ? unfollow : follow)}
@@ -38,10 +39,9 @@ function render ({props}) {
  * Exports
  */
 
-export default summon(props => {
+export default summon((props) => {
   const {board, user} = props
-
-  const id = board ? board._id : user._id
+  const id = board ? (board._id || board.id) : (user.id || user._id)
   const type = board ? 'board' : 'user'
 
   const url = `/${type}/${id}/follow`
@@ -55,9 +55,9 @@ export default summon(props => {
 
   return {
     isFollowing: {
-    url,
-    xf: body => body.value,
-    subscribe
+      url,
+      xf: body => body.value,
+      subscribe
     },
     follow: () => ({
       followResponse: {
