@@ -32,9 +32,10 @@ function getProps (props, {avatarUpdates = 0}) {
  */
 
 function render ({props, state, local}) {
-  const {actor, circle, thumb, size, link, avatarUpdates} = props
+  const {actor, circle, thumb, size, link, isLoaded, avatarUpdates} = props
 
   return <Avatar
+    hidden={!isLoaded}
     bgColor='grey_light'
     onClick={() => (link && setUrl(`/${actor.username}/boards`))}
     src={avatarUrl(state.loadFailed ? 'default' : actor, thumb, avatarUpdates)}

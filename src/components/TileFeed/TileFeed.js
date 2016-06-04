@@ -25,7 +25,9 @@ function render ({children, props}) {
   )
 }
 
-function renderItems(items, emptyState, children) {
+function renderItems (items, emptyState, children) {
+  const heights = map(estimateHeight, items)
+
   return (
     items.length
       ? <Grid>
@@ -34,6 +36,28 @@ function renderItems(items, emptyState, children) {
         </Grid>
       : emptyState
   )
+}
+
+/**
+ * Helpers
+ */
+
+function estimateHeight ({image, description, likersLength}) {
+  let height = imageHeight(image)
+
+  // Row height is 30 px, roughly 40 characters per row
+  if (description) height += Math.ceil(description.length / 40) * 30
+  if (likersLength) height += 25
+
+  return height
+}
+
+function imageHeight (image = {}) {
+  const {width, height} = image
+
+  return !width || !height
+    ? 0
+    : Math.min((230 * height) / width, 350)
 }
 
 /**
