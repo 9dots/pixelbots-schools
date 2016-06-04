@@ -19,10 +19,11 @@ function render ({props}) {
   const {user, currentUser, boards} = props
   const {value, loading} = boards
 
+
   return (
     <Block hide={loading} w='calc(100% + 12px)'>
       {
-        value && value.items.length
+        !loading && value.items.length
           ? renderGrid(value.items, currentUser, user)
           : <EmptyState user={user} currentUser={currentUser} />
       }
@@ -68,8 +69,5 @@ export default summon(({user, currentUser}) => ({
     ? '/user/boards'
     : `/user/${user._id}/boards`,
 }))({
-  render,
-  onRemove () {
-    console.log('remove')
-  }
+  render
 })

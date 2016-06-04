@@ -26,7 +26,11 @@ function render ({props}) {
           </Block>
         </Block>
         {
-          !currentUser && <Block onClick={e => e.stopPropagation()}><FollowButton m='s' absolute='bottom right' user={user} /></Block>
+          !currentUser && (
+            <Block onClick={e => e.stopPropagation()}>
+              <FollowButton m='s' absolute='bottom right' user={user} />
+            </Block>
+          )
         }
       </Block>
       <Block p='m' whiteSpace='nowrap'>
