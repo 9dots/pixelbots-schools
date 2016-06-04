@@ -25,12 +25,10 @@ function render ({props}) {
             bgColor='white'
             color='text'
             px>
-            <Flex>
-              Reading Speed:
-              <Block fontFamily='monoSpace' ml='s'>
-                {speed.toFixed(1) || '1.0'}
-              </Block>
-            </Flex>
+            Reading Speed:
+            <Block fontFamily='monoSpace' ml='s'>
+              {speed.toFixed(1) || '1.0'}
+            </Block>
           </Button>
         }>
         {

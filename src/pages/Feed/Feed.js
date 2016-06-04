@@ -40,7 +40,7 @@ function render ({props}) {
   return (
     <Block w='col_main' mt mx='auto'>
       <PageTitle title='Weo' />
-      <TileFeed activities={activities} more={more} emptyState={<EmptyFeed follow />}>
+      <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />}>
         {
           activities.loaded && <FeedWidgets user={currentUser}/>
         }
@@ -55,7 +55,10 @@ function render ({props}) {
  */
 
 export default summon(props => ({
-  activities: '/share/feed?maxResults=30',
+  activities: {
+    url: '/share/feed?maxResults=30',
+    subscribe: 'activity_feed'
+  },
   more: pageToken => ({
     activities: {
       params: pageToken && {

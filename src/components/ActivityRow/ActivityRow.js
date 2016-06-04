@@ -6,6 +6,7 @@ import {Flex, Block, Card, Text, Image} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
 import Figure from 'components/Figure'
 import resize from 'lib/resize-image'
+import BgImg from 'components/BgImg'
 import element from 'vdux/element'
 import Meta from './Meta'
 
@@ -24,21 +25,23 @@ function render ({props}) {
       <Flex tall align='start start'>
         <Flex p='m' tall column align='space-between' flex='50%'>
           <Block fs='s' fw='200'>{displayName}</Block>
-          <Block fs='xs' lh='20px' maxHeight='40px' overflow='hidden' fw='200' color='midgray'>{description}</Block>
+          <Block fs='xs' lh='20px' maxHeight='40px' overflow='hidden' fw='200' color='text'>{description}</Block>
           <MetaUi activity={activity} currentUser={currentUser} />
         </Flex>
-        <Block
-          backgroundImage={image && `url(${imageUrl})`}
-          backgroundPosition='center center'
-          backgroundSize='cover'
-          overflow='hidden'
-          boxShadow='card'
-          hide={!imageUrl}
-          flex='20%'
-          h='108px'
-          relative
-          rounded
-          my='m' />
+        {
+          imageUrl &&
+            <BgImg
+              backgroundPosition='center center'
+              img={imageUrl}
+              backgroundSize='cover'
+              overflow='hidden'
+              boxShadow='card'
+              flex='20%'
+              h='108px'
+              relative
+              rounded
+              my='m' />
+        }
           <Flex flex align='end start'>
             <BadgeUi activity={activity} currentUser={currentUser} />
           </Flex>
