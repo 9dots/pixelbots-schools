@@ -15,7 +15,7 @@ function render ({props}) {
   const {likes, more, currentUser, user} = props
 
   return (
-    <TileFeed activities={likes} more={more} emptyState={<EmptyProfileLikes me={currentUser} user={user} />} />
+    <TileFeed currentUser={currentUser} activities={likes} more={more} emptyState={<EmptyProfileLikes me={currentUser} user={user} />} />
   )
 }
 

@@ -53,7 +53,7 @@ function ClassMeta ({props}) {
   const {publishedAt} = activity
 
   return (
-    <Text fs='xxs' color='lightgrey'>
+    <Text fs='xxs' color='grey_medium'>
       Assigned {moment(publishedAt).fromNow()}
     </Text>
   )

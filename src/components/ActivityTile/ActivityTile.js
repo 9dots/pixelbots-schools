@@ -2,10 +2,11 @@
  * Imports
  */
 
-import {wrap, CSSContainer} from 'vdux-containers'
+import ActivityCardActions from 'components/ActivityCardActions'
 import {Flex, Block, Card, Text, Icon} from 'vdux-ui'
-import WeoIcon from 'components/WeoIcon'
+import {wrap, CSSContainer} from 'vdux-containers'
 import {setUrl} from 'redux-effects-location'
+import WeoIcon from 'components/WeoIcon'
 import Figure from 'components/Figure'
 import element from 'vdux/element'
 import Meta from './Meta'
@@ -28,14 +29,17 @@ function render ({props}) {
 
 const Activity = wrap(CSSContainer)({
   render ({props}) {
-    const {activity, hover} = props
+    const {activity, user = {}, hover, showActions} = props
     const {image, displayName, description, _id, likers, repinCount, replies} = activity
     const url = `/activity/${_id}/public/preview`
 
     return (
       <Flex column cursor='zoom-in' pb onClick={() => setUrl(url)}>
-        <actions/>
-        <Figure {...image} thumb={true} opacity={hover && .88} />
+        {
+          showActions && hover &&
+          <ActivityCardActions assign activity={activity} user={user} absolute wide z='1' />
+        }
+        <Figure key='img' {...image} thumb={true} opacity={hover && .88} />
         <Block textAlign='center' m='m'>
           <Text my='s' fs='s' display='block' fw='200'>{displayName}</Text>
           <Text fs='xxs' wordBreak='break-word'>{description}</Text>

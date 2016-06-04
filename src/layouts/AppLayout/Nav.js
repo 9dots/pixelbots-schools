@@ -47,10 +47,8 @@ function render ({props, state}) {
               h={34}
               pill
               mr>
-              <Flex align='center center'>
-                <Icon fs='s' mr='s' name='edit' />
-                Create Activity
-              </Flex>
+              <Icon fs='s' mr='s' name='edit' />
+              Create Activity
             </Button>
           </Menu>
         </Flex>

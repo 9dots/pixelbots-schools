@@ -29,10 +29,8 @@ function render ({props}) {
         Create Activities for your Class
       </ModalHeader>
       <Button my pill bgColor='green' boxShadow='z2' py fs='s' fw='200'>
-        <Block align='center center'>
-          Create a New Activity
-          <Icon name='keyboard_arrow_right' ml='s'/>
-        </Block>
+        Create a New Activity
+        <Icon name='keyboard_arrow_right' ml='s'/>
       </Button>
       <Block my='l' fs='s' fontStyle='italic' fw='200'>
         or try editing some samples first
