@@ -29,7 +29,7 @@ function render ({props}) {
  */
 
 function getUrl (img, thumb) {
-  if (!img || !img.url) return
+  if (!img && !img.url) return
 
   const url = img.url ? img.url : img
 
