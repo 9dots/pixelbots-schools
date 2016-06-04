@@ -17,9 +17,9 @@ import Meta from './Meta'
 function render ({props}) {
   const {activity, metaUi: MetaUi = Meta, badgeUi: BadgeUi = Badge, currentUser} = props
   const {image, displayName, description, _id: id} = activity
-  const imageUrl = image && image.url ? resize(image.url, 350) : false
   const url = `/activity/${id}/public/preview`
 
+  console.log('image', image)
   return (
     <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='zoom-in' onClick={() => setUrl(url)}>
       <Flex tall align='start start'>
@@ -29,10 +29,11 @@ function render ({props}) {
           <MetaUi activity={activity} currentUser={currentUser} />
         </Flex>
         {
-          imageUrl &&
+          image && image.url &&
             <BgImg
               backgroundPosition='center center'
-              img={imageUrl}
+              img={image.url}
+              thumb={350}
               backgroundSize='cover'
               overflow='hidden'
               boxShadow='card'
