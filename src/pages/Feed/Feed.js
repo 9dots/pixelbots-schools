@@ -26,7 +26,6 @@ function onCreate ({props}) {
 
 function render ({props}) {
   const {activities, more, currentUser} = props
-
   return (
     <Block w='col_main' mt mx='auto'>
       <TileFeed activities={activities} more={more}>

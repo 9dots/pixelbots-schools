@@ -3,6 +3,7 @@
  */
 
 import css from './css'
+import favicon from 'lib/favicon'
 
 /**
  * Page
@@ -20,6 +21,7 @@ function page ({html, state}) {
           ${
             css.map(str => `<style>${str}</style>`).join('')
           }
+          <link rel=icon href="${favicon}">
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
           <script type='text/javascript'>
             window.__initialState__ = ${JSON.stringify(state)}

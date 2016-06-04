@@ -5,6 +5,7 @@
 import jss from './jss'
 import 'babel-runtime/regenerator/runtime'
 import promise from 'es6-promise'
+import favicon from 'lib/favicon'
 
 /**
  * Polyfills

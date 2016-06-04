@@ -7,6 +7,7 @@
   "license": "none",
   "scripts": {
     "postversion": "git push && git push --tags && npm publish --access=public",
+    "postinstall": "npm run build",
     "dev": "unv dev",
     "build": "unv build --base //storage.googleapis.com/assets-weo-io/",
     "start": "unv serve"
@@ -78,6 +79,7 @@
     "redux-effects-fetch": "^0.5.5",
     "redux-effects-location": "^0.2.0",
     "redux-flo": "^2.2.1",
+    "unv": "^0.2.25",
     "vdux": "^2.4.6",
     "vdux-containers": "^1.1.6",
     "vdux-css-transition": "^1.2.1",

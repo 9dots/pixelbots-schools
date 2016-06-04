@@ -43,7 +43,7 @@ function render (opts) {
           resolve({html, state})
         }
       } catch (err) {
-        console.log('caught err', err)
+        console.log('caught err', err.stack)
         reject(err)
         stop()
       }
