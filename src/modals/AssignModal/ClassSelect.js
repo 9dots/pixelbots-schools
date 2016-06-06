@@ -2,7 +2,8 @@
  * Imports
  */
 
-import {MenuItem, Checkbox} from 'vdux-containers'
+import NewMenuItem from 'components/NewMenuItem'
+import {Checkbox} from 'vdux-containers'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
@@ -23,6 +24,7 @@ function render({props}) {
             .sort(cmp)
             .map(cls => <ClassItem cls={cls} />)
       }
+      <NewMenuItem type='Class' />
     </Block>
   )
 }
@@ -31,13 +33,13 @@ function ClassItem({props}) {
   const {cls} = props
   return (
     <Checkbox
+      checkProps={{circle: 25, fs: 'xs', ml: 8, mr: 10}}
       checked={Math.round(Math.random())}
-      bgColor='white'
       hoverProps={{highlight: 0.03}}
+      label={cls.displayName}
+      bgColor='white'
       pointer
-      checkProps={{circle: 25, fs: 'xs', mr: true}}
-      p
-      label={cls.displayName}/>
+      p/>
   )
 }
 
@@ -46,9 +48,7 @@ function ClassItem({props}) {
  */
 
 function cmp (a, b) {
-  return a.displayName.toUpperCase() > b.displayName.toUpperCase()
-    ? 1
-    : -1
+  return a.displayName.toUpperCase() > b.displayName.toUpperCase() ? 1 : -1
 }
 
 /**

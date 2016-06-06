@@ -2,16 +2,18 @@
  * Imports
  */
 
-import {MenuItem, Checkbox} from 'vdux-containers'
+
+import NewMenuItem from 'components/NewMenuItem'
+import {Block, Button} from 'vdux-containers'
+import WeoIcon from 'components/WeoIcon'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
-import {Block} from 'vdux-ui'
 
 /**
  * PinSelect
  */
 
-function render({props}) {
+function render({props, local, state}) {
   const {classes, ...rest} = props
   const {value, loading} = classes
 
@@ -21,23 +23,36 @@ function render({props}) {
         !loading &&
           value.items
             .sort(cmp)
-            .map(cls => <ClassItem cls={cls} />)
+            .map(board => <BoardItem board={board} />)
       }
+      <NewMenuItem type='Board' />
     </Block>
   )
 }
 
-function ClassItem({props}) {
-  const {cls} = props
+function BoardItem({props}) {
+  const {board} = props
   return (
-    <Checkbox
-      checked={Math.round(Math.random())}
-      bgColor='white'
+    <Block
       hoverProps={{highlight: 0.03}}
+      align='start center'
+      bgColor='white'
       pointer
-      checkProps={{circle: 25, fs: 'xs', mr: true}}
-      p
-      label={cls.displayName}/>
+      p>
+      <Button
+        hoverProps={{highlight: 0.01}}
+        focusProps={{highlight: 0.01}}
+        border='1px solid blue'
+        bgColor='white'
+        color='blue'
+        h='32px'
+        w='38px'
+        p='0'
+        mr>
+        <WeoIcon fs='s' name='pin' />
+      </Button>
+        {board.displayName}
+    </Block>
   )
 }
 
@@ -46,9 +61,7 @@ function ClassItem({props}) {
  */
 
 function cmp (a, b) {
-  return a.displayName.toUpperCase() > b.displayName.toUpperCase()
-    ? 1
-    : -1
+  return a.displayName.toUpperCase() > b.displayName.toUpperCase() ? 1 : -1
 }
 
 /**

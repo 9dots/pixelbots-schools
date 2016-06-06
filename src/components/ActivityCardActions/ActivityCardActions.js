@@ -56,7 +56,8 @@ function render ({props}) {
         weoIcon='pin'
         color='blue'
         text='Pin'
-        full={pin}/>
+        full={pin}
+        mr='0'/>
     </Block>
   )
 }
