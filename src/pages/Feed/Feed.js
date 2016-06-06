@@ -40,11 +40,9 @@ function render ({props}) {
   return (
     <Block w='col_main' mt mx='auto'>
       <PageTitle title='Weo' />
-      <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />}>
-        {
-          activities.loaded && <FeedWidgets user={currentUser}/>
-        }
-      </TileFeed>
+      <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
+        <FeedWidgets user={currentUser}/>
+     </TileFeed>
     </Block>
   )
 }

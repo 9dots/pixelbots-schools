@@ -19,7 +19,6 @@ function render ({props}) {
   const {image, displayName, description, _id: id} = activity
   const url = `/activity/${id}/public/preview`
 
-  console.log('image', image)
   return (
     <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='zoom-in' onClick={() => setUrl(url)}>
       <Flex tall align='start start'>
