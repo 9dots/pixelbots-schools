@@ -30,5 +30,6 @@ const reducer = handleActions({
 
 export default reducer
 export {
-  watchUrl
+  watchUrl,
+  urlDidUpdate
 }

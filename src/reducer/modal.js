@@ -4,6 +4,7 @@
 
 import createAction from '@f/create-action'
 import handleActions from '@f/handle-actions'
+import {urlDidUpdate} from './url'
 
 /**
  * Actions
@@ -18,7 +19,9 @@ const closeModal = createAction('Close modal')
 
 const reducer = handleActions({
   [openModal]: (state, modal) => modal,
-  [closeModal]: (state, modal) => null
+  [closeModal]: (state, modal) => null,
+  // Also close modals on route change
+  [urlDidUpdate]: (state, modal) => null
 })
 
 /**
