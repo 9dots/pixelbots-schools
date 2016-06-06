@@ -36,9 +36,9 @@ const middleware = [
   fetch,
   scroll,
   upload,
+  location(),
   modal,
   title(),
-  location(),
   summon.middleware('app.summon'),
   OAuth,
   logger({
