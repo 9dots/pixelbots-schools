@@ -2,7 +2,7 @@
  * Imports
  */
 
-import 'babel-runtime/regenerator/runtime'
+import 'regenerator-runtime'
 import render from './render'
 import page from './page'
 
