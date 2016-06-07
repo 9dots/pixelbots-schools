@@ -138,7 +138,7 @@ const reducer = handleActions({
 export default summon(({currentUser}) => ({
   saveGradesAndSubjects: (gradeLevels, subjects) => ({
     savingGradesAndSubjects: {
-      url: '/user/',
+      url: '/user',
       method: 'PUT',
       body: {
         ...currentUser,
@@ -150,6 +150,7 @@ export default summon(({currentUser}) => ({
   finishedIntroModal: () => ({
     savingPreference: {
       url: '/preference/' + encodeURIComponent('slideshow.done'),
+      invalidates: '/user',
       method: 'PUT',
       body: {
         value: true
