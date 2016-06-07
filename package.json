@@ -80,7 +80,7 @@
     "redux-effects-location": "^0.2.0",
     "redux-flo": "^2.2.1",
     "regenerator-runtime": "^0.9.5",
-    "unv": "^0.2.25",
+    "unv": "^0.2.26",
     "vdux": "^2.4.6",
     "vdux-containers": "^1.1.6",
     "vdux-css-transition": "^1.2.1",
@@ -130,6 +130,6 @@
     }
   },
   "engines": {
-    "npm": "~4.2.0"
+    "node": "~4.2.0"
   }
 }
