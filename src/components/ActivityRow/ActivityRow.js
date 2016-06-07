@@ -2,7 +2,9 @@
  * Imports
  */
 
+import ActivityCardActions from 'components/ActivityCardActions'
 import {Flex, Block, Card, Text, Image} from 'vdux-ui'
+import {wrap, CSSContainer} from 'vdux-containers'
 import {setUrl} from 'redux-effects-location'
 import Figure from 'components/Figure'
 import resize from 'lib/resize-image'
@@ -15,40 +17,57 @@ import Meta from './Meta'
  */
 
 function render ({props}) {
-  const {activity, metaUi: MetaUi = Meta, badgeUi: BadgeUi = Badge, currentUser} = props
-  const {image, displayName, description, _id: id} = activity
-  const url = `/activity/${id}/public/preview`
-
   return (
-    <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='zoom-in' onClick={() => setUrl(url)}>
-      <Flex tall align='start start'>
-        <Flex p='m' tall column align='space-between' flex='50%'>
-          <Block fs='s' fw='200'>{displayName}</Block>
-          <Block fs='xs' lh='20px' maxHeight='40px' overflow='hidden' fw='200' color='text'>{description}</Block>
-          <MetaUi activity={activity} currentUser={currentUser} />
-        </Flex>
-        {
-          image && image.url &&
-            <BgImg
-              backgroundPosition='center center'
-              img={image.url}
-              thumb={350}
-              backgroundSize='cover'
-              overflow='hidden'
-              boxShadow='card'
-              flex='20%'
-              h='108px'
-              relative
-              rounded
-              my='m' />
-        }
-          <Flex flex align='end start'>
-            <BadgeUi activity={activity} currentUser={currentUser} />
-          </Flex>
-      </Flex>
-    </Card>
+    <Activity {...props} hoverProps={{hover: true}} />
   )
 }
+
+const Activity = wrap(CSSContainer)({
+  render ({props}) {
+    const {
+      hover, activity, metaUi: MetaUi = Meta,
+      badgeUi: BadgeUi = Badge, currentUser, showActions
+    } = props
+    const {image, displayName, description, _id: id} = activity
+    const url = `/activity/${id}/public/preview`
+
+    return (
+      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='zoom-in' onClick={() => setUrl(url)}>
+        <Flex tall align='start start'>
+          <Flex p='m' tall column align='space-between' flex='50%'>
+            <Block fs='s' fw='200'>{displayName}</Block>
+            <Block fs='xs' lh='20px' maxHeight='40px' overflow='hidden' fw='200' color='text'>{description}</Block>
+            <MetaUi activity={activity} currentUser={currentUser} />
+          </Flex>
+          <Block flex='22%' mr>
+          {
+            image && image.url &&
+              <BgImg
+                backgroundPosition='center center'
+                img={image.url}
+                thumb={350}
+                backgroundSize='cover'
+                overflow='hidden'
+                boxShadow='card'
+                wide
+                h='108px'
+                relative
+                rounded
+                my='m' />
+          }
+          </Block>
+          <Flex flex align='end start'>
+            {
+              showActions && hover &&
+                <ActivityCardActions align='space-between center' wide activity={activity} user={currentUser} assign spread={false} />
+            }
+            <BadgeUi activity={activity} currentUser={currentUser} />
+          </Flex>
+        </Flex>
+      </Card>
+    )
+  }
+})
 
 function Badge () { return <span/> }
 

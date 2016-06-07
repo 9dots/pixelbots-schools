@@ -18,7 +18,7 @@ import element from 'vdux/element'
 
 function render ({props}) {
   return (
-    <RowFeed {...props} emptyState={<EmptyBoard />} item={ActivityRow} />
+    <RowFeed {...props} emptyState={<EmptyBoard />} item={ActivityRow} itemProps={{showActions: true}} />
   )
 }
 

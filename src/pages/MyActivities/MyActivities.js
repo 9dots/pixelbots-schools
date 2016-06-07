@@ -18,7 +18,7 @@ import {Block} from 'vdux-ui'
 
 function render ({props}) {
   return (
-    <RowFeed {...props} item={ActivityRow} emptyState={<EmptyBoard />} />
+    <RowFeed {...props} item={ActivityRow} itemProps={{showActions: true}} emptyState={<EmptyBoard />} />
   )
 }
 

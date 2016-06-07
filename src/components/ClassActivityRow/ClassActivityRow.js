@@ -31,7 +31,7 @@ function ClassBadge ({props}) {
   }, {returned: 0, turnedIn: 0, notDone: 0}, actors)
 
   return (
-    <Flex align='start center' mt mr fs='xxs'>
+    <Flex align='space-between center' wide mt mx fs='xxs'>
       <Flex column align='center center' mr='s'>
         <Text>Returned</Text>
         <Text>{counts.returned}</Text>

@@ -19,7 +19,7 @@ import {Block} from 'vdux-ui'
 function render ({props}) {
   const {
     activity, user, assign, edit, like, pin,
-    likeActivity, unlikeActivity, ...rest
+    likeActivity, unlikeActivity, spread = true, ...rest
   } = props
   const isOwner = activity.actor.id === user._id
   const hasLiked = activity.likers.some(function(liker) {
@@ -34,7 +34,7 @@ function render ({props}) {
         color='green'
         full={assign}
         icon='send'/>
-      <Block flex/>
+      <Block hide={!spread} flex/>
       <Action
         onClick={() => setUrl(`/activity/${activity._id}/edit`)}
         color='grey_medium'

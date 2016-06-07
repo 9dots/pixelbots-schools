@@ -10,6 +10,7 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
+  const {inputProps, ...rest} = props
   return <Input
     activeProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
     focusProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
@@ -28,9 +29,9 @@ function render ({props}) {
       outline: 0,
       py: 12,
       px: 14,
-      ...(props.inputProps || {})
+      ...(inputProps || {})
     }}
-    {...props} />
+    {...rest} />
 }
 
 /**

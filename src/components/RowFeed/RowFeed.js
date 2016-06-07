@@ -20,7 +20,7 @@ function render ({props}) {
   const {
     activities = [], more, search,
     emptyState: Empty, item: Item,
-    currentUser, ...rest
+    itemProps = {}, currentUser, ...rest
   } = props
   const {value, loaded, loading, params} = activities
   const searching = !!(params && params.query)
@@ -45,6 +45,7 @@ function render ({props}) {
         loaded && renderItems(
           value.items,
           Item,
+          itemProps,
           loading
             ? null
             : (searching ? EmptySearch : Empty),
@@ -55,7 +56,7 @@ function render ({props}) {
   )
 }
 
-function renderItems (items, Item, Empty, currentUser) {
+function renderItems (items, Item, itemProps, Empty, currentUser) {
   if (!items.length && Empty) return Empty
 
   let prevDate = new Date(0)
@@ -72,7 +73,7 @@ function renderItems (items, Item, Empty, currentUser) {
       prevDate = date
     }
 
-    list.push(<Item activity={item} currentUser={currentUser} />)
+    list.push(<Item activity={item} currentUser={currentUser} {...itemProps}/>)
     return list
   }, [], items)
 }
