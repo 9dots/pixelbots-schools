@@ -20,7 +20,6 @@ function render ({props, local, state}) {
       ? <Block
           highlight='0.03'
           bgColor='white'
-          onClick={null}
           p
           {...rest}
           {...openedProps}>

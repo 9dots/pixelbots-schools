@@ -24,7 +24,7 @@ function render ({props}) {
 
 function renderOthersEmptyState (user) {
   return (
-    <EmptyState color='green' icon='dashboard'>
+    <EmptyState color='blue' icon='dashboard'>
       <Text fw='bold'>{user.displayName} </Text>
       hasn't made any Boards yet.
     </EmptyState>
