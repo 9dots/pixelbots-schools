@@ -29,23 +29,19 @@ function render ({props, local, state}) {
             Description
           </ModalHeader>
           <Textarea
-            defaultValue={aboutMe}
-            name='aboutMe'
             placeholder='A few words about yourself...'
-            onInput={local(setText)}
-            w='300px'
-            p
-            m
-            h='100px'
-            autofocus
             focusProps={{border: 'rgba(blue, .35)'}}
             border='rgba(grey, 0.15)'
-            textAlign='left'
-            resize='none'
+            onInput={local(setText)}
+            defaultValue={aboutMe}
             maxlength='300'
-            p
-            outline='0'
-            h='111' />
+            name='aboutMe'
+            autofocus
+            w='300px'
+            px='10px'
+            py='8px'
+            h='130'
+            m/>
             <Block w='300px'>
               <Text color='grey_medium' float='right'>{text.length}/300</Text>
             </Block>

@@ -6,6 +6,7 @@
 import NewMenuItem from 'components/NewMenuItem'
 import {Block, Button} from 'vdux-containers'
 import WeoIcon from 'components/WeoIcon'
+import validate from 'lib/validate'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 
@@ -14,7 +15,7 @@ import summon from 'vdux-summon'
  */
 
 function render({props, local, state}) {
-  const {classes, ...rest} = props
+  const {classes, createBoard, ...rest} = props
   const {value, loading} = classes
 
   return (
@@ -25,7 +26,7 @@ function render({props, local, state}) {
             .sort(cmp)
             .map(board => <BoardItem board={board} />)
       }
-      <NewMenuItem type='Board' />
+      <NewMenuItem key='newMenuItem' validate={validate.board} onSubmit={createBoard} type='Board' />
     </Block>
   )
 }
@@ -68,8 +69,16 @@ function cmp (a, b) {
  * Exports
  */
 
-export default summon(() => ({
-  classes: '/user/boards'
+export default summon(props => ({
+  classes: '/user/boards',
+  createBoard: body => ({
+    newBoard: {
+      url: '/board/',
+      method: 'POST',
+      invalidates: ['/user/boards', '/user'],
+      body
+    }
+  })
 }))({
   render
 })
