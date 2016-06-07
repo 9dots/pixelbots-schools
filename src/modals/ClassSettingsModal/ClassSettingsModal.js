@@ -3,8 +3,8 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
-import RoundedInput from 'components/RoundedInput'
 import {closeModal, openModal} from 'reducer/modal'
+import RoundedInput from 'components/RoundedInput'
 import {Button} from 'vdux-containers'
 import Confirm from 'modals/Confirm'
 import validate from 'lib/validate'
@@ -13,11 +13,20 @@ import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
+ * getProps
+ */
+
+function getProps (props, {currentUrl}) {
+  props.isCurrentClass = currentUrl.indexOf(props.group._id) !== -1
+  return props
+}
+
+/**
  * <ClassSettingsModal/>
  */
 
 function render ({props}) {
-  const {renameClass, group} = props
+  const {renameClass, group, isCurrentClass} = props
 
   return (
     <Modal onDismiss={closeModal}>
@@ -47,7 +56,12 @@ function render ({props}) {
   )
 
   function deleteClass () {
-    return openModal(() => <ConfirmDeleteClass classId={group._id} message={'Are you sure you want to delete your class "' + group.displayName + '?"'}/>)
+    return openModal(() =>
+      <ConfirmDeleteClass
+        redirect={isCurrentClass && '/feed'}
+        classId={group._id}
+        message={'Are you sure you want to delete your class "' + group.displayName + '?"'} />
+      )
   }
 }
 
@@ -75,5 +89,6 @@ export default summon(({group}) => ({
     }
   })
 }))({
+  getProps,
   render
 })

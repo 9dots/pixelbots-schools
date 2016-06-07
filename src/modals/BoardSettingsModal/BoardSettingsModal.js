@@ -13,11 +13,20 @@ import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
+ * getProps
+ */
+
+function getProps (props, {currentUrl}) {
+  props.isCurrentBoard = currentUrl.indexOf(props.board._id) !== -1
+  return props
+}
+
+/**
  * <BoardSettingsModal/>
  */
 
 function render ({props}) {
-  const {renameBoard, board} = props
+  const {renameBoard, board, isCurrentBoard} = props
 
   return (
     <Modal onDismiss={closeModal} opacity='1'>
@@ -47,7 +56,11 @@ function render ({props}) {
   )
 
   function deleteBoard() {
-    return openModal(() => <ConfirmDeleteBoard boardId={board._id} message={'Are you sure you want to delete your board "' +  board.displayName + '?"'}/>)
+    return openModal(() =>
+      <ConfirmDeleteBoard
+        boardId={board._id}
+        redirect={isCurrentBoard && '/feed'}
+        message={'Are you sure you want to delete your board "' +  board.displayName + '?"'} />)
   }
 }
 
@@ -56,7 +69,7 @@ const ConfirmDeleteBoard = summon(({boardId}) => ({
     deleting: {
       url: `/board/${boardId}`,
       method: 'DELETE',
-      invalidates: '/user/boards'
+      invalidates: ['/user/boards', '/user']
     }
   })
 }))(Confirm)
@@ -75,5 +88,6 @@ export default summon(({board}) => ({
     }
   })
 }))({
+  getProps,
   render
 })

@@ -35,7 +35,7 @@ function render({props}) {
             Connect with Educators
           </Button>
         </EmptyState>
-      : <EmptyState icon='school' color='green' wide>
+      : <EmptyState icon='school' color='blue' wide>
           <Block fs='m' m>Welcome to Weo!</Block>
           <Button
             onClick={() => openModal(() => <CreateClassModal />)}

@@ -33,7 +33,7 @@ function renderOthersEmptyState (user) {
 
 function renderCurrentUserEmptyState () {
   return (
-    <EmptyState icon='dashboard' color='green'>
+    <EmptyState icon='dashboard' color='blue'>
       <Block mt mb='xl' fs='m' lighter>
         Organize Activities with Boards
       </Block>

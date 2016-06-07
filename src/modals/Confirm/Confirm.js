@@ -3,6 +3,7 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Block} from 'vdux-ui'
+import {setUrl} from 'redux-effects-location'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
@@ -14,7 +15,8 @@ import noop from '@f/noop'
  */
 
 function render ({props}) {
-  const {onAccept = noop, onReject = noop, message} = props
+  const {onAccept = noop, onReject = noop, message, redirect} = props
+
   return (
     <Modal>
       <Form onSubmit={accept}>
@@ -38,6 +40,11 @@ function render ({props}) {
 
   function *accept() {
     yield onAccept()
+
+    if (redirect) {
+      yield setUrl(redirect)
+    }
+
     yield closeModal()
   }
 
@@ -46,7 +53,6 @@ function render ({props}) {
     yield closeModal()
   }
 }
-
 
 /**
  * Exports
