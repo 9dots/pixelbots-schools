@@ -14,6 +14,7 @@
   "dependencies": {
     "@f/animate": "^1.0.1",
     "@f/apply-classes": "^1.0.1",
+    "@f/apply-styles": "^1.0.5",
     "@f/capitalize": "^1.0.0",
     "@f/combine-reducers": "^1.2.1",
     "@f/create-action": "^1.1.1",

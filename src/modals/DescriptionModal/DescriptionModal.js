@@ -39,6 +39,7 @@ function render ({props, local, state}) {
             autofocus
             w='300px'
             px='10px'
+            rows={5}
             py='8px'
             h='130'
             m/>

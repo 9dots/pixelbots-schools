@@ -24,7 +24,7 @@ function render ({props}) {
 
 function renderOthersEmptyState (user) {
   return (
-    <EmptyState color='green' icon='dashboard'>
+    <EmptyState color='blue' icon='dashboard'>
       <Text fw='bold'>{user.displayName} </Text>
       hasn't made any Boards yet.
     </EmptyState>
@@ -33,7 +33,7 @@ function renderOthersEmptyState (user) {
 
 function renderCurrentUserEmptyState () {
   return (
-    <EmptyState icon='dashboard' color='green'>
+    <EmptyState icon='dashboard' color='blue'>
       <Block mt mb='xl' fs='m' lighter>
         Organize Activities with Boards
       </Block>
