@@ -30,7 +30,6 @@ function render ({props, state, local, children}) {
         !loading &&
         value.items
           .filter(search(state.filter))
-          .sort(cmp)
           .map(cls => <ClassItem cls={cls} />)
       }
       <Divider hide={!numClasses} />
@@ -68,12 +67,6 @@ function search (text = '') {
   return cls => !text
     ? true
     : cls.displayName.toUpperCase().indexOf(text) !== -1
-}
-
-function cmp (a, b) {
-  return a.displayName.toUpperCase() > b.displayName.toUpperCase()
-    ? 1
-    : -1
 }
 
 /**

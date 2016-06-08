@@ -80,7 +80,7 @@ function internal ({value, loading, error}, children) {
 
   return [
     <Header group={value} />,
-    <Block w='col_main' maxWidth='714px' mx='auto' relative my py>
+    <Block w='col_main' mx='auto' relative my py>
       {maybeOver(value, children)}
     </Block>
   ]

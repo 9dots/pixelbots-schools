@@ -18,15 +18,19 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {user, changePassword} = props
+  const {changePassword} = props
+  const users = [].concat(props.user)
 
   return (
     <Modal onDismiss={closeModal}>
-      <Form onSubmit={changePassword} onSuccess={closeModal} validate={validatePassword}>
+      <Form onSubmit={handleSubmit} onSuccess={closeModal} validate={validatePassword}>
         <Flex ui={ModalBody} column align='center center' pb='l'>
           <ModalHeader>
             New Password
           </ModalHeader>
+          <Block hide={users.length <= 1} mb fs='s' lighter>
+            Change password for <Text bold color='blue'>{users.length}</Text> users.
+          </Block>
           <RoundedInput type='password' name='password' placeholder='Enter a new password' w='250' m autofocus inputProps={{textAlign: 'left'}}/>
         </Flex>
         <ModalFooter bg='grey'>
@@ -39,6 +43,10 @@ function render ({props}) {
       </Form>
     </Modal>
   )
+
+  function * handleSubmit (body) {
+    yield users.map(user => changePassword(user, body))
+  }
 }
 
 /**
@@ -55,13 +63,12 @@ const validatePassword = validate(
  * Exports
  */
 
-export default summon(({user}) => ({
-  changePassword: body => ({
+export default summon(() => ({
+  changePassword: (user, body) => ({
     changingPassword: {
-      url: `/user/${user._id}/password`,
+      url: `/user/${user._id || user.id}/password`,
       method: 'PUT',
-      body,
-      invalidates: ['/user', `/user/${user._id}`]
+      body
     }
   })
 }))({

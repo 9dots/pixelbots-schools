@@ -15,7 +15,7 @@ function render ({props}) {
   const {loading, value, reload} = isFollowing
   const noun = board ? 'Board' : ''
   const verb = loading && !reload
-    ? '&nbsp;'
+    ? <span>&nbsp;</span>
     : value ? 'Unfollow' : 'Follow'
 
   return (

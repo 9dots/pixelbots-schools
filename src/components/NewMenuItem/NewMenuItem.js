@@ -20,17 +20,17 @@ function render ({props, local, state}) {
   } = props
   const {opened} = state
   return (
-    <Form onSubmit={onSubmit} onSuccess={local(toggle)} validate={validate}>
+    <Form onSubmit={onSubmit} onSuccess={local(toggle)} validate={validate} relative>
       {
         opened
           ? <Block
               highlight='0.03'
               bgColor='white'
-              onClick={null}
               p
               {...rest}
               {...openedProps}>
               <BlockInput
+                errorPlacement='top'
                 placeholder={type + ' Name …'}
                 name='displayName'
                 autofocus/>

@@ -4,27 +4,27 @@
 
 import NewMenuItem from 'components/NewMenuItem'
 import {Checkbox} from 'vdux-containers'
+import validate from 'lib/validate'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
+import map from '@f/map'
 
 /**
  * ClassSelect
  */
 
 function render({props}) {
-  const {classes, ...rest} = props
-  const {value, loading} = classes
+  const {classes, createClass, ...rest} = props
+  const {value, loaded} = classes
 
   return (
     <Block overflowY='auto' {...rest}>
       {
-        !loading &&
-          value.items
-            .sort(cmp)
-            .map(cls => <ClassItem cls={cls} />)
+        loaded &&
+          map(cls => <ClassItem cls={cls} />, value.items)
       }
-      <NewMenuItem type='Class' />
+      <NewMenuItem key='newMenuItem' onSubmit={createClass} validate={validate.group} type='Class' />
     </Block>
   )
 }
@@ -44,19 +44,19 @@ function ClassItem({props}) {
 }
 
 /**
- * Helpers
- */
-
-function cmp (a, b) {
-  return a.displayName.toUpperCase() > b.displayName.toUpperCase() ? 1 : -1
-}
-
-/**
  * Exports
  */
 
-export default summon(() => ({
-  classes: '/user/classes'
+export default summon(props => ({
+  classes: '/user/classes',
+  createClass: body => ({
+    newClass: {
+      url: '/group/',
+      method: 'POST',
+      invalidates: ['/user/classes', '/user'],
+      body
+    }
+  })
 }))({
   render
 })
