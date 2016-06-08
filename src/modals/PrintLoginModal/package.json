@@ -1,0 +1,5 @@
+{
+  "name": "PrintLoginModal",
+  "main": "PrintLoginModal.js",
+  "browser": "PrintLoginModal.js"
+}
