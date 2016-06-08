@@ -10,7 +10,7 @@
     "dev": "unv dev",
     "build": "unv build --base //storage.googleapis.com/assets-weo-io/",
     "sync": "gsutil rsync -r assets gs://assets-weo-io",
-    "deploy": "gcloud preview app deploy",
+    "deploy": "gcloud preview app deploy --project www-weo-io",
     "start": "unv serve"
   },
   "dependencies": {

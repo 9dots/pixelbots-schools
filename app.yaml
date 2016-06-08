@@ -1,5 +1,5 @@
 service: default
-runtime: custom
+runtime: nodejs
 vm: true
 automatic_scaling:
   min_num_instances: 1
