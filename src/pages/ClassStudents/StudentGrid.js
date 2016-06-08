@@ -76,7 +76,7 @@ const StudentRow = wrap(CSSContainer, {
         <TableCell {...cellProps} textAlign='right'>
           <Button
             hoverProps={{bgColor: 'rgba(black, .1)'}}
-            activeProps={{bgColor: 'rgba(black, .2)'}}
+            activeProps={{bgColor: 'rgba(black, .15)'}}
             hidden={!showSettings}
             icon='settings'
             color='text'
