@@ -36,7 +36,7 @@ function render ({props, local, state}) {
             w='300px'
             p
             m
-            h='100px'
+            rows={5}
             autofocus
             focusProps={{border: 'rgba(blue, .35)'}}
             border='rgba(grey, 0.15)'
