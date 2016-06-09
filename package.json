@@ -11,7 +11,7 @@
     "build": "unv build --base //storage.googleapis.com/assets-weo-io/",
     "sync": "gsutil rsync -x '.*\\.js$' -r assets gs://assets-weo-io; gsutil cp -Z assets/*.js gs://assets-weo-io;",
     "deploy": "gcloud preview app deploy --project www-weo-io --no-promote",
-    "start": "ls -l; unv serve"
+    "start": "unv serve"
   },
   "dependencies": {
     "@f/animate": "^1.0.1",

@@ -35,4 +35,8 @@ node_modules
 .DS_Store
 
 assets
+serve.js
 .dockerignore
+DockerFile
+source-context.json
+source-contexts.json
