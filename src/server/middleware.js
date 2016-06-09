@@ -36,7 +36,7 @@ function logger (api) {
   return next => action => {
     const result = next(action)
     const state = api.getState()
-    console.log('action', action.type, state.app.url, state.app.ready, state.app.currentUser)
+    console.log('action', action.type, action.payload)
 
     return result
   }
