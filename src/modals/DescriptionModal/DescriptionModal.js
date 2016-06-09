@@ -41,7 +41,6 @@ function render ({props, local, state}) {
             px='10px'
             rows={5}
             py='8px'
-            h='130'
             m/>
             <Block w='300px'>
               <Text color='grey_medium' float='right'>{text.length}/300</Text>
