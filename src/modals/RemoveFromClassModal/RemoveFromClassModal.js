@@ -4,7 +4,7 @@
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
-import {Button} from 'vdux-containers'
+import {Button, Tooltip} from 'vdux-containers'
 import {closeModal} from 'reducer/modal'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -17,7 +17,7 @@ import Form from 'vdux-form'
 function render ({props}) {
   const {remove, group} = props
   const users = [].concat(props.user)
-  console.log('remove modal group', group)
+  const names = users.map(user => user.displayName)
 
   return (
     <Modal onDismiss={closeModal}>
@@ -28,8 +28,19 @@ function render ({props}) {
           </ModalHeader>
           <Block my>
             Are you sure you want to remove
-            <Text bold color='blue'> {users.length}</Text> student
-            <Text hide={users.length <= 1}>s</Text> from this class?
+            {
+              users.length === 1
+                ? <Text bold color='blue'> {users[0].displayName} </Text>
+                : <Text> these<Tooltip
+                    tooltipProps={{whiteSpace: 'pre-line'}}
+                    placement='bottom'
+                    cursor='default'
+                    display='inline'
+                    message={names.join('\n')}
+                    color='blue'
+                    bold> {users.length} </Tooltip>students </Text>
+            }
+            from this class?
           </Block>
         </Flex>
         <ModalFooter bg='grey'>

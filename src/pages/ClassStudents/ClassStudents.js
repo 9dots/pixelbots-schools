@@ -7,6 +7,7 @@ import InviteStudentsModal from 'modals/InviteStudentsModal'
 import ClassActivityRow from 'components/ClassActivityRow'
 import EmptyClassStudents from './EmptyClassStudents'
 import AddStudentModal from 'modals/AddStudentModal'
+import PrintLoginModal from 'modals/PrintLoginModal'
 import {Icon, Flex, Block, Checkbox} from 'vdux-ui'
 import PasswordModal from 'modals/PasswordModal'
 import PageTitle from 'components/PageTitle'
@@ -26,7 +27,7 @@ function render ({props}) {
   const {selected} = fields
   const {value, loading, loaded} = students
 
-  if (loading) return <Loading show={true} h='200' />
+  if (!loaded && loading) return <Loading show={true} h='200' />
 
   const {items: studentList} = value
 
@@ -37,7 +38,7 @@ function render ({props}) {
         loaded && studentList.length
           ? <Block>
               <StudentMenu students={studentList} group={group} selected={selected.value || []} />
-              <StudentGrid students={studentList} selected={selected.value || []} toggleAll={toggleAll} />
+              <StudentGrid students={studentList} group={group} selected={selected.value || []} toggleAll={toggleAll} />
             </Block>
           : <EmptyClassStudents group={group} />
       }
@@ -68,7 +69,7 @@ function StudentMenu ({props}) {
       <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={() => openModal(() => <PasswordModal user={users} />)}>
         <Icon name='lock' mr='s' fs='s'/>Reset Password
       </Button>
-      <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text'>
+      <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={() => openModal(() => <PrintLoginModal user={users} />)}>
         <Icon name='print' mr='s' fs='s'/>Print Login Info
       </Button>
       <Button disabled={!count} bgColor='red' color='white' {...btnProps} onClick={() => openModal(() => <RemoveFromClassModal user={users} group={group} />)}>

@@ -38,7 +38,8 @@ function initialState ({props}) {
 
 function render ({props, state, local}) {
   const {user, changeName} = props
-  const {name} = user
+  const {name, userType} = user
+  const isStudent = userType === 'student'
   const {familyName, givenName} = name
   const {honorificPrefix} = state
 
@@ -50,7 +51,7 @@ function render ({props, state, local}) {
             Name
           </ModalHeader>
           <Flex align='center center' py>
-            <Block flex='20%'>
+            <Block flex='20%' hide={isStudent}>
               <input type='hidden' name='honorificPrefix' value={honorificPrefix} />
               <Dropdown w='100%' mt='-1' btn={<Block borderBottom='1px solid grey_light' pb='7'>{honorificPrefix || 'Title'}</Block>}>
                 <MenuItem onClick={local(setHonorificPrefix, '')}>None</MenuItem>
@@ -102,16 +103,21 @@ const reducer = handleActions({
  * Exports
  */
 
-export default summon(({user}) => ({
-  changeName: name => ({
-    changingName: {
-      url: `/user/${user._id}/name`,
-      method: 'PUT',
-      body: {name},
-      invalidates: ['/user', `/user/${user._id}`]
+export default summon(({user, group}) => {
+  let invalidates = ['/user', `/user/${user._id}`]
+  if(group._id)
+    invalidates.push(`/group/students?group=${group._id}`)
+  return {
+      changeName: name => ({
+        changingName: {
+          url: `/user/${user._id}/name`,
+          method: 'PUT',
+          body: {name},
+          invalidates
+        }
+      })
     }
-  })
-}))({
+})({
   initialState,
   render,
   reducer
