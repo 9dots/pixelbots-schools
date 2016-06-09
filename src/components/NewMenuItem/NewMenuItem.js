@@ -6,6 +6,7 @@ import BlockInput from 'components/BlockInput'
 import {Block, Button} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import {findDOMNode} from 'vdux/dom'
 import element from 'vdux/element'
 import Form from 'vdux-form'
 
@@ -13,7 +14,7 @@ import Form from 'vdux-form'
  * <NewMenuItem/>
  */
 
-function render ({props, local, state}) {
+function render ({props, local, state, path}) {
   const {
     type = 'Item', openedProps = {}, closedProps = {},
     onSubmit, validate, ...rest
@@ -30,13 +31,15 @@ function render ({props, local, state}) {
               {...rest}
               {...openedProps}>
               <BlockInput
+                autofocus
+                autocomplete='off'
                 errorPlacement='top'
                 placeholder={type + ' Name …'}
                 name='displayName'
                 autofocus/>
               <Block align='start center' mt>
                 <Button px mr bgColor='grey' text='Cancel' onClick={local(toggle)}/>
-                <Button px text='Create' type='submit' />
+                <Button id={path} px text='Create' type='submit' />
               </Block>
             </Block>
           : <Block
@@ -54,6 +57,16 @@ function render ({props, local, state}) {
       }
     </Form>
   )
+}
+
+/**
+ * onUpdate
+ */
+
+function onUpdate (prev, next) {
+  if (next.state.opened && !prev.state.opened) {
+    return () => setTimeout(() => findDOMNode(next).scrollIntoView())
+  }
 }
 
 /**
@@ -75,5 +88,6 @@ const reducer = handleActions({
 
 export default {
   render,
+  onUpdate,
   reducer
 }

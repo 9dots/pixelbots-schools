@@ -9,22 +9,19 @@ import {closeModal} from 'reducer/modal'
 import WeoIcon from 'components/WeoIcon'
 import validate from 'lib/validate'
 import element from 'vdux/element'
-import summon from 'vdux-summon'
 import map from '@f/map'
 
 /**
  * PinSelect
  */
 
-function render({props, local, state}) {
-  const {classes, createBoard, pin, activity, ...rest} = props
-  const {value, loading} = classes
+function render ({props, local, state}) {
+  const {boards, createBoard, onSelect, ...rest} = props
 
   return (
     <Block overflowY='auto' {...rest}>
       {
-        !loading &&
-            map(board => <BoardItem board={board} onClick={() => pinToBoard(board._id, activity._id)} />, value.items)
+        map(board => <BoardItem board={board} onClick={() => onSelect(board._id)} />, boards)
       }
       <NewMenuItem key='newMenuItem' validate={validate.board} onSubmit={handleSubmit} type='Board' />
     </Block>
@@ -32,16 +29,11 @@ function render({props, local, state}) {
 
   function * handleSubmit (board) {
     const newBoard = yield createBoard(board)
-    yield pinToBoard()
-  }
-
-  function * pinToBoard (boardId, activityId) {
-    yield pin(boardId, activityId)
-    yield closeModal()
+    yield onSelect(newBoard._id)
   }
 }
 
-function BoardItem({props}) {
+function BoardItem ({props}) {
   const {onClick, board} = props
   return (
     <Block
@@ -72,25 +64,6 @@ function BoardItem({props}) {
  * Exports
  */
 
-export default summon(props => ({
-  classes: '/user/boards',
-  createBoard: body => ({
-    newBoard: {
-      url: '/board/',
-      method: 'POST',
-      invalidates: ['/user/boards', '/user'],
-      body
-    }
-  }),
-  pin: (boardId, activityId) => ({
-    pinToBoard: {
-      url: `/share/${activityId}/pin/`,
-      method: 'PUT',
-      body: {
-        to: [boardId]
-      }
-    }
-  })
-}))({
+export default {
   render
-})
+}

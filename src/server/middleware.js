@@ -21,7 +21,7 @@ function middleware ({url, headers}, setTitle) {
 
   return [
     flo(),
-    logger,
+    // logger,
     query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
     location(url),
     cookieMiddleware(cookieObj),
