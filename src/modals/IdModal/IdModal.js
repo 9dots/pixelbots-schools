@@ -4,33 +4,30 @@
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
-import {Button, Input} from 'vdux-containers'
-import {username} from 'lib/schemas/user'
-import validate from '@weo-edu/validate'
 import {closeModal} from 'reducer/modal'
-import Schema from '@weo-edu/schema'
+import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
- * <UsernameModal/>
+ * <IdModal/>
  */
 
 function render ({props}) {
-  const {user, changeUsername} = props
+  const {user, changeId} = props
 
   return (
     <Modal onDismiss={closeModal}>
-      <Form onSubmit={changeUsername} onSuccess={closeModal} validate={validateUsername}>
+      <Form onSubmit={changeId} onSuccess={closeModal}>
         <Flex ui={ModalBody} column align='center center' pb='l'>
           <ModalHeader>
-            Change Username
+            Change Student ID
           </ModalHeader>
           <RoundedInput
-            name='username'
-            defaultValue={user.username}
-            placeholder='Change your username'
+            name='sisId'
+            defaultValue={user.sisId}
+            placeholder='Change ID'
             w='250px'
             m
             autofocus
@@ -49,16 +46,6 @@ function render ({props}) {
 }
 
 /**
- * Validation
- */
-
-const validateUsername = validate(
-  Schema()
-    .prop('username', username)
-    .required('username')
-)
-
-/**
  * Exports
  */
 
@@ -67,9 +54,9 @@ export default summon(({user, group}) => {
   if(group)
     invalidates.push(`/group/students?group=${group._id}`)
   return {
-    changeUsername: body => ({
-      changingUsername: {
-        url: `/user/${user._id}/username`,
+    changeId: body => ({
+      changingId: {
+        url: `/user/${user._id}/sis`,
         method: 'PUT',
         body,
         invalidates

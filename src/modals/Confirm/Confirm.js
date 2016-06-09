@@ -18,9 +18,9 @@ function render ({props}) {
   const {onAccept = noop, onReject = noop, message, redirect} = props
 
   return (
-    <Modal>
+    <Modal w='col_m'>
       <Form onSubmit={accept}>
-        <ModalBody pb>
+        <ModalBody px='l' pb bgColor='off_white'>
           <ModalHeader>
             Confirm
           </ModalHeader>
@@ -28,7 +28,7 @@ function render ({props}) {
             {message}
           </Block>
         </ModalBody>
-        <ModalFooter bg='grey'>
+        <ModalFooter bg='white' borderTop='1px solid grey_light' mt={0}>
           <Button mr bgColor='grey_light' color='text' onClick={reject} hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>
             Cancel
           </Button>

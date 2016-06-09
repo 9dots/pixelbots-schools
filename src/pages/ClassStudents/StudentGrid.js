@@ -2,8 +2,9 @@
  * Imports
  */
 
-import {Flex, Checkbox, Table, TableHeader, TableCell} from 'vdux-ui'
+import {Flex, Checkbox, Table, TableHeader, TableCell, Block} from 'vdux-ui'
 import {wrap, CSSContainer, TableRow, Button} from 'vdux-containers'
+import StudentDropdown from './StudentDropdown'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import index from '@f/index'
@@ -14,7 +15,7 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {students, selected, toggleAll} = props
+  const {students, selected, group, toggleAll} = props
   const selMap = index(selected)
   const allSelected = students.length === selected.length
   const indeterminate = !allSelected && selected.length
@@ -38,7 +39,7 @@ function render ({props}) {
       </TableRow>
       {
         map(student => (
-          <StudentRow student={student} highlight={!!selMap[student._id]} selected={!!selMap[student._id]} />
+          <StudentRow group={group} student={student} highlight={!!selMap[student._id]} selected={!!selMap[student._id]} />
         ), students)
       }
     </Table>
@@ -52,7 +53,7 @@ const StudentRow = wrap(CSSContainer, {
   }
 })({
   render ({props}) {
-    const {student, selected, highlight, showSettings} = props
+    const {student, selected, group, highlight, showSettings} = props
     const {name, username} = student
     const {givenName, familyName} = name
     const cellProps = {p: '10px 12px'}
@@ -74,20 +75,17 @@ const StudentRow = wrap(CSSContainer, {
           {username}
         </TableCell>
         <TableCell {...cellProps} textAlign='right'>
-          <Button
-            hoverProps={{bgColor: 'rgba(black, .1)'}}
-            activeProps={{bgColor: 'rgba(black, .15)'}}
-            hidden={!showSettings}
-            icon='settings'
-            color='text'
-            circle='26'
-            fs='xs'
-            />
+          <StudentDropdown
+            group={group}
+            onClick={e => e.preventDefault()}
+            showSettings={showSettings}
+            student={student}/>
         </TableCell>
       </TableRow>
     )
   }
 })
+
 
 /**
  * Exports
