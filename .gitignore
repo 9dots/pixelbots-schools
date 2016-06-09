@@ -35,4 +35,4 @@ node_modules
 .DS_Store
 
 assets
-functions
+.dockerignore
