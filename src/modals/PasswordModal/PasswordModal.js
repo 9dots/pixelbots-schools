@@ -58,7 +58,11 @@ function render ({props}) {
   )
 
   function * handleSubmit (body) {
-    yield users.map(user => changePassword(user, body))
+    try {
+      yield users.map(user => changePassword(user, body))
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 
@@ -78,7 +82,7 @@ const validatePassword = validate(
 
 export default summon(({group}) => {
   let invalidates = []
-  if(group._id)
+  if(group)
     invalidates.push(`/group/students?group=${group._id}`)
   return {
     changePassword: (user, body) => ({

@@ -66,7 +66,7 @@ function StudentMenu ({props}) {
       <Button bgColor='green' {...btnProps} onClick={() => openModal(() => <InviteStudentsModal group={group} />)}>
         <Icon name='send' mr='s' fs='s'/>Invite Students
       </Button>
-      <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={() => openModal(() => <PasswordModal user={users} />)}>
+      <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={() => openModal(() => <PasswordModal user={users} group={group} />)}>
         <Icon name='lock' mr='s' fs='s'/>Reset Password
       </Button>
       <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={() => openModal(() => <PrintLoginModal user={users} />)}>

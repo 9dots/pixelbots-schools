@@ -105,7 +105,7 @@ const reducer = handleActions({
 
 export default summon(({user, group}) => {
   let invalidates = ['/user', `/user/${user._id}`]
-  if(group._id)
+  if(group)
     invalidates.push(`/group/students?group=${group._id}`)
   return {
       changeName: name => ({
