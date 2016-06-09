@@ -3,14 +3,14 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
-import RoundedInput from 'components/RoundedInput'
 import {Button, Input, Tooltip} from 'vdux-containers'
+import RoundedInput from 'components/RoundedInput'
+import summon, {invalidate} from 'vdux-summon'
 import {password} from 'lib/schemas/user'
 import validate from '@weo-edu/validate'
 import {closeModal} from 'reducer/modal'
 import Schema from '@weo-edu/schema'
 import element from 'vdux/element'
-import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
@@ -18,7 +18,7 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {changePassword, isMe} = props
+  const {changePassword, isMe, group} = props
   const users = [].concat(props.user)
   const names = users.map(user => user.displayName)
 
@@ -58,10 +58,9 @@ function render ({props}) {
   )
 
   function * handleSubmit (body) {
-    try {
-      yield users.map(user => changePassword(user, body))
-    } catch (err) {
-      console.log(err)
+    yield users.map(user => changePassword(user, body))
+    if (group) {
+      yield invalidate(`/group/students?group=${group._id}`)
     }
   }
 }
@@ -80,20 +79,14 @@ const validatePassword = validate(
  * Exports
  */
 
-export default summon(({group}) => {
-  let invalidates = []
-  if(group)
-    invalidates.push(`/group/students?group=${group._id}`)
-  return {
-    changePassword: (user, body) => ({
-      changingPassword: {
-        url: `/user/${user._id || user.id}/password`,
-        method: 'PUT',
-        body,
-        invalidates
-      }
-    })
-  }
-})({
+export default summon(() => ({
+  changePassword: (user, body) => ({
+    [`changingPassword_${user._id || user.id}`]: {
+      url: `/user/${user._id || user.id}/password`,
+      method: 'PUT',
+      body
+    }
+  })
+}))({
   render
 })

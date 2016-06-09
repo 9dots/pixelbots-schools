@@ -5,9 +5,9 @@
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {Button, Tooltip} from 'vdux-containers'
+import summon, {invalidate} from 'vdux-summon'
 import {closeModal} from 'reducer/modal'
 import element from 'vdux/element'
-import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
@@ -56,6 +56,7 @@ function render ({props}) {
 
   function * handleSubmit (body) {
     yield users.map(user => remove(user, group))
+    yield invalidate(`/group/students?group=${group._id}`)
   }
 }
 
@@ -67,8 +68,7 @@ export default summon(() => ({
   remove: (user, group) => ({
     removeStudent: {
       url: `/group/${group._id}/members/${user._id || user.id}`,
-      method: 'DELETE',
-      invalidates: `/group/students?group=${group._id}`,
+      method: 'DELETE'
     }
   })
 }))({
