@@ -28,7 +28,7 @@ function initialState () {
  */
 
 function render ({props, state, local}) {
-  const {cur, finishedIntroModal, saveGradesAndSubjects} = props
+  const {cur, finishedIntroModal, saveGrades, saveSubjects} = props
   const {isDone, grades, subjects} = state
   const ttProps = {
     placement: 'bottom',
@@ -58,7 +58,7 @@ function render ({props, state, local}) {
         </ModalHeader>
         <GradeSelector toggle={local(toggleGrade)} selected={grades} />
         <Tooltip message={!grades.length && 'Please select one or more grades'} {...ttProps}>
-          <Button {...btnProps} onClick={local(next)} disabled={!grades.length}>
+          <Button {...btnProps} onClick={[() => saveGrades(grades), local(next)]} disabled={!grades.length}>
             <Flex align='center center' fw='lighter'>
               Next
               <Icon name='keyboard_arrow_right' />
@@ -94,7 +94,7 @@ function render ({props, state, local}) {
   }
 
   function * submit () {
-    yield saveGradesAndSubjects(grades, subjects)
+    yield saveSubjects(subjects)
     yield finishedIntroModal()
     yield closeModal()
   }
@@ -136,13 +136,22 @@ const reducer = handleActions({
  */
 
 export default summon(({currentUser}) => ({
-  saveGradesAndSubjects: (gradeLevels, subjects) => ({
-    savingGradesAndSubjects: {
-      url: '/user',
+  saveGrades: gradeLevels => ({
+    savingGrades: {
+      url: `/user/${currentUser._id}/gradeLevels`,
       method: 'PUT',
+      invalidates: '/user',
       body: {
-        ...currentUser,
-        gradeLevels,
+        gradeLevels
+      }
+    }
+  }),
+  saveSubjects: subjects => ({
+    savingSubjects: {
+      url: `/user/${currentUser._id}/subjects`,
+      method: 'PUT',
+      invalidates: '/user',
+      body: {
         subjects
       }
     }
