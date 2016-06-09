@@ -2,7 +2,11 @@
  * Imports
  */
 
+import BoardSettingsModal from 'modals/BoardSettingsModal'
+import FollowButton from 'components/FollowButton'
 import {Flex, Block, Card, Text} from 'vdux-ui'
+import {openModal} from 'reducer/modal'
+import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import element from 'vdux/element'
@@ -12,12 +16,12 @@ import element from 'vdux/element'
  */
 
 function render({props}) {
-  const {value} = props
+  const {value, currentUser} = props
   const {displayName, followers, owners, _id, board} = value
   const url = '/' + owners[0].username + '/board/' + _id
   return (
     <Card>
-      <Flex column align='center center'>
+      <Flex w='col_main' mx='auto' column align='center center' relative>
         <Block mt='xl' mb fw='bolder' fs='xl'>
           {displayName}
         </Block>
@@ -33,6 +37,13 @@ function render({props}) {
             Followers
           </Item>
         </Flex>
+        <Block absolute top='24px' right>
+          {
+            currentUser._id === owners[0].id
+              ? <Button color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}} onClick={() => openModal(() => <BoardSettingsModal board={value} />)} text='Edit'/>
+              : <FollowButton w='150' px='0' board={value}/>
+          }
+        </Block>
       </Flex>
     </Card>
   )

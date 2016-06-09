@@ -31,7 +31,7 @@ function ClassBadge ({props}) {
   }, {returned: 0, turnedIn: 0, notDone: 0}, actors)
 
   return (
-    <Flex align='start center' mt mr fs='xxs'>
+    <Flex align='space-between center' wide mt mx fs='xxs'>
       <Flex column align='center center' mr='s'>
         <Text>Returned</Text>
         <Text>{counts.returned}</Text>
@@ -53,7 +53,7 @@ function ClassMeta ({props}) {
   const {publishedAt} = activity
 
   return (
-    <Text fs='xxs' color='lightgrey'>
+    <Text fs='xxs' color='grey_medium'>
       Assigned {moment(publishedAt).fromNow()}
     </Text>
   )

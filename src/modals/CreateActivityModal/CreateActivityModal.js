@@ -29,10 +29,8 @@ function render ({props}) {
         Create Activities for your Class
       </ModalHeader>
       <Button my pill bgColor='green' boxShadow='z2' py fs='s' fw='200'>
-        <Block align='center center'>
-          Create a New Activity
-          <Icon name='keyboard_arrow_right' ml='s'/>
-        </Block>
+        Create a New Activity
+        <Icon name='keyboard_arrow_right' ml='s'/>
       </Button>
       <Block my='l' fs='s' fontStyle='italic' fw='200'>
         or try editing some samples first
@@ -68,7 +66,7 @@ function TemplateItem ({props}) {
     <Block
       hide={displayName === 'Announcement'}
       m>
-      <Image hoverProps={{borderColor: 'blue_medium', boxShadow: '0 0 2px rgba(blue, .5)'}}
+      <Image hoverProps={{borderColor: 'blue_light', boxShadow: '0 0 1px 1px rgba(blue, .3)'}}
       display='block'
       border='1px solid grey_medium'
       src={resize(image.url, 350)}

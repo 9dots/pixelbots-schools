@@ -4,6 +4,7 @@
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
+import {setUrl} from 'redux-effects-location'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import validate from 'lib/validate'
@@ -20,7 +21,7 @@ function render ({props}) {
 
   return (
     <Modal onDismiss={closeModal} opacity='1'>
-      <Form onSubmit={createClass} onSuccess={closeModal} tall validate={validate.group} autocomplete='off'>
+      <Form onSubmit={createClass} onSuccess={({_id}) => setUrl(`/class/${_id}/feed`)} tall validate={validate.group} autocomplete='off'>
         <ModalBody>
           <Flex column align='space-around center'>
             <ModalHeader>

@@ -2,9 +2,12 @@
  * Imports
  */
 
-import {Flex, Checkbox, Table, TableRow, TableHeader, TableCell} from 'vdux-ui'
+import {Flex, Checkbox, Table, TableHeader, TableCell, Block} from 'vdux-ui'
+import {wrap, CSSContainer, TableRow, Button} from 'vdux-containers'
+import StudentDropdown from './StudentDropdown'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
+import index from '@f/index'
 import map from '@f/map'
 
 /**
@@ -12,48 +15,77 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {students, selected, toggleAll} = props
-  console.log('selected', selected)
-
+  const {students, selected, group, toggleAll} = props
+  const selMap = index(selected)
+  const allSelected = students.length === selected.length
+  const indeterminate = !allSelected && selected.length
+  const headerProps = {p: true, textAlign: 'left'}
   return (
     <Table bgColor='white' wide tall>
       <TableRow py bgColor='grey' color='white'>
-        <TableHeader>
-          <Checkbox />
+        <TableHeader {...headerProps}>
+          <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={() => toggleAll('selected')} />
         </TableHeader>
-        <TableHeader>
+        <TableHeader {...headerProps}>
           First Name
         </TableHeader>
-        <TableHeader>
+        <TableHeader {...headerProps}>
           Last Name
         </TableHeader>
-        <TableHeader>
+        <TableHeader {...headerProps}>
           Username
         </TableHeader>
+        <TableHeader />
       </TableRow>
       {
         map(student => (
-          <TableRow py>
-            <TableCell>
-              <Checkbox checkedValue={student._id} checked={selected.indexOf(student._id) !== -1}>
-                <Avatar actor={student} />
-              </Checkbox>
-            </TableCell>
-            <TableCell>
-              {student.name.givenName}
-            </TableCell>
-            <TableCell>
-              {student.name.familyName}
-            </TableCell>
-            <TableCell>
-              {student.username}
-            </TableCell>
-          </TableRow>
+          <StudentRow group={group} student={student} highlight={!!selMap[student._id]} selected={!!selMap[student._id]} />
         ), students)
       }
     </Table>
   )
 }
+
+const StudentRow = wrap(CSSContainer, {
+  hoverProps: {
+    highlight: true,
+    showSettings: true
+  }
+})({
+  render ({props}) {
+    const {student, selected, group, highlight, showSettings} = props
+    const {name, username} = student
+    const {givenName, familyName} = name
+    const cellProps = {p: '10px 12px'}
+
+    return (
+      <TableRow tag='label' display='table-row' py bgColor={highlight ? '#fafdfe' : 'white'} borderBottom='1px solid grey_light'>
+        <TableCell {...cellProps}>
+          <Checkbox name='selected[]' value={student._id} checked={selected}>
+            <Avatar display='flex' actor={student} ml='10px' sq='26' />
+          </Checkbox>
+        </TableCell>
+        <TableCell {...cellProps}>
+          {givenName}
+        </TableCell>
+        <TableCell {...cellProps}>
+          {familyName}
+        </TableCell>
+        <TableCell {...cellProps}>
+          {username}
+        </TableCell>
+        <TableCell {...cellProps} textAlign='right'>
+          <StudentDropdown
+            group={group}
+            onClick={e => e.preventDefault()}
+            showSettings={showSettings}
+            student={student}/>
+        </TableCell>
+      </TableRow>
+    )
+  }
+})
+
 
 /**
  * Exports

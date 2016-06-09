@@ -3,6 +3,7 @@
  */
 
 import InfiniteScroll from 'components/InfiniteScroll'
+import EmptyProfileFollowing from './EmptyProfileFollowing'
 import UserTile from 'components/UserTile'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -14,7 +15,7 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {following, more, currentUser} = props
+  const {following, more, currentUser, user} = props
   const {value, loaded, loading} = following
 
   return (
@@ -22,14 +23,19 @@ function render ({props}) {
       {
         <Grid>
           {
-            loaded && map(user =>
-              <UserTile
-                currentUser={currentUser._id === user._id}
-                user={user} />, value.items)
+            loaded && renderItems(currentUser, user, value.items)
           }
         </Grid>
       }
     </InfiniteScroll>
+  )
+}
+
+function renderItems(me, profUser, items) {
+  return (
+    items && items.length
+      ? map(user => <UserTile currentUser={me._id === user.id} user={user} />, items)
+      : <EmptyProfileFollowing me={me} user={profUser} />
   )
 }
 

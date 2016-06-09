@@ -1,0 +1,5 @@
+{
+  "name": "InviteStudentsModal",
+  "main": "InviteStudentsModal.js",
+  "browser": "InviteStudentsModal.js"
+}

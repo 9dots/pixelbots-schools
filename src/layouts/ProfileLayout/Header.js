@@ -2,10 +2,11 @@
  * Imports
  */
 
-import {Block, Menu, MenuItem, Icon, Card, Flex, Text} from 'vdux-ui'
-import {Button, Tooltip, wrap, CSSContainer} from 'vdux-containers'
+import {Block, Menu, MenuItem, Icon, Card, Flex} from 'vdux-ui'
+import {Button, Tooltip, wrap, CSSContainer, Text} from 'vdux-containers'
 import AvatarPickerModal from 'modals/AvatarPickerModal'
 import ColorPickerModal from 'modals/ColorPickerModal'
+import DescriptionModal from 'modals/DescriptionModal'
 import FollowButton from 'components/FollowButton'
 import {setUrl} from 'redux-effects-location'
 import NavTile from 'components/NavTile'
@@ -21,12 +22,13 @@ import Color from 'Color'
  */
 
 function render ({props}) {
-  const {user, isCurrentUser} = props
+  const {user, currentUser} = props
   const {
     displayName, username, website = '',
     aboutMe, gradeLevels = [], subjects = [],
     location, following, followers
   } = user
+  const isCurrentUser = username === currentUser.username
   const displayUrl = website && website.replace(/.*?:\/\//g, "")
 
   return (
@@ -38,7 +40,7 @@ function render ({props}) {
           activeProps={{active: isCurrentUser}}
           pointer={isCurrentUser} />
         <Flex column flex='60%'>
-          <Flex p={4} ml={-4} fw='lighter' fs='m' align='start center'>
+          <Flex p={4}  fw='lighter' fs='m' align='start center'>
             <Text capitalize>{displayName}</Text>
             <Text px='s'>&middot;</Text>
             <Text fs='s' color='blue'>{username}</Text>
@@ -49,8 +51,14 @@ function render ({props}) {
             <ProfileItem message={gradeLevels.join(', ')} icon='school' />
             <ProfileItem message={subjects.join(', ')} icon='class' />
           </Flex>
-          <Block color='text' mt='m'>
-            {aboutMe}
+          <Block color='text' ml='4' mt='m'>
+            {
+              aboutMe
+                ? aboutMe
+                : <Text pointer hide={!isCurrentUser} color='grey_medium' hoverProps={{underline: true}} onClick={() => openModal(() => <DescriptionModal user={currentUser} />)}>
+                    Add some information about yourself!
+                  </Text>
+            }
           </Block>
         </Flex>
         <Flex hide={!isCurrentUser} absolute='top 12px right 12px'>

@@ -28,10 +28,10 @@ function render ({props}) {
         User Settings
       </Block>
 
-      <SettingsRow name='Name' placeholder={'What\'s your name?'} Modal={NameModal} prop={displayName} user={currentUser} />
-      <SettingsRow name='Username' placeholder='Get a username?' Modal={UsernameModal} prop={username} user={currentUser} />
-      <SettingsRow name='Email' placeholder={'What\'s your email?'} Modal={EmailModal} prop={email} user={currentUser} />
-      <SettingsRow name='Password' Modal={PasswordModal} user={currentUser} prop='*******' />
+      <SettingsRow name='Name' placeholder={'What\'s your name?'} Modal={<NameModal user={currentUser} />} prop={displayName} />
+      <SettingsRow name='Username' placeholder='Get a username?' Modal={<UsernameModal user={currentUser} />} prop={username} />
+      <SettingsRow name='Email' placeholder={'What\'s your email?'} Modal={<EmailModal user={currentUser} />} prop={email}/>
+      <SettingsRow name='Password' Modal={<PasswordModal isMe={true} user={currentUser} />} prop='*******' />
 
       <Block fs='m' color='blue' pt='l' pb px>
         Activity Settings
@@ -41,7 +41,7 @@ function render ({props}) {
         <ReadingSpeedDropdown user={currentUser} />
       </SettingsRow>
 
-      <SettingsRow name='Point Value' placeholder='What is your name?' Modal={PointValueModal} prop={max_points} user={currentUser} message='The default point value given to each question in an activity' />
+      <SettingsRow name='Point Value' placeholder='What is your name?' Modal={<PointValueModal user={currentUser} />} prop={max_points} message='The default point value given to each question in an activity' borderBottomWidth='0' />
     </Card>
   )
 }

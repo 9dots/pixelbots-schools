@@ -46,11 +46,8 @@ function render ({props, local, state}) {
       </ModalBody>
       <ModalFooter bg='grey'>
         <Block flex>
-          <Button bgColor='black' mr='s' h='30' px='25' onClick={() => openModal(() => <AvatarPickerModal user={user} />)}>
-            <Flex align='center center'>
-              <Icon name='keyboard_arrow_left' fs='s' mr='s' />
-              Back
-            </Flex>
+          <Button bgColor='black' mr='s' h='30' px='25' onClick={() => openModal(() => <AvatarPickerModal user={user} />)} icon='keyboard_arrow_left'>
+            Back
           </Button>
         </Block>
         <Text fs='xxs'>

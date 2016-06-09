@@ -12,17 +12,17 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
+  const {code} = props
   return (
     <Modal onDismiss={closeModal}>
-      <ModalBody w='col_m' m='auto'>
+      <ModalBody m='auto'>
         <Flex column align='space-around center'>
           <ModalHeader>
             Class Code
           </ModalHeader>
           <Block mx='auto' fs='s' fw='lighter' textAlign='center' pb lh='30px'>
-            Students can sign up at <Text bold>www.weo.io/student</Text>&nbsp;
-            and click the Join Class button and enter the code&nbsp;
-            <Text color='blue'>59e8p2</Text> to join this class.
+            To join this class, students should sign up at <Text bold>www.weo.io/student</Text> and then click the Join Class button to enter the code&nbsp;
+            <Text color='blue' bold fontFamily='monospace'>{code}</Text>.
           </Block>
         </Flex>
       </ModalBody>

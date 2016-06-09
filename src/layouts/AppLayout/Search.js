@@ -64,6 +64,8 @@ function render ({props, local, state}) {
 
 function submitSearch (url) {
   return e => {
+    if (!e.target.value) return
+
     const parts = url.split('/').filter(Boolean)
     parts[2] = e.target.value
     return parts[0] === 'search'

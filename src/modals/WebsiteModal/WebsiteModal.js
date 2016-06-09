@@ -7,7 +7,6 @@ import RoundedInput from 'components/RoundedInput'
 import {Button, Input} from 'vdux-containers'
 import {closeModal} from 'reducer/modal'
 import {website} from 'lib/schemas/user'
-import validate from '@weo-edu/validate'
 import Schema from '@weo-edu/schema'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -56,7 +55,7 @@ export default summon(({user}) => ({
         ...user,
         website: /^https?\:\/\//.test(website)
           ? website
-          : 'http://' + website
+          : website ? 'http://' + website : ''
       }
     }
   })

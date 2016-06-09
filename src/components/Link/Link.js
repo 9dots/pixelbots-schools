@@ -21,10 +21,10 @@ function getProps (props, context) {
  */
 
 function render ({props, children}) {
-  const {ui = InternalLink, current, href, currentProps = {}, ...rest} = props
+  const {ui = InternalLink, current, href, disabled, currentProps = {}, ...rest} = props
   let onClick = props.onClick
 
-  if (ui !== InternalLink && href) {
+  if (ui !== InternalLink && href && !disabled) {
     onClick = () => setUrl(href)
   }
 

@@ -9,6 +9,7 @@ import RoundedInput from 'components/RoundedInput'
 import {Block, Flex, Icon, Grid} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
 import UserTile from 'components/UserTile'
+import EmptyConnect from './EmptyConnect'
 import {openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
@@ -20,11 +21,11 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {people, currentUser, more, url, query} = props
-  const {value, loaded, loading} = people
+  const {currentUser} = props
+  const {gradeLevels = [], subjects = []} = currentUser
   const inputProps = {
     textAlign: 'left',
-    onKeypress: {enter: submitSearch(url)}
+    onKeypress: {enter: submitSearch(props.url)}
   }
 
   return (
@@ -38,6 +39,21 @@ function render ({props}) {
           </Flex>
         </Button>
       </Flex>
+      {
+        gradeLevels.length && subjects.length
+          ? renderFeed(props)
+          : <EmptyConnect currentUser={currentUser} />
+      }
+    </Block>
+  )
+}
+
+function renderFeed(props) {
+  const {people, currentUser, more, query} = props
+  const {value, loaded, loading} = people
+
+  return (
+    <Block>
       <Block hide={query} fw='200' fs='m' color='blue' p>
         Recommended Teachers
       </Block>
@@ -54,6 +70,7 @@ function render ({props}) {
     </Block>
   )
 }
+
 
 /**
  * Helpers

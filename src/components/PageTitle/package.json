@@ -1,0 +1,5 @@
+{
+  "name": "PageTitle",
+  "main": "PageTitle.js",
+  "browser": "PageTitle.js"
+}

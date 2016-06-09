@@ -37,7 +37,7 @@ function render ({props}) {
       <Form onSubmit={createTeacher} onSuccess={user => postLogin(user.token)} validate={validate.teacher} cast={cast}>
         <Block w='col_s' color='white'>
           <input type='hidden' name='userType' value='teacher' />
-          <BlockInput name='name' placeholder='FULL NAME' />
+          <BlockInput autofocus name='name' placeholder='FULL NAME' />
           <BlockInput name='email' placeholder='EMAIL' />
           <BlockInput name='password' placeholder='PASSWORD' type='password' />
           <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>

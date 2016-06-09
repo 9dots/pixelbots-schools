@@ -25,7 +25,7 @@ function render ({props}) {
             Invite Friends to Join Weo!
           </ModalHeader>
           <Icon name='local_attraction' fs='75px' m p color='yellow' />
-          <LineInput name='emails' w='60%' mx='auto' mt='-12px' autofocus />
+          <LineInput name='emails' w='88%' mx='auto' mt='-12px' autofocus />
           <Block mb='s' mt>
             Enter a list of emails separated by commas
           </Block>

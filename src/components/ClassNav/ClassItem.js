@@ -4,9 +4,9 @@
 
 import {Button, CSSContainer, wrap} from 'vdux-containers'
 import ClassSettingsModal from 'modals/ClassSettingsModal'
-import {setUrl} from 'redux-effects-location'
-import {openModal} from 'reducer/modal'
 import {Block, Text, MenuItem} from 'vdux-ui'
+import {openModal} from 'reducer/modal'
+import Link from 'components/Link'
 import element from 'vdux/element'
 
 /**
@@ -19,14 +19,14 @@ function render ({props}) {
 
   return (
     <MenuItem px='0' py='0' capitalize color='text_color' align='start stretch' {...props}>
-      <Block py='m' flex align='start center' onClick={() => setUrl(`/class/${_id}/feed`)}>
-        <Text inlineBlock circle='25' lh='25px' mx='m' bg='green' color='white' textAlign='center'>
+      <Link py flex align='start center' href={`/class/${_id}`}>
+        <Text circle='25' lh='25px' mx bg='green' color='white' textAlign='center'>
           {displayName[0]}
         </Text>
         <Text ellipsis capitalize inlineBlock flex>
           {displayName}
         </Text>
-      </Block>
+      </Link>
       <Button
         onClick={() => openModal(() => <ClassSettingsModal group={cls} />)}
         activeProps={{opacity: 0.7}}
@@ -36,7 +36,7 @@ function render ({props}) {
         icon='settings'
         opacity={0.7}
         fs='xs'
-        px='m'
+        px
         />
     </MenuItem>
   )
@@ -46,11 +46,17 @@ function render ({props}) {
  * Exports
  */
 
-export default wrap(CSSContainer, {
+export default wrap(Link, ({cls}) => ({
+  disabled: true,
+  href: `/class/${cls._id}`,
+  currentProps: {
+    highlight: true
+  }
+}))(wrap(CSSContainer, {
   hoverProps: {
     showIcon: true,
     highlight: 0.05
   }
 })({
   render
-})
+}))

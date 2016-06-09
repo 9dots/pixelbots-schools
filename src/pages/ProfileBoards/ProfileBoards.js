@@ -19,10 +19,11 @@ function render ({props}) {
   const {user, currentUser, boards} = props
   const {value, loading} = boards
 
+
   return (
     <Block hide={loading} w='calc(100% + 12px)'>
       {
-        value && value.items.length
+        !loading && value.items.length
           ? renderGrid(value.items, currentUser, user)
           : <EmptyState user={user} currentUser={currentUser} />
       }
@@ -31,8 +32,6 @@ function render ({props}) {
 }
 
 function renderGrid (boards, currentUser, user) {
-  const btnSize = '42px'
-
   return (
     <Grid alignRow='start'>
       {
@@ -44,7 +43,7 @@ function renderGrid (boards, currentUser, user) {
             focusProps={{highlight: 0.02}}
             transition='box-shadow .15s'
             boxShadow='z2'
-            circle={btnSize}
+            circle='42'
             bgColor='white'
             color='midgray'
             icon='add'

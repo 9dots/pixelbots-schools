@@ -2,6 +2,7 @@
  * Imports
  */
 
+import PageTitle from 'components/PageTitle'
 import AppLayout from 'layouts/AppLayout'
 import FourOhFour from 'pages/FourOhFour'
 import {pickerColors} from 'lib/colors'
@@ -19,24 +20,29 @@ function render ({props, children}) {
   const {username, currentUser} = props
   const isCurrentUser = username === currentUser.username
   const user = isCurrentUser
-    ? {value: currentUser, loaded: true}
+    ? {value: currentUser, loaded: true, loading: false}
     : props.user
 
+  const bgColor = user.value
+    ? user.value.color || pickerColors[0]
+    : pickerColors[0]
+
   return (
-    <AppLayout {...props} bgColor={user.value && (user.value.color || pickerColors[0])}>
+    <AppLayout {...props} bgColor={bgColor}>
+      <PageTitle title={`${user.value && user.value.displayName || ''} | Profile`} />
       <Flex mt={18} px='s' column mx='auto' align='center center' w='col_main'>
-        {internal(isCurrentUser, user, children)}
+        {internal(currentUser, user, children)}
       </Flex>
     </AppLayout>
   )
 }
 
-function internal (isCurrentUser, {value, loading, error}, children) {
+function internal (currentUser, {value, loading, error}, children) {
   if (loading) return ''
   if (error) return <FourOhFour />
 
   return [
-    <Header user={value} isCurrentUser={isCurrentUser}  />,
+    <Header user={value} currentUser={currentUser}  />,
     maybeOver(value, children)
   ]
 }

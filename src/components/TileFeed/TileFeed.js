@@ -5,7 +5,8 @@
 import InfiniteScroll from 'components/InfiniteScroll'
 import ActivityTile from 'components/ActivityTile'
 import element from 'vdux/element'
-import {Grid} from 'vdux-ui'
+import times from '@f/times'
+import {Flex} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -13,19 +14,98 @@ import map from '@f/map'
  */
 
 function render ({children, props}) {
-  const {activities, more} = props
+  const {activities, more, emptyState, currentUser, skip} = props
   const {value, loaded, loading} = activities
 
   return (
     <InfiniteScroll w='calc(100% + 12px)' loading={loading} more={() => value && more(value.nextPageToken)}>
-      <Grid>
-        {children}
         {
-          loaded && map(activity => <ActivityTile activity={activity} />, value.items)
+          loaded && renderItems(value.items, emptyState, children, currentUser, skip)
         }
-      </Grid>
     </InfiniteScroll>
   )
+}
+
+function renderItems(items, emptyState, children, user, skip) {
+  const columns = toColumns(items, 4, skip)
+
+  return (
+    items.length
+      ? <Flex>
+          {
+            map((items, i) => (
+              <Flex column>
+                {i === 0 && children}
+                {
+                  map(activity => <ActivityTile showActions user={user} activity={activity} />, items)
+                }
+              </Flex>
+            ), columns)
+          }
+        </Flex>
+      : emptyState
+  )
+}
+
+/**
+ * Helpers
+ */
+
+function toColumns (items, n, skip) {
+  const columns = times(n, () => [])
+  const columnHeights = times(n, idx => ({idx, height: 0}))
+
+  if (skip) columnHeights[0].height += skip
+
+  for (let i = 0; i < items.length; i += n) {
+    let heights
+
+    // Start a new column
+    if (i % n === 0) {
+      columns.push([])
+      heights = []
+    }
+
+    const k = Math.min(n, items.length - i)
+
+    // Calculate the heights for each item
+    for (let j = 0; j < k; j++) {
+      const item = items[i + j]
+      heights[j] = {item, height: estimateHeight(item)}
+    }
+
+    // Sort the heights of the columns thus far and the heights of this
+    // row in opposite orders
+    let ch = columnHeights.slice().sort((a, b) => a.height - b.height)
+    heights.sort((a, b) => b.height - a.height)
+
+    // Add the items into each column in opposing orders
+    // of height, and then update the column heights
+    for (let j = 0; j < k; j++) {
+      columns[ch[j].idx].push(heights[j].item)
+      ch[j].height += heights[j].height
+    }
+  }
+
+  return columns
+}
+
+function estimateHeight ({image, description, likersLength}) {
+  let height = imageHeight(image)
+
+  // Row height is 30 px, roughly 40 characters per row
+  if (description) height += Math.ceil(description.length / 40) * 30
+  if (likersLength) height += 25
+
+  return height + 120
+}
+
+function imageHeight (image = {}) {
+  const {width, height} = image
+
+  return !width || !height
+    ? 0
+    : Math.min((230 * height) / width, 350)
 }
 
 /**

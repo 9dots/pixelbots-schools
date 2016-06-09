@@ -11,7 +11,7 @@ import summon from 'vdux-summon'
 function summonChannels (fn, extras = {}) {
   return summon(props => ({
     activities: `/share?${
-      [].concat(fn(props))
+      normalizeChannels(fn(props))
         .map(ch => `channel=${ch}`)
         .join('&')
     }&maxResults=30`,
@@ -32,6 +32,20 @@ function summonChannels (fn, extras = {}) {
     }),
     ...extras
   }))
+}
+
+/**
+ * Helpers
+ */
+
+function normalizeChannels (ch) {
+  ch = [].concat(ch)
+
+  if (ch.length === 0) {
+    ch.push('')
+  }
+
+  return ch
 }
 
 /**

@@ -2,6 +2,7 @@
  * Imports
  */
 
+import scrollTopOnPageChange from 'middleware/scrollTopOnPageChange'
 import fetch, {fetchEncodeJSON} from 'redux-effects-fetch'
 import transformErrors from 'middleware/transform-errors'
 import {shouldLog, setLogLevel} from 'lib/log-level'
@@ -16,6 +17,8 @@ import scroll from 'middleware/scroll'
 import * as summon from 'vdux-summon'
 import logger from 'weo-redux-logger'
 import OAuth from 'middleware/oauth'
+import modal from 'middleware/modal'
+import title from 'middleware/title'
 import {isApiServer} from 'lib/api'
 import flo from 'redux-flo'
 
@@ -35,6 +38,9 @@ const middleware = [
   scroll,
   upload,
   location(),
+  modal,
+  title(),
+  scrollTopOnPageChange,
   summon.middleware('app.summon'),
   OAuth,
   logger({

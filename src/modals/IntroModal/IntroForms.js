@@ -82,11 +82,16 @@ function render ({props, state, local}) {
         </Tooltip>
       </Flex>
 
-      <Text pointer onClick={[finishedIntroModal, closeModal]} absolute bottom right m color='grey' hoverProps={{underline: true}}>
+      <Text pointer onClick={skip} absolute bottom right m color='grey' hoverProps={{underline: true}}>
         Skip
       </Text>
     </Flex>
   )
+
+  function * skip () {
+    yield finishedIntroModal()
+    yield closeModal()
+  }
 
   function * submit () {
     yield saveGradesAndSubjects(grades, subjects)
@@ -133,7 +138,7 @@ const reducer = handleActions({
 export default summon(({currentUser}) => ({
   saveGradesAndSubjects: (gradeLevels, subjects) => ({
     savingGradesAndSubjects: {
-      url: '/user/',
+      url: '/user',
       method: 'PUT',
       body: {
         ...currentUser,
@@ -145,6 +150,7 @@ export default summon(({currentUser}) => ({
   finishedIntroModal: () => ({
     savingPreference: {
       url: '/preference/' + encodeURIComponent('slideshow.done'),
+      invalidates: '/user',
       method: 'PUT',
       body: {
         value: true

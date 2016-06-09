@@ -20,7 +20,7 @@ function render ({props}) {
   const {
     activities = [], more, search,
     emptyState: Empty, item: Item,
-    currentUser, ...rest
+    itemProps = {}, currentUser, ...rest
   } = props
   const {value, loaded, loading, params} = activities
   const searching = !!(params && params.query)
@@ -28,7 +28,7 @@ function render ({props}) {
   return (
     <InfiniteScroll loading={loading} more={() => more(value && value.nextPageToken)} {...rest}>
       {
-        search && <RoundedInput
+        loaded && search && <RoundedInput
         hide={!loading && !value.items.length && !searching}
         onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
@@ -45,6 +45,7 @@ function render ({props}) {
         loaded && renderItems(
           value.items,
           Item,
+          itemProps,
           loading
             ? null
             : (searching ? EmptySearch : Empty),
@@ -55,8 +56,8 @@ function render ({props}) {
   )
 }
 
-function renderItems (items, Item, Empty, currentUser) {
-  if (!items.length && Empty) return <Empty />
+function renderItems (items, Item, itemProps, Empty, currentUser) {
+  if (!items.length && Empty) return Empty
 
   let prevDate = new Date(0)
 
@@ -72,7 +73,7 @@ function renderItems (items, Item, Empty, currentUser) {
       prevDate = date
     }
 
-    list.push(<Item activity={item} currentUser={currentUser} />)
+    list.push(<Item activity={item} currentUser={currentUser} {...itemProps}/>)
     return list
   }, [], items)
 }

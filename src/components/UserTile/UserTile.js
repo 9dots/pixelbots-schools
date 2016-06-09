@@ -20,13 +20,17 @@ function render ({props}) {
   return (
     <Card w={230} my={8} mx={6} pointer onClick={() => setUrl(`/${user.username}/boards`)}>
       <Block relative>
-        <Block w='100%' relative>
+        <Block w='100%' relative bgColor='grey_light'>
           <Block pb='100%'>
             <Avatar circle={false} size={null} wide tall actor={user} display='block' absolute top bottom right left m='auto' />
           </Block>
         </Block>
         {
-          !currentUser && <Block onClick={e => e.stopPropagation()}><FollowButton m='s' absolute='bottom right' user={user} /></Block>
+          !currentUser && (
+            <Block onClick={e => e.stopPropagation()}>
+              <FollowButton m='s' absolute='bottom right' user={user} />
+            </Block>
+          )
         }
       </Block>
       <Block p='m' whiteSpace='nowrap'>

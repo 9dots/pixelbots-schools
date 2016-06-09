@@ -22,7 +22,7 @@ function render ({props}) {
     <Form onSubmit={createStudent} onSuccess={user => postLogin(user.token)} validate={validateStudent}>
       <input type='hidden' name='userType' value='student' />
       <Flex>
-        <BlockInput name='name[givenName]' placeholder='FIRST NAME' />
+        <BlockInput autofocus name='name[givenName]' placeholder='FIRST NAME' />
         <BlockInput name='name[familyName]' placeholder='LAST NAME' ml={6} />
       </Flex>
       <BlockInput name='username' placeholder='USERNAME' />

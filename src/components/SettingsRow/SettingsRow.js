@@ -12,7 +12,7 @@ import element from 'vdux/element'
  */
 
 function render ({props, children}) {
-  const {Modal, user, prop, name, placeholder, message, clickable = true, ...rest} = props
+  const {Modal, prop, name, placeholder, message, clickable = true, ...rest} = props
   const text = Array.isArray(prop) ? prop.join(', ') : prop
   const keyWidth = '25%'
   const rowProps = {
@@ -27,7 +27,7 @@ function render ({props, children}) {
   }
 
   return (
-    <Flex {...rowProps} onClick={() => modal(Modal)}>
+    <Flex {...rowProps} onClick={() => openModal(() => Modal)}>
       <Block flex={keyWidth} align='start center'>
         {name}
         {
@@ -37,18 +37,13 @@ function render ({props, children}) {
           </Tooltip>
         }
       </Block>
-      <Block flex color={!text && 'grey_medium'}>
+      <Block flex color={text ? 'text' : 'grey_medium'}>
         {
           children.length ? children : text || placeholder
         }
       </Block>
     </Flex>
   )
-
-  function modal(Modal) {
-    if(Modal)
-      return openModal(() => <Modal user={user} />)
-  }
 }
 
 

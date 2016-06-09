@@ -62,15 +62,20 @@ const validateUsername = validate(
  * Exports
  */
 
-export default summon(({user}) => ({
-  changeUsername: body => ({
-    changingUsername: {
-      url: `/user/${user._id}/username`,
-      method: 'PUT',
-      body,
-      invalidates: ['/user', `/user/${user._id}`]
-    }
-  })
-}))({
+export default summon(({user, group}) => {
+  let invalidates = ['/user', `/user/${user._id}`]
+  if(group)
+    invalidates.push(`/group/students?group=${group._id}`)
+  return {
+    changeUsername: body => ({
+      changingUsername: {
+        url: `/user/${user._id}/username`,
+        method: 'PUT',
+        body,
+        invalidates
+      }
+    })
+  }
+})({
   render
 })

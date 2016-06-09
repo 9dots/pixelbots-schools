@@ -10,25 +10,28 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
+  const {inputProps, ...rest} = props
   return <Input
-    wide
+    activeProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
+    focusProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
+    border='1px solid rgba(75, 82, 87, 0.15)'
+    cursor='text'
     mb='s'
-    inputProps={inputProps}
-    {...props} />
-}
-
-/**
- * Input styling
- */
-
-const inputProps = {
-  py: 12,
-  px: 14,
-  borderWidth: 0,
-  color: '#666',
-  fs: '13px',
-  outline: 0,
-  bgColor: '#ececec'
+    wide
+    inputProps={{
+      activeProps: {border: '1px solid rgba(37, 168, 224, 0.35)'},
+      focusProps: {border: '1px solid rgba(37, 168, 224, 0.35)'},
+      inputProps: {bgColor: 'white', p: true, borderWidth: 0},
+      border: '1px solid rgba(75, 82, 87, 0.15)',
+      borderWidth: 0,
+      color: '#666',
+      fs: '13px',
+      outline: 0,
+      py: 12,
+      px: 14,
+      ...(inputProps || {})
+    }}
+    {...rest} />
 }
 
 /**

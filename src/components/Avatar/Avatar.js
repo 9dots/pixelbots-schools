@@ -5,6 +5,7 @@
 import {setUrl} from 'redux-effects-location'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import {imageLoaded} from 'vdux-containers'
 import resize from 'lib/resize-image'
 import element from 'vdux/element'
 import {Avatar} from 'vdux-ui'
@@ -31,9 +32,10 @@ function getProps (props, {avatarUpdates = 0}) {
  */
 
 function render ({props, state, local}) {
-  const {actor, circle, thumb, size, link, avatarUpdates} = props
+  const {actor, circle, thumb, size, link, isLoaded, avatarUpdates} = props
 
   return <Avatar
+    hidden={!isLoaded}
     bgColor='grey_light'
     onClick={() => (link && setUrl(`/${actor.username}/boards`))}
     src={avatarUrl(state.loadFailed ? 'default' : actor, thumb, avatarUpdates)}
@@ -74,8 +76,8 @@ function avatarUrl (actor, thumb, avatarUpdates) {
  * Exports
  */
 
-export default {
+export default imageLoaded(({actor, thumb, avatarUpdates}) => avatarUrl(actor, thumb, avatarUpdates))({
   getProps,
   render,
   reducer
-}
+})

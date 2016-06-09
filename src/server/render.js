@@ -24,8 +24,9 @@ const initialState = {
 
 function render (opts) {
   return new Promise((resolve, reject) => {
+    let title
     const {subscribe, render} = vdux({
-      middleware: middleware(opts),
+      middleware: middleware(opts, _title => title = _title),
       initialState,
       reducer
     })
@@ -40,7 +41,7 @@ function render (opts) {
 
         if (state.app.ready) {
           stop()
-          resolve({html, state})
+          resolve({html, state, title})
         }
       } catch (err) {
         console.log('caught err', err.stack)

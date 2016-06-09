@@ -51,7 +51,7 @@ function Header ({props}) {
           h='30'
           mx>
           Class Code: &nbsp;
-          <Text color='blue' fw='bolder'>
+          <Text color='blue' fs='15px' fontFamily='monospace'>
             {code}
           </Text>
           <Icon ml='s' fs='xs' name='help' circle />
@@ -80,7 +80,7 @@ function internal ({value, loading, error}, children) {
 
   return [
     <Header group={value} />,
-    <Block w='col_main' maxWidth='714px' mx='auto' relative my py>
+    <Block w='col_main' mx='auto' relative my py>
       {maybeOver(value, children)}
     </Block>
   ]

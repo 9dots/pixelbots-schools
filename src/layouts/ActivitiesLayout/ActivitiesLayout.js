@@ -4,6 +4,7 @@
 
 import {Block, Flex, Card, Menu, Divider} from 'vdux-containers'
 import CreateBoardModal from 'modals/CreateBoardModal'
+import PageTitle from 'components/PageTitle'
 import AppLayout from 'layouts/AppLayout'
 import WeoIcon from 'components/WeoIcon'
 import {openModal} from 'reducer/modal'
@@ -22,20 +23,21 @@ import map from '@f/map'
 function render ({props, children}) {
   const {boards} = props
   const iconSize = '25px'
-  const {value = [], loading} = boards
+  const {value = [], loaded} = boards
 
   return (
     <AppLayout {...props}>
+      <PageTitle title='My Activities' />
       <Flex w='col_main' mt='s' mx='auto' px='s' py='l' relative>
         <Block>
           <Card w={230} mr>
-            <Menu column>
+            <Menu column pt='s'>
               <NavItem href='/activities/all' display='flex' align='start center'>
                 <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                 All Activities
               </NavItem>
               {
-                !loading
+                loaded
                   ? map(board =>
                     <NavItem href={`/activities/${board._id}`} board={board} display='flex' align='start center'>
                       {boardIcon(board)}
@@ -81,6 +83,14 @@ function boardIcon (board) {
       }
     </Block>
   )
+}
+
+/**
+ * Helpers
+ */
+
+function cmp (a, b) {
+  return a.displayName.toUpperCase() > b.displayName.toUpperCase() ? 1 : -1
 }
 
 /**

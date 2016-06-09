@@ -9,7 +9,7 @@ import favicon from 'lib/favicon'
  * Page
  */
 
-function page ({html, state}) {
+function page ({html, state, title}) {
   return `
       <!DOCTYPE html>
       <html>
@@ -17,7 +17,7 @@ function page ({html, state}) {
           <base href='/' />
           <meta name='google' content='notranslate' />
 
-          <title>Weo</title>
+          <title>${title || 'Weo'}</title>
           ${
             css.map(str => `<style>${str}</style>`).join('')
           }
