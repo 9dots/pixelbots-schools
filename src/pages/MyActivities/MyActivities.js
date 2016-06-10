@@ -2,7 +2,7 @@
  * Imports
  */
 
-import CreateBoardModal from 'modals/CreateBoardModal'
+import CreateActivityModal from 'modals/CreateActivityModal'
 import ActivityRow from 'components/ActivityRow'
 import summonChannels from 'lib/summon-channels'
 import EmptyState from 'components/EmptyState'
@@ -18,7 +18,7 @@ import {Block} from 'vdux-ui'
 
 function render ({props}) {
   return (
-    <RowFeed {...props} item={ActivityRow} itemProps={{showActions: true}} emptyState={<EmptyBoard />} />
+    <RowFeed {...props} item={ActivityRow} itemProps={{showActions: true}} emptyState={<EmptyBoard currentUser={props.currentUser} />} />
   )
 }
 
@@ -26,12 +26,12 @@ function render ({props}) {
  * <EmptyBoard/> - Board empty state
  */
 
-function EmptyBoard() {
+function EmptyBoard({props}) {
   return (
     <EmptyState p='24px 12px 24px' bg='#E4E5E7' border='1px solid #D8DADD' icon='assignment' color='green' w='auto'>
       <Block fs='m' my='l'>This is a list of your pinned Activities</Block>
       <Button
-        onClick={() => openModal(() => <CreateBoardModal />)}
+        onClick={() => openModal(() => <CreateActivityModal currentUser={props.currentUser} />)}
         bgColor='blue'
         boxShadow='z2'
         color='white'

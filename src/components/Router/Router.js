@@ -203,7 +203,7 @@ const internal = enroute({
     </AppLayout>,
 
   // Connect
-  '/connect/:query?': (params, props) =>
+  '/connect/:userSearch?': (params, props) =>
     <AppLayout {...props} {...params}>
       <Connect {...props} {...params}/>
     </AppLayout>,

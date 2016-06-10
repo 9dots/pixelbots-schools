@@ -12,7 +12,7 @@ import element from 'vdux/element'
  */
 
 function render ({props, children}) {
-  const {more, threshold = 700, loading, ...rest} = props
+  const {more, threshold = 350, loading, ...rest} = props
 
   return (
     <Block pb='l' {...rest}>
