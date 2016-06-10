@@ -16,7 +16,7 @@ function render ({props}) {
   const noun = board ? 'Board' : ''
   const verb = loading && !reload
     ? <span>&nbsp;</span>
-    : value ? 'Unfollow' : 'Follow'
+    : value ? 'Unfollow ' : 'Follow '
 
   return (
     <Button

@@ -16,15 +16,14 @@ function render ({props}) {
   const {name: {givenName}, name: {familyName}} = student
   const nameCell = {
     borderRightWidth: 0,
-    textAlign: 'left'
+    textAlign: 'left',
   }
   const cellProps = {
     bgColor: odd ? 'white' : 'off_white',
-    borderBottom: last ? '' : '1px solid rgba(black, .1)',
-    borderRight: '1px solid rgba(black, .1)',
+    borderBottom: last ? '' : '1px solid #E9E9E9',
+    borderRight: '1px solid #E9E9E9',
     textAlign: 'center',
     p: '16px',
-    minWidth: 75
   }
 
   return (

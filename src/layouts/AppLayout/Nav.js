@@ -41,7 +41,7 @@ function render ({props, state}) {
             <NotificationsButton ml='s' currentUser={currentUser} />
             <AccountMenu mx currentUser={currentUser} />
             <Button
-              onClick={() => openModal(() => <CreateActivityModal />)}
+              onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
               border='1px solid rgba(#000, .1)'
               px='21'
               h={34}

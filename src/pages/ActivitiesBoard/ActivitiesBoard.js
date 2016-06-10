@@ -17,8 +17,9 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
+  const {currentUser} = props
   return (
-    <RowFeed {...props} emptyState={<EmptyBoard />} item={ActivityRow} itemProps={{showActions: true}} />
+    <RowFeed {...props} emptyState={<EmptyBoard currentUser={currentUser} />} item={ActivityRow} itemProps={{showActions: true}} />
   )
 }
 
@@ -26,12 +27,13 @@ function render ({props}) {
  * <EmptyBoard/> - Board empty state
  */
 
-function EmptyBoard() {
+function EmptyBoard({props}) {
+  const {currentUser} = props
   return (
     <EmptyState p='24px 12px 24px' bg='#E4E5E7' border='1px solid #D8DADD' icon='dashboard' color='green' w='auto'>
       <Block fs='m' my='l'>This is your Board</Block>
       <Button
-        onClick={() => openModal(() => <CreateActivityModal />)}
+        onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
         bgColor='blue'
         boxShadow='z2'
         color='white'

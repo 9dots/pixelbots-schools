@@ -15,12 +15,12 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {activities, group} = props
+  const {activities, group, currentUser} = props
   return (
     <Block maxWidth='714px' my py mx='auto' relative>
       <PageTitle title={`${group.displayName} | Feed`} />
       {
-        <RowFeed {...props} item={ClassActivityRow} emptyState={<EmptyClassFeed />} />
+        <RowFeed {...props} item={ClassActivityRow} emptyState={<EmptyClassFeed currentUser={currentUser}/>} />
       }
     </Block>
   )
