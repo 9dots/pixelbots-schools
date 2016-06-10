@@ -20,9 +20,7 @@ function render ({props}) {
     borderRight: '1px solid text',
     bgColor: 'grey',
     color: 'white',
-    p: '24px 16px',
-    relative: true,
-    z: 2
+    p: '24px 16px'
   }
 
   if (!loaded && loading) return <Loading show={true} h='200' />
