@@ -17,7 +17,7 @@ import {Block} from 'vdux-ui'
 function render ({props}) {
   const {activities, group} = props
   return (
-    <Block maxWidth='714px' mx='auto' relative>
+    <Block maxWidth='714px' my py mx='auto' relative>
       <PageTitle title={`${group.displayName} | Feed`} />
       {
         <RowFeed {...props} item={ClassActivityRow} emptyState={<EmptyClassFeed />} />

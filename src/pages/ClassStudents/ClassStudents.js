@@ -32,7 +32,7 @@ function render ({props}) {
   const {items: studentList} = value
 
   return (
-    <Block>
+    <Block w='col_main' mx='auto' relative my py>
       <PageTitle title={`${group.displayName} | Students`} />
       {
         loaded && studentList.length

@@ -27,6 +27,18 @@ function render ({props, children}) {
   )
 }
 
+function internal ({value, loading, error}, children) {
+  if (loading) return ''
+  if (error) return <FourOhFour />
+
+  return [
+    <Header group={value} />,
+    <Block>
+      {maybeOver(value, children)}
+    </Block>
+  ]
+}
+
 function Header ({props}) {
   const {group} = props
   const {_id: id, displayName, code} = group
@@ -72,18 +84,6 @@ function Header ({props}) {
       <Block flex />
     </Flex>
   )
-}
-
-function internal ({value, loading, error}, children) {
-  if (loading) return ''
-  if (error) return <FourOhFour />
-
-  return [
-    <Header group={value} />,
-    <Block w='col_main' mx='auto' relative my py>
-      {maybeOver(value, children)}
-    </Block>
-  ]
 }
 
 /**
