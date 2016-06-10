@@ -8,13 +8,17 @@ import {Button, Input} from 'vdux-containers'
 import {closeModal} from 'reducer/modal'
 import PinSelect from './PinSelect'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 
 /**
  * <PinModal/>
  */
 
 function render ({props}) {
-  const {activity} = props
+  const {activity, boards, createBoard, pin, copyActivity} = props
+  const {value, loaded} = boards
+
+  if (!loaded) return <span/>
 
   return (
     <Modal onDismiss={closeModal} w='620' bgColor='grey_light'>
@@ -26,7 +30,7 @@ function render ({props}) {
           <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
             Select a Board to Pin to:
           </ModalHeader>
-          <PinSelect activity={activity} absolute h='calc(100% - 56px)' wide />
+          <PinSelect boards={value.items} onSelect={doPin} createBoard={createBoard} absolute h='calc(100% - 56px)' wide />
         </Flex>
       </Flex>
       <ModalFooter m='0'>
@@ -36,12 +40,48 @@ function render ({props}) {
       </ModalFooter>
     </Modal>
   )
+
+  function *doPin (boardId) {
+    if (activity.published) {
+      const copy = yield copyActivity(activity._id)
+      yield pin(boardId, copy._id)
+    } else {
+      yield pin(boardId, activity._id)
+    }
+
+    yield closeModal()
+  }
 }
 
 /**
  * Exports
  */
 
-export default {
+export default summon(() => ({
+  boards: '/user/boards',
+  createBoard: body => ({
+    newBoard: {
+      url: '/board/',
+      method: 'POST',
+      invalidates: ['/user/boards', '/user'],
+      body
+    }
+  }),
+  pin: (boardId, activityId) => ({
+    pinToBoard: {
+      url: `/share/${activityId}/pin/`,
+      method: 'PUT',
+      body: {
+        to: [boardId]
+      }
+    }
+  }),
+  copyActivity: activityId => ({
+    copyingActivity: {
+      url: `/share/${activityId}/copy`,
+      method: 'POST'
+    }
+  })
+}))({
   render
-}
+})

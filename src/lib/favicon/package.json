@@ -1,0 +1,5 @@
+{
+  "name": "favicon",
+  "main": "favicon.js",
+  "browser": "favicon.js"
+}

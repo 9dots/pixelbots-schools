@@ -20,6 +20,7 @@ function middleware ({url, headers}, setTitle) {
   const cookieObj = cookie.parse(headers.cookie || '')
 
   return [
+    flo(),
     // logger,
     query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
     location(url),
@@ -27,8 +28,7 @@ function middleware ({url, headers}, setTitle) {
     // normalize(isApiServer),
     fetchEncodeJSON,
     title(setTitle),
-    fetch,
-    flo()
+    fetch
   ]
 }
 
@@ -36,7 +36,7 @@ function logger (api) {
   return next => action => {
     const result = next(action)
     const state = api.getState()
-    console.log('action', action.type, state.app.url, state.app.ready, state.app.currentUser)
+    console.log('action', action.type, action.payload)
 
     return result
   }
