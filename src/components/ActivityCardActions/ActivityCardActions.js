@@ -8,9 +8,10 @@ import AssignModal from 'modals/AssignModal'
 import WeoIcon from 'components/WeoIcon'
 import {openModal} from 'reducer/modal'
 import PinModal from 'modals/PinModal'
+import Confirm from 'modals/Confirm'
+import {Block, Text} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
-import {Block} from 'vdux-ui'
 
 /**
  * <ActivityCardActions/>
@@ -21,6 +22,7 @@ function render ({props}) {
     activity, user, assign, edit, like, pin,
     likeActivity, unlikeActivity, spread = true, ...rest
   } = props
+  const {published} = activity
   const isOwner = activity.actor.id === user._id
   const hasLiked = activity.likers.some(function(liker) {
     return liker.id === user._id
@@ -30,11 +32,12 @@ function render ({props}) {
     <Block p align='center' {...rest}>
       <Action
         onClick={() => openModal(() => <AssignModal activity={activity} />)}
+        hide={!published}
         text='Assign'
         color='green'
         full={assign}
         icon='send'/>
-      <Block hide={!spread} flex/>
+      <Block hide={!spread || !published} flex/>
       <Action
         onClick={() => setUrl(`/activity/${activity._id}/edit`)}
         color='grey_medium'
@@ -53,13 +56,30 @@ function render ({props}) {
       <Action
         onClick={() => openModal(() => <PinModal activity={activity} />)}
         activity={activity}
+        hide={!published}
         weoIcon='pin'
         color='blue'
         text='Pin'
         full={pin}
         mr='0'/>
+      <Action
+        onClick={deleteActivity}
+        hide={published}
+        icon='delete'
+        text='Delete'
+        color='grey_medium'
+        mr='0'
+        />
     </Block>
   )
+
+  function deleteActivity () {
+    return openModal(() =>
+      <DeleteActivity
+        activityId={activity._id}
+        message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>} />
+      )
+  }
 }
 
 /**
@@ -92,6 +112,16 @@ function Action({props}) {
     </Button>
   )
 }
+
+const DeleteActivity = summon(({activityId}) => ({
+  onAccept: () => ({
+    deleting: {
+      url: `/share/${activityId}`,
+      method: 'DELETE',
+      // invalidates: ['/user/classes', '/user']
+    }
+  })
+}))(Confirm)
 
 /**
  * Exports

@@ -28,8 +28,8 @@ const Activity = wrap(CSSContainer)({
       hover, activity, metaUi: MetaUi = Meta,
       badgeUi: BadgeUi = Badge, currentUser, showActions
     } = props
-    const {image, displayName, description, _id: id} = activity
-    const url = `/activity/${id}/public/preview`
+    const {image, displayName, description, _id: id, published} = activity
+    const url =  `/activity/${id}` + (published ? '/public/preview' :  '/edit')
 
     return (
       <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='zoom-in' onClick={() => setUrl(url)}>
@@ -59,7 +59,7 @@ const Activity = wrap(CSSContainer)({
           <Flex flex align='end start'>
             {
               showActions && hover &&
-                <ActivityCardActions align='space-between center' wide activity={activity} user={currentUser} assign spread={false} />
+                <ActivityCardActions align='end center' wide activity={activity} user={currentUser} assign spread={false} />
             }
             <BadgeUi activity={activity} currentUser={currentUser} />
           </Flex>

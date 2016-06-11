@@ -20,7 +20,7 @@ function render ({props}) {
   return (
     <Modal w='col_m'>
       <Form onSubmit={accept}>
-        <ModalBody px='l' pb bgColor='off_white'>
+        <ModalBody px='l' pb>
           <ModalHeader>
             Confirm
           </ModalHeader>
@@ -28,8 +28,8 @@ function render ({props}) {
             {message}
           </Block>
         </ModalBody>
-        <ModalFooter bg='white' borderTop='1px solid grey_light' mt={0}>
-          <Button mr bgColor='grey_light' color='text' onClick={reject} hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>
+        <ModalFooter bg='off_white' borderTop='1px solid grey_light' mt={0}>
+          <Button mr bgColor='grey' onClick={reject}>
             Cancel
           </Button>
           <Button type='submit'>Ok</Button>
