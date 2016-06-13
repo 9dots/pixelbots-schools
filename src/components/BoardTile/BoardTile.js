@@ -20,7 +20,7 @@ import Link from 'components/Link'
  */
 
 function render ({props}) {
-  const {board, currentUser} = props
+  const {board, currentUser, hideMeta} = props
   const {owners = [], displayName, images = []} = board
   const [owner = {}] = owners
   const url = '/' + owner.username + '/board/' + board._id + '/activities/'
@@ -28,17 +28,23 @@ function render ({props}) {
   return (
     <Card w={230} h={250} relative my={8} mx={6}>
       <Flex column tall>
-        <Flex p='m' align='start center'>
-          <Avatar link thumb actor={owner} />
-          <Flex column ml='m'>
-            <Link hoverProps={{underline: true}} href={url} mb='2px' bold>{displayName}</Link>
-            <Link color='grey_medium' fs='xxs' hoverProps={{underline: true}} href={`/${owner.username}/boards`}>
-              by {owner.displayName}
-            </Link>
-          </Flex>
-        </Flex>
+        {
+          hideMeta
+            ? <Flex align='start center' px fs='s' lighter h={50}>
+                {displayName}
+              </Flex>
+            : <Flex px h={50} align='start center'>
+                <Avatar link thumb actor={owner} />
+                <Flex column ml='m'>
+                  <Link hoverProps={{underline: true}} href={url} mb='2px' bold>{displayName}</Link>
+                  <Link color='grey_medium' fs='xxs' hoverProps={{underline: true}} href={`/${owner.username}/boards`}>
+                    by {owner.displayName}
+                  </Link>
+                </Flex>
+              </Flex>
+        }
         <Block bg='grey'>
-          <Flex wrap h={152} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop pointer onClick={() => setUrl(url)} hoverProps={{opacity: 0.92}}>
+          <Flex wrap h={158} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop pointer onClick={() => setUrl(url)} hoverProps={{opacity: 0.92}}>
             <Text hide={images.length} p fs='xxs'>
               <Text fw='bolder'>{displayName}</Text>
               <Text px='xs'>by</Text>

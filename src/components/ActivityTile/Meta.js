@@ -19,24 +19,22 @@ function render ({props}) {
   const board = getBoard(activity) || {}
 
   return (
-    <Block px={12} py={6} fs='xxs' borderTop='rgba(0, 0, 0, 0.04)' bgColor='#FCFCFC'>
-      <Flex align='start center'>
-        <Avatar link mr='s' thumb actor={actor} />
-        <Box flex ellipsis lh='18px'>
-          <Flex column align='space-around'>
-            <Link flex='0%' hoverProps={{underline: true}} bold href={`/${actor.username}/boards`}>
-              {actor.displayName}
-            </Link>
-            <Link flex='0%' hoverProps={{underline: true}} href={`/${actor.username}/board/${board.id}/activities`} color='grey'>
-              {board.displayName}
-            </Link>
-          </Flex>
-        </Box>
-        <Box>
-          <CommoncoreBadge />
-        </Box>
-      </Flex>
-    </Block>
+    <Flex align='start center'>
+      <Avatar link mr='s' thumb actor={actor} />
+      <Box flex ellipsis lh='18px'>
+        <Flex column align='space-around'>
+          <Link flex='0%' hoverProps={{underline: true}} bold href={`/${actor.username}/boards`}>
+            {actor.displayName}
+          </Link>
+          <Link flex='0%' hoverProps={{underline: true}} href={`/${actor.username}/board/${board.id}/activities`} color='grey'>
+            {board.displayName}
+          </Link>
+        </Flex>
+      </Box>
+      <Box>
+        <CommoncoreBadge />
+      </Box>
+    </Flex>
   )
 }
 

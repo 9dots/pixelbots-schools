@@ -19,7 +19,7 @@ import element from 'vdux/element'
 function render ({props}) {
   const {currentUser} = props
   return (
-    <RowFeed {...props} emptyState={<EmptyBoard currentUser={currentUser} />} item={ActivityRow} itemProps={{showActions: true}} />
+    <RowFeed {...props} emptyState={<EmptyBoard currentUser={currentUser} />} item={ActivityRow} itemProps={{actions: ['edit', 'assign', 'pin']}}/>
   )
 }
 

@@ -2,13 +2,11 @@
  * Imports
  */
 
-import CommoncoreBadge from 'components/CommoncoreBadge'
 import {Flex, Text, Block} from 'vdux-containers'
 import {setUrl} from 'redux-effects-location'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import element from 'vdux/element'
-import filter from '@f/filter'
 import moment from 'moment'
 
 /**

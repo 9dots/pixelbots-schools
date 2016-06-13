@@ -19,20 +19,22 @@ import summon from 'vdux-summon'
 
 function render ({props}) {
   const {
-    activity, user, assign, edit, like, pin,
-    likeActivity, unlikeActivity, spread = true, ...rest
+    activity, user, assign, edit, like, pin, likeActivity,
+    unlikeActivity, actions = [], spread = true, ...rest
   } = props
-  const {published} = activity
+  const {published, channels} = activity
   const isOwner = activity.actor.id === user._id
   const hasLiked = activity.likers.some(function(liker) {
     return liker.id === user._id
   })
 
+  if(!actions.length) return <span />
+
   return (
     <Block p align='center' {...rest}>
       <Action
         onClick={() => openModal(() => <AssignModal activity={activity} />)}
-        hide={!published}
+        hide={isHidden('assign')}
         text='Assign'
         color='green'
         full={assign}
@@ -41,14 +43,14 @@ function render ({props}) {
       <Action
         onClick={() => setUrl(`/activity/${activity._id}/edit`)}
         color='grey_medium'
-        hide={!isOwner}
+        hide={isHidden('edit')}
         icon='edit'
         text='Edit'
         full={edit}/>
       <Action
         onClick={hasLiked ? unlikeActivity : likeActivity}
         icon='favorite'
-        hide={isOwner}
+        hide={isHidden('like')}
         bgColor={hasLiked && 'red'}
         color='grey_medium'
         text='Like'
@@ -56,7 +58,7 @@ function render ({props}) {
       <Action
         onClick={() => openModal(() => <PinModal activity={activity} />)}
         activity={activity}
-        hide={!published}
+        hide={isHidden('pin')}
         weoIcon='pin'
         color='blue'
         text='Pin'
@@ -64,7 +66,7 @@ function render ({props}) {
         mr='0'/>
       <Action
         onClick={deleteActivity}
-        hide={published}
+        hide={isHidden('delete')}
         icon='delete'
         text='Delete'
         color='grey_medium'
@@ -80,7 +82,12 @@ function render ({props}) {
         message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>} />
       )
   }
+
+  function isHidden(action) {
+    return actions.indexOf(action) === -1
+  }
 }
+
 
 /**
  * ActionButton
