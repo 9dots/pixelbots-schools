@@ -18,6 +18,8 @@ import SearchBoards from 'pages/SearchBoards'
 
 import TeacherSignup from 'pages/TeacherSignup'
 import StudentSignup from 'pages/StudentSignup'
+import ForgotPassword from 'pages/ForgotPassword'
+import ResetPassword from 'pages/ResetPassword'
 
 import ProfileBoards from 'pages/ProfileBoards'
 import ProfileLikes from 'pages/ProfileLikes'
@@ -73,6 +75,14 @@ const router = enroute({
   '/student': (params, props) =>
     <HomeLayout action='login'>
       <StudentSignup {...props} />
+    </HomeLayout>,
+  '/forgot': (params, props) =>
+    <HomeLayout action='login'>
+      <ForgotPassword {...props} />
+    </HomeLayout>,
+  '/reset': (params, props) =>
+    <HomeLayout action='login'>
+      <ResetPassword {...props} />
     </HomeLayout>,
 
   // Internal

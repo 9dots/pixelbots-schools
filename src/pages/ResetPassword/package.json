@@ -1,0 +1,5 @@
+{
+  "name": "ResetPassword",
+  "main": "ResetPassword.js",
+  "browser": "ResetPassword.js"
+}
