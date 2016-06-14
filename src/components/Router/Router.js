@@ -80,9 +80,9 @@ const router = enroute({
     <HomeLayout action='login'>
       <ForgotPassword {...props} />
     </HomeLayout>,
-  '/reset': (params, props) =>
+  '/reset/:token': (params, props) =>
     <HomeLayout action='login'>
-      <ResetPassword {...props} />
+      <ResetPassword {...props} {...params} />
     </HomeLayout>,
 
   // Internal

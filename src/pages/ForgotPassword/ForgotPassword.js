@@ -20,21 +20,31 @@ function render ({props, local, state}) {
   const {success} = state
   return (
     <Block w='col_s' p='m' color='white' textAlign='center'>
-      <Block hide={success}>
-        <Form onSubmit={sendReset} onSuccess={local(setSuccess)}>
-          <BlockInput autofocus placeholder='EMAIL OR USERNAME' name='username' />
-          <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
-            Reset Password
-          </Button>
-        </Form>
-        <Block mt>
-          <Link href='/login' color='grey_light' hoverProps={{underline: true}}>
-            Nevermind
-          </Link>
-        </Block>
-      </Block>
-      <Block fs='s' lighter hide={!success}>
-        Reset request confirmed. Check your email.
+      {
+        success
+          ? <Block lighter fs='s'>
+              Reset request confirmed. Check your email.
+            </Block>
+          : <ForgotForm local={local} sendReset={sendReset} />
+      }
+    </Block>
+  )
+}
+
+function ForgotForm ({props}) {
+  const {sendReset, local} = props
+  return (
+    <Block>
+      <Form onSubmit={sendReset} onSuccess={local(setSuccess)}>
+        <BlockInput autofocus placeholder='EMAIL OR USERNAME' name='username' />
+        <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
+          Reset Password
+        </Button>
+      </Form>
+      <Block mt>
+        <Link href='/login' color='grey_light' hoverProps={{underline: true}}>
+          Nevermind
+        </Link>
       </Block>
     </Block>
   )

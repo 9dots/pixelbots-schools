@@ -73,13 +73,14 @@ const reducer = handleActions({
  * Exports
  */
 
-export default summon(props => ({
+export default summon(({token}) => ({
   resetPassword: ({password}) => ({
     resetingPassword: {
       url: '/user/reset',
       method: 'POST',
       body: {
-        password
+        password,
+        token
       }
     }
   })
