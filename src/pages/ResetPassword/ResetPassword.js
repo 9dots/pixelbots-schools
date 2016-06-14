@@ -7,10 +7,14 @@ import handleActions from '@f/handle-actions'
 import {setUrl} from 'redux-effects-location'
 import createAction from '@f/create-action'
 import {Button} from 'vdux-containers'
-import {Block} from 'vdux-ui'
+import Schema from '@weo-edu/schema'
+import {password} from 'lib/schemas/user'
+import validate from '@weo-edu/validate'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
+import {Block} from 'vdux-ui'
 import Form from 'vdux-form'
+
 /**
  * <ResetPassword/>
  */
@@ -33,9 +37,9 @@ function render ({props, local, state}) {
 function ResetForm ({props}) {
   const {resetPassword, local} = props
   return (
-    <Form onSubmit={resetPassword} onSuccess={local(setSuccess)}>
-      <BlockInput type='password' autofocus placeholder='PASSWORD'/>
-      <BlockInput type='password' autofocus placeholder='CONFIRM PASSWORD' name='password' />
+    <Form onSubmit={resetPassword} onSuccess={local(setSuccess)} validate={validatePassword}>
+      <BlockInput type='password' autofocus placeholder='PASSWORD' name='password'/>
+      <BlockInput type='password' placeholder='CONFIRM PASSWORD' name='confirm_password' />
       <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
         Reset Password
       </Button>
@@ -54,6 +58,24 @@ function SuccessBlock () {
       </Button>
     </Block>
   )
+}
+
+function validatePassword (model) {
+  const result = validate(Schema()
+    .prop('password', password)
+    .required('password'))(model)
+
+  if (model.password !== model.confirm_password) {
+    result.valid = false
+    result.errors = result.errors || []
+    result.errors.push({
+      field: 'confirm_password',
+      message: 'Must match password'
+    })
+  }
+
+  delete model.confirm_password
+  return result
 }
 
 /**
@@ -76,11 +98,10 @@ const reducer = handleActions({
 export default summon(({token}) => ({
   resetPassword: ({password}) => ({
     resetingPassword: {
-      url: '/user/reset',
-      method: 'POST',
+      url: `/user/reset?token=${token}`,
+      method: 'PUT',
       body: {
-        password,
-        token
+        password
       }
     }
   })
