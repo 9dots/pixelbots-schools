@@ -19,7 +19,8 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {currentUser} = props
-  const {name, displayName, email, username, preferences} = currentUser
+  const {name, displayName, email, username, preferences, userType} = currentUser
+  const isStudent = userType === 'student'
   const {max_points = 10} = preferences
 
   return (
@@ -28,10 +29,10 @@ function render ({props}) {
         User Settings
       </Block>
 
-      <SettingsRow name='Name' placeholder={'What\'s your name?'} Modal={<NameModal user={currentUser} />} prop={displayName} />
-      <SettingsRow name='Username' placeholder='Get a username?' Modal={<UsernameModal user={currentUser} />} prop={username} />
+      <SettingsRow name='Name' placeholder={'What\'s your name?'} Modal={<NameModal user={currentUser} />} prop={displayName} hide={isStudent}/>
+      <SettingsRow name='Username' placeholder='Get a username?' Modal={<UsernameModal user={currentUser} />} prop={username} hide={isStudent}/>
       <SettingsRow name='Email' placeholder={'What\'s your email?'} Modal={<EmailModal user={currentUser} />} prop={email}/>
-      <SettingsRow name='Password' Modal={<PasswordModal isMe={true} user={currentUser} />} prop='*******' />
+      <SettingsRow name='Password' Modal={<PasswordModal isMe={true} user={currentUser} />} prop='*******'/>
 
       <Block fs='m' color='blue' pt='l' pb px>
         Activity Settings
@@ -41,7 +42,7 @@ function render ({props}) {
         <ReadingSpeedDropdown user={currentUser} />
       </SettingsRow>
 
-      <SettingsRow name='Point Value' placeholder='What is your name?' Modal={<PointValueModal user={currentUser} />} prop={max_points} message='The default point value given to each question in an activity' borderBottomWidth='0' />
+      <SettingsRow name='Point Value' placeholder='What is your name?' Modal={<PointValueModal user={currentUser} />} prop={max_points} message='The default point value given to each question in an activity' borderBottomWidth='0'  hide={isStudent}/>
     </Card>
   )
 }

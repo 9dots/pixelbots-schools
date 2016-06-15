@@ -66,7 +66,7 @@ function render ({props}) {
             onClick={() => openModal(() => <ColorPickerModal user={user} />)}
             hoverProps={{text: <Icon fs='s' name='colorize' />}}
             align='center center'
-            bgColor={user.color}
+            bgColor={user.color || colors.pickerColors[0]}
             circle='30'
             tag='div'/>
           <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}} onClick={() => setUrl('/account/profile')}>

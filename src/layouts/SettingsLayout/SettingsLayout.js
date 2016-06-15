@@ -10,13 +10,14 @@ import AppLayout from 'layouts/AppLayout'
 import {logoutUser} from 'reducer/auth'
 import Link from 'components/Link'
 import element from 'vdux/element'
+import map from '@f/map'
 
 /**
  * <SettingsLayout/>
  */
 
 function render ({props, children}) {
-
+  const isStudent = props.currentUser.userType === 'student'
   return (
     <AppLayout {...props}>
       <PageTitle title='Account Settings' />
@@ -27,7 +28,7 @@ function render ({props, children}) {
               <Block p fs='s' color='grey_medium'>
                 Your Account
               </Block>
-              { items.map(navItem) }
+              { map(item => <NavItem item={item} isStudent={isStudent} />, items) }
               <MenuItem onClick={logoutUser} borderBottom='1px solid grey_light' {...itemProps}>
                 <Icon name='exit_to_app' mr='s' fs='s' />
                 Log Out
@@ -44,10 +45,13 @@ function render ({props, children}) {
   )
 }
 
-function navItem(item) {
-  const {name, url, icon} = item
+function NavItem({props}) {
+  const {item, isStudent} = props
+  const {name, url, icon, hideStudent} = item
+  const hide = isStudent && hideStudent
+
   return (
-    <Link ui={MenuItem} href={url} {...itemProps}>
+    <Link ui={MenuItem} href={url} {...itemProps} hide={hide}>
       <Icon name={icon} fs='s' mr='s' />
       <Block flex>
         {name}
@@ -82,7 +86,8 @@ const items = [
   {
     name: 'Email Notifications',
     icon: 'email',
-    url: '/account/email'
+    url: '/account/email',
+    hideStudent: true
   }
 ]
 

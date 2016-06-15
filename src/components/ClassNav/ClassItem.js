@@ -14,7 +14,7 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {showIcon, cls} = props
+  const {showIcon, cls, isStudent} = props
   const {_id, displayName} = cls
 
   return (
@@ -31,7 +31,7 @@ function render ({props}) {
         onClick={() => openModal(() => <ClassSettingsModal group={cls} />)}
         activeProps={{opacity: 0.7}}
         hoverProps={{opacity: 1}}
-        hide={!showIcon}
+        hide={isStudent || !showIcon}
         color='midgray'
         icon='settings'
         opacity={0.7}

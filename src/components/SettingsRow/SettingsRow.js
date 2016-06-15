@@ -23,11 +23,12 @@ function render ({props, children}) {
     fw: 'lighter',
     p: 'l',
     fs: 's',
+    onClick: () => (Modal && openModal(() => Modal)),
     ...rest
   }
 
   return (
-    <Flex {...rowProps} onClick={() => openModal(() => Modal)}>
+    <Flex {...rowProps}>
       <Block flex={keyWidth} align='start center'>
         {name}
         {

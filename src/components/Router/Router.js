@@ -40,6 +40,7 @@ import AccountEmail from 'pages/AccountEmail'
 
 import ActivitiesBoard from 'pages/ActivitiesBoard'
 import MyActivities from 'pages/MyActivities'
+import FeedStudent from 'pages/FeedStudent'
 import Drafts from 'pages/Drafts'
 import Trash from 'pages/Trash'
 import Login from 'pages/Login'
@@ -99,7 +100,11 @@ const internal = enroute({
   // Home
   '/feed': (params, props) =>
     <AppLayout {...props}>
-      <Feed {...props} />
+      {
+        isTeacher(props)
+          ? <Feed {...props} />
+          : <FeedStudent {...props} />
+      }
     </AppLayout>,
 
   // My Activities
@@ -237,6 +242,10 @@ function render ({props}) {
 /**
  * Helpers
  */
+
+function isTeacher (state) {
+  return state.currentUser.userType === 'teacher'
+}
 
 function isLoggedIn (state) {
   return !!state.currentUser

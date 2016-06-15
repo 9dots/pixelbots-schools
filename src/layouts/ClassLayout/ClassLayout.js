@@ -18,21 +18,23 @@ import summon from 'vdux-summon'
  */
 
 function render ({props, children}) {
-  const {group} = props
-
   return (
     <AppLayout {...props} bgColor='green'>
-      {internal(group, children)}
+      {internal(props, children)}
     </AppLayout>
   )
 }
 
-function internal ({value, loading, error}, children) {
+function internal (props, children) {
+  const {group, currentUser} = props
+  const {value, loading, error} = group
+  const isStudent = currentUser.userType === 'student'
+
   if (loading) return ''
   if (error) return <FourOhFour />
 
   return [
-    <Header group={value} />,
+    <Header group={value} isStudent={isStudent} />,
     <Block>
       {maybeOver(value, children)}
     </Block>
@@ -40,7 +42,7 @@ function internal ({value, loading, error}, children) {
 }
 
 function Header ({props}) {
-  const {group} = props
+  const {group, isStudent} = props
   const {_id: id, displayName, code} = group
 
   return (
@@ -56,6 +58,7 @@ function Header ({props}) {
           bgColor='off_white'
           hoverProps={{highlight: .03}}
           focusProps={{highlight: .03}}
+          hide={isStudent}
           color='text'
           fw='normal'
           fs='xs'

@@ -18,7 +18,7 @@ import {Block} from 'vdux-ui'
 
 function onCreate ({props}) {
   const {currentUser} = props
-  const {preferences = {}} = currentUser
+  const {preferences = {}, userType} = currentUser
   const {slideshow = {}} = preferences
 
   if (!slideshow.done) {
@@ -32,10 +32,10 @@ function onCreate ({props}) {
 
 function render ({props}) {
   const {activities, more, currentUser} = props
-  const prefs = currentUser.preferences || {}
+  const {preferences = {}, userType} = currentUser
   const {loaded, value} = activities
 
-  if (!prefs.group_joined) return <EmptyFeed />
+  if (!preferences.group_joined) return <EmptyFeed  />
 
   return (
     <Block w='col_main' mt mx='auto'>
