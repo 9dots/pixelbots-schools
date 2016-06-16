@@ -22,9 +22,9 @@ function render ({props}) {
     activity, user, assign, edit, like, pin, likeActivity,
     unlikeActivity, actions = [], spread = true, ...rest
   } = props
-  const {published, channels} = activity
-  const isOwner = activity.actor.id === user._id
-  const hasLiked = activity.likers.some(function(liker) {
+  const {published, channels, actor, likers} = activity
+  const isOwner = actor.id === user._id
+  const hasLiked = likers.length && likers.some(function(liker) {
     return liker.id === user._id
   })
 

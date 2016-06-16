@@ -4,6 +4,7 @@
 
 import {Block, Dropdown, MenuItem, Icon, Divider, CSSContainer} from 'vdux-containers'
 import CreateClassModal from 'modals/CreateClassModal'
+import JoinClassModal from 'modals/JoinClassModal'
 import handleActions from '@f/handle-actions'
 import LineInput from 'components/LineInput'
 import createAction from '@f/create-action'
@@ -34,11 +35,22 @@ function render ({props, state, local, children}) {
           .map(cls => <ClassItem cls={cls} isStudent={isStudent} />)
       }
       <Divider hide={!numClasses} />
-      <MenuItem onClick={() => openModal(() => <CreateClassModal />)} py='m' color='text_color' display='flex' align='start center'>
-        <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
-        New Class
-      </MenuItem>
+      {
+        isStudent
+          ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
+          : <AddClassItem Modal={CreateClassModal} text='New Class' />
+      }
     </Dropdown>
+  )
+}
+
+function AddClassItem ({props}) {
+  const {Modal, text} = props
+  return (
+    <MenuItem onClick={() => openModal(() => <Modal />)} py='m' color='text_color' display='flex' align='start center'>
+      <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
+      {text}
+    </MenuItem>
   )
 }
 

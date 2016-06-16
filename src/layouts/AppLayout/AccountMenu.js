@@ -24,7 +24,7 @@ function render ({props}) {
   const isStudent = currentUser.userType === 'student'
 
   return (
-    <Dropdown w='180px' btn={<DropdownToggle {...props} />}>
+    <Dropdown w='180px' mr='s' btn={<DropdownToggle {...props} />}>
       <Link {...itemProps} href={`/${currentUser.username}/boards`}>
         <Icon name='person' fs='s' mr='s'/>
         My Profile

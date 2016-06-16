@@ -9,7 +9,7 @@ import ColorPickerModal from 'modals/ColorPickerModal'
 import DescriptionModal from 'modals/DescriptionModal'
 import FollowButton from 'components/FollowButton'
 import {setUrl} from 'redux-effects-location'
-import NavTile from 'components/NavTile'
+import ProfileNav from './ProfileNav'
 import {openModal} from 'reducer/modal'
 import Avatar from 'components/Avatar'
 import * as colors from 'lib/colors'
@@ -26,10 +26,11 @@ function render ({props}) {
   const {
     displayName, username, website = '',
     aboutMe, gradeLevels = [], subjects = [],
-    location, following, followers
+    location, userType
   } = user
   const isCurrentUser = username === currentUser.username
   const displayUrl = website && website.replace(/.*?:\/\//g, "")
+  const showNav = userType === 'teacher' && currentUser.userType === 'teacher'
 
   return (
     <Card wide relative mb>
@@ -38,7 +39,7 @@ function render ({props}) {
           onClick={() => openAvatarModal(isCurrentUser, user)}
           hoverProps={{hover: isCurrentUser}}
           activeProps={{active: isCurrentUser}}
-          pointer={isCurrentUser} />
+          pointer={isCurrentUser}/>
         <Flex column flex='60%'>
           <Flex p={4}  fw='lighter' fs='m' align='start center'>
             <Text capitalize>{displayName}</Text>
@@ -77,19 +78,9 @@ function render ({props}) {
           <FollowButton user={user} />
         </Flex>
       </Flex>
-      <Flex fs='xxs' align='center center' h='46px' bgColor='off_white' uppercase>
-        <NavTile href={`/${username}/boards`} highlight='red'>Boards</NavTile>
-        <NavTile href={`/${username}/likes`} highlight='green'>Likes</NavTile>
-        <NavTile href={`/${username}/following`} highlight='blue'>
-          <Text mr={3} weight='bolder' fs='xs'>{following}</Text>
-          Following
-        </NavTile>
-        <NavTile href={`/${username}/followers`} highlight='yellow'>
-          <Text mr={3} weight='bolder' fs='xs'>{followers}</Text>
-          Followers
-        </NavTile>
-        <NavTile href={`/${username}/stream`} highlight='grey_medium'>Stream</NavTile>
-      </Flex>
+      {
+        showNav && <ProfileNav user={user} />
+      }
     </Card>
   )
 }

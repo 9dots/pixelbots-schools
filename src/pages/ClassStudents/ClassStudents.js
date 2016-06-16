@@ -23,9 +23,10 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {group, students, toggleAll, fields} = props
+  const {group, students, toggleAll, fields, currentUser} = props
   const {selected} = fields
   const {value, loading, loaded} = students
+  const isStudent = currentUser.userType === 'student'
 
   if (!loaded && loading) return <Loading show={true} h='200' />
 
@@ -37,8 +38,8 @@ function render ({props}) {
       {
         loaded && studentList.length
           ? <Block>
-              <StudentMenu students={studentList} group={group} selected={selected.value || []} />
-              <StudentGrid students={studentList} group={group} selected={selected.value || []} toggleAll={toggleAll} />
+              <StudentMenu students={studentList} group={group} selected={selected.value || []} isStudent={isStudent} />
+              <StudentGrid students={studentList} group={group} selected={selected.value || []} toggleAll={toggleAll} isStudent={isStudent} />
             </Block>
           : <EmptyClassStudents group={group} />
       }
@@ -47,7 +48,7 @@ function render ({props}) {
 }
 
 function StudentMenu ({props}) {
-  const {students, selected, group} = props
+  const {students, selected, group, isStudent} = props
   const {length: count} = selected
   const users = students.filter(({_id}) => selected.indexOf(_id) !== -1)
   const btnProps =  {
@@ -57,6 +58,8 @@ function StudentMenu ({props}) {
     px: 'm',
     mr: 's'
   }
+
+  if(isStudent) return <span/>
 
   return (
     <Flex align='space-between center' mb>
