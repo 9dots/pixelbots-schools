@@ -31,6 +31,7 @@ function render ({props, state}) {
             </Flex>
             <Item href='/feed' icon='home' text='Home' />
             <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />
+            <Item hide={!isStudent} href={`/${currentUser.username}/stream`} icon='person' text='My Profile' />
             <ClassNav currentUser={currentUser}>
               <Item ml='s' fs='s' icon='school' text='Classes'>
                 <Icon name='arrow_drop_down' fs='s' ml='s' />

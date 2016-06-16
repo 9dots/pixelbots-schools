@@ -18,7 +18,7 @@ function render ({props}) {
   const actor = object.actor || activity.actor
 
   return (
-    <Card wide align='space-between center'>
+    <Card wide align='space-between center' borderBottom='rgba(52, 52, 52, 0.05)'>
       <Block align='start center' ml my>
         <ObjectIcon object={object} my={-3} mr />
         <Link bold href={`/${actor.username}/boards`}>

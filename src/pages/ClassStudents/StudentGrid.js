@@ -61,7 +61,7 @@ const StudentRow = wrap(CSSContainer, {
     const cellProps = {p: '10px 12px'}
 
     return (
-      <TableRow tag='label' display='table-row' py bgColor={highlight && !isStudent ? '#fafdfe' : 'white'} borderBottom='1px solid grey_light'>
+      <TableRow tag={isStudent ? 'tr' : 'label'} display='table-row' py bgColor={highlight && !isStudent ? '#fafdfe' : 'white'} borderBottom='1px solid grey_light'>
         <TableCell {...cellProps} hide={isStudent}>
           <Checkbox name='selected[]' value={student._id} checked={selected}/>
         </TableCell>

@@ -14,7 +14,6 @@ import ProfileNav from './ProfileNav'
 import * as colors from 'lib/colors'
 import Link from 'components/Link'
 import element from 'vdux/element'
-import Color from 'Color'
 
 /**
  * Profile Layout Header
