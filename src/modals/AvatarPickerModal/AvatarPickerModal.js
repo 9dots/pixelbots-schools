@@ -24,16 +24,7 @@ import reduce from '@f/reduce'
  * Constants
  */
 
-const avatars = reduce((avatars, url, name) => {
-  avatars.push({
-    url,
-    name
-  })
-  return avatars
-}, [{url: 'upload', name: 'upload'}, {url: 'letters', name: 'letters'}], avatarMap)
-
-const pageSize = 12
-const numPages = Math.ceil(avatars.length / pageSize)
+let numPages = 0
 
 /**
  * initialState
@@ -54,7 +45,23 @@ function initialState ({props}) {
 function render ({props, state, local}) {
   const {user, fields} = props
   const {page} = state
+
+  let extras = [{url: 'letters', name: 'letters'}]
+  if(user.userType === 'teacher')
+    extras.unshift({url: 'upload', name: 'upload'})
+
+  const avatars = reduce((avatars, url, name) => {
+    avatars.push({
+      url,
+      name
+    })
+    return avatars
+  }, extras, avatarMap)
+
+  const pageSize = 12
+  numPages =  Math.ceil(avatars.length / pageSize)
   const curAvatars = avatars.slice(page * pageSize, (page + 1) * pageSize)
+
 
   return (
     <Modal onDismiss={closeModal}>
@@ -86,7 +93,7 @@ function render ({props, state, local}) {
           <Button bgColor='black' icon='keyboard_arrow_left' mr='s' fs='s' h='30px' px='25' onClick={local(prev)} disabled={page == 0}/>
           <Button bgColor='black' icon='keyboard_arrow_right' mr fs='s' h='30px' px='25' onClick={local(next)} disabled={page == (numPages - 1)}/>
           <Flex>
-            { dots(page, local) }
+            { dots(page, local, numPages) }
           </Flex>
         </Block>
         <Text fs='xxs'>
@@ -103,7 +110,7 @@ function render ({props, state, local}) {
  * Helpers
  */
 
-function dots (page, local) {
+function dots (page, local, numPages) {
   const arr = Array.apply(null, Array(numPages))
   return (
     arr.map((_, i) => <Block pointer circle='5' bgColor={page == i ? 'white' : 'rgba(255,255,255,.5)'} ml='s' onClick={local(go, i)}></Block>)
