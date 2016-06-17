@@ -3,19 +3,17 @@
  */
 
 import {Block, Menu, MenuItem, Icon, Card, Flex} from 'vdux-ui'
-import {Button, Tooltip, wrap, CSSContainer, Text} from 'vdux-containers'
-import AvatarPickerModal from 'modals/AvatarPickerModal'
+import {Button, Tooltip, Text} from 'vdux-containers'
 import ColorPickerModal from 'modals/ColorPickerModal'
 import DescriptionModal from 'modals/DescriptionModal'
 import FollowButton from 'components/FollowButton'
 import {setUrl} from 'redux-effects-location'
-import NavTile from 'components/NavTile'
+import HeaderAvatar from './HeaderAvatar'
 import {openModal} from 'reducer/modal'
-import Avatar from 'components/Avatar'
+import ProfileNav from './ProfileNav'
 import * as colors from 'lib/colors'
 import Link from 'components/Link'
 import element from 'vdux/element'
-import Color from 'Color'
 
 /**
  * Profile Layout Header
@@ -26,19 +24,16 @@ function render ({props}) {
   const {
     displayName, username, website = '',
     aboutMe, gradeLevels = [], subjects = [],
-    location, following, followers
+    location, userType
   } = user
-  const isCurrentUser = username === currentUser.username
+  const isMe = username === currentUser.username
   const displayUrl = website && website.replace(/.*?:\/\//g, "")
+  const showNav = userType === 'teacher' && currentUser.userType === 'teacher'
 
   return (
     <Card wide relative mb>
       <Flex p>
-        <AvatarPicker user={user}
-          onClick={() => openAvatarModal(isCurrentUser, user)}
-          hoverProps={{hover: isCurrentUser}}
-          activeProps={{active: isCurrentUser}}
-          pointer={isCurrentUser} />
+        <HeaderAvatar user={user} isMe={isMe} />
         <Flex column flex='60%'>
           <Flex p={4}  fw='lighter' fs='m' align='start center'>
             <Text capitalize>{displayName}</Text>
@@ -55,82 +50,34 @@ function render ({props}) {
             {
               aboutMe
                 ? aboutMe
-                : <Text pointer hide={!isCurrentUser} color='grey_medium' hoverProps={{underline: true}} onClick={() => openModal(() => <DescriptionModal user={currentUser} />)}>
+                : <Text pointer hide={!isMe} color='grey_medium' hoverProps={{underline: true}} onClick={() => openModal(() => <DescriptionModal user={currentUser} />)}>
                     Add some information about yourself!
                   </Text>
             }
           </Block>
         </Flex>
-        <Flex hide={!isCurrentUser} absolute='top 12px right 12px'>
+        <Flex hide={!isMe} absolute='top 12px right 12px'>
           <Button
             onClick={() => openModal(() => <ColorPickerModal user={user} />)}
             hoverProps={{text: <Icon fs='s' name='colorize' />}}
             align='center center'
-            bgColor={user.color}
+            bgColor={user.color || colors.pickerColors[0]}
             circle='30'
             tag='div'/>
           <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}} onClick={() => setUrl('/account/profile')}>
             Edit Profile
           </Button>
         </Flex>
-        <Flex hide={isCurrentUser} absolute='top 12px right 12px'>
+        <Flex hide={isMe} absolute='top 12px right 12px'>
           <FollowButton user={user} />
         </Flex>
       </Flex>
-      <Flex fs='xxs' align='center center' h='46px' bgColor='off_white' uppercase>
-        <NavTile href={`/${username}/boards`} highlight='red'>Boards</NavTile>
-        <NavTile href={`/${username}/likes`} highlight='green'>Likes</NavTile>
-        <NavTile href={`/${username}/following`} highlight='blue'>
-          <Text mr={3} weight='bolder' fs='xs'>{following}</Text>
-          Following
-        </NavTile>
-        <NavTile href={`/${username}/followers`} highlight='yellow'>
-          <Text mr={3} weight='bolder' fs='xs'>{followers}</Text>
-          Followers
-        </NavTile>
-        <NavTile href={`/${username}/stream`} highlight='grey_medium'>Stream</NavTile>
-      </Flex>
+      {
+        showNav && <ProfileNav user={user} />
+      }
     </Card>
   )
 }
-
-function openAvatarModal(isCurrentUser, user) {
-  if(isCurrentUser)
-    return openModal(() => <AvatarPickerModal user={user}/>)
-}
-
-/**
- * Avatar modal open
- */
-
-const AvatarPicker = wrap(CSSContainer)({
-  render({props}) {
-    const {blue} = colors
-    const {user, hover, active, ...rest} = props
-    const overlayBg = Color(blue).alpha(0.3).rgbaString()
-    const overlayActive = Color(blue).alpha(0.4).rgbaString()
-    const shadow = Color(blue).alpha(0.5).rgbaString()
-
-    return (
-      <Block w='18%' mr='m' relative {...rest}>
-        <Block pb='100%'>
-          <Avatar actor={user} w='100%' h='auto' alignSelf='center' absolute />
-          <Flex
-            bg={active ? overlayActive : overlayBg}
-            boxShadow={'0 0 1px 1px ' + shadow}
-            transition='opacity .35s'
-            opacity={hover ? 1 : 0}
-            align='center center'
-            circle='100%'
-            color='white'
-            absolute >
-            Change Avatar
-          </Flex>
-        </Block>
-      </Block>
-    )
-  }
-})
 
 /**
  * Profile description item

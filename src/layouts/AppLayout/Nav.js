@@ -19,6 +19,7 @@ import Search from './Search'
 
 function render ({props, state}) {
   const {currentUser, url, bgColor = 'grey', search, query} = props
+  const isStudent = currentUser.userType === 'student'
 
   return (
     <Block>
@@ -29,20 +30,22 @@ function render ({props, state}) {
               <HomeOwl />
             </Flex>
             <Item href='/feed' icon='home' text='Home' />
-            <Item href='/activities' icon='assignment' text='My Activities' />
-            <ClassNav>
+            <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />
+            <Item hide={!isStudent} href={`/${currentUser.username}`} icon='person' text='My Profile' />
+            <ClassNav currentUser={currentUser}>
               <Item ml='s' fs='s' icon='school' text='Classes'>
                 <Icon name='arrow_drop_down' fs='s' ml='s' />
               </Item>
             </ClassNav>
           </Flex>
           <Menu flex align='end center'>
-            <Search url={url} searching={search} query={query}/>
+            <Search url={url} searching={search} query={query} hide={isStudent}/>
             <NotificationsButton ml='s' currentUser={currentUser} />
             <AccountMenu mx currentUser={currentUser} />
             <Button
-              onClick={() => openModal(() => <CreateActivityModal />)}
+              onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
               border='1px solid rgba(#000, .1)'
+              hide={isStudent}
               px='21'
               h={34}
               pill
@@ -59,7 +62,7 @@ function render ({props, state}) {
 }
 
 function Item ({props, children}) {
-  const {text, icon, href, onClick} = props
+  const {text, icon, href, onClick, hide} = props
 
   return (
     <Link
@@ -67,6 +70,7 @@ function Item ({props, children}) {
       onClick={onClick}
       href={href}
       align='center center'
+      hide={hide}
       h={53}
       pointer
       px={9}

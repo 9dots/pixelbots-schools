@@ -14,7 +14,7 @@ import element from 'vdux/element'
  */
 
 function render({props}) {
-  const {isOwner, user} = props
+  const {isOwner, currentUser} = props
   return (
     <EmptyState icon='dashboard' color='green'>
       {
@@ -22,7 +22,7 @@ function render({props}) {
           ? <Block>
               <Block fs='m'>This is your Board</Block>
               <Button
-                onClick={() => openModal(() => <CreateActivityModal />)}
+                onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
                 bgColor='green'
                 boxShadow='z2'
                 color='white'

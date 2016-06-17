@@ -54,7 +54,7 @@ function renderGrid (boards, currentUser, user) {
         </Flex>
       }
       {
-        boards.map(board => <BoardTile board={board} currentUser={currentUser} />)
+        boards.map(board => <BoardTile hideMeta board={board} currentUser={currentUser} />)
       }
     </Grid>
   )

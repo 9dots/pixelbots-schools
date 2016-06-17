@@ -16,17 +16,19 @@ import {Icon} from 'vdux-ui'
  */
 
 function render({props}) {
+  const {query, currentUser} = props
   return (
-    <TileFeed emptyState={<EmptySearch query={props.query} />} {...props} />
+    <TileFeed emptyState={<EmptySearch query={query} currentUser={currentUser} />} {...props} />
   )
 }
 
 function EmptySearch({props}) {
+  const {query, currentUser} = props
   return(
     <EmptyState icon='assignment_ind' color='green'>
-      You haven't created any activities for <Text bold>{props.query}</Text>
+      You haven't created any activities for <Text bold>{query}</Text>
       <Block
-        onClick={() => openModal(() => <CreateActivityModal />)}
+        onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
         hoverProps={{underline: true}}
         color='blue'
         pointer>

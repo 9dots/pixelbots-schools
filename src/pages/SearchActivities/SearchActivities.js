@@ -17,18 +17,19 @@ import element from 'vdux/element'
 
 function render({props}) {
   return (
-    <TileFeed emptyState={<EmptySearch query={props.query} />} {...props} />
+    <TileFeed emptyState={<EmptySearch query={props.query} currentUser={props.currentUser} />} {...props} />
   )
 }
 
 function EmptySearch({props}) {
+  const {currentUser} = props
   return(
     <EmptyState icon='assignment' color='red'>
       Sorry, we couldn't find any activities for <Text bold>{props.query}</Text>
       <br/>
       Be the first to&nbsp;
       <Text
-        onClick={() => openModal(() => <CreateActivityModal />)}
+        onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
         hoverProps={{underline: true}}
         color='blue'
         pointer>

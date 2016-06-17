@@ -12,7 +12,8 @@ import {Icon} from 'vdux-ui'
  * <EmptyClassFeed/>
  */
 
-function render() {
+function render({props}) {
+  const {currentUser} = props
   return(
     <Block p textAlign='center'>
       <Icon name='assignment' fs='xxl' color='green'/>
@@ -27,7 +28,7 @@ function render() {
           </Tooltip>
         </Block>
       </Button>
-      <Block underline pointer hoverProps={{opacity: .8}} onClick={() => openModal(() => <CreateActivityModal />)}>
+      <Block underline pointer hoverProps={{opacity: .8}} onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser}/>)}>
         or create your own!
       </Block>
       <Block fs='s' lighter mx='auto' mt='l' w='col_m'>

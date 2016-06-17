@@ -8,9 +8,10 @@ import AssignModal from 'modals/AssignModal'
 import WeoIcon from 'components/WeoIcon'
 import {openModal} from 'reducer/modal'
 import PinModal from 'modals/PinModal'
+import Confirm from 'modals/Confirm'
+import {Block, Text} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
-import {Block} from 'vdux-ui'
 
 /**
  * <ActivityCardActions/>
@@ -18,34 +19,38 @@ import {Block} from 'vdux-ui'
 
 function render ({props}) {
   const {
-    activity, user, assign, edit, like, pin,
-    likeActivity, unlikeActivity, spread = true, ...rest
+    activity, user, assign, edit, like, pin, likeActivity,
+    unlikeActivity, actions = [], spread = true, ...rest
   } = props
-  const isOwner = activity.actor.id === user._id
-  const hasLiked = activity.likers.some(function(liker) {
+  const {published, channels, actor, likers = []} = activity
+  const isOwner = actor.id === user._id
+  const hasLiked = likers.some(function(liker) {
     return liker.id === user._id
   })
+
+  if(!actions.length) return <span />
 
   return (
     <Block p align='center' {...rest}>
       <Action
         onClick={() => openModal(() => <AssignModal activity={activity} />)}
+        hide={isHidden('assign')}
         text='Assign'
         color='green'
         full={assign}
         icon='send'/>
-      <Block hide={!spread} flex/>
+      <Block hide={!spread || !published} flex/>
       <Action
         onClick={() => setUrl(`/activity/${activity._id}/edit`)}
         color='grey_medium'
-        hide={!isOwner}
+        hide={isHidden('edit')}
         icon='edit'
         text='Edit'
         full={edit}/>
       <Action
         onClick={hasLiked ? unlikeActivity : likeActivity}
         icon='favorite'
-        hide={isOwner}
+        hide={isHidden('like')}
         bgColor={hasLiked && 'red'}
         color='grey_medium'
         text='Like'
@@ -53,14 +58,36 @@ function render ({props}) {
       <Action
         onClick={() => openModal(() => <PinModal activity={activity} />)}
         activity={activity}
+        hide={isHidden('pin')}
         weoIcon='pin'
         color='blue'
         text='Pin'
         full={pin}
         mr='0'/>
+      <Action
+        onClick={deleteActivity}
+        hide={isHidden('delete')}
+        icon='delete'
+        text='Delete'
+        color='grey_medium'
+        mr='0'
+        />
     </Block>
   )
+
+  function deleteActivity () {
+    return openModal(() =>
+      <DeleteActivity
+        activityId={activity._id}
+        message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>} />
+      )
+  }
+
+  function isHidden(action) {
+    return actions.indexOf(action) === -1
+  }
 }
+
 
 /**
  * ActionButton
@@ -92,6 +119,16 @@ function Action({props}) {
     </Button>
   )
 }
+
+const DeleteActivity = summon(({activityId}) => ({
+  onAccept: () => ({
+    deleting: {
+      url: `/share/${activityId}`,
+      method: 'DELETE',
+      // invalidates: ['/user/classes', '/user']
+    }
+  })
+}))(Confirm)
 
 /**
  * Exports

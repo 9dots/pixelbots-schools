@@ -18,6 +18,8 @@ import SearchBoards from 'pages/SearchBoards'
 
 import TeacherSignup from 'pages/TeacherSignup'
 import StudentSignup from 'pages/StudentSignup'
+import ForgotPassword from 'pages/ForgotPassword'
+import ResetPassword from 'pages/ResetPassword'
 
 import ProfileBoards from 'pages/ProfileBoards'
 import ProfileLikes from 'pages/ProfileLikes'
@@ -38,6 +40,7 @@ import AccountEmail from 'pages/AccountEmail'
 
 import ActivitiesBoard from 'pages/ActivitiesBoard'
 import MyActivities from 'pages/MyActivities'
+import FeedStudent from 'pages/FeedStudent'
 import Drafts from 'pages/Drafts'
 import Trash from 'pages/Trash'
 import Login from 'pages/Login'
@@ -74,6 +77,14 @@ const router = enroute({
     <HomeLayout action='login'>
       <StudentSignup {...props} />
     </HomeLayout>,
+  '/forgot': (params, props) =>
+    <HomeLayout action='login'>
+      <ForgotPassword {...props} />
+    </HomeLayout>,
+  '/reset/:token': (params, props) =>
+    <HomeLayout action='login'>
+      <ResetPassword {...props} {...params} />
+    </HomeLayout>,
 
   // Internal
   '*': (params, props) => props.currentUser
@@ -89,7 +100,11 @@ const internal = enroute({
   // Home
   '/feed': (params, props) =>
     <AppLayout {...props}>
-      <Feed {...props} />
+      {
+        isTeacher(props)
+          ? <Feed {...props} />
+          : <FeedStudent {...props} />
+      }
     </AppLayout>,
 
   // My Activities
@@ -132,38 +147,6 @@ const internal = enroute({
       <SearchPeople {...props} {...params} />
     </SearchLayout>,
 
-  // Profile
-  '/:username/boards': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileBoards {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/likes': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileLikes {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/following': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileFollowing {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/followers': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileFollowers {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/stream': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileStream {...props} user={user} />}
-    </ProfileLayout>,
-
-  //Board
-  '/:username/board/:boardId/activities': (params, props) =>
-    <BoardLayout {...props} {...params}>
-      {board => <BoardActivities {...props} {...params} board={board} />}
-    </BoardLayout>,
-  '/:username/board/:boardId/followers': (params, props) =>
-    <BoardLayout {...props} {...params}>
-      {board => <BoardFollowers {...props} {...params} board={board} />}
-    </BoardLayout>,
-
   // Class
   '/class/:groupId': (params, props) =>
     <ClassLayout {...props} {...params}>
@@ -203,10 +186,46 @@ const internal = enroute({
     </AppLayout>,
 
   // Connect
-  '/connect/:query?': (params, props) =>
+  '/connect/:userSearch?': (params, props) =>
     <AppLayout {...props} {...params}>
       <Connect {...props} {...params}/>
     </AppLayout>,
+
+  //Board
+  '/:username/board/:boardId/activities': (params, props) =>
+    <BoardLayout {...props} {...params}>
+      {board => <BoardActivities {...props} {...params} board={board} />}
+    </BoardLayout>,
+  '/:username/board/:boardId/followers': (params, props) =>
+    <BoardLayout {...props} {...params}>
+      {board => <BoardFollowers {...props} {...params} board={board} />}
+    </BoardLayout>,
+
+  // Profile
+  '/:username/boards': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileBoards {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/likes': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileLikes {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/following': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileFollowing {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/followers': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileFollowers {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/stream': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileStream {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      { user => profileRedirect(props, user) }
+    </ProfileLayout>,
 
   // 404
   '*': (params, props) =>
@@ -228,8 +247,22 @@ function render ({props}) {
  * Helpers
  */
 
+function isTeacher (state) {
+  return state.currentUser.userType === 'teacher'
+}
+
 function isLoggedIn (state) {
   return !!state.currentUser
+}
+
+function profileRedirect (props, user) {
+  const {currentUser} = props
+  let subState = 'stream'
+
+  if(currentUser.userType === 'teacher')
+    subState = user.userType === 'teacher' ? 'boards' : 'stream'
+
+  return <Redirect to={`/${user.username}/${subState}`}/>
 }
 
 /**

@@ -9,6 +9,7 @@ import {Button, Image} from 'vdux-containers'
 import Loading from 'components/Loading'
 import resize from 'lib/resize-image'
 import element from 'vdux/element'
+import getProp from '@f/get-prop'
 import map from '@f/map'
 
 /**
@@ -20,8 +21,9 @@ const w = 110
 const h = w * 1.25
 
 function render ({props}) {
-  const {activities, more} = props
+  const {activities, more, currentUser, togglePref} = props
   const {value, loaded, loading} = activities
+  const show = getProp('preferences.messages.templates', currentUser)
 
   return (
     <Modal onDismiss={closeModal} textAlign='center' w='610'>
@@ -49,7 +51,7 @@ function render ({props}) {
         }
       </Block>
       <Block p align='end' fs='xxs'>
-        <Checkbox label={'Don\'t show me this again'} pointer uiProps={{flexDirection: 'row-reverse'}}/>
+        <Checkbox onChange={() => togglePref(show)} label={'Don\'t show me this again'} pointer uiProps={{flexDirection: 'row-reverse'}} checked={show} />
       </Block>
     </Modal>
   )
@@ -85,7 +87,19 @@ function TemplateItem ({props}) {
  */
 
 export default summonChannels(
-  props => `group!${tmplBoardId}.board`
+  props => `group!${tmplBoardId}.board`,
+  {
+    togglePref: (show) => ({
+      savingPreference:  {
+        url: '/preference/messages.templates',
+        method: 'PUT',
+        body: {
+          value: !show
+        },
+        invalidates: '/user'
+      }
+    })
+  }
 )({
   render
 })

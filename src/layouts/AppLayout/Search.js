@@ -23,11 +23,11 @@ function initialState({props}) {
 
 
 function render ({props, local, state}) {
-  const {url, searching, query} = props
+  const {url, searching, query, ...rest} = props
   const {opened} = state
 
   return (
-    <Block relative h='34px'>
+    <Block relative h='34px' {...rest}>
       <RoundedInput
         bgColor={opened ? 'rgba(white,0.8)' : 'transparent'}
         pointerEvents={opened ? 'auto' : 'none'}

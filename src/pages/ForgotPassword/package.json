@@ -1,0 +1,5 @@
+{
+  "name": "ForgotPassword",
+  "main": "ForgotPassword.js",
+  "browser": "ForgotPassword.js"
+}

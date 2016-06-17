@@ -4,6 +4,7 @@
 
 import {Block, Dropdown, MenuItem, Icon, Divider, CSSContainer} from 'vdux-containers'
 import CreateClassModal from 'modals/CreateClassModal'
+import JoinClassModal from 'modals/JoinClassModal'
 import handleActions from '@f/handle-actions'
 import LineInput from 'components/LineInput'
 import createAction from '@f/create-action'
@@ -17,9 +18,10 @@ import summon from 'vdux-summon'
  */
 
 function render ({props, state, local, children}) {
-  const {classes} = props
+  const {classes, currentUser} = props
   const {value, loading} = classes
   const numClasses = !loading && value.items.length
+  const isStudent = currentUser.userType === 'student'
 
   return (
     <Dropdown btn={<div>{children}</div>} bg='white' color='black' maxHeight={350} overflow='auto' mt='-6' w='200' left>
@@ -30,14 +32,25 @@ function render ({props, state, local, children}) {
         !loading &&
         value.items
           .filter(search(state.filter))
-          .map(cls => <ClassItem cls={cls} />)
+          .map(cls => <ClassItem cls={cls} isStudent={isStudent} />)
       }
       <Divider hide={!numClasses} />
-      <MenuItem onClick={() => openModal(() => <CreateClassModal />)} py='m' color='text_color' display='flex' align='start center'>
-        <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
-        New Class
-      </MenuItem>
+      {
+        isStudent
+          ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
+          : <AddClassItem Modal={CreateClassModal} text='New Class' />
+      }
     </Dropdown>
+  )
+}
+
+function AddClassItem ({props}) {
+  const {Modal, text} = props
+  return (
+    <MenuItem onClick={() => openModal(() => <Modal />)} py='m' color='text_color' display='flex' align='start center'>
+      <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
+      {text}
+    </MenuItem>
   )
 }
 

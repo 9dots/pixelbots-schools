@@ -14,19 +14,19 @@ import map from '@f/map'
  */
 
 function render ({children, props}) {
-  const {activities, more, emptyState, currentUser, skip} = props
+  const {activities, more, emptyState, currentUser, skip, activityProps = {}} = props
   const {value, loaded, loading} = activities
 
   return (
     <InfiniteScroll w='calc(100% + 12px)' loading={loading} more={() => value && more(value.nextPageToken)}>
         {
-          loaded && renderItems(value.items, emptyState, children, currentUser, skip)
+          loaded && renderItems(value.items, emptyState, children, currentUser, skip, activityProps)
         }
     </InfiniteScroll>
   )
 }
 
-function renderItems(items, emptyState, children, user, skip) {
+function renderItems(items, emptyState, children, user, skip, activityProps) {
   const columns = toColumns(items, 4, skip)
 
   return (
@@ -37,7 +37,7 @@ function renderItems(items, emptyState, children, user, skip) {
               <Flex column>
                 {i === 0 && children}
                 {
-                  map(activity => <ActivityTile showActions user={user} activity={activity} />, items)
+                  map(activity => <ActivityTile user={user} activity={activity} actions={[likeOrEdit(activity, user), 'pin', 'assign']} {...activityProps} />, items)
                 }
               </Flex>
             ), columns)
@@ -50,6 +50,10 @@ function renderItems(items, emptyState, children, user, skip) {
 /**
  * Helpers
  */
+
+function likeOrEdit (activity, user) {
+  return activity.actor.id === user._id ? 'edit' : 'like'
+}
 
 function toColumns (items, n, skip) {
   const columns = times(n, () => [])

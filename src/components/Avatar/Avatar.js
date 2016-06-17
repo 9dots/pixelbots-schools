@@ -37,7 +37,7 @@ function render ({props, state, local}) {
   return <Avatar
     hidden={!isLoaded}
     bgColor='grey_light'
-    onClick={() => (link && setUrl(`/${actor.username}/boards`))}
+    onClick={() => (link && setUrl(`/${actor.username}`))}
     src={avatarUrl(state.loadFailed ? 'default' : actor, thumb, avatarUpdates)}
     onError={local(loadFailed)}
     pointer={link}
