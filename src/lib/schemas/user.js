@@ -17,10 +17,17 @@ const password = Schema('string')
 const email = Schema('string')
   .format('email', 'Invalid email address')
 
+const givenName = Schema('string')
+  .min(1, 'Required')
+
+const familyName = Schema('string')
+  .min(1, 'Required')
+
 const name = Schema()
-  .prop('givenName', 'string')
-  .prop('familyName', 'string')
+  .prop('givenName', givenName)
+  .prop('familyName', familyName)
   .prop('honorificPrefix', 'string')
+  .required(['givenName', 'familyName'])
 
 const user = Schema()
   .prop('username', username)
