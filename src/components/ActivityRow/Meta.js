@@ -30,7 +30,7 @@ function render ({props}) {
   const message = pinnedFrom ? 'Pinned from' : 'Created by'
   const href = pinnedFrom
     ? `/${actor.username}/board/${pinnedFrom.board.id}/activities`
-    : `/${actor.username}/boards`
+    : `/${actor.username}`
 
   return (
     <Flex align='start center'>
@@ -51,7 +51,7 @@ function render ({props}) {
 
 function goToProfile(e, actor) {
   e.stopPropagation()
-  return setUrl(`/${actor.username}/boards`)
+  return setUrl(`/${actor.username}`)
 }
 
 function isPublic (activity) {

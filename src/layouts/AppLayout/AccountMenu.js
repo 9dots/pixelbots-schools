@@ -16,16 +16,17 @@ import Link from 'components/Link'
 
 function render ({props}) {
   const {currentUser} = props
+  const {username, userType} = currentUser
   const itemProps = {
     ui: MenuItem,
     currentProps: {highlight: true},
     align: 'start center'
   }
-  const isStudent = currentUser.userType === 'student'
+  const isStudent = userType === 'student'
 
   return (
     <Dropdown w='180px' mr='s' btn={<DropdownToggle {...props} />}>
-      <Link {...itemProps} href={`/${currentUser.username}/boards`}>
+      <Link {...itemProps} href={`/${username}`}>
         <Icon name='person' fs='s' mr='s'/>
         My Profile
       </Link>

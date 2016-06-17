@@ -69,17 +69,17 @@ const StudentRow = wrap(CSSContainer, {
           <Avatar display='flex' actor={student} mr='s' sq='26' />
         </TableCell>
         <TableCell {...cellProps}>
-          <Link hoverProps={{underline: true}} href={`/${username}/stream`}>
+          <Link hoverProps={{underline: true}} href={`/${username}`}>
             {givenName}
           </Link>
         </TableCell>
         <TableCell {...cellProps}>
-          <Link hoverProps={{underline: true}} href={`/${username}/stream`}>
+          <Link hoverProps={{underline: true}} href={`/${username}`}>
             {familyName}
           </Link>
         </TableCell>
         <TableCell {...cellProps}>
-          <Link hoverProps={{underline: true}} href={`/${username}/stream`}>
+          <Link hoverProps={{underline: true}} href={`/${username}`}>
             {username}
           </Link>
         </TableCell>

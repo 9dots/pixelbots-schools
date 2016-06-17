@@ -2,7 +2,7 @@
  * Imports
  */
 
-import ClassActivityRow from 'components/ClassActivityRow'
+import ActivityRowStudent from 'components/ActivityRowStudent'
 import JoinClassModal from 'modals/JoinClassModal'
 import summonChannels from 'lib/summon-channels'
 import EmptyState from 'components/EmptyState'
@@ -26,7 +26,7 @@ function render ({props}) {
   return (
     <Block maxWidth='714px' mt mx='auto' relative>
       <PageTitle title='Weo' />
-      <RowFeed {...props} item={ClassActivityRow} emptyState={<Empty />} />
+      <RowFeed {...props} item={ActivityRowStudent} emptyState={<Empty />} />
     </Block>
   )
 }

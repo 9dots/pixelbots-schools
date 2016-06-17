@@ -12,7 +12,7 @@ import {setUrl} from 'redux-effects-location'
 
 function render ({props}) {
   return (
-    <Flex column absolute h='90%' wide top align='center center' pointer onClick={() => setUrl('/')} fw='200' capitalize>
+    <Flex column absolute h='90%' wide maxWidth='100%' top align='center center' pointer onClick={() => setUrl('/')} fw='200' capitalize {...props}>
       <Icon name='highlight_off' fs='160px' color='red' m/>
       <Text fs='xl' mb fw='bold'>
         404.

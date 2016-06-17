@@ -2,6 +2,7 @@
  * Imports
  */
 
+import ActivityRowStudent from 'components/ActivityRowStudent'
 import ClassActivityRow from 'components/ClassActivityRow'
 import summonChannels from 'lib/summon-channels'
 import EmptyClassFeed from './EmptyClassFeed'
@@ -16,11 +17,15 @@ import {Block} from 'vdux-ui'
 
 function render ({props}) {
   const {activities, group, currentUser} = props
+  const Item = currentUser.userType === 'student'
+    ? ActivityRowStudent
+    : ClassActivityRow
+
   return (
     <Block maxWidth='714px' my py mx='auto' relative>
       <PageTitle title={`${group.displayName} | Feed`} />
       {
-        <RowFeed {...props} item={ClassActivityRow} emptyState={<EmptyClassFeed currentUser={currentUser}/>} />
+        <RowFeed {...props} item={Item} emptyState={<EmptyClassFeed currentUser={currentUser}/>} />
       }
     </Block>
   )

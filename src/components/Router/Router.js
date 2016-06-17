@@ -147,38 +147,6 @@ const internal = enroute({
       <SearchPeople {...props} {...params} />
     </SearchLayout>,
 
-  // Profile
-  '/:username/boards': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileBoards {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/likes': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileLikes {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/following': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileFollowing {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/followers': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileFollowers {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/stream': (params, props) =>
-    <ProfileLayout {...props} {...params}>
-      {user => <ProfileStream {...props} user={user} />}
-    </ProfileLayout>,
-
-  //Board
-  '/:username/board/:boardId/activities': (params, props) =>
-    <BoardLayout {...props} {...params}>
-      {board => <BoardActivities {...props} {...params} board={board} />}
-    </BoardLayout>,
-  '/:username/board/:boardId/followers': (params, props) =>
-    <BoardLayout {...props} {...params}>
-      {board => <BoardFollowers {...props} {...params} board={board} />}
-    </BoardLayout>,
-
   // Class
   '/class/:groupId': (params, props) =>
     <ClassLayout {...props} {...params}>
@@ -223,6 +191,42 @@ const internal = enroute({
       <Connect {...props} {...params}/>
     </AppLayout>,
 
+  //Board
+  '/:username/board/:boardId/activities': (params, props) =>
+    <BoardLayout {...props} {...params}>
+      {board => <BoardActivities {...props} {...params} board={board} />}
+    </BoardLayout>,
+  '/:username/board/:boardId/followers': (params, props) =>
+    <BoardLayout {...props} {...params}>
+      {board => <BoardFollowers {...props} {...params} board={board} />}
+    </BoardLayout>,
+
+  // Profile
+  '/:username/boards': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileBoards {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/likes': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileLikes {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/following': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileFollowing {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/followers': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileFollowers {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username/stream': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user => <ProfileStream {...props} user={user} />}
+    </ProfileLayout>,
+  '/:username': (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      { user => profileRedirect(props, user) }
+    </ProfileLayout>,
+
   // 404
   '*': (params, props) =>
     <AppLayout {...props} {...params}>
@@ -249,6 +253,16 @@ function isTeacher (state) {
 
 function isLoggedIn (state) {
   return !!state.currentUser
+}
+
+function profileRedirect (props, user) {
+  const {currentUser} = props
+  let subState = 'stream'
+
+  if(currentUser.userType === 'teacher')
+    subState = user.userType === 'teacher' ? 'boards' : 'stream'
+
+  return <Redirect to={`/${user.username}/${subState}`}/>
 }
 
 /**

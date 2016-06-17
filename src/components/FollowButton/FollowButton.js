@@ -18,7 +18,7 @@ function render ({props}) {
     ? <span>&nbsp;</span>
     : value ? 'Unfollow ' : 'Follow '
 
-  if(user.userType === 'student') return <span/>
+  if(!user || user.userType === 'student') return <span/>
 
   return (
     <Button
