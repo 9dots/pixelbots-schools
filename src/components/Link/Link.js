@@ -32,6 +32,7 @@ function render ({props, children}) {
     <CSSContainer
       ui={ui}
       {...rest}
+      disabled={disabled}
       href={href}
       onClick={onClick}
       {...(current ? currentProps : {})}>

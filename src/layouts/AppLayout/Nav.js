@@ -33,7 +33,7 @@ function render ({props, state}) {
             <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />
             <Item hide={!isStudent} href={`/${currentUser.username}`} icon='person' text='My Profile' />
             <ClassNav currentUser={currentUser}>
-              <Item ml='s' fs='s' icon='school' text='Classes'>
+              <Item href='/class' disabled={true} ml='s' fs='s' icon='school' text='Classes'>
                 <Icon name='arrow_drop_down' fs='s' ml='s' />
               </Item>
             </ClassNav>
@@ -62,15 +62,16 @@ function render ({props, state}) {
 }
 
 function Item ({props, children}) {
-  const {text, icon, href, onClick, hide} = props
+  const {text, icon, href, onClick, hide, disabled} = props
 
   return (
     <Link
-      tag={href ? 'a' : 'div'}
+      tag={href && !disabled ? 'a' : 'div'}
       onClick={onClick}
       href={href}
       align='center center'
       hide={hide}
+      disabled={disabled}
       h={53}
       pointer
       px={9}
