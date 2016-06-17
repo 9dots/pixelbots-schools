@@ -12,11 +12,13 @@ import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
 import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
+import media from 'redux-effects-media'
 import upload from 'middleware/upload'
 import scroll from 'middleware/scroll'
 import * as summon from 'vdux-summon'
 import logger from 'weo-redux-logger'
 import OAuth from 'middleware/oauth'
+import print from 'middleware/print'
 import modal from 'middleware/modal'
 import title from 'middleware/title'
 import {isApiServer} from 'lib/api'
@@ -35,6 +37,7 @@ const middleware = [
   // normalize(isApiServer),
   fetchEncodeJSON,
   fetch,
+  media,
   scroll,
   upload,
   location(),
@@ -43,6 +46,7 @@ const middleware = [
   scrollTopOnPageChange,
   summon.middleware('app.summon'),
   OAuth,
+  print,
   logger({
     predicate: (getState, action) => shouldLog((action.meta && action.meta.logLevel) || 'info'),
     stateTransformer: (state, action) => isEphemeral(action)

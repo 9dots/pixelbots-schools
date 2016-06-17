@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {initializeMedia} from 'reducer/media'
 import {initializeAuth} from 'reducer/auth'
 import {watchUrl} from 'reducer/url'
 import element from 'vdux/element'
@@ -14,6 +15,7 @@ import App from 'components/App'
 function onCreate ({props, state}) {
   return [
     initializeAuth(),
+    initializeMedia(),
     watchUrl()
   ]
 }

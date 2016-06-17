@@ -63,7 +63,6 @@ function Item ({props, children}) {
 
   return (
     <Link
-      ui={Flex}
       tag={href ? 'a' : 'div'}
       onClick={onClick}
       href={href}

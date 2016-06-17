@@ -10,7 +10,7 @@ import element from 'vdux/element'
  */
 
 function onCreate ({props}) {
-  return setUrl(props.to)
+  return setUrl(props.to, true)
 }
 
 /**

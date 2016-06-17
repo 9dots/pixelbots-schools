@@ -50,6 +50,8 @@ function render ({props}) {
  */
 
 function validateStudent (model) {
+  if (!model.email) delete model.email
+
   const result = validate.student(model)
 
   if (model.password !== model.confirm_password) {

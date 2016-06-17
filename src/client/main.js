@@ -40,6 +40,7 @@ domready(() => subscribe(app))
 function app (state, forceUpdate) {
   render(<Boot state={state.app} />, {
     uiTheme: theme,
+    uiMedia: state.app.media,
     currentUrl: state.app.url,
     avatarUpdates: state.app.avatarUpdates
   }, forceUpdate)
@@ -65,3 +66,9 @@ if (module.hot) {
     }
   })
 }
+
+/**
+ * Exports
+ */
+
+export default app

@@ -10,7 +10,7 @@ import {urlDidUpdate} from 'reducer/url'
  * Apply classes to the body when modals are opened
  */
 
-function middleware ({dispatch}) {
+function middleware ({dispatch, getState}) {
   return next => action => {
     switch (action.type) {
       case openModal.type:
@@ -20,7 +20,9 @@ function middleware ({dispatch}) {
         applyClasses({modal: false}, document.body)
         break
       case urlDidUpdate.type:
-        dispatch(closeModal())
+        if (getState().app.modal) {
+          dispatch(closeModal())
+        }
         break
     }
 

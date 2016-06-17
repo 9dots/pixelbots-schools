@@ -4,6 +4,7 @@
 
 import combineReducers from '@f/combine-reducers'
 import avatarUpdates from './avatarUpdates'
+import media from './media'
 import ready from './ready'
 import modal from './modal'
 import auth from './auth'
@@ -19,6 +20,7 @@ const reducer = combineReducers({
     url,
     auth,
     modal,
+    media,
     avatarUpdates
   })
 })

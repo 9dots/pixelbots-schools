@@ -13,10 +13,7 @@ import reducer from 'reducer/'
  * initialState
  */
 
-const initialState = {
-  auth: {},
-  user: {}
-}
+const initialState = {}
 
 /**
  * Render to string
