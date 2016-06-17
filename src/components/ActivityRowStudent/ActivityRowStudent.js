@@ -3,11 +3,10 @@
  */
 
 import ActivityRow from 'components/ActivityRow'
-import {Flex, Text, Icon, Block} from 'vdux-ui'
-import Avatar from 'components/Avatar'
 import element from 'vdux/element'
-import getProp from '@f/get-prop'
+import {Flex, Text, Icon, Block} from 'vdux-ui'
 import reduce from '@f/reduce'
+import getProp from '@f/get-prop'
 import moment from 'moment'
 
 /**
@@ -45,20 +44,12 @@ function StudentBadge ({props}) {
 
 function StudentMeta ({props}) {
   const {activity} = props
-  const {publishedAt, actor} = activity
+  const {publishedAt} = activity
 
   return (
-    <Flex align='start center'>
-      <Avatar mr thumb actor={actor}/>
-      <Flex column fs='xxs' align='space-around'>
-        <Text color='midgray' mb='xs'>
-          Assigned {moment(publishedAt).fromNow()}
-        </Text>
-        <Text>
-          by {actor.displayName}
-        </Text>
-      </Flex>
-    </Flex>
+    <Text fs='xxs' color='grey_medium'>
+      Assigned {moment(publishedAt).fromNow()}
+    </Text>
   )
 }
 
