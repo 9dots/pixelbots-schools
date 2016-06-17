@@ -12,7 +12,7 @@ import Nav from './Nav'
 
 function render ({props, children}) {
   return (
-    <Block>
+    <Block class='app'>
       <Nav {...props} />
       {children}
     </Block>
