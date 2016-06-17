@@ -19,7 +19,7 @@ import moment from 'moment'
 function render ({props}) {
   const {
     activities = [], more, search,
-    emptyState: Empty, item: Item,
+    emptyState, item: Item,
     itemProps = {}, currentUser, ...rest
   } = props
   const {value, loaded, loading, params} = activities
@@ -28,8 +28,8 @@ function render ({props}) {
   return (
     <InfiniteScroll loading={loading} more={() => more(value && value.nextPageToken)} {...rest}>
       {
-        loaded && search && <RoundedInput
-        hide={!loading && !value.items.length && !searching}
+        <RoundedInput
+        hide={search && !loading && !value.items.length && !searching}
         onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
         inputProps={{textAlign: 'left'}}
@@ -48,7 +48,7 @@ function render ({props}) {
           itemProps,
           loading
             ? null
-            : (searching ? EmptySearch : Empty),
+            : (searching ? <EmptySearch /> : emptyState),
           currentUser
         )
       }
@@ -56,8 +56,8 @@ function render ({props}) {
   )
 }
 
-function renderItems (items, Item, itemProps, Empty, currentUser) {
-  if (!items.length && Empty) return Empty
+function renderItems (items, Item, itemProps, emptyState, currentUser) {
+  if (!items.length && emptyState) return emptyState
 
   let prevDate = new Date(0)
 
