@@ -16,7 +16,7 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {group, students} = props
+  const {group, students, currentUser} = props
   const {value, loading, loaded} = students
 
   if (!loaded && loading) return <Loading show={true} h='200' />
@@ -28,7 +28,7 @@ function render ({props}) {
       <PageTitle title={`${group.displayName} | Gradebook`} />
       {
         loaded && studentList.length
-          ? <Gradebook group={group} students={studentList} />
+          ? <Gradebook group={group} students={studentList} currentUser={currentUser} />
           : <EmptyClassGradebook group={group} />
       }
     </Block>

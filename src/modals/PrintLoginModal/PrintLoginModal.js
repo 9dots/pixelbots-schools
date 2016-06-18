@@ -13,8 +13,14 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {user} = props
+  const overlayPrint = {
+    overflow: 'visible',
+    w: '100%',
+    h: 'auto',
+    position: 'relative'
+  }
   return (
-    <Modal mt='0' w='800px' onDismiss={closeModal} pb='s'>
+    <Modal mt='0' w='800px' onDismiss={closeModal} pb='s' overlayProps={{printProps: overlayPrint}} printProps={{w: '100%', h: 'auto'}} relative>
       <Block p bg='grey' align='space-between' printProps={{display: 'none'}}>
         <Button bgColor='off_white' color='text' onClick={closeModal}>
           Cancel
@@ -33,7 +39,7 @@ function render ({props}) {
 function InfoBlock ({props}) {
   const {user, last} = props
   return (
-    <Block borderBottom={!last && '1px dashed grey_medium'} p pageBreakInside='avoid'>
+    <Block borderBottom={!last && '1px dashed grey_medium'} p='l' pageBreakInside='avoid' relative>
       <Block border='1px solid grey_medium' align='start center' borderRadius='10'>
         <Block fs='l' color='blue' flex='35%' textAlign='center'>
           {user.displayName}
