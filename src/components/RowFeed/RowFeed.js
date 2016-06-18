@@ -29,7 +29,7 @@ function render ({props}) {
     <InfiniteScroll loading={loading} more={() => more(value && value.nextPageToken)} {...rest}>
       {
         <RoundedInput
-        hide={search && !loading && !value.items.length && !searching}
+        hide={!search || (!loading && !value.items.length && !searching)}
         onKeypress={{enter: e => search(e.target.value)}}
         placeholder='Search your activities...'
         inputProps={{textAlign: 'left'}}
