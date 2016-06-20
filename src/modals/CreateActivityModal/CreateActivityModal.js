@@ -34,7 +34,7 @@ function * onCreate ({props}) {
  * <CreateActivityModal/>
  */
 
-const tmplBoardId = '56149fd19c9d5d0c0024ad3c'
+const {TEMPLATE_BOARD_ID} = process.env
 const w = 110
 const h = w * 1.25
 
@@ -148,7 +148,7 @@ function TemplateItem ({props}) {
  */
 
 export default summon(props => ({
-  templates: `/share?channel=group!${tmplBoardId}.board`,
+  templates: `/share?channel=group!${TEMPLATE_BOARD_ID}.board`,
   createBlank: () => ({
     creatingBlank: {
       url: '/share/new',
@@ -157,8 +157,8 @@ export default summon(props => ({
   }),
   copyTemplate: id => ({
     copyingTemplate: {
-      url: `/share/${id}/copy`,
-      method: 'PUT'
+      url: `/share/template/${id}`,
+      method: 'POST'
     }
   }),
   noTemplates: () => ({
