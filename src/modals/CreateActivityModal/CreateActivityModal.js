@@ -78,7 +78,7 @@ function render ({props, state, local}) {
         <Checkbox
           checked={hideTemplates}
           onChange={local(setHideTemplates)}
-          label="Don\'t show me this again"
+          label={'Don\'t show me this again'}
           uiProps={{flexDirection: 'row-reverse'}}
           pointer />
       </Block>
