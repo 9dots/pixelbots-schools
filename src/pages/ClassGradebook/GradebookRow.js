@@ -81,7 +81,7 @@ function GradeCell ({props}) {
 function ShadowBlock () {
   return (
     <Block
-      bg='linear-gradient(to right, rgba(52,52,52,0.22), rgba(52,52,52,0))'
+      bg='linear-gradient(to right, rgba(52,52,52,0.15), rgba(52,52,52,0))'
       h='calc(100% + 1px)'
       left='100%'
       top='-1px'
