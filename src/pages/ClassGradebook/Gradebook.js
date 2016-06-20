@@ -40,13 +40,13 @@ function render ({props, local, state}) {
     : {}
 
   return (
-    <Block w='col_main' mx='auto' my='l' relative  {...expandedProps}>
+    <Block w='col_main' mx='auto' my='l' relative {...expandedProps}>
       <Block align='start center' relative mb pl={expanded ? 'm' : 0}>
         <Dropdown btn={<DropButton />} z='3' left w='160px' fs='xxs'>
           <MenuItem onClick={() => togglePref(asPercent)} py>
             Display as {asPercent ? ' Point Totals' : ' Percentages'}
           </MenuItem>
-          <MenuItem py align='start center'>
+          <MenuItem py align='start center' onClick={exportAll}>
             Export to CSV
             <Icon name='file_download' fs='xs' ml='s' />
           </MenuItem>
@@ -62,13 +62,20 @@ function render ({props, local, state}) {
               student={student}
               odd={i%2}
               currentUser={currentUser}
-              last={students.length === (i+1)} />,students)
+              last={students.length === (i+1)} />, students)
           }
         </Table>
       </Block>
     </Block>
-
   )
+
+  function exportAll () {
+    // const rows = map(user => {
+    //   const scores = map(activity => activities.map()
+    //   const totalPoints =
+    //   return [user.sisId, user.displayName, ]
+    // })
+  }
 }
 
 function Header ({props}) {
@@ -121,15 +128,18 @@ function ExpandButton ({props}) {
  * Actions
  */
 
-const toggle = createAction('<Gradebook />: toggle')
+const toggle = createAction('<Gradebook />: toggle expanded')
 
 /**
  * Reducer
  */
-const reducer = handleActions({
-  [toggle]: state => ({...state, expanded: !state.expanded })
-})
 
+const reducer = handleActions({
+  [toggle]: state => ({
+    ...state,
+    expanded: !state.expanded
+  })
+})
 
 /**
  * Exports
