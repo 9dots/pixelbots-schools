@@ -23,7 +23,21 @@ const type = mediaDidUpdate.toString()
  * explicit rerender here on our own just to support this use case.
  */
 
-function middleware ({getState}) {
+function middleware ({getState, dispatch}) {
+  const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+
+  // Correct for the fact that media query listeners do not work with printing
+  // in firefox, but these before/after print queries do
+  if (isFirefox) {
+    window.addEventListener('beforeprint', function () {
+      dispatch(mediaDidUpdate({key: 'print', matches: true}))
+    })
+
+    window.addEventListener('afterprint', function () {
+      dispatch(mediaDidUpdate({key: 'print', matches: false}))
+    })
+  }
+
   return next => action => {
     const result = next(action)
 

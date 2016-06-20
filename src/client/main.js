@@ -22,7 +22,7 @@ const initialState = window.__initialState__ || {}
  * Initialize app
  */
 
-const {subscribe, render, replaceReducer, getState} = vdux({
+const {subscribe, render, replaceReducer, dispatch, getState} = vdux({
   middleware,
   reducer,
   initialState,
@@ -30,6 +30,7 @@ const {subscribe, render, replaceReducer, getState} = vdux({
 })
 
 jss.attach()
+window.dispatch = dispatch
 
 /**
  * Render loop

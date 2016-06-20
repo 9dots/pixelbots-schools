@@ -19,6 +19,8 @@ function render ({props}) {
     h: 'auto',
     position: 'relative'
   }
+
+  console.log('users', user.length)
   return (
     <Modal mt='0' w='800px' onDismiss={closeModal} pb='s' overlayProps={{printProps: overlayPrint}} printProps={{w: '100%', h: 'auto'}} relative>
       <Block p bg='grey' align='space-between' printProps={{display: 'none'}}>

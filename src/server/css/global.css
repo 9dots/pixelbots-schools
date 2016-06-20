@@ -118,13 +118,13 @@ button {
 }
 
 @media print {
-  html, body {
+/*  html, body {
     height: auto !important;
     width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
     overflow: auto !important;
-  }
+  }*/
   body.modal {
     overflow: auto !important;
   }
