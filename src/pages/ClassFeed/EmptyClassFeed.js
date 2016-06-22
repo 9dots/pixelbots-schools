@@ -49,13 +49,13 @@ function render({props}) {
  * Exports
  */
 
-const introId = '566e0974b058d0110084af89'
+const introId = process.env.SHARE_INTRO_ID
 
 export default summon(props => ({
   copyTemplate: () => ({
     copyingTemplate: {
-      url: `/share/${introId}/copy`,
-      method: 'PUT'
+      url: `/share/template/${introId}`,
+      method: 'POST'
     }
   })
 }))({
