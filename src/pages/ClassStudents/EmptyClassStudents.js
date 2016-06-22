@@ -28,7 +28,7 @@ function render({props}) {
             Invite Students
           </Block>
         </Button>
-        <Button fs='s' lighter py boxShadow='z2' onClick={() => openModal(() => <AddStudentModal />)}>
+        <Button fs='s' lighter py boxShadow='z2' onClick={() => openModal(() => <AddStudentModal groupId={group._id} />)}>
           <Block align='center center'>
             <Icon name='person_add' mr='s' fs='s'/>
             Add Students

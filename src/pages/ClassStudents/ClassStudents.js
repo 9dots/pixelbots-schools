@@ -64,7 +64,7 @@ function StudentMenu ({props}) {
 
   return (
     <Flex align='space-between center' mb>
-      <Button bgColor='blue' {...btnProps} onClick={() => openModal(() => <AddStudentModal />)}>
+      <Button bgColor='blue' {...btnProps} onClick={() => openModal(() => <AddStudentModal groupId={group._id} />)}>
         <Icon name='people' mr='s' fs='s'/>Add Student
       </Button>
       <Button bgColor='green' {...btnProps} onClick={() => openModal(() => <InviteStudentsModal group={group} />)}>
