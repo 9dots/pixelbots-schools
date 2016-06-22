@@ -10,11 +10,14 @@ import summon from 'vdux-summon'
 
 function summonChannels (fn, extras = {}) {
   return summon(props => ({
-    activities: `/share?${
-      normalizeChannels(fn(props))
-        .map(ch => `channel=${ch}`)
-        .join('&')
-    }&maxResults=30`,
+    activities: {
+      url: `/share?${
+        normalizeChannels(fn(props))
+          .map(ch => `channel=${ch}`)
+          .join('&')
+      }&maxResults=30`,
+      subscribe: 'activity_feed'
+    },
     more: pageToken => ({
       activities: {
         params: pageToken && {

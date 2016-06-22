@@ -14,13 +14,24 @@ import element from 'vdux/element'
 import summon from 'vdux-summon'
 
 /**
+ * getProps
+ */
+
+function getProps (props, {currentUrl}) {
+  props.isCurrentActivity = currentUrl.indexOf(props.activity._id) !== -1
+  return props
+}
+
+
+/**
  * <ActivityCardActions/>
  */
 
 function render ({props}) {
   const {
     activity, user, assign, edit, like, pin, likeActivity,
-    unlikeActivity, actions = [], spread = true, ...rest
+    unlikeActivity, actions = [], spread = true, isCurrentActivity,
+    ...rest
   } = props
   const {published, channels, actor, likers = []} = activity
   const isOwner = actor.id === user._id
@@ -79,6 +90,7 @@ function render ({props}) {
     return openModal(() =>
       <DeleteActivity
         activityId={activity._id}
+        redirect={isCurrentActivity && '/feed'}
         message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>} />
       )
   }
@@ -125,7 +137,7 @@ const DeleteActivity = summon(({activityId}) => ({
     deleting: {
       url: `/share/${activityId}`,
       method: 'DELETE',
-      // invalidates: ['/user/classes', '/user']
+      invalidates: ['activity_feed']
     }
   })
 }))(Confirm)
@@ -154,5 +166,6 @@ export default summon(({activity}) => {
     })
   }
 })({
+  getProps,
   render
 })
