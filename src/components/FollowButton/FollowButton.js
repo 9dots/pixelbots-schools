@@ -11,14 +11,12 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {isFollowing, follow, unfollow, board, user, ...rest} = props
+  const {isFollowing, follow, unfollow, board, ...rest} = props
   const {loading, value, reload} = isFollowing
   const noun = board ? 'Board' : ''
   const verb = loading && !reload
     ? <span>&nbsp;</span>
     : value ? 'Unfollow ' : 'Follow '
-
-  if(!user || user.userType === 'student') return <span/>
 
   return (
     <Button

@@ -25,6 +25,7 @@ function render ({props}) {
   const indeterminate = !allSelected && selected.length
   const headerProps = {}
   const sort = getProp('preferences.peopleSort', currentUser)
+    || {dir: 1, property: 'name.givenName'}
   const sortedStudents = students.sort(cmp)
 
   return (
