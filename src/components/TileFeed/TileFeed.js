@@ -94,14 +94,29 @@ function toColumns (items, n, skip) {
   return columns
 }
 
-function estimateHeight ({image, description, likersLength}) {
+function estimateHeight ({image, repinCount, replies, displayName, description = '', likersLength}) {
   let height = imageHeight(image)
 
-  // Row height is 30 px, roughly 40 characters per row
-  if (description) height += Math.ceil(description.length / 40) * 30
-  if (likersLength) height += 25
+  if (displayName) {
+    // Height of the actual displayName
+    height += 23
+    // Margin around the displayName/description
+    height += 24
+    // Margin around the displayName
+    height += 12
+  } else {
+    // If there is no displayName, the height is 30
+    height += 30
+  }
 
-  return height + 120
+  // Row height is 30 px, roughly 40 characters per row
+  if (description) height += Math.ceil(description.length / 40) * 13
+  if (likersLength || repinCount || replies.canonicalTotal.items) height += 14
+
+  return height
+    + 12 // Padding between bottom segment and description/title
+    + 49 // Bottom segment
+    + 16  // Margin top/bottom
 }
 
 function imageHeight (image = {}) {

@@ -48,7 +48,7 @@ const Activity = wrap(CSSContainer)({
           <Text my='s' fs='s' display='block' fw='200'>{displayName}</Text>
           <Text fs='xxs' wordBreak='break-word'>{description}</Text>
         </Block>
-        <Flex align='center center' color='grey_medium' fs='xxs'>
+        <Flex align='center center' color='grey_medium' fs='xxs' maxHeight='14px'>
           <Flex align='center center' hide={!likers.length}>
             <Icon name='favorite' fs='xs'/>
             <Text mr='4' ml='2'>{likers.length}</Text>
