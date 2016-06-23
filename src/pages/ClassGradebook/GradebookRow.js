@@ -17,9 +17,9 @@ let totalScaled = 0
  */
 
 function render ({props}) {
-  const {student, activities, odd, last, currentUser} = props
+  const {student, data, odd, last, currentUser, asPercent} = props
   const {userType, _id: uid} = currentUser
-  const {name: {givenName}, name: {familyName}, _id: sid} = student
+  const {name: {givenName, familyName}, _id: sid} = student
   const isStudent = userType === 'student'
   const nameCell = {
     borderRightWidth: 0,
@@ -47,34 +47,18 @@ function render ({props}) {
           {familyName}
         </Block>
       </TableCell>
-      <TableCell reltive {...cellProps} color='blue' bold relative>
-        {Math.round(totalScaled / activities.length * 100) }%
+      <TableCell color='blue' bold relative {...cellProps}>
+        {data.percent}
         <ShadowBlock/>
       </TableCell>
       {
-        map(activity => <GradeCell activity={activity} student={student} {...cellProps}/>, activities)
+        map(({percent, points}) => (
+          <TableCell {...cellProps}>
+            {asPercent ? percent : points}
+          </TableCell>
+        ), data.scores)
       }
     </TableRow>
-  )
-}
-
-function GradeCell ({props}) {
-  const {student, activity, ...rest} = props
-  const {status, instances: {total}} = activity
-  const instance = total.length
-    ? total[0].actors[student._id]
-    : false
-
-  if(!instance) return <TableCell {...rest}>-</TableCell>
-
-  totalScaled += instance.status >= 5 ? instance.pointsScaled : 0
-  const scaled = Math.round(instance.pointsScaled * 100) / 100
-  const percent = Math.round(scaled * 100) + '%'
-
-  return (
-    <TableCell {...rest}>
-      { instance.status >= 5 ? percent  : '-' }
-    </TableCell>
   )
 }
 
