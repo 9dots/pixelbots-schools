@@ -4,8 +4,10 @@
 
 import CreateActivityModal from 'modals/CreateActivityModal'
 import {Block, Button, Tooltip} from 'vdux-containers'
+import {setUrl} from 'redux-effects-location'
 import {openModal} from 'reducer/modal'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 import {Icon} from 'vdux-ui'
 
 /**
@@ -13,7 +15,7 @@ import {Icon} from 'vdux-ui'
  */
 
 function render({props}) {
-  const {currentUser} = props
+  const {currentUser, copyTemplate} = props
   return(
     <Block p textAlign='center'>
       <Icon name='assignment' fs='xxl' color='green'/>
@@ -21,7 +23,7 @@ function render({props}) {
         This is your class Activity Feed
       </Block>
       <Button fs='s' lighter py my boxShadow='z2' relative>
-        <Block align='center center'>
+        <Block align='center center' onClick={() => createIntro()}>
           Assign an Intro Activity
           <Tooltip message='Assign a tutorial Activity to teach your students the basics of Weo.' align='center center' tooltipProps={{whiteSpace: 'normal', w: '200'}}>
             <Icon name='info' ml='s' fs='s'/>
@@ -36,12 +38,26 @@ function render({props}) {
       </Block>
     </Block>
   )
+
+  function * createIntro () {
+    const activity = yield copyTemplate()
+     yield setUrl(`/activity/${activity._id}/edit`)
+  }
 }
 
 /**
  * Exports
  */
 
-export default {
+const introId = process.env.SHARE_INTRO_ID
+
+export default summon(props => ({
+  copyTemplate: () => ({
+    copyingTemplate: {
+      url: `/share/template/${introId}`,
+      method: 'POST'
+    }
+  })
+}))({
   render
-}
+})

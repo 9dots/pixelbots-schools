@@ -26,7 +26,7 @@ function render ({props}) {
   const {group, students, toggleAll, fields, currentUser} = props
   const {selected} = fields
   const {value, loading, loaded} = students
-  const isStudent = currentUser.userType === 'student'
+
 
   if (!loaded && loading) return <Loading show={true} h='200' />
 
@@ -38,8 +38,8 @@ function render ({props}) {
       {
         loaded && studentList.length
           ? <Block>
-              <StudentMenu students={studentList} group={group} selected={selected.value || []} isStudent={isStudent} />
-              <StudentGrid students={studentList} group={group} selected={selected.value || []} toggleAll={toggleAll} isStudent={isStudent} />
+              <StudentMenu students={studentList} group={group} selected={selected.value || []} currentUser={currentUser} />
+              <StudentGrid students={studentList} group={group} selected={selected.value || []} toggleAll={toggleAll} currentUser={currentUser} />
             </Block>
           : <EmptyClassStudents group={group} />
       }
@@ -48,7 +48,8 @@ function render ({props}) {
 }
 
 function StudentMenu ({props}) {
-  const {students, selected, group, isStudent} = props
+  const {students, selected, group, currentUser} = props
+  const isStudent = currentUser.userType === 'student'
   const {length: count} = selected
   const users = students.filter(({_id}) => selected.indexOf(_id) !== -1)
   const btnProps =  {
@@ -63,7 +64,7 @@ function StudentMenu ({props}) {
 
   return (
     <Flex align='space-between center' mb>
-      <Button bgColor='blue' {...btnProps} onClick={() => openModal(() => <AddStudentModal />)}>
+      <Button bgColor='blue' {...btnProps} onClick={() => openModal(() => <AddStudentModal groupId={group._id} />)}>
         <Icon name='people' mr='s' fs='s'/>Add Student
       </Button>
       <Button bgColor='green' {...btnProps} onClick={() => openModal(() => <InviteStudentsModal group={group} />)}>

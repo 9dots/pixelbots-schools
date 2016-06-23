@@ -2,12 +2,14 @@
  * Imports
  */
 
-import {Flex, Checkbox, Table, TableHeader, TableCell, Block} from 'vdux-ui'
-import {wrap, CSSContainer, TableRow, Button} from 'vdux-containers'
+import {Flex, Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
+import {wrap, CSSContainer, TableRow, Button, Text} from 'vdux-containers'
 import StudentDropdown from './StudentDropdown'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import element from 'vdux/element'
+import getProp from '@f/get-prop'
+import summon from 'vdux-summon'
 import index from '@f/index'
 import map from '@f/map'
 
@@ -16,37 +18,72 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {students, selected, group, toggleAll, isStudent} = props
+  const {students, selected, group, toggleAll, currentUser, setSort} = props
+  const isStudent = currentUser.userType === 'student'
   const selMap = index(selected)
   const allSelected = students.length === selected.length
   const indeterminate = !allSelected && selected.length
-  const headerProps = {p: true, textAlign: 'left'}
+  const headerProps = {}
+  const sort = getProp('preferences.peopleSort', currentUser)
+    || {dir: 1, property: 'name.givenName'}
+  const sortedStudents = students.sort(cmp)
+
   return (
     <Table bgColor='white' wide tall>
       <TableRow py bgColor='grey' color='white'>
-        <TableHeader {...headerProps} w='40' hide={isStudent}>
+        <TableHeader p w='40' hide={isStudent}>
           <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={() => toggleAll('selected')} />
         </TableHeader>
         <TableHeader w='40'/>
-        <TableHeader {...headerProps}>
-          First Name
-        </TableHeader>
-        <TableHeader {...headerProps}>
-          Last Name
-        </TableHeader>
-        <TableHeader {...headerProps}>
-          Username
-        </TableHeader>
+        <StudentHeader text='First Name' prop='name.givenName' sort={sort} setPref={setPref} />
+        <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setPref={setPref} />
+        <StudentHeader text='Username' prop='username' sort={sort} setPref={setPref} />
         <TableHeader hide={isStudent} />
       </TableRow>
       {
         map(student => (
           <StudentRow group={group} student={student} highlight={!!selMap[student._id]} selected={!!selMap[student._id]} isStudent={isStudent} />
-        ), students)
+        ), sortedStudents)
       }
     </Table>
   )
+
+  function * setPref(prop) {
+    yield setSort({
+      property: prop,
+      dir: prop === sort.property ? sort.dir * -1 : 1
+    })
+  }
+
+  function cmp (a, b) {
+    if(!sort) return
+    const prop = sort.property
+
+    return getProp(prop, a).toUpperCase() > getProp(prop, b).toUpperCase()
+    ? 1 * sort.dir
+    : -1 * sort.dir
+  }
 }
+
+const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps: {hover: true}})({
+  render ({props}) {
+    const {hover, sort, prop, text, setPref, ...rest} = props
+    return (
+      <TableHeader pointer onClick={() => setPref(prop)} {...rest}>
+        <Block align='start center'>
+          <Text underline={hover}>
+            {text}
+          </Text>
+          <Icon
+            name={'arrow_drop_' + (sort.dir === 1 ? 'down' : 'up')}
+            hidden={sort.property !== prop}
+            ml='s'
+            fs='s'/>
+        </Block>
+      </TableHeader>
+    )
+  }
+})
 
 const StudentRow = wrap(CSSContainer, {
   hoverProps: {
@@ -100,6 +137,17 @@ const StudentRow = wrap(CSSContainer, {
  * Exports
  */
 
-export default {
+export default summon(() => ({
+  setSort: pref => ({
+    settingSort:  {
+      url: '/preference/peopleSort',
+      invalidates: '/user',
+      method: 'PUT',
+      body: {
+        value: pref
+      }
+    }
+  })
+}))({
   render
-}
+})
