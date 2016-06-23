@@ -7,6 +7,7 @@ import {Table, TableHeader, TableRow, Card, Block, Icon} from 'vdux-ui'
 import summonChannels from 'lib/summon-channels'
 import datauriDownload from 'datauri-download'
 import handleActions from '@f/handle-actions'
+import {setUrl} from 'redux-effects-location'
 import createAction from '@f/create-action'
 import GradebookRow from './GradebookRow'
 import Loading from 'components/Loading'
@@ -14,8 +15,27 @@ import findIndex from '@f/find-index'
 import element from 'vdux/element'
 import getProp from '@f/get-prop'
 import reduce from '@f/reduce'
+import moment from 'moment'
 import toCsv from 'to-csv'
 import map from '@f/map'
+
+/**
+ * Globals
+ */
+
+let numPages = 0
+
+/**
+ * initialState
+ */
+
+function initialState ({props}) {
+  const {page} = props
+
+  return {
+    page: 0
+  }
+}
 
 /**
  * <Gradebook/>
@@ -23,32 +43,34 @@ import map from '@f/map'
 
 function render ({props, local, state}) {
   const {group, students, activities, currentUser, togglePref} = props
-  const {expanded} = state
+  const {page} = state
   const {value, loading, loaded} = activities
   const asPercent = getProp('preferences.gradebook.displayPercent', currentUser)
 
   if (!loaded && loading) return <Loading show={true} h='200' />
 
   const {items: activityList} = value
-  const expandedProps = expanded
-    ? {
-        position: 'fixed',
-        overflowY: 'auto',
-        bg: 'off_white',
-        sq: '100%',
-        pt: 'm',
-        top: 0,
-        z: 99,
-        m: 0
-      }
-    : {}
+
+  const pageSize = 7
+  numPages = Math.ceil(activityList.length/ pageSize)
+
+  const navProps = {
+    hoverProps: {highlight: 0.02},
+    focusProps: {highlight: 0.02},
+    bgColor: 'white',
+    userSelect: 'none',
+    boxShadow: 'z2',
+    color: 'text',
+    circle: 34,
+    p: 0
+  }
 
   const totals = map(totalPoints, activityList)
   const usersData = map(user => getUsersData(user._id, activityList, totals), students)
 
   return (
-    <Block w='col_main' mx='auto' my='l' relative {...expandedProps}>
-      <Block align='start center' relative mb pl={expanded ? 'm' : 0}>
+    <Block w='col_main' mx='auto' my='l' relative>
+      <Block align='space-between center' relative mb>
         <Dropdown btn={<DropButton />} z='3' left w='160px' fs='xxs'>
           <MenuItem onClick={() => togglePref(asPercent)} py>
             Display as {asPercent ? ' Point Totals' : ' Percentages'}
@@ -58,17 +80,26 @@ function render ({props, local, state}) {
             <Icon name='file_download' fs='xs' ml='s' />
           </MenuItem>
         </Dropdown>
-        <ExpandButton ml onClick={local(toggle)} expanded={expanded} />
+        <Block align='start center'>
+        <Button mr='s' {...navProps} onClick={local(prev)} disabled={page === 0}>
+            <Icon name='keyboard_arrow_left' ml={-2} />
+          </Button>
+          <Button {...navProps} onClick={local(next)} disabled={page+1 === numPages}>
+            <Icon name='keyboard_arrow_right' mr={-2} />
+          </Button>
+        </Block>
       </Block>
-      <Block boxShadow='card' overflow='auto' relative>
+      <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 56px, off_white 56px)'>
         <Table overflow='auto'>
-          <Header activities={activityList} exportActivity={exportActivity} />
+          <Header activities={curArr(activityList)} exportActivity={exportActivity} />
           {
             map((student, i) => <GradebookRow
               data={usersData[i]}
+              scores={curArr(usersData[i].scores)}
               asPercent={asPercent}
               student={student}
               odd={i%2}
+              page={page}
               currentUser={currentUser}
               last={students.length === (i+1)} />, students)
           }
@@ -76,6 +107,10 @@ function render ({props, local, state}) {
       </Block>
     </Block>
   )
+
+  function curArr (arr) {
+    return arr.slice(page * pageSize, (page + 1) * pageSize)
+  }
 
   function exportAll () {
     const headers = ['Id', 'Name', 'Total', ...activityList.map(({displayName}) => displayName)]
@@ -123,7 +158,7 @@ function Header ({props}) {
     borderRight: '1px solid text',
     bgColor: 'grey',
     color: 'white',
-    p: '24px 16px'
+    p: '20px 16px'
   }
 
   return (
@@ -154,15 +189,28 @@ const ActivityHeader = wrap(CSSContainer, {
 })({
   render ({props}) {
     const {activity, showSettings, exportActivity, ...rest} = props
-    const btn = <Icon fs='xxs' pointer absolute='top 0px right 0px' hide={!showSettings} name='settings' />
+    const btn = <Icon fs='xxs' pointer absolute='top 0px right 0px' hide={!showSettings} name='info' absolute top={-16} right={-8} />
 
     return (
       <TableHeader {...rest}  fs='xxs' px maxWidth='100px' minWidth='100px'>
-        <Dropdown btn={btn} z='3' fs='xxs' w='120px'>
-          <MenuItem align='start center' onClick={exportActivity}>
-            <Icon name='file_download' fs='xs' mr='s' />
-            Export to CSV
-          </MenuItem>
+        <Dropdown textAlign='left' lighter fs='xs' btn={btn} z='3' minWidth='150px' maxWidth='220px' px mt={-16} right={-8}>
+          <Block bolder>
+            {activity.displayName}
+          </Block>
+          <Block color='blue'>
+            {moment(activity.publishedAt).format('MMM D, YYYY')}
+          </Block>
+          <Block mt='s' mb>
+            Points: {totalPoints(activity)}
+          </Block>
+          <Block align='center center'>
+            <Button pill px py='s' fs='xxs' bgColor='grey_medium' onClick={exportActivity}>
+              Export to CSV
+            </Button>
+            <Button px py='s' ml='s' fs='xxs' pill onClick={() => setUrl(`/activity/${activity._id}`)}>
+              Go to Activity
+            </Button>
+          </Block>
         </Dropdown>
         <Block tall wide ellipsis>
           {activity.displayName}
@@ -178,16 +226,6 @@ function DropButton () {
       <Icon name='settings' fs='xs' mr='s' />
       Settings
       <Icon name='arrow_drop_down' fs='s' ml='s' mr='-12px' />
-    </Button>
-  )
-}
-
-function ExpandButton ({props}) {
-  const {expanded, ...rest} = props
-  return (
-    <Button h='32' {...rest}>
-      <Icon name={expanded ? 'fullscreen_exit' : 'fullscreen'} fs='s' mr='s' />
-      {expanded ? 'Exit' : 'Expand'}
     </Button>
   )
 }
@@ -246,16 +284,21 @@ function getUsersData (id, activities, totals) {
  * Actions
  */
 
-const toggle = createAction('<Gradebook />: toggle expanded')
+const next = createAction('<Gradebook />: next')
+const prev = createAction('<Gradebook />: prev')
 
 /**
  * Reducer
  */
 
 const reducer = handleActions({
-  [toggle]: state => ({
+  [next]: state => ({
     ...state,
-    expanded: !state.expanded
+    page: Math.min(state.page + 1, (numPages - 1))
+  }),
+  [prev]: state => ({
+    ...state,
+    page: Math.max(state.page - 1, 0)
   })
 })
 
@@ -277,6 +320,7 @@ export default summonChannels(({group}) => `group!${group._id}.board`,
     })
   }
 )({
+  initialState,
   render,
   reducer
 })
