@@ -66,7 +66,6 @@ function toColumns (items, n, skip) {
 
     // Start a new column
     if (i % n === 0) {
-      columns.push([])
       heights = []
     }
 
