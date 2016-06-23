@@ -17,7 +17,7 @@ let totalScaled = 0
  */
 
 function render ({props}) {
-  const {student, data, odd, last, currentUser, asPercent} = props
+  const {student, data, scores, odd, last, currentUser, asPercent, page} = props
   const {userType, _id: uid} = currentUser
   const {name: {givenName, familyName}, _id: sid} = student
   const isStudent = userType === 'student'
@@ -38,17 +38,17 @@ function render ({props}) {
   return (
     <TableRow borderBottom={last ? '' : '1px solid rgba(black, .1)'}>
       <TableCell {...cellProps} {...nameCell}>
-        <Block ellipsis w={80}>
+        <Block ellipsis w={70}>
           {givenName}
         </Block>
       </TableCell>
       <TableCell {...cellProps} {...nameCell}>
-        <Block ellipsis w={80}>
+        <Block ellipsis w={71}>
           {familyName}
         </Block>
       </TableCell>
       <TableCell color='blue' bold relative {...cellProps}>
-        {data.percent}
+        {data.percent || '0%'}
         <ShadowBlock/>
       </TableCell>
       {
@@ -56,7 +56,7 @@ function render ({props}) {
           <TableCell {...cellProps}>
             {asPercent ? percent : points}
           </TableCell>
-        ), data.scores)
+        ), scores)
       }
     </TableRow>
   )

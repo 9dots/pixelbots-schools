@@ -54,7 +54,7 @@ function render ({props}) {
 
 export default summon(props => ({
   activities: {
-    url: '/share/feed?maxResults=30',
+    url: '/share/feed?maxResults=32',
     subscribe: 'activity_feed'
   },
   more: pageToken => ({
