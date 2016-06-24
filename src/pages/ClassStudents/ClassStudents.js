@@ -17,6 +17,7 @@ import StudentGrid from './StudentGrid'
 import {openModal} from 'reducer/modal'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
+import index from '@f/index'
 
 /**
  * <ClassStudents/>
@@ -24,13 +25,13 @@ import summon from 'vdux-summon'
 
 function render ({props}) {
   const {group, students, toggleAll, fields, currentUser} = props
-  const {selected} = fields
   const {value, loading, loaded} = students
-
 
   if (!loaded && loading) return <Loading show={true} h='200' />
 
   const {items: studentList} = value
+  const studentIds = index(({_id}) => _id, studentList)
+  const selected = (fields.selected.value || []).filter(id => studentIds[id])
 
   return (
     <Block w='col_main' mx='auto' relative my py>
@@ -38,8 +39,8 @@ function render ({props}) {
       {
         loaded && studentList.length
           ? <Block>
-              <StudentMenu students={studentList} group={group} selected={selected.value || []} currentUser={currentUser} />
-              <StudentGrid students={studentList} group={group} selected={selected.value || []} toggleAll={toggleAll} currentUser={currentUser} />
+              <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} />
+              <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
             </Block>
           : <EmptyClassStudents group={group} />
       }
@@ -97,7 +98,7 @@ function StudentMenu ({props}) {
 export default summon(({group}) => ({
   students: `/group/students?group=${group._id}`
 }))(
-  form(() => ({
+  form(({students}) => ({
     fields: ['selected']
   }))({
     render

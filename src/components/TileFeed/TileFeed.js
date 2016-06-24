@@ -26,7 +26,7 @@ function render ({children, props}) {
   )
 }
 
-function renderItems(items, emptyState, children, user, skip, activityProps) {
+function renderItems (items, emptyState, children, user, skip, activityProps) {
   const columns = toColumns(items, 4, skip)
 
   return (

@@ -32,6 +32,7 @@
     "@f/has": "^1.0.1",
     "@f/hyphenate": "^1.0.0",
     "@f/identity": "^1.1.1",
+    "@f/index": "^1.0.4",
     "@f/is-same-day": "^1.0.0",
     "@f/load-image": "^2.0.0",
     "@f/map": "^1.5.3",
