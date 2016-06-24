@@ -49,7 +49,7 @@ function render ({props}) {
   )
 }
 
-function renderFeed(props) {
+function renderFeed (props) {
   const {people, currentUser, more, userSearch: query} = props
   const {value, loaded, loading} = people
 
@@ -93,6 +93,7 @@ function submitSearch (url) {
 
 export default summon(({userSearch: query}) => ({
   people: {
+    subscribe: 'connect_people',
     url: query
       ? `/search/people?query=${query}&maxResults=12`
       : '/user/similar?maxResults=12'

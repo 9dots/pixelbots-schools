@@ -57,7 +57,7 @@ const NameHeader = wrap(CSSContainer, {
     const {hover, sort, prop, text, setPref, ...rest} = props
     return (
       <TableHeader pointer onClick={() => setPref(prop)} {...rest} borderWidth={0}>
-        <Block align='start center'>
+        <Block align='start center' h='13'>
           <Text underline={hover}>
             {text}
           </Text>

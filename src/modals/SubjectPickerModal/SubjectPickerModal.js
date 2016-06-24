@@ -30,21 +30,21 @@ function initialState ({props}) {
  */
 
 function render ({props, state, local}) {
-  const {user, changeSubjects} = props
+  const {user, changeSubjects, onClose = () => {}} = props
   const {subjects} = state
 
   return (
-    <Modal onDismiss={closeModal}>
-      <Form onSubmit={() => changeSubjects(subjects)} onSuccess={closeModal}>
+    <Modal onDismiss={close}>
+      <Form onSubmit={() => changeSubjects(subjects)} onSuccess={close}>
         <Flex ui={ModalBody} column align='center center' pb='l'>
           <ModalHeader>
-            Select Your Grades
+            Subjects
           </ModalHeader>
           <SubjectSelector selected={subjects} toggle={local(toggle)} />
         </Flex>
         <ModalFooter bg='grey'>
           <Text fs='xxs'>
-            <Text pointer underline onClick={closeModal}>cancel</Text>
+            <Text pointer underline onClick={close}>cancel</Text>
             <Text mx>or</Text>
           </Text>
           <Button type='submit'>Update</Button>
@@ -52,6 +52,11 @@ function render ({props, state, local}) {
       </Form>
     </Modal>
   )
+
+  function * close () {
+    yield closeModal()
+    yield onClose()
+  }
 }
 
 /**
@@ -80,11 +85,10 @@ const reducer = handleActions({
 export default summon(({user}) => ({
   changeSubjects: subjects => ({
     changingSubjects: {
-      url: '/user',
+      url: `/user/${user._id}/subjects`,
       method: 'PUT',
-      invalidates: `/user/${user._id}`,
+      invalidates: '/user',
       body: {
-        ...user,
         subjects
       }
     }

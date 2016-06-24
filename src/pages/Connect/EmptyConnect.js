@@ -2,11 +2,13 @@
  * Imports
  */
 
-import GradePickerModal from 'modals/GradePickerModal'
 import InviteTeacherModal from 'modals/InviteTeacherModal'
+import SubjectPickerModal from 'modals/SubjectPickerModal'
+import GradePickerModal from 'modals/GradePickerModal'
 import EmptyState from 'components/EmptyState'
-import {openModal} from 'reducer/modal'
 import {Button, Text} from 'vdux-containers'
+import {openModal} from 'reducer/modal'
+import {invalidate} from 'vdux-summon'
 import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
 
@@ -24,6 +26,8 @@ function render({props}) {
 }
 
 function FillOutProfile ({props}) {
+  const {currentUser} = props
+
   return (
     <EmptyState>
       <Block lh='30px'>
@@ -31,7 +35,7 @@ function FillOutProfile ({props}) {
         We'll recommend teachers for you to follow.
       </Block>
       <Button
-        onClick={() => openModal(() => <GradePickerModal user={props.currentUser} />)}
+        onClick={() => completeProfile(1)}
         boxShadow='z2'
         px='35px'
         lighter
@@ -48,6 +52,23 @@ function FillOutProfile ({props}) {
     </EmptyState>
   )
 
+  function * completeProfile (step = 1) {
+    switch (step) {
+      case 1:
+        if (!currentUser.gradeLevels || !currentUser.gradeLevels.length) {
+          yield openModal(() => <GradePickerModal user={currentUser} onClose={() => completeProfile(2)} />)
+          break
+        }
+      case 2:
+        if (!currentUser.subjects || !currentUser.subjects.length) {
+          yield openModal(() => <SubjectPickerModal user={currentUser} onClose={() => completeProfile(3)} />)
+          break
+        }
+      case 3:
+        yield invalidate('connect_people')
+        break
+    }
+  }
 }
 
 function EmptySearch ({props}) {
