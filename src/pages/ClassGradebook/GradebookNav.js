@@ -23,7 +23,7 @@ function render ({props}) {
     userSelect: 'none',
     boxShadow: 'z2',
     color: 'text',
-    circle: 34,
+    circle: 36,
     p: 0
   }
   return (
@@ -38,11 +38,11 @@ function render ({props}) {
         </MenuItem>
       </Dropdown>
       <Block align='start center'>
-        <Button mr='s' {...navProps} onClick={prev} disabled={page === 0}>
-          <Icon name='keyboard_arrow_left' ml={-2} />
+        <Button mr {...navProps} onClick={prev} disabled={page === 0}>
+          <Icon name='navigate_before' fs={19} />
         </Button>
         <Button {...navProps} onClick={next} disabled={page+1 === numPages}>
-          <Icon name='keyboard_arrow_right' mr={-2} />
+          <Icon name='navigate_next' fs={19} />
         </Button>
       </Block>
     </Block>

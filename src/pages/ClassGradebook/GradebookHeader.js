@@ -20,7 +20,7 @@ function render ({props}) {
     borderRight: '1px solid text',
     bgColor: 'grey',
     color: 'white',
-    p: '20px 16px'
+    p: '16px'
   }
 
   return (
@@ -55,6 +55,7 @@ const NameHeader = wrap(CSSContainer, {
   })({
   render ({props}) {
     const {hover, sort, prop, text, setPref, ...rest} = props
+
     return (
       <TableHeader pointer onClick={() => setPref(prop)} {...rest} borderWidth={0}>
         <Block align='start center'>
@@ -79,15 +80,16 @@ const ActivityHeader = wrap(CSSContainer, {
 })({
   render ({props}) {
     const {activity, showSettings, exportActivity, totalPoints, ...rest} = props
-    const btn = <Icon fs='xxs' pointer absolute='top 0px right 0px' hide={!showSettings} name='info' absolute top={-16} right={-8} />
+    const btn = <Icon fs='xs' pointer absolute='top 0px right 0px' hide={!showSettings} name='info_outline' absolute top={-16} right={-8} />
 
     return (
       <TableHeader {...rest}  fs='xxs' px maxWidth='100px' minWidth='100px'>
         <Dropdown textAlign='left' lighter fs='xs' btn={btn} z='3' minWidth='150px' maxWidth='220px' px mt={-16} right={-8}>
-          <Block bolder>
+          <Block bolder align='space-between start'>
             {activity.displayName}
+            <Icon name='cancel' fs='xs' mr={-10} mt={-4} pointer />
           </Block>
-          <Block color='blue'>
+          <Block color='blue' fs='xxs' fw='600' mt={1}>
             {moment(activity.publishedAt).format('MMM D, YYYY')}
           </Block>
           <Block mt='s' mb>

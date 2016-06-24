@@ -62,7 +62,7 @@ function render ({props, local, state}) {
   return (
     <Block w='col_main' mx='auto' my='l' relative>
       <GradebookNav next={local(next)} prev={local(prev)} exportAll={exportAll} asPercent={asPercent} page={page} numPages={numPages} />
-      <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 56px, off_white 56px)'>
+      <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
         <Table overflow='auto'>
           <GradebookHeader activities={curArr(activityList)} exportActivity={exportActivity} totalPoints={totalPoints} sort={sort}/>
           {
