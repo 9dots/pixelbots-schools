@@ -2,20 +2,19 @@
  * Imports
  */
 
-import {wrap, CSSContainer, Button, Dropdown, MenuItem} from 'vdux-containers'
-import {Table, TableHeader, TableRow, Card, Block, Icon} from 'vdux-ui'
+import {Table, TableRow, Block, Icon} from 'vdux-ui'
 import summonChannels from 'lib/summon-channels'
+import GradebookHeader from './GradebookHeader'
 import datauriDownload from 'datauri-download'
 import handleActions from '@f/handle-actions'
-import {setUrl} from 'redux-effects-location'
 import createAction from '@f/create-action'
+import GradebookNav from './GradebookNav'
 import GradebookRow from './GradebookRow'
 import Loading from 'components/Loading'
 import findIndex from '@f/find-index'
 import element from 'vdux/element'
 import getProp from '@f/get-prop'
 import reduce from '@f/reduce'
-import moment from 'moment'
 import toCsv from 'to-csv'
 import map from '@f/map'
 
@@ -42,7 +41,7 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {group, students, activities, currentUser, togglePref} = props
+  const {group, students, activities, currentUser} = props
   const {page} = state
   const {value, loading, loaded} = activities
   const asPercent = getProp('preferences.gradebook.displayPercent', currentUser)
@@ -53,45 +52,19 @@ function render ({props, local, state}) {
 
   const pageSize = 7
   numPages = Math.ceil(activityList.length/ pageSize)
-
-  const navProps = {
-    hoverProps: {highlight: 0.02},
-    focusProps: {highlight: 0.02},
-    bgColor: 'white',
-    userSelect: 'none',
-    boxShadow: 'z2',
-    color: 'text',
-    circle: 34,
-    p: 0
-  }
+  const sort = getProp('preferences.gradebookSort', currentUser)
+    || {dir: 1, property: 'name.givenName'}
+  const studentList = students.sort(cmp)
 
   const totals = map(totalPoints, activityList)
-  const usersData = map(user => getUsersData(user._id, activityList, totals), students)
+  const usersData = map(user => getUsersData(user._id, activityList, totals), studentList)
 
   return (
     <Block w='col_main' mx='auto' my='l' relative>
-      <Block align='space-between center' relative mb>
-        <Dropdown btn={<DropButton />} z='3' left w='160px' fs='xxs'>
-          <MenuItem onClick={() => togglePref(asPercent)} py>
-            Display as {asPercent ? ' Point Totals' : ' Percentages'}
-          </MenuItem>
-          <MenuItem py align='start center' onClick={exportAll}>
-            Export to CSV
-            <Icon name='file_download' fs='xs' ml='s' />
-          </MenuItem>
-        </Dropdown>
-        <Block align='start center'>
-        <Button mr='s' {...navProps} onClick={local(prev)} disabled={page === 0}>
-            <Icon name='keyboard_arrow_left' ml={-2} />
-          </Button>
-          <Button {...navProps} onClick={local(next)} disabled={page+1 === numPages}>
-            <Icon name='keyboard_arrow_right' mr={-2} />
-          </Button>
-        </Block>
-      </Block>
+      <GradebookNav next={local(next)} prev={local(prev)} exportAll={exportAll} asPercent={asPercent} page={page} numPages={numPages} />
       <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 56px, off_white 56px)'>
         <Table overflow='auto'>
-          <Header activities={curArr(activityList)} exportActivity={exportActivity} />
+          <GradebookHeader activities={curArr(activityList)} exportActivity={exportActivity} totalPoints={totalPoints} sort={sort}/>
           {
             map((student, i) => <GradebookRow
               data={usersData[i]}
@@ -101,7 +74,7 @@ function render ({props, local, state}) {
               odd={i%2}
               page={page}
               currentUser={currentUser}
-              last={students.length === (i+1)} />, students)
+              last={studentList.length === (i+1)} />, studentList)
           }
         </Table>
       </Block>
@@ -124,7 +97,7 @@ function render ({props, local, state}) {
           : asPercent ? score.percent : score.points,
         usersData[i].scores
       )
-    ], students)
+    ], studentList)
 
     downloadCsv(group.displayName, [headers, ...content])
   }
@@ -142,92 +115,19 @@ function render ({props, local, state}) {
           ? ''
           : asPercent ? score.percent : score.points
       ]
-    }, students)
+    }, studentList)
 
     downloadCsv(activity.displayName, [headers, ...content])
   }
-}
 
-/**
- * Sub-components
- */
+  function cmp (a, b) {
+    if(!sort) return
+    const prop = sort.property
 
-function Header ({props}) {
-  const {activities, exportActivity, ...rest} = props
-  const headProps = {
-    borderRight: '1px solid text',
-    bgColor: 'grey',
-    color: 'white',
-    p: '20px 16px'
+    return getProp(prop, a).toUpperCase() > getProp(prop, b).toUpperCase()
+      ? 1 * sort.dir
+      : -1 * sort.dir
   }
-
-  return (
-    <TableRow>
-      <TableHeader {...headProps} width='10px' textAlign='left' borderWidth='0'>
-        First
-      </TableHeader>
-      <TableHeader {...headProps} textAlign='left' borderWidth='0'>
-        Last
-      </TableHeader>
-      <TableHeader {...headProps}>
-        Total
-      </TableHeader>
-      {
-        map(activity => <ActivityHeader
-          {...headProps}
-          activity={activity}
-          exportActivity={() => exportActivity(activity)} />, activities)
-      }
-    </TableRow>
-  )
-}
-
-const ActivityHeader = wrap(CSSContainer, {
-  hoverProps: {
-    showSettings: true
-  }
-})({
-  render ({props}) {
-    const {activity, showSettings, exportActivity, ...rest} = props
-    const btn = <Icon fs='xxs' pointer absolute='top 0px right 0px' hide={!showSettings} name='info' absolute top={-16} right={-8} />
-
-    return (
-      <TableHeader {...rest}  fs='xxs' px maxWidth='100px' minWidth='100px'>
-        <Dropdown textAlign='left' lighter fs='xs' btn={btn} z='3' minWidth='150px' maxWidth='220px' px mt={-16} right={-8}>
-          <Block bolder>
-            {activity.displayName}
-          </Block>
-          <Block color='blue'>
-            {moment(activity.publishedAt).format('MMM D, YYYY')}
-          </Block>
-          <Block mt='s' mb>
-            Points: {totalPoints(activity)}
-          </Block>
-          <Block align='center center'>
-            <Button pill px py='s' fs='xxs' bgColor='grey_medium' onClick={exportActivity}>
-              Export to CSV
-            </Button>
-            <Button px py='s' ml='s' fs='xxs' pill onClick={() => setUrl(`/activity/${activity._id}`)}>
-              Go to Activity
-            </Button>
-          </Block>
-        </Dropdown>
-        <Block tall wide ellipsis>
-          {activity.displayName}
-        </Block>
-      </TableHeader>
-    )
-  }
-})
-
-function DropButton () {
-  return (
-    <Button bgColor='green' h={32}>
-      <Icon name='settings' fs='xs' mr='s' />
-      Settings
-      <Icon name='arrow_drop_down' fs='s' ml='s' mr='-12px' />
-    </Button>
-  )
 }
 
 /**
@@ -306,20 +206,7 @@ const reducer = handleActions({
  * Exports
  */
 
-export default summonChannels(({group}) => `group!${group._id}.board`,
-  {
-    togglePref: (pref) => ({
-      savingPreference:  {
-        url: '/preference/gradebook.displayPercent',
-        invalidates: '/user',
-        method: 'PUT',
-        body: {
-          value: !pref
-        }
-      }
-    })
-  }
-)({
+export default summonChannels(({group}) => `group!${group._id}.board`)({
   initialState,
   render,
   reducer
