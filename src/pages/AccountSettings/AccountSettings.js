@@ -19,7 +19,7 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {currentUser} = props
-  const {name, displayName, email, username, preferences, userType} = currentUser
+  const {name, displayName, email, username, preferences = {}, userType} = currentUser
   const isStudent = userType === 'student'
   const {max_points = 10} = preferences
 

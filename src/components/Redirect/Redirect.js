@@ -22,10 +22,23 @@ function render ({props}) {
 }
 
 /**
+ * onUpdate
+ *
+ * Support multiple redirects (the original redirect may
+ * not be destroyed in the diff if we've just swapped the
+ * url)
+ */
+
+function onUpdate (prev, {props}) {
+  return setUrl(props.to, true)
+}
+
+/**
  * Exports
  */
 
 export default {
   onCreate,
+  onUpdate,
   render
 }
