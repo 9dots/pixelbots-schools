@@ -3,6 +3,7 @@
  */
 
 import ActivitiesLayout from 'layouts/ActivitiesLayout'
+import ActivityLayout from 'layouts/ActivityLayout'
 import SettingsLayout from 'layouts/SettingsLayout'
 import ProfileLayout from 'layouts/ProfileLayout'
 import ClassLayout from 'layouts/ClassLayout'
