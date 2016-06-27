@@ -131,22 +131,22 @@ const internal = enroute({
     </ActivitiesLayout>,
 
   // Search
-  '/search/activities/:query?': (params, props) =>
+  '/search/activities/:query?': auth('nonstudent', (params, props) =>
     <SearchLayout {...props} {...params}>
       <SearchActivities {...props} {...params} />
-    </SearchLayout>,
-  '/search/my-activities/:query?': (params, props) =>
+    </SearchLayout>),
+  '/search/my-activities/:query?': auth('nonstudent', (params, props) =>
     <SearchLayout {...props} {...params}>
       <SearchMyActivities {...props} {...params} />
-    </SearchLayout>,
-  '/search/boards/:query?': (params, props) =>
+    </SearchLayout>),
+  '/search/boards/:query?': auth('nonstudent', (params, props) =>
     <SearchLayout {...props} {...params}>
       <SearchBoards {...props} {...params} />
-    </SearchLayout>,
-  '/search/people/:query?': (params, props) =>
+    </SearchLayout>),
+  '/search/people/:query?': auth('nonstudent', (params, props) =>
     <SearchLayout {...props} {...params}>
       <SearchPeople {...props} {...params} />
-    </SearchLayout>,
+    </SearchLayout>),
 
   // Class
   '/class/:groupId': (params, props) =>
@@ -175,10 +175,10 @@ const internal = enroute({
     <SettingsLayout {...props} {...params}>
       <AccountProfile {...props} />
     </SettingsLayout>,
-  '/account/email': (params, props) =>
+  '/account/email': auth('teacher', (params, props) =>
     <SettingsLayout {...props} {...params}>
       <AccountEmail {...props} />
-    </SettingsLayout>,
+    </SettingsLayout>),
 
   // Notifications
   '/notifications': (params, props) =>
@@ -187,10 +187,10 @@ const internal = enroute({
     </AppLayout>,
 
   // Connect
-  '/connect/:userSearch?': (params, props) =>
+  '/connect/:userSearch?': auth('teacher', (params, props) =>
     <AppLayout {...props} {...params}>
       <Connect {...props} {...params}/>
-    </AppLayout>,
+    </AppLayout>),
 
   //Board
   '/:username/board/:boardId/activities': (params, props) =>
@@ -203,22 +203,22 @@ const internal = enroute({
     </BoardLayout>,
 
   // Profile
-  '/:username/boards': (params, props) =>
+  '/:username/boards': auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileBoards {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/likes': (params, props) =>
+    </ProfileLayout>),
+  '/:username/likes': auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileLikes {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/following': (params, props) =>
+    </ProfileLayout>),
+  '/:username/following': auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileFollowing {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username/followers': (params, props) =>
+    </ProfileLayout>),
+  '/:username/followers': auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileFollowers {...props} user={user} />}
-    </ProfileLayout>,
+    </ProfileLayout>),
   '/:username/stream': (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileStream {...props} user={user} />}
@@ -247,6 +247,26 @@ function render ({props}) {
 /**
  * Helpers
  */
+
+function auth (type, route) {
+  return (params, props) =>
+    isAuthorized(type, props)
+      ? route(params, props)
+      : <Redirect to='/' />
+}
+
+function isAuthorized (type, {currentUser}) {
+  switch (type) {
+    case 'user':
+      return !!currentUser
+    case 'student':
+      return currentUser.userType === 'student'
+    case 'nonstudent':
+      return !currentUser || currentUser.userType !== 'student'
+    case 'teacher':
+      return currentUser.userType === 'teacher'
+  }
+}
 
 function isTeacher (state) {
   return state.currentUser.userType === 'teacher'
