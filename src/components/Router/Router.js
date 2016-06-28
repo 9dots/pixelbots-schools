@@ -3,6 +3,7 @@
  */
 
 import ActivitiesLayout from 'layouts/ActivitiesLayout'
+import ActivityLayout from 'layouts/ActivityLayout'
 import SettingsLayout from 'layouts/SettingsLayout'
 import ProfileLayout from 'layouts/ProfileLayout'
 import ClassLayout from 'layouts/ClassLayout'
@@ -29,6 +30,8 @@ import ProfileStream from 'pages/ProfileStream'
 
 import BoardActivities from 'pages/BoardActivities'
 import BoardFollowers from 'pages/BoardFollowers'
+
+import ActivityProgress from 'pages/ActivityProgress'
 
 import ClassGradebook from 'pages/ClassGradebook'
 import ClassStudents from 'pages/ClassStudents'
@@ -180,7 +183,14 @@ const router = enroute({
       <Connect {...props} {...params}/>
     </AppLayout>),
 
-  //Board
+  // Activity
+
+  '/activity/:activityId/:classId/students' : (params, props) =>
+    <ActivityLayout {...props} {...params}>
+      {activity => <ActivityProgress {...props} {...params} activity={activity} />}
+    </ActivityLayout>,
+
+  // Board
   '/:username/board/:boardId/activities': auth('nonstudent', (params, props) =>
     <BoardLayout {...props} {...params}>
       {board => <BoardActivities {...props} {...params} board={board} />}

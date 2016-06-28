@@ -1,0 +1,5 @@
+{
+  "name": "status",
+  "main": "status.js",
+  "browser": "status.js"
+}
