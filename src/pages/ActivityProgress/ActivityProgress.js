@@ -2,47 +2,80 @@
  * Imports
  */
 
-import {Block, Table, TableHeader, TableRow, TableCell} from 'vdux-ui'
+import {Block, Table, TableHeader, TableRow, TableCell, Icon, Text} from 'vdux-ui'
+import {Button, Checkbox, wrap, CSSContainer} from 'vdux-containers'
 import FourOhFour from 'pages/FourOhFour'
-import {Button, Checkbox} from 'vdux-containers'
+import getProp from '@f/get-prop'
+import statusMap from 'lib/status'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import moment from 'moment'
-import statusMap from 'lib/status'
 
 /**
  * <ActivityProgress/>
  */
 
 function render ({props}) {
-  const {activity, students} = props
+  const {activity, students, currentUser, setSort} = props
   const {value, loading, error} = students
 
   if (loading) return <span/>
   if (error) return <FourOhFour />
 
+  const sort = getProp('preferences.shareStudentSort', currentUser) || {
+    property: 'givenName',
+    dir: 1
+  }
+  const instances = getInstances(activity, value.items).sort(cmp)
+  const headProps = {
+    sort,
+    setPref,
+    textAlign: 'left',
+    bg: 'grey',
+    p: true,
+    color: 'white',
+    lighter: true
+  }
+
   return (
     <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
-      <Header/>
+      <Actions/>
       <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
         <TableRow>
-          <THead>
+          <TableHeader {...headProps}>
             <Checkbox/>
-          </THead>
-          <THead>First</THead>
-          <THead>Last</THead>
-          <THead>Score</THead>
-          <THead>Status</THead>
-          <THead>Turned In</THead>
-          <THead/>
+          </TableHeader>
+          <SortHead {...headProps} prop='givenName' text='First'  />
+          <SortHead {...headProps} prop='familyName' text='Last'  />
+          <SortHead {...headProps} prop='percent' text='Score'  />
+          <SortHead {...headProps} prop='status' text='Status'  />
+          <SortHead {...headProps} prop='turnedInAt' text='Turned In'  />
+          <TableHeader {...headProps} />
         </TableRow>
-        { value.items.map(student => <StudentRow activity={activity} student={student} />) }
+        {
+          instances.map(instance => <StudentRow instance={instance} />)
+        }
       </Table>
     </Block>
   )
+  function * setPref(prop) {
+    yield setSort({
+      property: prop,
+      dir: prop === sort.property ? sort.dir * -1 : 1
+    })
+  }
+
+  function cmp (a, b) {
+    if(!sort) return
+    const prop = sort.property
+    const prop1 = getProp(prop, a).toString().toUpperCase() || ''
+    const prop2 = getProp(prop, b).toString().toUpperCase() || ''
+
+    return prop1 > prop2 ? 1 * sort.dir : -1 * sort.dir
+  }
 }
 
-function Header () {
+function Actions () {
   const iconProps ={
     color: 'text',
     fs: 'm',
@@ -58,28 +91,38 @@ function Header () {
   )
 }
 
-function THead ({props, children}) {
-  return (
-    <TableHeader
-      bg='grey'
-      color='white'
-      textAlign='left'
-      p
-      lighter
-      {...props}>
-      { children }
-    </TableHeader>
-  )
-}
+const SortHead = wrap(CSSContainer, {
+    hoverProps: {
+      hover: true
+    }
+  })({
+  render ({props}) {
+    const {hover, sort, prop, text, setPref, ...rest} = props
+
+    return (
+      <TableHeader pointer={sort} onClick={() => setPref(prop)} {...rest} borderWidth={0}>
+        <Block align='start center'>
+          <Text underline={sort && hover}>
+            {text}
+          </Text>
+          <Icon
+            name={'arrow_drop_' + (sort.dir === 1 ? 'down' : 'up')}
+            hidden={sort.property !== prop}
+            ml='s'
+            fs='s'/>
+        </Block>
+      </TableHeader>
+    )
+  }
+})
 
 function StudentRow ({props}) {
-  const {student, activity} = props
-  const {name} = student
-  const {instances: {total: {'0': {actors}}}} = activity
-  const actor = actors[student._id]
-  const {status = 1, turnedInAt} = actor || {}
+  const {instance} = props
+  const {
+    status , turnedInAt, givenName,
+    familyName, points, total, percent
+  } = instance
   const statProps = statusMap[status]
-  const points = getPoints(activity, actor)
 
   return (
     <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
@@ -87,13 +130,13 @@ function StudentRow ({props}) {
         <Checkbox/>
       </TableCell>
       <TableCell p>
-        {name.givenName}
+        {givenName}
       </TableCell>
       <TableCell p>
-        {name.familyName}
+        {familyName}
       </TableCell>
       <TableCell p>
-        { points.points} / {points.total} ({points.percent})
+        { points} / {total} ({percent})
       </TableCell>
       <TableCell p>
         <Block pill h={30} fs='14' align='center center' bg={statProps.teacherColor} color='white' capitalize w='108'>
@@ -116,16 +159,29 @@ function StudentRow ({props}) {
  * Helpers
  */
 
-function getPoints (activity, actor) {
+function getInstances (activity, students) {
+  const {instances: {total: {'0': {actors}}}} = activity
   const total = totalPoints(activity)
-  const points = actor ? (actor.pointsScaled * total) : 0
-  const percent = Math.round(actor.pointsScaled * 100) + '%'
 
-  return {
-    total,
-    points,
-    percent,
-  }
+  return students.map(function(student) {
+    const actor = actors[student._id]
+    const {turnedInAt = '-', status = 1} = actor
+    const points = actor ? (actor.pointsScaled * total) : 0
+    const percent = actor ? (Math.round(actor.pointsScaled * 100) + '%') : '0%'
+    const instance = students
+    return {
+      total,
+      points,
+      percent,
+      status,
+      turnedInAt,
+      id: student._id,
+      familyName: student.name.familyName,
+      givenName: student.name.givenName
+    }
+
+    return obj
+  })
 }
 
 function totalPoints (activity) {
@@ -143,7 +199,17 @@ function totalPoints (activity) {
  */
 
 export default summon(({classId}) => ({
-  students: `/group/students?group=${classId}`
+  students: `/group/students?group=${classId}`,
+  setSort: pref => ({
+    settingSort:  {
+      url: '/preference/shareStudentSort',
+      invalidates: '/user',
+      method: 'PUT',
+      body: {
+        value: pref
+      }
+    }
+  })
 }))({
   render
 })
