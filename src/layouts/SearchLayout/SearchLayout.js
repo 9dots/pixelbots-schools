@@ -15,7 +15,7 @@ import summon from 'vdux-summon'
  */
 
 function render ({props, children}) {
-  const {counts = {}, query = ''} = props
+  const {counts = {}, currentUser, query = ''} = props
   const value = counts.value || {}
 
   return (
@@ -25,9 +25,13 @@ function render ({props, children}) {
         <NavTile href={`/search/activities/${query}`} highlight='red'>
           {count(value.activities)} Activities
         </NavTile>
-        <NavTile href={`/search/my-activities/${query}`} highlight='green'>
-          {count(value.my_activities)} My Activities
-        </NavTile>
+        {
+          currentUser
+            ? <NavTile href={`/search/my-activities/${query}`} highlight='green'>
+                {count(value.my_activities)} My Activities
+              </NavTile>
+            : undefined
+        }
         <NavTile href={`/search/boards/${query}`} highlight='blue'>
           {count(value.boards)} Boards
         </NavTile>

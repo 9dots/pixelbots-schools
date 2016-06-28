@@ -5,6 +5,7 @@
 import {CSSContainer, Fixed, Text, Icon, Flex, Block, Menu, Button, MenuItem} from 'vdux-containers'
 import NotificationsButton from 'components/NotificationsButton'
 import CreateActivityModal from 'modals/CreateActivityModal'
+import SignUpModal from 'modals/SignUpModal'
 import ClassNav from 'components/ClassNav'
 import HomeOwl from 'components/HomeOwl'
 import {openModal} from 'reducer/modal'
@@ -19,31 +20,45 @@ import Search from './Search'
 
 function render ({props, state}) {
   const {currentUser, url, bgColor = 'grey', search, query} = props
-  const isStudent = currentUser.userType === 'student'
+  const isStudent = currentUser && currentUser.userType === 'student'
 
   return (
     <Block>
       <Fixed wide top z={2} boxShadow='card'>
-        <Flex align='space-between' wide bgColor={bgColor} color='white'>
+        <Flex align='space-between' wide bgColor={bgColor} color='white' h={53}>
           <Flex align='start center'>
             <Flex align='center center' mx='m'>
               <HomeOwl />
             </Flex>
-            <Item href='/feed' icon='home' text='Home' />
-            <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />
-            <Item hide={!isStudent} href={`/${currentUser.username}`} icon='person' text='My Profile' />
-            <ClassNav currentUser={currentUser}>
-              <Item href='/class' disabled={true} ml='s' fs='s' icon='school' text='Classes'>
-                <Icon name='arrow_drop_down' fs='s' ml='s' />
-              </Item>
-            </ClassNav>
+            {
+              currentUser && [
+                <Item href='/feed' icon='home' text='Home' />,
+                <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />,
+                <Item hide={!isStudent} href={`/${currentUser.username}`} icon='person' text='My Profile' />,
+                <ClassNav currentUser={currentUser}>
+                  <Item href='/class' disabled={true} ml='s' fs='s' icon='school' text='Classes'>
+                    <Icon name='arrow_drop_down' fs='s' ml='s' />
+                  </Item>
+                </ClassNav>
+              ]
+            }
           </Flex>
           <Menu flex align='end center'>
             <Search url={url} searching={search} query={query} hide={isStudent}/>
-            <NotificationsButton ml='s' currentUser={currentUser} />
-            <AccountMenu mx currentUser={currentUser} />
+            {
+              currentUser && [
+                <NotificationsButton ml='s' currentUser={currentUser} />,
+                <AccountMenu mx currentUser={currentUser} />
+              ]
+            }
             <Button
-              onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
+              onClick={
+                () => openModal(() =>
+                  currentUser
+                    ? <CreateActivityModal currentUser={currentUser} />
+                    : <SignUpModal />
+                )
+              }
               border='1px solid rgba(#000, .1)'
               hide={isStudent}
               px='21'
@@ -53,6 +68,14 @@ function render ({props, state}) {
               <Icon fs='s' mr='s' name='edit' />
               Create Activity
             </Button>
+            {
+              !currentUser &&
+                <Button
+                  bgColor='transparent'
+                  onClick={() => openModal(() => <SignUpModal />)}>
+                  Sign Up
+                </Button>
+            }
           </Menu>
         </Flex>
       </Fixed>

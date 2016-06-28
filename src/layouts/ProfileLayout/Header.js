@@ -28,7 +28,7 @@ function render ({props}) {
   } = user
   const isMe = username === currentUser.username
   const displayUrl = website && website.replace(/.*?:\/\//g, "")
-  const showNav = userType === 'teacher' && currentUser.userType === 'teacher'
+  const showNav = userType === 'teacher' && (!currentUser || currentUser.userType === 'teacher')
 
   return (
     <Card wide relative mb>

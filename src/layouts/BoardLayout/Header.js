@@ -15,10 +15,11 @@ import element from 'vdux/element'
  * Profile Header
  */
 
-function render({props}) {
+function render ({props}) {
   const {value, currentUser} = props
   const {displayName, followers, owners, _id, board} = value
   const url = '/' + owners[0].username + '/board/' + _id
+
   return (
     <Card>
       <Flex w='col_main' mx='auto' column align='center center' relative>
@@ -39,9 +40,11 @@ function render({props}) {
         </Flex>
         <Block absolute top='24px' right>
           {
-            currentUser._id === owners[0].id
+            currentUser && (
+              currentUser._id === owners[0].id
               ? <Button color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}} onClick={() => openModal(() => <BoardSettingsModal board={value} />)} text='Edit'/>
               : <FollowButton w='150' px='0' board={value} />
+            )
           }
         </Block>
       </Flex>

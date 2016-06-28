@@ -65,7 +65,7 @@ function renderFeed (props) {
           {
             loaded && value.items.length
               ? map(user =>
-                <UserTile currentUser={currentUser._id === user._id} user={user} />, value.items)
+                <UserTile currentUser={currentUser} user={user} />, value.items)
               : <EmptyConnect search {...props}/>
           }
         </Grid>

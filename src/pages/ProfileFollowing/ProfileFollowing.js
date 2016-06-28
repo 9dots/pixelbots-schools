@@ -34,7 +34,7 @@ function render ({props}) {
 function renderItems(me, profUser, items) {
   return (
     items && items.length
-      ? map(user => <UserTile currentUser={me._id === user.id} user={user} />, items)
+      ? map(user => <UserTile currentUser={me} user={user} />, items)
       : <EmptyProfileFollowing me={me} user={profUser} />
   )
 }

@@ -5,6 +5,7 @@
 import {setUrl} from 'redux-effects-location'
 import {Button, Icon} from 'vdux-containers'
 import AssignModal from 'modals/AssignModal'
+import SignUpModal from 'modals/SignUpModal'
 import WeoIcon from 'components/WeoIcon'
 import {openModal} from 'reducer/modal'
 import PinModal from 'modals/PinModal'
@@ -44,7 +45,12 @@ function render ({props}) {
   return (
     <Block p align='center' {...rest}>
       <Action
-        onClick={() => openModal(() => <AssignModal activity={activity} />)}
+        onClick={
+          () => openModal(() =>
+            user
+              ? <AssignModal activity={activity} />
+              : <SignUpModal />)
+        }
         hide={isHidden('assign')}
         text='Assign'
         color='green'
@@ -59,7 +65,11 @@ function render ({props}) {
         text='Edit'
         full={edit}/>
       <Action
-        onClick={hasLiked ? unlikeActivity : likeActivity}
+        onClick={
+          user
+            ? hasLiked ? unlikeActivity : likeActivity
+            : () => openModal(() => <SignUpModal />)
+        }
         icon='favorite'
         hide={isHidden('like')}
         bgColor={hasLiked && 'red'}
@@ -67,7 +77,12 @@ function render ({props}) {
         text='Like'
         full={like}/>
       <Action
-        onClick={() => openModal(() => <PinModal activity={activity} />)}
+        onClick={
+          () => openModal(() =>
+            user
+              ? <PinModal activity={activity} />
+              : <SignUpModal />)
+        }
         activity={activity}
         hide={isHidden('pin')}
         weoIcon='pin'

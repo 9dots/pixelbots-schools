@@ -53,7 +53,7 @@ function StudentMenu ({props}) {
   const isStudent = currentUser.userType === 'student'
   const {length: count} = selected
   const users = students.filter(({_id}) => selected.indexOf(_id) !== -1)
-  const btnProps =  {
+  const btnProps = {
     color: 'white',
     h: '30',
     fs: 'xxs',

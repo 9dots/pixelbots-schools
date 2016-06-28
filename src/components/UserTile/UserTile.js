@@ -2,8 +2,8 @@
  * Imports
  */
 
-import FollowButton from 'components/FollowButton'
 import {Card, Text, Flex, Block, Icon} from 'vdux-ui'
+import FollowButton from 'components/FollowButton'
 import {setUrl} from 'redux-effects-location'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
@@ -26,7 +26,7 @@ function render ({props}) {
           </Block>
         </Block>
         {
-          !currentUser && (
+          currentUser && currentUser._id !== user._id && (
             <Block onClick={e => e.stopPropagation()}>
               <FollowButton m='s' absolute='bottom right' user={user} />
             </Block>

@@ -37,7 +37,7 @@ function render ({props}) {
 function renderItems(me, items, query) {
   return (
     items.length
-      ? map(user => <UserTile currentUser={me._id === user._id} user={user} />, items)
+      ? map(user => <UserTile currentUser={me} user={user} />, items)
       : <EmptySearch query={query} />
   )
 }

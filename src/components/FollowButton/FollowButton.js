@@ -70,7 +70,10 @@ export default summon((props) => {
       unfollowResponse: {
         url,
         method: 'DELETE',
-        invalidates
+        // Explicitly also invalidate the url for deletes
+        // because they are excluded from the auto-invalidate
+        // normally
+        invalidates: [invalidates, url]
       }
     })
   }

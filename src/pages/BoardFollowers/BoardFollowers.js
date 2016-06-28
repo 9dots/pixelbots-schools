@@ -27,7 +27,7 @@ function render ({props}) {
             {
               value.items && value.items.length
                 ? map(user => <UserTile
-                  currentUser={currentUser._id === user._id}
+                  currentUser={currentUser}
                   user={user} />, value.items)
                 : <EmptyState icon='person_outline' color='green'>
                     No one is following this board yet.

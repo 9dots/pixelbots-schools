@@ -86,48 +86,37 @@ const router = enroute({
       <ResetPassword {...props} {...params} />
     </HomeLayout>,
 
-  // Internal
-  '*': (params, props) => props.currentUser
-    ? internal(props.url, props)
-    : <Redirect to='/' />
-})
-
-/**
- * Internal app router
- */
-
-const internal = enroute({
   // Home
-  '/feed': (params, props) =>
+  '/feed': auth('user', (params, props) =>
     <AppLayout {...props}>
       {
         isTeacher(props)
           ? <Feed {...props} />
           : <FeedStudent {...props} />
       }
-    </AppLayout>,
+    </AppLayout>),
 
   // My Activities
-  '/activities': (params, props) =>
+  '/activities': auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <Redirect to='/activities/all' />
-    </ActivitiesLayout>,
-  '/activities/all': (params, props) =>
+    </ActivitiesLayout>),
+  '/activities/all': auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <MyActivities {...props} />
-    </ActivitiesLayout>,
-  '/activities/drafts': (params, props) =>
+    </ActivitiesLayout>),
+  '/activities/drafts': auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <Drafts {...props} />
-    </ActivitiesLayout>,
-  '/activities/trash': (params, props) =>
+    </ActivitiesLayout>),
+  '/activities/trash': auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <Trash {...props} />
-    </ActivitiesLayout>,
-  '/activities/:boardId': (params, props) =>
+    </ActivitiesLayout>),
+  '/activities/:boardId': auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <ActivitiesBoard {...params} {...props} />
-    </ActivitiesLayout>,
+    </ActivitiesLayout>),
 
   // Search
   '/search/activities/:query?': auth('nonstudent', (params, props) =>
@@ -148,42 +137,42 @@ const internal = enroute({
     </SearchLayout>),
 
   // Class
-  '/class/:groupId': (params, props) =>
+  '/class/:groupId': auth('user', (params, props) =>
     <ClassLayout {...props} {...params}>
       <Redirect to={`/class/${params.groupId}/feed`} />
-    </ClassLayout>,
-  '/class/:groupId/feed': (params, props) =>
+    </ClassLayout>),
+  '/class/:groupId/feed': auth('user', (params, props) =>
     <ClassLayout {...props} {...params}>
       {group => <ClassFeed {...props} group={group} />}
-    </ClassLayout>,
-  '/class/:groupId/students': (params, props) =>
+    </ClassLayout>),
+  '/class/:groupId/students': auth('user', (params, props) =>
     <ClassLayout {...props} {...params}>
       {group => <ClassStudents {...props} group={group} />}
-    </ClassLayout>,
-  '/class/:groupId/gradebook': (params, props) =>
+    </ClassLayout>),
+  '/class/:groupId/gradebook': auth('user', (params, props) =>
     <ClassLayout {...props} {...params}>
       {group => <ClassGradebook {...props} group={group} />}
-    </ClassLayout>,
+    </ClassLayout>),
 
   // Acount
-  '/account/settings': (params, props) =>
+  '/account/settings': auth('user', (params, props) =>
     <SettingsLayout {...props} {...params}>
       <AccountSettings {...props} />
-    </SettingsLayout>,
-  '/account/profile': (params, props) =>
+    </SettingsLayout>),
+  '/account/profile': auth('user', (params, props) =>
     <SettingsLayout {...props} {...params}>
       <AccountProfile {...props} />
-    </SettingsLayout>,
+    </SettingsLayout>),
   '/account/email': auth('teacher', (params, props) =>
     <SettingsLayout {...props} {...params}>
       <AccountEmail {...props} />
     </SettingsLayout>),
 
   // Notifications
-  '/notifications': (params, props) =>
+  '/notifications': auth('user', (params, props) =>
     <AppLayout bgColor='red_medium' {...props} {...params}>
       <NotificationsFeed {...props}/>
-    </AppLayout>,
+    </AppLayout>),
 
   // Connect
   '/connect/:userSearch?': auth('teacher', (params, props) =>
@@ -192,14 +181,14 @@ const internal = enroute({
     </AppLayout>),
 
   //Board
-  '/:username/board/:boardId/activities': (params, props) =>
+  '/:username/board/:boardId/activities': auth('nonstudent', (params, props) =>
     <BoardLayout {...props} {...params}>
       {board => <BoardActivities {...props} {...params} board={board} />}
-    </BoardLayout>,
-  '/:username/board/:boardId/followers': (params, props) =>
+    </BoardLayout>),
+  '/:username/board/:boardId/followers': auth('nonstudent', (params, props) =>
     <BoardLayout {...props} {...params}>
       {board => <BoardFollowers {...props} {...params} board={board} />}
-    </BoardLayout>,
+    </BoardLayout>),
 
   // Profile
   '/:username/boards': auth('nonstudent', (params, props) =>
@@ -279,8 +268,8 @@ function profileRedirect (props, user) {
   const {currentUser} = props
   let subState = 'stream'
 
-  if(currentUser.userType === 'teacher')
-    subState = user.userType === 'teacher' ? 'boards' : 'stream'
+  if(currentUser.userType !== 'student')
+    subState = user.userType === 'student' ? 'stream' : 'boards'
 
   return <Redirect to={`/${user.username}/${subState}`}/>
 }
