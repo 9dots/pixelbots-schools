@@ -4,7 +4,7 @@
 
 import {Block, Table, TableHeader, TableRow, TableCell} from 'vdux-ui'
 import FourOhFour from 'pages/FourOhFour'
-import {Button} from 'vdux-containers'
+import {Button, Checkbox} from 'vdux-containers'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import moment from 'moment'
@@ -24,23 +24,16 @@ function render ({props}) {
   return (
     <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
       <Header/>
-      <Table wide border='1px solid rgba(black, .1)'>
+      <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
         <TableRow>
           <THead>
-            First
+            <Checkbox/>
           </THead>
-          <THead>
-            Last
-          </THead>
-          <THead>
-            Score
-          </THead>
-          <THead>
-            Status
-          </THead>
-          <THead>
-            Turned In
-          </THead>
+          <THead>First</THead>
+          <THead>Last</THead>
+          <THead>Score</THead>
+          <THead>Status</THead>
+          <THead>Turned In</THead>
           <THead/>
         </TableRow>
         { value.items.map(student => <StudentRow activity={activity} student={student} />) }
@@ -72,6 +65,7 @@ function THead ({props, children}) {
       color='white'
       textAlign='left'
       p
+      lighter
       {...props}>
       { children }
     </TableHeader>
@@ -82,11 +76,16 @@ function StudentRow ({props}) {
   const {student, activity} = props
   const {name} = student
   const {instances: {total: {'0': {actors}}}} = activity
-  const {status = 1, turnedInAt} = actors[student._id] || {}
+  const actor = actors[student._id]
+  const {status = 1, turnedInAt} = actor || {}
   const statProps = statusMap[status]
+  const points = getPoints(activity, actor)
 
   return (
-    <TableRow bg='off_white' borderBottom='1px solid rgba(black, .1)'>
+    <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
+      <TableCell p>
+        <Checkbox/>
+      </TableCell>
       <TableCell p>
         {name.givenName}
       </TableCell>
@@ -94,10 +93,10 @@ function StudentRow ({props}) {
         {name.familyName}
       </TableCell>
       <TableCell p>
-        0 / 6 (0%)
+        { points.points} / {points.total} ({points.percent})
       </TableCell>
       <TableCell p>
-        <Block pill px='l' h={30} align='center center' bg={statProps.teacherColor} color='white' capitalize w='120'>
+        <Block pill h={30} fs='14' align='center center' bg={statProps.teacherColor} color='white' capitalize w='108'>
           { statProps.displayName }
         </Block>
       </TableCell>
@@ -111,7 +110,32 @@ function StudentRow ({props}) {
       </TableCell>
     </TableRow>
   )
+}
 
+/**
+ * Helpers
+ */
+
+function getPoints (activity, actor) {
+  const total = totalPoints(activity)
+  const points = actor ? (actor.pointsScaled * total) : 0
+  const percent = Math.round(actor.pointsScaled * 100) + '%'
+
+  return {
+    total,
+    points,
+    percent,
+  }
+}
+
+function totalPoints (activity) {
+  if (!activity._object || !activity._object[0] || !activity._object[0].attachments) return
+
+  return activity._object[0].attachments
+    .reduce((total, att) => total +
+      (att.objectType === 'question' && !att.poll
+        ? att.points.max
+        : 0), 0)
 }
 
 /**
