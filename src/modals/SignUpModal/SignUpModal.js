@@ -2,10 +2,11 @@
  * Imports
  */
 
-import {Modal, Flex, Box, Text} from 'vdux-ui'
+import {Modal, ModalHeader, Flex, Box, Text, Block} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
+import HomeOwl from 'components/HomeOwl'
 import Link from 'components/Link'
 import element from 'vdux/element'
 
@@ -18,12 +19,17 @@ function render ({props}) {
     pill: true,
     my: 's',
     wide: true,
-    boxShadow: 'z3'
+    border: '1px solid rgba(black, .1)'
   }
 
   return (
-    <Modal onDismiss={closeModal}>
-      <Flex align='center center' my='m' mx='s' pt='m' wide>
+    <Modal onDismiss={closeModal} pb='l' relative>
+      <Button icon='cancel' color='text' fs='s' absolute right top m='s' pointer onClick={closeModal} />
+      <ModalHeader w='col_s' m='auto'>
+        Sign Up Today To Get Free Access To All Of Weo!
+      </ModalHeader>
+      <HomeOwl width={100} link={false} mx='auto' mb />
+      <Flex align='center center' wide>
         <Box flex='35%' mx='s'>
           <Button {...btnProps} bgColor='green' onClick={e => setUrl('/teacher')}>
             <Text lh='47px' fs='14px' fw='bolder'>
@@ -39,7 +45,9 @@ function render ({props}) {
           </Button>
         </Box>
       </Flex>
-      <Link href='/login'>Already have an account? Login here</Link>
+      <Block textAlign='center' p m>
+        <Link href='/login' hoverProps={{underline: true}} >Already have an account? Login here</Link>
+      </Block>
     </Modal>
   )
 }

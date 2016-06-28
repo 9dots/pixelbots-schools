@@ -11,9 +11,17 @@ import {Flex} from 'vdux-ui'
  */
 
 function render ({props}) {
+  const {link = true, width = 28, ...rest} = props
+  let owlProps = {}
+  if (link)
+    owlProps = {
+      tag: 'a',
+      href: '/'
+    }
+
   return (
-    <Flex tag='a' align='start center' href='/' {...props}>
-      <img src={logo120} width='28' />
+    <Flex align='start center' w={width} {...owlProps} {...rest}>
+      <img src={logo120} width={width} />
     </Flex>
   )
 }
