@@ -31,6 +31,8 @@ import ProfileStream from 'pages/ProfileStream'
 import BoardActivities from 'pages/BoardActivities'
 import BoardFollowers from 'pages/BoardFollowers'
 
+import ActivityProgress from 'pages/ActivityProgress'
+
 import ClassGradebook from 'pages/ClassGradebook'
 import ClassStudents from 'pages/ClassStudents'
 import ClassFeed from 'pages/ClassFeed'
@@ -192,7 +194,14 @@ const internal = enroute({
       <Connect {...props} {...params}/>
     </AppLayout>),
 
-  //Board
+  // Activity
+
+  '/activity/:activityId/:classId/students' : (params, props) =>
+    <ActivityLayout {...props} {...params}>
+      {activity => <ActivityProgress {...props} {...params} activity={activity} />}
+    </ActivityLayout>,
+
+  // Board
   '/:username/board/:boardId/activities': (params, props) =>
     <BoardLayout {...props} {...params}>
       {board => <BoardActivities {...props} {...params} board={board} />}

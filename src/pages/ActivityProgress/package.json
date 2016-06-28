@@ -1,0 +1,5 @@
+{
+  "name": "ActivityProgress",
+  "main": "ActivityProgress.js",
+  "browser": "ActivityProgress.js"
+}
