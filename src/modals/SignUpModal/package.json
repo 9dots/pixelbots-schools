@@ -1,0 +1,5 @@
+{
+  "name": "SignUpModal",
+  "main": "SignUpModal.js",
+  "browser": "SignUpModal.js"
+}
