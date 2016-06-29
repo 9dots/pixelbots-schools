@@ -18,7 +18,7 @@ const closeModal = createAction('Close modal')
 
 const reducer = handleActions({
   [openModal]: (state, modal) => modal,
-  [closeModal]: (state, modal) => null
+  [closeModal]: state => null
 })
 
 /**

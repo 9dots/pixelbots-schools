@@ -2,11 +2,14 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Flex} from 'vdux-ui'
+import {Toast, Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Flex} from 'vdux-ui'
 import ActivityTileModaled from 'components/ActivityTileModaled'
 import {Button, Input, form} from 'vdux-containers'
+import {toast, hideToast} from 'reducer/toast'
+import {setUrl} from 'redux-effects-location'
 import {closeModal} from 'reducer/modal'
 import ClassSelect from './ClassSelect'
+import Link from 'components/Link'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 
@@ -75,19 +78,35 @@ export default summon(props => ({
     }
   })
 }))(
-  form(({activity, copyActivity, assign}) => ({
+  form(({activity, copyActivity, assign, classes}) => ({
     fields: ['selected'],
     onSubmit: function *({selected}) {
-      yield selected.map(function *(classId) {
+      const chosen = classes.value.items.filter(cls => selected.indexOf(cls._id) !== -1)
+
+      yield chosen.map(function *({_id}) {
         if (activity.published) {
           const copy = yield copyActivity(activity._id)
-          yield assign(classId, copy._id)
+          yield assign(_id, copy._id)
         } else {
-          yield assign(classId, activity._id)
+          yield assign(_id, activity._id)
         }
       })
 
       yield closeModal()
+      yield toast(
+        <Toast key='a' onDismiss={hideToast}>
+          {
+            chosen.map(({_id, displayName}) => (
+              <Block align='space-between center' my>
+                <Block>
+                  Assigned to <Link onClick={hideToast} href={`/class/${_id}`} color='blue'>{displayName}</Link>
+                </Block>
+                <Button onClick={[() => setUrl(`/class/${_id}`), hideToast]} bgColor='green'>Go to Class</Button>
+              </Block>
+            ))
+          }
+        </Toast>
+      )
     }
   }))({
     render
