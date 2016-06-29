@@ -29,6 +29,10 @@ function render ({props, state}) {
           <Flex align='start center'>
             <Flex align='center center' mx='m'>
               <HomeOwl />
+              {
+                !currentUser &&
+                <Text fs='m' ml bold>WEO</Text>
+              }
             </Flex>
             {
               currentUser && [
@@ -44,11 +48,11 @@ function render ({props, state}) {
             }
           </Flex>
           <Menu flex align='end center'>
-            <Search url={url} searching={search} query={query} hide={isStudent}/>
+            <Search url={url} searching={search} query={query} hide={isStudent} mr='s'/>
             {
               currentUser && [
-                <NotificationsButton ml='s' currentUser={currentUser} />,
-                <AccountMenu mx currentUser={currentUser} />
+                <NotificationsButton currentUser={currentUser} />,
+                <AccountMenu ml currentUser={currentUser} />
               ]
             }
             <Button
@@ -64,16 +68,22 @@ function render ({props, state}) {
               px='21'
               h={34}
               pill
-              mr>
+              mx>
               <Icon fs='s' mr='s' name='edit' />
               Create Activity
             </Button>
             {
               !currentUser &&
                 <Button
+                  px='16'
+                  mr
+                  h={53}
+                  boxShadow='inset 1px 0 0 rgba(255,255,255,0.07),inset -1px 0 0 rgba(255,255,255,0.07)'
+                  borderLeft='1px solid rgba(0,0,0,0.1)'
+                  borderRight='1px solid rgba(0,0,0,0.1)'
                   bgColor='transparent'
                   onClick={() => openModal(() => <SignUpModal />)}>
-                  Sign Up
+                  SIGN UP
                 </Button>
             }
           </Menu>
