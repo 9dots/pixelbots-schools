@@ -32,11 +32,12 @@ function render ({props}) {
   const {
     activity, user, assign, edit, like, pin, likeActivity,
     unlikeActivity, actions = [], spread = true, isCurrentActivity,
+    liked, localLike,
     ...rest
   } = props
   const {published, channels, actor, likers = []} = activity
   const isOwner = actor.id === user._id
-  const hasLiked = likers.some(function(liker) {
+  const hasLiked = liked || likers.some(function(liker) {
     return liker.id === user._id
   })
 
@@ -67,7 +68,7 @@ function render ({props}) {
       <Action
         onClick={
           user
-            ? hasLiked ? unlikeActivity : likeActivity
+            ? [hasLiked ? unlikeActivity : likeActivity,  localLike]
             : () => openModal(() => <SignUpModal />)
         }
         icon='favorite'
@@ -115,12 +116,11 @@ function render ({props}) {
   }
 }
 
-
 /**
  * ActionButton
  */
 
-function Action({props}) {
+function Action ({props}) {
   const {
     icon, weoIcon, text, full, color = 'text',
     bgColor, onClick, ...rest
@@ -164,19 +164,18 @@ const DeleteActivity = summon(({activityId}) => ({
 export default summon(({activity}) => {
   const {_id} = activity
   const invalidates = ['/share/' + _id, 'activity_feed']
+
   return {
     likeActivity: () => ({
       likeActivity: {
         url: `/share/${_id}/like`,
-        method: 'PUT',
-        invalidates
+        method: 'PUT'
       }
     }),
     unlikeActivity: () => ({
       unlikeActivity: {
         url: `/share/${_id}/unlike`,
-        method: 'PUT',
-        invalidates
+        method: 'PUT'
       }
     })
   }
