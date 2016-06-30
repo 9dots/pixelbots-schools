@@ -31,7 +31,7 @@ function render ({props}) {
           <Text color='blue' bold> {value.displayName} </Text>
           class.
         </Block>
-        <BlockInput autofocus value={url}/>
+        <BlockInput autofocus onFocus={e => e.target.select()} value={url}/>
       </Block>
     </Modal>
   )
