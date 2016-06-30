@@ -4,9 +4,11 @@
 
 import {Block, Table, TableHeader, TableRow, TableCell, Icon, Text} from 'vdux-ui'
 import {Button, Checkbox, wrap, CSSContainer} from 'vdux-containers'
+import Actions from './ActivityProgressActions'
+import {setUrl} from 'redux-effects-location'
 import FourOhFour from 'pages/FourOhFour'
-import getProp from '@f/get-prop'
 import statusMap from 'lib/status'
+import getProp from '@f/get-prop'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import moment from 'moment'
@@ -16,17 +18,13 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {activity, students, currentUser, setSort} = props
-  const {value, loading, error} = students
-
-  if (loading) return <span/>
-  if (error) return <FourOhFour />
+  const {activity, students, currentUser, classId, setSort} = props
 
   const sort = getProp('preferences.shareStudentSort', currentUser) || {
     property: 'givenName',
     dir: 1
   }
-  const instances = getInstances(activity, value.items).sort(cmp)
+  const instances = getInstances(activity, students).sort(cmp)
   const headProps = {
     sort,
     setPref,
@@ -39,7 +37,7 @@ function render ({props}) {
 
   return (
     <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
-      <Actions/>
+      <Actions activity={activity} classId={classId}/>
       <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
         <TableRow>
           <TableHeader {...headProps}>
@@ -53,7 +51,7 @@ function render ({props}) {
           <TableHeader {...headProps} />
         </TableRow>
         {
-          instances.map(instance => <StudentRow instance={instance} />)
+          instances.map(instance => <StudentRow instance={instance} classId={classId} activityId={activity._id} />)
         }
       </Table>
     </Block>
@@ -73,22 +71,6 @@ function render ({props}) {
 
     return prop1 > prop2 ? 1 * sort.dir : -1 * sort.dir
   }
-}
-
-function Actions () {
-  const iconProps ={
-    color: 'text',
-    fs: 'm',
-    circle: '32',
-    activeProps: {bgColor: 'rgba(black, .1)'}
-  }
-  return (
-    <Block align='start center' mb>
-      <Button text='Return' h={32} />
-      <Button icon='more_vert' mx {...iconProps} />
-      <Button icon='link' {...iconProps} />
-    </Block>
-  )
 }
 
 const SortHead = wrap(CSSContainer, {
@@ -117,12 +99,14 @@ const SortHead = wrap(CSSContainer, {
 })
 
 function StudentRow ({props}) {
-  const {instance} = props
+  const {instance, activityId, classId} = props
   const {
-    status , turnedInAt, givenName,
+    status , turnedInAt, givenName, id,
     familyName, points, total, percent
   } = instance
   const statProps = statusMap[status]
+  const url = `/activity/${activityId}/${classId}/instance/${id}`
+
 
   return (
     <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
@@ -149,7 +133,7 @@ function StudentRow ({props}) {
         }
       </TableCell>
       <TableCell py w='62'>
-        <Button text='Open' px='0' h='32' w='50'/>
+        <Button text='Open' onClick={() => setUrl(url)} px='0' h='32' w='50'/>
       </TableCell>
     </TableRow>
   )
@@ -165,22 +149,17 @@ function getInstances (activity, students) {
 
   return students.map(function(student) {
     const actor = actors[student._id]
-    const {turnedInAt = '-', status = 1} = actor
-    const points = actor ? (actor.pointsScaled * total) : 0
-    const percent = actor ? (Math.round(actor.pointsScaled * 100) + '%') : '0%'
-    const instance = students
+    const {status = 1, turnedInAt = 0, pointsScaled = 0} = actor
     return {
       total,
-      points,
-      percent,
       status,
       turnedInAt,
+      percent: Math.round(actor.pointsScaled * 100) + '%',
+      points: actor.pointsScaled * total,
       id: student._id,
       familyName: student.name.familyName,
       givenName: student.name.givenName
     }
-
-    return obj
   })
 }
 
@@ -198,8 +177,7 @@ function totalPoints (activity) {
  * Exports
  */
 
-export default summon(({classId}) => ({
-  students: `/group/students?group=${classId}`,
+export default summon(() => ({
   setSort: pref => ({
     settingSort:  {
       url: '/preference/shareStudentSort',

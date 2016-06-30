@@ -1,0 +1,5 @@
+{
+  "name": "ActivityPreview",
+  "main": "ActivityPreview.js",
+  "browser": "ActivityPreview.js"
+}

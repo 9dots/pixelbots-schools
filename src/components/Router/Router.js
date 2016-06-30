@@ -32,6 +32,8 @@ import BoardActivities from 'pages/BoardActivities'
 import BoardFollowers from 'pages/BoardFollowers'
 
 import ActivityProgress from 'pages/ActivityProgress'
+import ActivityPreview from 'pages/ActivityPreview'
+import ActivityOverview from 'pages/ActivityOverview'
 
 import ClassGradebook from 'pages/ClassGradebook'
 import ClassStudents from 'pages/ClassStudents'
@@ -187,7 +189,15 @@ const router = enroute({
 
   '/activity/:activityId/:classId/students' : (params, props) =>
     <ActivityLayout {...props} {...params}>
-      {activity => <ActivityProgress {...props} {...params} activity={activity} />}
+      {({activity, students}) => <ActivityProgress {...props} {...params} activity={activity} students={students} />}
+    </ActivityLayout>,
+    '/activity/:activityId/:classId/overview' : (params, props) =>
+    <ActivityLayout {...props} {...params}>
+      {({activity, students}) => <ActivityOverview {...props} {...params} activity={activity} students={students} />}
+    </ActivityLayout>,
+    '/activity/:activityId/:classId/preview' : (params, props) =>
+    <ActivityLayout {...props} {...params}>
+      {({activity, students}) => <ActivityPreview {...props} {...params} activity={activity} students={students} />}
     </ActivityLayout>,
 
   // Board
