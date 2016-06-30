@@ -6,6 +6,8 @@ import ActivityCardActions from 'components/ActivityCardActions'
 import {Flex, Block, Card, Text, Icon} from 'vdux-ui'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {setUrl} from 'redux-effects-location'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
 import WeoIcon from 'components/WeoIcon'
 import Figure from 'components/Figure'
 import element from 'vdux/element'
@@ -31,17 +33,30 @@ function render ({props}) {
   )
 }
 
+/**
+ * Actions
+ */
+
+const localLike = createAction('<ActivityTile/>: local like')
+
+/**
+ * <Activity/> component
+ */
+
 const Activity = wrap(CSSContainer)({
-  render ({props}) {
+  render ({props, local, state}) {
     const {activity, user = {}, hover, actions = []} = props
     const {image, displayName, description, _id, likers, repinCount, replies} = activity
     const url = `/activity/${_id}/public/preview`
+
+    const {locallyLiked} = state
+    const likes = likers.length + (locallyLiked ? 1 : 0)
 
     return (
       <Flex column cursor='zoom-in' pb onClick={() => setUrl(url)}>
         {
           actions.length && hover &&
-            <ActivityCardActions actions={actions} assign activity={activity} user={user} absolute wide z='1' />
+            <ActivityCardActions liked={locallyLiked} localLike={local(localLike)} actions={actions} assign activity={activity} user={user} absolute wide z='1' />
         }
         <Figure key='img' {...image} thumb={true} opacity={hover && .88} />
         <Block textAlign='center' m='m'>
@@ -49,9 +64,9 @@ const Activity = wrap(CSSContainer)({
           <Text fs='xxs' wordBreak='break-word'>{description}</Text>
         </Block>
         <Flex align='center center' color='grey_medium' fs='xxs' maxHeight='14px'>
-          <Flex align='center center' hide={!likers.length}>
+          <Flex align='center center' hide={!likes}>
             <Icon name='favorite' fs='xs'/>
-            <Text mr='4' ml='2'>{likers.length}</Text>
+            <Text mr='4' ml='2'>{likes}</Text>
           </Flex>
           <Flex align='center center' hide={!repinCount}>
             <WeoIcon name='pin' fs='14' mb='-2'/>
@@ -64,7 +79,18 @@ const Activity = wrap(CSSContainer)({
         </Flex>
       </Flex>
     )
-  }
+  },
+
+  /**
+   * Reducer
+   */
+
+  reducer: handleActions({
+    [localLike]: state => ({
+      ...state,
+      locallyLiked: !state.locallyLiked
+    })
+  })
 })
 
 /**

@@ -44,6 +44,7 @@
     "@f/s3-upload": "^1.0.1",
     "@f/serialize-form": "^1.0.0",
     "@f/set-proto": "^1.0.1",
+    "@f/sleep": "^1.0.0",
     "@f/times": "^1.0.0",
     "@f/tween": "^1.0.1",
     "@f/values": "^1.2.0",

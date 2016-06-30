@@ -2,11 +2,14 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Flex} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Flex, Toast} from 'vdux-ui'
 import ActivityTileModaled from 'components/ActivityTileModaled'
+import {toast, hideToast} from 'reducer/toast'
+import {setUrl} from 'redux-effects-location'
 import {Button, Input} from 'vdux-containers'
 import {closeModal} from 'reducer/modal'
 import PinSelect from './PinSelect'
+import Link from 'components/Link'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 
@@ -41,15 +44,24 @@ function render ({props}) {
     </Modal>
   )
 
-  function *doPin (boardId) {
+  function *doPin ({_id, displayName}) {
     if (activity.published) {
       const copy = yield copyActivity(activity._id)
-      yield pin(boardId, copy._id)
+      yield pin(_id, copy._id)
     } else {
-      yield pin(boardId, activity._id)
+      yield pin(_id, activity._id)
     }
 
     yield closeModal()
+    yield toast(
+      <Toast key='a'>
+        <Block align='space-between center'>
+          <Block>
+            Pinned to <Link onClick={hideToast} href={`/activities/${_id}`} color='blue'>{displayName}</Link>
+          </Block>
+          <Button onClick={[() => setUrl(`/activities/${_id}`), hideToast]} bgColor='green'>Go to Board</Button>
+        </Block>
+      </Toast>)
   }
 }
 

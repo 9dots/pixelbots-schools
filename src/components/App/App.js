@@ -3,6 +3,7 @@
  */
 
 import {appDidInitialize} from 'reducer/ready'
+import Transition from 'vdux-transition'
 import Router from 'components/Router'
 import {initializeApp} from 'reducer'
 import Loading from 'pages/Loading'
@@ -20,9 +21,11 @@ import 'lib/fonts'
 function render ({path, props}) {
   const {state, currentUser} = props
   if (!currentUser.loaded && !currentUser.error) return <span/>
+
   return (
     <Block>
       <Block>
+        <Transition>{state.toast}</Transition>
         {state.modal && state.modal()}
       </Block>
       <Block z={0}>

@@ -7,6 +7,7 @@ import avatarUpdates from './avatarUpdates'
 import media from './media'
 import ready from './ready'
 import modal from './modal'
+import toast from './toast'
 import auth from './auth'
 import url from './url'
 
@@ -20,6 +21,7 @@ const reducer = combineReducers({
     url,
     auth,
     modal,
+    toast,
     media,
     avatarUpdates
   })

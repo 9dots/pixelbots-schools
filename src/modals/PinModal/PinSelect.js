@@ -21,7 +21,7 @@ function render ({props, local, state}) {
   return (
     <Block overflowY='auto' {...rest}>
       {
-        map(board => <BoardItem board={board} onClick={() => onSelect(board._id)} />, boards)
+        map(board => <BoardItem board={board} onClick={() => onSelect(board)} />, boards)
       }
       <NewMenuItem key='newMenuItem' validate={validate.board} onSubmit={handleSubmit} type='Board' />
     </Block>
@@ -29,7 +29,7 @@ function render ({props, local, state}) {
 
   function * handleSubmit (board) {
     const newBoard = yield createBoard(board)
-    yield onSelect(newBoard._id)
+    yield onSelect(newBoard)
   }
 }
 

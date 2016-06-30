@@ -47,7 +47,6 @@ function render ({props}) {
   )
 }
 
-
 /**
  * Exports
  */
