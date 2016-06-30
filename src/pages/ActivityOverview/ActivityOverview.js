@@ -3,6 +3,9 @@
  */
 
 import QuestionOverview from './QuestionOverview'
+import summonChannels from 'lib/summon-channels'
+import FourOhFour from 'pages/FourOhFour'
+import Loading from 'pages/Loading'
 import Histogram from './Histogram'
 import {Block, Flex} from 'vdux-ui'
 import element from 'vdux/element'
@@ -13,14 +16,19 @@ import getProp from '@f/get-prop'
  */
 
 function render ({props}) {
-  const {students, activity} = props
-  const data = getData(activity, students)
+  const {students, activity, activities} = props
+  const {value, loading, error} = activities
 
+  if (loading) return <Loading show={true} />
+  if (error) return <FourOhFour />
+
+  const instances = value.items
+  const data = getData(activity, students)
 
   return (
     <Block w='col_main' mx='auto'>
       <Histogram data={data}/>
-      <QuestionOverview {...props} />
+      <QuestionOverview instances={instances} {...props} />
     </Block>
   )
 }
@@ -98,6 +106,8 @@ function totalPoints (activity) {
  * Exports
  */
 
-export default {
+export default summonChannels(
+  props => `share!${props.activity._id}.instances`
+)({
   render
-}
+})

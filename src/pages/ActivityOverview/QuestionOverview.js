@@ -11,10 +11,8 @@ import map from '@f/map'
  */
 
 function render({props}) {
-  const {activity, students} = props
-  const questions = activity._object[0].attachments.filter(attachment => {
-    return attachment.objectType === 'question'
-  })
+  const {activity, students, instances} = props
+  const questions = getQuestions(instances)
 
   return (
     <Block pb='l'>
@@ -23,21 +21,25 @@ function render({props}) {
         <Block bgColor='grey' boxShadow='card' ml p w={138}>Average</Block>
       </Flex>
       {
-        map((question, i) => <Question question={question} i={i} />, questions)
+        map((question, i) => <Question students={students} instances={instances} question={question} i={i} />, questions)
       }
     </Block>
   )
 }
 
 function Question ({props}) {
-  const {question, i} = props
-  const {displayName, responseType, poll, points: {max}} = question
+  const {question, i, instances} = props
+  const {
+    displayName, poll,
+    points: {max}, total, numAnswered
+  } = question
+  const responseType = question.attachments[0].objectType
   const iconMap = {
     choice: poll ? 'equalizer' : 'done_all',
     shortAnswer: 'edit',
     text: 'message'
   }
-  let average = 0.9
+  let average = Math.round((total / numAnswered) * 10) / 10
 
   return (
     <Flex fs='s' lighter wide>
@@ -48,8 +50,8 @@ function Question ({props}) {
         <Icon name='keyboard_arrow_down'  ml='s' fs='s' />
       </Card>
       <Card p bg='white' ml minWidth={138} align='start center'>
-        <Block circle='7' bg={getColor(average)} mr='16'/>
-        0 / {max}
+        <Block circle='7' bg={getColor(average / max)} mr='16'/>
+        {average} / {max}
       </Card>
     </Flex>
   )
@@ -58,6 +60,30 @@ function Question ({props}) {
 /**
  * Helpers
  */
+
+function getQuestions(instances) {
+  const questions = []
+  instances.forEach(instance => {
+    const {status} = instance
+    let count = 0
+    if(status > 4) {
+      instance._object[0].attachments.forEach((att, i) => {
+        const {objectType, points} = att
+        if(objectType === 'question') {
+          if(!questions[count])
+            questions[count] = { total: 0, numAnswered: 0, ...att }
+          const total = points.scaled * points.max
+          questions[count].total += (total || 0)
+          questions[count].numAnswered++
+          count++
+        }
+
+      })
+    }
+
+  })
+  return questions
+}
 
 function getColor (average) {
   let color = 'green'
