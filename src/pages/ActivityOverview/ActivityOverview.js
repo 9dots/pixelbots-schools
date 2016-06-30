@@ -33,6 +33,7 @@ function getData (activity, students) {
   let averagePoints = 0
   let averagePercent = 0
   let numReturned = 0
+  let binMax = 0
   let bins = []
   for(var i = 0; i < 10; i++) {
     bins[i] = []
@@ -55,7 +56,10 @@ function getData (activity, students) {
       numReturned++
       averagePoints += points
       averagePercent += percent
-      bins[percentToIndex(percent)].push(instance)
+      const i = percentToIndex(percent)
+      bins[i].push(instance)
+      if(bins[i].length > binMax)
+        binMax= bins[i].length
     }
 
     return instance
@@ -63,11 +67,12 @@ function getData (activity, students) {
 
   return {
     bins,
+    binMax,
     numReturned,
     totalPoints: total,
     numStudents: students.length,
+    averagePoints: round(averagePoints / numReturned),
     averagePercent: round(averagePercent / numReturned) + '%',
-    averagePoints: round(averagePoints / numReturned)
   }
 }
 
