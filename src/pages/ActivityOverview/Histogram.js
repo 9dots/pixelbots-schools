@@ -19,7 +19,17 @@ function render({props}) {
     totalPoints, averagePoints, averagePercent,
     numStudents, numReturned, bins, binMax
   } = data
-  const lines = Array.apply(null, Array(binMax + 2))
+
+  const step = Math.ceil(binMax / 4)
+  let lineMax = (binMax / step + 1) * step || 0
+  const lines = []
+
+  for(var i = 0; i <= lineMax; i++) {
+    if(!(i % step))
+      lines.push(i)
+  }
+
+  lineMax = lines[lines.length-1]
 
 
   return (
@@ -29,10 +39,10 @@ function render({props}) {
           Students
         </Block>
         {
-          map((line, i) => <Line binMax={binMax} i={i} />, lines)
+          map((line, i) => <Line binMax={lineMax} i={i} line={line} />, lines)
         }
         {
-          map((bin, i) => <Bar bin={bin} binMax={binMax} i={i} />, bins)
+          map((bin, i) => <Bar bin={bin} binMax={lineMax} i={i} />, bins)
         }
       </Card>
       <Card ui={Flex} lighter column ml w={138} h={120} p align='space-between'>
@@ -40,25 +50,19 @@ function render({props}) {
           Total
         </Block>
         <Block align='space-between'>
-          <Block>
-            Students:
-          </Block>
+          Students:
           <Block>
             {numReturned} / {numStudents}
           </Block>
         </Block>
         <Block align='space-between'>
-          <Block>
-            Score:
-          </Block>
+          Score:
           <Block>
             {averagePoints} / {totalPoints}
           </Block>
         </Block>
         <Block align='space-between'>
-          <Block>
-            Percent:
-          </Block>
+          Percent:
           <Block>
             {averagePercent}
           </Block>
@@ -69,14 +73,13 @@ function render({props}) {
 }
 
 function Line({props}) {
-  const {i, binMax} = props
+  const {i, binMax, line} = props
   return (
     <Block
       borderBottom='1px solid #F2F2F2'
-      borderColor={!i || i > binMax+1 && 'transparent'}
       absolute
       wide
-      bottom={(i / (binMax + 1)) * 100 + '%'}
+      bottom={(line / (binMax)) * 100 + '%'}
       >
       <Block
         right='100%'
@@ -85,7 +88,7 @@ function Line({props}) {
         fs='xxs'
         color='grey_medium'
         mr>
-        {i}
+        {line}
         </Block>
     </Block>
   )
@@ -98,23 +101,30 @@ function Bar({props}) {
 
   return (
       <Block
-        message={tooltipText(bin)}
         tooltipProps={{whiteSpace: 'pre', lh: 1.4}}
+        message={tooltipText(bin)}
         placement='right'
         ui={Tooltip}
         delay={0}
-        absolute
+
+        h={(bin.length / (binMax)) * 100 + '%'}
         left={(i * 10) + '%'}
-        bottom
-        w='9%'
-        h={(bin.length / (binMax + 1)) * 100 + '%'}
-        ml='.5%'
         {...colorStyles}
-        {...hideStyles}>
-        <Block absolute top='100%' mt='s' fs='xxs' wide color='grey_medium' textAlign='center'>
+        {...hideStyles}
+        absolute
+        ml='.5%'
+        bottom
+        w='9%'>
+        <Block
+          color='grey_medium'
+          textAlign='center'
+          top='100%'
+          absolute
+          fs='xxs'
+          mt='s'
+          wide>
           {i * 10}
-          <Text hide={i == 9}> - {(i + 1) * 10}</Text>
-          %
+          <Text hide={i == 9}> - {(i + 1) * 10}</Text>%
           <Text hide={i != 9}> +</Text>
         </Block>
       </Block>

@@ -2,10 +2,11 @@
  * Imports
  */
 
+import QuestionOverview from './QuestionOverview'
 import Histogram from './Histogram'
+import {Block, Flex} from 'vdux-ui'
 import element from 'vdux/element'
 import getProp from '@f/get-prop'
-import {Block} from 'vdux-ui'
 
 /**
  * <ActivityOverview/>
@@ -19,6 +20,7 @@ function render ({props}) {
   return (
     <Block w='col_main' mx='auto'>
       <Histogram data={data}/>
+      <QuestionOverview {...props} />
     </Block>
   )
 }
@@ -39,7 +41,7 @@ function getData (activity, students) {
     bins[i] = []
   }
 
-  const instances = students.map(function(student) {
+  students.forEach(function(student) {
     const actor = actors[student._id]
     const {pointsScaled = 0, status = 1} = actor
     const points = pointsScaled * total
@@ -58,21 +60,18 @@ function getData (activity, students) {
       averagePercent += percent
       const i = percentToIndex(percent)
       bins[i].push(instance)
-      if(bins[i].length > binMax)
-        binMax= bins[i].length
+      binMax = Math.max(bins[i].length, binMax)
     }
-
-    return instance
   })
 
   return {
-    bins,
-    binMax,
-    numReturned,
-    totalPoints: total,
-    numStudents: students.length,
-    averagePoints: round(averagePoints / numReturned),
     averagePercent: round(averagePercent / numReturned) + '%',
+    averagePoints: round(averagePoints / numReturned),
+    numStudents: students.length,
+    totalPoints: total,
+    numReturned,
+    binMax,
+    bins
   }
 }
 
