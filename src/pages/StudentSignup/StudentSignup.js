@@ -16,7 +16,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {createStudent} = props
+  const {createStudent, creatingStudent = {}} = props
+  const {loading} = creatingStudent
 
   return (
     <Form onSubmit={createStudent} onSuccess={user => postLogin(user.token)} validate={validateStudent}>
@@ -30,7 +31,7 @@ function render ({props}) {
       <BlockInput type='password' name='password' placeholder='PASSWORD' />
       <BlockInput type='password' name='confirm_password' placeholder='CONFIRM PASSWORD' />
       <Block color='white'>
-        <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
+        <Button busy={loading} type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
           Sign Up Now
         </Button>
         <Flex align='space-around center' m='m'>
@@ -73,7 +74,7 @@ function validateStudent (model) {
 
 export default summon(props => ({
   createStudent: body => ({
-    newStudent: {
+    creatingStudent: {
       url: '/auth/user',
       method: 'POST',
       body

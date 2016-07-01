@@ -14,14 +14,14 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {classes, selected, createClass, ...rest} = props
+  const {classes, selected, loading, createClass, ...rest} = props
 
   return (
     <Block overflowY='auto' {...rest}>
       {
         map(cls => <ClassItem cls={cls} selected={selected.indexOf(cls._id) !== -1} />, classes)
       }
-      <NewMenuItem key='newMenuItem' onSubmit={createClass} validate={validate.group} type='Class' />
+      <NewMenuItem key='newMenuItem' loading={loading} onSubmit={createClass} validate={validate.group} type='Class' />
     </Block>
   )
 }

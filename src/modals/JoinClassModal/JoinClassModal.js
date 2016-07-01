@@ -17,7 +17,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {joinClass} = props
+  const {joinClass, joiningClass = {}} = props
+  const {loading} = joiningClass
 
   return (
     <Modal onDismiss={closeModal} opacity='1'>
@@ -35,7 +36,7 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
              <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Create</Button>
+          <Button type='submit' busy={loading}>Create</Button>
         </ModalFooter>
       </Form>
     </Modal>

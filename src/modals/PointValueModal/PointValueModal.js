@@ -15,7 +15,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {user, setPointValue} = props
+  const {user, setPointValue, changingPoints = {}} = props
+  const {loading} = changingPoints
   const {preferences} = user
   const {max_points = 10} = preferences
 
@@ -33,7 +34,7 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Update</Button>
+          <Button type='submit' busy={loading}>Update</Button>
         </ModalFooter>
       </Form>
     </Modal>

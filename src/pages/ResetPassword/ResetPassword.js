@@ -35,12 +35,14 @@ function render ({props, local, state}) {
 }
 
 function ResetForm ({props}) {
-  const {resetPassword, local} = props
+  const {resetPassword, resettingPassword = {}, local} = props
+  const {loading} = resettingPassword
+
   return (
     <Form onSubmit={resetPassword} onSuccess={local(setSuccess)} validate={validatePassword}>
       <BlockInput type='password' autofocus placeholder='PASSWORD' name='password'/>
       <BlockInput type='password' placeholder='CONFIRM PASSWORD' name='confirm_password' />
-      <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
+      <Button type='submit' busy={loading} wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
         Reset Password
       </Button>
     </Form>
@@ -97,7 +99,7 @@ const reducer = handleActions({
 
 export default summon(({token}) => ({
   resetPassword: ({password}) => ({
-    resetingPassword: {
+    resettingPassword: {
       url: `/user/reset?token=${token}`,
       method: 'PUT',
       body: {

@@ -17,7 +17,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {createClass} = props
+  const {createClass, creatingClass = {}} = props
+  const {loading} = creatingClass
 
   return (
     <Modal onDismiss={closeModal} opacity='1'>
@@ -35,7 +36,7 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
              <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Create</Button>
+          <Button type='submit' busy={loading}>Create</Button>
         </ModalFooter>
       </Form>
     </Modal>
@@ -48,7 +49,7 @@ function render ({props}) {
 
 export default summon(props => ({
   createClass: body => ({
-    newClass: {
+    creatingClass: {
       url: '/group/',
       method: 'POST',
       invalidates: ['/user/classes', '/user'],

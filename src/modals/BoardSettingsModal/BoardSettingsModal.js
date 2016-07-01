@@ -26,7 +26,7 @@ function getProps (props, {currentUrl}) {
  */
 
 function render ({props}) {
-  const {renameBoard, board, isCurrentBoard} = props
+  const {renameBoard, board, deleting = {}, renaming = {}, isCurrentBoard} = props
 
   return (
     <Modal onDismiss={closeModal} opacity='1'>
@@ -48,7 +48,7 @@ function render ({props}) {
               <Text pointer underline onClick={closeModal}>cancel</Text>
               <Text mx>or</Text>
             </Text>
-            <Button type='submit'>Update</Button>
+            <Button type='submit' busy={renaming.loading}>Update</Button>
           </Block>
         </ModalFooter>
       </Form>
@@ -66,7 +66,7 @@ function render ({props}) {
 
 const ConfirmDeleteBoard = summon(({boardId}) => ({
   onAccept: () => ({
-    deleting: {
+    accepting: {
       url: `/board/${boardId}`,
       method: 'DELETE',
       invalidates: ['/user/boards', '/user']
@@ -80,7 +80,7 @@ const ConfirmDeleteBoard = summon(({boardId}) => ({
 
 export default summon(({board}) => ({
   renameBoard: body => ({
-    nameChange: {
+    renaming: {
       url: `/board/${board._id}`,
       method: 'PUT',
       invalidates: ['/user/boards', `/group/${board._id}`],

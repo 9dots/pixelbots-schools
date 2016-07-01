@@ -11,8 +11,9 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {isFollowing, follow, unfollow, board, ...rest} = props
-  const {loading, value, reload} = isFollowing
+  const {isFollowing, follow, unfollow, followResponse = {}, board, ...rest} = props
+  const {value, reload} = isFollowing
+  const loading = isFollowing.loading || followResponse.loading
   const noun = board ? 'Board' : ''
   const verb = loading && !reload
     ? <span>&nbsp;</span>
@@ -20,8 +21,9 @@ function render ({props}) {
 
   return (
     <Button
+      darkSpinner
       onClick={(value ? unfollow : follow)}
-      disabled={loading}
+      busy={loading}
       color={value ? 'midgray' : 'blue'}
       px={25}
       rounded
@@ -67,7 +69,7 @@ export default summon((props) => {
       }
     }),
     unfollow: () => ({
-      unfollowResponse: {
+      followResponse: {
         url,
         method: 'DELETE',
         // Explicitly also invalidate the url for deletes

@@ -15,7 +15,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {sendInvite} = props
+  const {sendInvite, sendingInvites = {}} = props
+  const {loading} = sendingInvites
 
   return (
     <Modal onDismiss={closeModal}>
@@ -38,7 +39,7 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Send!</Button>
+          <Button type='submit' busy={loading}>Send!</Button>
         </ModalFooter>
       </Form>
     </Modal>

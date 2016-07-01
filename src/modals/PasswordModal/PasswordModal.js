@@ -6,6 +6,8 @@ import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdu
 import {Button, Input, Tooltip} from 'vdux-containers'
 import RoundedInput from 'components/RoundedInput'
 import summon, {invalidate} from 'vdux-summon'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
 import {password} from 'lib/schemas/user'
 import validate from '@weo-edu/validate'
 import {closeModal} from 'reducer/modal'
@@ -17,10 +19,11 @@ import Form from 'vdux-form'
  * <PasswordModal/>
  */
 
-function render ({props}) {
+function render ({props, local, state}) {
   const {changePassword, isMe, group} = props
   const users = [].concat(props.user)
   const names = users.map(user => user.displayName)
+  const {loading} = state
 
   return (
     <Modal onDismiss={closeModal}>
@@ -51,19 +54,37 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Update</Button>
+          <Button type='submit' busy={loading}>Update</Button>
         </ModalFooter>
       </Form>
     </Modal>
   )
 
   function * handleSubmit (body) {
+    yield local(beginLoading)()
     yield users.map(user => changePassword(user, body))
     if (group) {
       yield invalidate(`/group/students?group=${group._id}`)
     }
+    yield local(endLoading)()
   }
 }
+
+/**
+ * Actions
+ */
+
+const beginLoading = createAction('<PasswordModal/>: begin loading')
+const endLoading = createAction('<PasswordModal/>: end loading')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [beginLoading]: state => ({...state, loading: true}),
+  [endLoading]: state => ({...state, loading: false})
+})
 
 /**
  * Validation
@@ -88,5 +109,6 @@ export default summon(() => ({
     }
   })
 }))({
-  render
+  render,
+  reducer
 })

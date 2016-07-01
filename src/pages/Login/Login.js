@@ -16,14 +16,15 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {loginUser} = props
+  const {loginUser, loggedIn = {}} = props
+  const {loading} = loggedIn
 
   return (
     <Block w='col_s' color='white' p='m'>
       <Form onSubmit={loginUser} onSuccess={user => postLogin(user.token)}>
         <BlockInput type='text' autofocus placeholder='USERNAME OR EMAIL' name='username' />
         <BlockInput placeholder='PASSWORD' type='password' name='password' />
-        <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
+        <Button type='submit' busy={loading} wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
           Log In
         </Button>
         <Flex align='space-around center' m='m'>

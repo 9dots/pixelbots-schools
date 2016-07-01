@@ -26,7 +26,7 @@ function getProps (props, {currentUrl}) {
  */
 
 function render ({props}) {
-  const {renameClass, group, isCurrentClass} = props
+  const {renameClass, renaming = {}, group, isCurrentClass} = props
 
   return (
     <Modal onDismiss={closeModal}>
@@ -48,7 +48,7 @@ function render ({props}) {
               <Text pointer underline onClick={closeModal}>cancel</Text>
               <Text mx>or</Text>
             </Text>
-            <Button type='submit'>Update</Button>
+            <Button type='submit' busy={renaming.loading}>Update</Button>
           </Block>
         </ModalFooter>
       </Form>
@@ -67,7 +67,7 @@ function render ({props}) {
 
 const ConfirmDeleteClass = summon(({classId}) => ({
   onAccept: () => ({
-    deleting: {
+    accepting: {
       url: `/group/${classId}`,
       method: 'DELETE',
       invalidates: ['/user/classes', '/user']
@@ -81,7 +81,7 @@ const ConfirmDeleteClass = summon(({classId}) => ({
 
 export default summon(({group}) => ({
   renameClass: body => ({
-    nameChange: {
+    renaming: {
       url: `/group/${group._id}`,
       method: 'PUT',
       invalidates: ['/user/classes', '/user'],

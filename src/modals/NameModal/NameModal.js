@@ -37,7 +37,8 @@ function initialState ({props}) {
  */
 
 function render ({props, state, local}) {
-  const {user, changeName} = props
+  const {user, changeName, changingName = {}} = props
+  const {loading} = changingName
   const {name, userType} = user
   const isStudent = userType === 'student'
   const {familyName, givenName} = name
@@ -69,7 +70,7 @@ function render ({props, state, local}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Update</Button>
+          <Button type='submit' busy={loading}>Update</Button>
         </ModalFooter>
       </Form>
     </Modal>

@@ -32,12 +32,14 @@ function render ({props, local, state}) {
 }
 
 function ForgotForm ({props}) {
-  const {sendReset, local} = props
+  const {sendReset, sendingReset = {}, local} = props
+  const {loading} = sendingReset
+
   return (
     <Block>
       <Form onSubmit={sendReset} onSuccess={local(setSuccess)}>
         <BlockInput autofocus placeholder='EMAIL OR USERNAME' name='username' />
-        <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
+        <Button type='submit' busy={loading} wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
           Reset Password
         </Button>
       </Form>

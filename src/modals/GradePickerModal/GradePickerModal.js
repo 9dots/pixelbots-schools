@@ -29,7 +29,8 @@ function initialState ({props}) {
  */
 
 function render ({props, state, local}) {
-  const {changeGradeLevels, onClose = () => {}} = props
+  const {changeGradeLevels, onClose = () => {}, changingGradeLevels = {}} = props
+  const {loading} = changingGradeLevels
   const {gradeLevels} = state
 
   return (
@@ -46,7 +47,7 @@ function render ({props, state, local}) {
             <Text pointer underline onClick={close}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Update</Button>
+          <Button type='submit' busy={loading}>Update</Button>
         </ModalFooter>
       </Form>
     </Modal>

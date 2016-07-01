@@ -27,8 +27,8 @@ const tileWidth = 230
  */
 
 function render ({props, local, state}) {
-  const {user, changeAvatar, changingAvatar} = props
-  const {url, crop} = state
+  const {user, changeAvatar} = props
+  const {url, crop, loading} = state
 
   return (
     <Modal onDismiss={closeModal}>
@@ -55,7 +55,7 @@ function render ({props, local, state}) {
           <Text pointer underline onClick={closeModal}>cancel</Text>
            <Text mx>or</Text>
         </Text>
-        <Button onClick={submit}>Update</Button>
+        <Button onClick={submit} busy={loading}>Update</Button>
       </ModalFooter>
     </Modal>
   )
@@ -63,21 +63,28 @@ function render ({props, local, state}) {
   function * submit () {
     let uploadUrl = url
 
-    if (crop) {
-      const {x, y, width, height} = crop.detail
-      const blob = cropImage(
-        crop.target,
-        x,
-        y,
-        width,
-        height,
-        tileWidth,
-        tileWidth)
+    yield local(beginLoading)()
 
-      uploadUrl = yield uploadFile(blob)
+    try {
+      if (crop) {
+        const {x, y, width, height} = crop.detail
+        const blob = cropImage(
+          crop.target,
+          x,
+          y,
+          width,
+          height,
+          tileWidth,
+          tileWidth)
+
+        uploadUrl = yield uploadFile(blob)
+      }
+
+      yield changeAvatar(uploadUrl)
+    } finally {
+      yield local(endLoading)()
     }
 
-    yield changeAvatar(uploadUrl)
     yield closeModal()
     yield avatarDidUpdate()
   }
@@ -89,6 +96,8 @@ function render ({props, local, state}) {
 
 const setImage = createAction('<AvatarUploadModal/>: set image')
 const setCrop = createAction('<AvatarUploadModal/>: set crop')
+const beginLoading = createAction('<AvatarUploadModal/>: begin loading')
+const endLoading = createAction('<AvatarUploadModal/>: end loading')
 
 /**
  * Reducer
@@ -96,7 +105,9 @@ const setCrop = createAction('<AvatarUploadModal/>: set crop')
 
 const reducer = handleActions({
   [setImage]: (state, url) => ({...state, url}),
-  [setCrop]: (state, crop) => ({...state, crop})
+  [setCrop]: (state, crop) => ({...state, crop}),
+  [beginLoading]: state => ({...state, loading: true}),
+  [endLoading]: state => ({...state, loading: false})
 })
 
 /**

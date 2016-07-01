@@ -17,7 +17,7 @@ import Form from 'vdux-form'
 function render ({props, local, state, path}) {
   const {
     type = 'Item', openedProps = {}, closedProps = {},
-    onSubmit, validate, ...rest
+    onSubmit, validate, loading, ...rest
   } = props
   const {opened} = state
   return (
@@ -39,7 +39,7 @@ function render ({props, local, state, path}) {
                 autofocus/>
               <Block align='start center' mt>
                 <Button px mr bgColor='grey' text='Cancel' onClick={local(toggle)}/>
-                <Button id={path} px text='Create' type='submit' />
+                <Button id={path} px text='Create' type='submit' busy={loading} />
               </Block>
             </Block>
           : <Block

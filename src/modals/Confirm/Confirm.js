@@ -15,7 +15,7 @@ import noop from '@f/noop'
  */
 
 function render ({props}) {
-  const {onAccept = noop, onReject = noop, message, redirect} = props
+  const {onAccept = noop, onReject = noop, message, redirect, accepting = {}} = props
 
   return (
     <Modal w='col_m'>
@@ -32,7 +32,7 @@ function render ({props}) {
           <Button mr bgColor='grey' onClick={reject}>
             Cancel
           </Button>
-          <Button type='submit'>Ok</Button>
+          <Button type='submit' busy={accepting.loading}>Ok</Button>
         </ModalFooter>
       </Form>
     </Modal>

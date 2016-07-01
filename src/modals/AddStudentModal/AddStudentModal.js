@@ -16,7 +16,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {createStudent, joinClass} = props
+  const {createStudent, joinClass, creatingStudent = {}, joiningClass = {}} = props
+  const loading = creatingStudent.loading || joiningClass.loading
 
   return (
     <Modal onDismiss={closeModal}>
@@ -43,7 +44,7 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Add</Button>
+          <Button type='submit' busy={loading}>Add</Button>
         </ModalFooter>
       </Form>
     </Modal>
@@ -72,7 +73,7 @@ function validateStudent (model) {
 
 export default summon(({groupId}) => ({
   createStudent: body => ({
-    newStudent: {
+    creatingStudent: {
       url: '/auth/user',
       method: 'POST',
       body

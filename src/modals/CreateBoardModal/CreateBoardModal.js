@@ -16,7 +16,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {createBoard} = props
+  const {createBoard, creatingBoard = {}} = props
+  const {loading} = creatingBoard
 
   return (
     <Modal onDismiss={closeModal}>
@@ -34,7 +35,7 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
              <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Create</Button>
+          <Button type='submit' busy={loading}>Create</Button>
         </ModalFooter>
       </Form>
     </Modal>
@@ -47,7 +48,7 @@ function render ({props}) {
 
 export default summon(props => ({
   createBoard: body => ({
-    newBoard: {
+    creatingBoard: {
       url: '/board/',
       method: 'POST',
       invalidates: ['/user/boards', '/user'],

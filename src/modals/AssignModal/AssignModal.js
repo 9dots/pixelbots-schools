@@ -18,9 +18,10 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {activity, classes, fields, createClass} = props
+  const {activity, classes, fields, createClass, creatingClass = {}, assigning = {}, copyingActivity = {}} = props
   const {value, loaded} = classes
   const selected = fields.selected.value || []
+  const loading = assigning.loading || copyingActivity.loading
 
   if (! loaded) return <span/>
 
@@ -34,7 +35,7 @@ function render ({props}) {
           <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
             Select Classes to Assign to:
           </ModalHeader>
-          <ClassSelect classes={value.items} selected={selected} createClass={createClass} absolute h='calc(100% - 56px)' wide />
+          <ClassSelect loading={creatingClass.loading} classes={value.items} selected={selected} createClass={createClass} absolute h='calc(100% - 56px)' wide />
         </Flex>
       </Flex>
       <ModalFooter m='0'>
@@ -42,7 +43,7 @@ function render ({props}) {
           <Text pointer underline onClick={closeModal}>cancel</Text>
           <Text mx>or</Text>
         </Text>
-        <Button type='submit'>Assign</Button>
+        <Button type='submit' busy={loading}>Assign</Button>
       </ModalFooter>
     </Modal>
   )
@@ -55,7 +56,7 @@ function render ({props}) {
 export default summon(props => ({
   classes: '/user/classes',
   createClass: body => ({
-    newClass: {
+    creatingClass: {
       url: '/group/',
       method: 'POST',
       invalidates: ['/user/classes', '/user'],

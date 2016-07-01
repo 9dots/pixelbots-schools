@@ -17,7 +17,7 @@ function render ({props, children}) {
   return (
     <Block pb='l' {...rest}>
       {children}
-      <Loading show={loading} h='200' />
+      <Loading h={200} show={loading} />
       <Document onScroll={handleScroll(more, threshold)} />
     </Block>
   )

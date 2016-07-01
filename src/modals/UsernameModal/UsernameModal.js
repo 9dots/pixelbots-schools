@@ -18,7 +18,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {user, changeUsername} = props
+  const {user, changeUsername, changingUsername = {}} = props
+  const {loading} = changingUsername
 
   return (
     <Modal onDismiss={closeModal}>
@@ -41,7 +42,7 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Update</Button>
+          <Button type='submit' busy={loading}>Update</Button>
         </ModalFooter>
       </Form>
     </Modal>

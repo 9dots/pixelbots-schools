@@ -43,7 +43,8 @@ function initialState ({props}) {
  */
 
 function render ({props, state, local}) {
-  const {user, fields} = props
+  const {user, fields, changingAvatar = {}} = props
+  const {loading} = changingAvatar
   const {page} = state
 
   let extras = [{url: 'letters', name: 'letters'}]
@@ -100,7 +101,7 @@ function render ({props, state, local}) {
           <Text pointer underline onClick={closeModal}>cancel</Text>
            <Text mx>or</Text>
         </Text>
-        <Button type='submit'>Update</Button>
+        <Button type='submit' busy={loading}>Update</Button>
       </ModalFooter>
     </Modal>
   )

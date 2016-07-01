@@ -50,6 +50,10 @@ const theme = {
     s: 32,
     m: 75,
     l: 175,
+  },
+  spinnerAnimation: {
+    light: 'pulse .8s ease infinite',
+    dark: 'pulse-blue .8s ease infinite'
   }
 }
 

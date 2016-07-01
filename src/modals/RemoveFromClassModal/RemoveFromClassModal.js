@@ -15,7 +15,9 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {remove, group} = props
+  const {remove, removing = {}, group} = props
+  const {loading} = removing
+
   const users = [].concat(props.user)
   const names = users.map(user => user.displayName)
 
@@ -48,7 +50,7 @@ function render ({props}) {
             <Text pointer underline onClick={closeModal}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Remove</Button>
+          <Button type='submit' busy={loading}>Remove</Button>
         </ModalFooter>
       </Form>
     </Modal>
@@ -66,7 +68,7 @@ function render ({props}) {
 
 export default summon(() => ({
   remove: (user, group) => ({
-    removeStudent: {
+    removing: {
       url: `/group/${group._id}/members/${user._id || user.id}`,
       method: 'DELETE'
     }

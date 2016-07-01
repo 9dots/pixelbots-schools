@@ -18,7 +18,8 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {createTeacher} = props
+  const {createTeacher, creatingTeacher = {}} = props
+  const {loading} = creatingTeacher
 
   return (
     <Flex>
@@ -40,7 +41,7 @@ function render ({props}) {
           <BlockInput autofocus name='name' placeholder='FULL NAME' />
           <BlockInput name='email' placeholder='EMAIL' />
           <BlockInput name='password' placeholder='PASSWORD' type='password' />
-          <Button type='submit' wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
+          <Button type='submit' busy={loading} wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
             Sign Up Now
           </Button>
           <Flex align='space-around center' m='m'>
@@ -82,7 +83,7 @@ function cast (user) {
 
 export default summon(props => ({
   createTeacher: body => ({
-    newTeacher: {
+    creatingTeacher: {
       url: '/auth/user',
       method: 'POST',
       body

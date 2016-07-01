@@ -34,7 +34,7 @@ function render ({props}) {
   )
 }
 
-function renderItems(user, items, query) {
+function renderItems (user, items, query) {
   return (
     items.length
       ? map(board => <BoardTile currentUser={user} board={board} />, items)
@@ -42,7 +42,7 @@ function renderItems(user, items, query) {
   )
 }
 
-function EmptySearch({props}) {
+function EmptySearch ({props}) {
   const {currentUser, query} = props
   return (
     <EmptyState icon='dashboard' color='blue'>
