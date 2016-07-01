@@ -45,13 +45,16 @@ function getData (activity, students) {
   let numReturned = 0
   let binMax = 0
   let bins = []
+
   for(var i = 0; i < 10; i++) {
     bins[i] = []
   }
 
   students.forEach(function(student) {
     const actor = actors[student._id]
+
     if(!actor) return
+
     const {pointsScaled = 0, status = 1} = actor
     const points = pointsScaled * total
     const percent = pointsScaled * 100
@@ -63,6 +66,7 @@ function getData (activity, students) {
       displayName: student.displayName
     }
 
+    console.log('instance', instance, status)
     if(status >= 5) {
       numReturned++
       averagePoints += points
@@ -72,6 +76,9 @@ function getData (activity, students) {
       binMax = Math.max(bins[i].length, binMax)
     }
   })
+
+  // Prevent division by zero
+  numReturned = numReturned || 1
 
   return {
     averagePercent: round(averagePercent / numReturned) + '%',
