@@ -2,7 +2,6 @@
  * Imports
  */
 
-import scrollTopOnPageChange from 'middleware/scrollTopOnPageChange'
 import fetch, {fetchEncodeJSON} from 'redux-effects-fetch'
 import transformErrors from 'middleware/transform-errors'
 import {shouldLog, setLogLevel} from 'lib/log-level'
@@ -43,7 +42,6 @@ const middleware = [
   location(),
   modal,
   title(),
-  scrollTopOnPageChange,
   summon.middleware('app.summon'),
   OAuth,
   print,
