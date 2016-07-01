@@ -102,11 +102,10 @@ function Bar({props}) {
   return (
       <Block
         tooltipProps={{whiteSpace: 'pre', lh: 1.4}}
+        immediate
         message={tooltipText(bin)}
         placement='right'
         ui={Tooltip}
-        delay={0}
-
         h={(bin.length / (binMax)) * 100 + '%'}
         left={(i * 10) + '%'}
         {...colorStyles}
