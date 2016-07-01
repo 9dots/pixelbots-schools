@@ -3,6 +3,9 @@
  */
 
 import {Flex, Block, Card, Icon} from 'vdux-ui'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
+import QuestionRow from './QuestionRow'
 import element from 'vdux/element'
 import map from '@f/map'
 
@@ -10,7 +13,7 @@ import map from '@f/map'
  * Render
  */
 
-function render({props}) {
+function render({props, local, state}) {
   const {activity, students, instances} = props
   const questions = getQuestions(instances)
 
@@ -21,39 +24,15 @@ function render({props}) {
         <Block bgColor='grey' boxShadow='card' ml p w={138}>Average</Block>
       </Flex>
       {
-        map((question, i) => <Question students={students} instances={instances} question={question} i={i} />, questions)
+        map((question, i) =>
+          <QuestionRow
+            expanded={state.expandedAtt === i}
+            dismiss={local(toggle, null)}
+            toggle={local(toggle, i)}
+            question={question}
+            i={i}/>, questions)
       }
     </Block>
-  )
-}
-
-function Question ({props}) {
-  const {question, i, instances} = props
-  const {
-    displayName, poll,
-    points: {max}, total, numAnswered
-  } = question
-  const responseType = question.attachments[0].objectType
-  const iconMap = {
-    choice: poll ? 'equalizer' : 'done_all',
-    shortAnswer: 'edit',
-    text: 'message'
-  }
-  let average = Math.round((total / numAnswered) * 10) / 10
-
-  return (
-    <Flex fs='s' lighter wide>
-      <Card p bg='white' ellipsis flex align='start center'>
-        <Block>{i+1}.</Block>
-        <Icon name={iconMap[responseType]} fs='s' mx/>
-        <Block ellipsis flex>{displayName}</Block>
-        <Icon name='keyboard_arrow_down'  ml='s' fs='s' />
-      </Card>
-      <Card p bg='white' ml minWidth={138} align='start center'>
-        <Block circle='7' bg={getColor(average / max)} mr='16'/>
-        {average} / {max}
-      </Card>
-    </Flex>
   )
 }
 
@@ -77,28 +56,36 @@ function getQuestions(instances) {
           questions[count].numAnswered++
           count++
         }
-
       })
     }
-
   })
   return questions
 }
 
-function getColor (average) {
-  let color = 'green'
-  if(average < .6)
-    color = 'red'
-  else if(average < .8)
-    color = 'yellow'
 
-  return color
-}
+/**
+ * Actions
+ */
+
+const toggle = createAction('<QuestionOverview/>: toggle')
+
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [toggle]: (state, i) => ({
+    ...state,
+    expandedAtt: state.expandedAtt === i ? null : i
+  })
+})
 
 /**
  * Exports
  */
 
 export default {
-  render
+  render,
+  reducer
 }
