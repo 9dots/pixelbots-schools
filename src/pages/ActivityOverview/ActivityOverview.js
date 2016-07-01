@@ -51,6 +51,7 @@ function getData (activity, students) {
 
   students.forEach(function(student) {
     const actor = actors[student._id]
+    if(!actor) return
     const {pointsScaled = 0, status = 1} = actor
     const points = pointsScaled * total
     const percent = pointsScaled * 100

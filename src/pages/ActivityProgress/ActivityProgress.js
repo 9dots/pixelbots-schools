@@ -149,13 +149,13 @@ function getInstances (activity, students) {
 
   return students.map(function(student) {
     const actor = actors[student._id]
-    const {status = 1, turnedInAt = 0, pointsScaled = 0} = actor
+    const pointsScaled = actor ? actor.pointsScaled : 0
     return {
       total,
-      status,
-      turnedInAt,
-      percent: Math.round(actor.pointsScaled * 100) + '%',
-      points: actor.pointsScaled * total,
+      status: actor ? actor.status : 1,
+      turnedInAt: actor ? actor.turnedInAt : 0,
+      percent: Math.round(pointsScaled * 100) + '%',
+      points: pointsScaled * total,
       id: student._id,
       familyName: student.name.familyName,
       givenName: student.name.givenName
