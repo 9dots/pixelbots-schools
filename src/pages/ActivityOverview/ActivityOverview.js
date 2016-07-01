@@ -2,23 +2,33 @@
  * Imports
  */
 
+import QuestionOverview from './QuestionOverview'
+import summonChannels from 'lib/summon-channels'
+import FourOhFour from 'pages/FourOhFour'
+import Loading from 'pages/Loading'
 import Histogram from './Histogram'
+import {Block, Flex} from 'vdux-ui'
 import element from 'vdux/element'
 import getProp from '@f/get-prop'
-import {Block} from 'vdux-ui'
 
 /**
  * <ActivityOverview/>
  */
 
 function render ({props}) {
-  const {students, activity} = props
-  const data = getData(activity, students)
+  const {students, activity, activities} = props
+  const {value, loading, error} = activities
 
+  if (loading) return <Loading show={true} />
+  if (error) return <FourOhFour />
+
+  const instances = value.items
+  const data = getData(activity, students)
 
   return (
     <Block w='col_main' mx='auto'>
       <Histogram data={data}/>
+      <QuestionOverview instances={instances} {...props} />
     </Block>
   )
 }
@@ -33,12 +43,13 @@ function getData (activity, students) {
   let averagePoints = 0
   let averagePercent = 0
   let numReturned = 0
+  let binMax = 0
   let bins = []
   for(var i = 0; i < 10; i++) {
     bins[i] = []
   }
 
-  const instances = students.map(function(student) {
+  students.forEach(function(student) {
     const actor = actors[student._id]
     const {pointsScaled = 0, status = 1} = actor
     const points = pointsScaled * total
@@ -55,19 +66,20 @@ function getData (activity, students) {
       numReturned++
       averagePoints += points
       averagePercent += percent
-      bins[percentToIndex(percent)].push(instance)
+      const i = percentToIndex(percent)
+      bins[i].push(instance)
+      binMax = Math.max(bins[i].length, binMax)
     }
-
-    return instance
   })
 
   return {
-    bins,
-    numReturned,
-    totalPoints: total,
-    numStudents: students.length,
     averagePercent: round(averagePercent / numReturned) + '%',
-    averagePoints: round(averagePoints / numReturned)
+    averagePoints: round(averagePoints / numReturned),
+    numStudents: students.length,
+    totalPoints: total,
+    numReturned,
+    binMax,
+    bins
   }
 }
 
@@ -94,6 +106,8 @@ function totalPoints (activity) {
  * Exports
  */
 
-export default {
+export default summonChannels(
+  props => `share!${props.activity._id}.instances`
+)({
   render
-}
+})
