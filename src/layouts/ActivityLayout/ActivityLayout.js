@@ -2,6 +2,8 @@
  * Imports
  */
 
+import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
+import ActivityCardActions from 'components/ActivityCardActions'
 import {Block, Fixed, Flex, Text} from 'vdux-ui'
 import PageTitle from 'components/PageTitle'
 import FourOhFour from 'pages/FourOhFour'
@@ -32,14 +34,14 @@ function internal(props, children) {
   if (error || sError) return <FourOhFour />
 
   return [
-    <Nav value={value} classId={classId} />,
+    <Nav value={value} classId={classId} user={currentUser} />,
     <PageTitle title={`${value.displayName} | Board`} />,
     maybeOver({activity: value, students: studentList.items}, children)
   ]
 }
 
 function Nav({props}) {
-  const {value, classId} = props
+  const {value, classId, user} = props
   return (
     <Block>
       <Fixed bgColor='white' wide top z={2} boxShadow='card' align='start center' h={53}>
@@ -60,7 +62,10 @@ function Nav({props}) {
             Activity Preview
           </NavTile>
         </Flex>
-        <Flex px flex />
+        <Flex flex align='end center' px>
+          <ActivityCardActions activity={value} user={user} pin='Pin' pr={0} />
+          <ActivityDropdownMenu activity={value} />
+        </Flex>
       </Fixed>
       <Block pt={53} hidden mb/>
     </Block>

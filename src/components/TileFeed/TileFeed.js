@@ -37,7 +37,7 @@ function renderItems (items, emptyState, children, user, skip, activityProps) {
               <Flex column>
                 {i === 0 && children}
                 {
-                  map(activity => <ActivityTile user={user} activity={activity} actions={[likeOrEdit(activity, user), 'pin', 'assign']} {...activityProps} />, items)
+                  map(activity => <ActivityTile user={user} activity={activity} actions={getActions(activity)} {...activityProps} />, items)
                 }
               </Flex>
             ), columns)
@@ -45,15 +45,23 @@ function renderItems (items, emptyState, children, user, skip, activityProps) {
         </Flex>
       : emptyState
   )
+
+  function getActions (activity) {
+    const isOwner = activity.actor.id === user._id
+    return {
+      edit: isOwner,
+      like: !isOwner,
+      assign: 'Assign',
+      pin: true
+    }
+  }
+
 }
 
 /**
  * Helpers
  */
 
-function likeOrEdit (activity, user) {
-  return activity.actor.id === user._id ? 'edit' : 'like'
-}
 
 function toColumns (items, n, skip) {
   const columns = times(n, () => [])

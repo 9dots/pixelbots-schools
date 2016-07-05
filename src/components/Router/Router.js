@@ -299,5 +299,10 @@ function profileRedirect (props, user) {
  */
 
 export default {
-  render
+  render,
+  onUpdate: function (prev, next) {
+   if (prev.props.url !== next.props.url) {
+     return () => document.body.scrollTop = 0
+   }
+ }
 }

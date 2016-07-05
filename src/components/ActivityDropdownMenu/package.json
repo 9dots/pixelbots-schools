@@ -1,0 +1,5 @@
+{
+  "name": "ActivityDropdownMenu",
+  "main": "ActivityDropdownMenu.js",
+  "browser": "ActivityDropdownMenu.js"
+}

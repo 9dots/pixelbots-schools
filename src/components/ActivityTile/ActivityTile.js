@@ -45,18 +45,20 @@ const localLike = createAction('<ActivityTile/>: local like')
 
 const Activity = wrap(CSSContainer)({
   render ({props, local, state}) {
-    const {activity, user = {}, hover, actions = []} = props
-    const {image, displayName, description, _id, likers, repinCount, replies} = activity
+    const {activity, user = {}, hover, actions} = props
+    const {
+      image, displayName, description, _id,
+      likers, repinCount, replies
+    } = activity
     const url = `/activity/${_id}/public/preview`
-
     const {locallyLiked} = state
     const likes = likers.length + (locallyLiked ? 1 : 0)
 
     return (
       <Flex column cursor='zoom-in' pb onClick={() => setUrl(url)}>
         {
-          actions.length && hover &&
-            <ActivityCardActions liked={locallyLiked} localLike={local(localLike)} actions={actions} assign activity={activity} user={user} absolute wide z='1' />
+          actions && hover &&
+            <ActivityCardActions liked={locallyLiked} localLike={local(localLike)} {...actions} activity={activity} user={user} absolute wide z='1' />
         }
         <Figure key='img' {...image} thumb={true} opacity={hover && .88} />
         <Block textAlign='center' m='m'>
