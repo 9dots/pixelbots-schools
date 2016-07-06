@@ -58,7 +58,7 @@ const Activity = wrap(CSSContainer)({
       <Flex column cursor='zoom-in' pb onClick={() => setUrl(url)}>
         {
           actions && hover &&
-            <ActivityCardActions liked={locallyLiked} localLike={local(localLike)} {...actions} activity={activity} user={user} absolute wide z='1' />
+            <ActivityCardActions spread liked={locallyLiked} localLike={local(localLike)} {...actions} activity={activity} user={user} absolute wide z='1' />
         }
         <Figure key='img' {...image} thumb={true} opacity={hover && .88} />
         <Block textAlign='center' m='m'>

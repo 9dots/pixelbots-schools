@@ -15,11 +15,11 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {activity, onClick} = props
+  const {activity, onClick, hide} = props
   const editUrl = `/activity/${activity._id}/edit`
 
   return (
-    <Dropdown onClick={onClick} btn={<Btn onClick={onClick} />} w={150}>
+    <Dropdown btn={<Btn hide={hide} />} w={150}>
       <Item
         onClick={() => openModal(() => <AssignModal activity={activity} />)}
         text='Reassign'
@@ -47,9 +47,19 @@ function Item ({props}) {
   )
 }
 
-function Btn() {
+function Btn({props}) {
   return (
-    <Button icon='more_vert' color='text' fs='m' circle={32} bgColor='white' activeProps={{highlight: 0.09}} focusProps={{highlight: 0.09}} ml='s' hoverProps={{highlight: 0}}/>
+    <Button
+      activeProps={{highlight: 0.09}}
+      focusProps={{highlight: 0.09}}
+      hoverProps={{highlight: 0}}
+      hide={props.hide}
+      icon='more_vert'
+      bgColor='white'
+      color='text'
+      circle={32}
+      fs='m'
+      ml='s'/>
   )
 }
 

@@ -22,7 +22,7 @@ import summon from 'vdux-summon'
 function render ({props}) {
   const {
     activity, user, assign, edit, like, pin, archive, likeActivity,
-    unlikeActivity, spread = true, isCurrentActivity,
+    unlikeActivity, spread, isCurrentActivity,
     liked, localLike,
     ...rest
   } = props
@@ -91,7 +91,7 @@ function render ({props}) {
 
 function Action ({props}) {
   const {
-    icon, weoIcon, text, full, color = 'text',
+    icon, weoIcon, text, color = 'text',
     bgColor, onClick, ...rest
   } = props
   const isString = typeof text === 'string'

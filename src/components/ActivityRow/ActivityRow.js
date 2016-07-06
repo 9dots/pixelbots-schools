@@ -57,7 +57,7 @@ const Activity = wrap(CSSContainer)({
                 my='m' />
           }
           </Block>
-          <Flex column flex='28%' align='space-between' tall>
+          <Flex column flex='28%' pl align='space-between' tall>
             {
               props.badgeUi &&
                 <Flex flex align='end start'>
@@ -67,7 +67,7 @@ const Activity = wrap(CSSContainer)({
             {
               actions && hover &&
                 <Flex align='end center'>
-                  <ActivityCardActions {...actions} align='end center' wide activity={activity} user={currentUser} spread={false} />
+                  <ActivityCardActions {...actions} align='end center' wide activity={activity} user={currentUser} />
                   {
                     ddMenu &&
                       <Block mr ml='-6' onClick={e => e.stopPropagation()}>
