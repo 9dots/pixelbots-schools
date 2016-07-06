@@ -14,7 +14,7 @@ import moment from 'moment'
 
 function render ({props}) {
   return (
-    <ActivityRow badgeUi={ClassActivityBadge} metaUi={ClassMeta} {...props} />
+    <ActivityRow actions={{pin: true}} ddMenu={true} badgeUi={ClassActivityBadge} metaUi={ClassMeta} {...props} />
   )
 }
 

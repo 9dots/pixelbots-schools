@@ -2,6 +2,7 @@
  * Imports
  */
 
+import DeleteActivityModal from 'modals/DeleteActivityModal'
 import {setUrl} from 'redux-effects-location'
 import {Button, Icon} from 'vdux-containers'
 import AssignModal from 'modals/AssignModal'
@@ -9,19 +10,9 @@ import SignUpModal from 'modals/SignUpModal'
 import WeoIcon from 'components/WeoIcon'
 import {openModal} from 'reducer/modal'
 import PinModal from 'modals/PinModal'
-import Confirm from 'modals/Confirm'
 import {Block, Text} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
-
-/**
- * getProps
- */
-
-function getProps (props, {currentUrl}) {
-  props.isCurrentActivity = currentUrl.indexOf(props.activity._id) !== -1
-  return props
-}
 
 
 /**
@@ -84,7 +75,7 @@ function render ({props}) {
         text={pin}
         mr='0'/>
       <Action
-        onClick={deleteActivity}
+        onClick={() => openModal(() => <DeleteActivityModal activity={activity} />)}
         icon='delete'
         text={archive}
         color='grey_medium'
@@ -92,19 +83,6 @@ function render ({props}) {
         />
     </Block>
   )
-
-  function deleteActivity () {
-    return openModal(() =>
-      <DeleteActivity
-        activityId={activity._id}
-        redirect={isCurrentActivity && '/feed'}
-        message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>} />
-      )
-  }
-
-  function isHidden(action) {
-    return false
-  }
 }
 
 /**
@@ -140,16 +118,6 @@ function Action ({props}) {
   )
 }
 
-const DeleteActivity = summon(({activityId}) => ({
-  onAccept: () => ({
-    deleting: {
-      url: `/share/${activityId}`,
-      method: 'DELETE',
-      invalidates: ['activity_feed']
-    }
-  })
-}))(Confirm)
-
 /**
  * Exports
  */
@@ -173,6 +141,5 @@ export default summon(({activity}) => {
     })
   }
 })({
-  getProps,
   render
 })

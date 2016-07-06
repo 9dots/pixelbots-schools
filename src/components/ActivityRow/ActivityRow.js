@@ -2,6 +2,7 @@
  * Imports
  */
 
+import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import ActivityCardActions from 'components/ActivityCardActions'
 import {Flex, Block, Card, Text, Image} from 'vdux-ui'
 import {wrap, CSSContainer} from 'vdux-containers'
@@ -25,7 +26,7 @@ function render ({props}) {
 const Activity = wrap(CSSContainer)({
   render ({props}) {
     const {
-      hover, activity, metaUi: MetaUi = Meta,
+      hover, activity, metaUi: MetaUi = Meta, ddMenu,
       badgeUi: BadgeUi = Badge, currentUser, actions
     } = props
     const {image, displayName, description, _id: id, published} = activity
@@ -56,12 +57,25 @@ const Activity = wrap(CSSContainer)({
                 my='m' />
           }
           </Block>
-          <Flex flex align='end start'>
+          <Flex column flex='28%' align='space-between' tall>
+            {
+              props.badgeUi &&
+                <Flex flex align='end start'>
+                  <BadgeUi activity={activity} currentUser={currentUser} />
+                </Flex>
+            }
             {
               actions && hover &&
-                <ActivityCardActions {...actions} align='end center' wide activity={activity} user={currentUser} spread={false} />
+                <Flex align='end center'>
+                  <ActivityCardActions {...actions} align='end center' wide activity={activity} user={currentUser} spread={false} />
+                  {
+                    ddMenu &&
+                      <Block mr ml='-6' onClick={e => e.stopPropagation()}>
+                        <ActivityDropdownMenu activity={activity} />
+                      </Block>
+                  }
+                </Flex>
             }
-            <BadgeUi activity={activity} currentUser={currentUser} />
           </Flex>
         </Flex>
       </Card>
