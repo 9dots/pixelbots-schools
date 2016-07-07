@@ -1,0 +1,6 @@
+# <ActivityPost/>
+
+Post renderer
+
+## Usage
+

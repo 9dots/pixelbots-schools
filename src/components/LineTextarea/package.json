@@ -1,0 +1,5 @@
+{
+  "name": "LineTextarea",
+  "main": "LineTextarea.js",
+  "browser": "LineTextarea.js"
+}

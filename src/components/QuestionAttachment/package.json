@@ -1,0 +1,5 @@
+{
+  "name": "QuestionAttachment",
+  "main": "QuestionAttachment.js",
+  "browser": "QuestionAttachment.js"
+}

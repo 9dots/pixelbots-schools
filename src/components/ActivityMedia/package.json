@@ -1,0 +1,5 @@
+{
+  "name": "ActivityMedia",
+  "main": "ActivityMedia.js",
+  "browser": "ActivityMedia.js"
+}
