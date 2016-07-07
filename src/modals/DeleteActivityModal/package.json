@@ -1,0 +1,5 @@
+{
+  "name": "DeleteActivityModal",
+  "main": "DeleteActivityModal.js",
+  "browser": "DeleteActivityModal.js"
+}

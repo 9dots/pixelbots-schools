@@ -15,7 +15,7 @@ import element from 'vdux/element'
 
 function render ({props}) {
   return (
-    <RowFeed {...props} item={ActivityRow} emptyState={<EmptyDrafts />} itemProps={{actions: ['edit', 'delete']}}/>
+    <RowFeed {...props} item={ActivityRow} emptyState={<EmptyDrafts />} itemProps={{actions: {edit: true, archive: true}}}/>
   )
 }
 

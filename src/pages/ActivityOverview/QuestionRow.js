@@ -25,19 +25,20 @@ const Question = wrap(CSSContainer, {
       question, hover, i,
       expanded, toggle, dismiss
     } = props
-    const {displayName, total, numAnswered, points: {max}} = question
+    const {displayName, total, numAnswered, points: {max}, poll} = question
     const average = Math.round((total / numAnswered) * 10) / 10
     const headerProps = {
       highlight: hover || expanded ? .03 : 0,
       boxShadow: expanded ? '0 0 0' : 'card',
       align: 'start center',
+      borderBottom: '1px solid off_white',
       p: true
     }
 
     return (
       <Block>
       <Document onClick={dismiss} />
-      <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'card' : '0 0 0'} onClick={e => open(e, toggle)}>
+      <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'z2' : '0 0 0'} onClick={e => open(e, toggle)}>
         <Flex fs='s' lighter wide pointer>
           <Card {...headerProps} ellipsis flex>
             <Block>{i+1}.</Block>
@@ -45,9 +46,9 @@ const Question = wrap(CSSContainer, {
             <Block ellipsis flex>{displayName}</Block>
           </Card>
           <Card {...headerProps} ml={expanded ? 0 : 12} minWidth={138}>
-            <Block circle='7' bg={getColor(average / max)} mr='16'/>
+            <Block circle='7' bg={getColor(average / max)} mr='16' hide={poll}/>
             <Block flex>
-              {average} / {max}
+              {poll ? '–' : average + ' / ' + max}
             </Block>
             <Icon name={`expand_${expanded ? 'less' : 'more'}`}  ml='s' fs='s' />
           </Card>

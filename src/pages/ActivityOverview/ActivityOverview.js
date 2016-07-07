@@ -66,7 +66,6 @@ function getData (activity, students) {
       displayName: student.displayName
     }
 
-    console.log('instance', instance, status)
     if(status >= 5) {
       numReturned++
       averagePoints += points
