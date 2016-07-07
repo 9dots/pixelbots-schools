@@ -23,7 +23,7 @@ function render ({props, children}) {
 }
 
 function internal(props, children) {
-  const {activity, students, currentUser} = props
+  const {activity, students, currentUser, classId} = props
   const {value, loading, error} = activity
   const {value: studentList, loading: sLoading, error: sError} = students
 
@@ -31,7 +31,7 @@ function internal(props, children) {
   if (error || sError) return <FourOhFour />
 
   return [
-    <Nav activity={value} user={currentUser} />,
+    <Nav activity={value} user={currentUser} classId={classId} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({activity: value, students: studentList.items}, children)
   ]

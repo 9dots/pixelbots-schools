@@ -1,0 +1,5 @@
+{
+  "name": "DeleteButton",
+  "main": "DeleteButton.js",
+  "browser": "DeleteButton.js"
+}

@@ -2,11 +2,11 @@
  * Imports
  */
 
-import {Button, Textarea} from 'vdux-containers'
 import summonChannels from 'lib/summon-channels'
-import {Block, Card, Text} from 'vdux-ui'
 import Loading from 'components/Loading'
+import CommentForm from './CommentForm'
 import Avatar from 'components/Avatar'
+import {Block, Card} from 'vdux-ui'
 import element from 'vdux/element'
 import getProp from '@f/get-prop'
 import moment from 'moment'
@@ -17,14 +17,15 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {currentUser, activities} = props
+  const { currentUser, activities, activity, classId } = props
   const {value, loading, loaded} = activities
-  if(loading && !loaded)
-    return <Loading show h={200} />
 
-  const {items: comments} = value
+  if(loading && !loaded) return <Loading show h={200} />
+
+  const comments = value.items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+
   return (
-    <Card w='col_main' mx='auto'>
+    <Card w='col_main' mx='auto' mb='l'>
       <Block p fs='l' lighter bg='grey' color='white'>
         Discussion
       </Block>
@@ -34,20 +35,7 @@ function render ({props}) {
       {
         map(comment => <Comment comment={comment}/>, comments)
       }
-      <Block p='l' bg='off_white' borderTop='1px solid rgba(black, .05)' align='start start'>
-        <Avatar actor={currentUser} size='40px' />
-        <Block flex mx>
-          <Textarea
-            focusProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
-            activeProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
-            placeholder='Write your comment…'
-            borderColor='grey_light'
-            lh='1.5em'
-            rows={2}
-            p/>
-        </Block>
-        <Button bgColor='grey'>Submit</Button>
-      </Block>
+      <CommentForm id={activity._id} currentUser={currentUser} classId={classId} />
     </Card>
   )
 }
@@ -90,6 +78,7 @@ function Arrow() {
     </span>
   )
 }
+
 /**
  * Exports
  */

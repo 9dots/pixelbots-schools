@@ -15,7 +15,8 @@ import Link from 'components/Link'
  */
 
 function render({props}) {
-  const {activity, user} = props
+  const {activity, user, classId} = props
+  const isPublic = classId === 'public'
   return (
     <Block>
       <Fixed bgColor='white' wide top z={2} boxShadow='card' align='start center' h={53}>
@@ -26,10 +27,10 @@ function render({props}) {
           </Text>
         </Flex>
         <Flex align='center center'>
-          <NavTile highlight='red' page='students'>
+          <NavTile highlight='red' page='students' hide={isPublic}>
             Student Progress
           </NavTile>
-          <NavTile highlight='green' page='overview'>
+          <NavTile highlight='green' page='overview' hide={isPublic}>
             Class Overview
           </NavTile>
           <NavTile highlight='blue' page='preview'>
@@ -40,7 +41,7 @@ function render({props}) {
           </NavTile>
         </Flex>
         <Flex flex align='end center' px>
-          <ActivityCardActions activity={activity} user={user} pin='Pin' pr={0} />
+          <ActivityCardActions activity={activity} user={user} pin='Pin' pr={0} assign={isPublic ? 'Assign' : false} like={isPublic} />
           <ActivityDropdownMenu activity={activity} hide={user.userType === 'student'} />
         </Flex>
       </Fixed>
@@ -50,7 +51,7 @@ function render({props}) {
 }
 
 function NavTile ({props, children}) {
-  const {highlight, page} = props
+  const {highlight, page, ...rest} = props
   const height = '53px'
   const href = getUrl(page)
 
@@ -68,7 +69,8 @@ function NavTile ({props, children}) {
         borderBottom='3px solid transparent'
         transition='all 0.2s'
         href={href}
-        px>
+        px
+        {...rest}>
         {children}
       </Link>
     </Block>

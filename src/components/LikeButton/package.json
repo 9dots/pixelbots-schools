@@ -1,0 +1,5 @@
+{
+  "name": "LikeButton",
+  "main": "LikeButton.js",
+  "browser": "LikeButton.js"
+}

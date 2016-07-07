@@ -1,0 +1,5 @@
+{
+  "name": "PinButton",
+  "main": "PinButton.js",
+  "browser": "PinButton.js"
+}
