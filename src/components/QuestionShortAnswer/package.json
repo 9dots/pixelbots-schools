@@ -1,0 +1,5 @@
+{
+  "name": "QuestionShortAnswer",
+  "main": "QuestionShortAnswer.js",
+  "browser": "QuestionShortAnswer.js"
+}

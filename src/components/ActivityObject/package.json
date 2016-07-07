@@ -1,0 +1,5 @@
+{
+  "name": "ActivityObject",
+  "main": "ActivityObject.js",
+  "browser": "ActivityObject.js"
+}

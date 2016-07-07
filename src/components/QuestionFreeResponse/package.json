@@ -1,0 +1,5 @@
+{
+  "name": "QuestionFreeResponse",
+  "main": "QuestionFreeResponse.js",
+  "browser": "QuestionFreeResponse.js"
+}

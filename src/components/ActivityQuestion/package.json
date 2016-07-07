@@ -1,0 +1,5 @@
+{
+  "name": "ActivityQuestion",
+  "main": "ActivityQuestion.js",
+  "browser": "ActivityQuestion.js"
+}
