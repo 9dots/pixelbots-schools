@@ -28,9 +28,11 @@ function render ({props}) {
   } = props
   const {published, channels, actor, likers = []} = activity
   const isOwner = actor.id === user._id
-  const hasLiked = liked || likers.some(function(liker) {
-    return liker.id === user._id
-  })
+  const hasLiked = liked === -1
+    ? false
+    : liked === 1 || likers.some(function(liker) {
+      return liker.id === user._id
+    })
 
   if(user.userType === 'student') return <span />
 
@@ -55,7 +57,7 @@ function render ({props}) {
       <Action
         onClick={
           user
-            ? [hasLiked ? unlikeActivity : likeActivity,  localLike]
+            ? [hasLiked ? unlikeActivity : likeActivity,  () => localLike(hasLiked ? -1 : 1)]
             : () => openModal(() => <SignUpModal />)
         }
         icon='favorite'
@@ -122,24 +124,19 @@ function Action ({props}) {
  * Exports
  */
 
-export default summon(({activity}) => {
-  const {_id} = activity
-  const invalidates = ['/share/' + _id, 'activity_feed']
-
-  return {
-    likeActivity: () => ({
-      likeActivity: {
-        url: `/share/${_id}/like`,
-        method: 'PUT'
-      }
-    }),
-    unlikeActivity: () => ({
-      unlikeActivity: {
-        url: `/share/${_id}/unlike`,
-        method: 'PUT'
-      }
-    })
-  }
-})({
+export default summon(({activity: {_id}}) => ({
+  likeActivity: () => ({
+    likingActivity: {
+      url: `/share/${_id}/like`,
+      method: 'PUT'
+    }
+  }),
+  unlikeActivity: () => ({
+    unlikingActivity: {
+      url: `/share/${_id}/unlike`,
+      method: 'PUT'
+    }
+  })
+}))({
   render
 })
