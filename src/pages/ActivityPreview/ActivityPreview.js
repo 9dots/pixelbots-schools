@@ -14,7 +14,7 @@ function render ({props}) {
   const {activity} = props
 
   return (
-    <Card w='col_main' mx='auto' p>
+    <Card w='col_main' mx='auto' mb='l' p>
       <Activity activity={activity} />
     </Card>
   )

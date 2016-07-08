@@ -25,13 +25,13 @@ const colors = [
 
 function render ({props}) {
   const {object, showAnswers, idx} = props
-  const {displayName} = object
+  const {content} = object
   const isCorrect = object.correctAnswer[0] === object._id
 
   return (
     <Block relative pill w='70%' p my='s' bgColor={colors[idx % colors.length]} align='start center'>
       <CorrectCheck show={showAnswers && isCorrect} />
-      <Block mx='20px' fs='s' innerHTML={displayName} />
+      <Block mx='20px' fs='s' innerHTML={content} />
     </Block>
   )
 }

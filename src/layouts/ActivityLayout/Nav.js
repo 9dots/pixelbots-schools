@@ -3,8 +3,12 @@
  */
 
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
-import ActivityCardActions from 'components/ActivityCardActions'
+import AssignButton from 'components/AssignButton'
 import {Block, Fixed, Flex, Text} from 'vdux-ui'
+import LikeButton from 'components/LikeButton'
+import handleActions from '@f/handle-actions'
+import PinButton from 'components/PinButton'
+import createAction from '@f/create-action'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import Link from 'components/Link'
@@ -14,9 +18,11 @@ import Link from 'components/Link'
  * Activity Nav
  */
 
-function render({props}) {
+function render({props, local, state}) {
   const {activity, user, classId} = props
+  const {locallyLiked} = state
   const isPublic = classId === 'public'
+
   return (
     <Block>
       <Fixed bgColor='white' wide top z={2} boxShadow='card' align='start center' h={53}>
@@ -41,7 +47,20 @@ function render({props}) {
           </NavTile>
         </Flex>
         <Flex flex align='end center' px>
-          <ActivityCardActions activity={activity} user={user} pin='Pin' pr={0} assign={isPublic ? 'Assign' : false} like={isPublic} />
+          <LikeButton
+            liked={locallyLiked}
+            localLike={local(localLike)}
+            activity={activity}
+            user={user}/>
+          <AssignButton
+            activity={activity}
+            hide={!isPublic}
+            text='Assign'
+            user={user}/>
+          <PinButton
+            activity={activity}
+            user={user}
+            text='Pin'/>
           <ActivityDropdownMenu activity={activity} hide={user.userType === 'student'} />
         </Flex>
       </Fixed>
@@ -89,9 +108,27 @@ function getUrl(page) {
 }
 
 /**
+ * Actions
+ */
+
+const localLike = createAction('<Nav/>: local like')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [localLike]: state => ({
+    ...state,
+    locallyLiked: !state.locallyLiked
+  })
+})
+
+/**
  * Exports
  */
 
 export default {
-  render
+  render,
+  reducer
 }

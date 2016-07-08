@@ -3,8 +3,8 @@
  */
 
 import {Flex, Block, Card, Text} from 'vdux-ui'
-import {setUrl} from 'redux-effects-location'
-import {Button, Textarea} from 'vdux-containers'
+import {Textarea} from 'vdux-containers'
+import EditButton from 'components/EditButton'
 import Figure from 'components/Figure'
 import element from 'vdux/element'
 
@@ -38,18 +38,7 @@ function render ({props}) {
         </Block>
       </Flex>
       <Block align='end center' borderTop='1px solid grey_light'>
-        <Button
-          onClick={() => setUrl(`/activity/${_id}/edit`)}
-          border={'1px solid grey_medium'}
-          hoverProps={{highlight: 0.01}}
-          focusProps={{highlight: 0.01}}
-          color='grey_medium'
-          bgColor='white'
-          icon='edit'
-          h='32px'
-          px='8px'
-          fs='s'
-          m='s'/>
+        <EditButton activity={activity} m='s'/>
       </Block>
     </Card>
   )
