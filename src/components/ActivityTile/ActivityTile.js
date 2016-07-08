@@ -56,12 +56,11 @@ const Activity = wrap(CSSContainer)({
       image, displayName, description, _id,
       likers, repinCount, replies
     } = activity
-    const url = `/activity/${_id}/public/preview`
     const {locallyLiked} = state
     const likes = likers.length + locallyLiked
 
     return (
-      <Flex column cursor='zoom-in' pb onClick={() => setUrl(url)}>
+      <Flex column cursor='zoom-in' pb onClick={() => setUrl(`/activity/${_id}`)}>
         <ActivityCardActions hide={!(actions && hover)} spread liked={locallyLiked} localLike={local(localLike)} {...actions} activity={activity} user={user} absolute wide z='1' />
         <Figure key='img' {...image} thumb={true} opacity={hover && .88} />
         <Block textAlign='center' m='m'>
