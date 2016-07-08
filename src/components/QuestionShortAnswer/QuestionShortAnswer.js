@@ -22,7 +22,7 @@ function render ({props}) {
             Correct Answers:
             {
               object.correctAnswer.map(answer => (
-                <Block py='xs' px='s' mx display='inline-block' pill bgColor='blue' color='white'>
+                <Block lh='18px' px='s' mx='s' display='inline-block' pill bgColor='blue' color='white' fs='12px' fw='normal'>
                   {answer}
                 </Block>
               ))

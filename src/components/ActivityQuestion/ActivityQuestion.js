@@ -18,9 +18,9 @@ function render ({props}) {
 
   return (
     <Block fw='lighter'>
-      <Block align='start center' py mb>
-        <Badge mr lh='1em'>{idx + 1}</Badge>
-        <Block fs='s' innerHTML={displayName} />
+      <Block align='start' py mb>
+        <Badge mr pt={3} size={25}>{idx + 1}</Badge>
+        <Block fs='s' flex innerHTML={displayName} />
       </Block>
       <Block align='start' mx='36' column={isMultipleChoice}>
         {

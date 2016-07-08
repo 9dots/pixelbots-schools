@@ -29,9 +29,9 @@ function render ({props}) {
   const isCorrect = object.correctAnswer[0] === object._id
 
   return (
-    <Block relative pill w='70%' p my='s' bgColor={colors[idx % colors.length]} align='start center'>
+    <Block relative borderRadius='25px' w='70%' p my='s' bgColor={colors[idx % colors.length]} align='start center'>
       <CorrectCheck show={showAnswers && isCorrect} />
-      <Block mx='20px' fs='s' innerHTML={content} />
+      <Block mx='20px' fs='s' innerHTML={content} class='markdown' />
     </Block>
   )
 }

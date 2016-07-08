@@ -80,12 +80,9 @@ const Video = {
 }
 
 function Image ({props}) {
-  const {object} = props
-
+  const {object: {image}} = props
   return (
-    <Block wide>
-      <Figure {...object.image} width={830} />
-    </Block>
+    <Figure {...image} w={image.width} />
   )
 }
 

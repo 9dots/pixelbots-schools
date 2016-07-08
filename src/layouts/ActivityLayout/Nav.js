@@ -43,6 +43,7 @@ function render({props, local, state}) {
             Activity Preview
           </NavTile>
           <NavTile highlight='yellow' page='discussion'>
+            <Text color='grey_medium' mr='s'>{activity.replies.canonicalTotal.items}</Text>
             Discussion
           </NavTile>
         </Flex>
@@ -61,7 +62,9 @@ function render({props, local, state}) {
             activity={activity}
             user={user}
             text='Pin'/>
-          <ActivityDropdownMenu activity={activity} hide={user.userType === 'student'} />
+          <ActivityDropdownMenu
+            hide={user.userType === 'student'}
+            activity={activity}/>
         </Flex>
       </Fixed>
       <Block pt={53} hidden mb/>
@@ -79,16 +82,16 @@ function NavTile ({props, children}) {
       <Link
         currentProps={{borderBottomColor: highlight}}
         hoverProps={{borderBottomColor: highlight}}
-        display='inline-block'
-        fs='xxs'
-        uppercase
-        h={height}
-        lh={height}
-        textAlign='center'
         borderBottom='3px solid transparent'
+        display='inline-block'
         transition='all 0.2s'
+        textAlign='center'
         href={href}
-        px
+        lh={height}
+        h={height}
+        uppercase
+        fs='xxs'
+        px='s'
         {...rest}>
         {children}
       </Link>
