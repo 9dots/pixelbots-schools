@@ -38,9 +38,14 @@ function render ({props}) {
             questions.map((q, i) => (
               <Block align='space-between center' borderBottom='1px solid grey_light'>
                 <Text>
-                  {i + 1}. <Icon name='done_all' />
+                  {i + 1}. <Icon name={iconName(q)} />
                 </Text>
-                <Text>{q.points.max * q.points.scaled} / {q.points.max}</Text>
+                <Text>{
+                    q.points.scaled === undefined
+                      ? '--'
+                      : q.points.max * q.points.scaled
+                  } / {q.points.max}
+                </Text>
               </Block>
             ))
           }
@@ -48,6 +53,21 @@ function render ({props}) {
       </Card>
     </Block>
   )
+}
+
+function iconName (question) {
+  if (question.poll) return 'equalizer'
+
+  switch (question.attachments[0].objectType) {
+    case 'choice':
+      return 'done_all'
+    case 'shortAnswer':
+      return 'edit'
+    case 'text':
+      return 'message'
+  }
+
+  return 'help'
 }
 
 function totalPoints (activity) {
