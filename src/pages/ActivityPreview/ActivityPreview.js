@@ -16,12 +16,13 @@ function render ({props}) {
 
   return (
     <Block align='center start'>
-      <Card w='col_main' mx='auto' p align='space-around center'>
+      <Card w='col_main' mb='l' p >
         <Activity activity={activity} />
       </Card>
-      <Block w={200} ml>
+      <Block w={200} ml relative fixed={{top: 53}}>
         <ActivitySidebar activity={activity} currentUser={currentUser} />
       </Block>
+      <Block w={200}/>
     </Block>
   )
 }

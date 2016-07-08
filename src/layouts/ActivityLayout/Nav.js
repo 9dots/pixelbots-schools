@@ -3,8 +3,12 @@
  */
 
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
-import ActivityCardActions from 'components/ActivityCardActions'
+import AssignButton from 'components/AssignButton'
 import {Block, Fixed, Flex, Text} from 'vdux-ui'
+import LikeButton from 'components/LikeButton'
+import handleActions from '@f/handle-actions'
+import PinButton from 'components/PinButton'
+import createAction from '@f/create-action'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import Link from 'components/Link'
@@ -14,8 +18,11 @@ import Link from 'components/Link'
  * Activity Nav
  */
 
-function render({props}) {
-  const {activity, user} = props
+function render({props, local, state}) {
+  const {activity, user, classId} = props
+  const {locallyLiked} = state
+  const isPublic = classId === 'public'
+
   return (
     <Block>
       <Fixed bgColor='white' wide top z={2} boxShadow='card' align='start center' h={53}>
@@ -26,10 +33,10 @@ function render({props}) {
           </Text>
         </Flex>
         <Flex align='center center'>
-          <NavTile highlight='red' page='students'>
+          <NavTile highlight='red' page='students' hide={isPublic}>
             Student Progress
           </NavTile>
-          <NavTile highlight='green' page='overview'>
+          <NavTile highlight='green' page='overview' hide={isPublic}>
             Class Overview
           </NavTile>
           <NavTile highlight='blue' page='preview'>
@@ -40,7 +47,20 @@ function render({props}) {
           </NavTile>
         </Flex>
         <Flex flex align='end center' px>
-          <ActivityCardActions activity={activity} user={user} pin='Pin' pr={0} />
+          <LikeButton
+            liked={locallyLiked}
+            localLike={local(localLike)}
+            activity={activity}
+            user={user}/>
+          <AssignButton
+            activity={activity}
+            hide={!isPublic}
+            text='Assign'
+            user={user}/>
+          <PinButton
+            activity={activity}
+            user={user}
+            text='Pin'/>
           <ActivityDropdownMenu activity={activity} hide={user.userType === 'student'} />
         </Flex>
       </Fixed>
@@ -50,7 +70,7 @@ function render({props}) {
 }
 
 function NavTile ({props, children}) {
-  const {highlight, page} = props
+  const {highlight, page, ...rest} = props
   const height = '53px'
   const href = getUrl(page)
 
@@ -68,7 +88,8 @@ function NavTile ({props, children}) {
         borderBottom='3px solid transparent'
         transition='all 0.2s'
         href={href}
-        px>
+        px
+        {...rest}>
         {children}
       </Link>
     </Block>
@@ -87,9 +108,38 @@ function getUrl(page) {
 }
 
 /**
+ * initialState
+ */
+
+function initialState () {
+  return {
+    locallyLiked: 0
+  }
+}
+
+/**
+ * Actions
+ */
+
+const localLike = createAction('<Nav/>: local like')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [localLike]: (state, inc) => ({
+    ...state,
+    locallyLiked: state.locallyLiked + inc
+  })
+})
+
+/**
  * Exports
  */
 
 export default {
-  render
+  initialState,
+  render,
+  reducer
 }
