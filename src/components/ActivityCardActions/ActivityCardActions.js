@@ -20,6 +20,8 @@ function render ({props}) {
     activity, user, assign, edit, like, pin, archive,
     spread, liked, localLike, ...rest
   } = props
+  const {published, channels, actor, likers = []} = activity
+  const isOwner = actor.id === user._id
 
   if(user.userType === 'student') return <span />
 

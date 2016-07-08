@@ -1,0 +1,5 @@
+{
+  "name": "ActivitySidebar",
+  "main": "ActivitySidebar.js",
+  "browser": "ActivitySidebar.js"
+}

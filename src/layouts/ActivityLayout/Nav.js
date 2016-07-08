@@ -111,6 +111,16 @@ function getUrl(page) {
 }
 
 /**
+ * initialState
+ */
+
+function initialState () {
+  return {
+    locallyLiked: 0
+  }
+}
+
+/**
  * Actions
  */
 
@@ -121,9 +131,9 @@ const localLike = createAction('<Nav/>: local like')
  */
 
 const reducer = handleActions({
-  [localLike]: state => ({
+  [localLike]: (state, inc) => ({
     ...state,
-    locallyLiked: !state.locallyLiked
+    locallyLiked: state.locallyLiked + inc
   })
 })
 
@@ -132,6 +142,7 @@ const reducer = handleActions({
  */
 
 export default {
+  initialState,
   render,
   reducer
 }
