@@ -188,21 +188,29 @@ const router = enroute({
 
   // Activity
 
-  '/activity/:activityId/:classId/students' : (params, props) =>
+  '/activity/:activityId': (params, props) =>
     <ActivityLayout {...props} {...params}>
-      {({activity, students}) => <ActivityProgress {...props} {...params} activity={activity} students={students} />}
+      {({activity}) => activityRedirect(activity, props)}
     </ActivityLayout>,
-    '/activity/:activityId/:classId/overview' : (params, props) =>
+  '/activity/:activityId/students' : (params, props) =>
     <ActivityLayout {...props} {...params}>
-      {({activity, students}) => <ActivityOverview {...props} {...params} activity={activity} students={students} />}
+      {data => <ActivityProgress {...props} {...params} {...data} />}
     </ActivityLayout>,
-    '/activity/:activityId/:classId/preview' : (params, props) =>
+  '/activity/:activityId/overview' : (params, props) =>
     <ActivityLayout {...props} {...params}>
-      {({activity, students}) => <ActivityPreview {...props} {...params} activity={activity} students={students} />}
+      {data => <ActivityOverview {...props} {...params} {...data} />}
     </ActivityLayout>,
-    '/activity/:activityId/:classId/discussion' : (params, props) =>
+  '/activity/:activityId/preview' : (params, props) =>
     <ActivityLayout {...props} {...params}>
-      {({activity, students}) => <ActivityDiscussion {...props} {...params} activity={activity} students={students} />}
+      {data => <ActivityPreview {...props} {...params} {...data} />}
+    </ActivityLayout>,
+  '/activity/:activityId/discussion' : (params, props) =>
+    <ActivityLayout {...props} {...params}>
+      {data => <ActivityDiscussion {...props} {...params} {...data} />}
+    </ActivityLayout>,
+  '/activity/:activityId/instance/:userId': (params, props) =>
+    <ActivityLayout {...props} {...params}>
+      {data => <ActivityPreview {...props} {...params} {...data} />}
     </ActivityLayout>,
 
   // Board
@@ -297,6 +305,22 @@ function profileRedirect (props, user) {
     subState = user.userType === 'student' ? 'stream' : 'boards'
 
   return <Redirect to={`/${user.username}/${subState}`}/>
+}
+
+function activityRedirect ({published, contexts, _id}, {currentUser}) {
+  if (!published) {
+    return <Redirect to={`/activity/${_id}/edit`} />
+  }
+
+  if (contexts[0].descriptor.id === 'public') {
+    return <Redirect to={`/activity/${_id}/preview`} />
+  }
+
+  if (currentUser.userType === 'student') {
+    return <Redirect to={`/activity/${_id}/instance/${currentUser._id}`} />
+  }
+
+  return <Redirect to={`/activity/${_id}/students`} />
 }
 
 /**

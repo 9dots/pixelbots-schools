@@ -29,11 +29,10 @@ const Activity = wrap(CSSContainer)({
       hover, activity, metaUi: MetaUi = Meta, ddMenu,
       badgeUi: BadgeUi = Badge, currentUser, actions
     } = props
-    const {image, displayName, description, _id: id, published} = activity
-    const url =  `/activity/${id}` + (published ? '/public/preview' :  '/edit')
+    const {image, displayName, description, _id: id} = activity
 
     return (
-      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='zoom-in' onClick={() => setUrl(url)}>
+      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='zoom-in' onClick={() => setUrl(`/activity/${id}`)}>
         <Flex tall align='start start'>
           <Flex p='m' tall column align='space-between' flex='50%'>
             <Block fs='s' fw='200'>{displayName}</Block>
