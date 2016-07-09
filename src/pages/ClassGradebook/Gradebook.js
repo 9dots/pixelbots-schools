@@ -3,6 +3,7 @@
  */
 
 import {Table, TableRow, Block, Icon} from 'vdux-ui'
+import {totalPoints} from 'lib/activity-helpers'
 import summonChannels from 'lib/summon-channels'
 import GradebookHeader from './GradebookHeader'
 import datauriDownload from 'datauri-download'
@@ -19,10 +20,10 @@ import toCsv from 'to-csv'
 import map from '@f/map'
 
 /**
- * Globals
+ * Constants
  */
 
-let numPages = 0
+const pageSize = 7
 
 /**
  * initialState
@@ -50,8 +51,7 @@ function render ({props, local, state}) {
 
   const {items: activityList} = value
 
-  const pageSize = 7
-  numPages = Math.ceil(activityList.length/ pageSize)
+  const numPages = Math.ceil(activityList.length / pageSize)
   const sort = getProp('preferences.gradebookSort', currentUser)
     || {dir: 1, property: 'name.givenName'}
   const studentList = students.sort(cmp)
@@ -61,7 +61,7 @@ function render ({props, local, state}) {
 
   return (
     <Block w='col_main' mx='auto' my='l' relative>
-      <GradebookNav next={local(next)} prev={local(prev)} exportAll={exportAll} asPercent={asPercent} page={page} numPages={numPages} />
+      <GradebookNav next={local(next, numPages)} prev={local(prev, numPages)} exportAll={exportAll} asPercent={asPercent} page={page} numPages={numPages} />
       <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
         <Table overflow='auto'>
           <GradebookHeader activities={curArr(activityList)} exportActivity={exportActivity} totalPoints={totalPoints} sort={sort}/>
@@ -143,16 +143,6 @@ function today () {
   return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-')
 }
 
-function totalPoints (activity) {
-  if (!activity._object || !activity._object[0] || !activity._object[0].attachments) return
-
-  return activity._object[0].attachments
-    .reduce((total, att) => total +
-      (att.objectType === 'question' && !att.poll
-        ? att.points.max
-        : 0), 0)
-}
-
 function getUsersData (id, activities, totals) {
   return reduce((acc, {instances: {total}}, i) => {
     const inst = total.length ? total[0].actors[id] : false
@@ -192,7 +182,7 @@ const prev = createAction('<Gradebook />: prev')
  */
 
 const reducer = handleActions({
-  [next]: state => ({
+  [next]: (state, numPages) => ({
     ...state,
     page: Math.min(state.page + 1, (numPages - 1))
   }),

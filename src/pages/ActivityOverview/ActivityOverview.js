@@ -4,6 +4,7 @@
 
 import QuestionOverview from './QuestionOverview'
 import summonChannels from 'lib/summon-channels'
+import {totalPoints} from 'lib/activity-helpers'
 import FourOhFour from 'pages/FourOhFour'
 import Loading from 'pages/Loading'
 import Histogram from './Histogram'
@@ -98,23 +99,12 @@ function round (num) {
   return Math.round(num * 10) / 10
 }
 
-function totalPoints (activity) {
-  if (!activity._object || !activity._object[0] || !activity._object[0].attachments) return
-
-  return activity._object[0].attachments
-    .reduce((total, att) => total +
-      (att.objectType === 'question' && !att.poll
-        ? att.points.max
-        : 0), 0)
-  }
-
-
 /**
  * Exports
  */
 
 export default summonChannels(
-  props => `share!${props.activity._id}.instances`
+  ({activity}) => `share!${activity._id}.instances`
 )({
   render
 })
