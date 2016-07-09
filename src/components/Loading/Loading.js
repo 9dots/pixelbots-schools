@@ -10,10 +10,10 @@ import {Block, Spinner} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {show} = props
+  const {show, dark = true} = props
   return (
     <Block align='center center' hide={!show} {...props}>
-      <Spinner circle='18' dark />
+      <Spinner circle='18' dark={dark} />
     </Block>
   )
 }

@@ -10,9 +10,9 @@ import element from 'vdux/element'
  * commoncoreBadge
  */
 
-function render ({props, state}) {
+function render ({props}) {
   return (
-    <Tooltip message='Common Core Aligned'>
+    <Tooltip message='Common Core Aligned' {...props}>
       <img src={badge} />
     </Tooltip>
   )

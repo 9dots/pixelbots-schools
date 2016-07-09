@@ -13,9 +13,7 @@ function render ({props}) {
   const {object} = props
 
   return (
-    <Block py='l' fs='s' fw='100' lh='1.5em'>
-      <Block class='markdown' innerHTML={object.content} />
-    </Block>
+    <Block fs='s' fw='100' lh='1.5em' class='markdown' innerHTML={object.content} />
   )
 }
 

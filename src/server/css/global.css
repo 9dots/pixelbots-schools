@@ -143,6 +143,11 @@ button {
   }
 }
 
+.activity-video iframe {
+  height: 100%;
+  width: 100%;
+}
+
 .markdown {
   text-align: left;
   font-weight: lighter;

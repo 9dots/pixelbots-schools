@@ -21,7 +21,8 @@ import Link from 'components/Link'
 function render({props, local, state}) {
   const {activity, user, classId} = props
   const {locallyLiked} = state
-  const isPublic = classId === 'public'
+  const isPublic = activity.contexts[0].descriptor.id === 'public'
+  const replies = activity.replies.canonicalTotal.items
 
   return (
     <Block>
@@ -33,17 +34,25 @@ function render({props, local, state}) {
           </Text>
         </Flex>
         <Flex align='center center'>
-          <NavTile highlight='red' page='students' hide={isPublic}>
-            Student Progress
-          </NavTile>
-          <NavTile highlight='green' page='overview' hide={isPublic}>
-            Class Overview
-          </NavTile>
+          {
+           !isPublic &&
+            <NavTile highlight='red' page='students'>
+              Student Progress
+            </NavTile>
+          }
+          {
+            !isPublic &&
+            <NavTile highlight='green' page='overview'>
+              Class Overview
+            </NavTile>
+          }
           <NavTile highlight='blue' page='preview'>
             Activity Preview
           </NavTile>
           <NavTile highlight='yellow' page='discussion'>
-            <Text color='grey_medium' mr='s'>{activity.replies.canonicalTotal.items}</Text>
+            <Text color='grey_medium' mr='s' hide={!replies}>
+              {replies}
+            </Text>
             Discussion
           </NavTile>
         </Flex>

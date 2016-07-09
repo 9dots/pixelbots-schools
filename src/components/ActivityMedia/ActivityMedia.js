@@ -4,10 +4,11 @@
 
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import Loading from 'components/Loading'
 import Figure from 'components/Figure'
+import {Block, Icon} from 'vdux-ui'
 import Link from 'components/Link'
 import element from 'vdux/element'
-import {Block} from 'vdux-ui'
 
 /**
  * <ActivityMedia/>
@@ -66,13 +67,51 @@ const Video = {
   }),
   render ({props, state, local}) {
     const {object} = props
-    const {content, image} = object
+    const {content, image, displayName, embed} = object
+    const {url, height, width} = image
+    const imgSize = height / width >= .74 ? '74.6%' : '100%'
 
     return (
-      <Block wide tall relative>
-        <Block hidden={state.play} onClick={local(playVideo)} tall wide tag='img' src={image.url} />
+      <Block wide tall relative bg={`#000 url(${url}) no-repeat center`} bgSize={imgSize}>
+        <Loading show={state.play} absolute top bottom left right/>
+        <Block hidden={state.play} onClick={local(playVideo)} pointer relative>
+          <Figure
+            maxWidth={imgSize}
+            height={height}
+            hidden={true}
+            width={width}
+            url={url}
+            mx='auto' />
+          <Icon
+            absolute={{top: 0, left: 0, right: 0, bottom: 0}}
+            textShadow='1px 1px 5px rgba(0,0,0, .4)'
+            name='play_arrow'
+            color='white'
+            opacity='.7'
+            sq={150}
+            fs={150}
+            m='auto'/>
+            <Block
+              bg='linear-gradient(to top,rgba(52,52,52,0.45),rgba(52,52,52,0))'
+              absolute={{bottom: 0, left: 0}}
+              hide={!displayName}
+              p='30% 5% 3%'
+              wide>
+              <Link
+                onClick={e => e.stopPropagation()}
+                hoverProps={{underline: true}}
+                href={embed.url}
+                target='_blank'
+                color='white'
+                lighter
+                fs='s'>
+                {displayName}
+              </Link>
+            </Block>
+        </Block>
         {
-          state.play && <Block absolute={{top: 0}} tall wide innerHTML={content} />
+          state.play &&
+            <Block absolute={{top: 0}} tall wide innerHTML={content} class='activity-video' />
         }
       </Block>
     )

@@ -16,7 +16,7 @@ function render ({props}) {
 
   return (
     <Block align='center start'>
-      <Card w='col_main' mb='l' p >
+      <Card w={756} mb='l' >
         <Activity activity={activity} />
       </Card>
       <Block w={200} ml relative fixed={{top: 53}}>

@@ -33,7 +33,7 @@ function render ({props}) {
         No one has made any comments yet. Be the first to share!
       </Block>
       {
-        map(comment => <Comment comment={comment}/>, comments)
+        map((comment, i) => <Comment i={i} comment={comment}/>, comments)
       }
       <CommentForm id={activity._id} currentUser={currentUser} classId={classId} />
     </Card>
@@ -41,12 +41,12 @@ function render ({props}) {
 }
 
 function Comment({props}) {
-  const {comment} = props
+  const {comment, i} = props
   const {actor, createdAt} = comment
   const content = getProp('_object.0.originalContent', comment)
 
   return (
-    <Block p='l' align='start start' relative>
+    <Block px='l' pt={i ? 0 : 'l'} pb='l' align='start start' relative>
       <Block w={4} absolute left={38} tall top bgColor='#EEE' />
       <Avatar boxSizing='content-box' border='3px solid white' mr actor={actor} relative ml={-3} />
       <Block flex px='l' py rounded bgColor='off_white' border='1px solid #E0E0E0' relative>
