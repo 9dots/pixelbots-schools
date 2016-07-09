@@ -1,0 +1,5 @@
+{
+  "name": "activity-helpers",
+  "main": "activity-helpers.js",
+  "browser": "activity-helpers.js"
+}

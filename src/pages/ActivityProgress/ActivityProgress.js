@@ -4,6 +4,7 @@
 
 import {Block, Table, TableHeader, TableRow, TableCell, Icon, Text} from 'vdux-ui'
 import {Button, Checkbox, wrap, CSSContainer} from 'vdux-containers'
+import {totalPoints} from 'lib/activity-helpers'
 import Actions from './ActivityProgressActions'
 import {setUrl} from 'redux-effects-location'
 import FourOhFour from 'pages/FourOhFour'
@@ -56,6 +57,7 @@ function render ({props}) {
       </Table>
     </Block>
   )
+
   function * setPref(prop) {
     yield setSort({
       property: prop,
@@ -161,16 +163,6 @@ function getInstances (activity, students) {
       givenName: student.name.givenName
     }
   })
-}
-
-function totalPoints (activity) {
-  if (!activity._object || !activity._object[0] || !activity._object[0].attachments) return
-
-  return activity._object[0].attachments
-    .reduce((total, att) => total +
-      (att.objectType === 'question' && !att.poll
-        ? att.points.max
-        : 0), 0)
 }
 
 /**
