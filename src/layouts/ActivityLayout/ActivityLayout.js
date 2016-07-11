@@ -23,9 +23,16 @@ function render ({props, children}) {
 }
 
 function internal(props, children) {
-  const {activity, students, currentUser, userId} = props
+  const {activity, students, currentUser, userId, instance} = props
   const {value, loading, error} = activity
   const {value: studentList, loading: sLoading, error: sError} = students
+  const {value: instActivity, loading: iLoading, error: iError} = instance
+  const isInstance = !!userId
+
+  if(isInstance) {
+    if (instance.loading) return ''
+    if (instance.error) return <FourOhFour />
+  }
 
   if (loading || sLoading) return ''
   if (error || sError) return <FourOhFour />
@@ -33,14 +40,13 @@ function internal(props, children) {
   const classId = value.contexts[0].descriptor.id
   const {shareType, discussion} = value
   const isPublic = classId === 'public'
-  const isInstance = shareType === 'shareInstance'
 
   let navItems = {}
   if(currentUser.userType === 'teacher')
     navItems = {
       progress:  !isInstance && !isPublic,
       overview:  !isInstance && !isPublic,
-      preview:  !isInstance && discussion,
+      preview:  !isInstance || discussion,
       discussion:  !isInstance && (discussion || isPublic)
     }
   else
@@ -49,7 +55,7 @@ function internal(props, children) {
   return [
     <Nav activity={value} user={currentUser} isPublic={isPublic} {...navItems} />,
     <PageTitle title={`${value.displayName}`} />,
-    maybeOver({activity: value, students: studentList.items, classId}, children)
+    maybeOver({activity: isInstance ? instance.value : value, students: studentList.items, classId}, children)
   ]
 }
 
@@ -58,9 +64,10 @@ function internal(props, children) {
  */
 
 export default summon(({userId, activityId, classId}) => ({
-  activity: userId
+  activity: `/share/${activityId}`,
+  instance: userId
     ? `/share/${activityId}/instance/${userId}`
-    : `/share/${activityId}`
+    : null
 }))(summon(({activity}) => ({
   students: activity.value
     ? `/group/students?group=${activity.value.contexts[0].descriptor.id}`

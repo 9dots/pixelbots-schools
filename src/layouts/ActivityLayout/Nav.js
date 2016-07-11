@@ -26,7 +26,6 @@ function render({props, local, state}) {
   const {_id: id, displayName, _root} = activity
   const {locallyLiked} = state
   const comments = activity.replies.canonicalTotal.items
-  const rootId = _root.length ? _root[0].id : id
 
   return (
     <Block>
@@ -45,7 +44,7 @@ function render({props, local, state}) {
           <NavTile highlight='blue' path={`${id}/preview`} hide={!preview}>
             Activity Preview
           </NavTile>
-          <NavTile highlight='blue' path={rootId} hide={!instance}>
+          <NavTile highlight='blue' path={`${id}/instance/${user._id}`} hide={!instance}>
             Activity
           </NavTile>
           <NavTile highlight='yellow' path={`${id}/discussion`} hide={!discussion}>
