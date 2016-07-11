@@ -38,7 +38,7 @@ function render ({props}) {
           </MenuItem>
         </Dropdown>
         </Block>
-        <Button icon='link' onClick={() => openModal(() => <ActivityLinkModal activity={activity} classId={classId}/>)} {...iconProps} />
+        <Button icon='link' onClick={() => openModal(() => <ActivityLinkModal activity={activity}/>)} {...iconProps} />
       </Block>
       <Block align='end center'>
         <ClassActivityBadge mt='0' w='175' activity={activity} />

@@ -37,14 +37,14 @@ function render ({props}) {
           </Text>
         </Block>
       </Card>
-      <Card>
-        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center'>
+      <Card hide={!questions.length}>
+        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' boxShadow='0 2px 1px rgba(75,82,87,0.1)'>
           -- / {totalPoints(activity)}
         </Block>
-        <Block>
+        <Block maxHeight='calc(100vh - 300px)' overflow='auto' borderBottom='1px solid grey_light'>
           {
             questions.map((q, i) => (
-              <Block fw='lighter' p color='grey_medium' fs='s' align='space-between center' borderBottom='1px solid grey_light'>
+              <Block fw='lighter' px py='8' color='grey_medium' fs='s' align='space-between center' borderTop={i && '1px solid grey_light'}>
                 <Text align='start center'>
                   {i + 1}. <Icon pl='s' fs='xs' name={questionIcon(q)} />
                 </Text>
@@ -58,6 +58,7 @@ function render ({props}) {
             ))
           }
         </Block>
+        <Block pb boxShadow='0 -2px 1px rgba(75,82,87,0.1)'/>
       </Card>
     </Block>
   )

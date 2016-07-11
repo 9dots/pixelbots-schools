@@ -23,17 +23,31 @@ function render ({props, children}) {
 }
 
 function internal(props, children) {
-  const {activity, students, currentUser} = props
+  const {activity, students, currentUser, userId} = props
   const {value, loading, error} = activity
   const {value: studentList, loading: sLoading, error: sError} = students
 
   if (loading || sLoading) return ''
   if (error || sError) return <FourOhFour />
 
-  const classId = activity.value.contexts[0].descriptor.id
+  const classId = value.contexts[0].descriptor.id
+  const {shareType, discussion} = value
+  const isPublic = classId === 'public'
+  const isInstance = shareType === 'shareInstance'
+
+  let navItems = {}
+  if(currentUser.userType === 'teacher')
+    navItems = {
+      progress:  !isInstance && !isPublic,
+      overview:  !isInstance && !isPublic,
+      preview:  !isInstance && discussion,
+      discussion:  !isInstance && (discussion || isPublic)
+    }
+  else
+    navItems = {instance:  discussion, discussion:  discussion}
 
   return [
-    <Nav activity={value} user={currentUser} classId={classId} />,
+    <Nav activity={value} user={currentUser} isPublic={isPublic} {...navItems} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({activity: value, students: studentList.items, classId}, children)
   ]
