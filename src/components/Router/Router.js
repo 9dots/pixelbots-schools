@@ -31,10 +31,11 @@ import ProfileStream from 'pages/ProfileStream'
 import BoardActivities from 'pages/BoardActivities'
 import BoardFollowers from 'pages/BoardFollowers'
 
-import ActivityProgress from 'pages/ActivityProgress'
-import ActivityPreview from 'pages/ActivityPreview'
-import ActivityOverview from 'pages/ActivityOverview'
 import ActivityDiscussion from 'pages/ActivityDiscussion'
+import ActivityProgress from 'pages/ActivityProgress'
+import ActivityOverview from 'pages/ActivityOverview'
+import ActivityInstance from 'pages/ActivityInstance'
+import ActivityPreview from 'pages/ActivityPreview'
 
 import ClassGradebook from 'pages/ClassGradebook'
 import ClassStudents from 'pages/ClassStudents'
@@ -210,7 +211,7 @@ const router = enroute({
     </ActivityLayout>,
   '/activity/:activityId/instance/:userId': (params, props) =>
     <ActivityLayout {...props} {...params}>
-      {data => <ActivityPreview {...props} {...params} {...data} />}
+      {data => <ActivityInstance {...props} {...params} {...data} />}
     </ActivityLayout>,
 
   // Board

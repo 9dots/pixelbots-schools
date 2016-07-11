@@ -24,7 +24,7 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, showAnswers, idx} = props
+  const {object, showAnswers, answerable, idx} = props
   const {content} = object
   const isCorrect = object.correctAnswer[0] === object._id
 

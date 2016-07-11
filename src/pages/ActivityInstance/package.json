@@ -1,0 +1,5 @@
+{
+  "name": "ActivityInstance",
+  "main": "ActivityInstance.js",
+  "browser": "ActivityInstance.js"
+}

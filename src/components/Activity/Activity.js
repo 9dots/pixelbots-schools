@@ -5,6 +5,7 @@
 import CommoncoreBadge from 'components/CommoncoreBadge'
 import ActivityObject from 'components/ActivityObject'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
 import map from '@f/map'
 
@@ -16,7 +17,7 @@ function render ({props}) {
   const {activity} = props
   const {
     displayName, _object, originalDescription,
-    tags, commonCore
+    tags, commonCore, ...rest
   } = activity
   const attachments = _object[0].attachments
   let i = 0
@@ -34,7 +35,11 @@ function render ({props}) {
         </Block>
       </Block>
       {
-        map(object => <ActivityObject object={object} idx={object.objectType === 'question' ? i++ : null} />, attachments)
+        map(object => <ActivityObject
+          activity={activity}
+          object={object}
+          idx={object.objectType === 'question' ? i++ : null}
+          {...rest} />, attachments)
       }
     </Block>
   )

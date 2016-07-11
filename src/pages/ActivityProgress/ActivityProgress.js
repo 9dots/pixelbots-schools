@@ -19,7 +19,7 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {activity, students, currentUser, classId, setSort} = props
+  const {activity, students, currentUser, setSort, classId} = props
 
   const sort = getProp('preferences.shareStudentSort', currentUser) || {
     property: 'givenName',
@@ -38,7 +38,7 @@ function render ({props}) {
 
   return (
     <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
-      <Actions activity={activity} classId={classId}/>
+      <Actions activity={activity} classId={classId} />
       <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
         <TableRow>
           <TableHeader {...headProps}>
