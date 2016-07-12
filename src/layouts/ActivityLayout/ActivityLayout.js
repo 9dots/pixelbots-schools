@@ -26,7 +26,6 @@ function internal(props, children) {
   const {activity, students, currentUser, userId, instance} = props
   const {value, loading, error} = activity
   const {value: studentList, loading: sLoading, error: sError} = students
-  const {value: instActivity, loading: iLoading, error: iError} = instance
   const isInstance = !!userId
 
   if(isInstance) {
@@ -47,7 +46,7 @@ function internal(props, children) {
       progress:  !isInstance && !isPublic,
       overview:  !isInstance && !isPublic,
       preview:  !isInstance || discussion,
-      discussion:  !isInstance && (discussion || isPublic)
+      discussion:  !isInstance || discussion
     }
   else
     navItems = {instance:  discussion, discussion:  discussion}

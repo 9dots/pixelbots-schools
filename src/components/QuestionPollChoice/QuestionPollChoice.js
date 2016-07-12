@@ -16,7 +16,7 @@ const colors = [
   yellow,
   green,
   red,
-  Color(grey).lighten(0.3).rgbString()
+  Color(grey).lighten(0.6).rgbString()
 ].map(c => Color(c).lighten(0.3).rgbString())
 
 /**
@@ -28,7 +28,7 @@ function render ({props}) {
   const {displayName} = object
 
   return (
-    <Block boxShadow='card' rounded='4px' m tall flex='0 0 30%' maxWidth='140px' mx='1%' bgColor={colors[idx % colors.length]}>
+    <Block boxShadow='card' rounded='4px' m tall flex='0 0 30%' maxWidth='140px' mx='1%' bgColor={colors[idx % colors.length]} flexShrink='1'>
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
           <Block innerHTML={displayName} />

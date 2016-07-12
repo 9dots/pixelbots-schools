@@ -71,6 +71,7 @@ function render({props, local, state}) {
               user={user}
               text='Pin'/>
             <ActivityDropdownMenu
+              reassign={false}
               hide={user.userType === 'student'}
               activity={activity}/>
           </Flex>

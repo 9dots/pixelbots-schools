@@ -15,7 +15,7 @@ import moment from 'moment'
 
 function render ({props}) {
   const {currentUser, activity} = props
-  const {actor, publishedAt, _object} = activity
+  const {actor, publishedAt, at = {}, _object} = activity
   const questions = _object[0].attachments
     .filter(att => att.objectType === 'question')
 
@@ -33,7 +33,7 @@ function render ({props}) {
           </Text>
           <Text fs='xxs' color='grey_medium' align='start center'>
             <Icon fs='14px' name='schedule' />
-            {moment(publishedAt).fromNow()}
+            {moment(publishedAt || at.turnedIn).fromNow()}
           </Text>
         </Block>
       </Card>
