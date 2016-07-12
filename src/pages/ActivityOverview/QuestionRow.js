@@ -27,9 +27,7 @@ const Question = wrap(CSSContainer, {
     } = props
     const {displayName, total, numAnswered, points: {max}, poll} = question
     // Prevent division by zero
-    const average = numAnswered
-      ? Math.round((total / numAnswered) * 10) / 10
-      : 0
+    const average = Math.round((total / (numAnswered || 1)) * 10) / 10
     const headerProps = {
       highlight: hover || expanded ? .03 : 0,
       boxShadow: expanded ? '0 0 0' : 'card',

@@ -19,7 +19,7 @@ function render ({props}) {
     borderStyle='solid'
     borderWidth='0 0 1px 0'
     pb='1px'
-    borderColor={disabled ? 'grey_light' : 'grey'}
+    borderColor={disabled ? 'rgba(grey_light, .6)' : 'grey_light'}
     focusProps={{
       borderBottomWidth: '2px',
       borderColor: 'blue',

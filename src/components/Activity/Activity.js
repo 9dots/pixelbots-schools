@@ -4,9 +4,10 @@
 
 import CommoncoreBadge from 'components/CommoncoreBadge'
 import ActivityObject from 'components/ActivityObject'
+import {setUrl} from 'redux-effects-location'
+import {Block} from 'vdux-containers'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
-import {Block} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -14,7 +15,8 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {activity, ...rest} = props
+  const {activity, currentUser, ...rest} = props
+  const isTeacher = currentUser.userType === 'teacher'
   const {
     displayName, _object, originalDescription,
     tags, commonCore
@@ -27,15 +29,16 @@ function render ({props}) {
       <Block p='12px 24px'>
         <Block fs='xl' fw='800'>{displayName}</Block>
         <Block mt='s' lighter>{originalDescription}</Block>
-        <Block align='start center'>
+        <Block align='start center' mt='xs'>
           {
-            map(({displayName}) => <Label text={displayName} />, tags)
+            map(({displayName}) => <Label text={displayName} isTeacher={isTeacher} />, tags)
           }
           <CommoncoreBadge hide={!commonCore} placement='right' />
         </Block>
       </Block>
       {
         map(object => <ActivityObject
+          currentUser={currentUser}
           activity={activity}
           object={object}
           idx={object.objectType === 'question' ? i++ : null}
@@ -46,17 +49,29 @@ function render ({props}) {
 }
 
 function Label({props}) {
-  const {text} = props
+  const {text, isTeacher} = props
+  const teacherProps = isTeacher
+    ? {
+        onClick: () => setUrl(`/search/activities/${text}`),
+        pointer: true,
+        hoverProps: {
+          bgColor: 'transparent',
+          color: 'blue'
+        }
+      }
+    : {}
 
   return (
     <Block
+      border='1px solid blue'
       color='white'
-      lh='24px'
+      lh='22px'
       bg='blue'
       fs='xxs'
       mr='s'
       pill
-      px>
+      px
+      {...teacherProps}>
       {text}
     </Block>
   )

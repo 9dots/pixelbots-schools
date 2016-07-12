@@ -30,6 +30,10 @@ function render ({props}) {
   const isCorrect = object.correctAnswer[0] === object._id
 
   const chosen = isChosen(object, answer)
+  const hasAnswer = !!answer.length
+  const bgColor = hasAnswer
+    ? chosen ? colors[idx % colors.length] : 'grey_light'
+    : colors[idx % colors.length]
 
   return (
     <Block
@@ -38,9 +42,9 @@ function render ({props}) {
       relative
       borderRadius='25px'
       w='70%'
-      p
+      p='12px 12px 12px 30px'
       my='s'
-      bgColor={colors[idx % colors.length]}
+      bgColor={bgColor}
       align='start center'>
       <CorrectCheck show={showAnswers && isCorrect} />
       {chosen && <ChosenMarker actor={currentUser} />}
@@ -67,11 +71,12 @@ function ChosenMarker ({props}) {
 
   return (
     <Avatar
+      absolute={{left: 8, top: 0, bottom: 0}}
+      border='2px solid white'
+      boxShadow='z2'
       actor={actor}
-      size={29}
-      border='1px solid white'
-      absolute={{left: -25, top: 7}}
-      boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)' />
+      size={32}
+      m='auto'/>
   )
 }
 
@@ -79,8 +84,16 @@ function CorrectCheck ({props}) {
   const {show} = props
 
   return (
-    <Block absolute={{left: -15, top: 7}} boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)' circle='29' align='center center' hide={!show} bgColor='white' color='green'>
-      <Icon fs='s' name='check' />
+    <Block
+      absolute={{left: -25, top: 0, bottom: 0}}
+      align='center center'
+      bgColor='white'
+      boxShadow='z2'
+      color='green'
+      hide={!show}
+      circle={32}
+      m='auto'>
+        <Icon fs='s' name='check' />
     </Block>
   )
 }
