@@ -63,11 +63,10 @@ function isChosen (obj, answer) {
 }
 
 function ChosenMarker ({props}) {
-  const {actor, show} = props
+  const {actor} = props
 
   return (
     <Avatar
-      hide={!show}
       actor={actor}
       size={29}
       border='1px solid white'
