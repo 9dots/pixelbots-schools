@@ -18,10 +18,16 @@ function render ({props}) {
   return (
     <Block align='center start'>
       <Card w={756} mb='l' >
-        <Activity activity={activity} showAnswers={false} answerable={answerable} />
+        <Activity
+          activity={activity}
+          currentUser={currentUser}
+          showAnswers={false}
+          answerable={answerable} />
       </Card>
       <Block w={200} ml relative fixed={{top: 53}}>
-        <ActivitySidebar activity={activity} currentUser={currentUser} />
+        <ActivitySidebar
+          activity={activity}
+          currentUser={currentUser} />
       </Block>
       <Block w={200}/>
     </Block>

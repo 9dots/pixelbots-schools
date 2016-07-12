@@ -14,10 +14,10 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {activity} = props
+  const {activity, ...rest} = props
   const {
     displayName, _object, originalDescription,
-    tags, commonCore, ...rest
+    tags, commonCore
   } = activity
   const attachments = _object[0].attachments
   let i = 0
@@ -47,6 +47,7 @@ function render ({props}) {
 
 function Label({props}) {
   const {text} = props
+
   return (
     <Block
       color='white'
@@ -59,7 +60,6 @@ function Label({props}) {
       {text}
     </Block>
   )
-
 }
 
 /**

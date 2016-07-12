@@ -11,11 +11,13 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {answerable} = props
+  const {answerable, answer = [], submit} = props
 
   return (
     <Block flex>
       <LineTextarea
+        onChange={e => submit(e.target.value)}
+        defaultValue={answer[0] || ''}
         placeholder='Free response...'
         fs='s'
         lh='normal'

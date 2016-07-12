@@ -11,11 +11,15 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {answerable, showAnswers, object} = props
+  const {answerable, showAnswers, answer = [], submit, object} = props
 
   return (
     <Block>
-      <LineInput defaultValue='Enter your answer...' disabled={!answerable} />
+      <LineInput
+        onChange={e => submit(e.target.value)}
+        defaultValue={answer[0] || ''}
+        placeholder='Enter your answer...'
+        disabled={!answerable} />
       {
         showAnswers && (
           <Block>

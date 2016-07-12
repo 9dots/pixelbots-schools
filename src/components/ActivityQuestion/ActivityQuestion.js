@@ -11,11 +11,23 @@ import summon from 'vdux-summon'
 import map from '@f/map'
 
 /**
+ * initialState
+ */
+
+function initialState ({props}) {
+  const {object} = props
+
+  return {
+    answer: object.response
+  }
+}
+
+/**
  * <ActivityQuestion/>
  */
 
 function render ({props, local, state}) {
-  const {object, idx, answerable, showAnswers} = props
+  const {activity, object, idx, answerable, showAnswers, currentUser} = props
   const {displayName, poll, attachments = []} = object
   const isMultipleChoice = !poll && attachments[0] && attachments[0].objectType === 'choice'
 
@@ -29,6 +41,9 @@ function render ({props, local, state}) {
         {
           map(
             (object, i) => <QuestionAttachment
+              showAnswers={showAnswers}
+              currentUser={currentUser}
+              answerable={answerable}
               answer={state.answer}
               submit={answer => [
                 props.submitAnswer(answer),
@@ -67,16 +82,19 @@ const reducer = handleActions({
  */
 
 export default summon(({activity, object}) => ({
-  submitAnswer: value => ({
+  submitAnswer: answer => ({
     answering: {
-      url: `/instance/${activity._id}/${object._id}`,
+      serialize: true,
+      autoretry: true,
+      url: `/instance/${activity._id}/question/${object._id}/response`,
       method: 'PUT',
       body: {
-        value
+        answer
       }
     }
   })
 }))({
+  initialState,
   render,
   reducer
 })
