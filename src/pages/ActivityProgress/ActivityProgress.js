@@ -103,38 +103,38 @@ const SortHead = wrap(CSSContainer, {
 function StudentRow ({props}) {
   const {instance, activityId, classId} = props
   const {
-    status , turnedInAt, givenName, id,
+    status , turnedInAt, givenName, userId,
     familyName, points, total, percent
   } = instance
   const statProps = statusMap[status]
-  const url = `/activity/${activityId}/${classId}/instance/${id}`
-
+  const url = `/activity/${activityId}/instance/${userId}`
+  const p = '10px 12px'
 
   return (
     <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
-      <TableCell p>
+      <TableCell p={p}>
         <Checkbox/>
       </TableCell>
-      <TableCell p>
+      <TableCell p={p}>
         {givenName}
       </TableCell>
-      <TableCell p>
+      <TableCell p={p}>
         {familyName}
       </TableCell>
-      <TableCell p>
+      <TableCell p={p}>
         { points} / {total} ({percent})
       </TableCell>
-      <TableCell p>
-        <Block pill h={30} fs='14' align='center center' bg={statProps.teacherColor} color='white' capitalize w='108'>
+      <TableCell p={p}>
+        <Block pill h={26} fs='14' align='center center' bg={statProps.teacherColor} color='white' capitalize w='108'>
           { statProps.displayName }
         </Block>
       </TableCell>
-      <TableCell p>
+      <TableCell p={p}>
         {
           turnedInAt ? moment(turnedInAt).format('M/D/YY h:mm A') : '–'
         }
       </TableCell>
-      <TableCell py w='62'>
+      <TableCell py={p.split(' ')[0]} w='62'>
         <Button text='Open' onClick={() => setUrl(url)} px='0' h='32' w='50'/>
       </TableCell>
     </TableRow>
@@ -158,7 +158,7 @@ function getInstances (activity, students) {
       turnedInAt: actor ? actor.turnedInAt : 0,
       percent: Math.round(pointsScaled * 100) + '%',
       points: pointsScaled * total,
-      id: student._id,
+      userId: student._id,
       familyName: student.name.familyName,
       givenName: student.name.givenName
     }

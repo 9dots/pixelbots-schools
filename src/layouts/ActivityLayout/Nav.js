@@ -19,62 +19,63 @@ import Link from 'components/Link'
  */
 
 function render({props, local, state}) {
-  const {activity, user, classId} = props
+  const {
+    activity, user, isPublic, instance,
+    progress, overview, preview, discussion
+  } = props
+  const {_id: id, displayName, _root} = activity
   const {locallyLiked} = state
-  const isPublic = activity.contexts[0].descriptor.id === 'public'
-  const replies = activity.replies.canonicalTotal.items
+  const comments = activity.replies.canonicalTotal.items
 
   return (
     <Block>
       <Fixed bgColor='white' wide top z={2} boxShadow='card' align='start center' h={53}>
         <Flex align='start center' wide px flex>
           <Button icon='arrow_back' fs='s' onClick={() => window.history.back()} color='text' mr />
-          <Text fs='s' lighter>
-            {activity.displayName}
-          </Text>
+          <Text fs='s' lighter>{displayName}</Text>
         </Flex>
         <Flex align='center center'>
-          {
-           !isPublic &&
-            <NavTile highlight='red' page='students'>
-              Student Progress
-            </NavTile>
-          }
-          {
-            !isPublic &&
-            <NavTile highlight='green' page='overview'>
-              Class Overview
-            </NavTile>
-          }
-          <NavTile highlight='blue' page='preview'>
+          <NavTile highlight='red' path={`${id}/students`} hide={!progress}>
+            Student Progress
+          </NavTile>
+          <NavTile highlight='green' path={`${id}/overview`} hide={!overview}>
+            Class Overview
+          </NavTile>
+          <NavTile highlight='blue' path={`${id}/preview`} hide={!preview}>
             Activity Preview
           </NavTile>
-          <NavTile highlight='yellow' page='discussion'>
-            <Text color='grey_medium' mr='s' hide={!replies}>
-              {replies}
+          <NavTile highlight='blue' path={`${id}/instance/${user._id}`} hide={!instance}>
+            Activity
+          </NavTile>
+          <NavTile highlight='yellow' path={`${id}/discussion`} hide={!discussion}>
+            <Text color='grey_medium' mr='s' hide={!comments}>
+              {comments}
             </Text>
             Discussion
           </NavTile>
         </Flex>
-        <Flex flex align='end center' px>
-          <LikeButton
-            liked={locallyLiked}
-            localLike={local(localLike)}
-            activity={activity}
-            user={user}/>
-          <AssignButton
-            activity={activity}
-            hide={!isPublic}
-            text='Assign'
-            user={user}/>
-          <PinButton
-            activity={activity}
-            user={user}
-            text='Pin'/>
-          <ActivityDropdownMenu
-            hide={user.userType === 'student'}
-            activity={activity}/>
-        </Flex>
+        <Block flex px>
+          <Flex flex align='end center' hide={user.userType === 'student'}>
+            <LikeButton
+              liked={locallyLiked}
+              localLike={local(localLike)}
+              activity={activity}
+              user={user}/>
+            <AssignButton
+              activity={activity}
+              hide={!isPublic}
+              text='Assign'
+              user={user}/>
+            <PinButton
+              activity={activity}
+              user={user}
+              text='Pin'/>
+            <ActivityDropdownMenu
+              reassign={false}
+              hide={user.userType === 'student'}
+              activity={activity}/>
+          </Flex>
+        </Block>
       </Fixed>
       <Block pt={53} hidden mb/>
     </Block>
@@ -82,43 +83,29 @@ function render({props, local, state}) {
 }
 
 function NavTile ({props, children}) {
-  const {highlight, page, ...rest} = props
+  const {highlight, page, path, ...rest} = props
   const height = '53px'
-  const href = getUrl(page)
 
   return (
-    <Block px={10}>
+    <Block px={10} {...rest}>
       <Link
         currentProps={{borderBottomColor: highlight}}
         hoverProps={{borderBottomColor: highlight}}
         borderBottom='3px solid transparent'
+        href={`/activity/${path}`}
         display='inline-block'
         transition='all 0.2s'
         textAlign='center'
-        href={href}
         lh={height}
         h={height}
         uppercase
         fs='xxs'
-        px='s'
-        {...rest}>
+        px='s'>
         {children}
       </Link>
     </Block>
  )
 }
-
-/**
- * Helpers
- */
-
-function getUrl(page) {
-  let cur = window.location.pathname
-  if(cur[cur.length - 1] === '/')
-    cur = cur.substring(0, cur.length - 1)
-  return cur.substring(0, cur.lastIndexOf('/')) + '/' + page
-}
-
 /**
  * initialState
  */

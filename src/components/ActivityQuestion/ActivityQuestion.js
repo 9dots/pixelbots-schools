@@ -37,7 +37,7 @@ function render ({props, local, state}) {
         <Badge mr pt={3} size={25}>{idx + 1}</Badge>
         <Block fs='s' flex innerHTML={displayName} />
       </Block>
-      <Block align='start' mx='36' column={isMultipleChoice}>
+      <Block align='start' mx={30} column={isMultipleChoice}>
         {
           map(
             (object, i) => <QuestionAttachment

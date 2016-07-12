@@ -68,7 +68,7 @@ function DropdownToggle ({props}) {
   return (
     <Flex {...rest} align='center'>
       <Avatar actor={currentUser} />
-      <Flex align='start center' ml hide={userType === 'teacher'}>
+      <Flex align='start center' mx hide={userType === 'teacher'}>
         {displayName}
       </Flex>
     </Flex>

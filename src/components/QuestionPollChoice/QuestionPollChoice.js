@@ -16,7 +16,7 @@ const colors = [
   yellow,
   green,
   red,
-  Color(grey).lighten(0.3).rgbString()
+  Color(grey).lighten(0.6).rgbString()
 ].map(c => Color(c).lighten(0.3).rgbString())
 
 /**
@@ -41,6 +41,7 @@ function render ({props}) {
       m
       tall
       flex='0 0 30%'
+      flexShrink='1'
       maxWidth='140px'
       mx='1%'
       bgColor={bgColor}>

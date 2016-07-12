@@ -35,7 +35,7 @@ function LinkObject ({props}) {
 
   return (
     <Block align='start center' bgColor='#fbfbfb' border='1px solid rgba(52, 52, 52, 0.08)' h={120}>
-      <Block minWidth={118} tall relative>
+      <Block minWidth={118} tall relative hide={!image.url}>
         <Block
           tag='img'
           maxWidth='100%'

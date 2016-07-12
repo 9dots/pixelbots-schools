@@ -15,14 +15,15 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {activity, onClick, hide} = props
+  const {activity, onClick, reassign = true, ...rest} = props
   const editUrl = `/activity/${activity._id}/edit`
 
   return (
-    <Dropdown btn={<Btn hide={hide} />} w={150}>
+    <Dropdown btn={<Btn {...rest} />} w={150}>
       <Item
         onClick={() => openModal(() => <AssignModal activity={activity} />)}
         text='Reassign'
+        hide={!reassign}
         color='green'
         icon='send' />
       <Item onClick={() => setUrl(editUrl)}

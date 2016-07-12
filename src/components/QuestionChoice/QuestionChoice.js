@@ -17,7 +17,7 @@ const colors = [
   yellow,
   green,
   red,
-  Color(grey).lighten(0.3).rgbString()
+  Color(grey).lighten(0.6).rgbString()
 ].map(c => Color(c).lighten(0.3).rgbString())
 
 /**

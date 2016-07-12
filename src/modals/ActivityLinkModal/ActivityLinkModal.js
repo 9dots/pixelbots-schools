@@ -13,12 +13,12 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {activity, group, classId} = props
+  const {activity, group} = props
   const {value, loading} = group
 
   if(loading) return <span/>
 
-  const url = `${window.location.origin}/activity/${activity._id}/${value._id}`
+  const url = `${window.location.origin}/activity/${activity._id}`
 
   return (
     <Modal onDismiss={closeModal} pb='l'>
@@ -41,8 +41,8 @@ function render ({props}) {
  * Exports
  */
 
-export default summon(({classId}) => ({
-  group: `/group/${classId}`
+export default summon(({activity}) => ({
+  group: `/group/${activity.contexts[0].descriptor.id}`
 }))({
   render
 })

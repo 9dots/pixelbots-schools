@@ -14,8 +14,7 @@ import map from '@f/map'
  */
 
 function render({props, local, state}) {
-  const {activity, students, instances} = props
-  const questions = getQuestions(instances)
+  const questions = getQuestions(props)
 
   return (
     <Block pb='l'>
@@ -40,21 +39,17 @@ function render({props, local, state}) {
  * Helpers
  */
 
-function getQuestions(instances) {
+function getQuestions({activity, instances}) {
   const questions = []
-  instances.forEach(instance => {
-    const {status} = instance
-    let count = 0
-    if(status > 4) {
-      instance._object[0].attachments.forEach((att, i) => {
-        const {objectType, points} = att
-        if(objectType === 'question') {
-          if(!questions[count])
-            questions[count] = { total: 0, numAnswered: 0, ...att }
-          const total = points.scaled * points.max
-          questions[count].total += (total || 0)
-          questions[count].numAnswered++
-          count++
+  activity._object[0].attachments.forEach((attachment, i) => {
+    if(attachment.objectType === 'question') {
+      const length = questions.push({total: 0, numAnswered: 0, ...attachment})
+      instances.forEach(instance => {
+        if(instance.status > 4) {
+          const question = instance._object[0].attachments[i]
+          const total = question.points.scaled * question.points.max
+          questions[length - 1].total += (total || 0)
+          questions[length - 1].numAnswered++
         }
       })
     }
