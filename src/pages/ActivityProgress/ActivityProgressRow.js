@@ -7,6 +7,7 @@ import {Button, Checkbox} from 'vdux-containers'
 import {setUrl} from 'redux-effects-location'
 import statusMap from 'lib/status'
 import element from 'vdux/element'
+import index from '@f/index'
 import moment from 'moment'
 
 /**
@@ -14,11 +15,12 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {instance, activityId, classId, selected} = props
+  const {instance, activityId, selected} = props
   const {
     status , turnedInAt, givenName, userId,
-    familyName, points, total, percent
+    familyName, points, total, percent, instanceId
   } = instance
+  const selMap = index(selected)
   const statProps = statusMap[status]
   const url = `/activity/${activityId}/instance/${userId}`
   const p = '10px 12px'
@@ -26,7 +28,7 @@ function render ({props}) {
   return (
     <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
       <TableCell p={p}>
-        <Checkbox pointer name='selected[]' value={userId} checked={selected}/>
+        <Checkbox pointer name='selected[]' value={instanceId} checked={!!selMap[instanceId]}/>
       </TableCell>
       <TableCell p={p}>
         {givenName}

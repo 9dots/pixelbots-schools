@@ -5,8 +5,9 @@
 import ClassActivityBadge from 'components/ClassActivityBadge'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import ActivityLinkModal from 'modals/ActivityLinkModal'
-import {openModal} from 'reducer/modal'
 import {Block, Flex, Icon} from 'vdux-ui'
+import {openModal} from 'reducer/modal'
+import {invalidate} from 'vdux-summon'
 import element from 'vdux/element'
 
 
@@ -15,24 +16,26 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {activity, classId} = props
+  const {activity, setStatus, settingStatus = {}, selected} = props
+  const {loading} = settingStatus
   const iconProps ={
+    bgColor: 'white',
+    activeProps: {bgColor: 'rgba(black, .1)'},
     color: 'text',
-    fs: 'm',
     circle: '32',
-    activeProps: {bgColor: 'rgba(black, .1)'}
+    fs: 'm'
   }
   return (
     <Flex align='space-between center' mb>
       <Block align='start center'>
-        <Button text='Return' h={32} />
+        <Button busy={loading} text='Return' h={32} onClick={() => doAction('returned')} />
         <Block mx>
-        <Dropdown btn={<Button icon='more_vert' {...iconProps} />} left w={120}>
-          <MenuItem align='start center'>
+        <Dropdown disabled={loading} btn={<Button disabled={loading} icon='more_vert' {...iconProps} />} left w={120}>
+          <MenuItem align='start center' onClick={() => doAction('opened')}>
             <Icon name='redo' mr fs='xs' />
             Redo
           </MenuItem>
-          <MenuItem align='start center'>
+          <MenuItem align='start center' onClick={() => doAction('turned_in')}>
             <Icon name='file_download' mr fs='xs'/>
             Collect
           </MenuItem>
@@ -45,6 +48,10 @@ function render ({props}) {
       </Block>
     </Flex>
   )
+
+  function * doAction(status) {
+    yield selected.map(id => setStatus(id, status))
+  }
 }
 
 /**

@@ -28,7 +28,7 @@ function render ({props}) {
           </ModalHeader>
           <input type='hidden' name='userType' value='student' />
           <Block align='start center'>
-            <LineInput name='name[givenName]' mr='l' placeholder='First Name' />
+            <LineInput autofocus name='name[givenName]' mr='l' placeholder='First Name' />
             <LineInput name='name[familyName]' placeholder='Last Name' />
           </Block>
           <Block align='start center' my='l'>
