@@ -25,7 +25,10 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, showAnswers, answerable, submit, idx, answer = [], currentUser} = props
+  const {
+    object, showAnswers, answerable, submit,
+    idx, answer = [], currentUser
+  } = props
   const {content} = object
   const isCorrect = object.correctAnswer[0] === object._id
 
@@ -85,7 +88,7 @@ function CorrectCheck ({props}) {
 
   return (
     <Block
-      absolute={{left: -25, top: 0, bottom: 0}}
+      absolute={{left: -16, top: 0, bottom: 0}}
       align='center center'
       bgColor='white'
       boxShadow='z2'

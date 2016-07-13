@@ -39,14 +39,15 @@ function internal(props, children) {
   const classId = value.contexts[0].descriptor.id
   const {shareType, discussion} = value
   const isPublic = classId === 'public'
+  const isClass = !isInstance && !isPublic
 
   let navItems = {}
   if(currentUser.userType === 'teacher')
     navItems = {
-      progress:  !isInstance && !isPublic,
-      overview:  !isInstance && !isPublic,
+      progress:  isClass,
+      overview:  isClass,
       preview:  !isInstance || discussion,
-      discussion:  !isInstance || discussion
+      discussion:  (isClass && discussion) || isPublic
     }
   else
     navItems = {instance:  discussion, discussion:  discussion}
