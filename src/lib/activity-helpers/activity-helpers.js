@@ -27,11 +27,32 @@ function totalPoints (activity) {
         : 0), 0)
 }
 
+function totalScore (activity) {
+  if (!activity._object || !activity._object[0] || !activity._object[0].attachments) return
+
+  return activity._object[0].attachments
+    .reduce((total, att) => total +
+      (att.objectType === 'question' && !att.poll
+          ? att.points.scaled * att.points.max
+          : 0), 0)
+}
+
+const statusMap = {
+  unopened: 1,
+  opened: 2,
+  turnedIn: 3,
+  graded: 4,
+  returned: 5
+}
+
+
 /**
  * Exports
  */
 
 export {
   questionIcon,
-  totalPoints
+  totalPoints,
+  totalScore,
+  statusMap
 }

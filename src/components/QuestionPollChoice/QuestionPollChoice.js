@@ -25,7 +25,7 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, idx, answerable, submit, answer = [], currentUser} = props
+  const {object, idx, answerable, submit, answer = [], actor} = props
   const {displayName} = object
   const chosen = answer[0] === object._id
   const hasAnswer = !!answer.length
@@ -35,8 +35,8 @@ function render ({props}) {
 
   return (
     <Block
-      onClick={answerable && submitAnswer}
       pointer={answerable}
+      onClick={answerable && submitAnswer}
       bgColor={bgColor}
       boxShadow='card'
       maxWidth='140px'
@@ -49,7 +49,7 @@ function render ({props}) {
         <Block absolute wide tall top left align='center center'>
           <Block innerHTML={displayName} />
         </Block>
-        { chosen && <ChosenMarker actor={currentUser} /> }
+        { chosen && <ChosenMarker actor={actor} /> }
       </Block>
     </Block>
   )

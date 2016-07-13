@@ -13,11 +13,14 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {activity, currentUser} = props
+  const isTeacher = currentUser.userType === 'teacher'
 
   return (
     <Block align='center start'>
       <Card w={756} mb='l' >
-        <Activity activity={activity} currentUser={currentUser} />
+        <Activity
+          clickableTags={isTeacher}
+          activity={activity} />
       </Card>
       <Block w={200} ml relative fixed={{top: 53}}>
         <ActivitySidebar activity={activity} currentUser={currentUser} />

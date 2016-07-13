@@ -15,8 +15,7 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {activity, currentUser, ...rest} = props
-  const isTeacher = currentUser.userType === 'teacher'
+  const {activity, clickableTags, ...rest} = props
   const {
     displayName, _object, originalDescription,
     tags, commonCore
@@ -31,14 +30,13 @@ function render ({props}) {
         <Block mt='s' lighter>{originalDescription}</Block>
         <Block align='start center' mt='xs'>
           {
-            map(({displayName}) => <Label text={displayName} isTeacher={isTeacher} />, tags)
+            map(({displayName}) => <Label text={displayName} clickable={clickableTags} />, tags)
           }
           <CommoncoreBadge hide={!commonCore} placement='right' />
         </Block>
       </Block>
       {
         map(object => <ActivityObject
-          currentUser={currentUser}
           activity={activity}
           object={object}
           idx={object.objectType === 'question' ? i++ : null}
@@ -49,8 +47,8 @@ function render ({props}) {
 }
 
 function Label({props}) {
-  const {text, isTeacher} = props
-  const teacherProps = isTeacher
+  const {text, clickable} = props
+  const clickableProps = clickable
     ? {
         onClick: () => setUrl(`/search/activities/${text}`),
         pointer: true,
@@ -71,7 +69,7 @@ function Label({props}) {
       mr='s'
       pill
       px
-      {...teacherProps}>
+      {...clickableProps}>
       {text}
     </Block>
   )

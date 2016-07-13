@@ -16,7 +16,7 @@ function render ({props}) {
   return (
     <Block>
       <LineInput
-        onChange={e => submit(e.target.value)}
+        onInput={e => submit(e.target.value)}
         defaultValue={answer[0] || ''}
         placeholder='Enter your answer...'
         disabled={!answerable} />
