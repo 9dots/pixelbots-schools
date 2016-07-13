@@ -77,12 +77,9 @@ function getData (activity, students) {
     }
   })
 
-  // Prevent division by zero
-  numReturned = numReturned || 1
-
   return {
-    averagePercent: round(averagePercent / numReturned) + '%',
-    averagePoints: round(averagePoints / numReturned),
+    averagePercent: round(averagePercent / (numReturned || 1)) + '%',
+    averagePoints: round(averagePoints / (numReturned || 1)),
     numStudents: students.length,
     totalPoints: total,
     numReturned,

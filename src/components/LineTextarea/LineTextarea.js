@@ -14,15 +14,15 @@ function render ({props}) {
 
   return (
     <Textarea
-      wide
-      fs='xs'
-      borderStyle='solid'
+      borderColor={disabled ? 'rgba(grey_light, .6)' : 'grey_light'}
       borderWidth='0 0 1px 0'
-      p='7px 0 8px'
-      borderColor={disabled ? 'grey_light' : 'grey'}
-      outline='0'
       bgColor='transparent'
+      borderStyle='solid'
+      p='7px 0 8px'
       color='#666'
+      outline='0'
+      fs='xs'
+      wide
       focusProps={{
         borderBottomWidth: '2px',
         borderColor: 'blue',

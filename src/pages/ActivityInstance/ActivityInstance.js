@@ -23,6 +23,7 @@ function render ({props}) {
       <Card w={756} mb='l' >
         <Activity
           activity={activity}
+          clickableTags={isTeacher}
           showAnswers={false}
           answerable={isStudent} />
       </Card>

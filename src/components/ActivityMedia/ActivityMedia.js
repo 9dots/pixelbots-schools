@@ -127,10 +127,27 @@ function Image ({props}) {
 
 function Document ({props}) {
   const {object} = props
+  const {content, embed: {url}} = object
 
   return (
     <Block>
-      <Block innerHTML={object.content} />
+      <Block
+        class='activity-document'
+        innerHTML={content}
+        pb='123%'
+        w='100%'
+        relative
+        mb='s'
+        h={0}/>
+        <Link
+          hoverProps={{underline: true}}
+          target='_blank'
+          color='blue'
+          href={url}
+          fs={12}
+          pointer>
+          View File
+        </Link>
     </Block>
   )
 }

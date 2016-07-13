@@ -6,6 +6,7 @@ import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import AssignButton from 'components/AssignButton'
 import {Block, Fixed, Flex, Text} from 'vdux-ui'
 import LikeButton from 'components/LikeButton'
+import {setUrl} from 'redux-effects-location'
 import handleActions from '@f/handle-actions'
 import PinButton from 'components/PinButton'
 import createAction from '@f/create-action'
@@ -31,7 +32,7 @@ function render({props, local, state}) {
     <Block>
       <Fixed bgColor='white' wide top z={2} boxShadow='card' align='start center' h={53}>
         <Flex align='start center' wide px flex>
-          <Button icon='arrow_back' fs='s' onClick={() => window.history.back()} color='text' mr />
+          <Button icon='arrow_back' fs='s' onClick={() => setUrl('/')} color='text' mr />
           <Text fs='s' lighter>{displayName}</Text>
         </Flex>
         <Flex align='center center'>

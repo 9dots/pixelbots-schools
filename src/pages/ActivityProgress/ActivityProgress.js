@@ -2,47 +2,48 @@
  * Imports
  */
 
-import {Block, Table, TableHeader, TableRow, TableCell, Icon, Text} from 'vdux-ui'
-import {Button, Checkbox, wrap, CSSContainer} from 'vdux-containers'
+import {Block, Table, TableHeader, TableRow, Icon, Text} from 'vdux-ui'
+import {Checkbox, wrap, CSSContainer, form} from 'vdux-containers'
+import ActivityProgressRow from './ActivityProgressRow'
 import {totalPoints} from 'lib/activity-helpers'
 import Actions from './ActivityProgressActions'
-import {setUrl} from 'redux-effects-location'
 import FourOhFour from 'pages/FourOhFour'
-import statusMap from 'lib/status'
-import getProp from '@f/get-prop'
 import element from 'vdux/element'
+import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
-import moment from 'moment'
+import index from '@f/index'
+
 
 /**
  * <ActivityProgress/>
  */
 
 function render ({props}) {
-  const {activity, students, currentUser, setSort, classId} = props
-
+  const {
+    activity, students, currentUser,
+    setSort, classId, toggleAll, fields
+  } = props
   const sort = getProp('preferences.shareStudentSort', currentUser) || {
     property: 'givenName',
     dir: 1
   }
   const instances = getInstances(activity, students).sort(cmp)
-  const headProps = {
-    sort,
-    setPref,
-    textAlign: 'left',
-    bg: 'grey',
-    p: true,
-    color: 'white',
-    lighter: true
-  }
+  const headProps = {sort, setPref, lighter: true, p: true}
+
+  // Multi Select Variables
+  const studentIds = index(({userId}) => userId, instances)
+  const selected = (fields.selected.value || []).filter(id => studentIds[id])
+  const selMap = index(selected)
+  const allSelected = instances.length === selected.length
+  const indeterminate = !allSelected && selected.length
 
   return (
     <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
       <Actions activity={activity} classId={classId} />
       <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
-        <TableRow>
+        <TableRow bgColor='grey' color='white'>
           <TableHeader {...headProps}>
-            <Checkbox/>
+            <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={() => toggleAll('selected')}/>
           </TableHeader>
           <SortHead {...headProps} prop='givenName' text='First'  />
           <SortHead {...headProps} prop='familyName' text='Last'  />
@@ -52,7 +53,13 @@ function render ({props}) {
           <TableHeader {...headProps} />
         </TableRow>
         {
-          instances.map(instance => <StudentRow instance={instance} classId={classId} activityId={activity._id} />)
+          instances.map(instance =>
+            <ActivityProgressRow
+              selected={!!selMap[instance.userId]}
+              instance={instance}
+              classId={classId}
+              activityId={activity._id}/>
+          )
         }
       </Table>
     </Block>
@@ -100,47 +107,6 @@ const SortHead = wrap(CSSContainer, {
   }
 })
 
-function StudentRow ({props}) {
-  const {instance, activityId, classId} = props
-  const {
-    status , turnedInAt, givenName, userId,
-    familyName, points, total, percent
-  } = instance
-  const statProps = statusMap[status]
-  const url = `/activity/${activityId}/instance/${userId}`
-  const p = '10px 12px'
-
-  return (
-    <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
-      <TableCell p={p}>
-        <Checkbox/>
-      </TableCell>
-      <TableCell p={p}>
-        {givenName}
-      </TableCell>
-      <TableCell p={p}>
-        {familyName}
-      </TableCell>
-      <TableCell p={p}>
-        { points} / {total} ({percent})
-      </TableCell>
-      <TableCell p={p}>
-        <Block pill h={26} fs='14' align='center center' bg={statProps.teacherColor} color='white' capitalize w='108'>
-          { statProps.displayName }
-        </Block>
-      </TableCell>
-      <TableCell p={p}>
-        {
-          turnedInAt ? moment(turnedInAt).format('M/D/YY h:mm A') : '–'
-        }
-      </TableCell>
-      <TableCell py={p.split(' ')[0]} w='62'>
-        <Button text='Open' onClick={() => setUrl(url)} px='0' h='32' w='50'/>
-      </TableCell>
-    </TableRow>
-  )
-}
-
 /**
  * Helpers
  */
@@ -180,6 +146,10 @@ export default summon(() => ({
       }
     }
   })
-}))({
-  render
-})
+}))(
+  form(({students}) => ({
+    fields: ['selected']
+  }))({
+    render
+  })
+)

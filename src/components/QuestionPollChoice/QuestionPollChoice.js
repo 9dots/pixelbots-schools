@@ -35,23 +35,21 @@ function render ({props}) {
 
   return (
     <Block
-      relative
       pointer={answerable}
       onClick={answerable && submitAnswer}
+      bgColor={bgColor}
       boxShadow='card'
-      rounded='4px'
-      m
-      tall
+      maxWidth='140px'
       flex='0 0 30%'
       flexShrink='1'
-      maxWidth='140px'
+      rounded='4px'
       mx='1%'
-      bgColor={bgColor}>
-      {chosen && <ChosenMarker actor={actor} />}
+      tall>
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
           <Block innerHTML={displayName} />
         </Block>
+        { chosen && <ChosenMarker actor={actor} /> }
       </Block>
     </Block>
   )
@@ -66,11 +64,13 @@ function ChosenMarker ({props}) {
 
   return (
     <Avatar
+      absolute={{right: -6, top: -6}}
+      border='2px solid white'
+      boxSizing='content-box'
+      boxShadow='z2'
       actor={actor}
-      size={29}
-      border='1px solid white'
-      absolute={{right: -10, top: -10}}
-      boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)' />
+      size='23%'
+      m='auto'/>
   )
 }
 
