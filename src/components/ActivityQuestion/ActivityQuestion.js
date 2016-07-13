@@ -3,6 +3,7 @@
  */
 
 import QuestionAttachment from 'components/QuestionAttachment'
+import {debounceAction} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {Block, Badge} from 'vdux-ui'
@@ -15,10 +16,11 @@ import map from '@f/map'
  */
 
 function initialState ({props}) {
-  const {object} = props
+  const {object, submitAnswer} = props
 
   return {
-    answer: object.response
+    answer: object.response,
+    debouncedSubmit: debounceAction(submitAnswer, 500)
   }
 }
 
@@ -27,7 +29,7 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {activity, object, idx, answerable, showAnswers, currentUser} = props
+  const {activity, object, idx, answerable, showAnswers} = props
   const {displayName, poll, attachments = []} = object
   const isMultipleChoice = !poll && attachments[0] && attachments[0].objectType === 'choice'
 
@@ -42,11 +44,11 @@ function render ({props, local, state}) {
           map(
             (object, i) => <QuestionAttachment
               showAnswers={showAnswers}
-              currentUser={currentUser}
+              actor={activity.actor}
               answerable={answerable}
               answer={state.answer}
               submit={answer => [
-                props.submitAnswer(answer),
+                state.debouncedSubmit(answer),
                 local(setAnswer)(answer)
               ]}
               object={object}

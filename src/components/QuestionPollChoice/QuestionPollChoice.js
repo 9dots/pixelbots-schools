@@ -3,6 +3,7 @@
  */
 
 import {grey, blue, yellow, green, red} from 'lib/colors'
+import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
 import Color from 'Color'
@@ -24,7 +25,7 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, idx, answerable, submit, answer = []} = props
+  const {object, idx, answerable, submit, answer = [], actor} = props
   const {displayName} = object
   const chosen = answer[0] === object._id
   const hasAnswer = !!answer.length
@@ -34,6 +35,7 @@ function render ({props}) {
 
   return (
     <Block
+      relative
       pointer={answerable}
       onClick={answerable && submitAnswer}
       boxShadow='card'
@@ -45,6 +47,7 @@ function render ({props}) {
       maxWidth='140px'
       mx='1%'
       bgColor={bgColor}>
+      {chosen && <ChosenMarker actor={actor} />}
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
           <Block innerHTML={displayName} />
@@ -56,6 +59,19 @@ function render ({props}) {
   function * submitAnswer () {
     yield submit(chosen ? [] : [object._id])
   }
+}
+
+function ChosenMarker ({props}) {
+  const {actor} = props
+
+  return (
+    <Avatar
+      actor={actor}
+      size={29}
+      border='1px solid white'
+      absolute={{right: -10, top: -10}}
+      boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)' />
+  )
 }
 
 /**

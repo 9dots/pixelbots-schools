@@ -25,11 +25,14 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, showAnswers, answerable, submit, idx, answer = [], currentUser} = props
+  const {object, showAnswers, answerable, submit, idx, answer = [], actor} = props
   const {content} = object
   const isCorrect = object.correctAnswer[0] === object._id
 
   const chosen = isChosen(object, answer)
+  const bgColor = answer.length
+    ? chosen ? colors[idx % colors.length] : 'grey_light'
+    : colors[idx % colors.length]
 
   return (
     <Block
@@ -40,11 +43,11 @@ function render ({props}) {
       w='70%'
       p
       my='s'
-      bgColor={colors[idx % colors.length]}
+      bgColor={bgColor}
       align='start center'>
       <CorrectCheck show={showAnswers && isCorrect} />
-      {chosen && <ChosenMarker actor={currentUser} />}
-      <Block mx='20px' fs='s' innerHTML={content} class='markdown' />
+      {chosen && <ChosenMarker actor={actor} />}
+      <Block mx='40px' fs='s' innerHTML={content} class='markdown' />
     </Block>
   )
 
@@ -70,7 +73,7 @@ function ChosenMarker ({props}) {
       actor={actor}
       size={29}
       border='1px solid white'
-      absolute={{left: -25, top: 7}}
+      absolute={{left: 8, top: 8}}
       boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)' />
   )
 }
