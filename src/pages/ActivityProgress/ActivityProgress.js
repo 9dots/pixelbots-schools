@@ -39,6 +39,7 @@ function render ({props}) {
   // Multi Select Variables
   const instanceIds = index(({instanceId}) => instanceId, instanceList)
   const selected = (fields.selected.value || []).filter(id => instanceIds[id])
+  const selMap = index(selected)
   const allSelected = instanceList.length === selected.length
   const indeterminate = !allSelected && selected.length
 
@@ -64,7 +65,7 @@ function render ({props}) {
         {
           instanceList.map(instance =>
             <ActivityProgressRow
-              selected={selected}
+              selected={!!selMap[instance.instanceId]}
               instance={instance}
               activityId={activity._id}/>
           )

@@ -49,7 +49,7 @@ function internal(props, children) {
     nav = {instance:  discussion, discussion:  discussion}
 
   return [
-    <Nav activity={value} user={currentUser} isPublic={isPublic} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: isInstance ? instance.value : value,
