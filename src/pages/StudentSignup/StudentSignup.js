@@ -65,7 +65,6 @@ function validateStudent (model) {
   }
 
   delete model.confirm_password
-  console.log(result)
   return result
 }
 
