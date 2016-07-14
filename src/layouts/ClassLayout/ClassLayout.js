@@ -27,10 +27,10 @@ function render ({props, children}) {
 
 function internal (props, children) {
   const {group, currentUser} = props
-  const {value, loading, error} = group
+  const {value, loaded, error} = group
   const isStudent = currentUser.userType === 'student'
 
-  if (loading) return ''
+  if (!loaded) return ''
   if (error) return <FourOhFour />
 
   return [
