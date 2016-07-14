@@ -40,7 +40,7 @@ function render ({props}) {
   )
 }
 
-function Comment({props}) {
+function Comment ({props}) {
   const {comment, i} = props
   const {actor, createdAt} = comment
   const content = getProp('_object.0.originalContent', comment)
@@ -63,7 +63,7 @@ function Comment({props}) {
   )
 }
 
-function Arrow() {
+function Arrow () {
   return (
     <span>
       <Block
@@ -84,7 +84,7 @@ function Arrow() {
  */
 
 export default summonChannels(
-  props => `share!${props.activity._id}.replies`
+  ({activity}) => `share!${activity._id}.replies`
 )({
   render
 })

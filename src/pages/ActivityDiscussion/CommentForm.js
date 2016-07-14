@@ -40,6 +40,7 @@ function render({props}) {
   )
 
   function * createShare(model) {
+    const type = classId === 'public' ? 'public' : 'group'
     const comment = {
       _object: [{
         attachments: [],
@@ -50,8 +51,8 @@ function render({props}) {
       shareType: 'share',
       contexts: [{
         allow: [
-          {id: `${classId}:teacher`},
-          {id: `${classId}:student`},
+          {id: `${type}:${classId}:teacher`},
+          {id: `${type}:${classId}:student`},
         ],
         descriptor: {
           displayName: classId,
