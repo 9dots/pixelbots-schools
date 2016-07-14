@@ -32,7 +32,7 @@ function render ({props}) {
               boxShadow='z2'
               circle='42'
               bgColor='white'
-              color='midgray'
+              color='text'
               icon='add'
               fw='200'
               fs='m'

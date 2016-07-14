@@ -16,7 +16,7 @@ function render ({props}) {
       <Icon name='highlight_off' fs='160px' color='red' m/>
       <Text fs='xl' mb fw='bold'>
         404.
-        <Text color='midgray' fw='100'> Page not found.</Text>
+        <Text fw='300'> Page not found.</Text>
       </Text>
       <Text fs='m'>Click to return home.</Text>
     </Flex>

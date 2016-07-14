@@ -42,7 +42,7 @@ function render ({props}) {
           {
             currentUser && (
               currentUser._id === owners[0].id
-              ? <Button color='midgray' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}} onClick={() => openModal(() => <BoardSettingsModal board={value} />)} text='Edit'/>
+              ? <Button color='text' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}} onClick={() => openModal(() => <BoardSettingsModal board={value} />)} text='Edit'/>
               : <FollowButton w='150' px='0' board={value} />
             )
           }

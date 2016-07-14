@@ -32,7 +32,7 @@ function testimonial(person) {
   return (
     <Flex column textAlign='center' px='l'>
       <Image src={person.image} circle='150' boxShadow='card' display='block' m='12px auto' border='3px solid white' />
-      <Text fs='s' lh='34px' color='midgray' mb='m' fw='lighter'>“{person.text}”</Text>
+      <Text fs='s' lh='32px' mb='m' fw='lighter'>“{person.text}”</Text>
       <Text uppercase my='m' fw='bolder'>{person.name}</Text>
       <Text uppercase color='blue' fw='lighter'>{person.school}</Text>
     </Flex>

@@ -29,7 +29,7 @@ function render () {
         <Text fs='l' my='l' fw='bold'>
           We Believe Teachers are Superheroes
         </Text>
-        <Text fs='m' color='midgray'>
+        <Text fs='m'>
           Enhance your powers with Weo!
         </Text>
       </Flex>

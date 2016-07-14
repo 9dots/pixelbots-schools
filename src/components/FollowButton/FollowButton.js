@@ -24,7 +24,7 @@ function render ({props}) {
       darkSpinner
       onClick={(value ? unfollow : follow)}
       busy={loading}
-      color={value ? 'midgray' : 'blue'}
+      color={value ? 'text' : 'blue'}
       px={25}
       rounded
       bgColor='off_white'

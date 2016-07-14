@@ -36,7 +36,7 @@ function render ({props}) {
     <Flex align='start center'>
       <Avatar pointer mr thumb actor={actor} onClick={e => goToProfile(e, actor)}/>
       <Flex column fs='xxs' align='space-around'>
-        <Text color='midgray' mb='xs'>{message}</Text>
+        <Text color='text' mb='xs'>{message}</Text>
         <Link href={href} pointer hoverProps={{underline: true}} fw='bold'>
           {location}
         </Link>

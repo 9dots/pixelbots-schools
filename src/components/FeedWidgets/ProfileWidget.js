@@ -24,7 +24,7 @@ function render ({props}) {
             {displayName}
           </Link>
           <br/>
-          <Link ellsipis color='midgray' fs='xxs' href={`/${username}/boards`} hoverProps={{underline: true}}>
+          <Link ellsipis fs='xxs' href={`/${username}/boards`} hoverProps={{underline: true}}>
             {username}
           </Link>
         </Block>
