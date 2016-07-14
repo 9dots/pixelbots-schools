@@ -32,9 +32,9 @@ function render ({props}) {
         activeProps={{opacity: 0.7}}
         hoverProps={{opacity: 1}}
         hide={isStudent || !showIcon}
-        color='midgray'
         icon='settings'
         opacity={0.7}
+        color='text'
         fs='xs'
         px
         />

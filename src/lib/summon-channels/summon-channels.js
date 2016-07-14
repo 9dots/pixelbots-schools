@@ -33,7 +33,7 @@ function summonChannels (fn, extras = {}) {
         }
       }
     }),
-    ...extras
+    ...(typeof extras === 'function' ? extras(props) : extras)
   }))
 }
 

@@ -24,38 +24,37 @@ function render ({props, children}) {
 
 function internal(props, children) {
   const {activity, students, currentUser, userId, instance} = props
-  const {value, loading, error} = activity
-  const {value: studentList, loading: sLoading, error: sError} = students
+  const {value, loaded, error} = activity
   const isInstance = !!userId
 
-  if(isInstance) {
-    if (instance.loading) return ''
-    if (instance.error) return <FourOhFour />
-  }
-
-  if (loading || sLoading) return ''
-  if (error || sError) return <FourOhFour />
+  if (!loaded || !students.loaded || (isInstance && !instance.loaded))
+    return ''
+  if (error || students.error ||  (isInstance && instance.error))
+    return <FourOhFour />
 
   const classId = value.contexts[0].descriptor.id
   const {shareType, discussion} = value
   const isPublic = classId === 'public'
   const isClass = !isInstance && !isPublic
 
-  let navItems = {}
+  let nav = {}
   if(currentUser.userType === 'teacher')
-    navItems = {
-      progress:  isClass,
-      overview:  isClass,
+    nav = {
+      discussion:  (isClass && discussion) || isPublic,
       preview:  !isInstance || discussion,
-      discussion:  (isClass && discussion) || isPublic
+      progress:  isClass,
+      overview:  isClass
     }
   else
-    navItems = {instance:  discussion, discussion:  discussion}
+    nav = {instance:  discussion, discussion:  discussion}
 
   return [
-    <Nav activity={value} user={currentUser} isPublic={isPublic} {...navItems} />,
+    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
-    maybeOver({activity: isInstance ? instance.value : value, students: studentList.items, classId}, children)
+    maybeOver({
+      activity: isInstance ? instance.value : value,
+      students: students.value.items, classId
+    }, children)
   ]
 }
 
@@ -63,7 +62,7 @@ function internal(props, children) {
  * Exports
  */
 
-export default summon(({userId, activityId, classId}) => ({
+export default summon(({userId, activityId}) => ({
   activity: `/share/${activityId}`,
   instance: userId
     ? `/share/${activityId}/instance/${userId}`

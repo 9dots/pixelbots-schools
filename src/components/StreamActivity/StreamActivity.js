@@ -72,11 +72,11 @@ function getHref (object) {
   if (isActivity(object)) {
     if (isInClass(object)) {
       return object.meta.student
-        ? `${baseLink}${object.meta.id}/instance/${object.meta.student.id}/`
+        ? `${baseLink}instance/${object.meta.student.id}/`
         : `${baseLink}${object.meta.id}/`
     }
 
-    return baseLink + 'public/preview'
+    return baseLink + 'preview'
   }
 
   return baseLink

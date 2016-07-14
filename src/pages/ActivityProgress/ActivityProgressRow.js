@@ -14,10 +14,10 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {instance, activityId, classId, selected} = props
+  const {instance, activityId, selected} = props
   const {
     status , turnedInAt, givenName, userId,
-    familyName, points, total, percent
+    familyName, points, total, percent, instanceId
   } = instance
   const statProps = statusMap[status]
   const url = `/activity/${activityId}/instance/${userId}`
@@ -26,7 +26,7 @@ function render ({props}) {
   return (
     <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
       <TableCell p={p}>
-        <Checkbox pointer name='selected[]' value={userId} checked={selected}/>
+        <Checkbox pointer name='selected[]' value={instanceId} checked={selected}/>
       </TableCell>
       <TableCell p={p}>
         {givenName}

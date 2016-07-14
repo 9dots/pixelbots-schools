@@ -21,10 +21,10 @@ import Link from 'components/Link'
 
 function render({props, local, state}) {
   const {
-    activity, user, isPublic, instance,
+    activity, user, isPublic, isInstance, instance,
     progress, overview, preview, discussion
   } = props
-  const {_id: id, displayName, _root} = activity
+  const {_id: id, displayName} = activity
   const {locallyLiked} = state
   const comments = activity.replies.canonicalTotal.items
 
@@ -56,9 +56,10 @@ function render({props, local, state}) {
           </NavTile>
         </Flex>
         <Block flex px>
-          <Flex flex align='end center' hide={user.userType === 'student'}>
+          <Flex flex align='end center' hide={isInstance}>
             <LikeButton
               liked={locallyLiked}
+              hide={!isPublic}
               localLike={local(localLike)}
               activity={activity}
               user={user}/>
@@ -72,7 +73,7 @@ function render({props, local, state}) {
               user={user}
               text='Pin'/>
             <ActivityDropdownMenu
-              reassign={false}
+              reassign={!isInstance && !isPublic}
               hide={user.userType === 'student'}
               activity={activity}/>
           </Flex>
