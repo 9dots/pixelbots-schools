@@ -69,7 +69,7 @@ function render ({props, local, state}) {
       <GradebookNav next={local(next, numPages)} prev={local(prev, numPages)} exportAll={exportAll} asPercent={asPercent} page={page} numPages={numPages} />
       <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
         <Table overflow='auto'>
-          <GradebookHeader activities={curArr(activityList)} exportActivity={exportActivity} totalPoints={totalPoints} sort={sort}/>
+          <GradebookHeader activities={curArr(activityList)} exportActivity={exportActivity} totals={totals} sort={sort}/>
           {
             map((student, i) => <GradebookRow
               data={usersData[i]}

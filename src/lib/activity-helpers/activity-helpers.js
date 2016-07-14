@@ -31,9 +31,9 @@ function totalScore (activity) {
   if (!activity._object || !activity._object[0] || !activity._object[0].attachments) return
 
   return activity._object[0].attachments
-    .reduce((total, att) => total +
-      (att.objectType === 'question' && !att.poll
-          ? att.points.scaled * att.points.max
+    .reduce((total, {objectType, poll, points}) => total +
+      (objectType === 'question' && !poll && points.scaled
+          ? points.scaled * points.max
           : 0), 0)
 }
 

@@ -25,7 +25,7 @@ function render ({props}) {
 
   const {descriptor} = activity.contexts[0]
   const classId = descriptor.id
-  const score = showScores ? totalScore(activity) : '--'
+  const score = showScores ? totalScore(activity) : '-'
 
   return (
     <Block mt>
@@ -43,7 +43,7 @@ function render ({props}) {
         </Block>
       </Card>
       <Card hide={!questions.length}>
-        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' boxShadow='0 2px 1px rgba(75,82,87,0.1)'>
+        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' boxShadow='0 2px 1px rgba(75,82,87,0.1)' relative z='2'>
           {score} / {totalPoints(activity)}
         </Block>
         <Block maxHeight='calc(100vh - 300px)' overflow='auto' borderBottom='1px solid grey_light'>
@@ -57,7 +57,7 @@ function render ({props}) {
               showScore={showScores} />)
           }
         </Block>
-        <Block pb boxShadow='0 -2px 1px rgba(75,82,87,0.1)'/>
+        <Block pb boxShadow='0 -2px 1px rgba(75,82,87,0.1)' relative z='2'/>
       </Card>
     </Block>
   )
@@ -101,36 +101,52 @@ const ScoreRow = summon(({activity, question}) => ({
       ? undefined
       : max * scaled
 
+    const inputProps = {
+      m: 0,
+      onFocus: e => e.target.select(),
+      inputProps: {
+        textAlign: 'center',
+        borderWidth: 0,
+        bg: 'transparent',
+        type: 'number'
+      }
+    }
+
     return (
       <ContainerBlock
-        tabindex='-1'
-        focusProps={{bgColor: 'grey_light'}}
-        fw='lighter'
-        px
-        py='8'
-        color='grey_medium'
-        fs='s'
+        focusProps={{borderLeftColor: 'blue', bg: 'off_white'}}
+        tag='label'
+        borderLeft='3px solid transparent'
         align='space-between center'
-        borderTop={num > 1 && '1px solid grey_light'}>
+        p='8px 12px 8px 9px'
+        relative
+        color='grey_medium'
+        tabindex='-1'
+        fw='lighter'
+        fs='s'>
+        <Block w='calc(100% + 3px)' hide={num == 1} absolute left='-3' top borderTop='1px solid grey_light'/>
         <Text align='start center'>
           {num}. <Icon pl='s' fs='xs' name={questionIcon(question)} />
         </Text>
-        <Block bgColor='white' align='start center' hide={question.poll}>
+        <Block
+          border={canGrade && '1px solid grey_light'}
+          bg={canGrade && 'white'}
+          align='start center'
+          hide={question.poll}
+          w='50%'>
           <Input
-            w={20}
+            {...inputProps}
             onInput={setPoints}
-            bgColor='transparent'
-            inputProps={{borderWidth: 0}}
             disabled={!canGrade}
+            color={canGrade ? 'text' : 'grey_medium'}
             defaultValue={curPoints}
-            placeholder={canGrade ? curPoints : '--'} />
+            placeholder={canGrade ? curPoints : '-'} />
           <Text bgColor='transparent' color='black'>/</Text>
           <Input
-            w={20}
-            bgColor='transparent'
+            {...inputProps}
             onInput={setMax}
-            inputProps={{borderWidth: 0}}
             disabled={!canSetMax}
+            color={canSetMax ? 'text' : 'grey_medium'}
             defaultValue={max} />
         </Block>
       </ContainerBlock>
