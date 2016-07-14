@@ -1,0 +1,5 @@
+{
+  "name": "summon-prefs",
+  "main": "summon-prefs.js",
+  "browser": "summon-prefs.js"
+}

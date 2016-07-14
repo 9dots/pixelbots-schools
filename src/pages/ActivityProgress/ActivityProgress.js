@@ -8,11 +8,11 @@ import ActivityProgressActions from './ActivityProgressActions'
 import ActivityProgressRow from './ActivityProgressRow'
 import {totalPoints} from 'lib/activity-helpers'
 import summonChannels from 'lib/summon-channels'
+import summonPrefs from 'lib/summon-prefs'
 import FourOhFour from 'pages/FourOhFour'
 import element from 'vdux/element'
 import getProp from '@f/get-prop'
 import index from '@f/index'
-
 
 /**
  * <ActivityProgress/>
@@ -21,20 +21,16 @@ import index from '@f/index'
 function render ({props}) {
   const {
     activity, students, currentUser, setStatus,
-    settingStatus, setSort, toggleAll, fields, activities
+    settingStatus, setPref, prefs, toggleAll, fields,
+    activities
   } = props
-
-  const sort = getProp('preferences.shareStudentSort', currentUser) || {
-    property: 'givenName',
-    dir: 1
-  }
   const {value, loading, error} = activities
-
+  const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
   if (loading) return <span/>
   if (error) return <FourOhFour />
 
   const instanceList = getInstances(activity, students, value.items).sort(cmp)
-  const headProps = {sort, setPref, lighter: true, p: true}
+  const headProps = {sort, setSort, lighter: true, p: true}
 
   // Multi Select Variables
   const instanceIds = index(({instanceId}) => instanceId, instanceList)
@@ -55,11 +51,11 @@ function render ({props}) {
           <TableHeader {...headProps}>
             <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={() => toggleAll('selected')}/>
           </TableHeader>
-          <SortHead {...headProps} prop='givenName' text='First'  />
-          <SortHead {...headProps} prop='familyName' text='Last'  />
-          <SortHead {...headProps} prop='percent' text='Score'  />
-          <SortHead {...headProps} prop='status' text='Status'  />
-          <SortHead {...headProps} prop='turnedInAt' text='Turned In'  />
+          <SortHead {...headProps} prop='givenName' text='First' />
+          <SortHead {...headProps} prop='familyName' text='Last' />
+          <SortHead {...headProps} prop='percent' text='Score' />
+          <SortHead {...headProps} prop='status' text='Status' />
+          <SortHead {...headProps} prop='turnedInAt' text='Turned In' />
           <TableHeader {...headProps} />
         </TableRow>
         {
@@ -74,10 +70,10 @@ function render ({props}) {
     </Block>
   )
 
-  function * setPref(prop) {
-    yield setSort({
-      property: prop,
-      dir: prop === sort.property ? sort.dir * -1 : 1
+  function * setSort (property) {
+    yield setPref('shareStudentSort', {
+      property,
+      dir: property === sort.property ? sort.dir * -1 : 1
     })
   }
 
@@ -91,16 +87,20 @@ function render ({props}) {
   }
 }
 
+/**
+ * <SortHead/>: Sortable table headers
+ */
+
 const SortHead = wrap(CSSContainer, {
     hoverProps: {
       hover: true
     }
   })({
   render ({props}) {
-    const {hover, sort, prop, text, setPref, ...rest} = props
+    const {hover, sort, prop, text, setSort, ...rest} = props
 
     return (
-      <TableHeader pointer={sort} onClick={() => setPref(prop)} {...rest} borderWidth={0}>
+      <TableHeader pointer={sort} onClick={() => setSort(prop)} {...rest} borderWidth={0}>
         <Block align='start center'>
           <Text underline={sort && hover}>
             {text}
@@ -147,9 +147,9 @@ function getInstances (activity, students, instances) {
  * Exports
  */
 
-export default summonChannels(
+export default summonPrefs()(summonChannels(
   ({activity}) => `share!${activity._id}.instances`, ({activity}) => ({
-  setSort: pref => ({
+  persistSort: pref => ({
     settingSort:  {
       url: '/preference/shareStudentSort',
       invalidates: '/user',
@@ -172,4 +172,4 @@ export default summonChannels(
   }))({
     render
   })
-)
+))
