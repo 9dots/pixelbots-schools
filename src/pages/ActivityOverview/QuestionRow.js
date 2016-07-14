@@ -1,6 +1,7 @@
 /**
  * Imports
  */
+import {questionIcon} from 'lib/activity-helpers'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {Block, Card, Flex, Icon} from 'vdux-ui'
 import Document from 'vdux/Document'
@@ -43,7 +44,7 @@ const Question = wrap(CSSContainer, {
         <Flex fs='s' lighter wide pointer>
           <Card {...headerProps} ellipsis flex>
             <Block>{i+1}.</Block>
-            <Icon name={getIcon(question)} fs='s' mx/>
+            <Icon name={questionIcon(question)} fs='s' mx/>
             <Block ellipsis flex>{displayName}</Block>
           </Card>
           <Card {...headerProps} ml={expanded ? 0 : 12} minWidth={138}>
@@ -80,16 +81,6 @@ function getColor (average) {
     color = 'yellow'
 
   return color
-}
-
-function getIcon (question) {
-  const iconMap = {
-    choice: question.poll ? 'equalizer' : 'done_all',
-    shortAnswer: 'edit',
-    text: 'message'
-  }
-
-  return iconMap[question.attachments[0].objectType]
 }
 
 /**

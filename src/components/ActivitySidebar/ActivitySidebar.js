@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {questionIcon, totalPoints, totalScore} from 'lib/activity-helpers'
+import {questionIcon, totalPoints, totalScore, statusMap} from 'lib/activity-helpers'
 import {Block as ContainerBlock, debounceAction} from 'vdux-containers'
 import {Card, Block, Text, Icon} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
@@ -18,14 +18,14 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {activity, showScores, canGrade, canSetMax} = props
+  const {activity, showScores, canGrade, canSetMax, isStudent, isRedo} = props
   const {actor, publishedAt, at = {}, _object} = activity
   const questions = _object[0].attachments
     .filter(att => att.objectType === 'question')
 
   const {descriptor} = activity.contexts[0]
   const classId = descriptor.id
-  const score = showScores ? totalScore(activity) : '--'
+  const score = showScores ? totalScore(activity) : '-'
 
   return (
     <Block mt>
@@ -43,7 +43,7 @@ function render ({props}) {
         </Block>
       </Card>
       <Card hide={!questions.length}>
-        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' boxShadow='0 2px 1px rgba(75,82,87,0.1)'>
+        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' boxShadow='0 2px 1px rgba(75,82,87,0.1)' relative z='2'>
           {score} / {totalPoints(activity)}
         </Block>
         <Block maxHeight='calc(100vh - 300px)' overflow='auto' borderBottom='1px solid grey_light'>
@@ -51,13 +51,15 @@ function render ({props}) {
             questions.map((q, i) => <ScoreRow
               num={i + 1}
               question={q}
+              isRedo={isRedo}
+              isStudent={isStudent}
               activity={activity}
               canGrade={canGrade}
               canSetMax={canSetMax}
               showScore={showScores} />)
           }
         </Block>
-        <Block pb boxShadow='0 -2px 1px rgba(75,82,87,0.1)'/>
+        <Block pb boxShadow='0 -2px 1px rgba(75,82,87,0.1)' relative z='2'/>
       </Card>
     </Block>
   )
@@ -93,7 +95,10 @@ const ScoreRow = summon(({activity, question}) => ({
   },
 
   render ({props, state}) {
-    const {question, showScore, canGrade, canSetMax, num} = props
+    const {
+      question, showScore, canGrade, isRedo,
+      canSetMax, num, activity, isStudent
+    } = props
     const {debouncedSetPoints, debouncedSetMax} = state
     const {points} = question
     const {scaled, max} = points
@@ -101,36 +106,54 @@ const ScoreRow = summon(({activity, question}) => ({
       ? undefined
       : max * scaled
 
+
+    const color = getColor(activity, question, canGrade, isStudent, isRedo)
+    const inputProps = {
+      m: 0,
+      onFocus: e => e.target.select(),
+      inputProps: {
+        textAlign: 'center',
+        borderWidth: 0,
+        bg: 'transparent',
+        type: 'number'
+      }
+    }
+
     return (
       <ContainerBlock
-        tabindex='-1'
-        focusProps={{bgColor: 'grey_light'}}
-        fw='lighter'
-        px
-        py='8'
-        color='grey_medium'
-        fs='s'
+        focusProps={{borderLeftColor: 'blue', bg: 'off_white'}}
+        tag='label'
+        borderLeft='3px solid transparent'
         align='space-between center'
-        borderTop={num > 1 && '1px solid grey_light'}>
-        <Text align='start center'>
+        p='8px 12px 8px 9px'
+        relative
+        color='grey_medium'
+        tabindex='-1'
+        fw='lighter'
+        fs='s'>
+        <Block w='calc(100% + 3px)' hide={num == 1} absolute left='-3' top borderTop='1px solid grey_light'/>
+        <Text align='start center' color={color}>
           {num}. <Icon pl='s' fs='xs' name={questionIcon(question)} />
         </Text>
-        <Block bgColor='white' align='start center' hide={question.poll}>
+        <Block
+          border={canGrade && '1px solid grey_light'}
+          bg={canGrade ? 'white' : 'transparent'}
+          align='start center'
+          hide={question.poll}
+          w='50%'>
           <Input
-            w={20}
+            {...inputProps}
             onInput={setPoints}
-            bgColor='transparent'
-            inputProps={{borderWidth: 0}}
             disabled={!canGrade}
+            color={canGrade ? 'text' : 'grey_medium'}
             defaultValue={curPoints}
-            placeholder={canGrade ? curPoints : '--'} />
+            placeholder={canGrade ? curPoints : '-'} />
           <Text bgColor='transparent' color='black'>/</Text>
           <Input
-            w={20}
-            bgColor='transparent'
+            {...inputProps}
             onInput={setMax}
-            inputProps={{borderWidth: 0}}
             disabled={!canSetMax}
+            color={canSetMax ? 'text' : 'grey_medium'}
             defaultValue={max} />
         </Block>
       </ContainerBlock>
@@ -155,6 +178,38 @@ const ScoreRow = summon(({activity, question}) => ({
     }
   }
 })
+
+/**
+ * Helpers
+ */
+
+function getColor (activity, question, canGrade, isStudent, isRedo) {
+  const {status} = activity
+  const {points, poll, response} = question
+
+  if(canGrade) {
+    if(status >= statusMap.turnedIn) {
+      return poll
+        ? 'grey_medium'
+        : points.scaled !== undefined ? 'green' : 'yellow'
+    }
+  } else if(isStudent) {
+    if(status === statusMap.turnedIn || status === statusMap.graded) {
+      return 'grey_medium'
+    } else if (isRedo || status === statusMap.returned) {
+      if(poll) return 'grey_medium'
+
+      if(!points.scaled || points.scaled < .6)
+        return 'red'
+      else if(points.scaled < 1)
+        return 'yellow'
+
+      return 'green'
+    } else {
+      return response.length ? 'green' : 'yellow'
+    }
+  }
+}
 
 /**
  * Exports

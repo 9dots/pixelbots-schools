@@ -14,7 +14,7 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {activities, sort, setPref, ...rest} = props
+  const {activities, sort, setPref, totals, ...rest} = props
   const headProps = {
     borderRight: '1px solid text',
     bgColor: 'grey',
@@ -30,7 +30,8 @@ function render ({props}) {
         Total
       </TableHeader>
       {
-        map(activity => <ActivityHeader
+        map((activity, i) => <ActivityHeader
+          total={totals[i]}
           {...headProps}
           {...rest}
           activity={activity} />, activities)
@@ -78,7 +79,7 @@ const ActivityHeader = wrap(CSSContainer, {
   }
 })({
   render ({props}) {
-    const {activity, showSettings, exportActivity, totalPoints, ...rest} = props
+    const {activity, showSettings, exportActivity, total, ...rest} = props
     const btn = <Icon fs='xs' pointer absolute='top 0px right 0px' hide={!showSettings} name='info_outline' absolute top={-16} right={-8} />
 
     return (
@@ -92,7 +93,7 @@ const ActivityHeader = wrap(CSSContainer, {
             {moment(activity.publishedAt).format('MMM D, YYYY')}
           </Block>
           <Block mt='s' mb>
-            Points: {totalPoints(activity)}
+            Points: {total}
           </Block>
           <Block align='center center'>
             <Button pill px py='s' fs='xxs' bgColor='grey_medium' onClick={() =>exportActivity(activity)}>
