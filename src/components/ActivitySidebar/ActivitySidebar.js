@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {questionIcon, totalPoints, totalScore} from 'lib/activity-helpers'
+import {questionIcon, totalPoints, totalScore, statusMap} from 'lib/activity-helpers'
 import {Block as ContainerBlock, debounceAction} from 'vdux-containers'
 import {Card, Block, Text, Icon} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
@@ -18,7 +18,7 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {activity, showScores, canGrade, canSetMax} = props
+  const {activity, showScores, canGrade, canSetMax, isStudent, isRedo} = props
   const {actor, publishedAt, at = {}, _object} = activity
   const questions = _object[0].attachments
     .filter(att => att.objectType === 'question')
@@ -51,6 +51,8 @@ function render ({props}) {
             questions.map((q, i) => <ScoreRow
               num={i + 1}
               question={q}
+              isRedo={isRedo}
+              isStudent={isStudent}
               activity={activity}
               canGrade={canGrade}
               canSetMax={canSetMax}
@@ -93,7 +95,10 @@ const ScoreRow = summon(({activity, question}) => ({
   },
 
   render ({props, state}) {
-    const {question, showScore, canGrade, canSetMax, num} = props
+    const {
+      question, showScore, canGrade, isRedo,
+      canSetMax, num, activity, isStudent
+    } = props
     const {debouncedSetPoints, debouncedSetMax} = state
     const {points} = question
     const {scaled, max} = points
@@ -101,6 +106,8 @@ const ScoreRow = summon(({activity, question}) => ({
       ? undefined
       : max * scaled
 
+
+    const color = getColor(activity, question, canGrade, isStudent, isRedo)
     const inputProps = {
       m: 0,
       onFocus: e => e.target.select(),
@@ -125,12 +132,12 @@ const ScoreRow = summon(({activity, question}) => ({
         fw='lighter'
         fs='s'>
         <Block w='calc(100% + 3px)' hide={num == 1} absolute left='-3' top borderTop='1px solid grey_light'/>
-        <Text align='start center'>
+        <Text align='start center' color={color}>
           {num}. <Icon pl='s' fs='xs' name={questionIcon(question)} />
         </Text>
         <Block
           border={canGrade && '1px solid grey_light'}
-          bg={canGrade && 'white'}
+          bg={canGrade ? 'white' : 'transparent'}
           align='start center'
           hide={question.poll}
           w='50%'>
@@ -171,6 +178,38 @@ const ScoreRow = summon(({activity, question}) => ({
     }
   }
 })
+
+/**
+ * Helpers
+ */
+
+function getColor (activity, question, canGrade, isStudent, isRedo) {
+  const {status} = activity
+  const {points, poll, response} = question
+
+  if(canGrade) {
+    if(status >= statusMap.turnedIn) {
+      return poll
+        ? 'grey_medium'
+        : points.scaled !== undefined ? 'green' : 'yellow'
+    }
+  } else if(isStudent) {
+    if(status === statusMap.turnedIn || status === statusMap.graded) {
+      return 'grey_medium'
+    } else if (isRedo || status === statusMap.returned) {
+      if(poll) return 'grey_medium'
+
+      if(!points.scaled || points.scaled < .6)
+        return 'red'
+      else if(points.scaled < 1)
+        return 'yellow'
+
+      return 'green'
+    } else {
+      return response.length ? 'green' : 'yellow'
+    }
+  }
+}
 
 /**
  * Exports
