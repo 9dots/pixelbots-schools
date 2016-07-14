@@ -49,14 +49,19 @@ function render ({props, local, state}) {
 
   if (!loaded && loading) return <Loading show={true} h='200' />
 
-  const {items: activityList} = value
+  const totals = []
+  const activityList = value.items.filter(activity => {
+    const total = totalPoints(activity)
+    if(total)
+      return totals.push(total)
+  })
 
   const numPages = Math.ceil(activityList.length / pageSize)
   const sort = getProp('preferences.gradebookSort', currentUser)
     || {dir: 1, property: 'name.givenName'}
   const studentList = students.sort(cmp)
 
-  const totals = map(totalPoints, activityList)
+
   const usersData = map(user => getUsersData(user._id, activityList, totals), studentList)
 
   return (
@@ -155,6 +160,7 @@ function getUsersData (id, activities, totals) {
         percent: '-',
         total: totals[i]
       })
+      acc.percent = Math.round((acc.points / acc.total) * 100) + '%'
       return acc
     }
 
