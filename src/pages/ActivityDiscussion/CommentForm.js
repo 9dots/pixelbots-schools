@@ -39,7 +39,7 @@ function render({props}) {
     </Form>
   )
 
-  function * createShare(model) {
+  function * createShare (model) {
     const type = classId === 'public' ? 'public' : 'group'
     const comment = {
       _object: [{
@@ -64,7 +64,6 @@ function render({props}) {
 
     yield makeComment(comment)
   }
-
 }
 
 /**

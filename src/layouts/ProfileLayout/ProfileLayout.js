@@ -37,8 +37,8 @@ function render ({props, children}) {
   )
 }
 
-function internal (currentUser, {value, loading, error}, children) {
-  if (loading) return ''
+function internal (currentUser, {value, loaded, error}, children) {
+  if (!loaded) return ''
   if (error) return <FourOhFour w='col_main' />
 
   return [

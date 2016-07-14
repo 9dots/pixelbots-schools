@@ -17,13 +17,12 @@ import summon from 'vdux-summon'
 
 function render ({props}) {
   const {user, currentUser, boards} = props
-  const {value, loading} = boards
-
+  const {value, loaded} = boards
 
   return (
-    <Block hide={loading} w='calc(100% + 12px)'>
+    <Block hide={!loaded} w='calc(100% + 12px)'>
       {
-        !loading && value.items.length
+        loaded && value.items.length
           ? renderGrid(value.items, currentUser, user)
           : <EmptyState user={user} currentUser={currentUser} />
       }
