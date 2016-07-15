@@ -75,6 +75,7 @@ function render ({props}) {
               <SidebarActions
                 questions={questions}
                 count={count}
+                activity={activity}
                 isStudent={isStudent} />
           }
         </Block>

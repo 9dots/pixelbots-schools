@@ -37,11 +37,12 @@ function totalPoints (activity) {
 function totalScore (activity) {
   if (!activity._object || !activity._object[0] || !activity._object[0].attachments) return
 
-  return activity._object[0].attachments
+  const total = activity._object[0].attachments
     .reduce((total, {objectType, poll, points}) => total +
       (objectType === 'question' && !poll && points.scaled
           ? points.scaled * points.max
           : 0), 0)
+  return Math.round(total * 100) / 100
 }
 
 function activitySort (sort) {
