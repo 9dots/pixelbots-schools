@@ -105,6 +105,7 @@ export default summon(({activity, object}) => ({
       serialize: true,
       autoretry: true,
       url: `/instance/${activity._id}/question/${object._id}/response`,
+      invalidates: `/share/${activity.root.id}/instance/${activity.actor.id}`,
       method: 'PUT',
       body: {
         answer

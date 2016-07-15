@@ -7,6 +7,7 @@ import {Block as ContainerBlock, debounceAction} from 'vdux-containers'
 import ActivityBadge from 'components/ActivityBadge'
 import {Card, Block, Text, Icon} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
+import SidebarActions from './SidebarActions'
 import Avatar from 'components/Avatar'
 import {Input} from 'vdux-containers'
 import Link from 'components/Link'
@@ -21,8 +22,15 @@ import moment from 'moment'
 function render ({props}) {
   const {activity, showScores, canGrade, canSetMax, isStudent, isRedo} = props
   const {actor, publishedAt, at = {}, _object, status} = activity
+  const isInstance = activity.shareType === 'shareInstance'
+  let count = 0
   const questions = _object[0].attachments
-    .filter(att => att.objectType === 'question')
+    .filter(att => {
+      if(att.objectType === 'question') {
+        count = att.response.length ? count + 1 : count
+        return true
+      }
+    })
 
   const {descriptor} = activity.contexts[0]
   const classId = descriptor.id
@@ -42,7 +50,7 @@ function render ({props}) {
             {moment(publishedAt || at.turnedIn).fromNow()}
           </Text>
         </Block>
-        <ActivityBadge status={status} userType={isStudent ? 'student' : 'teacher'} text={false} absolute top right />
+        <ActivityBadge hide={!isInstance} status={status} userType={isStudent ? 'student' : 'teacher'} text={false} absolute top right />
       </Card>
       <Card hide={!questions.length}>
         <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' boxShadow='0 2px 1px rgba(75,82,87,0.1)' relative z='2'>
@@ -61,7 +69,15 @@ function render ({props}) {
               showScore={showScores} />)
           }
         </Block>
-        <Block pb boxShadow='0 -2px 1px rgba(75,82,87,0.1)' relative z='2'/>
+        <Block p boxShadow='0 -2px 1px rgba(75,82,87,0.1)' relative z='2'>
+          {
+            isInstance &&
+              <SidebarActions
+                questions={questions}
+                count={count}
+                isStudent={isStudent} />
+          }
+        </Block>
       </Card>
     </Block>
   )
