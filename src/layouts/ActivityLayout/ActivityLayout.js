@@ -43,10 +43,10 @@ function internal(props, children) {
   const nav = currentUser.userType === 'student'
     ? {instance: discussion, discussion}
     : {
-      discussion: (isClass && discussion) || isPublic,
-      preview: !isInstance,
       progress: isClass,
-      overview: isClass
+      overview: isClass,
+      preview: !isInstance,
+      discussion: (isClass && discussion) || isPublic
     }
 
   return [
