@@ -5,13 +5,12 @@
 import {Block, Table, TableHeader, TableRow, Icon, Text} from 'vdux-ui'
 import {Checkbox, wrap, CSSContainer, form} from 'vdux-containers'
 import ActivityProgressActions from './ActivityProgressActions'
+import {totalPoints, activitySort} from 'lib/activity-helpers'
 import ActivityProgressRow from './ActivityProgressRow'
-import {totalPoints} from 'lib/activity-helpers'
 import summonChannels from 'lib/summon-channels'
 import summonPrefs from 'lib/summon-prefs'
 import FourOhFour from 'pages/FourOhFour'
 import element from 'vdux/element'
-import getProp from '@f/get-prop'
 import index from '@f/index'
 
 /**
@@ -29,7 +28,7 @@ function render ({props}) {
   if (loading) return <span/>
   if (error) return <FourOhFour />
 
-  const instanceList = getInstances(activity, students, value.items).sort(cmp)
+  const instanceList = getInstances(activity, students, value.items).sort(activitySort(sort))
   const headProps = {sort, setSort, lighter: true, p: true}
 
   // Multi Select Variables
@@ -75,15 +74,6 @@ function render ({props}) {
       property,
       dir: property === sort.property ? sort.dir * -1 : 1
     })
-  }
-
-  function cmp (a, b) {
-    if(!sort) return
-    const prop = sort.property
-    const prop1 = getProp(prop, a).toString().toUpperCase() || ''
-    const prop2 = getProp(prop, b).toString().toUpperCase() || ''
-
-    return prop1 > prop2 ? 1 * sort.dir : -1 * sort.dir
   }
 }
 

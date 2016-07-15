@@ -27,26 +27,27 @@ function internal(props, children) {
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
-  if (!loaded || !students.loaded || (isInstance && !instance.loaded))
+  if (!loaded || !students.loaded || (isInstance && !instance.value)) {
     return ''
-  if (error || students.error ||  (isInstance && instance.error))
+  }
+
+  if (error || students.error ||  (isInstance && instance.error)) {
     return <FourOhFour />
+  }
 
   const classId = value.contexts[0].descriptor.id
   const {shareType, discussion} = value
   const isPublic = classId === 'public'
   const isClass = !isInstance && !isPublic
 
-  let nav = {}
-  if(currentUser.userType === 'teacher')
-    nav = {
-      progress:  isClass,
-      overview:  isClass,
-      preview:  isClass || isPublic,
-      discussion:  (isClass && discussion) || isPublic
+  const nav = currentUser.userType === 'student'
+    ? {instance: discussion, discussion}
+    : {
+      progress: isClass,
+      overview: isClass,
+      preview: !isInstance,
+      discussion: (isClass && discussion) || isPublic
     }
-  else
-    nav = {instance:  discussion, discussion:  discussion}
 
   return [
     <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} {...nav} />,
@@ -64,9 +65,12 @@ function internal(props, children) {
 
 export default summon(({userId, activityId}) => ({
   activity: `/share/${activityId}`,
-  instance: userId
-    ? `/share/${activityId}/instance/${userId}`
-    : null
+  instance: {
+    url: userId
+      ? `/share/${activityId}/instance/${userId}`
+      : null,
+    clear: false
+  }
 }))(summon(({activity}) => ({
   students: activity.value
     ? `/group/students?group=${activity.value.contexts[0].descriptor.id}`

@@ -11,7 +11,7 @@ import summon from 'vdux-summon'
 function summonChannels (fn, extras = {}) {
   return summon(props => ({
     activities: {
-      url: `/share?${
+      url: fn(props) && `/share?${
         normalizeChannels(fn(props))
           .map(ch => `channel=${ch}`)
           .join('&')

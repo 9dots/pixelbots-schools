@@ -1,4 +1,10 @@
 /**
+ * Imports
+ */
+
+import getProp from '@f/get-prop'
+
+/**
  * Activity Helpers
  */
 
@@ -37,6 +43,17 @@ function totalScore (activity) {
           : 0), 0)
 }
 
+function activitySort (sort) {
+  return (a, b) => {
+    if(!sort) return
+    const prop = sort.property
+    const prop1 = getProp(prop, a).toString().toUpperCase() || ''
+    const prop2 = getProp(prop, b).toString().toUpperCase() || ''
+
+    return prop1 > prop2 ? 1 * sort.dir : -1 * sort.dir
+  }
+}
+
 const statusMap = {
   unopened: 1,
   opened: 2,
@@ -51,6 +68,7 @@ const statusMap = {
  */
 
 export {
+  activitySort,
   questionIcon,
   totalPoints,
   totalScore,
