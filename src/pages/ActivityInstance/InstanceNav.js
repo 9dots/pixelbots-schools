@@ -38,15 +38,18 @@ function render ({props, local, state}) {
   const activePrev = !activeNext
 
   const style = {
+    transition: 'flex-grow 0.35s',
     boxShadow: 'card',
     bgColor: 'white',
     borderRadius: 0,
     ellipsis: true,
     color: 'text',
+    flex: true,
     px: true,
     h: 45,
-    hoverProps: {highlight: 0.02},
-    focusProps: {highlight: 0.02},
+    minWidth: '40px',
+    hoverProps: {highlight: 0.01},
+    focusProps: {outline: '1px solid rgba(blue_light, .4)'},
     activeProps: {highlight: 0},
   }
   return (
@@ -56,11 +59,11 @@ function render ({props, local, state}) {
           onMouseover={local(active, 'prev')}
           onClick={() => go(prev)}
           disabled={!prev}
-          flex={activePrev}
           mr='s'
-          {...style}>
+          {...style}
+          flexGrow={activePrev ?  1 : 0.0001}>
           <Icon name='chevron_left' fs='s' />
-          <Block ellipsis hide={!prev || !activePrev}>
+          <Block ellipsis hide={!prev || !activePrev} flex>
             {prev && prev.actor.displayName}
           </Block>
         </Button>
@@ -70,10 +73,10 @@ function render ({props, local, state}) {
           onMouseover={local(active, 'next')}
           onClick={() => go(next)}
           disabled={!next}
-          flex={activeNext}
           ml='s'
-          {...style}>
-          <Block ellipsis hide={!next || !activeNext}>
+          {...style}
+          flexGrow={activeNext ?  1 : 0.0001}>
+          <Block ellipsis hide={!next || !activeNext} flex>
             {next && next.actor.displayName}
           </Block>
           <Icon name='chevron_right' fs='s' />

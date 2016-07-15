@@ -2,16 +2,25 @@
  * Imports
  */
 
-import {Button} from 'vdux-containers'
-import {Block, Text} from 'vdux-ui'
+import {Button, Dropdown, MenuItem} from 'vdux-containers'
+import {statusMap} from 'lib/activity-helpers'
+import {Block, Text, Icon} from 'vdux-ui'
+import {openModal} from 'reducer/modal'
+import Confirm from 'modals/Confirm'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 
 /**
  * Render
  */
 
 function render({props}) {
-  const {questions, count, isStudent} = props
+  const {
+    questions, count, isStudent,
+    setStatus, settingStatus = {}, activity
+  } = props
+  const {status} = activity
+  const {loading} = settingStatus
   const canTurnIn = count === questions.length
   return (
     <Block>
@@ -25,21 +34,48 @@ function render({props}) {
             tall/>
           <Text relative z='2'>Progress: {count} of {questions.length}</Text>
         </Button>
-        <Button wide hide={!canTurnIn} h={32}>
+        <Button
+          hide={!canTurnIn || status >= statusMap.turnedIn}
+          h={32}
+          wide
+          onClick={() => openModal(() =>
+            <ConfirmTurnIn
+              message='You will not be able to change answers afterwards.'
+              header='Turn In Now?'
+              activity={activity} />)}>
           Turn In
         </Button>
       </Block>
       <Block align='start space-between' hide={isStudent}>
-        <Button flex>
+        <Button flex onClick={() => setStatus('returned')} disabled={status >= statusMap.returned || loading} busy={loading}>
           Return
         </Button>
-        <Btn />
+        <Dropdown disabled={loading} btn={<Btn disabled={loading} />} w={120}>
+          <MenuItem align='start center' onClick={() => setStatus('opened')}>
+            <Icon name='redo' mr fs='xs' />
+            Redo
+          </MenuItem>
+          <MenuItem align='start center' onClick={() => setStatus('turned_in')}>
+            <Icon name='file_download' mr fs='xs'/>
+            Collect
+          </MenuItem>
+        </Dropdown>
       </Block>
     </Block>
   )
 }
 
-function Btn() {
+const ConfirmTurnIn = summon(({activity}) => ({
+  onAccept: () => ({
+    accepting: {
+      url: `/instance/${activity.id}/turned_in`,
+      invalidates: `/share/${activity.root.id}/instance/${activity.actor.id}`,
+      method: 'PUT'
+    }
+  })
+}))(Confirm)
+
+function Btn({props}) {
   return (
     <Button
       activeProps={{bgColor: 'rgba(black, .1)'}}
@@ -48,7 +84,8 @@ function Btn() {
       color='text'
       circle='32'
       fs='m'
-      ml />
+      ml
+      {...props}/>
   )
 }
 
@@ -56,6 +93,14 @@ function Btn() {
  * Export
  */
 
-export default {
+export default summon(({activity}) => ({
+  setStatus: status => ({
+    settingStatus: {
+      url: `/instance/${activity.id}/${status}`,
+      invalidates: `/share/${activity.root.id}/instance/${activity.actor.id}`,
+      method: 'PUT'
+    }
+  })
+}))({
   render
-}
+})

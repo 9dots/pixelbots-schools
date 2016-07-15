@@ -15,14 +15,14 @@ import noop from '@f/noop'
  */
 
 function render ({props}) {
-  const {onAccept = noop, onReject = noop, message, redirect, accepting = {}} = props
+  const {onAccept = noop, onReject = noop, message, header = 'Confirm', redirect, accepting = {}} = props
 
   return (
     <Modal w='col_m'>
       <Form onSubmit={accept}>
         <ModalBody px='l' pb>
           <ModalHeader>
-            Confirm
+            {header}
           </ModalHeader>
           <Block textAlign='center' m='0 auto' pt pb='l'>
             {message}
