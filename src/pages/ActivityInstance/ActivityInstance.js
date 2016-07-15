@@ -5,6 +5,7 @@
 import ActivitySidebar from 'components/ActivitySidebar'
 import {statusMap} from 'lib/activity-helpers'
 import Activity from 'components/Activity'
+import InstanceNav from './InstanceNav'
 import {Block, Card} from 'vdux-ui'
 import element from 'vdux/element'
 
@@ -14,7 +15,6 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {activity, currentUser} = props
-
   const isTeacher = currentUser.userType === 'teacher'
   const isStudent = currentUser.userType === 'student'
   const isReturned = activity.status === statusMap.returned
@@ -37,6 +37,9 @@ function render ({props}) {
           isStudent={isStudent}
           showScores={isTeacher || isReturned}
           activity={activity} />
+        {
+          isTeacher && <InstanceNav activity={activity} currentUser={currentUser} />
+        }
       </Block>
       <Block w={200}/>
     </Block>
