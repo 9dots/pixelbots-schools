@@ -16,7 +16,7 @@ function render({props}) {
   return (
     <Block>
       <Block hide={!isStudent}>
-        <Button wide bgColor='grey_medium' relative p={0} overflow='hidden' disabled hide={canTurnIn}>
+        <Button wide bgColor='grey_medium' relative p={0} overflow='hidden' disabled hide={canTurnIn} h={32}>
           <Block
             w={count / questions.length * 100 + '%'}
             absolute={{top: 0, left: 0}}
@@ -25,7 +25,7 @@ function render({props}) {
             tall/>
           <Text relative z='2'>Progress: {count} of {questions.length}</Text>
         </Button>
-        <Button wide hide={!canTurnIn}>
+        <Button wide hide={!canTurnIn} h={32}>
           Turn In
         </Button>
       </Block>
@@ -33,16 +33,22 @@ function render({props}) {
         <Button flex>
           Return
         </Button>
-        <Button
-          ml
-          icon='more_vert'
-          bgColor='white'
-          activeProps={{bgColor: 'rgba(black, .1)'}}
-          circle='32'
-          color='text'
-          fs='m' />
+        <Btn />
       </Block>
     </Block>
+  )
+}
+
+function Btn() {
+  return (
+    <Button
+      activeProps={{bgColor: 'rgba(black, .1)'}}
+      icon='more_vert'
+      bgColor='white'
+      color='text'
+      circle='32'
+      fs='m'
+      ml />
   )
 }
 

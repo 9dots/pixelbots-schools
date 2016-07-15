@@ -53,10 +53,10 @@ function render ({props}) {
         <ActivityBadge hide={!isInstance} status={status} userType={isStudent ? 'student' : 'teacher'} text={false} absolute top right />
       </Card>
       <Card hide={!questions.length}>
-        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' boxShadow='0 2px 1px rgba(75,82,87,0.1)' relative z='2'>
+        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' ellipsis boxShadow='0 2px 1px rgba(75,82,87,0.1)' relative z='2'>
           {score} / {totalPoints(activity)}
         </Block>
-        <Block maxHeight='calc(100vh - 300px)' overflow='auto' borderBottom='1px solid grey_light'>
+        <Block maxHeight='calc(100vh - 352px)' overflow='auto' borderBottom='1px solid grey_light'>
           {
             questions.map((q, i) => <ScoreRow
               num={i + 1}
@@ -154,7 +154,8 @@ const ScoreRow = summon(({activity, question}) => ({
           {num}. <Icon pl='s' fs='xs' name={questionIcon(question)} />
         </Text>
         <Block
-          border={canGrade && '1px solid grey_light'}
+          border={'1px solid transparent'}
+          borderColor={canGrade ? 'grey_light' : 'transparent'}
           bg={canGrade ? 'white' : 'transparent'}
           align='start center'
           hide={question.poll}
