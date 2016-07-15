@@ -4,6 +4,7 @@
 
 import {questionIcon, totalPoints, totalScore, statusMap} from 'lib/activity-helpers'
 import {Block as ContainerBlock, debounceAction} from 'vdux-containers'
+import ActivityBadge from 'components/ActivityBadge'
 import {Card, Block, Text, Icon} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
 import Avatar from 'components/Avatar'
@@ -19,7 +20,7 @@ import moment from 'moment'
 
 function render ({props}) {
   const {activity, showScores, canGrade, canSetMax, isStudent, isRedo} = props
-  const {actor, publishedAt, at = {}, _object} = activity
+  const {actor, publishedAt, at = {}, _object, status} = activity
   const questions = _object[0].attachments
     .filter(att => att.objectType === 'question')
 
@@ -29,7 +30,7 @@ function render ({props}) {
 
   return (
     <Block mt>
-      <Card mb align='start center'>
+      <Card mb align='start center' relative>
         <Avatar m actor={actor} size={66} border='2px solid white' boxShadow='card' />
         <Block column align='start' fs='xs'>
           <Link href={`/${actor.username}`} bold hoverProps={{textDecoration: 'underline'}}>{actor.displayName}</Link>
@@ -41,6 +42,7 @@ function render ({props}) {
             {moment(publishedAt || at.turnedIn).fromNow()}
           </Text>
         </Block>
+        <ActivityBadge status={status} userType={isStudent ? 'student' : 'teacher'} text={false} absolute top right />
       </Card>
       <Card hide={!questions.length}>
         <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' boxShadow='0 2px 1px rgba(75,82,87,0.1)' relative z='2'>

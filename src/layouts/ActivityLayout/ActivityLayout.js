@@ -40,10 +40,10 @@ function internal(props, children) {
   let nav = {}
   if(currentUser.userType === 'teacher')
     nav = {
-      discussion:  (isClass && discussion) || isPublic,
-      preview:  !isInstance || discussion,
       progress:  isClass,
-      overview:  isClass
+      overview:  isClass,
+      preview:  isClass || isPublic,
+      discussion:  (isClass && discussion) || isPublic
     }
   else
     nav = {instance:  discussion, discussion:  discussion}
