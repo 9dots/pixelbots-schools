@@ -78,6 +78,12 @@ function IncorrectX({props}) {
   )
 }
 
+function onUpdate (prev, next) {
+  if (prev.props.activity._id !== next.props.activity._id) {
+    return next.local(setAnswer)(next.props.object.response)
+  }
+}
+
 /**
  * Actions
  */
@@ -115,5 +121,6 @@ export default summon(({activity, object}) => ({
 }))({
   initialState,
   render,
-  reducer
+  reducer,
+  onUpdate
 })
