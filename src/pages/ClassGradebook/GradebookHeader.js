@@ -6,7 +6,6 @@ import {wrap, CSSContainer, Button, Dropdown} from 'vdux-containers'
 import {TableRow, TableHeader, Icon, Block, Text} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
 import element from 'vdux/element'
-import summon from 'vdux-summon'
 import moment from 'moment'
 import map from '@f/map'
 
@@ -15,7 +14,7 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {activities, sort, setSort, totals, ...rest} = props
+  const {activities, sort, setPref, totals, ...rest} = props
   const headProps = {
     borderRight: '1px solid text',
     bgColor: 'grey',
@@ -25,8 +24,8 @@ function render ({props}) {
 
   return (
     <TableRow>
-      <NameHeader text='First' prop='name.givenName' {...headProps} setPref={setPref} sort={sort}/>
-      <NameHeader text='Last' prop='name.familyName' {...headProps} setPref={setPref} sort={sort} />
+      <NameHeader text='First' prop='name.givenName' {...headProps} setPref={setSort} sort={sort}/>
+      <NameHeader text='Last' prop='name.familyName' {...headProps} setPref={setSort} sort={sort} />
       <TableHeader {...headProps}>
         Total
       </TableHeader>
@@ -40,8 +39,8 @@ function render ({props}) {
     </TableRow>
   )
 
-  function * setPref(prop) {
-    yield setSort({
+  function * setSort (prop) {
+    yield setPref('gradebookSort', {
       property: prop,
       dir: prop === sort.property ? sort.dir * -1 : 1
     })
@@ -113,17 +112,6 @@ const ActivityHeader = wrap(CSSContainer, {
   }
 })
 
-export default summon(() => ({
-  setSort: pref => ({
-    settingSort:  {
-      url: '/preference/gradebookSort',
-      invalidates: '/user',
-      method: 'PUT',
-      body: {
-        value: pref
-      }
-    }
-  })
-}))({
+export default {
   render
-})
+}

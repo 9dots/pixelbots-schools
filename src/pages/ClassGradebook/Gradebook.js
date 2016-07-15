@@ -9,6 +9,7 @@ import GradebookHeader from './GradebookHeader'
 import datauriDownload from 'datauri-download'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import summonPrefs from 'lib/summon-prefs'
 import GradebookNav from './GradebookNav'
 import GradebookRow from './GradebookRow'
 import Loading from 'components/Loading'
@@ -42,10 +43,11 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {group, students, activities, currentUser} = props
+  const {group, students, activities, currentUser, setPref, prefs} = props
   const {page} = state
+  const sort = prefs.gradebookSort || {property: 'name.givenName', dir: 1}
+  const displayPercent = getProp('gradebook.displayPercent', prefs)
   const {value, loading, loaded} = activities
-  const asPercent = getProp('preferences.gradebook.displayPercent', currentUser)
 
   if (!loaded && loading) return <Loading show={true} h='200' />
 
@@ -57,24 +59,20 @@ function render ({props, local, state}) {
   })
 
   const numPages = Math.ceil(activityList.length / pageSize)
-  const sort = getProp('preferences.gradebookSort', currentUser)
-    || {dir: 1, property: 'name.givenName'}
   const studentList = students.sort(cmp)
-
-
   const usersData = map(user => getUsersData(user._id, activityList, totals), studentList)
 
   return (
     <Block w='col_main' mx='auto' my='l' relative>
-      <GradebookNav next={local(next, numPages)} prev={local(prev, numPages)} exportAll={exportAll} asPercent={asPercent} page={page} numPages={numPages} />
+      <GradebookNav setPref={setPref} next={local(next, numPages)} prev={local(prev, numPages)} exportAll={exportAll} asPercent={displayPercent} page={page} numPages={numPages} />
       <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
         <Table overflow='auto'>
-          <GradebookHeader activities={curArr(activityList)} exportActivity={exportActivity} totals={totals} sort={sort}/>
+          <GradebookHeader setPref={setPref} activities={curArr(activityList)} exportActivity={exportActivity} totals={totals} sort={sort}/>
           {
             map((student, i) => <GradebookRow
               data={usersData[i]}
               scores={curArr(usersData[i].scores)}
-              asPercent={asPercent}
+              asPercent={displayPercent}
               student={student}
               odd={i%2}
               page={page}
@@ -127,11 +125,11 @@ function render ({props, local, state}) {
 
   function cmp (a, b) {
     if(!sort) return
-    const prop = sort.property
+    const {property, dir} = sort
 
-    return getProp(prop, a).toUpperCase() > getProp(prop, b).toUpperCase()
-      ? 1 * sort.dir
-      : -1 * sort.dir
+    return getProp(property, a).toUpperCase() > getProp(property, b).toUpperCase()
+      ? 1 * dir
+      : -1 * dir
   }
 }
 
@@ -180,8 +178,8 @@ function getUsersData (id, activities, totals) {
  * Actions
  */
 
-const next = createAction('<Gradebook />: next')
-const prev = createAction('<Gradebook />: prev')
+const next = createAction('<Gradebook/>: next')
+const prev = createAction('<Gradebook/>: prev')
 
 /**
  * Reducer
@@ -202,8 +200,8 @@ const reducer = handleActions({
  * Exports
  */
 
-export default summonChannels(({group}) => `group!${group._id}.board`)({
+export default summonChannels(({group}) => `group!${group._id}.board`)(summonPrefs()({
   initialState,
   render,
   reducer
-})
+}))

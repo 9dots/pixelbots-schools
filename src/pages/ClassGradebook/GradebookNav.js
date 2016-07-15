@@ -12,10 +12,7 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {
-    page, numPages, asPercent,
-    exportAll, next, prev, togglePref
-  } = props
+  const {page, numPages, asPercent, exportAll, next, prev, setPref} = props
   const navProps = {
     hoverProps: {highlight: 0.02},
     focusProps: {highlight: 0.02},
@@ -26,10 +23,11 @@ function render ({props}) {
     circle: 36,
     p: 0
   }
+
   return (
     <Block align='space-between center' relative mb>
       <Dropdown btn={<DropButton />} z='3' left w='160px' fs='xxs'>
-        <MenuItem onClick={() => togglePref(asPercent)} py>
+        <MenuItem onClick={togglePref} py>
           Display as {asPercent ? ' Point Totals' : ' Percentages'}
         </MenuItem>
         <MenuItem py align='start center' onClick={exportAll}>
@@ -47,6 +45,10 @@ function render ({props}) {
       </Block>
     </Block>
   )
+
+  function togglePref () {
+    return setPref('gradebook.displayPercent', !asPercent)
+  }
 }
 
 function DropButton () {
@@ -63,17 +65,6 @@ function DropButton () {
  * Export
  */
 
-export default summon(() => ({
-  togglePref: (pref) => ({
-    savingPreference:  {
-      url: '/preference/gradebook.displayPercent',
-      invalidates: '/user',
-      method: 'PUT',
-      body: {
-        value: !pref
-      }
-    }
-  })
-}))({
+export default {
   render
-})
+}

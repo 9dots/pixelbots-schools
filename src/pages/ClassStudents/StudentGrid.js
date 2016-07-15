@@ -5,11 +5,12 @@
 import {Flex, Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
 import {wrap, CSSContainer, TableRow, Button, Text} from 'vdux-containers'
 import StudentDropdown from './StudentDropdown'
+import handleActions from '@f/handle-actions'
+import summonPrefs from 'lib/summon-prefs'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import element from 'vdux/element'
 import getProp from '@f/get-prop'
-import summon from 'vdux-summon'
 import index from '@f/index'
 import map from '@f/map'
 
@@ -18,14 +19,13 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {students, selected, group, toggleAll, currentUser, setSort} = props
+  const {students, selected, group, toggleAll, currentUser, setPref, prefs} = props
   const isStudent = currentUser.userType === 'student'
   const selMap = index(selected)
   const allSelected = students.length === selected.length
   const indeterminate = !allSelected && selected.length
   const headerProps = {}
-  const sort = getProp('preferences.peopleSort', currentUser)
-    || {dir: 1, property: 'name.givenName'}
+  const sort = prefs.peopleSort || {dir: 1, property: 'name.givenName'}
   const sortedStudents = students.sort(cmp)
 
   return (
@@ -35,9 +35,9 @@ function render ({props}) {
           <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={() => toggleAll('selected')} />
         </TableHeader>
         <TableHeader w='40'/>
-        <StudentHeader text='First Name' prop='name.givenName' sort={sort} setPref={setPref} />
-        <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setPref={setPref} />
-        <StudentHeader text='Username' prop='username' sort={sort} setPref={setPref} />
+        <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={setSort} />
+        <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setSort={setSort} />
+        <StudentHeader text='Username' prop='username' sort={sort} setSort={setSort} />
         <TableHeader hide={isStudent} />
       </TableRow>
       {
@@ -48,8 +48,8 @@ function render ({props}) {
     </Table>
   )
 
-  function * setPref(prop) {
-    yield setSort({
+  function * setSort(prop) {
+    yield setPref('peopleSort', {
       property: prop,
       dir: prop === sort.property ? sort.dir * -1 : 1
     })
@@ -67,9 +67,9 @@ function render ({props}) {
 
 const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps: {hover: true}})({
   render ({props}) {
-    const {hover, sort, prop, text, setPref, ...rest} = props
+    const {hover, sort, prop, text, setSort, ...rest} = props
     return (
-      <TableHeader pointer onClick={() => setPref(prop)} {...rest}>
+      <TableHeader pointer onClick={() => setSort(prop)} {...rest}>
         <Block align='start center'>
           <Text underline={hover}>
             {text}
@@ -132,22 +132,10 @@ const StudentRow = wrap(CSSContainer, {
   }
 })
 
-
 /**
  * Exports
  */
 
-export default summon(() => ({
-  setSort: pref => ({
-    settingSort:  {
-      url: '/preference/peopleSort',
-      invalidates: '/user',
-      method: 'PUT',
-      body: {
-        value: pref
-      }
-    }
-  })
-}))({
+export default summonPrefs()({
   render
 })

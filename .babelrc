@@ -5,7 +5,7 @@
     ["transform-react-jsx", {"pragma": "element"}],
     "transform-runtime",
     ["vdux-transform", {
-      "hoc": ["summon", "summonChannels", "form"],
+      "hoc": ["summon", "summonPrefs", "summonChannels", "form"],
       "transforms": [
         {
           "transform": "vdux-transform-hmr"
