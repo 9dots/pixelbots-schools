@@ -73,7 +73,7 @@ function ChosenMarker ({props}) {
     <Avatar
       absolute={{left: 8, top: 0, bottom: 0}}
       border='2px solid white'
-      boxShadow='z2'
+      boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)'
       actor={actor}
       size={32}
       m='auto'/>
@@ -85,10 +85,10 @@ function CorrectCheck ({props}) {
 
   return (
     <Block
-      absolute={{left: -16, top: 0, bottom: 0}}
+      absolute={{left: -18, top: 0, bottom: 0}}
       align='center center'
       bgColor='white'
-      boxShadow='z2'
+      boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)'
       color='green'
       hide={!show}
       circle={32}

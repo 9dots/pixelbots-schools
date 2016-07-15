@@ -188,11 +188,9 @@ function getColor (activity, question, canGrade, isStudent, isRedo) {
   const {points, poll, response} = question
 
   if(canGrade) {
-    if(status >= statusMap.turnedIn) {
-      return poll
-        ? 'grey_medium'
-        : points.scaled !== undefined ? 'green' : 'yellow'
-    }
+    return poll
+      ? 'grey_medium'
+      : points.scaled !== undefined ? 'green' : 'yellow'
   } else if(isStudent) {
     if(status === statusMap.turnedIn || status === statusMap.graded) {
       return 'grey_medium'

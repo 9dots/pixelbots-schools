@@ -26,12 +26,13 @@ function render ({props}) {
         <Activity
           activity={activity}
           clickableTags={isTeacher}
-          showAnswers={false}
+          showIncorrect={isRedo || activity.status === statusMap.returned}
+          showAnswers={isTeacher || activity.status === statusMap.returned}
           answerable={isStudent && activity.status <= statusMap.opened} />
       </Card>
       <Block w={200} ml relative fixed={{top: 53}}>
         <ActivitySidebar
-          canGrade={isTeacher && (activity.status >= statusMap.turnedIn)}
+          canGrade={isTeacher && activity.status >= statusMap.turnedIn}
           canSetMax={false}
           isRedo={isRedo}
           isStudent={isStudent}
