@@ -94,7 +94,7 @@
     "redux-effects-credentials": "^0.1.12",
     "redux-effects-events": "^0.2.7",
     "redux-effects-fetch": "^0.5.5",
-    "redux-effects-location": "^0.2.2",
+    "redux-effects-location": "^0.2.4",
     "redux-effects-media": "^1.0.0",
     "redux-ephemeral": "^0.3.7",
     "redux-flo": "^2.2.1",

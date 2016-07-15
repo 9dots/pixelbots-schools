@@ -14,7 +14,7 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {activity, currentUser} = props
+  const {activity, instance, currentUser, students, instances} = props
   const isTeacher = currentUser.userType === 'teacher'
   const isStudent = currentUser.userType === 'student'
   const isReturned = activity.status === statusMap.returned
@@ -24,7 +24,7 @@ function render ({props}) {
     <Block align='center start'>
       <Card w={756} mb='l' >
         <Activity
-          activity={activity}
+          activity={instance}
           clickableTags={isTeacher}
           showIncorrect={isRedo || activity.status === statusMap.returned}
           showAnswers={isTeacher || activity.status === statusMap.returned}
@@ -37,9 +37,9 @@ function render ({props}) {
           isRedo={isRedo}
           isStudent={isStudent}
           showScores={isTeacher || isReturned}
-          activity={activity} />
+          activity={instance} />
         {
-          isTeacher && <InstanceNav activity={activity} currentUser={currentUser} />
+          isTeacher && <InstanceNav {...props} />
         }
       </Block>
       <Block w={200}/>

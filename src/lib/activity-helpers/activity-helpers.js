@@ -3,6 +3,7 @@
  */
 
 import getProp from '@f/get-prop'
+import index from '@f/index'
 
 /**
  * Activity Helpers
@@ -44,14 +45,46 @@ function totalScore (activity) {
 }
 
 function activitySort (sort) {
+  const prop = sort.property
+  const normalize = prop === 'points' || prop === 'percent'
+    ? val => parseFloat(val)
+    : val => (val || '').toString().toUpperCase()
+
   return (a, b) => {
     if(!sort) return
-    const prop = sort.property
-    const prop1 = getProp(prop, a).toString().toUpperCase() || ''
-    const prop2 = getProp(prop, b).toString().toUpperCase() || ''
+    const prop1 = normalize(getProp(prop, a))
+    const prop2 = normalize(getProp(prop, b).toString())
 
     return prop1 > prop2 ? 1 * sort.dir : -1 * sort.dir
   }
+}
+
+
+
+function combineInstancesAndStudents (activity, students, instances) {
+  const studentToInstance = index(inst => inst.actor.id, instances)
+  const {instances: {total: [{actors}]}} = activity
+  const total = totalPoints(activity)
+
+  return students.map(student => {
+    const actor = actors[student._id]
+    const pointsScaled = actor ? actor.pointsScaled : 0
+    const instance = studentToInstance[student._id]
+
+    return {
+      total,
+      displayName: instance.actor.displayName,
+      instanceId: instance._id,
+      familyName: student.name.familyName,
+      givenName: student.name.givenName,
+      percent: Math.round(pointsScaled * 100) + '%',
+      turnedInAt: actor ? actor.turnedInAt : 0,
+      status: actor ? actor.status : 1,
+      points: pointsScaled * total,
+      userId: student._id,
+      name: student.name
+    }
+  })
 }
 
 const statusMap = {
@@ -72,5 +105,6 @@ export {
   questionIcon,
   totalPoints,
   totalScore,
-  statusMap
+  statusMap,
+  combineInstancesAndStudents
 }

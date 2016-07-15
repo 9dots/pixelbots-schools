@@ -2,37 +2,31 @@
  * Imports
  */
 
-import {activitySort} from 'lib/activity-helpers'
-import summonChannels from 'lib/summon-channels'
+import {activitySort, combineInstancesAndStudents} from 'lib/activity-helpers'
 import {setUrl} from 'redux-effects-location'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {Button} from 'vdux-containers'
 import findIndex from '@f/find-index'
-import element from 'vdux/element'
 import {Block, Icon} from 'vdux-ui'
+import element from 'vdux/element'
 
 /**
  * <InstanceNav/>
  */
 
 function render ({props, local, state}) {
-  const {activities, activity, currentUser} = props
-  const {loaded, value} = activities
+  const {instances, activity, instance, students, currentUser} = props
   const {activeBtn = 'next'} = state
 
-  if (!loaded) {
-    return <span/>
-  }
+  const instStudents = combineInstancesAndStudents(activity, students, instances)
+  const sort = currentUser.preferences.shareStudentSort || {property: 'name.givenName', dir: 1}
 
-  const instances = value.items
+  instStudents.sort(activitySort(sort))
 
-  instances.sort(activitySort(sort))
-  const sort = currentUser.shareStudentSort || {property: 'name.givenName', dir: 1}
-
-  const idx = findIndex(instances, inst => inst._id === activity._id)
-  const prev = instances[idx - 1]
-  const next = instances[idx + 1]
+  const idx = findIndex(instStudents, inst => inst.instanceId === instance._id)
+  const prev = instStudents[idx - 1]
+  const next = instStudents[idx + 1]
 
   const activeNext = !prev || (next && activeBtn === 'next')
   const activePrev = !activeNext
@@ -49,6 +43,7 @@ function render ({props, local, state}) {
     focusProps: {highlight: 0.02},
     activeProps: {highlight: 0},
   }
+
   return (
     <Block align='start' mt>
       {
@@ -61,7 +56,7 @@ function render ({props, local, state}) {
           {...style}>
           <Icon name='chevron_left' fs='s' />
           <Block ellipsis hide={!prev || !activePrev}>
-            {prev && prev.actor.displayName}
+            {prev && prev.displayName}
           </Block>
         </Button>
       }
@@ -74,7 +69,7 @@ function render ({props, local, state}) {
           ml='s'
           {...style}>
           <Block ellipsis hide={!next || !activeNext}>
-            {next && next.actor.displayName}
+            {next && next.displayName}
           </Block>
           <Icon name='chevron_right' fs='s' />
         </Button>
@@ -83,7 +78,7 @@ function render ({props, local, state}) {
   )
 
   function go (inst) {
-    return setUrl(`/activity/${activity.root.id}/instance/${inst.actor.id}`)
+    return setUrl(`/activity/${activity._id}/instance/${inst.userId}`, true)
   }
 }
 
@@ -105,7 +100,7 @@ const reducer = handleActions({
  * Exports
  */
 
-export default summonChannels(({activity}) => `share!${activity.root.id}.instances`)({
+export default {
   render,
   reducer
-})
+}
