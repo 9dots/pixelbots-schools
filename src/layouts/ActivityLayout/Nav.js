@@ -30,7 +30,7 @@ function render({props, local, state}) {
 
   return (
     <Block>
-      <Fixed bgColor='white' wide top z={2} boxShadow='card' align='start center' h={53}>
+      <Fixed bgColor='white' wide top z={3} boxShadow='card' align='start center' h={53}>
         <Flex align='start center' wide px flex>
           <Button icon='arrow_back' fs='s' onClick={() => setUrl('/')} color='text' mr />
           <Text fs='s' lighter>{displayName}</Text>

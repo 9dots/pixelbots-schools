@@ -3,6 +3,7 @@
  */
 
 import QuestionAttachment from 'components/QuestionAttachment'
+import QuestionComments from 'components/QuestionComments'
 import {debounceAction} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -29,11 +30,18 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {activity, object, idx, answerable, showAnswers, showIncorrect} = props
+  const {
+    activity, object, idx, answerable, showAnswers,
+    showIncorrect, showComments, commentsId
+  } = props
   const {displayName, poll, attachments = [], points} = object
   const isMultipleChoice = !poll && attachments[0] && attachments[0].objectType === 'choice'
+
+  const id = object.id.split('.')[1]
+
   return (
     <Block fw='lighter' relative>
+      <QuestionComments absolute right={-30} top z='2' showComments={showComments} commentsId={commentsId} question={object} />
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
       <Block align='start' py mb>
         <Badge mr pt={3} size={25}>{idx + 1}</Badge>
