@@ -36,11 +36,13 @@ function render ({props, local, state}) {
     showIncorrect, showComments, commentsId, currentUser,
   } = props
   const {displayName, poll, attachments = [], points, id} = object
-  const isMultipleChoice = !poll && attachments[0] && attachments[0].objectType === 'choice'
+  const isMultipleChoice = !poll && getProp('0.objectType', attachments) === 'choice'
 
-  const commentList = comments && comments.filter(comment => (
-    getId(getProp('_object.0.location.path', comment)) === getId(id)
-  )).sort((a, b) => Date(a.createdAt) - Date(b.createdAt))
+  const commentList = comments && comments
+    .filter(comment => (
+      getId(getProp('_object.0.location.path', comment)) === getId(id)
+    ))
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
 
   const isStudent = currentUser && currentUser.userType === 'student'
 
