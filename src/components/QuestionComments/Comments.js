@@ -2,17 +2,13 @@
  * Imports
  */
 
-import {Button, Textarea, Block, DropdownMenu, MenuItem, wrap, CSSContainer} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {Icon, Card, Text} from 'vdux-ui'
 import CommentCard from './CommentCard'
-import Avatar from 'components/Avatar'
-import Document from 'vdux/Document'
+import {Block} from 'vdux-containers'
+import {Icon, Card} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
-import Form from 'vdux-form'
-import moment from 'moment'
 import map from '@f/map'
 
 /**
@@ -45,9 +41,17 @@ function render ({props, local, state}) {
           actor={currentUser}
           annotate={annotate}
           hide={!showNew}/>
-        <Block hoverProps={{opacity: 1}} opacity='.85' pointer onClick={local(toggleNew)} align='center center' hide={showNew || isStudent}>
+        <Block
+          onClick={local(toggleNew)}
+          hoverProps={{opacity: 1}}
+          align='center center'
+          hide={showNew || isStudent}
+          opacity='.85'
+          pointer>
           <Icon lh='17px' name='add_circle_outline' fs='s' mr='s'/>
-          <Block lh='17px'>Leave a note for {activity.actor.displayName}</Block>
+          <Block lh='17px'>
+            Leave a note for {activity.actor.displayName}
+          </Block>
         </Block>
       </Block>
     </Block>
@@ -90,8 +94,16 @@ function render ({props, local, state}) {
   }
 }
 
+/**
+ * Actions
+ */
+
 const toggleDD = createAction('<Comments/>: toggleDD')
 const toggleNew = createAction('<Comments/>: toggleNew')
+
+/**
+ * Reducer
+ */
 
 const reducer = handleActions({
   [toggleNew]: state => ({...state, showNew: !state.showNew}),

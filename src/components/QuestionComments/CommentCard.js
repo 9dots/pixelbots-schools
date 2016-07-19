@@ -2,17 +2,14 @@
  * Imports
  */
 
-import {Button, Textarea, Block, DropdownMenu, MenuItem, wrap, CSSContainer} from 'vdux-containers'
+import {Button, Textarea, DropdownMenu, MenuItem, wrap, CSSContainer} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {Icon, Card, Text} from 'vdux-ui'
+import {Icon, Card, Block} from 'vdux-ui'
 import Avatar from 'components/Avatar'
-import Document from 'vdux/Document'
 import element from 'vdux/element'
-import summon from 'vdux-summon'
 import Form from 'vdux-form'
 import moment from 'moment'
-import map from '@f/map'
 
 
 /**
@@ -73,10 +70,7 @@ const CommentCard = wrap(CSSContainer, {
   hoverProps: {hover: true}
 })({
   render ({props}) {
-    const {
-      dismiss, actor, isEdit, toggleEdit,
-      annotate, comment, showDD, toggleDD
-    } = props
+    const { actor, toggleEdit, annotate, comment, showDD, toggleDD } = props
 
     return (
       <Card p mb>

@@ -57,9 +57,9 @@ function CommentButton({props}) {
         boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)'
         hoverProps={{highlight: 0.03}}
         focusProps={{highlight: 0.03}}
+        absolute={{left: -10}}
         transition='all .35s'
         align='center center'
-        absolute={{left: -10}}
         transform='rotate(0)'
         circle={40}
         p={0}
