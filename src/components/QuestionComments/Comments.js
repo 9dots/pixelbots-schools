@@ -17,11 +17,13 @@ import map from '@f/map'
 
 function render ({props, local, state}) {
   const {
-    comments, currentUser, question,
-    activity, makeAnnotation, makingAnnotation = {}
+    comments, currentUser, question, activity,
+    makeAnnot, makingAnnot = {},
+    deleteAnnot, deletingAnnot = {},
   } = props
   const showNew = !comments.length || state.showNew
   const isStudent = currentUser.userType === 'student'
+  const busy = makingAnnot.loading || deletingAnnot.loading
 
   return (
     <Block
@@ -34,6 +36,7 @@ function render ({props, local, state}) {
             toggleDD={local(toggleDD, comment._id)}
             showDD={state.dropdownId === comment._id}
             actor={comment.actor}
+            deleteAnnot={() => deleteAnnot(comment._id)}
             comment={comment}/>, comments)
         }
         <CommentCard
@@ -89,8 +92,8 @@ function render ({props, local, state}) {
         }
       }]
     }
-    console.log(annotation)
-    yield makeAnnotation(annotation)
+
+    yield makeAnnot(annotation)
   }
 }
 
@@ -116,12 +119,19 @@ const reducer = handleActions({
  */
 
 export default summon(() => ({
-  makeAnnotation: (body) => ({
-    makingAnnotation:  {
+  makeAnnot: (body) => ({
+    makingAnnot:  {
       url: '/share',
       method: 'POST',
       invalidates: 'activity_feed',
       body
+    }
+  }),
+  deleteAnnot: (id) => ({
+    deletingAnnot: {
+      url: `/share/${id}`,
+      method: 'DELETE',
+      invalidates: 'activity_feed'
     }
   })
 }))({

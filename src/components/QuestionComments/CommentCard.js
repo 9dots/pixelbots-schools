@@ -24,9 +24,7 @@ function render ({props, state, local}) {
     {
       isEdit
         ? <EditCard dismiss={dismiss} {...rest} />
-        : <CommentCard
-            toggleEdit={local(toggleEdit)}
-            {...rest} />
+        : <CommentCard toggleEdit={local(toggleEdit)} {...rest} />
     }
     </Block>
   )
@@ -70,7 +68,10 @@ const CommentCard = wrap(CSSContainer, {
   hoverProps: {hover: true}
 })({
   render ({props}) {
-    const { actor, toggleEdit, annotate, comment, showDD, toggleDD } = props
+    const {
+      actor, toggleEdit, annotate, deleteAnnot,
+      comment, showDD, toggleDD
+    } = props
 
     return (
       <Card p mb>
@@ -89,7 +90,7 @@ const CommentCard = wrap(CSSContainer, {
             <MenuItem align='start center' onClick={toggleEdit}>
               <Icon fs='xs' name='edit' mr/> Edit
             </MenuItem>
-            <MenuItem align='start center'>
+            <MenuItem align='start center' onClick={deleteAnnot}>
               <Icon fs='xs' name='delete' mr /> Delete
             </MenuItem>
           </DropdownMenu>

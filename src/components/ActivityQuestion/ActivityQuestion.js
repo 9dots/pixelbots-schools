@@ -40,7 +40,7 @@ function render ({props, local, state}) {
 
   const commentList = comments && comments.filter(comment => (
     getId(getProp('_object.0.location.path', comment)) === getId(id)
-  ))
+  )).sort((a, b) => Date(a.createdAt) - Date(b.createdAt))
 
   const isStudent = currentUser && currentUser.userType === 'student'
 
