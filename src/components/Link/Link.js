@@ -21,11 +21,14 @@ function getProps (props, context) {
  */
 
 function render ({props, children}) {
-  const {ui = InternalLink, current, href, disabled, currentProps = {}, ...rest} = props
+  const {ui = InternalLink, current, href, disabled, replace, currentProps = {}, ...rest} = props
   let onClick = props.onClick
 
-  if (ui !== InternalLink && href && !disabled) {
-    onClick = () => setUrl(href)
+  if ((ui !== InternalLink && href && !disabled) || replace) {
+    onClick = e => {
+      e.preventDefault()
+      return setUrl(href, replace)
+    }
   }
 
   return (

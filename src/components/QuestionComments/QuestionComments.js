@@ -3,45 +3,67 @@
  */
 
 import {Button} from 'vdux-containers'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
+import {Icon, Card, Block} from 'vdux-ui'
 import Document from 'vdux/Document'
-import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
+import Comments from './Comments'
 
 /**
  * <QuestionComments/>
  */
 
-function render ({props}) {
-  const {showComments, commentsId, question, ...rest} = props
+function render ({props, local, state}) {
+  const {
+    showComments, commentsId, question, comments, ...rest
+  } = props
+  const hasComments = !!comments.length
   const isShown = commentsId === question.id
+
+  return (
+    <Block {...rest} z={2}>
+      <CommentButton
+        hasComments={hasComments}
+        showComments={showComments}
+        question={question}
+        isShown={isShown} />
+      { isShown && <Comments {...props} /> }
+    </Block>
+  )
+}
+
+function CommentButton({props}) {
+  const {showComments, question, isShown, hasComments} = props
+
   const style = isShown
     ? {
+        transform: 'rotate(360deg)',
         bgColor: 'grey',
         color: 'white',
         circle: 24,
-        mt: 8,
-        mr: 2,
-        transform: 'rotate(360deg)'
+        left: 5,
+        mt: 8
       }
     : {}
 
   return (
     <Block>
-      <Document onClick={() => showComments(null)} />
+      <Document onClick={() => [showComments(null)]} />
       <Button
         onClick={e => [e.stopPropagation(), showComments(isShown ? null : question.id)]}
-        transition='all .35s'
-        align='center center'
-        bgColor='#F3F3F3'
-        transform='rotate(0)'
+        color={hasComments ? 'white' : 'grey_medium'}
+        bgColor={hasComments ? 'green' : '#F3F3F3'}
         boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)'
         hoverProps={{highlight: 0.03}}
         focusProps={{highlight: 0.03}}
+        transition='all .35s'
+        align='center center'
+        absolute={{left: -10}}
+        transform='rotate(0)'
         circle={40}
-        color='grey_medium'
         p={0}
-        {...style}
-        {...rest}>
+        {...style}>
           <Icon fs={19} name={isShown ? 'chevron_left' : 'chat_bubble'} />
       </Button>
     </Block>
@@ -52,6 +74,6 @@ function render ({props}) {
  * Exports
  */
 
-export default {
+export default{
   render
 }

@@ -7,7 +7,6 @@ import ActivityObject from 'components/ActivityObject'
 import {setUrl} from 'redux-effects-location'
 import {Block} from 'vdux-containers'
 import element from 'vdux/element'
-import summon from 'vdux-summon'
 import map from '@f/map'
 
 /**
@@ -15,7 +14,7 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {activity, clickableTags, ...rest} = props
+  const {activity, clickableTags, currentUser, ...rest} = props
   const {
     displayName, _object, originalDescription,
     tags, commonCore
@@ -37,6 +36,7 @@ function render ({props}) {
       </Block>
       {
         map(object => <ActivityObject
+          currentUser={currentUser}
           activity={activity}
           object={object}
           idx={object.objectType === 'question' ? i++ : null}

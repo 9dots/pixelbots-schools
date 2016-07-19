@@ -2,12 +2,11 @@
  * Imports
  */
 
+import {combineInstancesAndStudents, activitySort} from 'lib/activity-helpers'
 import {Block, Table, TableHeader, TableRow, Icon, Text} from 'vdux-ui'
 import {Checkbox, wrap, CSSContainer, form} from 'vdux-containers'
 import ActivityProgressActions from './ActivityProgressActions'
-import {totalPoints, activitySort} from 'lib/activity-helpers'
 import ActivityProgressRow from './ActivityProgressRow'
-import summonChannels from 'lib/summon-channels'
 import summonPrefs from 'lib/summon-prefs'
 import FourOhFour from 'pages/FourOhFour'
 import element from 'vdux/element'
@@ -21,14 +20,13 @@ function render ({props}) {
   const {
     activity, students, currentUser, setStatus,
     settingStatus, setPref, prefs, toggleAll, fields,
-    activities
+    instances
   } = props
-  const {value, loading, error} = activities
   const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
-  if (loading) return <span/>
-  if (error) return <FourOhFour />
 
-  const instanceList = getInstances(activity, students, value.items).sort(activitySort(sort))
+  const instanceList = combineInstancesAndStudents(activity, students, instances)
+    .sort(activitySort(sort))
+
   const headProps = {sort, setSort, lighter: true, p: true}
 
   // Multi Select Variables
@@ -107,59 +105,13 @@ const SortHead = wrap(CSSContainer, {
 })
 
 /**
- * Helpers
- */
-
-function getInstances (activity, students, instances) {
-  const {instances: {total: {'0': {actors}}}} = activity
-  const total = totalPoints(activity)
-
-  return students.map(function(student) {
-    const actor = actors[student._id]
-    const pointsScaled = actor ? actor.pointsScaled : 0
-    const instance = instances.find(({actor}) => actor.id === student._id)
-
-    return {
-      total,
-      instanceId: instance._id,
-      familyName: student.name.familyName,
-      givenName: student.name.givenName,
-      percent: Math.round(pointsScaled * 100) + '%',
-      turnedInAt: actor ? actor.turnedInAt : 0,
-      status: actor ? actor.status : 1,
-      points: pointsScaled * total,
-      userId: student._id
-    }
-  })
-}
-
-/**
  * Exports
  */
 
-export default summonPrefs()(summonChannels(
-  ({activity}) => `share!${activity._id}.instances`, ({activity}) => ({
-  persistSort: pref => ({
-    settingSort:  {
-      url: '/preference/shareStudentSort',
-      invalidates: '/user',
-      method: 'PUT',
-      body: {
-        value: pref
-      }
-    }
-  }),
-  setStatus: (id, status) => ({
-    settingStatus: {
-      url: `/instance/${id}/${status}`,
-      invalidates: `/share/${activity._id}`,
-      method: 'PUT'
-    }
-  })
-}))(
+export default summonPrefs()(
   form(({students}) => ({
     fields: ['selected']
   }))({
     render
   })
-))
+)

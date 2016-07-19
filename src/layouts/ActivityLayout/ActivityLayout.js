@@ -22,12 +22,12 @@ function render ({props, children}) {
   )
 }
 
-function internal(props, children) {
-  const {activity, students, currentUser, userId, instance} = props
+function internal (props, children) {
+  const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus} = props
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
-  if (!loaded || !students.loaded || (isInstance && !instance.value)) {
+  if (!loaded || !students.loaded || !instances.loaded || (isInstance && !instance.value)) {
     return ''
   }
 
@@ -53,8 +53,12 @@ function internal(props, children) {
     <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
-      activity: isInstance ? instance.value : value,
-      students: students.value.items, classId
+      activity: value,
+      instance: instance.value,
+      students: students.value.items, classId,
+      instances: instances.value.items,
+      setStatus,
+      settingStatus
     }, children)
   ]
 }
@@ -71,10 +75,23 @@ export default summon(({userId, activityId}) => ({
       : null,
     clear: false
   }
-}))(summon(({activity}) => ({
+}))(summon(({activity, activityId}) => ({
+  setStatus: (id, status) => ({
+    settingStatus: {
+      url: `/instance/${id}/${status}`,
+      invalidates: [`/share/${activityId}`, 'instances'],
+      method: 'PUT'
+    }
+  }),
   students: activity.value
     ? `/group/students?group=${activity.value.contexts[0].descriptor.id}`
-    : null
+    : null,
+  instances: {
+    url: activity.value
+      ? `/share?channel=share!${activity.value._id}.instances`
+      : null,
+    subscribe: 'instances'
+  }
 }))({
   render
 }))
