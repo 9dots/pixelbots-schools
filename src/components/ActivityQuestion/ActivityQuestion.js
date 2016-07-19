@@ -38,22 +38,27 @@ function render ({props, local, state}) {
   const isMultipleChoice = !poll && attachments[0] && attachments[0].objectType === 'choice'
 
   const id = object.id.split('.')[1]
-
-  const commentList = comments.filter(comment => (
+  const commentList = comments && comments.filter(comment => (
     getId(comment._object[0].location.path) === getId(object.id)
   ))
 
+  const isStudent = currentUser && currentUser.userType === 'student'
+
   return (
     <Block fw='lighter' relative>
-      <QuestionComments
-        absolute={{right: 0, top: 0}}
-        showComments={showComments}
-        currentUser={currentUser}
-        commentsId={commentsId}
-        comments={commentList}
-        activity={activity}
-        question={object}
-        z='2'/>
+      {
+        comments &&
+        <QuestionComments
+          hide={isStudent && commentList.length === 0}
+          absolute={{right: 0, top: 0}}
+          showComments={showComments}
+          currentUser={currentUser}
+          commentsId={commentsId}
+          comments={commentList}
+          activity={activity}
+          question={object}
+          z='2'/>
+      }
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
       <Block align='start' py mb>
         <Badge mr pt={3} size={25}>{idx + 1}</Badge>

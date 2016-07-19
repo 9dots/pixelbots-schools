@@ -35,7 +35,7 @@ function render ({props, local, state}) {
           actor={currentUser}
           activity={activity}
           dismiss={local(toggle)}/>
-        <Block hoverProps={{opacity: 1}} opacity='.85' pointer onClick={local(toggle)} align='center center' hide={showNew}>
+        <Block hoverProps={{opacity: 1}} opacity='.85' pointer onClick={local(toggle)} align='center center' hide={showNew} hide={currentUser.userType === 'student'}>
           <Icon lh='17px' name='add_circle_outline' fs='s' mr='s'/>
           <Block lh='17px'>Leave a note for {activity.actor.displayName}</Block>
         </Block>
