@@ -9,6 +9,7 @@ import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {Block, Badge, Icon} from 'vdux-ui'
 import element from 'vdux/element'
+import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
 import map from '@f/map'
 
@@ -34,12 +35,11 @@ function render ({props, local, state}) {
     activity, object, idx, answerable, showAnswers, comments,
     showIncorrect, showComments, commentsId, currentUser,
   } = props
-  const {displayName, poll, attachments = [], points} = object
+  const {displayName, poll, attachments = [], points, id} = object
   const isMultipleChoice = !poll && attachments[0] && attachments[0].objectType === 'choice'
 
-  const id = object.id.split('.')[1]
   const commentList = comments && comments.filter(comment => (
-    getId(comment._object[0].location.path) === getId(object.id)
+    getId(getProp('_object.0.location.path', comment)) === getId(id)
   ))
 
   const isStudent = currentUser && currentUser.userType === 'student'
@@ -114,6 +114,7 @@ function onUpdate (prev, next) {
  */
 
 function getId(str) {
+  if(typeof str !== 'string') return
   const arr = str.split('.')
   return arr[arr.length - 1]
 }

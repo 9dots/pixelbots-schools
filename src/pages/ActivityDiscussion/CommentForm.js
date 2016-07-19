@@ -25,8 +25,7 @@ function render({props}) {
       <Avatar actor={currentUser} size='40px' />
       <Block flex mx>
         <Textarea
-          focusProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
-          activeProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
+          focusProps={{border: '1px solid rgba(blue, 0.35)'}}
           errorPlacement='left'
           placeholder='Write your comment…'
           borderColor='grey_light'
