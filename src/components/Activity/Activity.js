@@ -13,6 +13,13 @@ import map from '@f/map'
  * <Activity/>
  */
 
+function getProps (props, context) {
+  return {
+    ...props,
+    ...(context.uiMedia === 'print' ? (props.printProps || {}) : {})
+  }
+}
+
 function render ({props}) {
   const {activity, clickableTags, currentUser, ...rest} = props
   const {
@@ -80,5 +87,6 @@ function Label({props}) {
  */
 
 export default {
+  getProps,
   render
 }

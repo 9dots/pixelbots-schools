@@ -33,9 +33,9 @@ function initialState ({props}) {
 function render ({props, local, state}) {
   const {
     activity, object, idx, answerable, showAnswers, comments,
-    showIncorrect, showComments, commentsId, currentUser,
+    showIncorrect, showComments, commentsId, currentUser
   } = props
-  const {displayName, poll, attachments = [], points, id} = object
+  const {displayName, poll, attachments = [], points, id, content} = object
   const isMultipleChoice = !poll && getProp('0.objectType', attachments) === 'choice'
 
   const commentList = comments && comments
@@ -64,7 +64,7 @@ function render ({props, local, state}) {
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
       <Block align='start' py mb>
         <Badge mr pt={3} size={25}>{idx + 1}</Badge>
-        <Block fs='s' flex innerHTML={displayName} />
+        <Block fs='s' flex innerHTML={content} class='markdown' />
       </Block>
       <Block align='start' mx={30} column={isMultipleChoice}>
         {
@@ -92,6 +92,7 @@ function render ({props, local, state}) {
 function IncorrectX({props}) {
   return (
     <Block
+      printProps={{bgColor: 'transparent', left: -25, boxShadow: '0 0 0', borderRadius: 0}}
       absolute={{left: -40, top: 8}}
       align='center center'
       bgColor='red'
@@ -100,7 +101,10 @@ function IncorrectX({props}) {
       hide={!props.show}
       circle={32}
       m='auto'>
-        <Icon fs='s' name='close' />
+        <Icon
+          printProps={{fs: 'l', color: 'red'}}
+          name='close'
+          fs='s' />
     </Block>
   )
 }

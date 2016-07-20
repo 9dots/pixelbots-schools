@@ -16,7 +16,7 @@ function render ({props}) {
   const {object} = props
 
   return (
-    <Block p={24}>
+    <Block p={24} printProps={{p: 16}} pageBreakInside='avoid'>
       {
         renderObject(object, props)
       }

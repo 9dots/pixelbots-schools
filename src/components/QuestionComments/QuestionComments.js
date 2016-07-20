@@ -22,7 +22,7 @@ function render ({props, local, state}) {
   const isShown = commentsId === question.id
 
   return (
-    <Block {...rest} question={question} z={2}>
+    <Block {...rest} question={question} z={2} printProps={{hide: true}}>
       <CommentButton
         hasComments={hasComments}
         showComments={showComments}

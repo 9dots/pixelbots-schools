@@ -113,6 +113,9 @@ button {
 }
 
 @media print {
+  body {
+    background: #FFF;
+  }
   body.modal {
     overflow: auto !important;
   }

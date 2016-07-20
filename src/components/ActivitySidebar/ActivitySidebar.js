@@ -154,7 +154,7 @@ const ScoreRow = summon(({activity, question}) => ({
         tag='label'
         borderLeft='3px solid transparent'
         align='space-between center'
-        p='8px 12px 8px 9px'
+        p='6px 12px 6px 9px'
         relative
         color='grey_medium'
         tabindex='-1'
