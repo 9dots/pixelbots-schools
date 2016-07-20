@@ -38,7 +38,7 @@ function render ({props}) {
   if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)
 
   return (
-    <Block p={24} relative {...(editable && !editing ? editableProps : {})}>
+    <Block p={24} relative {...(editable && !editing ? editableProps : {})} printProps={{p: 16}} pageBreakInside='avoid'>
       <Block absolute='top 50px right 50px' align='start center' hide={!editing}>
         <Button onClick={open}>Done</Button>
         <Button onClick={remove}>Remove</Button>

@@ -3,12 +3,14 @@
  */
 
 import QuestionAttachment from 'components/QuestionAttachment'
+import QuestionComments from 'components/QuestionComments'
 import EditableQuestion from './EditableQuestion'
 import {debounceAction} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {Block, Badge, Icon} from 'vdux-ui'
 import element from 'vdux/element'
+import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
 import map from '@f/map'
 
@@ -30,26 +32,50 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {activity, editing, object, idx, answerable, showAnswers, showIncorrect} = props
-  const {displayName, poll, attachments = [], points} = object
-  const isMultipleChoice = !poll && attachments[0] && attachments[0].objectType === 'choice'
+  const {
+    activity, editing, object, idx, answerable, showAnswers, comments,
+    showIncorrect, showComments, commentsId, currentUser
+  } = props
+  const {displayName, poll, attachments = [], points, id, content} = object
+  const isMultipleChoice = !poll && getProp('0.objectType', attachments) === 'choice'
 
   if (editing) return <EditableQuestion {...props} />
 
+  const commentList = comments && comments
+    .filter(comment => (
+      getId(getProp('_object.0.location.path', comment)) === getId(id)
+    ))
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+
+  const isStudent = currentUser && currentUser.userType === 'student'
+
   return (
     <Block fw='lighter' relative>
+      {
+        comments &&
+        <QuestionComments
+          hide={isStudent && commentList.length === 0}
+          absolute={{right: 0, top: 0}}
+          showComments={showComments}
+          currentUser={currentUser}
+          commentsId={commentsId}
+          comments={commentList}
+          activity={activity}
+          question={object}
+          z='2'/>
+      }
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
       <Block align='start' py mb>
         <Badge mr pt={3} size={25}>{idx + 1}</Badge>
-        <Block fs='s' flex innerHTML={displayName} />
+        <Block fs='s' flex innerHTML={content} class='markdown' />
       </Block>
       <Block align='start' mx={30} column={isMultipleChoice}>
         {
           map(
             (object, i) => <QuestionAttachment
               showAnswers={showAnswers}
-              actor={activity.actor}
               answerable={answerable}
+              actor={activity.actor}
               answer={state.answer}
               submit={answer => [
                 state.debouncedSubmit(answer),
@@ -69,6 +95,7 @@ function render ({props, local, state}) {
 function IncorrectX ({props}) {
   return (
     <Block
+      printProps={{bgColor: 'transparent', left: -25, boxShadow: '0 0 0', borderRadius: 0}}
       absolute={{left: -40, top: 8}}
       align='center center'
       bgColor='red'
@@ -77,7 +104,10 @@ function IncorrectX ({props}) {
       hide={!props.show}
       circle={32}
       m='auto'>
-        <Icon fs='s' name='close' />
+        <Icon
+          printProps={{fs: 'l', color: 'red'}}
+          name='close'
+          fs='s' />
     </Block>
   )
 }
@@ -87,6 +117,17 @@ function onUpdate (prev, next) {
     return next.local(setAnswer)(next.props.object.response)
   }
 }
+
+/**
+ * Helpers
+ */
+
+function getId(str) {
+  if(typeof str !== 'string') return
+  const arr = str.split('.')
+  return arr[arr.length - 1]
+}
+
 
 /**
  * Actions

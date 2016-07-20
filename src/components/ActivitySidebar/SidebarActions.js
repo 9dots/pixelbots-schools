@@ -24,18 +24,18 @@ function render({props}) {
   const canTurnIn = count === questions.length
   return (
     <Block>
-      <Block hide={!isStudent}>
-        <Button wide bgColor='grey_medium' relative p={0} overflow='hidden' disabled hide={canTurnIn} h={32}>
+      <Block hide={!isStudent || status >= statusMap.turnedIn}>
+        <Block wide bgColor='grey_medium' align='center center' relative p={0} overflow='hidden' opacity='.5' rounded hide={canTurnIn} h={32} >
           <Block
             w={count / questions.length * 100 + '%'}
             absolute={{top: 0, left: 0}}
             transition='width .6s ease'
             bg='blue'
             tall/>
-          <Text relative z='2'>Progress: {count} of {questions.length}</Text>
-        </Button>
+          <Text relative z='2' color='white'>Progress: {count} of {questions.length}</Text>
+        </Block>
         <Button
-          hide={!canTurnIn || status >= statusMap.turnedIn}
+          hide={!canTurnIn}
           h={32}
           wide
           onClick={() => openModal(() =>
@@ -69,7 +69,10 @@ const ConfirmTurnIn = summon(({activity}) => ({
   onAccept: () => ({
     accepting: {
       url: `/instance/${activity.id}/turned_in`,
-      invalidates: `/share/${activity.root.id}/instance/${activity.actor.id}`,
+      invalidates: [
+        `/share/${activity.root.id}/`,
+        `/share/${activity.root.id}/instance/${activity.actor.id}`
+      ],
       method: 'PUT'
     }
   })
@@ -97,7 +100,10 @@ export default summon(({activity}) => ({
   setStatus: status => ({
     settingStatus: {
       url: `/instance/${activity.id}/${status}`,
-      invalidates: `/share/${activity.root.id}/instance/${activity.actor.id}`,
+      invalidates: [
+        `/share/${activity.root.id}/`,
+        `/share/${activity.root.id}/instance/${activity.actor.id}`
+      ],
       method: 'PUT'
     }
   })

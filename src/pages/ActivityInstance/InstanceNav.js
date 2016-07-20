@@ -69,8 +69,8 @@ function render ({props, local, state}) {
           onClick={() => go(next)}
           disabled={!next}
           ml='s'
-          flexGrow={activeNext ?  1 : 0.0001}
-          {...style}>
+          {...style}
+          flexGrow={activeNext ?  1 : 0.0001}>
           <Block ellipsis hide={!next || !activeNext} flex>
             {next && next.displayName}
           </Block>

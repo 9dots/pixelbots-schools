@@ -25,12 +25,14 @@ function render ({props}) {
     circle: '32',
     fs: 'm'
   }
+
+  const disabled = loading || !selected.length
   return (
     <Flex align='space-between center' mb>
       <Block align='start center'>
-        <Button busy={loading} text='Return' h={32} onClick={() => doAction('returned')} />
+        <Button busy={loading} disabled={disabled} text='Return' h={32} onClick={() => doAction('returned')} />
         <Block mx>
-        <Dropdown disabled={loading} btn={<Button disabled={loading} icon='more_vert' {...iconProps} />} left w={120}>
+        <Dropdown disabled={disabled} btn={<Button disabled={disabled} icon='more_vert' {...iconProps} />} left w={120}>
           <MenuItem align='start center' onClick={() => doAction('opened')}>
             <Icon name='redo' mr fs='xs' />
             Redo

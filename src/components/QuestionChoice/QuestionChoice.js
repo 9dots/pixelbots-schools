@@ -4,7 +4,7 @@
 
 import {grey, blue, yellow, green, red} from 'lib/colors'
 import Avatar from 'components/Avatar'
-import {Block, Icon} from 'vdux-ui'
+import {Block, Icon, Checkbox} from 'vdux-ui'
 import element from 'vdux/element'
 import Color from 'Color'
 
@@ -37,18 +37,22 @@ function render ({props}) {
 
   return (
     <Block
-      pointer={answerable}
+      printProps={{bgColor: 'transparent', p: '2px 0 2px 20px'}}
       onClick={answerable && submitAnswer}
-      relative
-      borderRadius='25px'
-      w='70%'
       p='12px 12px 12px 30px'
-      my='s'
+      pointer={answerable}
+      align='start center'
+      borderRadius='25px'
       bgColor={bgColor}
-      align='start center'>
+      relative
+      w='70%'
+      my='s'>
       <CorrectCheck show={showAnswers && isCorrect} />
       {chosen && <ChosenMarker actor={actor} />}
-      <Block mx='40px' fs='s' innerHTML={content} class='markdown' />
+      <Block hide printProps={{hide: false, mr: true}}>
+        <Checkbox checked={chosen} />
+      </Block>
+      <Block mx='40px' fs='s' innerHTML={content} class='markdown' printProps={{ml: 0}} />
     </Block>
   )
 
@@ -75,6 +79,7 @@ function ChosenMarker ({props}) {
       border='2px solid white'
       boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)'
       actor={actor}
+      printProps={{hide: true}}
       size={32}
       m='auto'/>
   )
@@ -92,6 +97,7 @@ function CorrectCheck ({props}) {
       color='green'
       hide={!show}
       circle={32}
+      printProps={{boxShadow: '0 0 0', borderRadius: 0}}
       m='auto'>
         <Icon fs='s' name='check' />
     </Block>

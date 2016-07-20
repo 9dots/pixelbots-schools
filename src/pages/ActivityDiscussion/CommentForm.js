@@ -25,11 +25,11 @@ function render({props}) {
       <Avatar actor={currentUser} size='40px' />
       <Block flex mx>
         <Textarea
-          focusProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
-          activeProps={{border: '1px solid rgba(37, 168, 224, 0.35)'}}
+          border='rgba(grey, 0.15)'
           errorPlacement='left'
           placeholder='Write your comment…'
           borderColor='grey_light'
+          focusProps={{borderColor: 'rgba(blue, 0.35)'}}
           name='comment'
           lh='1.5em'
           rows={3}
@@ -81,12 +81,12 @@ function validateComment (model) {
  */
 
 
-export default summon(() => ({
+export default summon(({id}) => ({
   makeComment: (body) => ({
     makingComent:  {
       url: '/share',
       method: 'POST',
-      invalidates: 'activity_feed',
+      invalidates: ['activity_feed', `/share/${id}`],
       body
     }
   })

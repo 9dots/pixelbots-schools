@@ -38,17 +38,27 @@ function render ({props}) {
 
   return (
     <Block mt>
-      <Card mb align='start center' relative>
-        <Avatar m actor={actor} size={66} border='2px solid white' boxShadow='card' />
-        <Block column align='start' fs='xs'>
-          <Link href={`/${actor.username}`} bold hoverProps={{textDecoration: 'underline'}}>{actor.displayName}</Link>
-          <Text p='xs' hide={classId === 'public'} color='blue'>
-            {descriptor.displayName}
-          </Text>
-          <Text fs='xxs' color='grey_medium' align='start center'>
-            <Icon fs='14px' name='schedule' />
-            {moment(publishedAt || at.turnedIn).fromNow()}
-          </Text>
+      <Card mb relative>
+        <Block p align='start center'>
+          <Avatar mr actor={actor} size={60} />
+          <Block column align='start' fs='xs'>
+            <Link
+              hoverProps={{textDecoration: 'underline'}}
+              href={`/${actor.username}`}
+              mb='xs'>
+              {actor.displayName}
+            </Link>
+            <Text my='xs' hide={classId === 'public' || isInstance} color='blue'>
+              {descriptor.displayName}
+            </Text>
+            <Text fs='12px' color='grey_medium' align='start center' hide={isInstance}>
+              <Icon fs='xs' name='schedule' mr='xs' />
+              { moment(publishedAt || at.turnedIn).fromNow() }
+            </Text>
+            <Text hide={!isInstance || (activity.status < statusMap.turnedIn)} color='grey_medium' fs='12px'>
+              {moment(at.turnedIn).format('M/D/YY LT')}
+            </Text>
+          </Block>
         </Block>
         <ActivityBadge hide={!isInstance} status={status} userType={isStudent ? 'student' : 'teacher'} text={false} absolute top right />
       </Card>
@@ -56,7 +66,7 @@ function render ({props}) {
         <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' ellipsis boxShadow='0 2px 1px rgba(75,82,87,0.1)' relative z='2'>
           {score} / {totalPoints(activity)}
         </Block>
-        <Block maxHeight='calc(100vh - 352px)' overflow='auto' borderBottom='1px solid grey_light'>
+        <Block maxHeight='calc(100vh - 347px)' overflow='auto' borderBottom='1px solid grey_light'>
           {
             questions.map((q, i) => <ScoreRow
               num={i + 1}
@@ -144,7 +154,7 @@ const ScoreRow = summon(({activity, question}) => ({
         tag='label'
         borderLeft='3px solid transparent'
         align='space-between center'
-        p='8px 12px 8px 9px'
+        p='6px 12px 6px 9px'
         relative
         color='grey_medium'
         tabindex='-1'
@@ -160,6 +170,7 @@ const ScoreRow = summon(({activity, question}) => ({
           bg={canGrade ? 'white' : 'transparent'}
           align='start center'
           hide={question.poll}
+          key={activity.id}
           w='50%'>
           <Input
             {...inputProps}
