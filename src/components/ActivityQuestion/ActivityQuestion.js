@@ -4,6 +4,7 @@
 
 import QuestionAttachment from 'components/QuestionAttachment'
 import QuestionComments from 'components/QuestionComments'
+import EditableQuestion from './EditableQuestion'
 import {debounceAction} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -32,11 +33,13 @@ function initialState ({props}) {
 
 function render ({props, local, state}) {
   const {
-    activity, object, idx, answerable, showAnswers, comments,
+    activity, editing, object, idx, answerable, showAnswers, comments,
     showIncorrect, showComments, commentsId, currentUser
   } = props
   const {displayName, poll, attachments = [], points, id, content} = object
   const isMultipleChoice = !poll && getProp('0.objectType', attachments) === 'choice'
+
+  if (editing) return <EditableQuestion {...props} />
 
   const commentList = comments && comments
     .filter(comment => (
@@ -89,7 +92,7 @@ function render ({props, local, state}) {
   )
 }
 
-function IncorrectX({props}) {
+function IncorrectX ({props}) {
   return (
     <Block
       printProps={{bgColor: 'transparent', left: -25, boxShadow: '0 0 0', borderRadius: 0}}

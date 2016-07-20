@@ -5,37 +5,47 @@
 import ActivityQuestion from 'components/ActivityQuestion'
 import ActivityMedia from 'components/ActivityMedia'
 import ActivityPost from 'components/ActivityPost'
+import {Button} from 'vdux-containers'
+import {Block} from 'vdux-containers'
 import element from 'vdux/element'
-import {Block} from 'vdux-ui'
+
+/**
+ * Type map
+ */
+
+const typeMap = {
+  post: ActivityPost,
+  question: ActivityQuestion,
+  link: ActivityMedia,
+  video: ActivityMedia,
+  image: ActivityMedia,
+  document: ActivityMedia
+}
 
 /**
  * <ActivityObject/>
  */
 
 function render ({props}) {
-  const {object} = props
+  const {object, open, editing, editable, remove} = props
+  const Obj = typeMap[object.objectType]
+  const editableProps = {
+    hoverProps: {bgColor: 'grey_light'},
+    onClick: open,
+    cursor: 'move'
+  }
+
+  if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)
 
   return (
-    <Block p={24} printProps={{p: 16}} pageBreakInside='avoid'>
-      {
-        renderObject(object, props)
-      }
+    <Block p={24} relative {...(editable && !editing ? editableProps : {})} printProps={{p: 16}} pageBreakInside='avoid'>
+      <Block absolute='top 50px right 50px' align='start center' hide={!editing}>
+        <Button onClick={open}>Done</Button>
+        <Button onClick={remove}>Remove</Button>
+      </Block>
+      <Obj {...props} />
     </Block>
   )
-}
-
-function renderObject (object, props) {
-  switch (object.objectType) {
-    case 'post':
-      return <ActivityPost {...props} />
-    case 'question':
-      return <ActivityQuestion {...props} />
-    case 'link':
-    case 'video':
-    case 'image':
-    case 'document':
-      return <ActivityMedia {...props} />
-  }
 }
 
 /**

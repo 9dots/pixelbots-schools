@@ -1,0 +1,5 @@
+{
+  "name": "ActivityEdit",
+  "main": "ActivityEdit.js",
+  "browser": "ActivityEdit.js"
+}

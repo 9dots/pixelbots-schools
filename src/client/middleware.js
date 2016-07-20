@@ -9,6 +9,7 @@ import {lookup, isEphemeral} from 'redux-ephemeral'
 import {query} from 'redux-effects-credentials'
 import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
+import objectId from 'middleware/objectId'
 import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
 import media from 'redux-effects-media'
@@ -42,6 +43,7 @@ const middleware = [
   location(),
   modal,
   title(),
+  objectId,
   summon.middleware('app.summon'),
   OAuth,
   print,
