@@ -3,6 +3,7 @@
  */
 
 import QuestionAttachment from 'components/QuestionAttachment'
+import EditableQuestion from './EditableQuestion'
 import {debounceAction} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -29,9 +30,12 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {activity, object, idx, answerable, showAnswers, showIncorrect} = props
+  const {activity, editing, object, idx, answerable, showAnswers, showIncorrect} = props
   const {displayName, poll, attachments = [], points} = object
   const isMultipleChoice = !poll && attachments[0] && attachments[0].objectType === 'choice'
+
+  if (editing) return <EditableQuestion {...props} />
+
   return (
     <Block fw='lighter' relative>
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
@@ -62,7 +66,7 @@ function render ({props, local, state}) {
   )
 }
 
-function IncorrectX({props}) {
+function IncorrectX ({props}) {
   return (
     <Block
       absolute={{left: -40, top: 8}}

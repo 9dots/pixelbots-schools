@@ -4,6 +4,7 @@
 
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import EditingMedia from './EditingMedia'
 import Loading from 'components/Loading'
 import Figure from 'components/Figure'
 import {Block, Icon} from 'vdux-ui'
@@ -15,7 +16,9 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {object} = props
+  const {object, editing} = props
+
+  if (editing) return <EditingMedia {...props} />
 
   switch (object.objectType) {
     case 'link':

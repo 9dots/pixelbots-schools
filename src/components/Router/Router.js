@@ -36,6 +36,7 @@ import ActivityProgress from 'pages/ActivityProgress'
 import ActivityOverview from 'pages/ActivityOverview'
 import ActivityInstance from 'pages/ActivityInstance'
 import ActivityPreview from 'pages/ActivityPreview'
+import ActivityEdit from 'pages/ActivityEdit'
 
 import ClassGradebook from 'pages/ClassGradebook'
 import ClassStudents from 'pages/ClassStudents'
@@ -192,6 +193,10 @@ const router = enroute({
   '/activity/:activityId': (params, props) =>
     <ActivityLayout {...props} {...params}>
       {({activity}) => activityRedirect(activity, props)}
+    </ActivityLayout>,
+  '/activity/:activityId/edit': (params, props) =>
+    <ActivityLayout {...props} {...params}>
+      {data => <ActivityEdit {...props} {...params} {...data} />}
     </ActivityLayout>,
   '/activity/:activityId/students' : (params, props) =>
     <ActivityLayout {...props} {...params}>

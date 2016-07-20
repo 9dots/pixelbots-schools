@@ -187,13 +187,15 @@ const ScoreRow = summon(({activity, question}) => ({
 
     function * setMax (e) {
       const max = Number(e.target.value)
+
+      console.log('max', max)
       if (isNaN(max)) return
       if (max === 0) {
         e.target.setCustomValidity('Must not be 0')
         return
       }
 
-      e.target.setCustomValidity()
+      e.target.setCustomValidity('')
       yield debouncedSetMax(max)
     }
   }
