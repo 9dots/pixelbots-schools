@@ -57,6 +57,7 @@ function render ({props, local, state}) {
           hide={isStudent && commentList.length === 0}
           absolute={{right: 0, top: 0}}
           showComments={showComments}
+          currentUser={currentUser}
           commentsId={commentsId}
           comments={commentList}
           activity={activity}
