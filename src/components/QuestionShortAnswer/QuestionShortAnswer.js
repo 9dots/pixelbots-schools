@@ -2,6 +2,7 @@
  * Imports
  */
 
+import ShortAnswerOverview from './ShortAnswerOverview'
 import LineInput from 'components/LineInput'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
@@ -11,7 +12,9 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {answerable, showAnswers, answer = [], submit, object} = props
+  const {answerable, showAnswers, answer = [], submit, object, overview} = props
+
+  if(overview) return <ShortAnswerOverview {...props} />
 
   return (
     <Block>

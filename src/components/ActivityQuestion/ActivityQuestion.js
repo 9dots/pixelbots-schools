@@ -34,8 +34,8 @@ function initialState ({props}) {
 
 function render ({props, local, state}) {
   const {
-    activity, editing, object, idx, answerable, showAnswers, comments,
-    showIncorrect, showComments, commentsId, currentUser, onEdit
+    activity, editing, overview, object, idx, answerable, showAnswers,
+    comments, showIncorrect, showComments, commentsId, currentUser, onEdit
   } = props
   const {
     displayName, poll, attachments = [], points, id,
@@ -65,21 +65,23 @@ function render ({props, local, state}) {
       }
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
       <Block align='start' py mb>
-        <Badge mr pt={3} size={25}>{idx + 1}</Badge>
+        <Badge hide={overview} mr pt={3} size={25}>{idx + 1}</Badge>
         {
           editing
             ? <LineTextarea onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
             : <Block fs='s' flex innerHTML={content} class='markdown' />
         }
       </Block>
-      <Block align='start' mx={30} column={!poll && type === 'choice'} onKeypress={{enter: editing && type === 'choice' && attach('choice')}}>
+      <Block align='start' mx={overview ? 40 : 30} column={!poll && type === 'choice'} onKeypress={{enter: editing && type === 'choice' && attach('choice')}}>
         {
           map(
             (att, i) => <QuestionAttachment
               showAnswers={showAnswers}
               answerable={answerable}
-              actor={activity.actor}
+              actor={activity && activity.actor}
               answer={state.answer}
+              overview={overview}
+              question={object}
               focusPrevious={focusPrevious}
               remove={() => onEdit({
                 ...object,
@@ -170,6 +172,7 @@ function IncorrectX ({props}) {
 }
 
 function onUpdate (prev, next) {
+  if(!prev.props.activity) return
   if (prev.props.activity._id !== next.props.activity._id) {
     return next.local(setAnswer)(next.props.object.response)
   }

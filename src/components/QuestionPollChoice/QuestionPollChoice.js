@@ -2,6 +2,7 @@
  * Imports
  */
 
+import PollChoiceOverview from './PollChoiceOverview'
 import {grey, blue, yellow, green, red} from 'lib/colors'
 import BlockInput from 'components/BlockInput'
 import {Button} from 'vdux-containers'
@@ -27,13 +28,15 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, idx, editing, onEdit, remove, answerable, focusPrevious, submit, answer = [], actor} = props
+  const {object, idx, editing, onEdit, remove, answerable, overview, focusPrevious, submit, answer = [], actor} = props
   const {content, originalContent} = object
   const chosen = answer[0] === object._id
   const hasAnswer = !!answer.length
   const bgColor = hasAnswer
     ? chosen ? colors[idx % colors.length] : 'grey_light'
     : colors[idx % colors.length]
+
+  if(overview) return <PollChoiceOverview bgColor={bgColor} {...props} />
 
   return (
     <Block
@@ -54,7 +57,7 @@ function render ({props}) {
         <Block absolute wide tall top left align='center center'>
           {
             !editing
-              ? <Block innerHTML={content} />
+              ? <Block class='markdown' fs='s' textAlign='center' innerHTML={content} />
               : <BlockInput
                   onInput={e => onEdit({...object, originalContent: e.target.value})}
                   defaultValue={originalContent}

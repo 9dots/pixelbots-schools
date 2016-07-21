@@ -77,7 +77,7 @@ const Video = {
     return (
       <Block tag='span'>
         <Block wide tall relative bg={`#000 url(${url}) no-repeat center`} bgSize={imgSize} printProps={{hide: true}}>
-          <Loading show={state.play} absolute top bottom left right/>
+          <Loading show={state.play} dark={false} absolute top bottom left right/>
           <Block hidden={state.play} onClick={local(playVideo)} pointer relative>
             <Figure
               maxWidth={imgSize}

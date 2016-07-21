@@ -5,6 +5,7 @@
 import {grey, blue, yellow, green, red} from 'lib/colors'
 import BlockInput from 'components/BlockInput'
 import {Block, Icon, Checkbox} from 'vdux-ui'
+import ChoiceOverview from './ChoiceOverview'
 import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
@@ -27,15 +28,16 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, editing, onEdit, showAnswers, remove, focusPrevious, answerable, submit, idx, answer = [], actor} = props
+  const {object, editing, onEdit, showAnswers, remove, focusPrevious, overview, answerable, submit, idx, answer = [], actor} = props
   const {content, originalContent} = object
   const isCorrect = object.correctAnswer[0] === object._id
-
   const chosen = isChosen(object, answer)
   const hasAnswer = !!answer.length
   const bgColor = hasAnswer
     ? chosen ? colors[idx % colors.length] : 'grey_light'
     : colors[idx % colors.length]
+
+  if(overview) return <ChoiceOverview correctCheck={isCorrect && CorrectCheck} bgColor={bgColor} {...props} />
 
   return (
     <Block
@@ -54,23 +56,25 @@ function render ({props}) {
       <Block hide printProps={{hide: false, mr: true}}>
         <Checkbox checked={chosen} />
       </Block>
-      {
-        !editing
-          ? <Block key='a' mx='40px' fs='s' innerHTML={content} class='markdown' printProps={{ml: 0}} />
-          : <Block align='space-between center' wide>
-              <Checkbox checked={isCorrect} onClick={toggleCorrectness} />
-              <BlockInput
-                flex
-                onInput={e => onEdit({...object, originalContent: e.target.value})}
-                defaultValue={originalContent}
-                inputProps={{py: 3}}
-                mb={0}
-                autofocus={!content}
-                onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}}/>
-              <Button mx color='black' icon='delete' onClick={remove} />
-            </Block>
+      <Block>
+        {
+          !editing
+            ? <Block key='a' mx='40px' fs='s' innerHTML={content} class='markdown' printProps={{ml: 0}} />
+            : <Block align='space-between center' wide>
+                <Checkbox checked={isCorrect} onClick={toggleCorrectness} />
+                <BlockInput
+                  flex
+                  onInput={e => onEdit({...object, originalContent: e.target.value})}
+                  defaultValue={originalContent}
+                  inputProps={{py: 3}}
+                  mb={0}
+                  autofocus={!content}
+                  onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}}/>
+                <Button mx color='black' icon='delete' onClick={remove} />
+              </Block>
 
-      }
+        }
+      </Block>
     </Block>
   )
 
