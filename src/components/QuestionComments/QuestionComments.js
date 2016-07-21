@@ -33,7 +33,7 @@ function render ({props, local, state}) {
   )
 }
 
-function CommentButton({props}) {
+function CommentButton ({props}) {
   const {showComments, question, isShown, hasComments} = props
 
   const style = isShown
@@ -49,7 +49,6 @@ function CommentButton({props}) {
 
   return (
     <Block>
-      <Document onClick={() => [showComments(null)]} />
       <Button
         onClick={e => [e.stopPropagation(), showComments(isShown ? null : question.id)]}
         color={hasComments ? 'white' : 'grey_medium'}
@@ -66,6 +65,7 @@ function CommentButton({props}) {
         {...style}>
           <Icon fs={19} name={isShown ? 'chevron_left' : 'chat_bubble'} />
       </Button>
+      {isShown && <Document onClick={() => showComments(null)} />}
     </Block>
   )
 }

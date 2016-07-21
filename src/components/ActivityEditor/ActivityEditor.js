@@ -57,9 +57,13 @@ function render ({props, local, state}) {
         {
           map((object, i) => <ActivityObject
             editable
-            onEdit={editObject(i, object)}
+            onEdit={editObject(i)}
             activity={activity}
-            object={object}
+            object={
+              editing === object._id
+                ? editedActivity._object[0].attachments[i]
+                : object
+            }
             editing={editing === object._id}
             remove={removeObject(object._id)}
             open={() => saveAndOpen(object._id)}
@@ -90,7 +94,7 @@ function render ({props, local, state}) {
         }]
       }
 
-      newActivity._object[0].attachments[idx] = {...oldObj, ...newObj}
+      newActivity._object[0].attachments[idx] = newObj
       return local(change)(newActivity)
     }
   }
@@ -165,7 +169,10 @@ export default summon(({activity}) => ({
     saving: {
       url: `/share/${activity._id}`,
       method: 'PUT',
-      body
+      body: {
+        ...body,
+        __v: activity.__v
+      }
     }
   })
 }))({

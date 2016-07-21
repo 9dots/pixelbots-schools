@@ -77,13 +77,25 @@ function render ({props, local, state}) {
   )
 }
 
+/**
+ * Actions
+ */
+
 const showComments = createAction('<ActivityInstance/>: showComments')
+
+/**
+ * Reducer
+ */
 
 const reducer = handleActions({
   [showComments]: (state, id) => ({...state, commentsId: id}),
 })
 
-function PrintButton() {
+/**
+ * <PrintButton/>
+ */
+
+function PrintButton () {
   return (
     <Button
       activeProps={{bgColor: 'rgba(black, .15)'}}

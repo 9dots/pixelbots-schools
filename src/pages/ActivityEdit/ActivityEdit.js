@@ -18,7 +18,9 @@ function render ({props, local, state}) {
   return (
     <Block align='center start'>
       <Card w={756} mb='l'>
-        <ActivityEditor activity={activity} />
+        <ActivityEditor
+          showAnswers
+          activity={activity} />
       </Card>
       <Block w={200} ml relative fixed={{top: 53}}>
         <ActivitySidebar

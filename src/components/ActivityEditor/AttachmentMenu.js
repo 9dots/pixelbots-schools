@@ -14,14 +14,15 @@ import element from 'vdux/element'
 
 function render ({props, state, local}) {
   const {attach} = props
+
   const menu = [
     <Close onClick={local(toggle)} absolute='top -10px right -10px' />,
-    <AttachButton type='question' icon='help' color='red' text='Question' />,
-    <AttachButton type='video' icon='videocam' color='yellow' text='Video' />,
-    <AttachButton type='link' icon='link' color='blue' text='Link' />,
-    <AttachButton type='image' icon='camera_alt' color='green' text='Image' />,
-    <AttachButton type='document' icon='insert_drive_file' color='red' text='Document' />,
-    <AttachButton type='post' icon='subject' color='black' text='Text' />
+    <AttachButton onClick={createAndAttach('question')} icon='help' color='red' text='Question' />,
+    <AttachButton onClick={createAndAttach('video')} icon='videocam' color='yellow' text='Video' />,
+    <AttachButton onClick={createAndAttach('link')} icon='link' color='blue' text='Link' />,
+    <AttachButton onClick={createAndAttach('image')} icon='camera_alt' color='green' text='Image' />,
+    <AttachButton onClick={createAndAttach('document')} icon='insert_drive_file' color='red' text='Document' />,
+    <AttachButton onClick={createAndAttach('post')} icon='subject' color='black' text='Text' />
   ]
 
   return (
@@ -29,10 +30,20 @@ function render ({props, state, local}) {
       {
         state.open
           ? menu
-          : <Icon onClick={local(toggle)} align='center center' circle={40} name='add' bgColor='blue' color='white' boxShadow='card' />
+          : <Icon onClick={local(toggle)} align='center center' pointer circle={40} name='add' bgColor='blue' color='white' boxShadow='card' />
       }
     </Block>
   )
+
+  function createAndAttach (type) {
+    return function * () {
+      const id = yield generateObjectId()
+      yield attach({
+        _id: id,
+        objectType: type
+      })
+    }
+  }
 }
 
 /**
@@ -41,36 +52,29 @@ function render ({props, state, local}) {
 
 function Close ({props}) {
   return (
-      <Icon
-        border='2px solid white'
-        boxShadow='z1'
-        align='center center'
-        fs='xs'
-        circle={24}
-        bgColor='black'
-        color='white'
-        name='close'
-        {...props} />
+    <Icon
+      border='2px solid white'
+      boxShadow='z1'
+      align='center center'
+      pointer
+      fs='xs'
+      circle={24}
+      bgColor='black'
+      color='white'
+      name='close'
+      {...props} />
   )
 }
 
 function AttachButton ({props, children}) {
-  const {attach, type, text, icon, color} = props
+  const {attach, type, text, onClick, icon, color} = props
 
   return (
-    <Block onClick={createAndAttach} column align='center center'>
+    <Block onClick={onClick} column align='center center' pointer>
       <Icon color={color} name={icon} />
       {text}
     </Block>
   )
-
-  function * createAndAttach () {
-    const id = yield generateObjectId()
-    yield attach({
-      _id: id,
-      objectType: type
-    })
-  }
 }
 
 /**

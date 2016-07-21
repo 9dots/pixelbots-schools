@@ -3,6 +3,8 @@
  */
 
 import {grey, blue, yellow, green, red} from 'lib/colors'
+import BlockInput from 'components/BlockInput'
+import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
@@ -25,8 +27,8 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, idx, answerable, submit, answer = [], actor} = props
-  const {displayName} = object
+  const {object, idx, editing, onEdit, remove, answerable, focusPrevious, submit, answer = [], actor} = props
+  const {content, originalContent} = object
   const chosen = answer[0] === object._id
   const hasAnswer = !!answer.length
   const bgColor = hasAnswer
@@ -44,10 +46,23 @@ function render ({props}) {
       flexShrink='1'
       rounded='4px'
       mx='1%'
-      tall>
+      tall
+      relative
+      >
+      <Button zIndex={2} hide={!editing} color='black' absolute='top 2px right 2px' icon='delete' onClick={remove} />
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
-          <Block innerHTML={displayName} />
+          {
+            !editing
+              ? <Block innerHTML={content} />
+              : <BlockInput
+                  onInput={e => onEdit({...object, originalContent: e.target.value})}
+                  defaultValue={originalContent}
+                  inputProps={{py: 2}}
+                  mx={5}
+                  autofocus={!content}
+                  onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}} />
+          }
         </Block>
         { chosen && <ChosenMarker actor={actor} /> }
       </Block>

@@ -3,8 +3,10 @@
  */
 
 import {grey, blue, yellow, green, red} from 'lib/colors'
-import Avatar from 'components/Avatar'
+import BlockInput from 'components/BlockInput'
 import {Block, Icon, Checkbox} from 'vdux-ui'
+import {Button} from 'vdux-containers'
+import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import Color from 'Color'
 
@@ -25,8 +27,8 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, showAnswers, answerable, submit, idx, answer = [], actor} = props
-  const {content} = object
+  const {object, editing, onEdit, showAnswers, remove, focusPrevious, answerable, submit, idx, answer = [], actor} = props
+  const {content, originalContent} = object
   const isCorrect = object.correctAnswer[0] === object._id
 
   const chosen = isChosen(object, answer)
@@ -47,14 +49,39 @@ function render ({props}) {
       relative
       w='70%'
       my='s'>
-      <CorrectCheck show={showAnswers && isCorrect} />
+      <CorrectCheck show={!editing && showAnswers && isCorrect} />
       {chosen && <ChosenMarker actor={actor} />}
       <Block hide printProps={{hide: false, mr: true}}>
         <Checkbox checked={chosen} />
       </Block>
-      <Block mx='40px' fs='s' innerHTML={content} class='markdown' printProps={{ml: 0}} />
+      {
+        !editing
+          ? <Block key='a' mx='40px' fs='s' innerHTML={content} class='markdown' printProps={{ml: 0}} />
+          : <Block align='space-between center' wide>
+              <Checkbox checked={isCorrect} onClick={toggleCorrectness} />
+              <BlockInput
+                flex
+                onInput={e => onEdit({...object, originalContent: e.target.value})}
+                defaultValue={originalContent}
+                inputProps={{py: 3}}
+                mb={0}
+                autofocus={!content}
+                onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}}/>
+              <Button mx color='black' icon='delete' onClick={remove} />
+            </Block>
+
+      }
     </Block>
   )
+
+  function toggleCorrectness (e) {
+    return onEdit({
+      ...object,
+      correctAnswer: object.correctAnswer
+        .filter(answer => answer !== object._id)
+        .concat(e.target.checked ? object._id : [])
+    })
+  }
 
   function * submitAnswer () {
     if (answer.indexOf(object._id) !== -1) {
