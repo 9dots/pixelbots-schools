@@ -1,7 +1,7 @@
 /**
  * Imports
  */
-
+import FreeResponseOverview from './FreeResponseOverview'
 import LineTextarea from 'components/LineTextarea'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
@@ -11,7 +11,9 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {answerable, answer = [], submit} = props
+  const {answerable, answer = [], submit, overview} = props
+
+  if(overview) return <FreeResponseOverview {...props} />
 
   return (
     <Block flex>

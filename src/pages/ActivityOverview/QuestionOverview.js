@@ -43,20 +43,24 @@ function getQuestions({activity, instances}) {
   const questions = []
   activity._object[0].attachments.forEach((attachment, i) => {
     if(attachment.objectType === 'question') {
-      const length = questions.push({total: 0, numAnswered: 0, ...attachment})
+      const length = questions.push({total: 0, numAnswered: 0, responses: [], ...attachment})
       instances.forEach(instance => {
-        if(instance.status > 4) {
-          const question = instance._object[0].attachments[i]
+        if(instance.status >= 4) {
+          const {actor, _object} = instance
+          const question = _object[0].attachments[i]
           const total = question.points.scaled * question.points.max
           questions[length - 1].total += (total || 0)
           questions[length - 1].numAnswered++
+          questions[length - 1].responses.push({
+            actor: actor,
+            response: question.response
+          })
         }
       })
     }
   })
   return questions
 }
-
 
 /**
  * Actions

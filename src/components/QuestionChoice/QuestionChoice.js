@@ -3,8 +3,10 @@
  */
 
 import {grey, blue, yellow, green, red} from 'lib/colors'
-import Avatar from 'components/Avatar'
+import ChoiceOverview from './ChoiceOverview'
 import {Block, Icon, Checkbox} from 'vdux-ui'
+import {Tooltip} from 'vdux-containers'
+import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import Color from 'Color'
 
@@ -25,15 +27,17 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, showAnswers, answerable, submit, idx, answer = [], actor} = props
-  const {content} = object
-  const isCorrect = object.correctAnswer[0] === object._id
+  const { object, showAnswers, answerable, submit, idx, answer = [], actor, overview, question } = props
 
+
+  const isCorrect = object.correctAnswer[0] === object._id
   const chosen = isChosen(object, answer)
   const hasAnswer = !!answer.length
   const bgColor = hasAnswer
     ? chosen ? colors[idx % colors.length] : 'grey_light'
     : colors[idx % colors.length]
+
+  if(overview) return <ChoiceOverview correctCheck={isCorrect && CorrectCheck} bgColor={bgColor} {...props} />
 
   return (
     <Block
@@ -52,7 +56,9 @@ function render ({props}) {
       <Block hide printProps={{hide: false, mr: true}}>
         <Checkbox checked={chosen} />
       </Block>
-      <Block mx='40px' fs='s' innerHTML={content} class='markdown' printProps={{ml: 0}} />
+      <Block>
+        <Block mx='40px' fs='s' innerHTML={object.content} class='markdown' printProps={{ml: 0}} />
+      </Block>
     </Block>
   )
 

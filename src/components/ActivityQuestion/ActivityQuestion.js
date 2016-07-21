@@ -4,6 +4,7 @@
 
 import QuestionAttachment from 'components/QuestionAttachment'
 import QuestionComments from 'components/QuestionComments'
+import OverviewQuestion from './OverviewQuestion'
 import EditableQuestion from './EditableQuestion'
 import {debounceAction} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
@@ -33,13 +34,15 @@ function initialState ({props}) {
 
 function render ({props, local, state}) {
   const {
-    activity, editing, object, idx, answerable, showAnswers, comments,
-    showIncorrect, showComments, commentsId, currentUser
+    activity, editing, overview, object, idx, answerable, showAnswers,
+    comments, showIncorrect, showComments, commentsId, currentUser
   } = props
-  const {displayName, poll, attachments = [], points, id, content} = object
-  const isMultipleChoice = !poll && getProp('0.objectType', attachments) === 'choice'
 
   if (editing) return <EditableQuestion {...props} />
+  if (overview) return <OverviewQuestion {...props} />
+
+  const {displayName, poll, attachments = [], points, id, content} = object
+  const isMultipleChoice = !poll && getProp('0.objectType', attachments) === 'choice'
 
   const commentList = comments && comments
     .filter(comment => (
@@ -48,7 +51,6 @@ function render ({props, local, state}) {
     .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
 
   const isStudent = currentUser && currentUser.userType === 'student'
-
   return (
     <Block fw='lighter' relative>
       {
@@ -75,7 +77,7 @@ function render ({props, local, state}) {
             (object, i) => <QuestionAttachment
               showAnswers={showAnswers}
               answerable={answerable}
-              actor={activity.actor}
+              actor={activity && activity.actor}
               answer={state.answer}
               submit={answer => [
                 state.debouncedSubmit(answer),
@@ -113,6 +115,7 @@ function IncorrectX ({props}) {
 }
 
 function onUpdate (prev, next) {
+  if(!prev.props.activity) return
   if (prev.props.activity._id !== next.props.activity._id) {
     return next.local(setAnswer)(next.props.object.response)
   }

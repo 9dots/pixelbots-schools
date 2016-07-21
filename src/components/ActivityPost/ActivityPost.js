@@ -16,12 +16,14 @@ function render ({props}) {
   if (editing) return <EditablePost {...props} />
 
   return (
-    <Block
-      fs='s'
-      fw='100'
-      lh='1.5em'
-      class='markdown'
-      innerHTML={object.content} />
+    <Block>
+      <Block
+        fs='s'
+        fw='100'
+        lh='1.5em'
+        class='markdown'
+        innerHTML={object.content} />
+    </Block>
   )
 }
 

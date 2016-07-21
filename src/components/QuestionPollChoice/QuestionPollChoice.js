@@ -2,6 +2,7 @@
  * Imports
  */
 
+import PollChoiceOverview from './PollChoiceOverview'
 import {grey, blue, yellow, green, red} from 'lib/colors'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
@@ -25,13 +26,14 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, idx, answerable, submit, answer = [], actor} = props
-  const {displayName} = object
+  const {object, idx, answerable, submit, answer = [], actor, overview} = props
   const chosen = answer[0] === object._id
   const hasAnswer = !!answer.length
   const bgColor = hasAnswer
     ? chosen ? colors[idx % colors.length] : 'grey_light'
     : colors[idx % colors.length]
+
+  if(overview) return <PollChoiceOverview bgColor={bgColor} {...props} />
 
   return (
     <Block
@@ -47,7 +49,7 @@ function render ({props}) {
       tall>
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
-          <Block innerHTML={displayName} />
+          <Block innerHTML={object.content} class='markdown' fs='s' textAlign='center'/>
         </Block>
         { chosen && <ChosenMarker actor={actor} /> }
       </Block>

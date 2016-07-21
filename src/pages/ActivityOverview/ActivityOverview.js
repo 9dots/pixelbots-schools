@@ -67,7 +67,7 @@ function getData (activity, students) {
       displayName: student.displayName
     }
 
-    if(status >= 5) {
+    if(status >= 4) {
       numReturned++
       averagePoints += points
       averagePercent += percent

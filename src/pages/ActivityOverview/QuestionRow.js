@@ -1,6 +1,7 @@
 /**
  * Imports
  */
+import ActivityQuestion from 'components/ActivityQuestion'
 import {questionIcon} from 'lib/activity-helpers'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {Block, Card, Flex, Icon} from 'vdux-ui'
@@ -56,7 +57,7 @@ const Question = wrap(CSSContainer, {
           </Card>
         </Flex>
         {
-          expanded && <Block onClick={e => e.stopPropagation()} bgColor='white' p>ATTACHMENT VIEW</Block>
+          expanded && <Block onClick={e => e.stopPropagation()} bgColor='white' p='18px 50px 30px 50px'><ActivityQuestion overview object={question} /></Block>
         }
       </Block>
       </Block>
