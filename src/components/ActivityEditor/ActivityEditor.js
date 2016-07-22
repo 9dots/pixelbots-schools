@@ -112,7 +112,6 @@ function render ({props, local, state}) {
         }]
       }
 
-
       yield save(newActivity)
       yield local(open)(id)
       yield local(change)(newActivity)
