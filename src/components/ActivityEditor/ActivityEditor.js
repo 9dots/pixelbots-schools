@@ -23,7 +23,10 @@ function initialState ({props}) {
   const {activity} = props
 
   return {
-    editedActivity: activity
+    editedActivity: activity,
+    editing: activity._object[0].attachments.length
+      ? undefined
+      : 'header'
   }
 }
 
@@ -73,7 +76,7 @@ function render ({props, local, state}) {
           }
         </Block>
       </Card>
-      <AttachmentMenu attach={attach} />
+      <AttachmentMenu attach={attach} startsOpen={!attachments.length} />
     </Block>
   )
 
