@@ -6,7 +6,7 @@ import {grey, blue, yellow, green, red} from 'lib/colors'
 import BlockInput from 'components/BlockInput'
 import {Block, Icon, Checkbox} from 'vdux-ui'
 import ChoiceOverview from './ChoiceOverview'
-import {Button} from 'vdux-containers'
+import {Button, Tooltip} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import Color from 'Color'
@@ -43,7 +43,7 @@ function render ({props}) {
     <Block
       printProps={{bgColor: 'transparent', p: '2px 0 2px 20px'}}
       onClick={answerable && submitAnswer}
-      p='12px 12px 12px 30px'
+      p={editing ? '12px 30px 12px 18px' : '12px 12px 12px 30px'}
       pointer={answerable}
       align='start center'
       borderRadius='25px'
@@ -56,21 +56,30 @@ function render ({props}) {
       <Block hide printProps={{hide: false, mr: true}}>
         <Checkbox checked={chosen} />
       </Block>
-      <Block>
+      <Block wide>
         {
           !editing
             ? <Block key='a' mx='40px' fs='s' innerHTML={content} class='markdown' printProps={{ml: 0}} />
-            : <Block align='space-between center' wide>
-                <Checkbox checked={isCorrect} onClick={toggleCorrectness} />
+            : <Block align='start center'>
+                <Tooltip message='Mark Correct' mr>
+                  <Checkbox checked={isCorrect} onClick={toggleCorrectness} ml='s' />
+                </Tooltip>
                 <BlockInput
-                  flex
                   onInput={e => onEdit({...object, originalContent: e.target.value})}
                   defaultValue={originalContent}
                   inputProps={{py: 3}}
+                  wide
                   mb={0}
                   autofocus={!content}
                   onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}}/>
-                <Button mx color='black' icon='delete' onClick={remove} />
+                <Button
+                  absolute={{right: -24, top: 0, bottom: 0}}
+                  onClick={remove}
+                  tabindex='-1'
+                  icon='close'
+                  color='text'
+                  my='auto'
+                  fs='s'/>
               </Block>
 
         }

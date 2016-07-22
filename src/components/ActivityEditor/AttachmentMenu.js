@@ -5,7 +5,8 @@
 import {generateObjectId} from 'middleware/objectId'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {Block, Icon} from 'vdux-ui'
+import {wrap, CSSContainer, Button} from 'vdux-containers'
+import {Icon, Block} from 'vdux-ui'
 import element from 'vdux/element'
 
 /**
@@ -22,15 +23,17 @@ function render ({props, state, local}) {
     <AttachButton onClick={createAndAttach('link')} icon='link' color='blue' text='Link' />,
     <AttachButton onClick={createAndAttach('image')} icon='camera_alt' color='green' text='Image' />,
     <AttachButton onClick={createAndAttach('document')} icon='insert_drive_file' color='red' text='Document' />,
-    <AttachButton onClick={createAndAttach('post')} icon='subject' color='black' text='Text' />
+    <AttachButton onClick={createAndAttach('post')} icon='subject' color='text' text='Text' />
   ]
 
   return (
-    <Block m relative bgColor='grey_light' outline='1px dashed' wide h={50} align='center center'>
+    <Block relative bgColor='grey_light' border='1px dashed grey_medium' wide mb='l' h={140} align='space-around center' px='l'>
       {
         state.open
           ? menu
-          : <Icon onClick={local(toggle)} align='center center' pointer circle={40} name='add' bgColor='blue' color='white' boxShadow='card' />
+          : <Button onClick={local(toggle)} pointer circle={55} boxShadow='card'>
+              <Icon name='add' color='white' />
+            </Button>
       }
     </Block>
   )
@@ -70,9 +73,9 @@ function AttachButton ({props, children}) {
   const {attach, type, text, onClick, icon, color} = props
 
   return (
-    <Block onClick={onClick} column align='center center' pointer>
-      <Icon color={color} name={icon} />
-      {text}
+    <Block onClick={onClick} pointer textAlign='center'>
+      <Icon color={color} name={icon} fs={42} sq={50}  />
+      <Block fs='s' lighter>{text}</Block>
     </Block>
   )
 }

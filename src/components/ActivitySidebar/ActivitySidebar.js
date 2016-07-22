@@ -21,7 +21,7 @@ import moment from 'moment'
 
 function render ({props}) {
   const {activity, showScores, canGrade, canSetMax, isStudent, isRedo} = props
-  const {actor, publishedAt, at = {}, _object, status} = activity
+  const {actor, publishedAt, at = {}, _object, status, published} = activity
   const isInstance = activity.shareType === 'shareInstance'
   let count = 0
   const questions = _object[0].attachments
@@ -48,10 +48,10 @@ function render ({props}) {
               mb='xs'>
               {actor.displayName}
             </Link>
-            <Text my='xs' hide={classId === 'public' || isInstance} color='blue'>
+            <Text my='xs' hide={classId === 'public' || isInstance || !published} color='blue'>
               {descriptor.displayName}
             </Text>
-            <Text fs='12px' color='grey_medium' align='start center' hide={isInstance}>
+            <Text fs='12px' color='grey_medium' align='start center' hide={isInstance || !published}>
               <Icon fs='xs' name='schedule' mr='xs' />
               { moment(publishedAt || at.turnedIn).fromNow() }
             </Text>

@@ -10,7 +10,7 @@ import AttachmentMenu from './AttachmentMenu'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {Button} from 'vdux-containers'
-import {Block, Icon} from 'vdux-ui'
+import {Block, Icon, Card} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import map from '@f/map'
@@ -46,31 +46,33 @@ function render ({props, local, state}) {
 
   return (
     <Block>
-      <ActivityHeader
-        clickableTags
-        activity={activity}
-        editable
-        editing={editing === 'header'}
-        onEdit={header => local(change)({...activity, ...header})}
-        open={() => saveAndOpen('header')} />
-      <Block>
-        {
-          map((object, i) => <ActivityObject
-            editable
-            onEdit={editObject(i)}
-            activity={activity}
-            object={
-              editing === object._id
-                ? editedActivity._object[0].attachments[i]
-                : object
-            }
-            editing={editing === object._id}
-            remove={removeObject(object._id)}
-            open={() => saveAndOpen(object._id)}
-            idx={object.objectType === 'question' ? idx++ : null}
-            {...rest} />, attachments)
-        }
-      </Block>
+      <Card w={756} mb={18}>
+        <ActivityHeader
+          clickableTags
+          activity={activity}
+          editable
+          editing={editing === 'header'}
+          onEdit={header => local(change)({...activity, ...header})}
+          open={() => saveAndOpen('header')} />
+        <Block>
+          {
+            map((object, i) => <ActivityObject
+              editable
+              onEdit={editObject(i)}
+              activity={activity}
+              object={
+                editing === object._id
+                  ? editedActivity._object[0].attachments[i]
+                  : object
+              }
+              editing={editing === object._id}
+              remove={removeObject(object._id)}
+              open={() => saveAndOpen(object._id)}
+              idx={object.objectType === 'question' ? idx++ : null}
+              {...rest} />, attachments)
+          }
+        </Block>
+      </Card>
       <AttachmentMenu attach={attach} />
     </Block>
   )

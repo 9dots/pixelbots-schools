@@ -17,11 +17,9 @@ function render ({props, local, state}) {
 
   return (
     <Block align='center start'>
-      <Card w={756} mb='l'>
-        <ActivityEditor
-          showAnswers
-          activity={activity} />
-      </Card>
+      <ActivityEditor
+        showAnswers
+        activity={activity} />
       <Block w={200} ml relative fixed={{top: 53}}>
         <ActivitySidebar
           canSetMax

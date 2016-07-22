@@ -12,7 +12,7 @@ import summon from 'vdux-summon'
 import map from '@f/map'
 
 /**
- * <QuestionComments/>
+ * <Comments/>
  */
 
 function render ({props, local, state}) {
@@ -35,6 +35,7 @@ function render ({props, local, state}) {
             showDD={state.dropdownId === comment._id}
             actor={comment.actor}
             annotate={annotate}
+            isOwner={currentUser._id === comment.actor.id}
             deleteAnnot={() => deleteAnnot(comment._id)}
             comment={comment}/>, comments)
         }

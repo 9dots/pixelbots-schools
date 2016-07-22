@@ -76,13 +76,13 @@ const CommentCard = wrap(CSSContainer, {
   render ({props}) {
     const {
       actor, toggleEdit, annotate, deleteAnnot,
-      comment, showDD, toggleDD
+      comment, showDD, toggleDD, isOwner
     } = props
 
     return (
       <Card p mb>
         <Block relative>
-          <Block onClick={e => e.stopPropagation()}>
+          <Block onClick={e => e.stopPropagation()} hide={!isOwner}>
             <Icon
               absolute={{right: -6, top: -6}}
               opacity={props.hover ? 1 : 0}
