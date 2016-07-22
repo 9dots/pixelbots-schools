@@ -77,7 +77,7 @@ function ShareItem({props}) {
 function PrintDropdown({props}) {
   const {setPrintAns} = props
   return (
-    <Dropdown whiteSpace='nowrap' btn={<DDButton icon='print' />} >
+    <Dropdown z={2} whiteSpace='nowrap' btn={<DDButton icon='print' />} >
       <MenuItem align='start center' onClick={() => print(true)}>
         <Icon name='visibility' fs='s' color='green' mr='s' /> Show Answers
       </MenuItem>

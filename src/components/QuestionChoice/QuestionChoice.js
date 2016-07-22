@@ -69,7 +69,11 @@ function render ({props}) {
                   defaultValue={originalContent}
                   inputProps={{py: 3}}
                   wide
+                  fs='s'
+                  placeholder={`Choice #${idx + 1}`}
+                  lighter
                   mb={0}
+                  my={-6}
                   autofocus={!content}
                   onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}}/>
                 <Button

@@ -18,13 +18,13 @@ function render ({props}) {
   if(overview) return <ShortAnswerOverview {...props} />
 
   return (
-    <Block>
+    <Block relative>
       <LineInput
         onInput={e => submit(e.target.value)}
         defaultValue={answer[0] || ''}
         placeholder='Enter your answer...'
         disabled={!answerable} />
-      {editing && <Button onClick={remove} icon='delete' color='black' />}
+      {editing && <Button onClick={remove} icon='close' fs='s' absolute right={-24} top bottom m='auto' color='text' />}
       {
         showAnswers && (
           <Block>

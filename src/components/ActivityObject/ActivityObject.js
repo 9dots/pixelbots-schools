@@ -36,8 +36,6 @@ function render ({props}) {
 
   const editingProps = {
     boxShadow: '0 0 12px rgba(black, .5)',
-    // mx: -6,
-    pt: 36,
     z: 2
   }
 

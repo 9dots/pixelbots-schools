@@ -27,7 +27,7 @@ function render ({props, state, local}) {
   ]
 
   return (
-    <Block relative bgColor='grey_light' border='1px dashed grey_medium' wide mb='l' h={140} align='space-around center' px='l'>
+    <Block relative bgColor='grey_light' border='1px dashed grey_medium' wide mb='l' h={130} align='space-around center' px='l'>
       {
         state.open
           ? menu

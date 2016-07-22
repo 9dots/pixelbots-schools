@@ -36,7 +36,7 @@ function EditablePost ({props}) {
   const {originalContent} = object
 
   return (
-    <Block>
+    <Block py>
       <LineTextarea
         autofocus
         fs='s'
