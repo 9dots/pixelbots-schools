@@ -32,7 +32,7 @@ function render ({props}) {
           <Button mr bgColor='grey' onClick={reject}>
             Cancel
           </Button>
-          <Button type='submit' busy={accepting.loading}>Ok</Button>
+          <Button type='submit' autofocus busy={accepting.loading}>Ok</Button>
         </ModalFooter>
       </Form>
     </Modal>

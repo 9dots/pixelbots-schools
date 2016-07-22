@@ -15,7 +15,7 @@ function render ({props}) {
   const {originalContent} = object
 
   return (
-    <Block>
+    <Block pt>
       <LineInput
         onInput={e => onEdit({...object, originalContent: e.target.value})}
         defaultValue={originalContent}

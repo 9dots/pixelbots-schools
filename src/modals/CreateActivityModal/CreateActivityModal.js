@@ -26,7 +26,7 @@ function * onCreate ({props}) {
   if (hideTemplates) {
     const activity = yield createBlank()
     yield closeModal()
-    yield setUrl(`/activity/${activity._id}/public/preview`)
+    yield setUrl(`/activity/${activity._id}/edit`)
   }
 }
 
@@ -89,14 +89,14 @@ function render ({props, state, local}) {
     if (hideTemplates) yield noTemplates()
     const activity = yield props.createBlank()
     yield closeModal()
-    yield setUrl(`/activity/${activity._id}/public/preview`)
+    yield setUrl(`/activity/${activity._id}/edit`)
   }
 
   function * copyTemplate (id) {
     if (hideTemplates) yield noTemplates()
     const activity = yield props.copyTemplate(id)
     yield closeModal()
-    yield setUrl(`/activity/${activity._id}/public/preview`)
+    yield setUrl(`/activity/${activity._id}/edit`)
   }
 }
 
