@@ -23,7 +23,7 @@ function render ({props, state, local}) {
     <Block>
     {
       isEdit
-        ? <EditCard dismiss={dismiss} {...rest} />
+        ? <EditCard toggleEdit={local(toggleEdit)} dismiss={dismiss} {...rest} />
         : <CommentCard toggleEdit={local(toggleEdit)} {...rest} />
     }
     </Block>
@@ -32,8 +32,9 @@ function render ({props, state, local}) {
 }
 
 function EditCard ({props}) {
-  const {actor, comment, annotate, dismiss, ...rest} = props
+  const {actor, comment, toggleEdit, annotate, dismiss, ...rest} = props
   const message = comment && comment._object[0].originalContent
+
   return (
     <Card p mb {...rest}>
       <Block align='start' mb>
@@ -45,7 +46,7 @@ function EditCard ({props}) {
           </Block>
         </Block>
       </Block>
-      <Form onSubmit={annotate}>
+      <Form onSubmit={save}>
         <Textarea
           focusProps={{border: '1px solid rgba(blue, 0.35)'}}
           placeholder='Write your comment…'
@@ -62,6 +63,11 @@ function EditCard ({props}) {
       </Form>
     </Card>
   )
+
+  function * save (model) {
+    yield annotate(model, comment)
+    yield toggleEdit()
+  }
 }
 
 const CommentCard = wrap(CSSContainer, {

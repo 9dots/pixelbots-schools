@@ -4,6 +4,7 @@
 
 import ShortAnswerOverview from './ShortAnswerOverview'
 import LineInput from 'components/LineInput'
+import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
 
@@ -12,7 +13,7 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {answerable, showAnswers, answer = [], submit, object, overview} = props
+  const {answerable, showAnswers, answer = [], submit, object, overview, editing, remove} = props
 
   if(overview) return <ShortAnswerOverview {...props} />
 
@@ -23,6 +24,7 @@ function render ({props}) {
         defaultValue={answer[0] || ''}
         placeholder='Enter your answer...'
         disabled={!answerable} />
+      {editing && <Button onClick={remove} icon='delete' color='black' />}
       {
         showAnswers && (
           <Block>

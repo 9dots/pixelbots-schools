@@ -1,8 +1,10 @@
 /**
  * Imports
  */
+
 import FreeResponseOverview from './FreeResponseOverview'
 import LineTextarea from 'components/LineTextarea'
+import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
 
@@ -11,7 +13,7 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {answerable, answer = [], submit, overview} = props
+  const {answerable, editing, answer = [], submit, overview, remove} = props
 
   if(overview) return <FreeResponseOverview {...props} />
 
@@ -26,6 +28,9 @@ function render ({props}) {
         minHeight='40px'
         verticalAlign='top'
         disabled={!answerable} />
+        {
+          editing && <Button color='black' onClick={remove} icon='delete' />
+        }
     </Block>
   )
 }

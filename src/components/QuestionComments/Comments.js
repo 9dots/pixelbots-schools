@@ -18,12 +18,10 @@ import map from '@f/map'
 function render ({props, local, state}) {
   const {
     comments, currentUser, question, activity,
-    makeAnnot, makingAnnot = {},
-    deleteAnnot, deletingAnnot = {},
+    makeAnnot, deleteAnnot, editAnnot
   } = props
   const showNew = !comments.length || state.showNew
   const isStudent = currentUser.userType === 'student'
-  const busy = makingAnnot.loading || deletingAnnot.loading
 
   return (
     <Block
@@ -36,6 +34,7 @@ function render ({props, local, state}) {
             toggleDD={local(toggleDD, comment._id)}
             showDD={state.dropdownId === comment._id}
             actor={comment.actor}
+            annotate={annotate}
             isOwner={currentUser._id === comment.actor.id}
             deleteAnnot={() => deleteAnnot(comment._id)}
             comment={comment}/>, comments)
@@ -61,40 +60,60 @@ function render ({props, local, state}) {
     </Block>
   )
 
-  function * annotate (model) {
-    const classId = activity.contexts[0].descriptor.id
-    const sectionId = activity._object[0]._id
-    const id = activity._id
+  function * annotate (model, annotation) {
+    if (annotation) {
+      annotation = {
+        ...annotation,
+        _object: [
+          {
+            ...annotation._object[0],
+            originalContent: model.comment
+          }
+        ]
+      }
 
-    const annotation = {
-      _parent: [{
-        actor: activity.actor,
-        displayName: activity.displayName,
-        id: activity.id,
-        url: activity.url
-      }],
-      _object: [{
-        attachments: [],
-        objectType: 'annotation',
-        originalContent: model.comment,
-        location: `share!${id}.${sectionId}.${question._id}`
-      }],
-      channels: [`share!${id}.annotations`],
-      shareType: 'annotation',
-      contexts: [{
-        allow: [
-          {id: `group:teacher:${classId}`},
-          {id: `group:student:${classId}`},
-        ],
-        descriptor: {
-          displayName: classId,
-          id: classId,
-          url: `/class/${classId}`
-        }
-      }]
+      yield editAnnot(annotation)
+    } else {
+      const classId = activity.contexts[0].descriptor.id
+      const sectionId = activity._object[0]._id
+      const id = activity._id
+
+      annotation = {
+        _root: [{
+          displayName: activity.displayName,
+          url: activity.url,
+          id: activity._id,
+          actor: activity.actor
+        }],
+        _parent: [{
+          actor: activity.actor,
+          displayName: activity.displayName,
+          id: activity.id,
+          url: activity.url
+        }],
+        _object: [{
+          attachments: [],
+          objectType: 'annotation',
+          originalContent: model.comment,
+          location: {path: `share!${id}.${sectionId}.${question._id}`}
+        }],
+        channels: [`share!${id}.annotations`],
+        shareType: 'annotation',
+        contexts: [{
+          allow: [
+            {id: `group:teacher:${classId}`},
+            {id: `group:student:${classId}`},
+          ],
+          descriptor: {
+            displayName: classId,
+            id: classId,
+            url: `/class/${classId}`
+          }
+        }]
+      }
+      yield makeAnnot(annotation)
     }
 
-    yield makeAnnot(annotation)
   }
 }
 
@@ -120,15 +139,23 @@ const reducer = handleActions({
  */
 
 export default summon(() => ({
-  makeAnnot: (body) => ({
-    makingAnnot:  {
+  makeAnnot: body => ({
+    makingAnnot: {
       url: '/share',
       method: 'POST',
       invalidates: 'activity_feed',
       body
     }
   }),
-  deleteAnnot: (id) => ({
+  editAnnot: body => ({
+    editingAnnot: {
+      url: `/share/${body._id}`,
+      method: 'PUT',
+      invalidates: 'activity_feed',
+      body
+    }
+  }),
+  deleteAnnot: id => ({
     deletingAnnot: {
       url: `/share/${id}`,
       method: 'DELETE',

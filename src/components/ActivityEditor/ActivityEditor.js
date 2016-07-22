@@ -103,27 +103,31 @@ function render ({props, local, state}) {
 
   function removeObject (id) {
     return function * () {
-      yield save({
-        ...activity,
+      const newActivity = {
+        ...editedActivity,
         _object: [{
-          ...activity._object[0],
+          ...editedActivity._object[0],
           attachments: [
-            ...activity._object[0].attachments
+            ...editedActivity._object[0].attachments
               .filter(({_id}) => id !== _id)
           ]
         }]
-      })
+      }
+
+      yield save(newActivity)
+      yield local(open)(id)
+      yield local(change)(newActivity)
     }
   }
 
   function * attach (object) {
     yield local(open)(editing)
     yield local(change)({
-      ...activity,
+      ...editedActivity,
       _object: [{
-        ...activity._object[0],
+        ...editedActivity._object[0],
         attachments: [
-          ...activity._object[0].attachments,
+          ...editedActivity._object[0].attachments,
           object
         ]
       }]

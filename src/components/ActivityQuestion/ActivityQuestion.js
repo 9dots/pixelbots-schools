@@ -52,7 +52,7 @@ function render ({props, local, state}) {
   return (
     <Block fw='lighter' relative class='question'>
       {
-        comments &&
+        !poll && comments &&
         <QuestionComments
           hide={isStudent && commentList.length === 0}
           absolute={{right: 0, top: 0}}
