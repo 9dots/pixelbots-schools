@@ -52,7 +52,7 @@ function render ({props}) {
       tall
       relative
       >
-      <Button zIndex={2} hide={!editing} color='black' absolute='top 2px right 2px' icon='delete' onClick={remove} />
+      <Button zIndex={2} hide={!editing} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' />
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
           {

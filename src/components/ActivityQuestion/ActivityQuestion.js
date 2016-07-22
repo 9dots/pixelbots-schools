@@ -4,10 +4,10 @@
 
 import QuestionAttachment from 'components/QuestionAttachment'
 import QuestionComments from 'components/QuestionComments'
-import {debounceAction, Button} from 'vdux-containers'
+import {debounceAction, Button, Toggle} from 'vdux-containers'
 import {generateObjectId} from 'middleware/objectId'
 import LineTextarea from 'components/LineTextarea'
-import {Block, Badge, Icon, Toggle} from 'vdux-ui'
+import {Block, Badge, Icon} from 'vdux-ui'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import element from 'vdux/element'
@@ -67,11 +67,13 @@ function render ({props, local, state}) {
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
       <Block align='start' py mb>
         <Badge hide={overview} mr pt={3} size={25}>{idx + 1}</Badge>
+        <Block flex>
         {
           editing
             ? <LineTextarea onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
-            : <Block fs='s' flex innerHTML={content} class='markdown' />
+            : <Block fs='s' innerHTML={content} class='markdown' />
         }
+        </Block>
       </Block>
       <Block align='start' mx={overview ? 40 : 30} column={!poll && type === 'choice'} onKeypress={{enter: editing && type === 'choice' && attach('choice')}}>
         {
@@ -108,13 +110,14 @@ function render ({props, local, state}) {
         {
           !attachments.length && <QuestionTypeMenu attach={attach} />
         }
-      </Block>
-      <Block hide={!(editing && type === 'choice' && !poll)}>
-        <Button onClick={attach('choice')}>Add Choice</Button>
-        <Toggle
-          onChange={e => onEdit({...object, randomize: e.target.checked})}
-          checked={randomize}
-          label='Shuffle choice order' />
+        <Block mt align='start center' hide={!(editing && type === 'choice' && !poll)} wide>
+          <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
+          <Toggle
+            w={350}
+            onChange={e => onEdit({...object, randomize: e.target.checked})}
+            checked={randomize}
+            label='Shuffle choice order' />
+          </Block>
       </Block>
     </Block>
   )
@@ -208,13 +211,29 @@ function getId (str) {
 
 function QuestionTypeMenu ({props}) {
   const {attach} = props
-
+  const btnProps = {
+    bgColor: 'grey',
+    h: 45,
+    px: 30
+  }
   return (
-    <Block>
-      <Button onClick={attach('choice', true)}>Poll</Button>
-      <Button onClick={attach('choice', false)}>Multiple Choice</Button>
-      <Button onClick={attach('shortAnswer')}>Short Answer</Button>
-      <Button onClick={attach('text')}>Free Response</Button>
+    <Block align='space-around center' wide my>
+      <Button {...btnProps} onClick={attach('choice', true)}>
+        <Icon name='equalizer' fs='s' mr='s' />
+        <Block>Poll</Block>
+      </Button>
+      <Button {...btnProps} onClick={attach('choice', false)}>
+        <Icon name='done_all' fs='s' mr='s' />
+        <Block>Multiple Choice</Block>
+      </Button>
+      <Button {...btnProps} onClick={attach('shortAnswer')}>
+        <Icon name='edit' fs='s' mr='s' />
+        <Block>Short Answer</Block>
+      </Button>
+      <Button {...btnProps} onClick={attach('text')}>
+        <Icon name='message' fs='s' mr='s' />
+        <Block>Free Response</Block>
+      </Button>
     </Block>
   )
 }
