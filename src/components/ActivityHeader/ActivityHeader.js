@@ -17,7 +17,7 @@ function render ({props}) {
   const {editing, open, editable, activity, clickableTags} = props
   const {displayName, originalDescription, tags, commonCore} = activity
   const editableProps = editable
-    ? {cursor: 'move', hoverProps: {bgColor: 'grey_light'}, onClick: open}
+    ? {hoverProps: {bgColor: 'off_white'}, onClick: open}
     : {}
 
   if (editing) return <EditingHeader {...props} />
@@ -45,24 +45,33 @@ function EditingHeader ({props}) {
   const {displayName, originalDescription} = activity
 
   return (
-    <Block column>
-      <Button onClick={open}>Done</Button>
+    <Block bgColor='white' z={2} relative p={24} pt={18}  boxShadow='0 0 12px rgba(black, .5)' fs='s' lighter>
       <Block align='start center'>
-        <Text>Title:</Text>
+        <Text textAlign='right' minWidth={100} mr='l'>Title:</Text>
         <LineInput
+          fs='s'
+          lighter
+          autofocus
           onInput={e => onEdit({displayName: e.target.value})}
           defaultValue={displayName} />
       </Block>
-      <Block align='start center'>
-        <Text>Description:</Text>
+      <Block align='start center' mt='s'>
+        <Text textAlign='right' minWidth={100} mr='l'>Description:</Text>
         <LineInput
+          fs='s'
+          lighter
           onInput={e => onEdit({originalDescription: e.target.value})}
           defaultValue={originalDescription} />
       </Block>
-      <Block align='start center'>
-        <Text>Label:</Text>
-        <Block>Grade selector</Block>
-        <Block>Subject selector</Block>
+      <Block align='start center' mt>
+        <Text textAlign='right' minWidth={100} mr='l'>Label:</Text>
+        <Block align='start'>
+          <Button bgColor='grey' text='Grade Selector' mr/>
+          <Button bgColor='grey' text='Subject selector'/>
+        </Block>
+      </Block>
+      <Block bgColor='off_white' border='1px solid grey_light' borderWidth='1px 0' p m={-24} mt='l' align='end'>
+        <Button onClick={open} px>Done</Button>
       </Block>
     </Block>
   )

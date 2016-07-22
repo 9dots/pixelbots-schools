@@ -70,7 +70,7 @@ function render ({props, local, state}) {
         <Block flex>
         {
           editing
-            ? <LineTextarea onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
+            ? <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
             : <Block fs='s' innerHTML={content} class='markdown' />
         }
         </Block>

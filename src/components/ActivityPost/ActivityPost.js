@@ -38,6 +38,9 @@ function EditablePost ({props}) {
   return (
     <Block>
       <LineTextarea
+        autofocus
+        fs='s'
+        lighter
         onInput={e => onEdit({...object, originalContent: e.target.value})}
         defaultValue={originalContent} />
     </Block>
