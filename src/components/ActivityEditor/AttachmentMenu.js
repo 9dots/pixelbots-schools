@@ -2,22 +2,32 @@
  * Imports
  */
 
+import {wrap, CSSContainer, Button} from 'vdux-containers'
 import {generateObjectId} from 'middleware/objectId'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {wrap, CSSContainer, Button} from 'vdux-containers'
 import {Icon, Block} from 'vdux-ui'
 import element from 'vdux/element'
+
+/**
+ * initialState
+ */
+
+function initialState ({props}) {
+  return {
+    open: props.startsOpen
+  }
+}
 
 /**
  * <AttachmentMenu/>
  */
 
 function render ({props, state, local}) {
-  const {attach} = props
+  const {attach, startsOpen} = props
 
   const menu = [
-    <Close onClick={local(toggle)} absolute='top -10px right -10px' />,
+    <Close onClick={local(toggle)} absolute='top -10px right -10px' hide={startsOpen} />,
     <AttachButton onClick={createAndAttach('question')} icon='help' color='red' text='Question' />,
     <AttachButton onClick={createAndAttach('video')} icon='videocam' color='yellow' text='Video' />,
     <AttachButton onClick={createAndAttach('link')} icon='link' color='blue' text='Link' />,
@@ -45,6 +55,7 @@ function render ({props, state, local}) {
         _id: id,
         objectType: type
       })
+      yield local(toggle)()
     }
   }
 }
@@ -103,6 +114,7 @@ const reducer = handleActions({
  */
 
 export default {
+  initialState,
   render,
   reducer
 }

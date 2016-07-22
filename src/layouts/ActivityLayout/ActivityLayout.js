@@ -4,6 +4,7 @@
 
 import PageTitle from 'components/PageTitle'
 import FourOhFour from 'pages/FourOhFour'
+import {invalidate} from 'vdux-summon'
 import maybeOver from '@f/maybe-over'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
