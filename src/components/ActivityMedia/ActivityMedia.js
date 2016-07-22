@@ -7,7 +7,7 @@ import createAction from '@f/create-action'
 import EditingMedia from './EditingMedia'
 import Loading from 'components/Loading'
 import Figure from 'components/Figure'
-import {Block, Icon, Image} from 'vdux-ui'
+import {Block, Icon, Image as UiImage} from 'vdux-ui'
 import Link from 'components/Link'
 import element from 'vdux/element'
 
@@ -120,7 +120,7 @@ const Video = {
         </Block>
         <Block align='start center' hide printProps={{hide: false}}>
           <Block w={200} relative>
-            <Image src={url} wide />
+            <UiImage src={url} wide />
             <Icon
               absolute={{top: 0, left: 0, right: 0, bottom: 0}}
               textShadow='1px 1px 5px rgba(0,0,0, .4)'
@@ -169,6 +169,14 @@ function Document ({props}) {
     </Block>
   )
 }
+
+function Image ({props}) {
+  const {object: {image}} = props
+  return (
+    <Figure {...image} w={image.width} />
+  )
+}
+
 /**
  * Exports
  */
