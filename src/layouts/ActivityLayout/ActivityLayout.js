@@ -24,7 +24,7 @@ function render ({props, children}) {
 }
 
 function internal (props, children) {
-  const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus} = props
+  const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus, isEdit} = props
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
@@ -51,7 +51,7 @@ function internal (props, children) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,
