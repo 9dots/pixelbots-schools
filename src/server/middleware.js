@@ -9,6 +9,7 @@ import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
 import title from 'middleware/title'
 import {isApiServer} from 'lib/api'
+import flox from '@flox/fork'
 import flo from 'redux-flo'
 import cookie from 'cookie'
 
@@ -21,6 +22,7 @@ function middleware ({url, headers}, setTitle) {
 
   return [
     flo(),
+    flox,
     // logger,
     query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
     location(url),

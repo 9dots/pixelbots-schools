@@ -56,6 +56,7 @@
     "@f/tween": "^1.0.1",
     "@f/values": "^1.2.0",
     "@f/xargs": "^1.0.0",
+    "@flox/fork": "^0.1.5",
     "@weo-edu/schema": "github:weo-edu/schema",
     "@weo-edu/validate": "github:weo-edu/validate",
     "babel-plugin-transform-react-jsx": "^6.8.0",

@@ -9,6 +9,7 @@ import {closeModal} from 'reducer/modal'
 import WeoIcon from 'components/WeoIcon'
 import validate from 'lib/validate'
 import element from 'vdux/element'
+import {fork} from '@flox/fork'
 import map from '@f/map'
 
 /**
@@ -29,7 +30,7 @@ function render ({props, local, state}) {
 
   function * handleSubmit (board) {
     const newBoard = yield createBoard(board)
-    yield onSelect(newBoard)
+    yield fork(onSelect(newBoard))
   }
 }
 

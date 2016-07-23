@@ -63,12 +63,13 @@ export default summon(props => ({
       body
     }
   }),
-  assign: (classId, activityId) => ({
+  assign: (classId, activityId, rest) => ({
     assigning: {
       url: `/share/${activityId}/assign/`,
       method: 'PUT',
       body: {
-        to: [classId]
+        to: [classId],
+        ...rest
       }
     }
   }),
@@ -81,15 +82,15 @@ export default summon(props => ({
 }))(
   form(({activity, copyActivity, assign, classes}) => ({
     fields: ['selected'],
-    onSubmit: function *({selected}) {
+    onSubmit: function *({selected, ...rest}) {
       const chosen = classes.value.items.filter(cls => selected.indexOf(cls._id) !== -1)
 
       yield chosen.map(function *({_id}) {
         if (activity.published) {
           const copy = yield copyActivity(activity._id)
-          yield assign(_id, copy._id)
+          yield assign(_id, copy._id, rest)
         } else {
-          yield assign(_id, activity._id)
+          yield assign(_id, activity._id, rest)
         }
       })
 

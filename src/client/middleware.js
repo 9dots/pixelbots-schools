@@ -22,6 +22,7 @@ import print from 'middleware/print'
 import modal from 'middleware/modal'
 import title from 'middleware/title'
 import {isApiServer} from 'lib/api'
+import flox from '@flox/fork'
 import flo from 'redux-flo'
 
 /**
@@ -37,6 +38,7 @@ const middleware = [
   // normalize(isApiServer),
   fetchEncodeJSON,
   fetch,
+  flox,
   media,
   scroll,
   upload,
