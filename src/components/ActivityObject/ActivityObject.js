@@ -3,6 +3,7 @@
  */
 
 import ActivityQuestion from 'components/ActivityQuestion'
+import MarkdownHelper from 'components/MarkdownHelper'
 import ActivityMedia from 'components/ActivityMedia'
 import ActivityPost from 'components/ActivityPost'
 import {Block, Button} from 'vdux-containers'
@@ -51,11 +52,14 @@ function render ({props}) {
       {...(editable && !editing ? editableProps : {})}
       {...(editing ? editingProps : {})}>
       <Obj {...props} />
-      <Block p m={-24} mt={36} borderTop='1px solid grey_light' bgColor='off_white' align='end center' hide={!editing}>
-        <Button onClick={open} mr='s' px h={32}>Done</Button>
-        <Button onClick={remove} bgColor='rgba(grey_light, .3)' border='1px solid grey_medium' px h={32}>
-          <Icon fs='s' name='delete' color='text' />
-        </Button>
+      <Block p m={-24} mt={36} borderTop='1px solid grey_light' bgColor='off_white' align='space-between center' hide={!editing}>
+        <MarkdownHelper />
+        <Block align='start center'>
+          <Button onClick={open} mr='s' px h={32}>Done</Button>
+          <Button onClick={remove} bgColor='rgba(grey_light, .3)' border='1px solid grey_medium' px h={32}>
+            <Icon fs='s' name='delete' color='text' />
+          </Button>
+        </Block>
       </Block>
     </Block>
   )
