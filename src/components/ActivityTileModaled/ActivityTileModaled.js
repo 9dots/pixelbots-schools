@@ -29,12 +29,13 @@ function render ({props}) {
         <Figure key='img' {...image} thumb={true} />
         <Block textAlign='center' m='s' mt>
           <Textarea
+            name='displayName'
             defaultValue={displayName}
             fw='200'
             fs='s'
             p='s'
             {...textareaProps} />
-          <Textarea p='s' fs='xxs' lh='1.4em' wordBreak='break-word' defaultValue={description} {...textareaProps} />
+          <Textarea p='s' fs='xxs' lh='1.4em' wordBreak='break-word' name='originalDescription' defaultValue={description} {...textareaProps} />
         </Block>
       </Flex>
       <Block align='end center' borderTop='1px solid grey_light'>

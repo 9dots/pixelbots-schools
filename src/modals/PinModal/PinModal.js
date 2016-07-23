@@ -4,9 +4,9 @@
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Flex, Toast} from 'vdux-ui'
 import ActivityTileModaled from 'components/ActivityTileModaled'
+import {Button, Input, form} from 'vdux-containers'
 import {toast, hideToast} from 'reducer/toast'
 import {setUrl} from 'redux-effects-location'
-import {Button, Input} from 'vdux-containers'
 import {closeModal} from 'reducer/modal'
 import PinSelect from './PinSelect'
 import Link from 'components/Link'
@@ -18,7 +18,7 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {activity, boards, createBoard, pin, copyActivity} = props
+  const {activity, fields, boards, createBoard, pin, copyActivity} = props
   const {value, loaded} = boards
 
   if (!loaded) return <span/>
@@ -44,12 +44,17 @@ function render ({props}) {
     </Modal>
   )
 
-  function *doPin ({_id, displayName}) {
+  function *doPin ({_id, displayName, originalDescription}) {
+    const model = {
+      displayName: fields.displayName.value === undefined ? displayName : fields.displayName.value,
+      originalDescription: fields.originalDescription.value === undefined ? originalDescription : fields.originalDescription.value
+    }
+
     if (activity.published) {
       const copy = yield copyActivity(activity._id)
-      yield pin(_id, copy._id)
+      yield pin(_id, copy._id, model)
     } else {
-      yield pin(_id, activity._id)
+      yield pin(_id, activity._id, model)
     }
 
     yield closeModal()
@@ -61,7 +66,8 @@ function render ({props}) {
           </Block>
           <Button onClick={[() => setUrl(`/activities/${_id}`), hideToast]} bgColor='green'>Go to Board</Button>
         </Block>
-      </Toast>)
+      </Toast>
+    )
   }
 }
 
@@ -79,12 +85,13 @@ export default summon(() => ({
       body
     }
   }),
-  pin: (boardId, activityId) => ({
+  pin: (boardId, activityId, rest) => ({
     pinToBoard: {
       url: `/share/${activityId}/pin/`,
       method: 'PUT',
       body: {
-        to: [boardId]
+        to: [boardId],
+        ...rest
       }
     }
   }),
@@ -94,6 +101,9 @@ export default summon(() => ({
       method: 'POST'
     }
   })
-}))({
+}))(
+  form(() => ({
+    fields: ['originalDescription', 'displayName']
+  }))({
   render
-})
+}))

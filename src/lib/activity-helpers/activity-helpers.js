@@ -64,8 +64,9 @@ function activitySort (sort) {
 
 function combineInstancesAndStudents (activity, students, instances) {
   const studentToInstance = index(inst => inst.actor.id, instances)
-  const {instances: {total: [{actors}]}} = activity
-  const total = totalPoints(activity)
+  const {instances: {total = []}} = activity
+  const {actors} = total[0] || {}
+  const totalPts = totalPoints(activity)
 
   return students.map(student => {
     const actor = actors[student._id]
@@ -73,7 +74,7 @@ function combineInstancesAndStudents (activity, students, instances) {
     const instance = studentToInstance[student._id]
 
     return {
-      total,
+      total: totalPts,
       displayName: instance.actor.displayName,
       instanceId: instance._id,
       familyName: student.name.familyName,
@@ -81,7 +82,7 @@ function combineInstancesAndStudents (activity, students, instances) {
       percent: Math.round(pointsScaled * 100) + '%',
       turnedInAt: actor ? actor.turnedInAt : 0,
       status: actor ? actor.status : 1,
-      points: pointsScaled * total,
+      points: pointsScaled * totalPts,
       userId: student._id,
       name: student.name
     }

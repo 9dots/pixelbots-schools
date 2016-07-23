@@ -21,7 +21,7 @@ function render ({props, local, state, path}) {
   } = props
   const {opened} = state
   return (
-    <Form onSubmit={onSubmit} onSuccess={local(toggle)} validate={validate} relative>
+    <Form onSubmit={onSubmit} onSuccess={local(toggle)} validate={validate} relative onChange={e => e.stopPropagation()}>
       {
         opened
           ? <Block
@@ -78,6 +78,7 @@ const toggle = createAction('<PinSelect />: toggle')
 /**
  * Reducer
  */
+
 const reducer = handleActions({
   [toggle]: state => ({...state, opened: !state.opened })
 })
