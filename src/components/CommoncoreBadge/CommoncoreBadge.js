@@ -3,8 +3,10 @@
  */
 
 import {Tooltip} from 'vdux-containers'
-import badge from './ccbadge30x30.png'
 import element from 'vdux/element'
+
+const cloudFS = require('cloud-fs')
+const badge = cloudFS.url('./ccbadge30x30.png')
 
 /**
  * commoncoreBadge

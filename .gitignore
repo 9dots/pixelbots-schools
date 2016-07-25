@@ -40,3 +40,4 @@ serve.js
 DockerFile
 source-context.json
 source-contexts.json
+src/server/scripts

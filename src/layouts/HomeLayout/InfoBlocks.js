@@ -6,15 +6,16 @@ import {Block, Image, Text, Flex} from 'vdux-ui'
 import element from 'vdux/element'
 import map from '@f/map'
 
-import speedGrades from './files/speed-grades.png'
-import teacherTalk from './files/teacher-talk.png'
-import telepathy from './files/telepathy.png'
-import students from './files/students.png'
-import target from './files/target.png'
-import spark from './files/spark.png'
-import comp from './files/comp.png'
-import bolt from './files/bolt.png'
-import xray from './files/xray.png'
+const cloudFS = require('cloud-fs')
+const speedGrades = cloudFS.url('./files/speed-grades.png')
+const teacherTalk = cloudFS.url('./files/teacher-talk.png')
+const telepathy = cloudFS.url('./files/telepathy.png')
+const students = cloudFS.url('./files/students.png')
+const target = cloudFS.url('./files/target.png')
+const spark = cloudFS.url('./files/spark.png')
+const comp = cloudFS.url('./files/comp.png')
+const bolt = cloudFS.url('./files/bolt.png')
+const xray = cloudFS.url('./files/xray.png')
 
 
 /**

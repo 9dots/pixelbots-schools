@@ -8,10 +8,12 @@ import CallToAction from './CallToAction'
 import {Block, Flex, Text} from 'vdux-ui'
 import {Button} from 'vdux-containers'
 import InfoBlocks from './InfoBlocks'
-import desk from './files/desk.jpg'
 import element from 'vdux/element'
 import Header from './Header'
 import Footer from './Footer'
+
+const cloudFS = require('cloud-fs')
+const desk = cloudFS.url('./files/desk.jpg')
 
 /**
  * Home Layout
