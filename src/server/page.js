@@ -5,6 +5,8 @@
 import css from './css'
 import favicon from 'lib/favicon'
 
+const cloudFS = require('cloud-fs')
+
 /**
  * Page
  */
@@ -26,7 +28,7 @@ function page ({html, state, title}) {
           <script type='text/javascript'>
             window.__initialState__ = ${JSON.stringify(state)}
           </script>
-          <script type='text/javascript' src='${process.env.CLIENT_JS_BUILD}'></script>
+          <script type='text/javascript' src='${cloudFS.url('./scripts/weo.js')}'></script>
         </head>
         <body>${html}</body>
       </html>

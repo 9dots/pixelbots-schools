@@ -3,13 +3,15 @@
  */
 
 import {Block, Modal, Image, Text, Icon, Flex} from 'vdux-ui'
-import assign from './images/assign.gif'
-import create from './images/create.gif'
-import feed from './images/feed.jpg'
-import feedback from './images/feedback.gif'
-import grades from './images/grades.gif'
-import invite from './images/invite.gif'
 import element from 'vdux/element'
+
+const cloudFS = require('cloud-fs')
+const assign = cloudFS.url('./images/assign.gif')
+const create = cloudFS.url('./images/create.gif')
+const feed = cloudFS.url('./images/feed.jpg')
+const feedback = cloudFS.url('./images/feedback.gif')
+const grades = cloudFS.url('./images/grades.gif')
+const invite = cloudFS.url('./images/invite.gif')
 
 /**
  * <IntroSteps/>
@@ -85,5 +87,3 @@ export default {
   render,
   numSteps: steps.length
 }
-
-

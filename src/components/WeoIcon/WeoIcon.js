@@ -2,13 +2,15 @@
  * Imports
  */
 
-import woff from './weo-icons.woff'
 import element from 'vdux/element'
-import ttf from './weo-icons.ttf'
-import svg from './weo-icons.svg'
-import eot from './weo-icons.eot'
 import {Icon} from 'vdux-ui'
 import css from 'jss-simple'
+
+const cloudFS = require('cloud-fs')
+const woff = cloudFS.url('./weo-icons.woff')
+const ttf = cloudFS.url('./weo-icons.ttf')
+const svg = cloudFS.url('./weo-icons.svg')
+const eot = cloudFS.url('./weo-icons.eot')
 
 /**
  * WeoIcon

@@ -6,9 +6,10 @@ import {Block, Flex, Icon, Text, Image} from 'vdux-ui'
 import element from 'vdux/element'
 import map from '@f/map'
 
-import lauren from './files/testimonials/lahey.jpg'
-import jon from './files/testimonials/jon.png'
-import ari from './files/testimonials/ari.jpg'
+const cloudFS = require('cloud-fs')
+const lauren = cloudFS.url('./files/testimonials/lahey.jpg')
+const jon = cloudFS.url('./files/testimonials/jon.png')
+const ari = cloudFS.url('./files/testimonials/ari.jpg')
 
 /**
  * Home Layout

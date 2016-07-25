@@ -2,11 +2,14 @@
  * Imports
  */
 
-import schoolPattern from './files/pattern.png'
+
 import {Block, Text} from 'vdux-ui'
 import {Button} from 'vdux-containers'
 import {scrollTo} from 'middleware/scroll'
 import element from 'vdux/element'
+
+const cloudFS = require('cloud-fs')
+const schoolPattern = cloudFS.url('./files/pattern.png')
 
 /**
  * Call To Action Layout
@@ -43,4 +46,3 @@ function render () {
 export default {
   render
 }
-

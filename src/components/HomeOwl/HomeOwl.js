@@ -2,9 +2,11 @@
  * Imports
  */
 
-import logo120 from './logo120x120.png'
 import element from 'vdux/element'
 import {Flex} from 'vdux-ui'
+
+const cloudFS = require('cloud-fs')
+const logo120 = cloudFS.url('./logo120x120.png')
 
 /**
  * <HomeOwl/>
