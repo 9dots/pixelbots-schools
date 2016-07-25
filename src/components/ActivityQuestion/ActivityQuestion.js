@@ -3,8 +3,9 @@
  */
 
 import QuestionAttachment from 'components/QuestionAttachment'
-import QuestionComments from 'components/QuestionComments'
 import {debounceAction, Button, Toggle} from 'vdux-containers'
+import QuestionComments from 'components/QuestionComments'
+import MarkdownHelper from 'components/MarkdownHelper'
 import {generateObjectId} from 'middleware/objectId'
 import LineTextarea from 'components/LineTextarea'
 import {Block, Badge, Icon} from 'vdux-ui'
@@ -70,8 +71,13 @@ function render ({props, local, state}) {
         <Block flex>
         {
           editing
-            ? <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
-            : <Block fs='s' innerHTML={content} class='markdown' />
+            ? <Block align='start' mt={-8}>
+                <Block flex>
+                  <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
+                </Block>
+                <MarkdownHelper mt={8} menuProps={{mr: -12}} />
+              </Block>
+            : <Block key='a' fs='s' innerHTML={content} class='markdown' />
         }
         </Block>
       </Block>
