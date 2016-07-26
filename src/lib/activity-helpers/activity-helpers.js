@@ -76,7 +76,6 @@ function getOverviewQuestions(attachments, instances) {
           const {actor, _object} = instance
           const question = _object[0].attachments[i]
           const {points} = question
-          console.log(instance, question)
           const total = points ? points.scaled * points.max : 0
           questions[length - 1].total += (total || 0)
           questions[length - 1].numAnswered++
