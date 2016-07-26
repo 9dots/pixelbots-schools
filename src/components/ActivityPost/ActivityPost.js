@@ -11,12 +11,12 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {object, editing, open, editable} = props
+  const {object, editing, open, editable, ...rest} = props
 
   if (editing) return <EditablePost {...props} />
 
   return (
-    <Block>
+    <Block {...rest}>
       <Block
         fs='s'
         fw='100'

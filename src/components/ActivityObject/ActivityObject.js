@@ -22,22 +22,28 @@ const typeMap = {
   document: ActivityMedia
 }
 
+const editingProps = {
+  boxShadow: '0 0 12px rgba(black, .5)',
+  z: 2
+}
+
+const draggingProps = {
+  bgColor: 'blue',
+  color: 'green'
+}
+
 /**
  * <ActivityObject/>
  */
 
-function render ({props}) {
-  const {object, open, editing, editable, remove} = props
+function render ({props, state, local}) {
+  const {object, open, editing, dragging, editable, remove, ...rest} = props
   const Obj = typeMap[object.objectType]
   const editableProps = {
-    hoverProps: {bgColor: 'off_white'},
     onClick: open
   }
 
-  const editingProps = {
-    boxShadow: '0 0 12px rgba(black, .5)',
-    z: 2
-  }
+  if (!dragging) editableProps.hoverProps = {bgColor: 'off_white'}
 
   if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)
 
@@ -49,9 +55,11 @@ function render ({props}) {
       relative
       p={24}
       {...(editable && !editing ? editableProps : {})}
-      {...(editing ? editingProps : {})}>
-      <Obj {...props} />
-      <Block p m={-24} mt={36} borderTop='1px solid grey_light' bgColor='off_white' align='end center' hide={!editing}>
+      {...(editing ? editingProps : {})}
+      {...(dragging ? draggingProps : {})}
+      {...rest}>
+      <Obj {...props} hidden={dragging} />
+      <Block p m={-24} mt={36} borderTop='1px solid grey_light' bgColor='off_white' align='end center' hide={!editing} hidden={state.isDragging}>
         <Button onClick={open} mr='s' px h={32}>Done</Button>
         <Button onClick={remove} bgColor='rgba(grey_light, .3)' border='1px solid grey_medium' px h={32}>
           <Icon fs='s' name='delete' color='text' />

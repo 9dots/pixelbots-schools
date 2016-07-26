@@ -17,6 +17,7 @@ function render ({props}) {
   return (
     <Block pt>
       <LineInput
+        autofocus
         onInput={e => onEdit({...object, originalContent: e.target.value})}
         defaultValue={originalContent}
         placeholder='Enter a url...' />

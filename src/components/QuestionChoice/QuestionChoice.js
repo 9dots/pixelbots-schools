@@ -24,11 +24,20 @@ const colors = [
 ].map(c => Color(c).lighten(0.3).rgbString())
 
 /**
+ * getProps
+ */
+
+function getProps (props, context) {
+  props.$media = context.uiMedia
+  return props
+}
+
+/**
  * <QuestionChoice/>
  */
 
 function render ({props}) {
-  const {object, editing, onEdit, showAnswers, remove, focusPrevious, overview, answerable, submit, idx, answer = [], actor} = props
+  const {object, editing, $media, onEdit, showAnswers, remove, focusPrevious, overview, answerable, submit, idx, answer = [], actor} = props
   const {content, originalContent} = object
   const isCorrect = object.correctAnswer[0] === object._id
   const chosen = isChosen(object, answer)
@@ -51,11 +60,15 @@ function render ({props}) {
       relative
       w='70%'
       my='s'>
-      <CorrectCheck show={!editing && showAnswers && isCorrect} />
+      {!editing && showAnswers && isCorrect && <CorrectCheck show />}
       {chosen && <ChosenMarker actor={actor} />}
-      <Block hide printProps={{hide: false, mr: true}}>
-        <Checkbox checked={chosen} />
-      </Block>
+      {
+        $media === 'print' && (
+          <Block mr>
+            <Checkbox checked={chosen} />
+          </Block>
+        )
+      }
       <Block wide>
         {
           !editing
@@ -153,5 +166,6 @@ function CorrectCheck ({props}) {
  */
 
 export default {
+  getProps,
   render
 }

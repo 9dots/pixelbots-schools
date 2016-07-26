@@ -35,7 +35,8 @@ function initialState ({props}) {
 function render ({props, local, state}) {
   const {
     activity, editing, overview, object, idx, answerable, showAnswers,
-    comments, showIncorrect, showComments, commentsId, currentUser, onEdit
+    comments, showIncorrect, showComments, commentsId, currentUser, onEdit,
+    ...rest
   } = props
   const {
     displayName, poll, attachments = [], points, id,
@@ -50,7 +51,7 @@ function render ({props, local, state}) {
   const type = getProp('0.objectType', attachments)
 
   return (
-    <Block fw='lighter' relative class='question'>
+    <Block fw='lighter' relative class='question' {...rest}>
       {
         !poll && comments &&
         <QuestionComments
