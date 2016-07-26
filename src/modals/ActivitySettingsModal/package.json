@@ -1,0 +1,5 @@
+{
+  "name": "ActivitySettingsModal",
+  "main": "ActivitySettingsModal.js",
+  "browser": "ActivitySettingsModal.js"
+}

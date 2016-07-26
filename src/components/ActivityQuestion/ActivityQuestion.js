@@ -75,7 +75,9 @@ function render ({props, local, state}) {
                 <Block flex>
                   <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
                 </Block>
-                <MarkdownHelper mt={8} menuProps={{mr: -12}} />
+                <Block alignSelf='baseline'>
+                  <MarkdownHelper relative mt={8} menuProps={{mr: -12}} />
+                </Block>
               </Block>
             : <Block key='a' fs='s' innerHTML={content} class='markdown' />
         }

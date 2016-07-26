@@ -80,12 +80,15 @@ function render ({props, local, state}) {
     </Block>
   )
 
-  function * saveAndOpen (id) {
+  function * saveNow () {
     if (state.dirty) {
       yield save(state.editedActivity)
       yield local(clearDirty)()
     }
+  }
 
+  function * saveAndOpen (id) {
+    yield saveNow()
     yield local(open)(id)
   }
 
