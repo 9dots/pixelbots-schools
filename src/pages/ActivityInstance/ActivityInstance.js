@@ -72,7 +72,7 @@ function render ({props, local, state}) {
           isTeacher && <InstanceNav {...props} />
         }
       </Block>
-      <Block w={200} printProps={{hide: true}}/>
+      <Block w={200} printProps={{hide: true}} ml/>
     </Block>
   )
 }

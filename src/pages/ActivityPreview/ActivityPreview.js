@@ -34,7 +34,7 @@ function render ({props, local, state}) {
       <Block w={200} ml relative fixed={{top: 53}} printProps={{hide: true}}>
         <ActivitySidebar activity={activity} currentUser={currentUser} />
       </Block>
-      <Block printProps={{hide: true}} w={200}/>
+      <Block printProps={{hide: true}} w={200} ml/>
     </Block>
   )
 }

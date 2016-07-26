@@ -60,6 +60,36 @@ function activitySort (sort) {
   }
 }
 
+function getOverviewQuestions(attachments, instances) {
+  const questions = []
+  const attList = [].concat(attachments)
+  attList.forEach((attachment, i) => {
+    if(attachment.objectType === 'question') {
+      const length = questions.push({
+        total: 0,
+        numAnswered: 0,
+        responses: [],
+        ...attachment
+      })
+      instances.forEach(instance => {
+        if(instance.status >= 4 || attachment.poll) {
+          const {actor, _object} = instance
+          const question = _object[0].attachments[i]
+          const {points} = question
+          console.log(instance, question)
+          const total = points ? points.scaled * points.max : 0
+          questions[length - 1].total += (total || 0)
+          questions[length - 1].numAnswered++
+          questions[length - 1].responses.push({
+            actor: actor,
+            response: question.response
+          })
+        }
+      })
+    }
+  })
+  return questions
+}
 
 
 function combineInstancesAndStudents (activity, students, instances) {
@@ -108,5 +138,6 @@ export {
   totalPoints,
   totalScore,
   statusMap,
+  getOverviewQuestions,
   combineInstancesAndStudents
 }

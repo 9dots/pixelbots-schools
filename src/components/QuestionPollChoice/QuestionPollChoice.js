@@ -40,17 +40,17 @@ function render ({props}) {
 
   return (
     <Block
-      pointer={answerable}
       onClick={answerable && submitAnswer}
+      pointer={answerable}
       bgColor={bgColor}
       boxShadow='card'
       maxWidth='140px'
       flex='0 0 30%'
       flexShrink='1'
       rounded='4px'
+      relative
       mx='1%'
       tall
-      relative
       >
       <Button zIndex={2} hide={!editing} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' tabindex='-1' />
       <Block pb='100%' wide relative>

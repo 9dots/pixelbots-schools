@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {getOverviewQuestions} from 'lib/activity-helpers'
 import {Flex, Block, Card, Icon} from 'vdux-ui'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -14,7 +15,8 @@ import map from '@f/map'
  */
 
 function render({props, local, state}) {
-  const questions = getQuestions(props)
+  const {activity, instances} = props
+  const questions = getOverviewQuestions(activity._object[0].attachments, instances)
 
   return (
     <Block pb='l'>
@@ -33,33 +35,6 @@ function render({props, local, state}) {
       }
     </Block>
   )
-}
-
-/**
- * Helpers
- */
-
-function getQuestions({activity, instances}) {
-  const questions = []
-  activity._object[0].attachments.forEach((attachment, i) => {
-    if(attachment.objectType === 'question') {
-      const length = questions.push({total: 0, numAnswered: 0, responses: [], ...attachment})
-      instances.forEach(instance => {
-        if(instance.status >= 4) {
-          const {actor, _object} = instance
-          const question = _object[0].attachments[i]
-          const total = question.points.scaled * question.points.max
-          questions[length - 1].total += (total || 0)
-          questions[length - 1].numAnswered++
-          questions[length - 1].responses.push({
-            actor: actor,
-            response: question.response
-          })
-        }
-      })
-    }
-  })
-  return questions
 }
 
 /**

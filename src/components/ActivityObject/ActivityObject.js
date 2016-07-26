@@ -3,6 +3,7 @@
  */
 
 import ActivityQuestion from 'components/ActivityQuestion'
+import {getOverviewQuestions} from 'lib/activity-helpers'
 import ActivityMedia from 'components/ActivityMedia'
 import ActivityPost from 'components/ActivityPost'
 import {Block, Button} from 'vdux-containers'
