@@ -66,7 +66,9 @@ function EditCard ({props}) {
 
   function * save (model) {
     yield annotate(model, comment)
-    yield toggleEdit()
+    yield toggleEdit(false)
+    if(dismiss)
+      yield dismiss()
   }
 }
 
@@ -129,7 +131,10 @@ const toggleEdit = createAction('<CommentCard/>: toggleEdit')
  */
 
 const reducer = handleActions({
-  [toggleEdit]: state => ({...state, isEdit: !state.isEdit})
+  [toggleEdit]: (state, opened) => ({
+    ...state,
+    isEdit:  opened !== undefined ? opened : !state.isEdit
+  })
 })
 
 /**
