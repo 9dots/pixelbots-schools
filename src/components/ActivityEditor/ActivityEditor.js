@@ -63,10 +63,11 @@ function render ({props, local, state}) {
               editable
               onEdit={editObject(i)}
               activity={activity}
-              object={
+              object={object}
+              editObject={
                 editing === object._id
                   ? editedActivity._object[0].attachments[i]
-                  : object
+                  : null
               }
               editing={editing === object._id}
               remove={removeObject(object._id)}

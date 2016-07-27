@@ -68,7 +68,7 @@ function EditingHeader ({props}) {
           onInput={e => onEdit({originalDescription: e.target.value})}
           defaultValue={originalDescription} />
       </Block>
-      <Block align='start center' mt={18}>
+      <Block align='start center' mt={18} relative z={1}>
         <Text textAlign='right' minWidth={100} mr='l'>Label:</Text>
         <Block align='start' w='70%'>
           <Block flex mr>
