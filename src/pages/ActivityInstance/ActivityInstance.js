@@ -5,6 +5,7 @@
 import ActivitySidebar from 'components/ActivitySidebar'
 import summonChannels from 'lib/summon-channels'
 import {statusMap} from 'lib/activity-helpers'
+import EmptyState from 'components/EmptyState'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import Activity from 'components/Activity'
@@ -17,13 +18,14 @@ import element from 'vdux/element'
  * <ActivityInstance/>
  */
 
-
 function render ({props, local, state}) {
+  const {isShown} = state
   const {instance, currentUser, activities} = props
   const isTeacher = currentUser.userType === 'teacher'
   const isStudent = currentUser.userType === 'student'
   const isReturned = instance.status === statusMap.returned
-  const isRedo = instance.at && instance.at.turnedIn && (instance.status === statusMap.opened)
+  const {at, status, hideOnTurnIn} = instance
+  const isRedo = at && at.turnedIn && (status === statusMap.opened)
   const commentsShown = state.commentsId
 
   const {loaded, error, value} = activities
@@ -31,48 +33,65 @@ function render ({props, local, state}) {
   if(!loaded) return <span />
   const comments = value.items
 
+  const isTurnedIn = status === statusMap.turnedIn || status === statusMap.graded
+  const hideInstance = hideOnTurnIn && isStudent && isTurnedIn
+  const isHidden = hideInstance || !isShown
+
   return (
-    <Block align='center start'>
-      <Card
-        transform={`translate3d(-${commentsShown ? 50 : 0}px, 0, 0)`}
-        printProps={{mb: 0, boxShadow: '0 0 0'}}
-        transition='transform 0.35s'
-        relative
-        w={756}
-        z={1}
-        mb='l'>
-        <PrintButton />
-        <Activity
-          showComments={local(showComments)}
-          commentsId={state.commentsId}
-          comments={comments}
-          activity={instance}
-          currentUser={currentUser}
-          clickableTags={isTeacher}
-          showIncorrect={isRedo || instance.status === statusMap.returned}
-          showAnswers={isTeacher || instance.status === statusMap.returned}
-          answerable={isStudent && instance.status <= statusMap.opened} />
-      </Card>
+    <Block>
       <Block
-        printProps={{hide: true}}
-        fixed={{top: 53}}
-        transition='opacity 0.35s'
-        opacity={commentsShown ?  0.07 : 1}
-        pointerEvents={commentsShown ? 'none' : 'all'}
-        w={200}
-        ml>
-        <ActivitySidebar
-          canGrade={isTeacher && instance.status >= statusMap.turnedIn}
-          canSetMax={false}
-          isRedo={isRedo}
-          isStudent={isStudent}
-          showScores={isTeacher || isReturned}
-          activity={instance} />
-        {
-          isTeacher && <InstanceNav {...props} />
-        }
+        align='center start'
+        hide={isHidden}>
+        <Card
+          transform={`translate3d(-${commentsShown ? 50 : 0}px, 0, 0)`}
+          printProps={{mb: 0, boxShadow: '0 0 0'}}
+          transition='transform 0.35s'
+          relative
+          w={756}
+          z={1}
+          mb='l'>
+          <PrintButton />
+          <Activity
+            showComments={local(showComments)}
+            commentsId={state.commentsId}
+            comments={comments}
+            activity={instance}
+            currentUser={currentUser}
+            clickableTags={isTeacher}
+            showIncorrect={isRedo || instance.status === statusMap.returned}
+            showAnswers={isTeacher || instance.status === statusMap.returned}
+            answerable={isStudent && instance.status <= statusMap.opened} />
+        </Card>
+        <Block
+          printProps={{hide: true}}
+          fixed={{top: 53}}
+          transition='opacity 0.35s'
+          opacity={commentsShown ?  0.07 : 1}
+          pointerEvents={commentsShown ? 'none' : 'all'}
+          w={200}
+          ml>
+          <ActivitySidebar
+            canGrade={isTeacher && instance.status >= statusMap.turnedIn}
+            canSetMax={false}
+            isRedo={isRedo}
+            isStudent={isStudent}
+            showScores={isTeacher || isReturned}
+            activity={instance} />
+          {
+            isTeacher && <InstanceNav {...props} />
+          }
+        </Block>
+        <Block w={200} printProps={{hide: true}} ml/>
       </Block>
-      <Block w={200} printProps={{hide: true}} ml/>
+      <EmptyState mx='auto' color='blue' icon='file_download' mt='xl' hide={!isHidden}>
+        <Block fs='m' mt mb='l'>Your Activity Has Been Turned In</Block>
+        <Block fs='xs' hide={!hideInstance}>
+          You can see your results after your activity has been returned.
+        </Block>
+        <Block underline fs='xs' pointer onClick={local(showInstance)} hide={hideInstance}>
+          Click to View Activity
+        </Block>
+      </EmptyState>
     </Block>
   )
 }
@@ -82,13 +101,15 @@ function render ({props, local, state}) {
  */
 
 const showComments = createAction('<ActivityInstance/>: showComments')
+const showInstance = createAction('<ActivityInstance/>: showInstance')
 
 /**
  * Reducer
  */
 
 const reducer = handleActions({
-  [showComments]: (state, id) => ({...state, commentsId: id}),
+  [showComments]: (state, commentsId) => ({...state, commentsId}),
+  [showInstance]: (state) => ({...state, isShown: true})
 })
 
 /**
@@ -109,6 +130,8 @@ function PrintButton () {
       fs='s'/>
   )
 }
+
+
 
 
 /**
