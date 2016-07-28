@@ -75,14 +75,11 @@ function getOverviewQuestions(attachments, instances) {
         if(instance.status >= 4 || attachment.poll) {
           const {actor, _object} = instance
           const question = _object[0].attachments[i]
-          const {points} = question
+          const {points, response} = question
           const total = points ? points.scaled * points.max : 0
           questions[length - 1].total += (total || 0)
           questions[length - 1].numAnswered++
-          questions[length - 1].responses.push({
-            actor: actor,
-            response: question.response
-          })
+          questions[length - 1].responses.push({actor, response})
         }
       })
     }

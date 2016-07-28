@@ -36,7 +36,8 @@ function render ({props, state, local}) {
   const {object, open, editing, editable, remove, onEdit, ...rest} = props
   const Obj = typeMap[object.objectType]
   const editableProps = {
-    onClick: open
+    onClick: open,
+    hoverProps: {bgColor: 'off_white'}
   }
 
   if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)

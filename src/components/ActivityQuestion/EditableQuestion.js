@@ -21,33 +21,27 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {
-    activity, editing, overview, object, idx, answerable, showAnswers,
-    comments, showIncorrect, showComments, commentsId, currentUser, onEdit,
-    ...rest
-  } = props
-  const {
-    displayName, poll, attachments = [], points, id,
-    content, originalContent, randomize
-  } = object
-
-  const isStudent = currentUser && currentUser.userType === 'student'
+  const {object, idx,  onEdit, ...rest} = props
+  const {poll, attachments = [], originalContent, randomize} = object
   const type = getProp('0.objectType', attachments)
+  const isMultipleChoice = !poll && type === 'choice'
 
   return (
     <Block fw='lighter' relative class='question' {...rest}>
       <Block align='start' py mb>
-        <Badge hide={overview} mr pt={3} size={25}>{idx + 1}</Badge>
+        <Badge mr pt={3} size={25}>{idx + 1}</Badge>
         <Block flex>
           <Block align='start' mt={-8}>
             <Block flex>
               <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
             </Block>
-            <MarkdownHelper mt={8} menuProps={{mr: -12}} />
+            <Block alignSelf='baseline'>
+              <MarkdownHelper relative mt={8} menuProps={{mr: -12}} />
+            </Block>
           </Block>
         </Block>
       </Block>
-      <Block align='start' mx={overview ? 40 : 30} column={!poll && type === 'choice'} onKeypress={{enter: editing && type === 'choice' && attach('choice')}}>
+      <Block align='start' mx={30} column={isMultipleChoice} onKeypress={{enter: type === 'choice' && attach('choice')}}>
         {
           map((att, i) => <QuestionAttachment
               question={object}
@@ -71,7 +65,7 @@ function render ({props}) {
           !attachments.length && <QuestionTypeMenu attach={attach} />
         }
         {
-          type === 'choice' && !poll && (
+          isMultipleChoice && (
             <Block mt align='start center' wide>
               <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
               <Toggle

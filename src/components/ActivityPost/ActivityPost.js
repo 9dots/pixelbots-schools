@@ -46,7 +46,9 @@ function EditablePost ({props}) {
           onInput={e => onEdit({...object, originalContent: e.target.value})}
           defaultValue={originalContent} />
       </Block>
-      <MarkdownHelper mt={8} menuProps={{mr: -12}} />
+      <Block alignSelf='baseline'>
+        <MarkdownHelper mt={8} menuProps={{mr: -12}} />
+      </Block>
     </Block>
 
   )

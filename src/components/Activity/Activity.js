@@ -6,8 +6,8 @@ import CommoncoreBadge from 'components/CommoncoreBadge'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
 import {setUrl} from 'redux-effects-location'
-import {Block} from 'vdux-containers'
 import element from 'vdux/element'
+import {Block} from 'vdux-ui'
 import map from '@f/map'
 
 /**

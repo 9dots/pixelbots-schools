@@ -27,9 +27,9 @@ function render ({props, state, local}) {
                 borderBottom='1px solid grey_light'
                 highlight={tab === current ? 0.03 : 0}
                 onClick={local(setTab, tab)}
-                borderLeft={tab === current ? '3px solid blue' : '3px solid transparent'}
+                borderLeft={tab === current ? '3px solid blue' : '0px solid transparent'}
                 align='space-between center'
-                bold={tab === current}
+                pl={tab === current ? 12 : 15}
                 capitalize>
                 <Block>{tab}</Block>
                 <Icon name='chevron_right' fs='s' hidden={tab !== current} />

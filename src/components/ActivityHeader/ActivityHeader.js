@@ -2,11 +2,15 @@
  * Imports
  */
 
+import ActivitySettingsModal from 'modals/ActivitySettingsModal'
 import {Block as ContainerBlock, Button} from 'vdux-containers'
 import CommoncoreBadge from 'components/CommoncoreBadge'
+import SubjectSelector from './SubjectSelector'
+import GradeSelector from './GradeSelector'
 import {setUrl} from 'redux-effects-location'
 import LineInput from 'components/LineInput'
-import {Block, Text} from 'vdux-ui'
+import {Block, Text, Icon} from 'vdux-ui'
+import {openModal} from 'reducer/modal'
 import element from 'vdux/element'
 import map from '@f/map'
 
@@ -64,19 +68,27 @@ function EditingHeader ({props}) {
           onInput={e => onEdit({originalDescription: e.target.value})}
           defaultValue={originalDescription} />
       </Block>
-      <Block align='start center' mt>
+      <Block align='start center' mt={18} relative z={1}>
         <Text textAlign='right' minWidth={100} mr='l'>Label:</Text>
-        <Block align='start'>
-          <Button bgColor='grey' text='Grade Selector' mr/>
-          <Button bgColor='grey' text='Subject selector'/>
+        <Block align='start' w='70%'>
+          <Block flex mr>
+            <GradeSelector />
+          </Block>
+          <Block flex mr>
+            <SubjectSelector />
+          </Block>
         </Block>
       </Block>
       <Block bgColor='off_white' border='1px solid grey_light' borderWidth='1px 0' p m={-24} mt='l' align='end'>
+        <Button bgColor='grey' px mr='s' onClick={() => openModal(() => <ActivitySettingsModal activity={activity} onEdit={onEdit} />)}>
+          <Icon fs='s' name='settings' />
+        </Button>
         <Button onClick={open} px>Done</Button>
       </Block>
     </Block>
   )
 }
+
 /**
  * <Label/>
  */
