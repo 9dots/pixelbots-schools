@@ -3,6 +3,7 @@
  */
 
 import LineTextarea from 'components/LineTextarea'
+import MarkdownHelper from 'components/MarkdownHelper'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
 
@@ -11,7 +12,7 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {object, editing, open, editable, ...rest} = props
+  const {object, editing, open, editable, onEdit, remove, ...rest} = props
 
   if (editing) return <EditablePost {...props} />
 
@@ -36,14 +37,18 @@ function EditablePost ({props}) {
   const {originalContent} = object
 
   return (
-    <Block py>
-      <LineTextarea
-        autofocus
-        fs='s'
-        lighter
-        onInput={e => onEdit({...object, originalContent: e.target.value})}
-        defaultValue={originalContent} />
+    <Block py align='start'>
+      <Block flex>
+        <LineTextarea
+          autofocus
+          fs='s'
+          lighter
+          onInput={e => onEdit({...object, originalContent: e.target.value})}
+          defaultValue={originalContent} />
+      </Block>
+      <MarkdownHelper mt={8} menuProps={{mr: -12}} />
     </Block>
+
   )
 }
 

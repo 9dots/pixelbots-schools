@@ -52,36 +52,43 @@ function render ({props, local, state}) {
           editing={editing === 'header'}
           onEdit={header => local(change)({...editedActivity, ...header})}
           open={() => saveAndOpen('header')} />
-        <Block onDrop={[e => e.preventDefault(), local(setDragging, null)]}>
+        <Block>
           {
-            map((object, i) => <ActivityObject
-              key={object._id}
-              editable
-              draggable
-              dragging={state.dragging === object._id}
-              onDragOver={e => onDragOver(e, object._id)}
-              onDragStart={local(setDragging, object._id)}
-              onEdit={editObject(i)}
-              activity={editedActivity}
-              insertBefore={src => insertBefore(src, object._id)}
-              object={object}
-              editing={editing === object._id}
-              remove={removeObject(object._id)}
-              open={() => saveAndOpen(object._id)}
-              idx={object.objectType === 'question' ? idx++ : null}
-              {...rest} />, attachments)
+            map((object, i) => (
+              <Block
+                key={object._id}
+                cursor='move'
+                draggable
+                onDragOver={onDragOver(object._id)}
+                onDragStart={local(setDragging, object._id)}
+                onDragEnd={local(setDragging, null)}
+                bgColor={state.dragging === object._id ? 'blue' : undefined}>
+                <ActivityObject
+                  editable
+                  hidden={state.dragging === object._id}
+                  onEdit={editObject(i)}
+                  activity={editedActivity}
+                  object={object}
+                  editing={editing === object._id}
+                  remove={removeObject(object._id)}
+                  open={() => saveAndOpen(object._id)}
+                  idx={object.objectType === 'question' ? idx++ : null}
+                  {...rest} />
+              </Block>), attachments)
           }
-          <Block py='s' onDrop={e => e.preventDefault()} onDragOver={onDragOver} />
+          <Block py='s' onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
         </Block>
       </Card>
       <AttachmentMenu attach={attach} startsOpen={!attachments.length} />
     </Block>
   )
 
-  function onDragOver (e, id) {
-    e.preventDefault()
-    if (id === state.dragging) return
-    return insertBefore(state.dragging, id)
+  function onDragOver (id) {
+    return e => {
+      e.preventDefault()
+      if (id === state.dragging) return
+      return insertBefore(state.dragging, id)
+    }
   }
 
   function * saveAndOpen (id) {

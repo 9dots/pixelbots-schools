@@ -3,11 +3,14 @@
  */
 
 import css from 'jss-simple'
-import eot from './Lato-Light.eot'
-import svg from './Lato-Light.svg'
-import ttf from './Lato-Light.ttf'
-import woff from './Lato-Light.woff'
-import woff2 from './Lato-Light.woff2'
+
+const cloudFS = require('cloud-fs')
+
+const eot = cloudFS.url('./Lato-Light.eot')
+const svg = cloudFS.url('./Lato-Light.svg')
+const ttf = cloudFS.url('./Lato-Light.ttf')
+const woff = cloudFS.url('./Lato-Light.woff')
+const woff2 = cloudFS.url('./Lato-Light.woff2')
 
 /**
  * Fonts

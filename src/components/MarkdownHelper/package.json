@@ -1,0 +1,5 @@
+{
+  "name": "MarkdownHelper",
+  "main": "MarkdownHelper.js",
+  "browser": "MarkdownHelper.js"
+}

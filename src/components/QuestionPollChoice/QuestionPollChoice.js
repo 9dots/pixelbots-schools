@@ -40,29 +40,31 @@ function render ({props}) {
 
   return (
     <Block
-      pointer={answerable}
       onClick={answerable && submitAnswer}
+      pointer={answerable}
       bgColor={bgColor}
       boxShadow='card'
       maxWidth='140px'
       flex='0 0 30%'
       flexShrink='1'
       rounded='4px'
+      relative
       mx='1%'
       tall
-      relative
       >
-      <Button zIndex={2} hide={!editing} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' />
+      <Button zIndex={2} hide={!editing} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' tabindex='-1' />
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
           {
             !editing
-              ? <Block class='markdown' fs='s' textAlign='center' innerHTML={content} />
+              ? <Block p='s' class='markdown' fs='s' textAlign='center' innerHTML={content} />
               : <BlockInput
                   onInput={e => onEdit({...object, originalContent: e.target.value})}
                   defaultValue={originalContent}
-                  inputProps={{py: 2}}
                   mx={5}
+                  fs='s'
+                  placeholder={`Choice #${idx+1}`}
+                  inputProps={{textAlign:'center', p: '6px 12px 5px', fs: 's', fw: 200}}
                   autofocus={!content}
                   onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}} />
           }

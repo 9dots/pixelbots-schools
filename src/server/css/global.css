@@ -159,15 +159,7 @@ button {
   font-weight: lighter;
   word-break: break-word;
 }
-.markdown h1,
-.markdown h2,
-.markdown h3,
-.markdown h4,
-.markdown h5 {
-  font-size: 13px;
-  line-height: 13px;
-  margin: 0 0 10px 0;
-}
+
 .markdown p,
 .markdown ol,
 .markdown ul {
@@ -209,9 +201,42 @@ button {
 }
 .markdown table td,
 .markdown table th {
-  padding: 3px 12px;
-  font-size: 11px;
+  padding: 5px 12px;
 }
-.markdown table tbody tr:nth-child(2n) {
+.markdown table tr:nth-child(2n + 1) td {
   background: rgba(0,0,0,0.05);
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5 {
+  line-height: 1.2em;
+  overflow: hidden;
+}
+.markdown h1 {
+  font-size: 30px;
+}
+.markdown h2 {
+  font-size: 27px;
+}
+.markdown h3 {
+  font-size: 24px;
+}
+.markdown h4 {
+  font-size: 21px;
+}
+.markdown h5 {
+  font-size: 18px;
+}
+
+.markdown.normalize h1,
+.markdown.normalize h2,
+.markdown.normalize h3,
+.markdown.normalize h4,
+.markdown.normalize h5 {
+  font-size: 13px;
+  line-height: 13px;
+  margin: 0 0 10px 0;
 }

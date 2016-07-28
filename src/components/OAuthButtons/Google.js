@@ -2,10 +2,12 @@
  * Imports
  */
 
-import gplusIcon from './gplusIcon.png'
 import {Button} from 'vdux-containers'
 import {IconButton} from 'vdux-ui'
 import element from 'vdux/element'
+
+const cloudFS = require('cloud-fs')
+const gplusIcon = cloudFS.url('./gplusIcon.png')
 
 /**
  * Google OAuth Button

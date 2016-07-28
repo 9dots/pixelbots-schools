@@ -87,6 +87,7 @@ function render ({props}) {
                   lighter
                   mb={0}
                   my={-6}
+                  inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
                   autofocus={!content}
                   onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}}/>
                 <Button

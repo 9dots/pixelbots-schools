@@ -4,7 +4,6 @@
   "repository": "git://github.com/weo-edu/weo.git",
   "version": "0.1.0",
   "main": "lib/index.js",
-  "license": "none",
   "scripts": {
     "postversion": "git push && git push --tags && npm publish --access=public",
     "dev": "unv dev",
@@ -68,6 +67,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "browserify-mime": "^1.2.9",
+    "cloud-fs": "^0.1.4",
     "color": "^0.11.1",
     "cookie": "^0.2.4",
     "cropperjs": "^0.7.1",
@@ -102,7 +102,7 @@
     "redux-flo": "^2.2.1",
     "regenerator-runtime": "^0.9.5",
     "to-csv": "github:weo-edu/to-csv",
-    "unv": "^0.2.33",
+    "unv": "^0.3.1",
     "vdux": "^2.4.9",
     "vdux-containers": "^1.1.6",
     "vdux-css-transition": "^1.2.1",
@@ -129,11 +129,11 @@
     "browserify-hmr": "github:ashaffer/browserify-hmr",
     "tap-dev-tool": "^1.3.0",
     "tape": "^4.2.0",
-    "unv": "^0.2.24",
     "vdux-transform-hmr": "^1.0.4"
   },
   "unv": {
-    "modules": "src/"
+    "modules": "src/",
+    "outFile": "src/server/scripts/weo.js"
   },
   "environment": {
     "base": {

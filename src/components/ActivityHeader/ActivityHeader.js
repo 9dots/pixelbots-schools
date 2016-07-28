@@ -4,6 +4,7 @@
 
 import {Block as ContainerBlock, Button} from 'vdux-containers'
 import CommoncoreBadge from 'components/CommoncoreBadge'
+import {setUrl} from 'redux-effects-location'
 import LineInput from 'components/LineInput'
 import {Block, Text} from 'vdux-ui'
 import element from 'vdux/element'
@@ -94,7 +95,7 @@ function Label ({props}) {
     : {}
 
   return (
-    <Block
+    <ContainerBlock
       border='1px solid blue'
       color='white'
       lh='22px'
@@ -105,7 +106,7 @@ function Label ({props}) {
       px
       {...clickableProps}>
       {text}
-    </Block>
+    </ContainerBlock>
   )
 }
 

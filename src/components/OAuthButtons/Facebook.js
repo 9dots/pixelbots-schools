@@ -5,7 +5,9 @@
 import {Button} from 'vdux-containers'
 import {IconButton} from 'vdux-ui'
 import element from 'vdux/element'
-import fbIcon from './fbIcon.png'
+
+const cloudFS = require('cloud-fs')
+const fbIcon = cloudFS.url('./fbIcon.png')
 
 /**
  * Facebook OAuth Button

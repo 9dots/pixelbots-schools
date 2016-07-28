@@ -16,19 +16,19 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {object, editing} = props
+  if (props.editing) return <EditingMedia {...props} />
 
-  if (editing) return <EditingMedia {...props} />
+  const {object, onEdit, remove, ...rest} = props
 
   switch (object.objectType) {
     case 'link':
-      return <LinkObject {...props} />
+      return <LinkObject object={object} {...rest} />
     case 'video':
-      return <Video {...props} />
+      return <Video object={object} {...rest} />
     case 'document':
-      return <Document {...props} />
+      return <Document object={object} {...rest} />
     case 'image':
-      return <Image {...props} />
+      return <Image object={object} {...rest} />
   }
 }
 
