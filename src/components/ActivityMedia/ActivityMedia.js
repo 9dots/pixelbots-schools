@@ -16,28 +16,28 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {object, editing} = props
+  if (props.editing) return <EditingMedia {...props} />
 
-  if (editing) return <EditingMedia {...props} />
+  const {object, onEdit, remove, ...rest} = props
 
   switch (object.objectType) {
     case 'link':
-      return <LinkObject {...props} />
+      return <LinkObject object={object} {...rest} />
     case 'video':
-      return <Video {...props} />
+      return <Video object={object} {...rest} />
     case 'document':
-      return <Document {...props} />
+      return <Document object={object} {...rest} />
     case 'image':
-      return <Image {...props} />
+      return <Image object={object} {...rest} />
   }
 }
 
 function LinkObject ({props}) {
-  const {object} = props
-  const {description, embed, image, displayName} = object
+  const {object, ...rest} = props
+  const {description, embed = {}, image = {}, displayName} = object
 
   return (
-    <Block align='start center' bgColor='#fbfbfb' border='1px solid rgba(52, 52, 52, 0.08)' h={120}>
+    <Block align='start center' bgColor='#fbfbfb' border='1px solid rgba(52, 52, 52, 0.08)' h={120} {...rest}>
       <Block minWidth={118} tall relative hide={!image.url}>
         <Block
           tag='img'
@@ -69,13 +69,13 @@ const Video = {
     [playVideo]: state => ({...state, play: true})
   }),
   render ({props, state, local}) {
-    const {object} = props
-    const {content, image, displayName, embed} = object
+    const {object, ...rest} = props
+    const {content, image = {}, displayName, embed = {}} = object
     const {url, height, width} = image
     const imgSize = height / width >= .74 ? '74.6%' : '100%'
 
     return (
-      <Block tag='span'>
+      <Block tag='span' {...rest}>
         <Block wide tall relative bg={`#000 url(${url}) no-repeat center`} bgSize={imgSize} printProps={{hide: true}}>
           <Loading show={state.play} dark={false} absolute top bottom left right/>
           <Block hidden={state.play} onClick={local(playVideo)} pointer relative>
@@ -144,11 +144,12 @@ const Video = {
 }
 
 function Document ({props}) {
-  const {object} = props
-  const {content, embed: {url}} = object
+  const {object, ...rest} = props
+  const {content, embed = {}} = object
+  const {url} = embed
 
   return (
-    <Block>
+    <Block {...rest}>
       <Block
         class='activity-document'
         innerHTML={content}
@@ -171,9 +172,10 @@ function Document ({props}) {
 }
 
 function Image ({props}) {
-  const {object: {image}} = props
+  const {object: {image = {}}, ...rest} = props
+
   return (
-    <Figure {...image} w={image.width} />
+    <Figure {...image} w={image.width} {...rest} />
   )
 }
 

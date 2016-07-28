@@ -3,14 +3,12 @@
  */
 
 import QuestionAttachment from 'components/QuestionAttachment'
-import {debounceAction, Button, Toggle} from 'vdux-containers'
 import QuestionComments from 'components/QuestionComments'
-import MarkdownHelper from 'components/MarkdownHelper'
-import {generateObjectId} from 'middleware/objectId'
-import LineTextarea from 'components/LineTextarea'
-import {Block, Badge, Icon} from 'vdux-ui'
+import {debounceAction, Button} from 'vdux-containers'
+import EditableQuestion from './EditableQuestion'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import {Block, Badge, Icon} from 'vdux-ui'
 import element from 'vdux/element'
 import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
@@ -34,14 +32,14 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
+  if (props.editing) return <EditableQuestion {...props} />
+
   const {
-    activity, editing, overview, object, idx, answerable, showAnswers,
-    comments, showIncorrect, showComments, commentsId, currentUser, onEdit
+    activity, overview, object, idx, answerable, showAnswers,
+    comments, showIncorrect, showComments, commentsId, currentUser, onEdit,
+    ...rest
   } = props
-  const {
-    displayName, poll, attachments = [], points, id,
-    content, originalContent, randomize
-  } = object
+  const {poll, attachments = [], points, id, content, randomize} = object
 
   const commentList = comments && comments
     .filter(comment => getId(getProp('_object.0.location.path', comment)) === getId(id))
@@ -51,7 +49,7 @@ function render ({props, local, state}) {
   const type = getProp('0.objectType', attachments)
 
   return (
-    <Block fw='lighter' relative class='question'>
+    <Block fw='lighter' relative class='question' {...rest}>
       {
         !poll && comments &&
         <QuestionComments
@@ -67,23 +65,12 @@ function render ({props, local, state}) {
       }
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
       <Block align='start' py mb>
-        <Badge hide={overview} mr pt={3} size={25}>{idx + 1}</Badge>
+        {!overview && <Badge mr pt={3} size={25}>{idx + 1}</Badge>}
         <Block flex>
-        {
-          editing
-            ? <Block align='start' mt={-8}>
-                <Block flex>
-                  <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
-                </Block>
-                <Block alignSelf='baseline'>
-                  <MarkdownHelper relative mt={8} menuProps={{mr: -12}} />
-                </Block>
-              </Block>
-            : <Block key='a' fs='s' innerHTML={content} class='markdown' />
-        }
+          <Block key='a' fs='s' innerHTML={content} class='markdown' />
         </Block>
       </Block>
-      <Block align='start' mx={overview ? 40 : 30} column={!poll && type === 'choice'} onKeypress={{enter: editing && type === 'choice' && attach('choice')}}>
+      <Block align='start' mx={overview ? 40 : 30} column={!poll && type === 'choice'}>
         {
           map(
             (att, i) => <QuestionAttachment
@@ -93,74 +80,19 @@ function render ({props, local, state}) {
               answer={state.answer}
               overview={overview}
               question={object}
-              focusPrevious={focusPrevious}
-              remove={() => onEdit({
-                ...object,
-                attachments: attachments.filter(({_id}) => _id !== att._id)
-            })}
               submit={answer => [
                 state.debouncedSubmit(answer),
                 local(setAnswer)(answer)
               ]}
-              onEdit={newObj => onEdit({
-                ...object,
-                attachments: attachments.map(att => att._id === newObj._id
-                  ? newObj
-                  : att)
-              })}
-              editing={editing}
               object={att}
               poll={poll}
               idx={i} />,
             attachments
           )
         }
-        {
-          !attachments.length && <QuestionTypeMenu attach={attach} />
-        }
-        <Block mt align='start center' hide={!(editing && type === 'choice' && !poll)} wide>
-          <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
-          <Toggle
-            w={350}
-            onChange={e => onEdit({...object, randomize: e.target.checked})}
-            checked={randomize}
-            label='Shuffle choice order' />
-          </Block>
       </Block>
     </Block>
   )
-
-  function attach (type, poll) {
-    return function * () {
-      const id = yield generateObjectId()
-
-      yield onEdit({
-        ...object,
-        poll: poll === undefined ? object.poll : poll,
-        attachments: attachments.concat({
-          _id: id,
-          objectType: type,
-          correctAnswer: []
-        })
-      })
-    }
-  }
-
-  // XXX This is a bit of a hack to give focus to the previous
-  // choice when deleting
-  function focusPrevious (node) {
-    let p = node
-    while ((p = p.parentNode) && p.className.indexOf('question') === -1)
-      ;
-
-    if (p) {
-      const inputs = [].slice.call(p.querySelectorAll('input'))
-      if (inputs.length) {
-        const idx = inputs.indexOf(node)
-        setTimeout(() => inputs[idx - 1].focus())
-      }
-    }
-  }
 }
 
 function IncorrectX ({props}) {

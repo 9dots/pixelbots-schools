@@ -5,8 +5,8 @@
 import BlockInput from 'components/BlockInput'
 import LineInput from 'components/LineInput'
 import {Button} from 'vdux-containers'
-import {Block} from 'vdux-ui'
 import element from 'vdux/element'
+import {Block} from 'vdux-ui'
 
 /**
  * <EditingMedia/>
@@ -33,7 +33,7 @@ function LinkEdit ({props}) {
   )
 }
 
-function FileEdit({props}) {
+function FileEdit ({props}) {
   return (
     <Block column bgColor='off_white' border='1px dashed grey_light' py={40} align='center center' color='grey_medium' pointer>
       <Block fs='m' lighter>
@@ -47,6 +47,7 @@ function FileEdit({props}) {
 
 function Input ({props}) {
   const {object = {}, onEdit, placeholder, ...rest} = props
+
   return (
     <Block align='start stretch' onClick={e => e.stopPropagation()} {...rest}>
       <BlockInput
@@ -55,6 +56,7 @@ function Input ({props}) {
         placeholder={placeholder || 'Enter a url...'}
         borderRightWidth={0}
         inputProps={{py: 8}}
+        autofocus
         lighter
         fs='s'
         mb={0}/>

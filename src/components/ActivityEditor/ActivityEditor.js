@@ -9,10 +9,12 @@ import {setUrl} from 'redux-effects-location'
 import AttachmentMenu from './AttachmentMenu'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {Button} from 'vdux-containers'
 import {Block, Icon, Card} from 'vdux-ui'
+import {Button} from 'vdux-containers'
+import findIndex from '@f/find-index'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
+import index from '@f/index'
 import map from '@f/map'
 
 /**
@@ -35,60 +37,66 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {activity, save, ...rest} = props
+  const {save, ...rest} = props
   const {editing, editedActivity} = state
+  const {attachments} = editedActivity._object[0]
   let idx = 0
-
-  // This allows us to edit a new object before
-  // saving it
-  const origAtt = activity._object[0].attachments
-  const editAtt = editedActivity._object[0].attachments
-  const attachments = origAtt.length < editAtt.length
-    ? [...origAtt, editAtt[editAtt.length - 1]]
-    : origAtt
 
   return (
     <Block>
       <Card w={756} mb={18}>
         <ActivityHeader
           clickableTags
-          activity={activity}
+          activity={editedActivity}
           editable
           editing={editing === 'header'}
-          onEdit={header => local(change)({...activity, ...header})}
+          onEdit={header => local(change)({...editedActivity, ...header})}
           open={() => saveAndOpen('header')} />
         <Block>
           {
-            map((object, i) => <ActivityObject
-              editable
-              onEdit={editObject(i)}
-              activity={activity}
-              object={
-                editing === object._id
-                  ? editedActivity._object[0].attachments[i]
-                  : object
-              }
-              editing={editing === object._id}
-              remove={removeObject(object._id)}
-              open={() => saveAndOpen(object._id)}
-              idx={object.objectType === 'question' ? idx++ : null}
-              {...rest} />, attachments)
+            map((object, i) => (
+              <Block
+                key={object._id}
+                cursor='move'
+                draggable
+                onDragOver={onDragOver(object._id)}
+                onDragStart={local(setDragging, object._id)}
+                onDragEnd={local(setDragging, null)}
+                bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
+                <ActivityObject
+                  editable
+                  hidden={state.dragging === object._id}
+                  onEdit={editObject(i)}
+                  activity={editedActivity}
+                  object={object}
+                  editing={editing === object._id}
+                  remove={removeObject(object._id)}
+                  open={() => saveAndOpen(object._id)}
+                  idx={object.objectType === 'question' ? idx++ : null}
+                  {...rest} />
+              </Block>), attachments)
           }
+          <Block py={attachments.length ? 's' : 0} onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
         </Block>
       </Card>
       <AttachmentMenu attach={attach} startsOpen={!attachments.length} />
     </Block>
   )
 
-  function * saveNow () {
-    if (state.dirty) {
-      yield save(state.editedActivity)
-      yield local(clearDirty)()
+  function onDragOver (id) {
+    return e => {
+      e.preventDefault()
+      if (id === state.dragging) return
+      return insertBefore(state.dragging, id)
     }
   }
 
   function * saveAndOpen (id) {
-    yield saveNow()
+    if (state.dirty) {
+      yield save(state.editedActivity)
+      yield local(clearDirty)()
+    }
+
     yield local(open)(id)
   }
 
@@ -140,6 +148,64 @@ function render ({props, local, state}) {
     })
     yield local(open)(object._id)
   }
+
+  function * insertBefore (src, target) {
+    const attachments = editedActivity._object[0].attachments.slice()
+    const srcIdx = findIndex(attachments, ({_id}) => _id === src)
+    const [obj] = attachments.splice(srcIdx, 1)
+
+    if (target) {
+      const targetIdx = findIndex(attachments, ({_id}) => _id === target)
+      attachments.splice(targetIdx, 0, obj)
+    } else {
+      attachments.push(obj)
+    }
+
+    yield local(change)({
+      ...editedActivity,
+      _object: [{
+        ...editedActivity._object[0],
+        attachments
+      }]
+    })
+  }
+}
+
+/**
+ * onUpdate
+ */
+
+function onUpdate (prev, next) {
+  if (prev.props.activity !== next.props.activity) {
+    const {activity} = next.props
+    const {editedActivity} = next.state
+
+    return next.local(change)({
+      ...editedActivity,
+      _object: [{
+        ...editedActivity._object[0],
+        attachments: map(
+          (att, i) => mergeAttachments(att, activity._object[0].attachments[i]),
+          editedActivity._object[0].attachments
+        )
+      }]
+    })
+  }
+}
+
+const media = ['video', 'image', 'document', 'link']
+function mergeAttachments (edited, saved) {
+  if (media.indexOf(edited.objectType) !== -1) {
+    return {
+      ...saved,
+      originalContent: edited.originalContent
+    }
+  }
+
+  return {
+    ...edited,
+    content: saved.content
+  }
 }
 
 /**
@@ -149,6 +215,7 @@ function render ({props, local, state}) {
 const open = createAction('<ActivityEditor/>: open')
 const change = createAction('<ActivityEditor/>: change')
 const clearDirty = createAction('<ActivityEditor/>: clear dirty')
+const setDragging = createAction('<ActivityEditor/>: set dragging')
 
 /**
  * Reducer
@@ -169,6 +236,10 @@ const reducer = handleActions({
     ...state,
     dirty: true,
     editedActivity
+  }),
+  [setDragging]: (state, dragging) => ({
+    ...state,
+    dragging
   })
 })
 
@@ -190,5 +261,6 @@ export default summon(({activity}) => ({
 }))({
   initialState,
   render,
+  onUpdate,
   reducer
 })
