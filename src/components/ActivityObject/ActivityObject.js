@@ -2,13 +2,13 @@
  * Imports
  */
 
+import {Block as ContainerBlock, Button} from 'vdux-containers'
 import ActivityQuestion from 'components/ActivityQuestion'
 import {getOverviewQuestions} from 'lib/activity-helpers'
 import ActivityMedia from 'components/ActivityMedia'
 import ActivityPost from 'components/ActivityPost'
-import {Block, Button} from 'vdux-containers'
+import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
-import {Icon} from 'vdux-ui'
 
 /**
  * Type map
@@ -43,7 +43,7 @@ function render ({props, state, local}) {
   if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)
 
   return (
-    <Block
+    <ContainerBlock
       pageBreakInside='avoid'
       printProps={{p: 16}}
       bgColor='white'
@@ -63,7 +63,7 @@ function render ({props, state, local}) {
           </Block>
         )
       }
-    </Block>
+    </ContainerBlock>
   )
 }
 
