@@ -35,7 +35,7 @@ function render ({props, local, state}) {
 
   const isTurnedIn = status === statusMap.turnedIn || status === statusMap.graded
   const hideInstance = hideOnTurnIn && isStudent && isTurnedIn
-  const isHidden = hideInstance || !isShown
+  const isHidden = hideInstance || (!isShown && isStudent)
 
   return (
     <Block>
@@ -89,7 +89,7 @@ function render ({props, local, state}) {
           You can see your results after your activity has been returned.
         </Block>
         <Block underline fs='xs' pointer onClick={local(showInstance)} hide={hideInstance}>
-          Click to View Activity
+          Click to View My Activity
         </Block>
       </EmptyState>
     </Block>
