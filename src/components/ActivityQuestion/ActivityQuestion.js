@@ -149,35 +149,6 @@ function getId (str) {
   return arr[arr.length - 1]
 }
 
-function QuestionTypeMenu ({props}) {
-  const {attach} = props
-  const btnProps = {
-    bgColor: 'grey',
-    h: 45,
-    px: 30
-  }
-  return (
-    <Block align='space-around center' wide my>
-      <Button {...btnProps} onClick={attach('choice', true)}>
-        <Icon name='equalizer' fs='s' mr='s' />
-        <Block>Poll</Block>
-      </Button>
-      <Button {...btnProps} onClick={attach('choice', false)}>
-        <Icon name='done_all' fs='s' mr='s' />
-        <Block>Multiple Choice</Block>
-      </Button>
-      <Button {...btnProps} onClick={attach('shortAnswer')}>
-        <Icon name='edit' fs='s' mr='s' />
-        <Block>Short Answer</Block>
-      </Button>
-      <Button {...btnProps} onClick={attach('text')}>
-        <Icon name='message' fs='s' mr='s' />
-        <Block>Free Response</Block>
-      </Button>
-    </Block>
-  )
-}
-
 /**
  * Exports
  */
