@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {wrap, CSSContainer, Button} from 'vdux-containers'
+import {Button} from 'vdux-containers'
 import {generateObjectId} from 'middleware/objectId'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'

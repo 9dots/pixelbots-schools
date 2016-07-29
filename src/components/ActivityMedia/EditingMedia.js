@@ -2,6 +2,7 @@
  * Imports
  */
 
+import ObjectControls from 'components/ObjectControls'
 import BlockInput from 'components/BlockInput'
 import LineInput from 'components/LineInput'
 import {Button} from 'vdux-containers'
@@ -29,18 +30,22 @@ function LinkEdit ({props}) {
   return (
     <Block pt>
       <Input {...props} />
+      <ObjectControls {...props} />
     </Block>
   )
 }
 
 function FileEdit ({props}) {
   return (
-    <Block column bgColor='off_white' border='1px dashed grey_light' py={40} align='center center' color='grey_medium' pointer>
-      <Block fs='m' lighter>
-        Drag File or Click Here
+    <Block>
+      <Block column bgColor='off_white' border='1px dashed grey_light' py={40} align='center center' color='grey_medium' pointer>
+        <Block fs='m' lighter>
+          Drag File or Click Here
+        </Block>
+        <Block mb='xl' mt>or paste a URL below</Block>
+        <Input {...props} w='50%' mx='auto' mb />
       </Block>
-      <Block mb='xl' mt>or paste a URL below</Block>
-      <Input {...props} w='50%' mx='auto' mb />
+      <ObjectControls {...props} />
     </Block>
   )
 }

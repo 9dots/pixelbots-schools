@@ -4,6 +4,7 @@
 
 import QuestionAttachment from 'components/QuestionAttachment'
 import QuestionComments from 'components/QuestionComments'
+import ObjectControls from 'components/ObjectControls'
 import MarkdownHelper from 'components/MarkdownHelper'
 import {generateObjectId} from 'middleware/objectId'
 import LineTextarea from 'components/LineTextarea'
@@ -68,15 +69,21 @@ function render ({props}) {
           isMultipleChoice && (
             <Block mt align='start center' wide>
               <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
-              <Toggle
-                w={350}
-                onChange={e => onEdit({...object, randomize: e.target.checked})}
-                checked={randomize}
-                label='Shuffle choice order' />
             </Block>
           )
         }
       </Block>
+      <ObjectControls {...props}>
+        {
+          isMultipleChoice &&
+            <Toggle
+              onChange={e => onEdit({...object, randomize: e.target.checked})}
+              label='Shuffle Choice Order'
+              checked={randomize}
+              w={370}
+              ml/>
+        }
+      </ObjectControls>
     </Block>
   )
 

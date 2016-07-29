@@ -41,10 +41,11 @@ function render ({props, local, state}) {
   const {editing, editedActivity} = state
   const {attachments} = editedActivity._object[0]
   let idx = 0
+  let target = false
 
   return (
     <Block>
-      <Card w={756} mb={18}>
+      <Card w={756}>
         <ActivityHeader
           clickableTags
           activity={editedActivity}
@@ -57,10 +58,10 @@ function render ({props, local, state}) {
             map((object, i) => (
               <Block
                 key={object._id}
-                cursor='move'
                 draggable
+                onMouseDown={e => {target = e.target}}
+                onDragStart={e => onDragStart(e, object._id)()}
                 onDragOver={onDragOver(object._id)}
-                onDragStart={local(setDragging, object._id)}
                 onDragEnd={local(setDragging, null)}
                 bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
                 <ActivityObject
@@ -76,12 +77,20 @@ function render ({props, local, state}) {
                   {...rest} />
               </Block>), attachments)
           }
-          <Block py={attachments.length ? 's' : 0} onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
         </Block>
       </Card>
+      <Block h={18} onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
       <AttachmentMenu attach={attach} startsOpen={!attachments.length} />
     </Block>
   )
+
+  function onDragStart (e, id) {
+    if(!target.classList.contains('handle')) {
+      e.preventDefault()
+      return local(setDragging, null)
+    }
+    return local(setDragging, id)
+  }
 
   function onDragOver (id) {
     return e => {

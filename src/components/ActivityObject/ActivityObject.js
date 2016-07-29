@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Block as ContainerBlock, Button} from 'vdux-containers'
+import {Button, CSSContainer, wrap} from 'vdux-containers'
 import ActivityQuestion from 'components/ActivityQuestion'
 import {getOverviewQuestions} from 'lib/activity-helpers'
 import ActivityMedia from 'components/ActivityMedia'
@@ -32,40 +32,49 @@ const editingProps = {
  * <ActivityObject/>
  */
 
-function render ({props, state, local}) {
-  const {object, open, editing, editable, remove, onEdit, ...rest} = props
-  const Obj = typeMap[object.objectType]
-  const editableProps = {
-    onClick: open,
-    hoverProps: {bgColor: 'off_white'}
-  }
-
-  if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)
-
+function render ({props}) {
   return (
-    <ContainerBlock
-      pageBreakInside='avoid'
-      printProps={{p: 16}}
-      bgColor='white'
-      p={24}
-      relative
-      {...(editable && !editing ? editableProps : {})}
-      {...(editing ? editingProps : {})}
-      {...rest}>
-      <Obj {...props} />
-      {
-        editing && (
-          <Block p m={-24} mt={36} borderTop='1px solid grey_light' bgColor='off_white' align='end center'>
-            <Button onClick={remove} bgColor='rgba(grey_light, .3)' border='1px solid grey_medium' px h={32}>
-              <Icon fs='s' name='delete' color='text' />
-            </Button>
-            <Button onClick={open} ml='s' px h={32}>Done</Button>
-          </Block>
-        )
-      }
-    </ContainerBlock>
+    <ActObj hoverProps={{hover: true}} {...props} />
   )
 }
+
+const ActObj = wrap(CSSContainer)({
+  render({props}) {
+    const {object, open, editing, editable, onEdit, hover, ...rest} = props
+    const Obj = typeMap[object.objectType]
+    const editableProps = {
+      onClick: open,
+      bgColor: hover ? 'off_white' : 'white'
+    }
+
+    if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)
+    return (
+      <Block
+        pageBreakInside='avoid'
+        printProps={{p: 16}}
+        bgColor='white'
+        p={24}
+        relative
+        {...(editable && !editing ? editableProps : {})}
+        {...(editing ? editingProps : {})}
+        {...rest}>
+        {
+          editable && (editing || hover) &&
+            <Icon
+              absolute={{top: 0, left: 0}}
+              color='grey_medium'
+              name='drag_handle'
+              textAlign='center'
+              class='handle'
+              cursor='move'
+              h={24}
+              wide/>
+        }
+        <Obj key={object._id} {...props} />
+      </Block>
+    )
+  }
+})
 
 /**
  * Exports
