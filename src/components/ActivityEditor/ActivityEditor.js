@@ -204,7 +204,11 @@ function mergeAttachments (edited, saved) {
 
   return {
     ...edited,
-    content: saved.content
+    content: saved.content,
+    attachments: (saved.attachments || []).map((att, i) => ({
+      ...edited.attachments[i],
+      content: att.content
+    }))
   }
 }
 
