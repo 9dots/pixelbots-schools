@@ -180,16 +180,19 @@ function onUpdate (prev, next) {
     const {activity} = next.props
     const {editedActivity} = next.state
 
-    return next.local(change)({
-      ...editedActivity,
-      _object: [{
-        ...editedActivity._object[0],
-        attachments: map(
-          (att, i) => mergeAttachments(att, activity._object[0].attachments[i]),
-          editedActivity._object[0].attachments
-        )
-      }]
-    })
+    return [
+      next.local(change)({
+        ...editedActivity,
+        _object: [{
+          ...editedActivity._object[0],
+          attachments: map(
+            (att, i) => mergeAttachments(att, activity._object[0].attachments[i]),
+            editedActivity._object[0].attachments
+          )
+        }]
+      }),
+      next.local(clearDirty)()
+    ]
   }
 }
 
