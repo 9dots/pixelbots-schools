@@ -135,7 +135,8 @@
   },
   "unv": {
     "modules": "src/",
-    "outFile": "src/server/scripts/weo.js"
+    "outFile": "src/server/scripts/weo.js",
+    "transforms": ["br-cloud-fs"]
   },
   "environment": {
     "base": {
