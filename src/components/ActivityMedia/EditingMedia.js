@@ -6,10 +6,10 @@ import ObjectControls from 'components/ObjectControls'
 import BlockInput from 'components/BlockInput'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {Block, Icon, Input} from 'vdux-ui'
 import DropZone from 'components/DropZone'
 import Figure from 'components/Figure'
 import {Button} from 'vdux-containers'
+import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
 
 /**
@@ -90,15 +90,6 @@ function ChangeFile ({props}) {
         lighter
         fs='m'
         h={215}>
-        <Input
-          absolute={{top: 0, left: 0, bottom: 0, right: 0}}
-          inputProps={{pointer: true}}
-          bgColor='red'
-          opacity={0}
-          type='file'
-          pointer
-          tall
-          />
       </DropZone>
       <ObjectControls {...props}>
         {
@@ -130,7 +121,7 @@ function PreviewImage ({props}) {
   return (
     <Block>
       <Block textAlign={justify}>
-        <Figure w={image.width} {...image} display='inline-block' />
+        <Figure w={image && image.width} {...image} display='inline-block' />
       </Block>
       <ObjectControls {...props}>
         <Block align='start center'>
@@ -165,24 +156,35 @@ function AlignIcon ({props}) {
  */
 
 function MediaInput ({props}) {
-  const {object = {}, onEdit, placeholder, ...rest} = props
-  let value
+  const {object = {}, onEdit, placeholder, save, toggle, open, ...rest} = props
+  // let value
   return (
     <Block align='start stretch' onClick={e => e.stopPropagation()} {...rest}>
       <BlockInput
         placeholder={placeholder || 'Enter a url...'}
-        onInput={e => {value = e.target.value}}
+        // onInput={e => {value = e.target.value}}
         borderRightWidth={0}
         inputProps={{py: 8}}
+        onInput={e => onEdit({...object, originalContent: e.target.value})}
         autofocus
         lighter
         fs='s'
         mb={0}/>
-      <Button borderRadius='0' onClick={() => onEdit({...object, originalContent: value || object.originalContent})}>
+      <Button borderRadius='0' onClick={() => edit()}>
         Submit
       </Button>
     </Block>
   )
+
+  function * edit() {
+    if(object.objectType === 'image') {
+      yield save()
+      yield toggle()
+    } else {
+      yield open()
+    }
+  }
+
 }
 
 /**

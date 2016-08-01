@@ -72,6 +72,7 @@ function render ({props, local, state}) {
                   object={object}
                   editing={editing === object._id}
                   remove={removeObject(object._id)}
+                  save={() => saveNow()}
                   open={() => saveAndOpen(object._id)}
                   idx={object.objectType === 'question' ? idx++ : null}
                   {...rest} />
@@ -99,12 +100,15 @@ function render ({props, local, state}) {
     }
   }
 
-  function * saveAndOpen (id) {
+  function * saveNow () {
     if (state.dirty) {
       yield save(state.editedActivity)
       yield local(clearDirty)()
     }
+  }
 
+  function * saveAndOpen (id) {
+    yield saveNow()
     yield local(open)(id)
   }
 
