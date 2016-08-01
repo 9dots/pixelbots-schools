@@ -60,7 +60,7 @@ function render ({props, local, state}) {
                 key={object._id}
                 draggable
                 onMouseDown={e => {target = e.target}}
-                onDragStart={e => onDragStart(e, object._id)()}
+                onDragStart={e => onDragStart(e, object._id)}
                 onDragOver={onDragOver(object._id)}
                 onDragEnd={local(setDragging, null)}
                 bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
@@ -85,11 +85,10 @@ function render ({props, local, state}) {
   )
 
   function onDragStart (e, id) {
-    if(!target.classList.contains('handle')) {
+    if(!target.classList.contains('handle'))
       e.preventDefault()
-      return local(setDragging, null)
-    }
-    return local(setDragging, id)
+    else
+      return local(setDragging, id)()
   }
 
   function onDragOver (id) {

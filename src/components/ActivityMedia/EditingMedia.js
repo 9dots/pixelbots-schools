@@ -4,10 +4,13 @@
 
 import ObjectControls from 'components/ObjectControls'
 import BlockInput from 'components/BlockInput'
-import LineInput from 'components/LineInput'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
+import {Block, Icon, Input} from 'vdux-ui'
+import DropZone from 'components/DropZone'
+import Figure from 'components/Figure'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
-import {Block} from 'vdux-ui'
 
 /**
  * <EditingMedia/>
@@ -20,52 +23,162 @@ function render ({props}) {
     case 'video':
       return <LinkEdit {...props} />
     case 'document':
-      return <FileEdit {...props} />
+      return <ChangeFile {...props} />
     case 'image':
-      return <FileEdit {...props} />
+      return <ImageEdit {...props} />
   }
 }
 
+/**
+ * Link / Video
+ */
+
 function LinkEdit ({props}) {
   return (
-    <Block pt>
-      <Input {...props} />
+    <Block>
+      <MediaInput mt={20} w='70%' mx='auto' {...props} />
       <ObjectControls {...props} />
     </Block>
   )
 }
 
-function FileEdit ({props}) {
+/**
+ * Image / Document
+ */
+
+const toggleEdit = createAction('<ImageEdit/>: toggleEdit')
+
+const ImageEdit = {
+  initialState ({props, state}) {
+    return {
+      editMode: props.object && props.object.image
+    }
+  },
+  render ({props, state, local}) {
+    return (
+      state.editMode
+        ? <PreviewImage toggle={local(toggleEdit)} {...props} />
+        : <ChangeFile toggle={local(toggleEdit)} {...props} />
+    )
+  },
+  reducer: handleActions({
+    [toggleEdit]: state => ({
+      ...state,
+      editMode: !state.editMode
+    })
+  })
+}
+
+function ChangeFile ({props}) {
+  const {object = {}, toggle} = props
   return (
     <Block>
-      <Block column bgColor='off_white' border='1px dashed grey_light' py={40} align='center center' color='grey_medium' pointer>
-        <Block fs='m' lighter>
-          Drag File or Click Here
-        </Block>
-        <Block mb='xl' mt>or paste a URL below</Block>
-        <Input {...props} w='50%' mx='auto' mb />
-      </Block>
-      <ObjectControls {...props} />
+      <DropZone
+        dragonProps={{
+          bgColor: 'rgba(blue, .1)',
+          color: 'blue_medium',
+          message: 'Drop File',
+          border: '1px solid rgba(blue, .4)',
+          boxShadow: '0 0 1px rgba(blue, .7)'
+        }}
+        message={<Upload {...props}/>}
+        border='1px dashed grey_light'
+        align='center center'
+        color='grey_medium'
+        bgColor='off_white'
+        relative
+        lighter
+        fs='m'
+        h={215}>
+        <Input
+          absolute={{top: 0, left: 0, bottom: 0, right: 0}}
+          inputProps={{pointer: true}}
+          bgColor='red'
+          opacity={0}
+          type='file'
+          pointer
+          tall
+          />
+      </DropZone>
+      <ObjectControls {...props}>
+        {
+          object.image && object.objectType === 'image' &&
+          <Button bgColor='grey' onClick={toggle}>
+            Back
+          </Button>
+        }
+      </ObjectControls>
     </Block>
   )
 }
 
-function Input ({props}) {
-  const {object = {}, onEdit, placeholder, ...rest} = props
+function Upload({props}) {
+  return (
+    <Block flex textAlign='center'>
+      Drag File or Click Here
+      <Block mb='xl' fs='xs' fw='normal' mt>
+        or paste a URL below
+      </Block>
+      <MediaInput relative z={1} {...props} w='50%' mx='auto' />
+    </Block>
+  )
+}
 
+function PreviewImage ({props}) {
+  const {object, toggle} = props
+  const {image, justify} = object
+  return (
+    <Block>
+      <Block textAlign={justify}>
+        <Figure w={image.width} {...image} display='inline-block' />
+      </Block>
+      <ObjectControls {...props}>
+        <Block align='start center'>
+          <Button px bgColor='grey' mr='l' onClick={toggle}>
+            Change Image
+          </Button>
+          <AlignIcon {...props} justify='left' />
+          <AlignIcon {...props} justify='center' mx />
+          <AlignIcon {...props} justify='right' />
+        </Block>
+      </ObjectControls>
+    </Block>
+  )
+}
+
+function AlignIcon ({props}) {
+  const {justify, object, onEdit, ...rest} = props
+
+  return (
+    <Button
+      onClick={() => onEdit({...object, justify})}
+      hoverProps={{color: 'text'}}
+      color={justify === (object.justify || 'left') ? 'text' : 'grey_medium'}
+      icon={`format_align_${justify}`}
+      fs={24}
+      {...rest} />
+  )
+}
+
+/**
+ * Block Input
+ */
+
+function MediaInput ({props}) {
+  const {object = {}, onEdit, placeholder, ...rest} = props
+  let value
   return (
     <Block align='start stretch' onClick={e => e.stopPropagation()} {...rest}>
       <BlockInput
-        onInput={e => onEdit({...object, originalContent: e.target.value})}
-        defaultValue={object.originalContent}
         placeholder={placeholder || 'Enter a url...'}
+        onInput={e => {value = e.target.value}}
         borderRightWidth={0}
         inputProps={{py: 8}}
         autofocus
         lighter
         fs='s'
         mb={0}/>
-      <Button borderRadius='0'>
+      <Button borderRadius='0' onClick={() => onEdit({...object, originalContent: value || object.originalContent})}>
         Submit
       </Button>
     </Block>

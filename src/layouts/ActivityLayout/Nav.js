@@ -24,7 +24,7 @@ import Link from 'components/Link'
 function render({props, local, state}) {
   const {
     activity, user, isPublic, isInstance, instance,
-    progress, overview, preview, discussion, isEdit
+    progress, overview, preview, discussion, isEdit, isOwner
   } = props
   const {_id: id, displayName} = activity
   const {locallyLiked} = state
@@ -77,7 +77,7 @@ function render({props, local, state}) {
               text='Pin'/>
             <ActivityDropdownMenu
               reassign={!isInstance && !isPublic}
-              hide={user.userType === 'student'}
+              hide={user.userType === 'student' || !isOwner}
               activity={activity}/>
           </Flex>
         </Block>

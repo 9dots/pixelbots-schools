@@ -40,6 +40,7 @@ function internal (props, children) {
   const {shareType, discussion} = value
   const isPublic = classId === 'public'
   const isClass = !isInstance && !isPublic
+  const isOwner = currentUser._id === value.actor.id
 
   const nav = currentUser.userType === 'student'
     ? {instance: discussion, discussion}
@@ -51,7 +52,7 @@ function internal (props, children) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isOwner={isOwner} isEdit={isEdit} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,

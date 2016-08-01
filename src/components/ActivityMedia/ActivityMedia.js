@@ -35,10 +35,17 @@ function render ({props}) {
 function LinkObject ({props}) {
   const {object, ...rest} = props
   const {description, embed = {}, image = {}, displayName} = object
+  const linkProps ={
+    onClick: e => e.stopPropagation(),
+    href: embed.url,
+    target: '_blank',
+    hoverProps: {textDecoration: 'underline'}
+
+  }
 
   return (
     <Block align='start center' bgColor='#fbfbfb' border='1px solid rgba(52, 52, 52, 0.08)' h={120} {...rest}>
-      <Block minWidth={118} tall relative hide={!image.url}>
+      <Link {...linkProps} minWidth={118} tall relative hide={!image.url} bgColor='white' borderRight='1px solid rgba(grey_light, .5)'>
         <Block
           tag='img'
           maxWidth='100%'
@@ -46,17 +53,17 @@ function LinkObject ({props}) {
           absolute={{top: 0, right: 0, bottom: 0, left: 0}}
           m='auto'
           src={image.url} />
-      </Block>
-      <Block column ml>
+      </Link>
+      <Block column p>
         <Block column mb fs='xxs'>
-          <Link href={embed.url} display='block' hoverProps={{textDecoration: 'underline'}} color='blue' fs='s' fw={100}>
+          <Link color='blue' fs='s' fw={200} {...linkProps}>
             {displayName}
           </Link>
-          <Link color='rgb(153, 153, 153)' href={embed.url} hoverProps={{textDecoration: 'underline'}}>
+          <Link color='rgb(153, 153, 153)' {...linkProps}>
             {embed.url}
           </Link>
         </Block>
-        <Block>{description}</Block>
+        <Block lighter>{description}</Block>
       </Block>
     </Block>
   )
@@ -172,10 +179,13 @@ function Document ({props}) {
 }
 
 function Image ({props}) {
-  const {object: {image = {}}, ...rest} = props
+  const {object, ...rest} = props
+  const {image = {}, justify} = object
 
   return (
-    <Figure {...image} w={image.width} {...rest} />
+    <Block textAlign={justify}>
+      <Figure {...image} w={image.width} {...rest} display='inline-block' />
+    </Block>
   )
 }
 
