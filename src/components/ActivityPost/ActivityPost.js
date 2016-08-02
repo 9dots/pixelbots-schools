@@ -5,7 +5,6 @@
 import ObjectControls from 'components/ObjectControls'
 import MarkdownHelper from 'components/MarkdownHelper'
 import LineTextarea from 'components/LineTextarea'
-import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
 
@@ -25,7 +24,6 @@ function render ({props}) {
         fw='100'
         lh='1.5em'
         class='markdown'
-        textAlign={object.justify}
         innerHTML={object.content} />
     </Block>
   )
@@ -47,35 +45,16 @@ function EditablePost ({props}) {
             autofocus
             fs='s'
             lighter
-            textAlign={object.justify}
             onInput={e => onEdit({...object, originalContent: e.target.value})}
             defaultValue={originalContent} />
         </Block>
-        <Block alignSelf='baseline' ml='s'>
+        <Block alignSelf='baseline'>
           <MarkdownHelper mt={8} menuProps={{mr: -12}} />
         </Block>
       </Block>
-      <ObjectControls {...props}>
-        <AlignIcon {...props} justify='left' />
-        <AlignIcon {...props} justify='center' mx />
-        <AlignIcon {...props} justify='right' />
-      </ObjectControls>
+      <ObjectControls {...props} />
     </Block>
 
-  )
-}
-
-function AlignIcon ({props}) {
-  const {justify, object, onEdit, ...rest} = props
-
-  return (
-    <Button
-      onClick={() => onEdit({...object, justify})}
-      hoverProps={{color: 'text'}}
-      color={justify === (object.justify || 'left') ? 'text' : 'grey_medium'}
-      icon={`format_align_${justify}`}
-      fs={24}
-      {...rest} />
   )
 }
 

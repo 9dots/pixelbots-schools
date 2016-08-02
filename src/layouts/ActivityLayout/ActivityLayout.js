@@ -17,7 +17,7 @@ import Nav from  './Nav'
 
 function render ({props, children}) {
   return (
-    <Block class='app'>
+    <Block class='app' pb='60vh'>
       { internal(props, children) }
     </Block>
   )
