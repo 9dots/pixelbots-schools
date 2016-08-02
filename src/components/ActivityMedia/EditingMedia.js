@@ -95,7 +95,7 @@ function ChangeFile ({props}) {
         {
           object.image && object.objectType === 'image' &&
           <Button bgColor='grey' onClick={toggle}>
-            Back
+            Cancel
           </Button>
         }
       </ObjectControls>
