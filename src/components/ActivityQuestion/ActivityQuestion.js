@@ -36,8 +36,7 @@ function render ({props, local, state}) {
 
   const {
     activity, overview, object, idx, answerable, showAnswers,
-    comments, showIncorrect, showComments, commentsId, currentUser, onEdit,
-    ...rest
+    comments, showIncorrect, showComments, commentsId, currentUser, onEdit, ...rest
   } = props
   const {poll, attachments = [], points, id, content, randomize} = object
 

@@ -32,11 +32,10 @@ function render ({props, children, local, state}) {
       onDragEnter={[stop, local(over), onDragEnter]}
       onDragLeave={[stop, local(leave), onDragLeave]}
       onDrop={[stop, local(leave), onDrop]}>
-      {children}
-
       <Block wide tall align='center center' hide={uploading}>
         {message}
       </Block>
+      {children}
     </Block>
   )
 }

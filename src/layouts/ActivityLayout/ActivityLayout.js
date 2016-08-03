@@ -18,7 +18,7 @@ import Nav from  './Nav'
 
 function render ({props, children}) {
   return (
-    <Block class='app'>
+    <Block class='app' pb='60vh'>
       { internal(props, children) }
     </Block>
   )
@@ -41,6 +41,7 @@ function internal (props, children) {
   const {shareType, discussion} = value
   const isPublic = classId === 'public'
   const isClass = !isInstance && !isPublic
+  const isOwner = currentUser._id === value.actor.id
 
   const nav = currentUser.userType === 'student'
     ? {instance: discussion, discussion}
@@ -52,7 +53,7 @@ function internal (props, children) {
     }
 
   return [
-    <Nav back={backBtn} activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,
@@ -65,7 +66,17 @@ function internal (props, children) {
   ]
 
   function backBtn () {
-    return back()
+    return history.state && history.state.canExit
+      ? back()
+      : setUrl(escapeUrl())
+  }
+
+  function escapeUrl () {
+    return value.contexts[0].descriptor.id !== 'public'
+      ? '/class/' + value.contexts[0].descriptor.id
+      : value.actor.id === currentUser._id
+        ? '/activities/' + value.contexts[1].descriptor.id
+        : `/${value.actor.username}/board/${value.contexts[1].descriptor.id}/activities`
   }
 }
 

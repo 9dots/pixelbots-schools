@@ -299,11 +299,13 @@ function isAuthorized (type, {currentUser}) {
  * onUpdate
  */
 
+const activityRe = /^\/activity\//
+
 function * onUpdate (prev, next) {
   if (prev.props.url !== next.props.url) {
-    // if (!prev.props.url.test(^/activity/) && next.props.url.test(^/activity/)) {
-    //   yield () => history.state.replaceState({depth: 1}, '', next.props.url)
-    // }
+    if (prev.props.url && !activityRe.test(prev.props.url) && activityRe.test(next.props.url)) {
+      yield () => history.replaceState({canExit: true}, '', next.props.url)
+    }
 
     yield () => document.body.scrollTop = 0
   }
