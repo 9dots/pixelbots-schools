@@ -63,7 +63,7 @@ function render ({props}) {
         <ActivityBadge hide={!isInstance} status={status} userType={isStudent ? 'student' : 'teacher'} text={false} absolute top right />
       </Card>
       <Card hide={!questions.length}>
-        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' ellipsis boxShadow='0 2px 1px rgba(75,82,87,0.1)' relative z='2'>
+        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' ellipsis boxShadow='0 1px 1px rgba(75,82,87,0.08)' relative z='2'>
           {score} / {totalPoints(activity)}
         </Block>
         <Block maxHeight='calc(100vh - 347px)' overflow='auto' borderBottom='1px solid grey_light'>
@@ -79,7 +79,7 @@ function render ({props}) {
               showScore={showScores} />)
           }
         </Block>
-        <Block p boxShadow='0 -2px 1px rgba(75,82,87,0.1)' relative z='2'>
+        <Block p boxShadow='0 -2px 1px rgba(75,82,87,0.08)' relative z='2'>
           {
             isInstance &&
               <SidebarActions

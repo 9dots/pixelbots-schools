@@ -18,7 +18,7 @@ function render ({props, children}) {
         {children}
       </Block>
       <Block align='end center'>
-        <Button onClick={remove} bgColor='rgba(grey_light, .3)' border='1px solid grey_medium' px h={32}>
+        <Button onClick={remove} bgColor='off_white' border='1px solid grey_medium' px h={32} hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>
           <Icon fs='s' name='delete' color='text' />
         </Button>
         <Button onClick={open} ml='s' px h={32}>Done</Button>

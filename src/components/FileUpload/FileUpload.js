@@ -53,7 +53,7 @@ function render ({props, state, local}) {
       <Base
         tall wide
         onChange={upload}
-        tag='input' type='file' opacity='0' absolute pointer />
+        tag='input' type='file' opacity='0' absolute top left pointer />
     </DropZone>
   )
 

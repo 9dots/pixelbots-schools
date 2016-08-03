@@ -7,9 +7,9 @@ import BlockInput from 'components/BlockInput'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import DropZone from 'components/DropZone'
+import {Block, Icon, Base} from 'vdux-ui'
 import Figure from 'components/Figure'
 import {Button} from 'vdux-containers'
-import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
 
 /**
@@ -90,6 +90,14 @@ function ChangeFile ({props}) {
         lighter
         fs='m'
         h={215}>
+        <Base
+          absolute={{top: 0, left: 0}}
+          // onChange={upload}
+          type='file'
+          opacity='0'
+          tag='input'
+          sq='100%'
+          pointer />
       </DropZone>
       <ObjectControls {...props}>
         {
