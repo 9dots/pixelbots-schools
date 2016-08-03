@@ -18,8 +18,8 @@ import url from './url'
 const reducer = combineReducers({
   app: combineReducers({
     ready,
-    url,
     auth,
+    url,
     modal,
     toast,
     media,

@@ -9,7 +9,6 @@ import {Block, Fixed, Flex, Text} from 'vdux-ui'
 import LikeButton from 'components/LikeButton'
 import handleActions from '@f/handle-actions'
 import PinButton from 'components/PinButton'
-import {back} from 'redux-effects-location'
 import createAction from '@f/create-action'
 import EditDropdown from './EditDropdown'
 import {Button} from 'vdux-containers'
@@ -24,7 +23,8 @@ import Link from 'components/Link'
 function render({props, local, state}) {
   const {
     activity, user, isPublic, isInstance, instance,
-    progress, overview, preview, discussion, isEdit
+    progress, overview, preview, discussion, isEdit,
+    back
   } = props
   const {_id: id, displayName} = activity
   const {locallyLiked} = state
@@ -92,7 +92,7 @@ function render({props, local, state}) {
           </Block>
         </Block>
       </Fixed>
-      <Block pt={53} hidden mb/>
+      <Block pt={53} hidden mb />
     </Block>
   )
 }

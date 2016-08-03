@@ -295,6 +295,24 @@ function isAuthorized (type, {currentUser}) {
   }
 }
 
+/**
+ * onUpdate
+ */
+
+function * onUpdate (prev, next) {
+  if (prev.props.url !== next.props.url) {
+    // if (!prev.props.url.test(^/activity/) && next.props.url.test(^/activity/)) {
+    //   yield () => history.state.replaceState({depth: 1}, '', next.props.url)
+    // }
+
+    yield () => document.body.scrollTop = 0
+  }
+}
+
+/**
+ * Helpers
+ */
+
 function isTeacher (state) {
   return state.currentUser.userType === 'teacher'
 }
@@ -335,9 +353,5 @@ function activityRedirect ({published, contexts, _id}, {currentUser}) {
 
 export default {
   render,
-  onUpdate: function (prev, next) {
-   if (prev.props.url !== next.props.url) {
-     return () => document.body.scrollTop = 0
-   }
- }
+  onUpdate
 }

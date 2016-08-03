@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {back, setUrl} from 'redux-effects-location'
 import PageTitle from 'components/PageTitle'
 import FourOhFour from 'pages/FourOhFour'
 import {invalidate} from 'vdux-summon'
@@ -51,7 +52,7 @@ function internal (props, children) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} {...nav} />,
+    <Nav back={backBtn} activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,
@@ -62,6 +63,10 @@ function internal (props, children) {
       settingStatus
     }, children)
   ]
+
+  function backBtn () {
+    return back()
+  }
 }
 
 /**
