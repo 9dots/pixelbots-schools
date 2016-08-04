@@ -4,6 +4,7 @@
 
 import DeleteActivityModal from 'modals/DeleteActivityModal'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
+import {setUrl, back} from 'redux-effects-location'
 import {toast, hideToast} from 'reducer/toast'
 import AssignModal from 'modals/AssignModal'
 import {Block, Icon, Toast} from 'vdux-ui'
@@ -24,7 +25,7 @@ function render({props}) {
   return (
     <Block align='start center' {...rest}>
       <Button
-        onClick={() => openModal(() => <AssignModal activity={activity} />)}
+        onClick={() => openModal(() => <AssignModal redirect  activity={activity} />)}
         borderRadius='99px 0 0 99px'
         text='Assign To Class'
         bgColor='green'
@@ -39,7 +40,7 @@ function render({props}) {
         }
         w={160}>
         <Item
-          onClick={() => openModal(() => <PinModal activity={activity} />)}
+          onClick={() => openModal(() => <PinModal redirect activity={activity} />)}
           weoIcon='pin'
           text='Pin to Board'
           color='blue' />
@@ -59,6 +60,9 @@ function render({props}) {
 
   function * draft () {
     yield saveDraft()
+    yield history.state && history.state.canExit
+      ? back()
+      : setUrl('/activities/drafts')
     yield toast(
       <Toast key='a'>
         <Block align='space-between center'>

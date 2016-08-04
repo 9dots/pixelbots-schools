@@ -6,7 +6,7 @@ import {Toast, Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Flex} fr
 import ActivityTileModaled from 'components/ActivityTileModaled'
 import {Button, Input, form} from 'vdux-containers'
 import {toast, hideToast} from 'reducer/toast'
-import {setUrl} from 'redux-effects-location'
+import {setUrl, back} from 'redux-effects-location'
 import {closeModal} from 'reducer/modal'
 import ClassSelect from './ClassSelect'
 import Link from 'components/Link'
@@ -80,7 +80,7 @@ export default summon(props => ({
     }
   })
 }))(
-  form(({activity, copyActivity, assign, classes}) => ({
+  form(({activity, copyActivity, assign, classes, redirect}) => ({
     fields: ['selected'],
     onSubmit: function *({selected, ...rest}) {
       const chosen = classes.value.items.filter(cls => selected.indexOf(cls._id) !== -1)
@@ -95,6 +95,13 @@ export default summon(props => ({
       })
 
       yield closeModal()
+
+      if(redirect) {
+        yield history.state && history.state.canExit
+          ? back()
+          : setUrl(`/class/${chosen[0]._id}`)
+      }
+
       yield toast(
         <Toast key='a' onDismiss={hideToast}>
           {
