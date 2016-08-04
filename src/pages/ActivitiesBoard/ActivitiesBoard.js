@@ -57,7 +57,7 @@ function EmptyBoard({props}) {
  */
 
 export default summonChannels(
-  props => `group!${props.boardId}.board`
+  props => `group!${props.boardId}.board`, {}, 'updatedAt'
 )({
   render
 })

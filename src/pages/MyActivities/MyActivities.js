@@ -56,7 +56,7 @@ function EmptyBoard({props}) {
 export default summonChannels(({currentUser}) =>
   currentUser.groups
     .filter(group => group.groupType === 'board')
-    .map(board => `group!${board.id}.board`)
+    .map(board => `group!${board.id}.board`), {}, 'updatedAt'
 )({
   render
 })

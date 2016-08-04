@@ -8,14 +8,14 @@ import summon from 'vdux-summon'
  * Summon channels
  */
 
-function summonChannels (fn, extras = {}) {
+function summonChannels (fn, extras = {}, sort) {
   return summon(props => ({
     activities: {
       url: fn(props) && `/share?${
         normalizeChannels(fn(props))
           .map(ch => `channel=${ch}`)
           .join('&')
-      }&maxResults=30`,
+      }&maxResults=30${sort ? '&sort=' + sort : ''}`,
       subscribe: 'activity_feed'
     },
     more: pageToken => ({

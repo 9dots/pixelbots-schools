@@ -23,7 +23,7 @@ function render ({props}) {
  * <EmptyTrash/> - Trash empty state
  */
 
-function EmptyTrash() {
+function EmptyTrash () {
   return (
     <EmptyState ui={Flex} column align='center center' bg='#E4E5E7' border='1px solid #D8DADD' icon='delete' color='red' w='auto' minHeight='400px'>
       <Block fs='m' my='l'>Your trash is empty.</Block>
@@ -36,7 +36,7 @@ function EmptyTrash() {
  */
 
 export default summonChannels(
-  props => `user!${props.currentUser._id}.trash`
+  props => `user!${props.currentUser._id}.trash`, {}, 'updatedAt'
 )({
   render
 })
