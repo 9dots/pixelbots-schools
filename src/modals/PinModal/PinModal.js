@@ -46,18 +46,19 @@ function render ({props}) {
     </Modal>
   )
 
-  function *doPin ({_id, displayName, originalDescription}) {
+  function *doPin (board) {
+    const {displayName, originalDescription} = activity
     const model = {
       displayName: fields.displayName.value === undefined ? displayName : fields.displayName.value,
       originalDescription: fields.originalDescription.value === undefined ? originalDescription : fields.originalDescription.value
     }
-    const url = `/activities/${_id}`
+    const url = `/activities/${board._id}`
 
     if (activity.published) {
       const copy = yield copyActivity(activity._id)
-      yield pin(_id, copy._id, model)
+      yield pin(board._id, copy._id, model)
     } else {
-      yield pin(_id, activity._id, model)
+      yield pin(board._id, activity._id, model)
     }
 
     yield closeModal()

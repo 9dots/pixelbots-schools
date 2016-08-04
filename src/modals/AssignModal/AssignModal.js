@@ -85,8 +85,8 @@ export default summon(props => ({
     onSubmit: function *({selected, ...rest}) {
       const chosen = classes.value.items.filter(cls => selected.indexOf(cls._id) !== -1)
 
-      yield chosen.map(function *({_id}) {
-        if (activity.published) {
+      yield chosen.map(function *({_id}, i) {
+        if (activity.published || i > 0) {
           const copy = yield copyActivity(activity._id)
           yield assign(_id, copy._id, rest)
         } else {
