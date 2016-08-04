@@ -2,12 +2,12 @@
  * Imports
  */
 
+import {Block, Icon, Image as UiImage} from 'vdux-ui'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import EditingMedia from './EditingMedia'
 import Loading from 'components/Loading'
 import Figure from 'components/Figure'
-import {Block, Icon, Image as UiImage} from 'vdux-ui'
 import Link from 'components/Link'
 import element from 'vdux/element'
 
@@ -151,9 +151,17 @@ const Video = {
 }
 
 function Document ({props}) {
-  const {object, ...rest} = props
+  const {object, editable, ...rest} = props
   const {content, embed = {}} = object
   const {url} = embed
+  const linkProps = {
+    hoverProps: {opacity: .8},
+    align: 'start center',
+    target: '_blank',
+    pointer: true,
+    color: 'blue',
+    fs: 'xs'
+  }
 
   return (
     <Block {...rest}>
@@ -163,17 +171,16 @@ function Document ({props}) {
         pb='123%'
         w='100%'
         relative
-        mb='s'
         h={0} />
-      <Link
-        hoverProps={{underline: true}}
-        target='_blank'
-        color='blue'
-        href={url}
-        fs={12}
-        pointer>
-        View File
-      </Link>
+      <Block align='start center' mt>
+        <Link onClick={e => e.stopPropagation()} href={url} {...linkProps}>
+          <Icon name='open_in_new' mr='xs' fs='inherit' />
+          View File
+        </Link>
+        <Link ml {...linkProps} hide={!editable}>
+          <Icon name='edit' mr='xs' fs='inherit' />Edit File
+        </Link>
+      </Block>
     </Block>
   )
 }

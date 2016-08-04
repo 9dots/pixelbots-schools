@@ -1,0 +1,5 @@
+{
+  "name": "MediaModal",
+  "main": "MediaModal.js",
+  "browser": "MediaModal.js"
+}
