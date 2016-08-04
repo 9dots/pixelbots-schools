@@ -6,6 +6,8 @@ import {wrap, CSSContainer, Button} from 'vdux-containers'
 import {generateObjectId} from 'middleware/objectId'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import MediaModal from 'modals/MediaModal'
+import {openModal} from 'reducer/modal'
 import {Icon, Block} from 'vdux-ui'
 import element from 'vdux/element'
 
@@ -29,10 +31,10 @@ function render ({props, state, local}) {
   const menu = [
     <Close onClick={local(toggle)} absolute='top -10px right -10px' hide={startsOpen} />,
     <AttachButton onClick={createAndAttach('question')} icon='help' color='red' text='Question' hoverProps={{hover: true}} />,
-    <AttachButton onClick={createAndAttach('video')} icon='videocam' color='yellow' text='Video' hoverProps={{hover: true}} />,
-    <AttachButton onClick={createAndAttach('link')} icon='link' color='blue' text='Link' hoverProps={{hover: true}} />,
-    <AttachButton onClick={createAndAttach('image')} icon='camera_alt' color='green' text='Image' hoverProps={{hover: true}} />,
-    <AttachButton onClick={createAndAttach('document')} icon='insert_drive_file' color='red' text='Document' hoverProps={{hover: true}} />,
+    <AttachButton onClick={attachMedia('video')} icon='videocam' color='yellow' text='Video' hoverProps={{hover: true}} />,
+    <AttachButton onClick={attachMedia('link')} icon='link' color='blue' text='Link' hoverProps={{hover: true}} />,
+    <AttachButton onClick={attachMedia('image')} icon='camera_alt' color='green' text='Image' hoverProps={{hover: true}} />,
+    <AttachButton onClick={attachMedia('document')} icon='insert_drive_file' color='red' text='Document' hoverProps={{hover: true}} />,
     <AttachButton onClick={createAndAttach('post')} icon='subject' color='text' text='Text' hoverProps={{hover: true}} />
   ]
 
@@ -47,6 +49,10 @@ function render ({props, state, local}) {
       }
     </Block>
   )
+
+  function attachMedia(type) {
+    return () => openModal(() => <MediaModal object={{objectType: type}}/>)
+  }
 
   function createAndAttach (type) {
     return function * () {

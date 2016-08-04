@@ -18,7 +18,7 @@ function render ({props}) {
   if(overview) return <ShortAnswerOverview {...props} />
 
   return (
-    <Block relative>
+    <Block relative w='30%'>
       <LineInput
         onInput={e => submit(e.target.value)}
         defaultValue={answer[0] || ''}
