@@ -26,9 +26,7 @@ function initialState ({props}) {
 
   return {
     editedActivity: activity,
-    editing: activity._object[0].attachments.length
-      ? undefined
-      : 'header'
+    editing: 'header'
   }
 }
 
