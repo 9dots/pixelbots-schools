@@ -295,6 +295,26 @@ function isAuthorized (type, {currentUser}) {
   }
 }
 
+/**
+ * onUpdate
+ */
+
+const activityRe = /^\/activity\//
+
+function * onUpdate (prev, next) {
+  if (prev.props.url !== next.props.url) {
+    if (prev.props.url && !activityRe.test(prev.props.url) && activityRe.test(next.props.url)) {
+      yield () => history.replaceState({canExit: true}, '', next.props.url)
+    }
+
+    yield () => document.body.scrollTop = 0
+  }
+}
+
+/**
+ * Helpers
+ */
+
 function isTeacher (state) {
   return state.currentUser.userType === 'teacher'
 }
@@ -335,9 +355,5 @@ function activityRedirect ({published, contexts, _id}, {currentUser}) {
 
 export default {
   render,
-  onUpdate: function (prev, next) {
-   if (prev.props.url !== next.props.url) {
-     return () => document.body.scrollTop = 0
-   }
- }
+  onUpdate
 }

@@ -2,8 +2,11 @@
  * Imports
  */
 
+import DiscardDraftModal from 'modals/DiscardDraftModal'
+import {back, setUrl} from 'redux-effects-location'
 import PageTitle from 'components/PageTitle'
 import FourOhFour from 'pages/FourOhFour'
+import {openModal} from 'reducer/modal'
 import {invalidate} from 'vdux-summon'
 import maybeOver from '@f/maybe-over'
 import element from 'vdux/element'
@@ -53,7 +56,7 @@ function internal (props, children) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isOwner={isOwner} isEdit={isEdit} isNew={isNew} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,
@@ -64,6 +67,24 @@ function internal (props, children) {
       settingStatus
     }, children)
   ]
+
+  function backBtn () {
+    const canExit = history.state && history.state.canExit
+    if(isNew) {
+      return openModal(() => <DiscardDraftModal onAccept={() =>canExit ? back() : setUrl('/feed')} activity={value} />)
+    } else {
+      return canExit ? back() : setUrl(escapeUrl())
+    }
+
+  }
+
+  function escapeUrl () {
+    return value.contexts[0].descriptor.id !== 'public'
+      ? '/class/' + value.contexts[0].descriptor.id
+      : value.actor.id === currentUser._id
+        ? '/activities/' + value.contexts[1].descriptor.id
+        : `/${value.actor.username}/board/${value.contexts[1].descriptor.id}/activities`
+  }
 }
 
 /**

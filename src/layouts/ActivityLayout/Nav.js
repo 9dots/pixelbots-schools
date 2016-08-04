@@ -3,17 +3,14 @@
  */
 
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
-import DiscardDraftModal from 'modals/DiscardDraftModal'
 import AssignButton from 'components/AssignButton'
 import DeleteButton from 'components/DeleteButton'
 import {Block, Fixed, Flex, Text} from 'vdux-ui'
 import LikeButton from 'components/LikeButton'
 import handleActions from '@f/handle-actions'
 import PinButton from 'components/PinButton'
-import {back} from 'redux-effects-location'
 import createAction from '@f/create-action'
 import EditDropdown from './EditDropdown'
-import {openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import Link from 'components/Link'
@@ -26,8 +23,8 @@ import Link from 'components/Link'
 function render({props, local, state}) {
   const {
     activity, user, isPublic, isInstance, instance,
-    progress, overview, preview, discussion, isEdit, isOwner,
-    isNew
+    progress, overview, preview, discussion, isEdit,
+    isOwner, back
   } = props
   const {_id: id, displayName} = activity
   const {locallyLiked} = state
@@ -37,7 +34,7 @@ function render({props, local, state}) {
     <Block printProps={{hide: true}}>
       <Fixed bgColor='white' wide top z={3} boxShadow='card' align='start center' h={53}>
         <Flex align='start center' wide px flex>
-          <Button icon='arrow_back' fs='s' onClick={backOut} color='text' mr />
+          <Button icon='arrow_back' fs='s' onClick={back} color='text' mr />
           <Text fs='s' lighter>{displayName}</Text>
         </Flex>
         <Flex align='center center' hide={isEdit}>
@@ -95,18 +92,9 @@ function render({props, local, state}) {
           </Block>
         </Block>
       </Fixed>
-      <Block pt={53} hidden mb/>
+      <Block pt={53} hidden mb />
     </Block>
   )
-
-  function * backOut() {
-    if(isNew) {
-      yield openModal(() => <DiscardDraftModal activity={activity} />)
-    } else {
-      yield back()
-    }
-
-  }
 }
 
 
