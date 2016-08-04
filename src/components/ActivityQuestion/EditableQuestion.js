@@ -26,6 +26,9 @@ function render ({props}) {
   const {poll, attachments = [], originalContent, randomize} = object
   const type = getProp('0.objectType', attachments)
   const isMultipleChoice = !poll && type === 'choice'
+  // Make sure type is choice because poll doesn't get set
+  // false when switching to short or free
+  const isPoll = poll && type === 'choice'
 
   return (
     <Block fw='lighter' relative class='question' {...rest}>
@@ -36,8 +39,8 @@ function render ({props}) {
             <Block flex>
               <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
             </Block>
-            <Block alignSelf='baseline'>
-              <MarkdownHelper relative mt={8} menuProps={{mr: -12}} />
+            <Block alignSelf='baseline' relative z={3}>
+              <MarkdownHelper mt={8} menuProps={{mr: -12}} />
             </Block>
           </Block>
         </Block>
@@ -69,6 +72,15 @@ function render ({props}) {
           isMultipleChoice && (
             <Block mt align='start center' wide>
               <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
+            </Block>
+          )
+        }
+        {
+          isPoll && (
+            <Block align='center center' mr={-44}>
+              <Button onClick={attach('choice')} m='auto' bgColor='grey' p={0} sq={50} ml='s'>
+                <Icon name='add' fs='s' />
+              </Button>
             </Block>
           )
         }

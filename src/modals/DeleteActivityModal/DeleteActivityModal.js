@@ -2,10 +2,11 @@
  * Imports
  */
 
+import {back, setUrl} from 'redux-effects-location'
 import Confirm from 'modals/Confirm'
+import {Block, Text} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
-import {Block, Text} from 'vdux-ui'
 
 /**
  * getProps
@@ -21,30 +22,39 @@ function getProps (props, {currentUrl}) {
  */
 
 function render ({props}) {
-  const {activity, isCurrent} = props
+  const {activity, isCurrent, deleteActivity} = props
   return (
-    <DeleteActivity
-      activityId={activity._id}
+    <Confirm
       redirect={isCurrent && '/feed'}
-      message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>} />
+      message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>}
+      onAccept={accept} />
   )
+
+  function * accept() {
+    yield deleteActivity()
+    if(isCurrent) {
+      yield history.state && history.state.canExit
+        ? back()
+        : setUrl('/feed')
+    }
+  }
+
 }
 
-const DeleteActivity = summon(({activityId}) => ({
-  onAccept: () => ({
-    deleting: {
-      url: `/share/${activityId}`,
-      method: 'DELETE',
-      invalidates: ['activity_feed']
-    }
-  })
-}))(Confirm)
 
 /**
  * Exports
  */
 
-export default {
+export default summon(({activity}) => ({
+  deleteActivity: () => ({
+    deleting: {
+      url: `/share/${activity.id || activity._id}`,
+      method: 'DELETE',
+      invalidates: ['activity_feed']
+    }
+  })
+}))({
   getProps,
   render
-}
+})

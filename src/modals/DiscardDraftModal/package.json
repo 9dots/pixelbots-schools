@@ -1,0 +1,5 @@
+{
+  "name": "DiscardDraftModal",
+  "main": "DiscardDraftModal.js",
+  "browser": "DiscardDraftModal.js"
+}

@@ -18,7 +18,9 @@ import summon from 'vdux-summon'
  */
 
 function render ({props}) {
-  const {activity, fields, boards, createBoard, pin, copyActivity} = props
+  const {
+    activity, fields, boards, createBoard, pin, copyActivity
+  } = props
   const {value, loaded} = boards
 
   if (!loaded) return <span/>

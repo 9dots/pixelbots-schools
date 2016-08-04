@@ -2,9 +2,11 @@
  * Imports
  */
 
+import DiscardDraftModal from 'modals/DiscardDraftModal'
 import {back, setUrl} from 'redux-effects-location'
 import PageTitle from 'components/PageTitle'
 import FourOhFour from 'pages/FourOhFour'
+import {openModal} from 'reducer/modal'
 import {invalidate} from 'vdux-summon'
 import maybeOver from '@f/maybe-over'
 import element from 'vdux/element'
@@ -25,7 +27,8 @@ function render ({props, children}) {
 }
 
 function internal (props, children) {
-  const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus, isEdit} = props
+  const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus, isEdit, isNew
+  } = props
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
@@ -66,9 +69,13 @@ function internal (props, children) {
   ]
 
   function backBtn () {
-    return history.state && history.state.canExit
-      ? back()
-      : setUrl(escapeUrl())
+    const canExit = history.state && history.state.canExit
+    if(isNew) {
+      return openModal(() => <DiscardDraftModal onAccept={() =>canExit ? back() : setUrl('/feed')} activity={value} />)
+    } else {
+      return canExit ? back() : setUrl(escapeUrl())
+    }
+
   }
 
   function escapeUrl () {

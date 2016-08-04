@@ -4,12 +4,15 @@
 
 import DeleteActivityModal from 'modals/DeleteActivityModal'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
+import {toast, hideToast} from 'reducer/toast'
 import AssignModal from 'modals/AssignModal'
+import {Block, Icon, Toast} from 'vdux-ui'
 import WeoIcon from 'components/WeoIcon'
 import {openModal} from 'reducer/modal'
 import PinModal from 'modals/PinModal'
-import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
+import Link from 'components/Link'
+import summon from 'vdux-summon'
 
 
 /**
@@ -17,7 +20,7 @@ import element from 'vdux/element'
  */
 
 function render({props}) {
-  const {activity, ...rest} = props
+  const {activity, saveDraft, ...rest} = props
   return (
     <Block align='start center' {...rest}>
       <Button
@@ -41,6 +44,7 @@ function render({props}) {
           text='Pin to Board'
           color='blue' />
         <Item
+          onClick={draft}
           weoIcon='drafts'
           text='Save to Drafts'
           color='yellow' />
@@ -52,6 +56,20 @@ function render({props}) {
       </Dropdown>
     </Block>
   )
+
+  function * draft () {
+    yield saveDraft()
+    yield toast(
+      <Toast key='a'>
+        <Block align='space-between center'>
+          <Block>
+            Saved to <Link onClick={hideToast} href='/activities/drafts' color='blue'>Drafts</Link>
+          </Block>
+          <Button onClick={[() => setUrl('/activities/drafts'), hideToast]} bgColor='green'>Go to Drafts</Button>
+        </Block>
+      </Toast>
+    )
+  }
 }
 
 function Item ({props}) {
@@ -69,6 +87,13 @@ function Item ({props}) {
  * Exports
  */
 
-export default {
+export default summon(({activity}) => ({
+  saveDraft: () => ({
+    savingDraft: {
+      url: `/share/${activity.id}/draft`,
+      method: 'PUT'
+    }
+  })
+}))({
   render
-}
+})

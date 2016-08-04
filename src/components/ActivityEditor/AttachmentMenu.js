@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Button} from 'vdux-containers'
+import {wrap, CSSContainer, Button} from 'vdux-containers'
 import {generateObjectId} from 'middleware/objectId'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -28,12 +28,12 @@ function render ({props, state, local}) {
 
   const menu = [
     <Close onClick={local(toggle)} absolute='top -10px right -10px' hide={startsOpen} />,
-    <AttachButton onClick={createAndAttach('question')} icon='help' color='red' text='Question' />,
-    <AttachButton onClick={createAndAttach('video')} icon='videocam' color='yellow' text='Video' />,
-    <AttachButton onClick={createAndAttach('link')} icon='link' color='blue' text='Link' />,
-    <AttachButton onClick={createAndAttach('image')} icon='camera_alt' color='green' text='Image' />,
-    <AttachButton onClick={createAndAttach('document')} icon='insert_drive_file' color='red' text='Document' />,
-    <AttachButton onClick={createAndAttach('post')} icon='subject' color='text' text='Text' />
+    <AttachButton onClick={createAndAttach('question')} icon='help' color='red' text='Question' hoverProps={{hover: true}} />,
+    <AttachButton onClick={createAndAttach('video')} icon='videocam' color='yellow' text='Video' hoverProps={{hover: true}} />,
+    <AttachButton onClick={createAndAttach('link')} icon='link' color='blue' text='Link' hoverProps={{hover: true}} />,
+    <AttachButton onClick={createAndAttach('image')} icon='camera_alt' color='green' text='Image' hoverProps={{hover: true}} />,
+    <AttachButton onClick={createAndAttach('document')} icon='insert_drive_file' color='red' text='Document' hoverProps={{hover: true}} />,
+    <AttachButton onClick={createAndAttach('post')} icon='subject' color='text' text='Text' hoverProps={{hover: true}} />
   ]
 
   return (
@@ -68,28 +68,42 @@ function Close ({props}) {
   return (
     <Icon
       border='2px solid white'
-      boxShadow='z1'
       align='center center'
-      pointer
-      fs='xs'
-      circle={24}
       bgColor='black'
+      boxShadow='z1'
       color='white'
       name='close'
+      circle={24}
+      pointer
+      fs='xs'
       {...props} />
   )
 }
 
-function AttachButton ({props, children}) {
-  const {attach, type, text, onClick, icon, color} = props
+const AttachButton = wrap(CSSContainer)({
+  render ({props, children}) {
+    const {
+      attach, type, text, onClick, icon, color, hover
+    } = props
 
-  return (
-    <Block onClick={onClick} pointer textAlign='center'>
-      <Icon color={color} name={icon} fs={42} sq={50}  />
-      <Block fs='s' lighter>{text}</Block>
-    </Block>
-  )
-}
+    return (
+      <Block
+        textAlign='center'
+        onClick={onClick}
+        pointer>
+        <Icon
+          transform={hover ? 'translateY(-6px)' : ''}
+          transition='transform .15s'
+          color={color}
+          name={icon}
+          fs={42}
+          sq={50}/>
+        <Block fs='s' lighter>{text}</Block>
+      </Block>
+    )
+  }
+})
+
 
 /**
  * Actions
