@@ -15,13 +15,17 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {object} = props
+  const {object, onEdit} = props
   return (
     <Block>
       <ActivityMedia {...props} editing={false} />
       <ObjectControls {...props} >
-        <Block align='start center'>
-          <Button px bgColor='grey' mr='l' capitalize onClick={() => openModal(() => <MediaModal object={object} />)}>
+          <Button
+            onClick={() => openModal(() => <MediaModal onAccept={newObj => onEdit({...object, ...newObj})} type={object.objectType} />)}
+            bgColor='red'
+            capitalize
+            mr='l'
+            px>
             Change {object.objectType}
           </Button>
           {
@@ -32,7 +36,6 @@ function render ({props}) {
               <AlignIcon {...props} justify='right' />
             </Block>
           }
-        </Block>
       </ObjectControls>
     </Block>
   )

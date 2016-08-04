@@ -30,12 +30,12 @@ function render ({props, state, local}) {
 
   const menu = [
     <Close onClick={local(toggle)} absolute='top -10px right -10px' hide={startsOpen} />,
-    <AttachButton onClick={createAndAttach('question')} icon='help' color='red' text='Question' hoverProps={{hover: true}} />,
+    <AttachButton onClick={create('question')} icon='help' color='red' text='Question' hoverProps={{hover: true}} />,
     <AttachButton onClick={attachMedia('video')} icon='videocam' color='yellow' text='Video' hoverProps={{hover: true}} />,
     <AttachButton onClick={attachMedia('link')} icon='link' color='blue' text='Link' hoverProps={{hover: true}} />,
     <AttachButton onClick={attachMedia('image')} icon='camera_alt' color='green' text='Image' hoverProps={{hover: true}} />,
     <AttachButton onClick={attachMedia('document')} icon='insert_drive_file' color='red' text='Document' hoverProps={{hover: true}} />,
-    <AttachButton onClick={createAndAttach('post')} icon='subject' color='text' text='Text' hoverProps={{hover: true}} />
+    <AttachButton onClick={create('post')} icon='subject' color='text' text='Text' hoverProps={{hover: true}} />
   ]
 
   return (
@@ -51,18 +51,22 @@ function render ({props, state, local}) {
   )
 
   function attachMedia(type) {
-    return () => openModal(() => <MediaModal object={{objectType: type}}/>)
+    return () => openModal(() => <MediaModal
+      onAccept={createAndAttach}
+      type={type} />)
   }
 
-  function createAndAttach (type) {
-    return function * () {
-      const id = yield generateObjectId()
-      yield attach({
-        _id: id,
-        objectType: type
-      })
-      yield local(toggle)()
-    }
+  function create (type) {
+    return () => createAndAttach({objectType: type})
+  }
+
+  function * createAndAttach (object) {
+    const id = yield generateObjectId()
+    yield attach({
+      _id: id,
+      ...object
+    })
+    yield local(toggle)()
   }
 }
 

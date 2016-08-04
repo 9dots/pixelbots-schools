@@ -8,25 +8,27 @@ import DropZone from 'components/DropZone'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
+import Form from 'vdux-form'
 
 /**
  * <MediaModal/>
  */
 
 function render ({props}) {
-  const {object} = props
-  const {objectType} = object
-  const uploadable = objectType === 'document' || objectType === 'image'
+  const {type} = props
+  const uploadable = type === 'document' || type === 'image'
+
   return (
     <Modal onDismiss={closeModal} w='col_xl'>
       <Block color='blue' p boxShadow='z1' capitalize textAlign='center' fs='m' lighter>
-        Add {objectType}
+        Add {type}
       </Block>
       <Block p='l' h={275} align='stretch'>
         {
            uploadable
-            ? <UploadFile/>
-            : <ScrapeFile />
+            ? <UploadFile {...props} />
+            : <ScrapeFile {...props} />
         }
       </Block>
       <ModalFooter mt={0} bg='grey'>
@@ -44,7 +46,7 @@ function ScrapeFile({props}) {
       <Block mb='l' fs='s' lighter>
         Paste your link below.
       </Block>
-      <MediaInput mb={40} w='75%'/>
+      <MediaInput mb={40}/>
     </Block>
   )
 }
@@ -87,28 +89,37 @@ function Upload({props}) {
       <Block mb='xl' fs='xs' fw='normal' mt>
         or paste a URL below
       </Block>
-      <MediaInput relative z={1} {...props} w='50%' mx='auto' />
+      <MediaInput relative z={1} {...props} mx='auto' />
     </Block>
   )
 }
 
 function MediaInput ({props}) {
-  const {placeholder, ...rest} = props
+  const {
+    placeholder, scrape, scraping = {}, onAccept, ...rest
+  } = props
   return (
-    <Block align='start stretch' onClick={e => e.stopPropagation()} {...rest}>
+    <Form align='start stretch' onClick={e => e.stopPropagation()} w='60%' onSubmit={submit} {...rest}>
       <BlockInput
         placeholder={placeholder || 'Enter a url...'}
         borderRightWidth={0}
         inputProps={{py: 8}}
+        name='url'
         autofocus
         lighter
         fs='s'
         mb={0}/>
-      <Button borderRadius='0'>
+      <Button borderRadius='0' type='submit' busy={scraping.loading} >
         Submit
       </Button>
-    </Block>
+    </Form>
   )
+
+  function * submit(body) {
+    const object = yield scrape(body.url)
+    yield closeModal()
+    yield onAccept({...object, originalContent: body.url})
+  }
 }
 
 
@@ -116,6 +127,14 @@ function MediaInput ({props}) {
  * Exports
  */
 
-export default {
+export default summon(() => ({
+  scrape: url => ({
+    scraping: {
+      method: 'PUT',
+      url: '/share/scrape/',
+      body: {url}
+    }
+  })
+}))({
   render
-}
+})
