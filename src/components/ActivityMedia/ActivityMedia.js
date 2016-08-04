@@ -164,16 +164,16 @@ function Document ({props}) {
         w='100%'
         relative
         mb='s'
-        h={0}/>
-        <Link
-          hoverProps={{underline: true}}
-          target='_blank'
-          color='blue'
-          href={url}
-          fs={12}
-          pointer>
-          View File
-        </Link>
+        h={0} />
+      <Link
+        hoverProps={{underline: true}}
+        target='_blank'
+        color='blue'
+        href={url}
+        fs={12}
+        pointer>
+        View File
+      </Link>
     </Block>
   )
 }

@@ -58,6 +58,7 @@ const ActObj = wrap(CSSContainer)({
         {...(editable && !editing ? editableProps : {})}
         {...(editing ? editingProps : {})}
         {...rest}>
+        <Obj key={object._id} {...props} />
         {
           editable && (editing || hover) &&
             <Icon
@@ -70,7 +71,6 @@ const ActObj = wrap(CSSContainer)({
               h={24}
               wide/>
         }
-        <Obj key={object._id} {...props} />
       </Block>
     )
   }
