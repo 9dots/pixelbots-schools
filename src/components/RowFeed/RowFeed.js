@@ -62,7 +62,7 @@ function renderItems (items, Item, itemProps, emptyState, currentUser) {
   let prevDate = new Date(0)
 
   return reduce((list, item, i) => {
-    const date = new Date(item.publishedAt || item.createdAt)
+    const date = new Date(item.published ? item.publishedAt : item.updatedAt)
 
     if (!isSameDay(date, prevDate)) {
       list.push((
