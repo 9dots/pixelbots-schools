@@ -13,7 +13,7 @@ import sleep from '@f/sleep'
 const showToast = createAction('Show toast')
 const hideToast = createAction('Hide toast')
 
-function * toast (fn, time = 3000) {
+function * toast (fn, time = 4500) {
   yield showToast(fn)
   yield sleep(time)
   yield hideToast()

@@ -72,9 +72,9 @@ function render ({props}) {
               num={i + 1}
               question={q}
               isRedo={isRedo}
-              isStudent={isStudent}
               activity={activity}
               canGrade={canGrade}
+              isStudent={isStudent}
               canSetMax={canSetMax}
               showScore={showScores} />)
           }
