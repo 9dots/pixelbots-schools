@@ -89,9 +89,9 @@ function Emphasis ({props}) {
       You can create headers of various sizes by prefixing your text with <H>#</H>'s.  Create bold, italics, or strikethroughs by surrouding text with <H>**</H>, <H>*</H>, or <H>~~</H>.
       <br/><br/>
       <Table>
-        <Row text='# Header 1' display='<h1>Header 1</h1>' />
-        <Row text='## Header 2' display='<h2>Header 2</h2>' />
-        <Row text='### Header 3' display='<h3>Header 3</h3>' />
+        <Row text='# Header 1' display='<h2>Header 1</h2>' />
+        <Row text='## Header 2' display='<h3>Header 2</h3>' />
+        <Row text='### Header 3' display='<h4>Header 3</h4>' />
         <Row text='**bold text**' display='<strong>bold text</strong>' />
         <Row text='*italic text*' display='<em>italic text</em>' />
         <Row text='~~strikethrough text~~' display='<del>strikethrough text</del>' />

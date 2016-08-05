@@ -10,18 +10,49 @@ import index from '@f/index'
  */
 
 function questionIcon (question) {
-  if (question.poll) return 'equalizer'
+  if(typeof question === 'string')
+    return typeIcon(question)
+  else if(question.poll)
+    return typeIcon('poll')
+  else
+    return typeIcon(question.attachments[0].objectType)
+}
 
-  switch (question.attachments[0].objectType) {
+function questionDisplay (question) {
+  if(typeof question === 'string')
+    return typeDisplay(question)
+  else if (question.poll)
+    return typeDisplay('poll')
+  else
+    return typeDisplay(question.attachments[0].objectType)
+}
+
+function typeIcon (type) {
+  switch (type) {
+    case 'poll':
+      return 'equalizer'
     case 'choice':
       return 'done_all'
     case 'shortAnswer':
       return 'edit'
     case 'text':
       return 'message'
+    default:
+      return 'help'
   }
+}
 
-  return 'help'
+function typeDisplay (type) {
+  switch (type) {
+    case 'poll':
+      return 'Poll'
+    case 'choice':
+      return 'Multiple Choice'
+    case 'shortAnswer':
+      return 'Short Answer'
+    case 'text':
+      return 'Free Response'
+  }
 }
 
 function totalPoints (activity) {
@@ -131,6 +162,7 @@ const statusMap = {
 export {
   activitySort,
   questionIcon,
+  questionDisplay,
   totalPoints,
   totalScore,
   statusMap,

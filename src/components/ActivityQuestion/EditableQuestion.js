@@ -8,6 +8,7 @@ import ObjectControls from 'components/ObjectControls'
 import MarkdownHelper from 'components/MarkdownHelper'
 import {generateObjectId} from 'middleware/objectId'
 import LineTextarea from 'components/LineTextarea'
+import QuestionTypeMenu from './QuestionTypeMenu'
 import {Button, Toggle} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -66,9 +67,6 @@ function render ({props}) {
               idx={i} />, attachments)
         }
         {
-          !attachments.length && <QuestionTypeMenu attach={attach} />
-        }
-        {
           isMultipleChoice && (
             <Block mt align='start center' wide>
               <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
@@ -86,6 +84,7 @@ function render ({props}) {
         }
       </Block>
       <ObjectControls {...props}>
+        <QuestionTypeMenu object={object} attach={attach} />
         {
           isMultipleChoice &&
             <Toggle
@@ -99,18 +98,21 @@ function render ({props}) {
     </Block>
   )
 
-  function attach (type, poll) {
+  function attach (type, poll, removeAll) {
     return function * () {
       const id = yield generateObjectId()
+      const newObj = {
+        _id: id,
+        objectType: type,
+        correctAnswer: type === 'choice' && !poll ? [id] : []
+      }
 
       yield onEdit({
         ...object,
         poll: poll === undefined ? object.poll : poll,
-        attachments: attachments.concat({
-          _id: id,
-          objectType: type,
-          correctAnswer: []
-        })
+        attachments: removeAll
+          ? [newObj]
+          : attachments.concat(newObj)
       })
     }
   }
@@ -130,35 +132,6 @@ function render ({props}) {
       }
     }
   }
-}
-
-function QuestionTypeMenu ({props}) {
-  const {attach} = props
-  const btnProps = {
-    bgColor: 'grey',
-    h: 45,
-    px: 30
-  }
-  return (
-    <Block align='space-around center' wide my>
-      <Button {...btnProps} onClick={attach('choice', true)}>
-        <Icon name='equalizer' fs='s' mr='s' />
-        <Block>Poll</Block>
-      </Button>
-      <Button {...btnProps} onClick={attach('choice', false)}>
-        <Icon name='done_all' fs='s' mr='s' />
-        <Block>Multiple Choice</Block>
-      </Button>
-      <Button {...btnProps} onClick={attach('shortAnswer')}>
-        <Icon name='edit' fs='s' mr='s' />
-        <Block>Short Answer</Block>
-      </Button>
-      <Button {...btnProps} onClick={attach('text')}>
-        <Icon name='message' fs='s' mr='s' />
-        <Block>Free Response</Block>
-      </Button>
-    </Block>
-  )
 }
 
 

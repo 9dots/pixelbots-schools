@@ -30,7 +30,7 @@ function render ({props, state, local}) {
 
   const menu = [
     <Close onClick={local(toggle)} absolute='top -10px right -10px' hide={startsOpen} />,
-    <AttachButton onClick={create('question')} icon='help' color='red' text='Question' hoverProps={{hover: true}} />,
+    <AttachButton onClick={attachQuestion} icon='help' color='red' text='Question' hoverProps={{hover: true}} />,
     <AttachButton onClick={attachMedia('video')} icon='videocam' color='yellow' text='Video' hoverProps={{hover: true}} />,
     <AttachButton onClick={attachMedia('link')} icon='link' color='blue' text='Link' hoverProps={{hover: true}} />,
     <AttachButton onClick={attachMedia('image')} icon='camera_alt' color='green' text='Image' hoverProps={{hover: true}} />,
@@ -57,18 +57,38 @@ function render ({props, state, local}) {
   }
 
   function create (type) {
-    return () => createAndAttach({objectType: type})
+    const obj = type === 'question'
+      ? initQuestion()
+      : {objectType: type}
+
+    return () => createAndAttach(obj)
   }
 
   function * createAndAttach (object) {
     const id = yield generateObjectId()
     yield attach({
       _id: id,
-      ...object
+      ...object,
+    })
+    yield local(toggle)()
+  }
+
+  function * attachQuestion () {
+    const id1 = yield generateObjectId()
+    const id2 = yield generateObjectId()
+    yield attach({
+      _id: id1,
+      objectType: 'question',
+      attachments: [{
+        _id: id2,
+        objectType: 'choice',
+        correctAnswer: [id2]
+      }]
     })
     yield local(toggle)()
   }
 }
+
 
 /**
  * <Close/>

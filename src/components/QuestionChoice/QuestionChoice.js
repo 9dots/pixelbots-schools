@@ -97,6 +97,7 @@ function render ({props}) {
                   icon='close'
                   color='text'
                   my='auto'
+                  hide={!idx}
                   fs='s'/>
               </Block>
 

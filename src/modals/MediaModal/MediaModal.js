@@ -46,7 +46,7 @@ function ScrapeFile({props}) {
       <Block mb='l' fs='s' lighter>
         Paste your link below.
       </Block>
-      <MediaInput mb={40}/>
+      <MediaInput mb={40} {...props}/>
     </Block>
   )
 }
@@ -96,7 +96,7 @@ function Upload({props}) {
 
 function MediaInput ({props}) {
   const {
-    placeholder, scrape, scraping = {}, onAccept, ...rest
+    placeholder, scrapeMedia, scraping = {}, onAccept, ...rest
   } = props
   return (
     <Form align='start stretch' onClick={e => e.stopPropagation()} w='60%' onSubmit={submit} {...rest}>
@@ -116,7 +116,7 @@ function MediaInput ({props}) {
   )
 
   function * submit(body) {
-    const object = yield scrape(body.url)
+    const object = yield scrapeMedia(body.url)
     yield closeModal()
     yield onAccept({...object, originalContent: body.url})
   }
@@ -128,7 +128,7 @@ function MediaInput ({props}) {
  */
 
 export default summon(() => ({
-  scrape: url => ({
+  scrapeMedia: url => ({
     scraping: {
       method: 'PUT',
       url: '/share/scrape/',
