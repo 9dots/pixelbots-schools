@@ -17,7 +17,7 @@ function render ({props}) {
   if(overview) return <FreeResponseOverview {...props} />
 
   return (
-    <Block flex relative>
+    <Block flex relative my>
       <LineTextarea
         onInput={e => submit(e.target.value)}
         defaultValue={answer[0] || ''}
@@ -26,7 +26,10 @@ function render ({props}) {
         lh='normal'
         minHeight='40px'
         verticalAlign='top'
-        disabled={!answerable} />
+        disabled={!answerable}
+        borderStyle={answerable ? 'solid' : 'dotted'}
+        borderColor='grey_medium'
+        opacity='1' />
     </Block>
   )
 }

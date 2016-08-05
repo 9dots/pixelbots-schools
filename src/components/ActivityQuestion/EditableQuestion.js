@@ -34,9 +34,9 @@ function render ({props}) {
   return (
     <Block fw='lighter' relative class='question' {...rest}>
       <Block align='start' py mb>
-        <Badge mr pt={3} size={25}>{idx + 1}</Badge>
+        <Badge mr='l' pt={3} size={25}>{idx + 1}</Badge>
         <Block flex>
-          <Block align='start' mt={-8}>
+          <Block align='start' mt={-8} mb='l'>
             <Block flex>
               <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
             </Block>
@@ -44,44 +44,44 @@ function render ({props}) {
               <MarkdownHelper mt={8} menuProps={{mr: -12}} />
             </Block>
           </Block>
+          <Block align='start' column={isMultipleChoice} onKeypress={{enter: type === 'choice' && attach('choice')}}>
+            {
+              map((att, i) => <QuestionAttachment
+                  question={object}
+                  focusPrevious={focusPrevious}
+                  remove={() => onEdit({
+                    ...object,
+                    attachments: attachments.filter(({_id}) => _id !== att._id)
+                  })}
+                  onEdit={newObj => onEdit({
+                    ...object,
+                    attachments: attachments.map(att => att._id === newObj._id
+                      ? newObj
+                      : att)
+                  })}
+                  editing
+                  object={att}
+                  poll={poll}
+                  idx={i} />, attachments)
+            }
+            {
+              isMultipleChoice && (
+                <Block mt align='start center' wide>
+                  <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
+                </Block>
+              )
+            }
+            {
+              isPoll && (
+                <Block align='center center' mr={-44}>
+                  <Button onClick={attach('choice')} m='auto' bgColor='grey' p={0} sq={50} ml='s'>
+                    <Icon name='add' fs='s' />
+                  </Button>
+                </Block>
+              )
+            }
+          </Block>
         </Block>
-      </Block>
-      <Block align='start' mx={30} column={isMultipleChoice} onKeypress={{enter: type === 'choice' && attach('choice')}}>
-        {
-          map((att, i) => <QuestionAttachment
-              question={object}
-              focusPrevious={focusPrevious}
-              remove={() => onEdit({
-                ...object,
-                attachments: attachments.filter(({_id}) => _id !== att._id)
-              })}
-              onEdit={newObj => onEdit({
-                ...object,
-                attachments: attachments.map(att => att._id === newObj._id
-                  ? newObj
-                  : att)
-              })}
-              editing
-              object={att}
-              poll={poll}
-              idx={i} />, attachments)
-        }
-        {
-          isMultipleChoice && (
-            <Block mt align='start center' wide>
-              <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
-            </Block>
-          )
-        }
-        {
-          isPoll && (
-            <Block align='center center' mr={-44}>
-              <Button onClick={attach('choice')} m='auto' bgColor='grey' p={0} sq={50} ml='s'>
-                <Icon name='add' fs='s' />
-              </Button>
-            </Block>
-          )
-        }
       </Block>
       <ObjectControls {...props}>
         <QuestionTypeMenu object={object} attach={attach} />

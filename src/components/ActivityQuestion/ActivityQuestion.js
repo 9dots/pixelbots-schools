@@ -64,31 +64,34 @@ function render ({props, local, state}) {
       }
       <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
       <Block align='start' py mb>
-        {!overview && <Badge mr pt={3} size={25}>{idx + 1}</Badge>}
-        <Block flex>
-          <Block key='a' fs='s' innerHTML={content} class='markdown' />
-        </Block>
-      </Block>
-      <Block align='start' mx={overview ? 40 : 30} column={!poll && type === 'choice'}>
         {
-          map(
-            (att, i) => <QuestionAttachment
-              showAnswers={showAnswers}
-              answerable={answerable}
-              actor={activity && activity.actor}
-              answer={state.answer}
-              overview={overview}
-              question={object}
-              submit={answer => [
-                state.debouncedSubmit(answer),
-                local(setAnswer)(answer)
-              ]}
-              object={att}
-              poll={poll}
-              idx={i} />,
-            attachments
-          )
+          !overview &&
+          <Badge mr='l' pt={3} size={25}>{idx + 1}</Badge>
         }
+        <Block flex>
+          <Block key='a' fs='s' innerHTML={content} class='markdown' mb='l' hide={!content} />
+          <Block align='start' mx={overview ? 40 : 0} column={!poll && type === 'choice'}>
+            {
+              map(
+                (att, i) => <QuestionAttachment
+                  showAnswers={showAnswers}
+                  answerable={answerable}
+                  actor={activity && activity.actor}
+                  answer={state.answer}
+                  overview={overview}
+                  question={object}
+                  submit={answer => [
+                    state.debouncedSubmit(answer),
+                    local(setAnswer)(answer)
+                  ]}
+                  object={att}
+                  poll={poll}
+                  idx={i} />,
+                attachments
+              )
+            }
+          </Block>
+        </Block>
       </Block>
     </Block>
   )
