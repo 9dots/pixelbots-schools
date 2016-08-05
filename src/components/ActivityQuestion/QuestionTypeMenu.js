@@ -19,7 +19,7 @@ function render ({props}) {
     <Dropdown btn={<Btn object={object} relative />} wide>
       <Item object={object} onClick={attach('text', false, true)} type='text'/>
       <Item object={object} onClick={attach('shortAnswer', false, true)} type='shortAnswer'/>
-      <Item object={object} onClick={attach('choice', false, true)} type='choice' />
+      <Item object={object} onClick={attach('choice', false, true, true)} type='choice' />
       <Item object={object} onClick={attach('choice', true, true)} type='poll'/>
     </Dropdown>
   )

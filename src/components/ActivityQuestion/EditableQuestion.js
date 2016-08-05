@@ -98,13 +98,13 @@ function render ({props}) {
     </Block>
   )
 
-  function attach (type, poll, removeAll) {
+  function attach (type, poll, removeAll, setCorrect) {
     return function * () {
       const id = yield generateObjectId()
       const newObj = {
         _id: id,
         objectType: type,
-        correctAnswer: type === 'choice' && !poll ? [id] : []
+        correctAnswer: setCorrect ? [id] : []
       }
 
       yield onEdit({
