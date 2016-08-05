@@ -84,15 +84,19 @@ function render ({props, local, state}) {
   )
 
   function onDragStart (e, id) {
-    if(!target.classList.contains('handle'))
+    if(!target.classList.contains('handle')) {
       e.preventDefault()
-    else
+    } else {
+      e._rawEvent.dataTransfer.setData('weo_attachment', id)
       return local(setDragging, id)()
+    }
   }
 
   function onDragOver (id) {
     return e => {
+      if (e._rawEvent.dataTransfer.types.indexOf('weo_attachment') === -1) return
       e.preventDefault()
+
       if (id === state.dragging) return
       return insertBefore(state.dragging, id)
     }

@@ -1,5 +1,4 @@
 {
-  "presets": ["es2015", "stage-2"],
   "comments": false,
   "plugins": [
     ["transform-react-jsx", {"pragma": "element"}],
@@ -13,5 +12,18 @@
       ]
     }],
     "jss-simple"
-  ]
+  ],
+  "env": {
+    "production": {
+      "presets": ["es2015", "stage-2"],
+    },
+    "development": {
+      "plugins": [
+        "transform-es2015-destructuring",
+        "transform-object-rest-spread",
+        "transform-es2015-modules-commonjs",
+        "transform-es2015-parameters"
+      ]
+    }
+  }
 }
