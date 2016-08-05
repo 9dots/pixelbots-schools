@@ -72,7 +72,7 @@ function render ({props}) {
       <Block wide>
         {
           !editing
-            ? <Block key='a' mx='40px' fs='s' innerHTML={content} class='markdown' printProps={{ml: 0}} />
+            ? <Block key='a' mx='40px' fs='s' innerHTML={content || '<br/>'} class='markdown' printProps={{ml: 0}} />
             : <Block align='start center'>
                 <Tooltip message='Mark Correct' mr>
                   <Checkbox checked={isCorrect} onClick={toggleCorrectness} ml='s' />

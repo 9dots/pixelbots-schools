@@ -24,7 +24,11 @@ function render ({props}) {
         onInput={e => submit(e.target.value)}
         defaultValue={answer[0] || ''}
         placeholder='Enter your answer...'
-        disabled={!answerable} />
+        disabled={!answerable}
+        fs='s'
+        borderStyle={answerable ? 'solid' : 'dotted'}
+        borderColor='grey_medium'
+        opacity={1}/>
       {
         showAnswers && (
           <Block>
