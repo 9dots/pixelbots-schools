@@ -31,7 +31,7 @@ function render ({props}) {
           </Link>
         </Flex>
       </Box>
-      <CommoncoreBadge hide={!commonCore} />
+      <CommoncoreBadge hide={commonCore} />
     </Flex>
   )
 }

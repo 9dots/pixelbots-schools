@@ -4,9 +4,9 @@
 
 import css from './css'
 import favicon from 'lib/favicon'
+import * as katex from 'lib/katex'
 
 const cloudFS = require('cloud-fs')
-const katex = require('lib/katex')
 
 /**
  * Page
@@ -26,8 +26,7 @@ function page ({html, state, title}) {
           }
           <link rel=icon href="${favicon}"/>
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          <link href="${katex.url}" rel="stylesheet"/>
-          <link href="${katex.fontsUrl}" rel="stylesheet"/>
+          <link href="${katex.cssUrl}" rel="stylesheet"/>
           <script type='text/javascript'>
             window.__initialState__ = ${JSON.stringify(state)}
           </script>
