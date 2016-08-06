@@ -38,7 +38,7 @@ function render ({props}) {
         <Block flex>
           <Block align='start' mt={-8} mb='l'>
             <Block flex>
-              <LineTextarea fs='s' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
+              <LineTextarea fs='s' placeholder='Ask your class a question…' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
             </Block>
             <Block alignSelf='baseline' relative z={3}>
               <MarkdownHelper mt={8} menuProps={{mr: -12}} />
@@ -61,6 +61,7 @@ function render ({props}) {
                   })}
                   editing
                   object={att}
+                  key={att._id}
                   numAtt={attachments.length}
                   poll={poll}
                   idx={i} />, attachments)
@@ -68,7 +69,17 @@ function render ({props}) {
             {
               isMultipleChoice && (
                 <Block mt align='start center' wide>
-                  <Button bgColor='grey' onClick={attach('choice')} mr>Add Choice</Button>
+                  <Button
+                    hoverProps={{highlight: .03}}
+                    focusProps={{highlight: .03}}
+                    onClick={attach('choice')}
+                    borderColor='grey_medium'
+                    bgColor='white'
+                    color='text'
+                    mr>
+                  <Icon name='add' fs='s' mr='s' />
+                  Add Choice
+                  </Button>
                 </Block>
               )
             }
