@@ -4,9 +4,9 @@
 
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import {Block, Input} from 'vdux-ui'
 import element from 'vdux/element'
 import extend from '@f/extend'
-import {Block, Input} from 'vdux-ui'
 
 /**
  * <DropZone/>

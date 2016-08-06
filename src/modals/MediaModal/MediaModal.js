@@ -4,6 +4,7 @@
 
 import {Modal, ModalFooter, Block, Base} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
+import FileUpload from 'components/FileUpload'
 import DropZone from 'components/DropZone'
 import {closeModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
@@ -16,7 +17,7 @@ import Form from 'vdux-form'
  */
 
 function render ({props}) {
-  const {type} = props
+  const {type, onAccept, scrapeMedia, scraping = {}} = props
   const uploadable = type === 'document' || type === 'image'
 
   return (
@@ -27,8 +28,8 @@ function render ({props}) {
       <Block p='l' h={275} align='stretch'>
         {
            uploadable
-            ? <UploadFile {...props} />
-            : <ScrapeFile {...props} />
+            ? <FileUpload onDrop={onDrop} onUpload={done} message={<Upload loading={scraping.loading} {...props}/>} align='center center' wide {...props} />
+            : <ScrapeFile {...props} loading={scraping.loading} onSubmit={done} />
         }
       </Block>
       <ModalFooter mt={0} bg='grey'>
@@ -38,9 +39,26 @@ function render ({props}) {
       </ModalFooter>
     </Modal>
   )
+
+  function * done (url) {
+    console.log('url')
+    const object = yield scrapeMedia(url)
+    yield closeModal()
+    yield onAccept({...object, originalContent: url})
+  }
+
+  function onDrop (e) {
+    if (e._rawEvent.dataTransfer.types.indexOf('text/uri-list') !== -1) {
+      e.preventDefault()
+
+      const url = e._rawEvent.dataTransfer.getData('text/uri-list')
+      return done(url)
+    }
+  }
 }
 
 function ScrapeFile({props}) {
+
   return (
     <Block column align='center center' wide>
       <Block mb='l' fs='s' lighter>
@@ -51,38 +69,9 @@ function ScrapeFile({props}) {
   )
 }
 
-function UploadFile ({props}) {
-  return (
-    <DropZone
-      dragonProps={{
-        bgColor: 'rgba(blue, .1)',
-        color: 'blue_medium',
-        message: 'Drop File',
-        border: '1px solid rgba(blue, .4)',
-        boxShadow: '0 0 1px rgba(blue, .7)'
-      }}
-      message={<Upload {...props}/>}
-      border='1px dashed grey_light'
-      align='center center'
-      color='grey_medium'
-      bgColor='off_white'
-      relative
-      lighter
-      fs='m'
-      wide
-      >
-      <Base
-        absolute={{top: 0, left: 0}}
-        type='file'
-        opacity='0'
-        tag='input'
-        sq='100%'
-        pointer />
-    </DropZone>
-  )
-}
+function Upload ({props}) {
+  const {onUpload} = props
 
-function Upload({props}) {
   return (
     <Block flex textAlign='center'>
       Drag File or Click Here
@@ -95,11 +84,10 @@ function Upload({props}) {
 }
 
 function MediaInput ({props}) {
-  const {
-    placeholder, scrapeMedia, scraping = {}, onAccept, ...rest
-  } = props
+  const {placeholder, loading, onSubmit, ...rest} = props
+
   return (
-    <Form align='start stretch' onClick={e => e.stopPropagation()} w='60%' onSubmit={submit} {...rest}>
+    <Form align='start stretch' onClick={e => e.stopPropagation()} w='60%' onSubmit={({url}) => onSubmit(url)} {...rest}>
       <BlockInput
         placeholder={placeholder || 'Enter a url...'}
         borderRightWidth={0}
@@ -109,17 +97,11 @@ function MediaInput ({props}) {
         lighter
         fs='s'
         mb={0}/>
-      <Button borderRadius='0' type='submit' busy={scraping.loading} >
+      <Button borderRadius='0' type='submit' busy={loading} >
         Submit
       </Button>
     </Form>
   )
-
-  function * submit(body) {
-    const object = yield scrapeMedia(body.url)
-    yield closeModal()
-    yield onAccept({...object, originalContent: body.url})
-  }
 }
 
 
