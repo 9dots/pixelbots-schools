@@ -16,9 +16,9 @@ function render ({props}) {
   const navProps = {
     hoverProps: {highlight: 0.02},
     focusProps: {highlight: 0.02},
-    bgColor: 'white',
     userSelect: 'none',
-    boxShadow: 'z2',
+    bgColor: 'white',
+    boxShadow: 'z1',
     color: 'text',
     circle: 36,
     p: 0

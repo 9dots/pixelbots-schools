@@ -19,13 +19,14 @@ function render ({props}) {
   if(overview) return <ShortAnswerOverview {...props} />
 
   return (
-    <Block relative w='30%'>
+    <Block relative wide>
       <LineInput
         onInput={e => submit(e.target.value)}
         defaultValue={answer[0] || ''}
         placeholder='Enter your answer...'
         disabled={!answerable}
         fs='s'
+        w='30%'
         borderStyle={answerable ? 'solid' : 'dotted'}
         borderColor='grey_medium'
         opacity={1}/>

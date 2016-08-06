@@ -24,7 +24,7 @@ import map from '@f/map'
 
 function render ({props}) {
   const {object, idx,  onEdit, ...rest} = props
-  const {poll, attachments = [], originalContent, randomize} = object
+  const {poll, attachments = [], originalContent, randomize,caseSensitive} = object
   const type = getProp('0.objectType', attachments)
   const isMultipleChoice = !poll && type === 'choice'
   // Make sure type is choice because poll doesn't get set
@@ -61,6 +61,7 @@ function render ({props}) {
                   })}
                   editing
                   object={att}
+                  numAtt={attachments.length}
                   poll={poll}
                   idx={i} />, attachments)
             }
@@ -91,6 +92,21 @@ function render ({props}) {
               onChange={e => onEdit({...object, randomize: e.target.checked})}
               label='Shuffle Choice Order'
               checked={randomize}
+              w={370}
+              ml/>
+        }
+        {
+          type === 'shortAnswer' &&
+            <Toggle
+              onChange={e => onEdit({
+                ...object,
+                attachments: [{
+                  ...object.attachments[0],
+                  caseSensitive: e.target.checked
+                }]
+              })}
+              label='Case Sensitive'
+              checked={object.attachments[0].caseSensitive}
               w={370}
               ml/>
         }
