@@ -28,7 +28,7 @@ function render ({props}) {
       <Block p='l' h={275} align='stretch'>
         {
            uploadable
-            ? <FileUpload onDrop={onDrop} onUpload={done} message={<Upload loading={scraping.loading} {...props}/>} align='center center' wide {...props} />
+            ? <FileUpload onDrop={onDrop} onUpload={done} message={<Upload loading={scraping.loading} {...props} onSubmit={done} />} align='center center' wide {...props} />
             : <ScrapeFile {...props} loading={scraping.loading} onSubmit={done} />
         }
       </Block>
