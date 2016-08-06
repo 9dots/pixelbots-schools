@@ -41,7 +41,6 @@ function render ({props}) {
   )
 
   function * done (url) {
-    console.log('url')
     const object = yield scrapeMedia(url)
     yield closeModal()
     yield onAccept({...object, originalContent: url})
