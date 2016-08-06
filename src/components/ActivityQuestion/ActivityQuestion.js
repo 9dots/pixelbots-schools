@@ -38,7 +38,7 @@ function render ({props, local, state}) {
     activity, overview, object, idx, answerable, showAnswers,
     comments, showIncorrect, showComments, commentsId, currentUser, onEdit, ...rest
   } = props
-  const {poll, attachments = [], points, id, content, randomize} = object
+  const {poll, attachments = [], points, id, content} = object
 
   const commentList = comments && comments
     .filter(comment => getId(getProp('_object.0.location.path', comment)) === getId(id))

@@ -28,7 +28,11 @@ const colors = [
  */
 
 function render ({props}) {
-  const {object, idx, editing, onEdit, remove, answerable, overview, focusPrevious, submit, answer = [], actor} = props
+  const {
+    object, idx, editing, onEdit, remove,
+    answerable, overview, focusPrevious, submit,
+    answer = [], actor, numAtt
+  } = props
   const {content, originalContent} = object
   const chosen = answer[0] === object._id
   const hasAnswer = !!answer.length
@@ -52,7 +56,7 @@ function render ({props}) {
       mx='1%'
       tall
       >
-      <Button zIndex={2} hide={!editing} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' tabindex='-1' hide={!idx} />
+      <Button zIndex={2} hide={!editing} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' tabindex='-1' hide={numAtt === 1} />
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
           {
@@ -66,7 +70,7 @@ function render ({props}) {
                   placeholder={`Choice #${idx+1}`}
                   inputProps={{textAlign:'center', p: '6px 12px 5px', fs: 's', fw: 200}}
                   autofocus={!content}
-                  onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}} />
+                  onKeydown={{backspace: e => e.target.value === '' && numAtt > 1 && [remove(), focusPrevious(e.target)]}} />
           }
         </Block>
         { chosen && <ChosenMarker actor={actor} /> }

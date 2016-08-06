@@ -37,7 +37,11 @@ function getProps (props, context) {
  */
 
 function render ({props}) {
-  const {object, editing, $media, onEdit, showAnswers, remove, focusPrevious, overview, answerable, submit, idx, answer = [], actor} = props
+  const {
+    object, editing, $media, onEdit, showAnswers, remove,
+    focusPrevious, overview, answerable, submit, idx,
+    answer = [], actor, numAtt
+  } = props
   const {content, originalContent} = object
   const isCorrect = object.correctAnswer[0] === object._id
   const chosen = isChosen(object, answer)
@@ -80,7 +84,6 @@ function render ({props}) {
                 <BlockInput
                   onInput={e => onEdit({...object, originalContent: e.target.value})}
                   defaultValue={originalContent}
-                  inputProps={{py: 3}}
                   wide
                   fs='s'
                   placeholder={`Choice #${idx + 1}`}
@@ -89,7 +92,7 @@ function render ({props}) {
                   my={-6}
                   inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
                   autofocus={!content}
-                  onKeydown={{backspace: e => e.target.value === '' && [remove(), focusPrevious(e.target)]}}/>
+                  onKeydown={{backspace: e => e.target.value === '' && numAtt > 1 && [remove(), focusPrevious(e.target)]}}/>
                 <Button
                   absolute={{right: -24, top: 0, bottom: 0}}
                   onClick={remove}
@@ -97,7 +100,7 @@ function render ({props}) {
                   icon='close'
                   color='text'
                   my='auto'
-                  hide={!idx}
+                  hide={numAtt === 1}
                   fs='s'/>
               </Block>
 
