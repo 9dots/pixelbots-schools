@@ -40,7 +40,7 @@ function render ({props, local, state}) {
           {
             url
               ? <Cropper url={url} onCrop={local(setCrop)} />
-              : <FileUpload onUpload={local(setImage)} validate={validateFile} />
+              : <FileUpload onUpload={local(setImage)} validate={validateFile} sq={300} />
           }
         </Block>
       </ModalBody>

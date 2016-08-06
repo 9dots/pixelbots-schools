@@ -27,7 +27,7 @@ function initialState () {
  */
 
 function render ({props, state, local}) {
-  const {onUpload = noop, validate = () => ({valid: true})} = props
+  const {onUpload = noop, validate = () => ({valid: true}), ...rest} = props
   const {progress, uploading, error} = state
 
   return (
@@ -35,25 +35,25 @@ function render ({props, state, local}) {
       relative
       accepts='Files'
       dragonProps={{
+        bgColor: 'rgba(blue, .1)',
+        color: 'blue_medium',
         message: 'Drop File',
-        color: 'blue'
+        border: '1px solid rgba(blue, .4)',
+        boxShadow: '0 0 1px rgba(blue, .7)'
       }}
       message='Drag File or Click Here'
       color='grey_medium'
-      border='1px dashed'
-      bgColor='grey_light'
-      sq={300}
-      fs='s'
+      border='1px dashed grey_light'
+      bgColor='off_white'
+      fs='m'
       relative
-      fw='lighter'
+      lighter
       mx='auto'
-      uploading={uploading}>
+      uploading={uploading}
+      {...rest}>
       <ProgressBar w='50%' h='5' absolute top bottom right left m='auto' hide={!uploading} progress={progress} />
       <ErrorTip show={!!error} message={error} placement='right' />
-      <Base
-        tall wide
-        onChange={upload}
-        tag='input' type='file' opacity='0' absolute top left pointer />
+      <Base sq='100%' onChange={upload} tag='input' type='file' opacity='0' absolute top left pointer />
     </DropZone>
   )
 
