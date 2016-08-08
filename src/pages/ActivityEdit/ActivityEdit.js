@@ -6,6 +6,7 @@ import ActivitySidebar from 'components/ActivitySidebar'
 import ActivityEditor from 'components/ActivityEditor'
 import {Block, Card} from 'vdux-ui'
 import element from 'vdux/element'
+import getProp from '@f/get-prop'
 
 /**
  * <ActivityEdit/>
@@ -14,17 +15,13 @@ import element from 'vdux/element'
 function render ({props, local, state}) {
   const {activity, currentUser} = props
   const isTeacher = currentUser.userType === 'teacher'
+  const defaultPoints = getProp('preferences.max_points', currentUser)
 
   return (
     <Block align='center start'>
-      <ActivityEditor
-        showAnswers
-        activity={activity} />
+      <ActivityEditor showAnswers activity={activity} defaultPoints={defaultPoints} />
       <Block w={200} ml relative fixed={{top: 53}}>
-        <ActivitySidebar
-          canSetMax
-          activity={activity}
-          currentUser={currentUser} />
+        <ActivitySidebar canSetMax activity={activity} />
       </Block>
       <Block w={200}/>
     </Block>

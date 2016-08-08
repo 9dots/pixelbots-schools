@@ -26,7 +26,7 @@ function initialState ({props}) {
  */
 
 function render ({props, state, local}) {
-  const {attach, startsOpen} = props
+  const {attach, startsOpen, defaultPoints = 10} = props
 
   const menu = [
     <Close onClick={local(toggle)} absolute='top -10px right -10px' hide={startsOpen} />,
@@ -50,7 +50,7 @@ function render ({props, state, local}) {
     </Block>
   )
 
-  function attachMedia(type) {
+  function attachMedia (type) {
     return () => openModal(() => <MediaModal
       onAccept={createAndAttach}
       type={type} />)
@@ -76,9 +76,13 @@ function render ({props, state, local}) {
   function * attachQuestion () {
     const id1 = yield generateObjectId()
     const id2 = yield generateObjectId()
+
     yield attach({
       _id: id1,
       objectType: 'question',
+      points: {
+        max: defaultPoints
+      },
       attachments: [{
         _id: id2,
         objectType: 'choice',
