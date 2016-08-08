@@ -44,6 +44,7 @@ const ActivityObject = wrap(CSSContainer, {
     }
 
     if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)
+
     return (
       <Block
         pageBreakInside='avoid'

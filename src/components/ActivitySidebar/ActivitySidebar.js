@@ -160,33 +160,36 @@ const ScoreRow = summon(({activity, question}) => ({
         tabindex='-1'
         fw='lighter'
         fs='s'>
-        <Block w='calc(100% + 3px)' hide={num == 1} absolute left='-3' top borderTop='1px solid grey_light'/>
+        {num !== 1 && <Block w='calc(100% + 3px)' absolute left='-3' top borderTop='1px solid grey_light' />}
         <Text align='start center' color={color}>
           {num}. <Icon pl='s' fs='xs' name={questionIcon(question)} />
         </Text>
-        <Block
-          border={'1px solid transparent'}
-          borderColor={canGrade ? 'grey_light' : 'transparent'}
-          bg={canGrade ? 'white' : 'transparent'}
-          align='start center'
-          hide={question.poll}
-          key={activity.id}
-          w='50%'>
-          <Input
-            {...inputProps}
-            onInput={setPoints}
-            disabled={!canGrade}
-            color={canGrade ? 'text' : 'grey_medium'}
-            defaultValue={curPoints}
-            placeholder={canGrade ? curPoints : '-'} />
-          <Text bgColor='transparent' color='black'>/</Text>
-          <Input
-            {...inputProps}
-            onInput={setMax}
-            disabled={!canSetMax}
-            color={canSetMax ? 'text' : 'grey_medium'}
-            defaultValue={max} />
-        </Block>
+        {
+          !question.poll && (
+            <Block
+              border={'1px solid transparent'}
+              borderColor={canGrade ? 'grey_light' : 'transparent'}
+              bg={canGrade ? 'white' : 'transparent'}
+              align='start center'
+              key={activity.id}
+              w='50%'>
+              <Input
+                {...inputProps}
+                onInput={setPoints}
+                disabled={!canGrade}
+                color={canGrade ? 'text' : 'grey_medium'}
+                defaultValue={curPoints}
+                placeholder={canGrade ? curPoints : '-'} />
+              <Text bgColor='transparent' color='black'>/</Text>
+              <Input
+                {...inputProps}
+                onInput={setMax}
+                disabled={!canSetMax}
+                color={canSetMax ? 'text' : 'grey_medium'}
+                defaultValue={max} />
+            </Block>
+          )
+        }
       </ContainerBlock>
     )
 

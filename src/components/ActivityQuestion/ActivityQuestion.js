@@ -50,9 +50,8 @@ function render ({props, local, state}) {
   return (
     <Block fw='lighter' relative class='question' {...rest}>
       {
-        !poll && comments &&
+        !poll && comments && (!isStudent || commentList.length > 0) &&
         <QuestionComments
-          hide={isStudent && commentList.length === 0}
           absolute={{right: 0, top: 0}}
           showComments={showComments}
           currentUser={currentUser}
@@ -62,14 +61,17 @@ function render ({props, local, state}) {
           question={object}
           z='2'/>
       }
-      <IncorrectX show={!poll && showIncorrect && (!points.scaled || points.scaled <= .5)} />
+      {
+        !poll && showIncorrect && (!points.scaled || points.scaled <= .5) &&
+          <IncorrectX />
+      }
       <Block align='start' py mb>
         {
           !overview &&
           <Badge mr='l' pt={3} size={25}>{idx + 1}</Badge>
         }
         <Block flex>
-          <Block key='a' fs='s' innerHTML={content} class='markdown' mb='l' hide={!content} />
+          {content && <Block key='a' fs='s' innerHTML={content} class='markdown' mb='l' />}
           <Block align='start' mx={overview ? 40 : 0} column={!poll && type === 'choice'}>
             {
               map(
@@ -97,7 +99,7 @@ function render ({props, local, state}) {
   )
 }
 
-function IncorrectX ({props}) {
+function IncorrectX () {
   return (
     <Block
       printProps={{bgColor: 'transparent', left: -25, boxShadow: '0 0 0', borderRadius: 0}}
@@ -106,7 +108,6 @@ function IncorrectX ({props}) {
       bgColor='red'
       boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)'
       color='white'
-      hide={!props.show}
       circle={32}
       m='auto'>
         <Icon
