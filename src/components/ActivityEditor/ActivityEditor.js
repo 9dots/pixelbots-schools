@@ -199,10 +199,7 @@ function onUpdate (prev, next) {
         ...editedActivity,
         _object: [{
           ...editedActivity._object[0],
-          attachments: map(
-            (att, i) => mergeAttachments(att, activity._object[0].attachments[i]),
-            editedActivity._object[0].attachments
-          )
+          attachments: mergeAttachments(editedActivity._object[0].attachments, activity._object[0].attachments)
         }]
       }),
       next.local(clearDirty)()
@@ -211,7 +208,23 @@ function onUpdate (prev, next) {
 }
 
 const media = ['video', 'image', 'document', 'link']
+
 function mergeAttachments (edited, saved) {
+  const result = []
+  const idMap = index(({_id}) => _id, saved)
+
+  for (let i = 0; i < edited.length; i++) {
+    const att = edited[i]
+
+    idMap[att._id]
+      ? result.push(mergeAttachment(att, idMap[att._id]))
+      : result.push(att)
+  }
+
+  return result
+}
+
+function mergeAttachment (edited, saved) {
   if (media.indexOf(edited.objectType) !== -1) {
     return {
       ...saved,
