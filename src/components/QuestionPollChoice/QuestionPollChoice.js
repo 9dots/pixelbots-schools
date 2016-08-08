@@ -56,7 +56,7 @@ function render ({props}) {
       mx='1%'
       tall
       >
-      <Button zIndex={2} hide={!editing} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' tabindex='-1' hide={numAtt === 1} />
+      <Button zIndex={2} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' tabindex='-1' hide={!editing || numAtt === 1} />
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
           {
