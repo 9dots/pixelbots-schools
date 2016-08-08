@@ -91,7 +91,6 @@ function render ({props}) {
                   mb={0}
                   my={-6}
                   inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
-                  autofocus={!content}
                   onKeydown={{backspace: e => e.target.value === '' && numAtt > 1 && [remove(), focusPrevious(e.target)]}}/>
                 <Button
                   absolute={{right: -24, top: 0, bottom: 0}}

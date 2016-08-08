@@ -2,20 +2,16 @@
  * Imports
  */
 
-import {Block} from 'vdux-ui'
 import {Tooltip} from 'vdux-containers'
 import element from 'vdux/element'
-
-/**
- * Colors
- */
+import {Block} from 'vdux-ui'
 
 /**
  * <QuestionChoice/>
  */
 
 function render ({props}) {
-  const { object, question, bgColor, correctCheck: CorrectCheck } = props
+  const {object, question, bgColor, correctCheck: CorrectCheck} = props
   const {responses, numAnswered, total} = question
   const names = responses
     .filter(r => r.response.indexOf(object._id) !== -1)

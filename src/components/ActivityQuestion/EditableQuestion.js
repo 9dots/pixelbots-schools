@@ -32,7 +32,7 @@ function render ({props}) {
   const isPoll = poll && type === 'choice'
 
   return (
-    <Block fw='lighter' relative class='question' {...rest}>
+    <Block fw='lighter' relative {...rest}>
       <Block align='start' py mb>
         <Badge mr='l' pt={3} size={25}>{idx + 1}</Badge>
         <Block flex>
@@ -44,7 +44,7 @@ function render ({props}) {
               <MarkdownHelper mt={8} menuProps={{mr: -12}} />
             </Block>
           </Block>
-          <Block align='start' column={isMultipleChoice} onKeypress={{enter: type === 'choice' && attach('choice')}}>
+          <Block class='choice-container' align='start' column={isMultipleChoice} onKeypress={{enter: [type === 'choice' && attach('choice'), e => focusLast(e.target)]}}>
             {
               map((att, i) => <QuestionAttachment
                   question={object}
@@ -147,17 +147,34 @@ function render ({props}) {
   // XXX This is a bit of a hack to give focus to the previous
   // choice when deleting
   function focusPrevious (node) {
+    const p = findParent(node)
+
+    const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
+    if (inputs.length) {
+      const idx = inputs.indexOf(node)
+      setTimeout(() => inputs[idx - 1].focus())
+    }
+  }
+
+  function focusLast (node) {
+    const p = findParent(node)
+
+    // Wait until the next choice is rendered
+    setTimeout(() => {
+      const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
+      if (inputs.length) {
+        inputs[inputs.length -1].focus()
+      }
+    }, 30)
+  }
+
+  function findParent (node) {
     let p = node
-    while ((p = p.parentNode) && p.className.indexOf('question') === -1)
+
+    while ((p = p.parentNode) && p.className.indexOf('choice-container') === -1)
       ;
 
-    if (p) {
-      const inputs = [].slice.call(p.querySelectorAll('input'))
-      if (inputs.length) {
-        const idx = inputs.indexOf(node)
-        setTimeout(() => inputs[idx - 1].focus())
-      }
-    }
+    return p
   }
 }
 
