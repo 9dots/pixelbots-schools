@@ -102,10 +102,9 @@ const Video = {
               sq={150}
               fs={150}
               m='auto'/>
-              <Block
+              {displayName && <Block
                 bg='linear-gradient(to top,rgba(52,52,52,0.45),rgba(52,52,52,0))'
                 absolute={{bottom: 0, left: 0}}
-                hide={!displayName}
                 p='30% 5% 3%'
                 wide>
                 <Link
@@ -118,7 +117,7 @@ const Video = {
                   fs='s'>
                   {displayName}
                 </Link>
-              </Block>
+              </Block>}
           </Block>
           {
             state.play &&
@@ -177,9 +176,9 @@ function Document ({props}) {
           <Icon name='open_in_new' mr='xs' fs='inherit' />
           View File
         </Link>
-        <Link ml {...linkProps} hide={!editable}>
+        {editable && <Link ml {...linkProps}>
           <Icon name='edit' mr='xs' fs='inherit' />Edit File
-        </Link>
+        </Link>}
       </Block>
     </Block>
   )

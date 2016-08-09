@@ -35,7 +35,7 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {save, ...rest} = props
+  const {save, defaultPoints, ...rest} = props
   const {editing, editedActivity} = state
   const {attachments} = editedActivity._object[0]
   let idx = 0
@@ -45,33 +45,33 @@ function render ({props, local, state}) {
     <Block>
       <Card w={756}>
         <ActivityHeader
+          editable
           clickableTags
           activity={editedActivity}
-          editable
           editing={editing === 'header'}
-          onEdit={header => local(change)({...editedActivity, ...header})}
-          open={() => saveAndOpen('header')} />
+          open={() => saveAndOpen('header')}
+          onEdit={header => local(change)({...editedActivity, ...header})} />
         <Block>
           {
             map((object, i) => (
               <Block
-                key={object._id}
                 draggable
-                onMouseDown={e => {target = e.target}}
-                onDragStart={e => onDragStart(e, object._id)}
+                key={object._id}
                 onDragOver={onDragOver(object._id)}
                 onDragEnd={local(setDragging, null)}
+                onMouseDown={e => {target = e.target}}
+                onDragStart={e => onDragStart(e, object._id)}
                 bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
                 <ActivityObject
                   editable
-                  hidden={state.dragging === object._id}
-                  onEdit={editObject(i)}
-                  activity={editedActivity}
                   object={object}
+                  onEdit={editObject(i)}
+                  save={() => saveNow()}
+                  activity={editedActivity}
                   editing={editing === object._id}
                   remove={removeObject(object._id)}
-                  save={() => saveNow()}
                   open={() => saveAndOpen(object._id)}
+                  hidden={state.dragging === object._id}
                   idx={object.objectType === 'question' ? idx++ : null}
                   {...rest} />
               </Block>), attachments)
@@ -79,7 +79,7 @@ function render ({props, local, state}) {
         </Block>
       </Card>
       <Block h={18} onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
-      <AttachmentMenu attach={attach} startsOpen={!attachments.length} />
+      <AttachmentMenu attach={attach} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
     </Block>
   )
 
@@ -199,10 +199,7 @@ function onUpdate (prev, next) {
         ...editedActivity,
         _object: [{
           ...editedActivity._object[0],
-          attachments: map(
-            (att, i) => mergeAttachments(att, activity._object[0].attachments[i]),
-            editedActivity._object[0].attachments
-          )
+          attachments: mergeAttachments(editedActivity._object[0].attachments, activity._object[0].attachments)
         }]
       }),
       next.local(clearDirty)()
@@ -211,7 +208,23 @@ function onUpdate (prev, next) {
 }
 
 const media = ['video', 'image', 'document', 'link']
+
 function mergeAttachments (edited, saved) {
+  const result = []
+  const idMap = index(({_id}) => _id, saved)
+
+  for (let i = 0; i < edited.length; i++) {
+    const att = edited[i]
+
+    idMap[att._id]
+      ? result.push(mergeAttachment(att, idMap[att._id]))
+      : result.push(att)
+  }
+
+  return result
+}
+
+function mergeAttachment (edited, saved) {
   if (media.indexOf(edited.objectType) !== -1) {
     return {
       ...saved,

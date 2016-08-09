@@ -32,13 +32,9 @@ const editingProps = {
  * <ActivityObject/>
  */
 
-function render ({props}) {
-  return (
-    <ActObj hoverProps={{hover: true}} {...props} />
-  )
-}
-
-const ActObj = wrap(CSSContainer)({
+const ActivityObject = wrap(CSSContainer, {
+  hoverProps: {hover: true}
+})({
   render({props}) {
     const {object, open, editing, editable, onEdit, hover, ...rest} = props
     const Obj = typeMap[object.objectType]
@@ -48,6 +44,7 @@ const ActObj = wrap(CSSContainer)({
     }
 
     if (!Obj) throw new Error('<ActivityObject/>: unknown object type: ' + object.objectType)
+
     return (
       <Block
         pageBreakInside='avoid'
@@ -80,6 +77,4 @@ const ActObj = wrap(CSSContainer)({
  * Exports
  */
 
-export default {
-  render
-}
+export default ActivityObject

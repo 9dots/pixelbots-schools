@@ -23,6 +23,8 @@ const colors = [
   Color(grey).lighten(0.6).rgbString()
 ].map(c => Color(c).lighten(0.3).rgbString())
 
+const printProps = {bgColor: 'transparent', p: '2px 0 2px 20px'}
+
 /**
  * getProps
  */
@@ -50,11 +52,11 @@ function render ({props}) {
     ? chosen ? colors[idx % colors.length] : 'grey_light'
     : colors[idx % colors.length]
 
-  if(overview) return <ChoiceOverview correctCheck={isCorrect && CorrectCheck} bgColor={bgColor} {...props} />
+  if (overview) return <ChoiceOverview correctCheck={isCorrect && CorrectCheck} bgColor={bgColor} {...props} />
 
   return (
     <Block
-      printProps={{bgColor: 'transparent', p: '2px 0 2px 20px'}}
+      printProps={printProps}
       onClick={answerable && submitAnswer}
       p={editing ? '12px 30px 12px 18px' : '12px 12px 12px 30px'}
       pointer={answerable}
@@ -64,7 +66,7 @@ function render ({props}) {
       relative
       w='70%'
       my='s'>
-      {!editing && showAnswers && isCorrect && <CorrectCheck show />}
+      {!editing && showAnswers && isCorrect && <CorrectCheck />}
       {chosen && <ChosenMarker actor={actor} />}
       {
         $media === 'print' && (
@@ -91,7 +93,6 @@ function render ({props}) {
                   mb={0}
                   my={-6}
                   inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
-                  autofocus={!content}
                   onKeydown={{backspace: e => e.target.value === '' && numAtt > 1 && [remove(), focusPrevious(e.target)]}}/>
                 <Button
                   absolute={{right: -24, top: 0, bottom: 0}}
@@ -148,8 +149,6 @@ function ChosenMarker ({props}) {
 }
 
 function CorrectCheck ({props}) {
-  const {show} = props
-
   return (
     <Block
       absolute={{left: -18, top: 0, bottom: 0}}
@@ -157,7 +156,6 @@ function CorrectCheck ({props}) {
       bgColor='white'
       boxShadow='0 1px 3px 0 rgba(0,0,0,0.5)'
       color='green'
-      hide={!show}
       circle={32}
       printProps={{boxShadow: '0 0 0', borderRadius: 0}}
       m='auto'>
