@@ -12,14 +12,15 @@ import element from 'vdux/element'
  */
 
 function render ({props, local, state}) {
-  const {activity, currentUser} = props
+  const {activity, currentUser, speech} = props
   const isTeacher = currentUser.userType === 'teacher'
 
   return (
     <Block align='center start'>
       <ActivityEditor
         showAnswers
-        activity={activity} />
+        activity={activity}
+        speech={speech} />
       <Block w={200} ml relative fixed={{top: 53}}>
         <ActivitySidebar
           canSetMax

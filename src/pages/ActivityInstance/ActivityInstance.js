@@ -20,7 +20,7 @@ import element from 'vdux/element'
 
 function render ({props, local, state}) {
   const {isShown} = state
-  const {instance, currentUser, activities} = props
+  const {instance, currentUser, activities, speech} = props
   const isTeacher = currentUser.userType === 'teacher'
   const isStudent = currentUser.userType === 'student'
   const isReturned = instance.status === statusMap.returned
@@ -35,7 +35,7 @@ function render ({props, local, state}) {
 
   const isTurnedIn = status === statusMap.turnedIn || status === statusMap.graded
   const hideInstance = hideOnTurnIn && isStudent && isTurnedIn
-  const isHidden = hideInstance || (!isShown && isStudent)
+  const isHidden = !isShown && isTurnedIn && isStudent
 
   return (
     <Block>
@@ -60,7 +60,8 @@ function render ({props, local, state}) {
             clickableTags={isTeacher}
             showIncorrect={isRedo || instance.status === statusMap.returned}
             showAnswers={isTeacher || instance.status === statusMap.returned}
-            answerable={isStudent && instance.status <= statusMap.opened} />
+            answerable={isStudent && instance.status <= statusMap.opened}
+            speech={speech} />
         </Card>
         <Block
           printProps={{hide: true}}

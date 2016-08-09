@@ -16,7 +16,7 @@ import element from 'vdux/element'
  */
 
 function render ({props, local, state}) {
-  const {activity, currentUser} = props
+  const {activity, currentUser, speech} = props
   const isTeacher = currentUser.userType === 'teacher'
   return (
     <Block align='center start'>
@@ -29,7 +29,8 @@ function render ({props, local, state}) {
           showAnswers={true}
           printProps={{showAnswers: state.printAnswers}}
           clickableTags={isTeacher}
-          activity={activity} />
+          activity={activity}
+          speech={speech} />
       </Card>
       <Block w={200} ml relative fixed={{top: 53}} printProps={{hide: true}}>
         <ActivitySidebar activity={activity} currentUser={currentUser} />

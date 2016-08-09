@@ -1,0 +1,5 @@
+{
+  "name": "TextToSpeech",
+  "main": "TextToSpeech.js",
+  "browser": "TextToSpeech.js"
+}

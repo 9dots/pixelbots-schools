@@ -5,6 +5,8 @@
 import ObjectControls from 'components/ObjectControls'
 import MarkdownHelper from 'components/MarkdownHelper'
 import LineTextarea from 'components/LineTextarea'
+import TextToSpeech from 'components/TextToSpeech'
+import {Button} from 'vdux-containers'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
 
@@ -13,12 +15,20 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {object, editing, open, editable, onEdit, remove, ...rest} = props
+  const {object, editing, open, editable, onEdit, remove, speech = {}, ...rest} = props
+  const {setSpeaking, speakingId, rate} = speech
 
   if (editing) return <EditablePost {...props} />
 
   return (
     <Block {...rest}>
+      <TextToSpeech
+        onStart={() => setSpeaking(object._id)}
+        onEnd={() => setSpeaking()}
+        rate={rate}
+        text={object.displayName}
+        current={speakingId === object._id}
+        float='left'/>
       <Block
         fs='s'
         fw='100'
