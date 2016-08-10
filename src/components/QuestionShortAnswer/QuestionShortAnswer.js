@@ -20,37 +20,41 @@ function render ({props}) {
 
   if(overview) return <ShortAnswerOverview {...props} />
 
+  const filterAnswers = object.correctAnswer.filter(Boolean)
+
   return (
     <Block relative wide>
       {
         editing
           ? <ShortAnswerEdit onEdit={onEdit} object={object} focusPrevious={focusPrevious} />
-          : <LineInput
-              onInput={e => submit(e.target.value)}
-              defaultValue={answer[0] || ''}
-              placeholder='Enter your answer...'
-              disabled={!answerable}
-              fs='s'
-              w='30%'
-              borderStyle={answerable ? 'solid' : 'dotted'}
-              borderColor='grey_medium'
-              opacity={1}/>
+          : <Block align='start center'>
+              <LineInput
+                onInput={e => submit(e.target.value)}
+                defaultValue={answer[0] || ''}
+                placeholder='Enter your answer...'
+                disabled={!answerable}
+                fs='s'
+                w='30%'
+                borderStyle={answerable ? 'solid' : 'dotted'}
+                borderColor='grey_medium'
+                opacity={1}/>
+                <Tooltip ml='s' message='Responses that match any solution from the list below will automatically be marked correct.' tooltipProps={{whiteSpace: 'normal'}} placement='right'>
+                  <Icon mt={1} name='help' fs='s' pr />
+                </Tooltip>
+            </Block>
       }
       {
         showAnswers && (
           <Block>
             {
-              object.correctAnswer.filter(Boolean).length
+              filterAnswers.length
               ? <Block>
-                  <Block align='start center'>
+                  <Block>
                     Correct Answers:
-                    <Tooltip ml='s' immediate message='Responses that match any solution from the list below will automatically be marked correct.' tooltipProps={{whiteSpace: 'normal'}} placement='right'>
-                      <Icon mt={1} name='help' fs='s' pr />
-                    </Tooltip>
                   </Block>
                   <Block align='start center'>
                     {
-                      object.correctAnswer.map(answer => (
+                      filterAnswers.map(answer => (
                       <Block lh='18px' px='s' mr='s' pill bgColor='blue' color='white' fs='12px' fw='normal'>
                         {answer}
                       </Block>

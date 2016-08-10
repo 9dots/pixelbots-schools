@@ -13,7 +13,7 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {activity, editable} = props
+  const {activity, editable, busy} = props
   const {image, displayName, description, _id} = activity
   const textareaProps = {
     focusProps: {border: '1px solid rgba(37, 168, 224, 0.35)', highlight: 0.01},
@@ -39,7 +39,7 @@ function render ({props}) {
         </Block>
       </Flex>
       <Block align='end center' borderTop='1px solid grey_light'>
-        <EditButton activity={activity} m='s'/>
+        <EditButton activity={activity} m='s' disabled={busy}/>
       </Block>
     </Card>
   )

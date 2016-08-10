@@ -19,9 +19,14 @@ import summon from 'vdux-summon'
 
 function render ({props}) {
   const {
-    activity, fields, boards, createBoard, pin, copyActivity, redirect,
+    activity, fields, boards, redirect,
+    createBoard, creatingBoard = {},
+    pin, pinning = {},
+    copyActivity, copying = {}
   } = props
   const {value, loaded} = boards
+
+  const busy = creatingBoard.loading || copying.loading || pinning.loading
 
   if (!loaded) return <span/>
 
@@ -29,13 +34,13 @@ function render ({props}) {
     <Modal onDismiss={closeModal} w='620' bgColor='grey_light'>
       <Flex>
         <Block flex align='center center' py px='l'>
-          <ActivityTileModaled activity={activity} />
+          <ActivityTileModaled busy={busy} activity={activity} />
         </Block>
         <Flex column bg='white' flex boxShadow='-1px 0 1px 0 rgba(0,0,0,0.1)' relative minHeight='400px'>
           <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
             Select a Board to Pin to:
           </ModalHeader>
-          <PinSelect boards={value.items} onSelect={doPin} createBoard={createBoard} absolute h='calc(100% - 56px)' wide />
+          <PinSelect boards={value.items} onSelect={doPin} createBoard={createBoard} busy={busy} absolute h='calc(100% - 56px)' wide />
         </Flex>
       </Flex>
       <ModalFooter m='0'>
@@ -46,7 +51,7 @@ function render ({props}) {
     </Modal>
   )
 
-  function *doPin (board) {
+  function * doPin (board) {
     const {displayName, originalDescription} = activity
     const model = {
       displayName: fields.displayName.value === undefined ? displayName : fields.displayName.value,
@@ -89,7 +94,7 @@ function render ({props}) {
 export default summon(() => ({
   boards: '/user/boards',
   createBoard: body => ({
-    newBoard: {
+    creatingBoard: {
       url: '/board/',
       method: 'POST',
       invalidates: ['/user/boards', '/user'],
@@ -97,7 +102,7 @@ export default summon(() => ({
     }
   }),
   pin: (boardId, activityId, rest) => ({
-    pinToBoard: {
+    pinning: {
       url: `/share/${activityId}/pin/`,
       method: 'PUT',
       body: {
@@ -107,7 +112,7 @@ export default summon(() => ({
     }
   }),
   copyActivity: activityId => ({
-    copyingActivity: {
+    copying: {
       url: `/share/${activityId}/copy`,
       method: 'POST'
     }

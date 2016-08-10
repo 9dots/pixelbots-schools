@@ -21,7 +21,7 @@ function render ({props, local, state, path}) {
   } = props
   const {opened} = state
   return (
-    <Form onSubmit={onSubmit} onSuccess={local(toggle)} validate={validate} relative onChange={e => e.stopPropagation()}>
+    <Form onSubmit={onSubmit} onSuccess={!loading && local(toggle)} validate={validate} relative onChange={e => e.stopPropagation()}>
       {
         opened
           ? <Block
@@ -38,8 +38,8 @@ function render ({props, local, state, path}) {
                 name='displayName'
                 autofocus/>
               <Block align='start center' mt>
-                <Button px mr bgColor='grey' text='Cancel' onClick={local(toggle)}/>
-                <Button id={path} px text='Create' type='submit' busy={loading} />
+                <Button px mr bgColor='grey' text='Cancel' onClick={local(toggle)} disabled={loading}/>
+                <Button id={path} px text='Create' type='submit' disabled={loading} />
               </Block>
             </Block>
           : <Block
@@ -51,7 +51,7 @@ function render ({props, local, state, path}) {
               p
               {...rest}
               {...closedProps}>
-              <Button bgColor='red' h='32px' w='38px' p='0' mr icon='add' fs='s'/>
+              <Button bgColor='red' h='32px' w='38px' p='0' mr icon='add' fs='s' disabled={loading}/>
               New {type}
             </Block>
       }

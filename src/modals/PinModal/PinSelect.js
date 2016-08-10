@@ -17,14 +17,14 @@ import map from '@f/map'
  */
 
 function render ({props, local, state}) {
-  const {boards, createBoard, onSelect, ...rest} = props
+  const {boards, createBoard, onSelect, busy, ...rest} = props
 
   return (
     <Block overflowY='auto' {...rest}>
       {
-        map(board => <BoardItem board={board} onClick={() => onSelect(board)} />, boards)
+        map(board => <BoardItem busy={busy} board={board} onClick={() => onSelect(board)} />, boards)
       }
-      <NewMenuItem key='newMenuItem' validate={validate.board} onSubmit={handleSubmit} type='Board' />
+      <NewMenuItem key='newMenuItem' validate={validate.board} onSubmit={handleSubmit} loading={busy} type='Board' />
     </Block>
   )
 
@@ -35,14 +35,14 @@ function render ({props, local, state}) {
 }
 
 function BoardItem ({props}) {
-  const {onClick, board} = props
+  const {onClick, board, busy} = props
   return (
     <Block
       hoverProps={{highlight: 0.03}}
       align='start center'
       bgColor='white'
-      pointer
-      onClick={onClick}
+      pointer={!busy}
+      onClick={!busy && onClick}
       p>
       <Button
         hoverProps={{highlight: 0.01}}
@@ -50,6 +50,7 @@ function BoardItem ({props}) {
         border='1px solid blue'
         bgColor='white'
         color='blue'
+        disabled={busy}
         h='32px'
         w='38px'
         p='0'

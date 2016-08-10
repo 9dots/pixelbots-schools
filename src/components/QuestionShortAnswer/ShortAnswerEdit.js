@@ -27,7 +27,7 @@ function render ({props}) {
             answer={ans}
             onInput={answer => save(replace(object.correctAnswer, i, answer))
             }
-            onEnter={() => save(object.correctAnswer.concat(false))}
+            onEnter={() => save(object.correctAnswer.concat(''))}
             num={correctAnswer.length}
             remove={remove}
             idx={i} />,
@@ -40,7 +40,7 @@ function render ({props}) {
           focusProps={{highlight: .03}}
           borderColor='grey_medium'
           bgColor='white'
-          onClick={() => save(object.correctAnswer.concat(false))}
+          onClick={() => save(object.correctAnswer.concat(''))}
           color='text'
           mr
           px>
