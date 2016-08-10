@@ -19,15 +19,17 @@ function render ({props, local, state}) {
 
   return (
     <Block align='center start'>
-      <ActivityEditor
-        defaultPoints={defaultPoints}
-        activity={activity}
-        speech={speech}
-        showAnswers/>
-      <Block w={200} ml relative fixed={{top: 53}}>
-        <ActivitySidebar canSetMax activity={activity} />
+      <Block align='end start' relative>
+        <ActivityEditor
+          defaultPoints={defaultPoints}
+          activity={activity}
+          speech={speech}
+          showAnswers/>
+        <Block w={200} relative fixed={{top: 53}} float='right'>
+          <ActivitySidebar canSetMax activity={activity} />
+        </Block>
+        <Block w={200} ml/>
       </Block>
-      <Block w={200}/>
     </Block>
   )
 }

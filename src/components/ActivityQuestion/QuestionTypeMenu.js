@@ -30,12 +30,7 @@ function Btn({props}) {
   const {object} = props
   return (
     <Button
-      border='1px solid blue'
       align='space-between center'
-      hoverProps={{highlight: 0.03}}
-      focusProps={{highlight: 0.03}}
-      bgColor='off_white'
-      color='blue'
       uppercase
       w={190}
       px>

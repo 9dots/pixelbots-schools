@@ -19,7 +19,7 @@ function render ({props, state, local}) {
   return (
     <Dropdown
       btn={<Button tabindex={-1} icon='info' color='text' fs='s' {...rest} />}
-      w={732} right mt='s' z={2} {...menuProps}>
+      w={732} right mt={8} z={2} {...menuProps}>
       <Block align='start stretch' my={-6} onClick={e => e.stopPropagation()}>
         <Arrow />
         <Block flex='40%' borderRight='1px solid grey_light' py>
@@ -56,7 +56,8 @@ function render ({props, state, local}) {
 function Arrow () {
   const props = {
     absolute: {bottom: '100%', right: 11},
-    border: '10px solid transparent'
+    border: '10px solid transparent',
+    borderTopWidth: 0
   }
   return (
     <span>
