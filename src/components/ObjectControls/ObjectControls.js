@@ -19,28 +19,25 @@ function render ({props, children}) {
         {children}
       </Block>
       <Block align='end stretch'>
-        <Btn onClick={remove} color='grey_medium'>
+        <Btn onClick={remove}>
           <Icon fs='s' name='delete' color='text' />
         </Btn>
-        <Btn color='blue' onClick={open} ml='s'>
-          Done
-        </Btn>
+        <Btn onClick={open} ml='s'>Done</Btn>
       </Block>
     </Block>
   )
 }
 
 function Btn ({props, children}) {
-  const {color, ...rest} = props
   return (
     <Button
       hoverProps={{highlight: 0.025}}
       focusProps={{highlight: 0.025}}
-      border={'1px solid ' +  color}
+      border='1px solid grey_medium'
       bgColor='off_white'
-      color={color}
+      color='text'
       px
-      {...rest}>
+      {...props}>
       {children}
     </Button>
   )

@@ -81,11 +81,26 @@ function EditingHeader ({props}) {
       </Block>
       <Block bgColor='off_white' border='1px solid grey_light' borderWidth='1px 0' p m={-24} mt='l' align='end'>
         <Button bgColor='grey' px mr='s' onClick={() => openModal(() => <ActivitySettingsModal activity={activity} onEdit={onEdit} />)}>
-          <Icon fs='s' name='settings' />
+          <Icon color='white' fs='s' name='settings' />
         </Button>
-        <Button onClick={open} px>Done</Button>
+        <Btn onClick={open}>Done</Btn>
       </Block>
     </Block>
+  )
+}
+
+function Btn ({props, children}) {
+  return (
+    <Button
+      hoverProps={{highlight: 0.025}}
+      focusProps={{highlight: 0.025}}
+      border='1px solid grey_medium'
+      bgColor='off_white'
+      color='text'
+      px
+      {...props}>
+      {children}
+    </Button>
   )
 }
 

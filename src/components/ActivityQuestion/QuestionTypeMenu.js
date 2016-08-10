@@ -31,6 +31,7 @@ function Btn({props}) {
   return (
     <Button
       align='space-between center'
+      bgColor='grey'
       uppercase
       w={190}
       px>
