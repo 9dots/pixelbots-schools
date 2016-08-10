@@ -41,16 +41,18 @@ function render ({props}) {
           <Block>
             {
               object.correctAnswer.filter(Boolean).length
-              ? object.correctAnswer.map(answer => (
+              ? <Block>
                   <Block>
-                    <Block>
-                      Correct Answers:
-                    </Block>
+                    Correct Answers:
+                  </Block>
+                  {
+                    object.correctAnswer.map(answer => (
                     <Block lh='18px' px='s' ml='s' display='inline-block' pill bgColor='blue' color='white' fs='12px' fw='normal'>
                       {answer}
                     </Block>
-                  </Block>
-                ))
+                    ))
+                  }
+                </Block>
               : <Block mt>No Answers Specified</Block>
             }
           </Block>

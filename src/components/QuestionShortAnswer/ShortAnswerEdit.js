@@ -50,7 +50,7 @@ function render ({props}) {
         </Button>
         <Block align='center center'>
           <Tooltip immediate message='Provide all possible solutions to the question.  Student responses must exactly match one of your provided solutions.' tooltipProps={{whiteSpace: 'normal', textAlign: 'center', fs: 'xs', p: 'm', lh: '1.4em'}}>
-            <Icon name='info' fs='s' />
+            <Icon name='help' fs='s' />
           </Tooltip>
         </Block>
       </Block>
