@@ -42,16 +42,21 @@ function render ({props}) {
             {
               object.correctAnswer.filter(Boolean).length
               ? <Block>
-                  <Block>
+                  <Block align='start center'>
                     Correct Answers:
+                    <Tooltip ml='s' immediate message='Responses that match any solution from the list below will automatically be marked correct.' tooltipProps={{whiteSpace: 'normal'}} placement='right'>
+                      <Icon mt={1} name='help' fs='s' pr />
+                    </Tooltip>
                   </Block>
-                  {
-                    object.correctAnswer.map(answer => (
-                    <Block lh='18px' px='s' ml='s' display='inline-block' pill bgColor='blue' color='white' fs='12px' fw='normal'>
-                      {answer}
-                    </Block>
-                    ))
-                  }
+                  <Block align='start center'>
+                    {
+                      object.correctAnswer.map(answer => (
+                      <Block lh='18px' px='s' mr='s' pill bgColor='blue' color='white' fs='12px' fw='normal'>
+                        {answer}
+                      </Block>
+                      ))
+                    }
+                  </Block>
                 </Block>
               : <Block mt>No Answers Specified</Block>
             }
