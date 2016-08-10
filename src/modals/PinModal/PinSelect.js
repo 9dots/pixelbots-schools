@@ -5,6 +5,8 @@
 
 import NewMenuItem from 'components/NewMenuItem'
 import {Block, Button} from 'vdux-containers'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
 import {closeModal} from 'reducer/modal'
 import WeoIcon from 'components/WeoIcon'
 import validate from 'lib/validate'
@@ -22,11 +24,16 @@ function render ({props, local, state}) {
   return (
     <Block overflowY='auto' {...rest}>
       {
-        map(board => <BoardItem busy={busy} board={board} onClick={() => onSelect(board)} />, boards)
+        map(board => <BoardItem busy={busy} board={board} onClick={() => selectBoard(board)} selected={state.selected === board._id} />, boards)
       }
       <NewMenuItem key='newMenuItem' validate={validate.board} onSubmit={handleSubmit} loading={busy} type='Board' />
     </Block>
   )
+
+  function * selectBoard(board) {
+    yield local(select, board._id)()
+    yield onSelect(board)
+  }
 
   function * handleSubmit (board) {
     const newBoard = yield createBoard(board)
@@ -35,7 +42,7 @@ function render ({props, local, state}) {
 }
 
 function BoardItem ({props}) {
-  const {onClick, board, busy} = props
+  const {onClick, board, busy, selected} = props
   return (
     <Block
       hoverProps={{highlight: 0.03}}
@@ -50,6 +57,8 @@ function BoardItem ({props}) {
         border='1px solid blue'
         bgColor='white'
         color='blue'
+        darkSpinner
+        busy={selected && busy}
         disabled={busy}
         h='32px'
         w='38px'
@@ -63,9 +72,24 @@ function BoardItem ({props}) {
 }
 
 /**
+ * Actions
+ */
+
+const select = createAction('<PinSelect/>: select')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [select]: (state, selected) => ({...state, selected})
+})
+
+/**
  * Exports
  */
 
 export default {
-  render
+  render,
+  reducer
 }

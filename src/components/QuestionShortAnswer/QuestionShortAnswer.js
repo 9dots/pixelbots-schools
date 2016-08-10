@@ -15,7 +15,7 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {
-    answerable, showAnswers, answer = [], submit, object, overview, editing, onEdit, focusPrevious
+    answerable, showAnswers, answer = [], submit, object, overview, editing, onEdit, focusPrevious, editable
   } = props
 
   if(overview) return <ShortAnswerOverview {...props} />
@@ -38,9 +38,12 @@ function render ({props}) {
                 borderStyle={answerable ? 'solid' : 'dotted'}
                 borderColor='grey_medium'
                 opacity={1}/>
-                <Tooltip ml='s' message='Responses that match any solution from the list below will automatically be marked correct.' tooltipProps={{whiteSpace: 'normal'}} placement='right'>
-                  <Icon mt={1} name='help' fs='s' pr />
-                </Tooltip>
+                {
+                  editable &&
+                  <Tooltip ml='s' message='Responses that match any solution from the list below will automatically be marked correct.' tooltipProps={{whiteSpace: 'normal'}} placement='right'>
+                    <Icon mt={1} name='help' fs='s' pr />
+                  </Tooltip>
+                }
             </Block>
       }
       {
