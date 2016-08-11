@@ -25,6 +25,8 @@ function render ({props}) {
       return <QuestionShortAnswer {...props} />
     case 'text':
       return <QuestionFreeResponse {...props} />
+    default:
+      throw new Error('Unknown question attachment type: ' + object.objectType)
   }
 }
 

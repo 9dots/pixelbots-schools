@@ -304,12 +304,14 @@ function mergeAttachment (edited, saved) {
     }
   }
 
+  const idMap = index(({_id}) => _id, saved.attachments)
+
   return {
     ...edited,
     content: saved.content,
-    attachments: (saved.attachments || []).map((att, i) => ({
+    attachments: (edited.attachments || []).map((att, i) => ({
       ...edited.attachments[i],
-      content: att.content
+      content: idMap[att._id] && idMap[att._id].content
     }))
   }
 }
