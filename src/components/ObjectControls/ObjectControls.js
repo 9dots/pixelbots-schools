@@ -31,8 +31,8 @@ function render ({props, children}) {
 function Btn ({props, children}) {
   return (
     <Button
-      hoverProps={{highlight: 0.025}}
-      focusProps={{highlight: 0.025}}
+      hoverProps={{highlight: 0.03}}
+      focusProps={{highlight: 0.03}}
       border='1px solid grey_medium'
       bgColor='off_white'
       color='text'

@@ -25,6 +25,7 @@ import map from '@f/map'
  */
 
 const pageSize = 7
+let hasData = false
 
 /**
  * initialState
@@ -64,7 +65,7 @@ function render ({props, local, state}) {
 
   return (
     <Block w='col_main' mx='auto' my='l' relative>
-      <GradebookNav setPref={setPref} next={local(next, numPages)} prev={local(prev, numPages)} exportAll={exportAll} asPercent={displayPercent} page={page} numPages={numPages} />
+      <GradebookNav setPref={setPref} next={local(next, numPages)} prev={local(prev, numPages)} exportAll={exportAll} asPercent={displayPercent} page={page} numPages={numPages} hasData={hasData}/>
       <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
         <Table overflow='auto'>
           <GradebookHeader setPref={setPref} activities={curArr(activityList)} exportActivity={exportActivity} totals={totals} sort={sort}/>
@@ -161,7 +162,7 @@ function getUsersData (id, activities, totals) {
       acc.percent = Math.round((acc.points / acc.total) * 100) + '%'
       return acc
     }
-
+    hasData = true
     const points = inst.pointsScaled * totals[i]
     const percent = Math.round(inst.pointsScaled * 100) + '%'
 
