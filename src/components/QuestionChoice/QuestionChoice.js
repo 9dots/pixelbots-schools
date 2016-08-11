@@ -155,14 +155,14 @@ function Check ({props}) {
   const {checked} = props
   return (
     <Block
-      bgColor={false && checked ? 'green' : 'white'}
-      border='1px solid rgba(black, .4)'
+      bgColor={checked ? 'green' : 'white'}
+      border='1px solid rgba(white, .7)'
       align='center center'
-      sq={21}
+      sq={22}
       rounded
       pointer
       ml={-6} >
-      <Icon hide={!checked} name='check' bold fs='s' color='green' />
+      <Icon hide={!checked} name='check' fs='s' color='white' />
     </Block>
   )
 }
