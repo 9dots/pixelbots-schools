@@ -31,7 +31,7 @@ const highlightProps = {highlight: 0.03}
 
 function render ({props}) {
   const {object, idx,  onEdit, ...rest} = props
-  const {poll, attachments = [], originalContent, randomize,caseSensitive} = object
+  const {poll, attachments = [], originalContent, randomize, caseSensitive} = object
   const type = getProp('0.objectType', attachments)
   const isMultipleChoice = !poll && type === 'choice'
   // Make sure type is choice because poll doesn't get set
@@ -75,7 +75,7 @@ function render ({props}) {
             }
             {
               isMultipleChoice && (
-                <Block mt align='start center' wide>
+                <Block key='add' mt align='start center' wide>
                   <Button
                     hoverProps={highlightProps}
                     focusProps={highlightProps}
@@ -84,16 +84,16 @@ function render ({props}) {
                     bgColor='white'
                     color='text'
                     mr>
-                  <Icon name='add' fs='s' mr='s' />
-                  Add Choice
+                    <Icon name='add' fs='s' mr='s' />
+                    Add Choice
                   </Button>
                 </Block>
               )
             }
             {
               isPoll && (
-                <Block align='center center' mr={-44}>
-                  <Button onClick={attach('choice')} m='auto' bgColor='grey' p={0} sq={50} ml='s'>
+                <Block key='add' align='center center' mr={-44}>
+                  <Button m='auto' bgColor='grey' p={0} sq={50} ml='s' onClick={attach('choice')}>
                     <Icon name='add' fs='s' />
                   </Button>
                 </Block>
