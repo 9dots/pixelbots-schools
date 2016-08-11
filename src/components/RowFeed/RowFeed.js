@@ -60,9 +60,12 @@ function renderItems (items, Item, itemProps, emptyState, currentUser) {
   if (!items.length && emptyState) return emptyState
 
   let prevDate = new Date(0)
-
   return reduce((list, item, i) => {
-    const date = new Date(item.published ? item.publishedAt : item.updatedAt)
+    const date = new Date(
+      item.published
+        ? item.publishedAt
+        : item.updatedAt || item.createdAt
+    )
 
     if (!isSameDay(date, prevDate)) {
       list.push((
