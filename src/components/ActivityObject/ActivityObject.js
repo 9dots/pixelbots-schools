@@ -66,7 +66,7 @@ const ActivityObject = wrap(CSSContainer, {
               class='handle'
               cursor='move'
               h={24}
-              wide/>
+              wide />
         }
       </Block>
     )
