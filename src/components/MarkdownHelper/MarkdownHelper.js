@@ -16,6 +16,7 @@ function render ({props, state, local}) {
   const {menuProps, ...rest} = props
   const tabs = ['emphasis', 'math', 'links', 'tables', 'symbols', 'lists']
   const current = state.tab || 'emphasis'
+
   return (
     <Dropdown btn={<Button tabindex={-1} icon='help' color='text' fs='s' {...rest} />} onClick={e => e.stopPropagation()} right w={732} z={2} {...menuProps} >
       <Block align='start stretch' my={-6}>

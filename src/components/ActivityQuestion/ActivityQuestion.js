@@ -35,7 +35,7 @@ function render ({props, local, state}) {
   if (props.editing) return <EditableQuestion {...props} />
 
   const {
-    activity, overview, object, idx, answerable, showAnswers,
+    actor, activityId, overview, object, idx, answerable, showAnswers,
     comments, showIncorrect, showComments, commentsId, currentUser, onEdit, ...rest
   } = props
   const {poll, attachments = [], points, id, content} = object
@@ -57,7 +57,8 @@ function render ({props, local, state}) {
           currentUser={currentUser}
           commentsId={commentsId}
           comments={commentList}
-          activity={activity}
+          actor={actor}
+          activityId={activityId}
           question={object}
           z='2'/>
       }
@@ -78,7 +79,7 @@ function render ({props, local, state}) {
                 (att, i) => <QuestionAttachment
                   showAnswers={showAnswers}
                   answerable={answerable}
-                  actor={activity && activity.actor}
+                  actor={actor}
                   answer={state.answer}
                   overview={overview}
                   question={object}

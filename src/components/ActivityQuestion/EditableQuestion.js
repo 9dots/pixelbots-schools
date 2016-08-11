@@ -19,6 +19,13 @@ import summon from 'vdux-summon'
 import map from '@f/map'
 
 /**
+ * Style props objects
+ */
+
+const markdownMenuProps = {mr: -12}
+const highlightProps = {highlight: 0.03}
+
+/**
  * <EditableQuestion/>
  */
 
@@ -41,7 +48,7 @@ function render ({props}) {
               <LineTextarea fs='s' placeholder='Ask your class a question…' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
             </Block>
             <Block alignSelf='baseline' relative z={3}>
-              <MarkdownHelper mt={8} menuProps={{mr: -12}} />
+              <MarkdownHelper mt={8} menuProps={markdownMenuProps} />
             </Block>
           </Block>
           <Block class='choice-container' align='start' column={isMultipleChoice} onKeypress={{enter: [type === 'choice' && attach('choice'), e => focusLast(e.target)]}}>
@@ -70,8 +77,8 @@ function render ({props}) {
               isMultipleChoice && (
                 <Block mt align='start center' wide>
                   <Button
-                    hoverProps={{highlight: .03}}
-                    focusProps={{highlight: .03}}
+                    hoverProps={highlightProps}
+                    focusProps={highlightProps}
                     onClick={attach('choice')}
                     borderColor='grey_medium'
                     bgColor='white'
@@ -143,41 +150,44 @@ function render ({props}) {
       })
     }
   }
+}
 
-  // XXX This is a bit of a hack to give focus to the previous
-  // choice when deleting
-  function focusPrevious (node) {
-    const p = findParent(node)
+/**
+ * Helpers
+ */
 
-    const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
-    if (inputs.length) {
-      const idx = inputs.indexOf(node)
-      setTimeout(() => inputs[idx - 1].focus())
-    }
-  }
+// XXX This is a bit of a hack to give focus to the previous
+// choice when deleting
+function focusPrevious (node) {
+  const p = findParent(node)
 
-  function focusLast (node) {
-    const p = findParent(node)
-
-    // Wait until the next choice is rendered
-    setTimeout(() => {
-      const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
-      if (inputs.length) {
-        inputs[inputs.length -1].focus()
-      }
-    }, 30)
-  }
-
-  function findParent (node) {
-    let p = node
-
-    while ((p = p.parentNode) && p.className.indexOf('choice-container') === -1)
-      ;
-
-    return p
+  const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
+  if (inputs.length) {
+    const idx = inputs.indexOf(node)
+    setTimeout(() => inputs[idx - 1].focus())
   }
 }
 
+function focusLast (node) {
+  const p = findParent(node)
+
+  // Wait until the next choice is rendered
+  setTimeout(() => {
+    const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
+    if (inputs.length) {
+      inputs[inputs.length -1].focus()
+    }
+  }, 30)
+}
+
+function findParent (node) {
+  let p = node
+
+  while ((p = p.parentNode) && p.className.indexOf('choice-container') === -1)
+    ;
+
+  return p
+}
 
 /**
  * Exports

@@ -14,6 +14,12 @@ import {Button} from 'vdux-containers'
 import {Block, Card} from 'vdux-ui'
 import element from 'vdux/element'
 
+function initialState ({local}) {
+  return {
+    showComments: local(showComments)
+  }
+}
+
 /**
  * <ActivityInstance/>
  */
@@ -52,7 +58,7 @@ function render ({props, local, state}) {
           mb='l'>
           <PrintButton />
           <Activity
-            showComments={local(showComments)}
+            showComments={state.showComments}
             commentsId={state.commentsId}
             comments={comments}
             activity={instance}
@@ -141,6 +147,7 @@ function PrintButton () {
 export default summonChannels(
    ({instance}) => `share!${instance.id}.annotations`
 )({
+  initialState,
   render,
   reducer
 })

@@ -39,7 +39,8 @@ function render ({props}) {
         {
           map(object => <ActivityObject
             currentUser={currentUser}
-            activity={activity}
+            actor={activity.actor}
+            activityId={activity._id}
             object={object}
             idx={object.objectType === 'question' ? i++ : null}
             {...rest} />, activity._object[0].attachments)

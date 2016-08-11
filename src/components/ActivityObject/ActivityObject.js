@@ -39,7 +39,7 @@ const ActivityObject = wrap(CSSContainer, {
     const {object, open, editing, editable, onEdit, hover, ...rest} = props
     const Obj = typeMap[object.objectType]
     const editableProps = {
-      onClick: open,
+      onClick: () => open(object._id),
       bgColor: hover ? 'off_white' : 'white'
     }
 
