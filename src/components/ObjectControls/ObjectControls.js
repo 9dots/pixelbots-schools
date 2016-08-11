@@ -11,7 +11,7 @@ import element from 'vdux/element'
  */
 
 function render ({props, children}) {
-  const {remove, open} = props
+  const {object, remove, open} = props
 
   return (
     <Block p m={-24} mt={24} borderTop='1px solid grey_light' bgColor='off_white' align='space-between center'>
@@ -19,10 +19,10 @@ function render ({props, children}) {
         {children}
       </Block>
       <Block align='end stretch'>
-        <Btn onClick={remove}>
+        <Btn onClick={() => remove(object)}>
           <Icon fs='s' name='delete' color='text' />
         </Btn>
-        <Btn onClick={open} ml='s'>Done</Btn>
+        <Btn onClick={() => open(null)} ml='s'>Done</Btn>
       </Block>
     </Block>
   )

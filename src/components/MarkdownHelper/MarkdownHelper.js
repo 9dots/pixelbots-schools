@@ -16,6 +16,7 @@ function render ({props, state, local}) {
   const {menuProps, ...rest} = props
   const tabs = ['emphasis', 'math', 'links', 'tables', 'symbols', 'lists']
   const current = state.tab || 'emphasis'
+
   return (
     <Dropdown
       btn={<Button tabindex={-1} icon='info' color='text' fs='s' {...rest} />}

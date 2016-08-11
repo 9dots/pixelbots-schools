@@ -11,8 +11,10 @@ import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {Block, Icon, Card} from 'vdux-ui'
 import {Button} from 'vdux-containers'
+import {lookup} from 'redux-ephemeral'
 import findIndex from '@f/find-index'
 import element from 'vdux/element'
+import debounce from '@f/debounce'
 import summon from 'vdux-summon'
 import index from '@f/index'
 import map from '@f/map'
@@ -21,12 +23,51 @@ import map from '@f/map'
  * initialState
  */
 
-function initialState ({props}) {
-  const {activity} = props
+function initialState ({props, local, path}) {
+  const {activity, save} = props
+  let debouncedSave
+  let cancelSave = () => {}
 
   return {
+    numSaves: 0,
     editedActivity: activity,
-    editing: 'header'
+    editing: 'header',
+    open: local(open),
+    change: local(change),
+    moveObject: local(moveObject),
+    changeObject: local(changeObject),
+    removeObject: local(removeObject),
+    appendObject: local(appendObject),
+    mergeSaved: local(mergeSaved),
+    setDragging: local(setDragging),
+    clearDragging: local(clearDragging),
+    toggleEdit: id => (dispatch, getState) => {
+      const state = lookup(getState().ui, path)
+
+      if (state.editing && state.dirty) {
+        cancelSave()
+        dispatch(props.save(state.editedActivity))
+          .then(() => dispatch(state.open(id)))
+      } else {
+        dispatch(state.open(id))
+      }
+    },
+    save: () => (dispatch, getState) => {
+      // XXX Hack until we find a good solution to avoid
+      // creating new event handlers whenever anything changes
+      const state = lookup(getState().ui, path)
+
+      dispatch(local(clearDirty)())
+      return dispatch(props.save(state.editedActivity))
+    },
+    debouncedSave: () => (dispatch, getState) => {
+      if (!debouncedSave) {
+        const state = lookup(getState().ui, path)
+        debouncedSave = debounce(() => dispatch(state.save()), 1000)
+      }
+
+      cancelSave = debouncedSave()
+    }
   }
 }
 
@@ -35,7 +76,7 @@ function initialState ({props}) {
  */
 
 function render ({props, local, state}) {
-  const {save, defaultPoints, ...rest} = props
+  const {debouncedSave, defaultPoints, ...rest} = props
   const {editing, editedActivity} = state
   const {attachments} = editedActivity._object[0]
   let idx = 0
@@ -49,7 +90,7 @@ function render ({props, local, state}) {
           clickableTags
           activity={editedActivity}
           editing={editing === 'header'}
-          open={() => saveAndOpen('header')}
+          open={() => state.toggleEdit('header')}
           onEdit={header => local(change)({...editedActivity, ...header})} />
         <Block>
           {
@@ -58,19 +99,17 @@ function render ({props, local, state}) {
                 draggable
                 key={object._id}
                 onDragOver={onDragOver(object._id)}
-                onDragEnd={local(setDragging, null)}
+                onDragEnd={state.clearDragging}
                 onMouseDown={e => {target = e.target}}
                 onDragStart={e => onDragStart(e, object._id)}
                 bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
                 <ActivityObject
                   editable
                   object={object}
-                  onEdit={editObject(i)}
-                  save={() => saveNow()}
-                  activity={editedActivity}
+                  open={state.toggleEdit}
+                  remove={state.removeObject}
+                  onEdit={state.changeObject}
                   editing={editing === object._id}
-                  remove={removeObject(object._id)}
-                  open={() => saveAndOpen(object._id)}
                   hidden={state.dragging === object._id}
                   idx={object.objectType === 'question' ? idx++ : null}
                   {...rest} />
@@ -79,7 +118,7 @@ function render ({props, local, state}) {
         </Block>
       </Card>
       <Block h={18} onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
-      <AttachmentMenu attach={attach} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
+      <AttachmentMenu attach={state.appendObject} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
     </Block>
   )
 
@@ -98,73 +137,91 @@ function render ({props, local, state}) {
       e.preventDefault()
 
       if (id === state.dragging) return
-      return insertBefore(state.dragging, id)
+      return state.moveObject({src: state.dragging, target: id})
     }
   }
+}
 
-  function * saveNow () {
-    if (state.dirty) {
-      yield save(state.editedActivity)
-      yield local(clearDirty)()
-    }
+/**
+ * onUpdate
+ */
+
+function onUpdate (prev, next) {
+  const {saving = {}} = next.props
+  const {dirty} = next.state
+  const indicator = saving.loading
+    ? 'Saving...'
+    : dirty ? '' : 'Saved'
+
+  const actions = []
+
+  if (next.props.savingIndicator !== indicator) {
+    actions.push(next.props.setIndicator(indicator))
   }
 
-  function * saveAndOpen (id) {
-    yield saveNow()
-    yield local(open)(id)
+  if (prev.props.activity !== next.props.activity) {
+    actions.push(next.state.mergeSaved(next.props.activity))
   }
 
-  function editObject (idx, oldObj) {
-    return function (newObj) {
-      const newActivity = {
-        ...editedActivity,
-        _object: [{
-          ...editedActivity._object[0],
-          attachments: [...editedActivity._object[0].attachments]
-        }]
-      }
-
-      newActivity._object[0].attachments[idx] = newObj
-      return local(change)(newActivity)
-    }
+  if (prev.state.editedActivity !== next.state.editedActivity && next.state.dirty) {
+    actions.push(next.state.debouncedSave(next.state.editedActivity))
   }
 
-  function removeObject (id) {
-    return function * () {
-      const newActivity = {
-        ...editedActivity,
-        _object: [{
-          ...editedActivity._object[0],
-          attachments: [
-            ...editedActivity._object[0].attachments
-              .filter(({_id}) => id !== _id)
-          ]
-        }]
-      }
+  return actions
+}
 
-      yield save(newActivity)
-      yield local(open)(id)
-      yield local(change)(newActivity)
-    }
-  }
+/**
+ * Actions
+ */
 
-  function * attach (object) {
-    yield local(open)(editing)
-    yield local(change)({
-      ...editedActivity,
+const open = createAction('<ActivityEditor/>: open')
+const change = createAction('<ActivityEditor/>: change')
+const changeObject = createAction('<ActivityEditor/>: change object')
+const removeObject = createAction('<ActivityEditor/>: remove object')
+const appendObject = createAction('<ActivityEditor/>: append object')
+const moveObject = createAction('<ActivityEditor/>: move object')
+const mergeSaved = createAction('<ActivityEditor/>: merge saved')
+const setDragging = createAction('<ActivityEditor/>: set dragging')
+const clearDragging = createAction('<ActivityEditor/>: clear dragging')
+const clearDirty = createAction('<ActivityEditor/>: clear dirty')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [open]: (state, id) => ({
+    ...state,
+    editing: id === state.editing
+      ? null
+      : id
+  }),
+  [clearDirty]: state => ({
+    ...state,
+    dirty: false
+  }),
+  [mergeSaved]: (state, activity) => ({
+    ...state,
+    numSaves: state.numSaves + 1,
+    editedActivity: {
+      ...state.editedActivity,
+      __v: activity.__v,
       _object: [{
-        ...editedActivity._object[0],
-        attachments: [
-          ...editedActivity._object[0].attachments,
-          object
-        ]
+        ...state.editedActivity._object[0],
+        attachments: mergeAttachments(state.editedActivity._object[0].attachments, activity._object[0].attachments)
       }]
-    })
-    yield local(open)(object._id)
-  }
+    }
+  }),
+  [change]: (state, editedActivity) => ({
+    ...state,
+    dirty: true,
+    editedActivity
+  }),
+  [changeObject]: changeAttachments((attachments, object) => attachments.map(replaceById(object))),
+  [removeObject]: changeAttachments((attachments, object) => attachments.filter(({_id}) => _id !== object._id)),
+  [moveObject]: changeAttachments((attachments, {src, target}) => {
+    attachments = attachments.slice()
 
-  function * insertBefore (src, target) {
-    const attachments = editedActivity._object[0].attachments.slice()
     const srcIdx = findIndex(attachments, ({_id}) => _id === src)
     const [obj] = attachments.splice(srcIdx, 1)
 
@@ -175,36 +232,51 @@ function render ({props, local, state}) {
       attachments.push(obj)
     }
 
-    yield local(change)({
-      ...editedActivity,
+    return attachments
+  }),
+  [appendObject]: (state, object) => ({
+    ...state,
+    editing: object._id,
+    editedActivity: {
+      ...state.editedActivity,
       _object: [{
-        ...editedActivity._object[0],
-        attachments
+        ...state.editedActivity._object[0],
+        attachments: [...state.editedActivity._object[0].attachments, object]
       }]
-    })
-  }
-}
+    }
+  }),
+  [setDragging]: (state, dragging) => ({
+    ...state,
+    dragging
+  }),
+  [clearDragging]: (state, dragging) => ({
+    ...state,
+    dragging: null
+  })
+})
 
 /**
- * onUpdate
+ * Helpers
  */
 
-function onUpdate (prev, next) {
-  if (prev.props.activity !== next.props.activity) {
-    const {activity} = next.props
-    const {editedActivity} = next.state
+function replaceById (newObject) {
+  return object => object._id === newObject._id
+    ? newObject
+    : object
+}
 
-    return [
-      next.local(change)({
-        ...editedActivity,
-        _object: [{
-          ...editedActivity._object[0],
-          attachments: mergeAttachments(editedActivity._object[0].attachments, activity._object[0].attachments)
-        }]
-      }),
-      next.local(clearDirty)()
-    ]
-  }
+function changeAttachments (fn, clearDirty) {
+  return (state, payload) => ({
+    ...state,
+    dirty: clearDirty ? false : true,
+    editedActivity: {
+      ...state.editedActivity,
+      _object: [{
+        ...state.editedActivity._object[0],
+        attachments: fn(state.editedActivity._object[0].attachments, payload)
+      }]
+    }
+  })
 }
 
 const media = ['video', 'image', 'document', 'link']
@@ -243,41 +315,6 @@ function mergeAttachment (edited, saved) {
 }
 
 /**
- * Actions
- */
-
-const open = createAction('<ActivityEditor/>: open')
-const change = createAction('<ActivityEditor/>: change')
-const clearDirty = createAction('<ActivityEditor/>: clear dirty')
-const setDragging = createAction('<ActivityEditor/>: set dragging')
-
-/**
- * Reducer
- */
-
-const reducer = handleActions({
-  [open]: (state, id) => ({
-    ...state,
-    editing: id === state.editing
-      ? null
-      : id
-  }),
-  [clearDirty]: state => ({
-    ...state,
-    dirty: false
-  }),
-  [change]: (state, editedActivity) => ({
-    ...state,
-    dirty: true,
-    editedActivity
-  }),
-  [setDragging]: (state, dragging) => ({
-    ...state,
-    dragging
-  })
-})
-
-/**
  * Exports
  */
 
@@ -286,10 +323,7 @@ export default summon(({activity}) => ({
     saving: {
       url: `/share/${activity._id}`,
       method: 'PUT',
-      body: {
-        ...body,
-        __v: activity.__v
-      }
+      body
     }
   })
 }))({

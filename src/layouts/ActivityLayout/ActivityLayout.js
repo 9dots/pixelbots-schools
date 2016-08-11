@@ -58,13 +58,15 @@ function internal (props, children, local, state) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,
       instance: instance.value,
       students: students.value.items, classId,
       instances: instances.value.items,
+      savingIndicator: state.savingIndicator,
+      setIndicator: local(setIndicator),
       speech: {
         setSpeaking: local(setSpeaking),
         speakingId: state.speakingId,
@@ -82,7 +84,6 @@ function internal (props, children, local, state) {
     } else {
       return canExit ? back() : setUrl(escapeUrl())
     }
-
   }
 
   function escapeUrl () {
@@ -99,13 +100,21 @@ function internal (props, children, local, state) {
  */
 
 const setSpeaking = createAction('<ActivityLayout/>: set speaking')
+const setIndicator = createAction('<ActivityLayout/>: set indicator')
 
 /**
  * Reducer
  */
 
 const reducer = handleActions({
-  [setSpeaking]: (state, speakingId) => ({...state, speakingId})
+  [setSpeaking]: (state, speakingId) => ({
+    ...state,
+    speakingId
+  }),
+  [setIndicator]: (state, savingIndicator) => ({
+    ...state,
+    savingIndicator
+  })
 })
 
 /**

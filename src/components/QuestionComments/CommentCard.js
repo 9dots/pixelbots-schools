@@ -17,14 +17,15 @@ import moment from 'moment'
  */
 
 function render ({props, state, local}) {
-  const {dismiss = local(toggleEdit), ...rest} = props
+  const {dismiss = local(toggleEdit, false)} = props
   const isEdit = !props.comment || state.isEdit
+
   return (
     <Block>
     {
       isEdit
-        ? <EditCard toggleEdit={local(toggleEdit)} dismiss={dismiss} {...rest} />
-        : <CommentCard toggleEdit={local(toggleEdit)} {...rest} />
+        ? <EditCard toggleEdit={local(toggleEdit)} {...props} dismiss={dismiss} />
+        : <CommentCard toggleEdit={local(toggleEdit)} {...props} />
     }
     </Block>
   )
@@ -67,8 +68,9 @@ function EditCard ({props}) {
   function * save (model) {
     yield annotate(model, comment)
     yield toggleEdit(false)
-    if(dismiss)
+    if(dismiss) {
       yield dismiss()
+    }
   }
 }
 
@@ -95,7 +97,7 @@ const CommentCard = wrap(CSSContainer, {
               fs='xxs'/>
           </Block>
           <DropdownMenu hide={!showDD} w={120} m={-6} z={2}>
-            <MenuItem align='start center' onClick={toggleEdit}>
+            <MenuItem align='start center' onClick={() => toggleEdit(true)}>
               <Icon fs='xs' name='edit' mr/> Edit
             </MenuItem>
             <MenuItem align='start center' onClick={deleteAnnot}>

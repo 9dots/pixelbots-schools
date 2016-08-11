@@ -35,7 +35,7 @@ function render ({props, local, state}) {
   if (props.editing) return <EditableQuestion {...props} />
 
   const {
-    activity, overview, object, idx, answerable, showAnswers,
+    actor, activityId, overview, object, idx, answerable, showAnswers,
     comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, ...rest
   } = props
   const {poll, attachments = [], points, id, content} = object
@@ -57,7 +57,8 @@ function render ({props, local, state}) {
           currentUser={currentUser}
           commentsId={commentsId}
           comments={commentList}
-          activity={activity}
+          actor={actor}
+          activityId={activityId}
           question={object}
           z='2'/>
       }
@@ -76,7 +77,6 @@ function render ({props, local, state}) {
             {
               map(
                 (att, i) => <QuestionAttachment
-                  actor={activity && activity.actor}
                   showAnswers={showAnswers}
                   answerable={answerable}
                   answer={state.answer}
@@ -87,6 +87,7 @@ function render ({props, local, state}) {
                     state.debouncedSubmit(answer),
                     local(setAnswer)(answer)
                   ]}
+                  actor={actor}
                   object={att}
                   poll={poll}
                   idx={i} />,
