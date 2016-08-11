@@ -23,16 +23,12 @@ function render({props}) {
       </Block>
       <Block align='center center' my='l'>
         <Button fs='s' lighter py  boxShadow='z2' bgColor='green' mr onClick={() => openModal(() => <InviteStudentsModal group={group}  />)}>
-          <Block align='center center'>
-            <Icon name='send' mr='s' fs='s'/>
-            Invite Students
-          </Block>
+          <Icon name='send' mr='s' fs='s'/>
+          Invite Students
         </Button>
         <Button fs='s' lighter py boxShadow='z2' onClick={() => openModal(() => <AddStudentModal groupId={group._id} />)}>
-          <Block align='center center'>
-            <Icon name='person_add' mr='s' fs='s'/>
-            Add Students
-          </Block>
+          <Icon name='person_add' mr='s' fs='s'/>
+          Add Students
         </Button>
       </Block>
       <Block fs='s' lighter mx='auto' w='col_m'>

@@ -43,7 +43,7 @@ const Response = wrap(CSSContainer, {
         <Block mx='l' flex='20%'>
           {actor.displayName}
         </Block>
-        <Block flex ellipsis={!focus} lh='1.5em'>
+        <Block flex maxWidth={focus ? 'none' : 690} ellipsis={!focus} lh='1.5em'>
           {response[0] || '-'}
         </Block>
       </Block>

@@ -28,7 +28,7 @@ function render ({props}) {
         verticalAlign='top'
         disabled={!answerable}
         borderStyle={answerable ? 'solid' : 'dotted'}
-        borderColor='grey_medium'
+        borderColor='grey_light'
         opacity='1' />
     </Block>
   )

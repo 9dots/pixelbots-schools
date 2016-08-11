@@ -125,6 +125,8 @@ function combineInstancesAndStudents (activity, students, instances) {
   const {actors} = total[0] || {}
   const totalPts = totalPoints(activity)
 
+  if(!actors) return []
+
   return students.map(student => {
     const actor = actors[student._id]
     const pointsScaled = actor ? actor.pointsScaled : 0

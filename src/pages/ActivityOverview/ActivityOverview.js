@@ -40,7 +40,7 @@ function render ({props}) {
 
 function getData (activity, students) {
   const total = totalPoints(activity)
-  const {instances: {total: {'0': {actors}}}} = activity
+  const actors = getProp('instances.total.0.actors', activity)
   let averagePoints = 0
   let averagePercent = 0
   let numReturned = 0
@@ -51,8 +51,9 @@ function getData (activity, students) {
     bins[i] = []
   }
 
+
   students.forEach(function(student) {
-    const actor = actors[student._id]
+    const actor = actors && actors[student._id]
 
     if(!actor) return
 

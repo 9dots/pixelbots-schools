@@ -4,6 +4,7 @@
 
 import summon, {invalidate} from 'vdux-summon'
 import {Button} from 'vdux-containers'
+import {Block} from 'vdux-ui'
 import element from 'vdux/element'
 
 /**
@@ -16,7 +17,7 @@ function render ({props}) {
   const loading = isFollowing.loading || followResponse.loading
   const noun = board ? 'Board' : ''
   const verb = loading && !reload
-    ? <span>&nbsp;</span>
+    ? 'Follow '
     : value ? 'Unfollow ' : 'Follow '
 
   return (

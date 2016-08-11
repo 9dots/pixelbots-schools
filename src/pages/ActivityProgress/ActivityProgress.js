@@ -4,9 +4,11 @@
 
 import {combineInstancesAndStudents, activitySort} from 'lib/activity-helpers'
 import {Block, Table, TableHeader, TableRow, Icon, Text} from 'vdux-ui'
-import {Checkbox, wrap, CSSContainer, form} from 'vdux-containers'
+import {Checkbox, wrap, CSSContainer, form, Button} from 'vdux-containers'
 import ActivityProgressActions from './ActivityProgressActions'
 import ActivityProgressRow from './ActivityProgressRow'
+import EmptyState from 'components/EmptyState'
+import {setUrl} from 'redux-effects-location'
 import summonPrefs from 'lib/summon-prefs'
 import FourOhFour from 'pages/FourOhFour'
 import element from 'vdux/element'
@@ -20,7 +22,7 @@ function render ({props}) {
   const {
     activity, students, currentUser, setStatus,
     settingStatus, setPref, prefs, toggleAll, fields,
-    instances
+    instances, classId
   } = props
   const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
 
@@ -33,7 +35,7 @@ function render ({props}) {
   const instanceIds = index(({instanceId}) => instanceId, instanceList)
   const selected = (fields.selected.value || []).filter(id => instanceIds[id])
   const selMap = index(selected)
-  const allSelected = instanceList.length === selected.length
+  const allSelected = instanceList.length === selected.length && students.length
   const indeterminate = !allSelected && selected.length
 
   return (
@@ -56,12 +58,24 @@ function render ({props}) {
           <TableHeader {...headProps} />
         </TableRow>
         {
-          instanceList.map(instance =>
-            <ActivityProgressRow
-              selected={!!selMap[instance.instanceId]}
-              instance={instance}
-              activityId={activity._id}/>
-          )
+          instanceList.length
+          ? instanceList.map(instance =>
+              <ActivityProgressRow
+                selected={!!selMap[instance.instanceId]}
+                instance={instance}
+                activityId={activity._id}/>
+            )
+          : <tr>
+              <EmptyState tag='td' icon='person' color='green' colspan='100' pb='l'>
+                <Block>
+                You must add students to your class in order to view results.
+                </Block>
+                <Button onClick={() => setUrl(`/class/${classId}/students`)} fs='s' lighter py  boxShadow='z2' bgColor='green' mt='l'>
+                  <Icon name='person_add' mr='s' fs='s'/>
+                  Add Students
+                </Button>
+              </EmptyState>
+            </tr>
         }
       </Table>
     </Block>

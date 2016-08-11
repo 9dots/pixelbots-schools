@@ -26,7 +26,7 @@ function render({props}) {
               </Block>
             </Block>
           : <Block>
-              <FollowButton mx='auto' w='175px' h='40px' fs='s' lighter showName user={user}/>
+              <FollowButton mx='auto' py w={175} fs='s' lighter showName user={user} boxShadow='z1' bgColor='blue' color='white'/>
               <Block mt='l'>
                 Be the first to start following <Text bold>{user.displayName}</Text>.
               </Block>

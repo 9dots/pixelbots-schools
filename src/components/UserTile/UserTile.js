@@ -28,7 +28,7 @@ function render ({props}) {
         {
           currentUser && currentUser._id !== user._id && (
             <Block onClick={e => e.stopPropagation()}>
-              <FollowButton m='s' absolute='bottom right' user={user} />
+              <FollowButton w={105} m='s' absolute='bottom right' user={user} />
             </Block>
           )
         }
