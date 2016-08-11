@@ -51,8 +51,9 @@ function getData (activity, students) {
     bins[i] = []
   }
 
+
   students.forEach(function(student) {
-    const actor = actors[student._id]
+    const actor = actors && actors[student._id]
 
     if(!actor) return
 
