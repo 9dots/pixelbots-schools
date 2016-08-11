@@ -19,7 +19,7 @@ function render ({props, local, state}) {
 
   return (
     <Block align='center start'>
-      <Block align='end start' relative >
+      <Block align='end start'>
         <ActivityEditor
           savingIndicator={savingIndicator}
           defaultPoints={defaultPoints}
@@ -30,7 +30,7 @@ function render ({props, local, state}) {
         <Block w={200} relative fixed={{top: 53}} float='right'>
           <ActivitySidebar canSetMax activity={activity} />
         </Block>
-        <Block w={200} ml/>
+        <Block w={200} ml />
       </Block>
     </Block>
   )
