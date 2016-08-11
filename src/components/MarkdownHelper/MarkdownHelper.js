@@ -18,8 +18,11 @@ function render ({props, state, local}) {
   const current = state.tab || 'emphasis'
 
   return (
-    <Dropdown btn={<Button tabindex={-1} icon='help' color='text' fs='s' {...rest} />} onClick={e => e.stopPropagation()} right w={732} z={2} {...menuProps} >
-      <Block align='start stretch' my={-6}>
+    <Dropdown
+      btn={<Button tabindex={-1} icon='info' color='text' fs='s' {...rest} />}
+      w={732} right mt={8} z={2} {...menuProps}>
+      <Block align='start stretch' my={-6} onClick={e => e.stopPropagation()}>
+        <Arrow />
         <Block flex='40%' borderRight='1px solid grey_light' py>
           {
             tabs.map((tab, i) =>
@@ -48,6 +51,20 @@ function render ({props, state, local}) {
         </Block>
       </Block>
     </Dropdown>
+  )
+}
+
+function Arrow () {
+  const props = {
+    absolute: {bottom: '100%', right: 11},
+    border: '10px solid transparent',
+    borderTopWidth: 0
+  }
+  return (
+    <span>
+      <Block {...props} borderBottomColor='#CCC'/>
+      <Block {...props} borderBottomColor='white' mb={-1}/>
+    </span>
   )
 }
 

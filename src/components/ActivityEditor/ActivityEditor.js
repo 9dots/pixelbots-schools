@@ -26,6 +26,7 @@ import map from '@f/map'
 function initialState ({props, local, path}) {
   const {activity, save} = props
   let debouncedSave
+  let cancelSave = () => {}
 
   return {
     numSaves: 0,
@@ -36,6 +37,7 @@ function initialState ({props, local, path}) {
     moveObject: local(moveObject),
     changeObject: local(changeObject),
     removeObject: local(removeObject),
+    appendObject: local(appendObject),
     mergeSaved: local(mergeSaved),
     setDragging: local(setDragging),
     clearDragging: local(clearDragging),
@@ -43,6 +45,7 @@ function initialState ({props, local, path}) {
       const state = lookup(getState().ui, path)
 
       if (state.editing && state.dirty) {
+        cancelSave()
         dispatch(props.save(state.editedActivity))
           .then(() => dispatch(state.open(id)))
       } else {
@@ -63,7 +66,7 @@ function initialState ({props, local, path}) {
         debouncedSave = debounce(() => dispatch(state.save()), 1000)
       }
 
-      return debouncedSave()
+      cancelSave = debouncedSave()
     }
   }
 }
@@ -144,13 +147,27 @@ function render ({props, local, state}) {
  */
 
 function onUpdate (prev, next) {
+  const {saving = {}} = next.props
+  const {dirty} = next.state
+  const indicator = saving.loading
+    ? 'Saving...'
+    : dirty ? '' : 'Saved'
+
+  const actions = []
+
+  if (next.props.savingIndicator !== indicator) {
+    actions.push(next.props.setIndicator(indicator))
+  }
+
   if (prev.props.activity !== next.props.activity) {
-    return next.state.mergeSaved(next.props.activity)
+    actions.push(next.state.mergeSaved(next.props.activity))
   }
 
   if (prev.state.editedActivity !== next.state.editedActivity && next.state.dirty) {
-    return next.state.debouncedSave(next.state.editedActivity)
+    actions.push(next.state.debouncedSave(next.state.editedActivity))
   }
+
+  return actions
 }
 
 /**

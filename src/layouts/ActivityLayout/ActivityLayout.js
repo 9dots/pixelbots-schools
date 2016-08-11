@@ -5,6 +5,8 @@
 import DiscardDraftModal from 'modals/DiscardDraftModal'
 import {back, setUrl} from 'redux-effects-location'
 import PageTitle from 'components/PageTitle'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
 import FourOhFour from 'pages/FourOhFour'
 import {openModal} from 'reducer/modal'
 import {invalidate} from 'vdux-summon'
@@ -18,15 +20,15 @@ import Nav from  './Nav'
  * Activity Layout
  */
 
-function render ({props, children}) {
+function render ({props, children, local, state}) {
   return (
     <Block class='app' pb='60vh'>
-      { internal(props, children) }
+      { internal(props, children, local, state) }
     </Block>
   )
 }
 
-function internal (props, children) {
+function internal (props, children, local, state) {
   const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus, isEdit, isNew
   } = props
   const {value, loaded, error} = activity
@@ -56,13 +58,20 @@ function internal (props, children) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,
       instance: instance.value,
       students: students.value.items, classId,
       instances: instances.value.items,
+      savingIndicator: state.savingIndicator,
+      setIndicator: local(setIndicator),
+      speech: {
+        setSpeaking: local(setSpeaking),
+        speakingId: state.speakingId,
+        rate: currentUser.preferences.speech_speed || 1
+      },
       setStatus,
       settingStatus
     }, children)
@@ -75,7 +84,6 @@ function internal (props, children) {
     } else {
       return canExit ? back() : setUrl(escapeUrl())
     }
-
   }
 
   function escapeUrl () {
@@ -86,6 +94,28 @@ function internal (props, children) {
         : `/${value.actor.username}/board/${value.contexts[1].descriptor.id}/activities`
   }
 }
+
+/**
+ * Actions
+ */
+
+const setSpeaking = createAction('<ActivityLayout/>: set speaking')
+const setIndicator = createAction('<ActivityLayout/>: set indicator')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [setSpeaking]: (state, speakingId) => ({
+    ...state,
+    speakingId
+  }),
+  [setIndicator]: (state, savingIndicator) => ({
+    ...state,
+    savingIndicator
+  })
+})
 
 /**
  * Exports
@@ -117,5 +147,6 @@ export default summon(({userId, activityId}) => ({
     subscribe: 'instances'
   }
 }))({
-  render
+  render,
+  reducer
 }))

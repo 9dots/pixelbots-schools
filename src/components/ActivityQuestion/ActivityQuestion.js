@@ -36,7 +36,7 @@ function render ({props, local, state}) {
 
   const {
     actor, activityId, overview, object, idx, answerable, showAnswers,
-    comments, showIncorrect, showComments, commentsId, currentUser, onEdit, ...rest
+    comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, ...rest
   } = props
   const {poll, attachments = [], points, id, content} = object
 
@@ -79,14 +79,15 @@ function render ({props, local, state}) {
                 (att, i) => <QuestionAttachment
                   showAnswers={showAnswers}
                   answerable={answerable}
-                  actor={actor}
                   answer={state.answer}
                   overview={overview}
+                  editable={editable}
                   question={object}
                   submit={answer => [
                     state.debouncedSubmit(answer),
                     local(setAnswer)(answer)
                   ]}
+                  actor={actor}
                   object={att}
                   poll={poll}
                   idx={i} />,

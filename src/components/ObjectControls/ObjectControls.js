@@ -12,18 +12,34 @@ import element from 'vdux/element'
 
 function render ({props, children}) {
   const {object, remove, open} = props
+
   return (
     <Block p m={-24} mt={24} borderTop='1px solid grey_light' bgColor='off_white' align='space-between center'>
       <Block align='start center'>
         {children}
       </Block>
       <Block align='end stretch'>
-        <Button onClick={() => remove(object)} bgColor='off_white' border='1px solid grey_medium' px hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}}>
+        <Btn onClick={() => remove(object)}>
           <Icon fs='s' name='delete' color='text' />
-        </Button>
-        <Button onClick={() => open(null)} ml='s' px >Done</Button>
+        </Btn>
+        <Btn onClick={() => open(null)} ml='s'>Done</Btn>
       </Block>
     </Block>
+  )
+}
+
+function Btn ({props, children}) {
+  return (
+    <Button
+      hoverProps={{highlight: 0.025}}
+      focusProps={{highlight: 0.025}}
+      border='1px solid grey_medium'
+      bgColor='off_white'
+      color='text'
+      px
+      {...props}>
+      {children}
+    </Button>
   )
 }
 

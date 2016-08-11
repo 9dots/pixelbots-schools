@@ -70,7 +70,8 @@ export default summon(props => ({
       body: {
         to: [classId],
         ...rest
-      }
+      },
+      invalidates: 'activity_feed'
     }
   }),
   copyActivity: activityId => ({

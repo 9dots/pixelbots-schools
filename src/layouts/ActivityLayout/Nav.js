@@ -20,11 +20,11 @@ import Link from 'components/Link'
  * Activity Nav
  */
 
-function render({props, local, state}) {
+function render ({props, local, state}) {
   const {
     activity, user, isPublic, isInstance, instance,
     progress, overview, preview, discussion, isEdit,
-    isOwner, back
+    isOwner, back, savingIndicator
   } = props
   const {_id: id, displayName} = activity
   const {locallyLiked} = state
@@ -87,6 +87,7 @@ function render({props, local, state}) {
             <EditDropdown activity={activity} />
           </Block>
           <Block align='end center' hide={!activity.published}>
+            <Block mr='s'>{savingIndicator}</Block>
             <Button mr='s' text='Done' onClick={back} bgColor='grey' />
             <DeleteButton activity={activity} bgColor='red'/>
           </Block>

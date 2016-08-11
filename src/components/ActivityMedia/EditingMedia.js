@@ -22,8 +22,8 @@ function render ({props}) {
       <ObjectControls {...props} >
           <Button
             onClick={() => openModal(() => <MediaModal onAccept={newObj => onEdit({...object, ...newObj})} type={object.objectType} />)}
-            bgColor='red'
-            capitalize
+            uppercase
+            bgColor='grey'
             mr='l'
             px>
             Change {object.objectType}

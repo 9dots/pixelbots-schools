@@ -16,25 +16,28 @@ import element from 'vdux/element'
  */
 
 function render ({props, local, state}) {
-  const {activity, currentUser} = props
+  const {activity, currentUser, speech} = props
   const isTeacher = currentUser.userType === 'teacher'
   return (
     <Block align='center start'>
-      <Card w={756} mb='l' relative printProps={{mb: 0, boxShadow: '0 0 0'}}>
-        <Block absolute right top m={8} align='start center' printProps={{hide: true}}>
-          <ShareDropdown />
-          <PrintDropdown setPrintAns={local(setPrintAns)} />
+      <Block align='end start'>
+        <Card w={756} mb='l' relative printProps={{mb: 0, boxShadow: '0 0 0'}}>
+          <Block absolute right top m={8} align='start center' printProps={{hide: true}}>
+            <ShareDropdown />
+            <PrintDropdown setPrintAns={local(setPrintAns)} />
+          </Block>
+          <Activity
+            showAnswers={true}
+            printProps={{showAnswers: state.printAnswers}}
+            clickableTags={isTeacher}
+            activity={activity}
+            speech={speech} />
+        </Card>
+        <Block w={200} relative fixed={{top: 53}} printProps={{hide: true}}>
+          <ActivitySidebar activity={activity} currentUser={currentUser} />
         </Block>
-        <Activity
-          showAnswers={true}
-          printProps={{showAnswers: state.printAnswers}}
-          clickableTags={isTeacher}
-          activity={activity} />
-      </Card>
-      <Block w={200} ml relative fixed={{top: 53}} printProps={{hide: true}}>
-        <ActivitySidebar activity={activity} currentUser={currentUser} />
+        <Block printProps={{hide: true}} w={200} ml/>
       </Block>
-      <Block printProps={{hide: true}} w={200} ml/>
     </Block>
   )
 }
