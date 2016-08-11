@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Tooltip, Button} from 'vdux-containers'
+import {Tooltip, Button, Block as ContBlock} from 'vdux-containers'
 import LineInput from 'components/LineInput'
 import mapValues from '@f/map-values'
 import {Block, Icon} from 'vdux-ui'
@@ -34,22 +34,27 @@ function render ({props}) {
             correctAnswer)
         }
       </Block>
-      <Block align='start stretch' mt>
+      <Block align='start stretch' w='35%'>
         <Button
-          hoverProps={{highlight: .03}}
-          focusProps={{highlight: .03}}
-          borderColor='grey_medium'
-          bgColor='white'
+          hoverProps={{borderBottomColor: 'grey_medium'}}
+          focusProps={{borderBottomColor: 'grey_medium'}}
+          border='1px dashed transparent'
+          borderBottomColor='grey_light'
+          bgColor='transparent'
           onClick={() => save(object.correctAnswer.concat(''))}
-          color='text'
-          mr
-          px>
-
-          <Icon name='add' fs='s' mr='s' />
-          Add Answer
+          color='grey_medium'
+          p='0'
+          lh='auto'
+          pointer
+          flex
+          h='auto'
+          mr>
+          <Block align='start' flex lighter>
+            Add Answer
+          </Block>
         </Button>
         <Block align='center center'>
-          <Tooltip immediate message='Provide all possible solutions to the question.  Student responses must exactly match one of your provided solutions.' tooltipProps={{whiteSpace: 'normal', textAlign: 'center', fs: 'xs', p: 'm', lh: '1.4em'}}>
+          <Tooltip immediate placement='right' message='Provide all possible solutions to the question.  Student responses must exactly match one of your provided solutions.' tooltipProps={{whiteSpace: 'normal', textAlign: 'center', fs: 'xs', p: 'm', lh: '1.4em'}}>
             <Icon name='help' fs='s' />
           </Tooltip>
         </Block>
@@ -70,7 +75,7 @@ function render ({props}) {
 function Answer({props}) {
   const {answer, idx, remove, focusPrevious, num, onInput, onEnter} = props
   return (
-    <Block align='start center' mr flex='30%'>
+    <Block align='start center' mr flex='35%'>
       <LineInput
         onKeydown={{
           backspace: e => num !== 1 && e.target.value === '' &&
@@ -80,7 +85,8 @@ function Answer({props}) {
         onInput={e => onInput(e.target.value)}
         placeholder={'Answer #' + (idx+1)}
         value={answer}
-        name={idx}/>
+        name={idx}
+        autofocus/>
       <Button tabindex='-1' color='text' icon='close' ml onClick={() => remove(idx)} hidden={num === 1} poinerEvents={num === 1 ? 'none' : 'default'}/>
     </Block>
   )

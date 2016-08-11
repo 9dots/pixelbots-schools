@@ -52,7 +52,7 @@ function Item({props}) {
     : object.attachments[0].objectType === type
   return (
     <MenuItem
-      highlight={cur ? .05 : 0}
+      highlight={cur ? .08 : 0}
       align='start center'
       whiteSpace='nowrap'
       onClick={!cur && onClick}
