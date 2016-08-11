@@ -81,19 +81,22 @@ function render ({props}) {
             ? <Block key='a' mx='40px' fs='s' innerHTML={content || '<br/>'} class='markdown' printProps={{ml: 0}} />
             : <Block align='start center'>
                 <Tooltip message='Mark Correct' mr>
-                  <Checkbox checked={isCorrect} onClick={toggleCorrectness} ml='s' />
+                  <Checkbox
+                    onClick={toggleCorrectness}
+                    checked={isCorrect}
+                    btn={({props}) => <Check {...props} />}
+                    ml='s'/>
                 </Tooltip>
                 <BlockInput
                   onInput={e => onEdit({...object, originalContent: e.target.value})}
-                  defaultValue={originalContent}
-                  wide
-                  fs='s'
-                  placeholder={`Choice #${idx + 1}`}
-                  lighter
-                  mb={0}
-                  my={-6}
                   inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
-                  onKeydown={{backspace: e => e.target.value === '' && numAtt > 1 && [remove(), focusPrevious(e.target)]}}/>
+                  onKeydown={{backspace: e => e.target.value === '' && numAtt > 1 && [remove(), focusPrevious(e.target)]}}
+                  placeholder={`Choice ${idx + 1}`}
+                  defaultValue={originalContent}
+                  lighter
+                  my={-6}
+                  fs='s'
+                  wide/>
                 <Button
                   absolute={{right: -24, top: 0, bottom: 0}}
                   onClick={remove}
@@ -145,6 +148,22 @@ function ChosenMarker ({props}) {
       printProps={{hide: true}}
       size={32}
       m='auto'/>
+  )
+}
+
+function Check ({props}) {
+  const {checked} = props
+  return (
+    <Block
+      bgColor={checked ? 'green' : 'white'}
+      border='1px solid rgba(white, .7)'
+      align='center center'
+      sq={22}
+      rounded
+      pointer
+      ml={-6} >
+      <Icon hide={!checked} name='check' fs='s' color='white' />
+    </Block>
   )
 }
 

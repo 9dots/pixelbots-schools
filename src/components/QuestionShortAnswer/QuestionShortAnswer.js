@@ -52,7 +52,7 @@ function render ({props}) {
             {
               filterAnswers.length
               ? <Block>
-                  <Block>
+                  <Block my='s'>
                     Correct Answers:
                   </Block>
                   <Block align='start center'>

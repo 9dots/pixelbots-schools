@@ -87,7 +87,9 @@ function render ({props, local, state}) {
             <EditDropdown activity={activity} />
           </Block>
           <Block align='end center' hide={!activity.published}>
-            <Block mr='s'>{savingIndicator}</Block>
+            <Block mr color='grey_medium'>
+              {savingIndicator}
+            </Block>
             <Button mr='s' text='Done' onClick={back} bgColor='grey' />
             <DeleteButton activity={activity} bgColor='red'/>
           </Block>
