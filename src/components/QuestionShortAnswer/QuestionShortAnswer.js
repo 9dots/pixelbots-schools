@@ -36,7 +36,7 @@ function render ({props}) {
                 fs='s'
                 w='30%'
                 borderStyle={answerable ? 'solid' : 'dotted'}
-                borderColor='grey_medium'
+                borderColor='grey_light'
                 opacity={1}/>
                 {
                   editable &&
