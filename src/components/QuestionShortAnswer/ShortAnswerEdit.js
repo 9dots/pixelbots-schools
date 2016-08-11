@@ -19,44 +19,50 @@ function render ({props}) {
   const {correctAnswer} = object
 
   return (
-    <Block mt>
+    <Block>
+      <Block my='s' align='start center'>
+        Provide each possible answer:
+        <Tooltip immediate placement='right' message='Student responses must exactly match one of your provided solutions. Provide all possible solutions to the question.' ml='s' tooltipProps={{whiteSpace: 'normal',lh: '1.4em', fs: '12px'}}>
+            <Icon name='help' fs='s' pr />
+          </Tooltip>
+      </Block>
       <Block>
         {
           map((ans, i) => <Answer
             focusPrevious={focusPrevious}
             answer={ans}
-            onInput={answer => save(replace(object.correctAnswer, i, answer))
+            onInput={answer => save(replace(correctAnswer, i, answer))
             }
-            onEnter={() => save(object.correctAnswer.concat(''))}
+            onEnter={() => save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
             num={correctAnswer.length}
             remove={remove}
             idx={i} />,
             correctAnswer)
         }
       </Block>
-      <Block align='start stretch' w='35%'>
+      <Block align='start center' w='45%'>
+        <Block mr mt={-4} fs='s'>{correctAnswer.length + 1}.</Block>
         <Button
           hoverProps={{borderBottomColor: 'grey_medium'}}
           focusProps={{borderBottomColor: 'grey_medium'}}
           border='1px dashed transparent'
           borderBottomColor='grey_light'
           bgColor='transparent'
-          onClick={() => save(object.correctAnswer.concat(''))}
+          onClick={() => save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
           color='grey_medium'
-          p='0'
-          lh='auto'
-          pointer
+          cursor='text'
+          lh='12px'
+          h={38}
+          fs='s'
+          p={0}
           flex
-          h='auto'
           mr>
           <Block align='start' flex lighter>
             Add Answer
           </Block>
         </Button>
         <Block align='center center'>
-          <Tooltip immediate placement='right' message='Provide all possible solutions to the question.  Student responses must exactly match one of your provided solutions.' tooltipProps={{whiteSpace: 'normal', textAlign: 'center', fs: 'xs', p: 'm', lh: '1.4em'}}>
-            <Icon name='help' fs='s' />
-          </Tooltip>
+          <Button icon='close' hidden pointerEvents='none' />
         </Block>
       </Block>
     </Block>
@@ -74,8 +80,10 @@ function render ({props}) {
 
 function Answer({props}) {
   const {answer, idx, remove, focusPrevious, num, onInput, onEnter} = props
+
   return (
-    <Block align='start center' mr flex='35%'>
+    <Block align='start center' mr mb='s' flex='45%'>
+      <Block mr mt={-4} fs='s'>{idx + 1}.</Block>
       <LineInput
         onKeydown={{
           backspace: e => num !== 1 && e.target.value === '' &&
@@ -83,13 +91,16 @@ function Answer({props}) {
           enter: () => onEnter()
         }}
         onInput={e => onInput(e.target.value)}
-        placeholder={'Answer #' + (idx+1)}
+        // placeholder={'Answer ' + (idx+1)}
+        onFocus={e => e.target.select()}
         value={answer}
-        name={idx}
-        autofocus/>
+        autofocus
+        fs='s'
+        m={0}/>
       <Button tabindex='-1' color='text' icon='close' ml onClick={() => remove(idx)} hidden={num === 1} poinerEvents={num === 1 ? 'none' : 'default'}/>
     </Block>
   )
+
 }
 
 /**

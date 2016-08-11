@@ -23,7 +23,7 @@ import map from '@f/map'
  */
 
 const markdownMenuProps = {mr: -12}
-const highlightProps = {highlight: 0.03}
+const highlightProps = {opacity: 1}
 
 /**
  * <EditableQuestion/>
@@ -75,24 +75,36 @@ function render ({props}) {
             }
             {
               isMultipleChoice && (
-                <Block mt align='start center' wide>
+                <Block mt='s' align='start center' wide>
                   <Button
+                    onClick={e => [attach('choice')(), focusLast(e.target)]}
                     hoverProps={highlightProps}
                     focusProps={highlightProps}
-                    onClick={attach('choice')}
-                    borderColor='grey_medium'
-                    bgColor='white'
+                    transition='opacity .15s'
+                    bgColor='grey_medium'
+                    borderWidth='0'
+                    opacity='.7'
                     color='text'
+                    h={46}
+                    w='70%'
+                    pill
                     mr>
-                  <Icon name='add' fs='s' mr='s' />
-                  Add Choice
+                    <Block align='start center' flex>
+                      <Block mr='s' bg='white' sq={21} ml={-6} mr rounded align='center center'>
+                        <Icon name='add' fs='s' color='grey_medium'/>
+                      </Block>
+                      <Block bg='white' h={32} lh='32px' px fs='s' color='grey_medium' lighter flex mr={6} border='1px solid rgba(black, .1)' textAlign='left' cursor='text'>
+                        Add Choice
+                      </Block>
+
+                    </Block>
                   </Button>
                 </Block>
               )
             }
             {
               isPoll && (
-                <Block align='center center' mr={-44}>
+                <Block align='center center' mr={-24}>
                   <Button onClick={attach('choice')} m='auto' bgColor='grey' p={0} sq={50} ml='s'>
                     <Icon name='add' fs='s' />
                   </Button>
@@ -140,7 +152,7 @@ function render ({props}) {
       if(removeAll) {
         answers = type === 'choice' && !poll
           ? [id]
-          : type === 'shortAnswer' ? [false] : []
+          : type === 'shortAnswer' ? ['Answer 1'] : []
       }
 
       const newObj = {
