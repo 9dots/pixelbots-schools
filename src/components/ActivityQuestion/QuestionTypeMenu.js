@@ -14,10 +14,10 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {attach, object} = props
+  const {attach, object, ...rest} = props
 
   return (
-    <Dropdown btn={<Btn object={object} relative />} wide>
+    <Dropdown btn={<Btn object={object} relative {...rest} />} wide z={2}>
       <Item object={object} onClick={attach('text', false, true)} type='text'/>
       <Item object={object} onClick={attach('shortAnswer', false, true)} type='shortAnswer'/>
       <Item object={object} onClick={attach('choice', false, true)} type='choice' />
@@ -27,14 +27,16 @@ function render ({props}) {
 }
 
 function Btn({props}) {
-  const {object} = props
+  const {object, ...rest} = props
   return (
     <Button
       align='space-between center'
       bgColor='grey'
       uppercase
       w={190}
-      px>
+      z={2}
+      px
+      {...rest}>
       <Block align='start center' flex>
         <Icon name={questionIcon(object)} fs='s' mr='s' />
         <Block>{questionDisplay(object)}</Block>

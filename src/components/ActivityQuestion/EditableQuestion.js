@@ -43,7 +43,7 @@ function render ({props}) {
       <Block align='start' py mb>
         <Badge mr='l' pt={3} size={25}>{idx + 1}</Badge>
         <Block flex>
-          <Block align='start' mt={-8} mb='l'>
+          <Block align='start center' mt={-8} mb='l'>
             <Block flex>
               <LineTextarea fs='s' placeholder='Ask your class a question…' lighter onInput={e => onEdit({...object, originalContent: e.target.value})} defaultValue={originalContent} autofocus />
             </Block>
@@ -90,9 +90,7 @@ function render ({props}) {
                     pill
                     mr>
                     <Block align='start center' flex>
-                      <Block mr='s' bg='white' sq={21} ml={-6} mr rounded align='center center'>
-                        <Icon name='add' fs='s' color='grey_medium'/>
-                      </Block>
+                      <Icon ml={-6} mr align='center center' name='add' sq={21} fs='s' color='white'/>
                       <Block bg='white' h={32} lh='32px' px fs='s' color='grey_medium' lighter flex mr={6} border='1px solid rgba(black, .1)' textAlign='left' cursor='text'>
                         Add Choice
                       </Block>
@@ -114,7 +112,7 @@ function render ({props}) {
         </Block>
       </Block>
       <ObjectControls {...props}>
-        <QuestionTypeMenu object={object} attach={attach} />
+        <QuestionTypeMenu mx object={object} attach={attach} />
         {
           isMultipleChoice &&
             <Toggle
