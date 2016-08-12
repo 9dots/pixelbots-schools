@@ -56,6 +56,7 @@ function initialState ({props, local, path}) {
       // XXX Hack until we find a good solution to avoid
       // creating new event handlers whenever anything changes
       const state = lookup(getState().ui, path)
+      if (!state) return
 
       dispatch(local(clearDirty)())
       return dispatch(props.save(state.editedActivity))

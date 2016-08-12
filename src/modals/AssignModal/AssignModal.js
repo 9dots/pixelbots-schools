@@ -67,6 +67,7 @@ export default summon(props => ({
     assigning: {
       url: `/share/${activityId}/assign/`,
       method: 'PUT',
+      serialize: true,
       body: {
         to: [classId],
         ...rest

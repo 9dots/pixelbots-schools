@@ -15,18 +15,19 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {
-    answerable, showAnswers, answer = [], submit, object, overview, editing, onEdit, focusPrevious, editable
+    answerable, showAnswers, answer = [], submit, object,
+    overview, editing, onEdit, editable, question
   } = props
 
   if(overview) return <ShortAnswerOverview {...props} />
 
-  const filterAnswers = object.correctAnswer.filter(Boolean)
+  const filterAnswers = question.correctAnswer.filter(Boolean)
 
   return (
     <Block relative wide>
       {
         editing
-          ? <ShortAnswerEdit onEdit={onEdit} object={object} focusPrevious={focusPrevious} />
+          ? <ShortAnswerEdit {...props} />
           : <Block align='start center'>
               <LineInput
                 onInput={e => submit(e.target.value)}

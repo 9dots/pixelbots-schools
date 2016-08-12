@@ -66,6 +66,7 @@ function render ({props}) {
                       ? newObj
                       : att)
                   })}
+                  setCorrectAnswer={setCorrectAnswer}
                   editing
                   object={att}
                   key={att._id}
@@ -141,6 +142,13 @@ function render ({props}) {
     </Block>
   )
 
+  function setCorrectAnswer (correctAnswer = []) {
+    return onEdit({
+      ...object,
+      correctAnswer
+    })
+  }
+
   function attach (type, poll, removeAll) {
     return function * () {
       const id = yield generateObjectId()
@@ -155,12 +163,12 @@ function render ({props}) {
       const newObj = {
         _id: id,
         objectType: type,
-        correctAnswer: answers
       }
 
       yield onEdit({
         ...object,
         poll: poll === undefined ? object.poll : poll,
+        correctAnswer: removeAll ? answers : object.correctAnswer,
         attachments: removeAll
           ? [newObj]
           : attachments.concat(newObj)

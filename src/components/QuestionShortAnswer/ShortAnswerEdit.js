@@ -15,8 +15,8 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {onEdit, object, focusPrevious} = props
-  const {correctAnswer} = object
+  const {question, setCorrectAnswer, focusPrevious} = props
+  const {correctAnswer} = question
 
   return (
     <Block>
@@ -31,8 +31,7 @@ function render ({props}) {
           map((ans, i) => <Answer
             focusPrevious={focusPrevious}
             answer={ans}
-            onInput={answer => save(replace(correctAnswer, i, answer))
-            }
+            onInput={answer => save(replace(correctAnswer, i, answer))}
             onEnter={() => save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
             num={correctAnswer.length}
             remove={remove}
@@ -70,12 +69,12 @@ function render ({props}) {
   )
 
   function * save (correctAnswer) {
-    yield onEdit({...object, correctAnswer})
+    yield setCorrectAnswer(correctAnswer)
   }
 
   function * remove (idx) {
     correctAnswer.splice(idx, 1)
-    yield onEdit({...object, correctAnswer})
+    yield setCorrectAnswer(correctAnswer)
   }
 }
 
