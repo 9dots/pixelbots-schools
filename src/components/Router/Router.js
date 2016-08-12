@@ -63,6 +63,9 @@ import Redirect from 'components/Redirect'
 import element from 'vdux/element'
 import enroute from 'enroute'
 
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
+
 /**
  * External router
  */
@@ -266,9 +269,9 @@ const router = enroute({
  * Router
  */
 
-function render ({props}) {
+function render ({props, state}) {
   if (! props.url || !props.ready) return <div>Loading...</div>
-  return router(props.url, props)
+  return router(props.url, {...props, ...state})
 }
 
 /**
@@ -304,12 +307,29 @@ const activityRe = /^\/activity\//
 function * onUpdate (prev, next) {
   if (prev.props.url !== next.props.url) {
     if (prev.props.url && !activityRe.test(prev.props.url) && activityRe.test(next.props.url)) {
-      yield () => history.replaceState({canExit: true}, '', next.props.url)
+      yield next.local(canExit)(true)
     }
 
     yield () => document.body.scrollTop = 0
   }
 }
+
+/**
+ * Actions
+ */
+
+const canExit = createAction('<Router/>: canExit')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [canExit]: (state, canExit) => ({
+    ...state,
+    canExit
+  })
+})
 
 /**
  * Helpers
@@ -355,5 +375,6 @@ function activityRedirect ({published, contexts, _id}, {currentUser}) {
 
 export default {
   render,
-  onUpdate
+  onUpdate,
+  reducer
 }

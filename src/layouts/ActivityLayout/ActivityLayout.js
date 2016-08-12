@@ -78,7 +78,8 @@ function internal (props, children, local, state) {
   ]
 
   function backBtn () {
-    const canExit = history.state && history.state.canExit
+    const {canExit} = props
+
     if(isNew) {
       return openModal(() => <DiscardDraftModal onAccept={() =>canExit ? back() : setUrl('/feed')} activity={value} />)
     } else {
