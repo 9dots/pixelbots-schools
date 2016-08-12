@@ -80,7 +80,6 @@ function render ({props, local, state}) {
   const {editing, editedActivity} = state
   const {attachments} = editedActivity._object[0]
   let idx = 0
-  let target = false
 
   return (
     <Block>
@@ -100,7 +99,7 @@ function render ({props, local, state}) {
                 key={object._id}
                 onDragOver={onDragOver(object._id)}
                 onDragEnd={state.clearDragging}
-                onMouseDown={e => {target = e.target}}
+                onMouseDown={local(setMouseDown)}
                 onDragStart={e => onDragStart(e, object._id)}
                 bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
                 <ActivityObject
@@ -123,7 +122,7 @@ function render ({props, local, state}) {
   )
 
   function onDragStart (e, id) {
-    if(!target || !target.classList.contains('handle')) {
+    if(!state.target.classList.contains('handle')) {
       e.preventDefault()
     } else {
       e._rawEvent.dataTransfer.setData('weo_attachment', id)
@@ -185,6 +184,7 @@ const mergeSaved = createAction('<ActivityEditor/>: merge saved')
 const setDragging = createAction('<ActivityEditor/>: set dragging')
 const clearDragging = createAction('<ActivityEditor/>: clear dragging')
 const clearDirty = createAction('<ActivityEditor/>: clear dirty')
+const setMouseDown = createAction('<ActivityEditor/>: set mouse down', e => e.target)
 
 /**
  * Reducer
@@ -253,6 +253,10 @@ const reducer = handleActions({
   [clearDragging]: (state, dragging) => ({
     ...state,
     dragging: null
+  }),
+  [setMouseDown]: (state, target) => ({
+    ...state,
+    target
   })
 })
 
