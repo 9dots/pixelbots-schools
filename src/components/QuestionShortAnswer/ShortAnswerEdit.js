@@ -43,6 +43,7 @@ function render ({props}) {
       <Block align='start center' w='45%'>
         <Block mr mt={-4} fs='s'>{correctAnswer.length + 1}.</Block>
         <Button
+          key={`btn_${correctAnswer.length}`}
           hoverProps={{borderBottomColor: 'grey_medium'}}
           focusProps={{borderBottomColor: 'grey_medium'}}
           border='1px dashed transparent'

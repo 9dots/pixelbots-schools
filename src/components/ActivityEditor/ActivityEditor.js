@@ -123,7 +123,7 @@ function render ({props, local, state}) {
   )
 
   function onDragStart (e, id) {
-    if(!target.classList.contains('handle')) {
+    if(!target || !target.classList.contains('handle')) {
       e.preventDefault()
     } else {
       e._rawEvent.dataTransfer.setData('weo_attachment', id)
@@ -136,7 +136,8 @@ function render ({props, local, state}) {
       if (e._rawEvent.dataTransfer.types.indexOf('weo_attachment') === -1) return
       e.preventDefault()
 
-      if (id === state.dragging) return
+      if (id === state.dragging || !state.dragging) return
+
       return state.moveObject({src: state.dragging, target: id})
     }
   }

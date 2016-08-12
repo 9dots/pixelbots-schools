@@ -75,7 +75,7 @@ function render ({props}) {
             }
             {
               isMultipleChoice && (
-                <Block key='add' mt='s' align='start center' wide>
+                <Block key={`add_${attachments.length}`} mt='s' align='start center' wide>
                   <Button
                     onClick={e => [attach('choice')(), focusLast(e.target)]}
                     hoverProps={highlightProps}
@@ -103,7 +103,7 @@ function render ({props}) {
             }
             {
               isPoll && (
-                <Block key='add' align='center center' mr={-24}>
+                <Block key={`add_${attachments.length}`} align='center center' mr={-24}>
                   <Button onClick={attach('choice')} m='auto' bgColor='grey' p={0} sq={50} ml='s'>
                     <Icon name='add' fs='s' />
                   </Button>
