@@ -5,6 +5,7 @@
 import ActivitySidebar from 'components/ActivitySidebar'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
+import ShareDropdown from './ShareDropdown'
 import createAction from '@f/create-action'
 import Activity from 'components/Activity'
 import {Block, Card, Icon} from 'vdux-ui'
@@ -23,7 +24,7 @@ function render ({props, local, state}) {
       <Block align='end start'>
         <Card w={756} mb='l' relative printProps={{mb: 0, boxShadow: '0 0 0'}}>
           <Block absolute right top m={8} align='start center' printProps={{hide: true}}>
-            <ShareDropdown />
+            <ShareDropdown activity={activity} btn={() => <DDButton icon='share' mr='s'  />} />
             <PrintDropdown setPrintAns={local(setPrintAns)} />
           </Block>
           <Activity
@@ -51,29 +52,6 @@ function DDButton({props}) {
       circle={30}
       fs='s'
       {...props}/>
-  )
-}
-
-function ShareDropdown({props}) {
-  return (
-    <Dropdown w={120} z={2} btn={<DDButton icon='share' mr='s'  />}>
-      <ShareItem weoIcon='facebook'/>
-      <ShareItem weoIcon='twitter'/>
-      <ShareItem weoIcon='pinterest'/>
-      <ShareItem icon='link'/>
-    </Dropdown>
-  )
-
-}
-
-function ShareItem({props}) {
-  const {icon, weoIcon} = props
-  return (
-    <MenuItem align='start center'>
-      { icon && <Icon fs='s' name={icon} mr='s' /> }
-      { weoIcon && <WeoIcon fs='s' name={weoIcon} mr='s' /> }
-      <Block capitalize>{icon || weoIcon}</Block>
-    </MenuItem>
   )
 }
 

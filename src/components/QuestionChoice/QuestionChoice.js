@@ -6,7 +6,7 @@ import {grey, blue, yellow, green, red} from 'lib/colors'
 import BlockInput from 'components/BlockInput'
 import {Block, Icon, Checkbox} from 'vdux-ui'
 import ChoiceOverview from './ChoiceOverview'
-import {Button, Tooltip} from 'vdux-containers'
+import {Button, Tooltip, Block as ContBlock} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import Color from 'Color'
@@ -153,18 +153,20 @@ function ChosenMarker ({props}) {
 
 function Check ({props}) {
   const {checked} = props
+  const hoverProps = checked ? {} : {highlight: .035}
   return (
-    <Block
+    <ContBlock
       border='1px solid'
       borderColor={checked ? 'rgba(white, .7)' : 'grey_medium'}
       bgColor={checked ? 'green' : 'white'}
       align='center center'
+      hoverProps={{...hoverProps}}
       rounded
       sq={21}
       pointer
       ml={-6} >
       <Icon hide={!checked} name='check' fs='s' color='white' />
-    </Block>
+    </ContBlock>
   )
 }
 
