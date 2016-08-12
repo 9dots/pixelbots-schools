@@ -3,7 +3,6 @@
  */
 
 import {get, put, post, del} from './req'
-import qs from 'qs'
 
 /**
  * API Wrappers
