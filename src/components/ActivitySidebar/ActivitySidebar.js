@@ -8,6 +8,7 @@ import ActivityBadge from 'components/ActivityBadge'
 import {Card, Block, Text, Icon} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
 import SidebarActions from './SidebarActions'
+import {scrollTo} from 'middleware/scroll'
 import Avatar from 'components/Avatar'
 import {Input} from 'vdux-containers'
 import Link from 'components/Link'
@@ -20,7 +21,7 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {activity, showScores, canGrade, canSetMax, isStudent, isRedo} = props
+  const {activity, showScores, canGrade, canSetMax, isStudent, isRedo, selectObject, selectedObject} = props
   const {actor, publishedAt, at = {}, _object, status, published} = activity
   const isInstance = activity.shareType === 'shareInstance'
   let count = 0
@@ -76,6 +77,8 @@ function render ({props}) {
               canGrade={canGrade}
               isStudent={isStudent}
               canSetMax={canSetMax}
+              selectObject={selectObject}
+              isSelected={selectedObject === q._id}
               showScore={showScores} />)
           }
         </Block>
@@ -93,6 +96,30 @@ function render ({props}) {
     </Block>
   )
 }
+
+/**
+ * ScoreRow Constants
+ */
+
+const inputProps = {
+  m: 0,
+  onFocus: e => e.target.select(),
+  inputProps: {
+    textAlign: 'center',
+    borderWidth: 0,
+    bg: 'transparent',
+    type: 'number'
+  }
+}
+
+const focusProps = {
+  borderLeftColor: 'blue',
+  bg: 'off_white'
+}
+
+/**
+ * <ScoreRow/>
+ */
 
 const ScoreRow = summon(({activity, question}) => ({
   setPoints: scaled => ({
@@ -125,7 +152,7 @@ const ScoreRow = summon(({activity, question}) => ({
 
   render ({props, state}) {
     const {
-      question, showScore, canGrade, isRedo,
+      question, selectObject, isSelected, showScore, canGrade, isRedo,
       canSetMax, num, activity, isStudent
     } = props
     const {debouncedSetPoints, debouncedSetMax} = state
@@ -137,19 +164,18 @@ const ScoreRow = summon(({activity, question}) => ({
 
 
     const color = getColor(activity, question, canGrade, isStudent, isRedo)
-    const inputProps = {
-      m: 0,
-      onFocus: e => e.target.select(),
-      inputProps: {
-        textAlign: 'center',
-        borderWidth: 0,
-        bg: 'transparent',
-        type: 'number'
-      }
-    }
 
     return (
-      <ContainerBlock
+      <Block
+        onFocus={[
+          () => selectObject(question._id),
+          () => scrollTo(document.getElementById(question._id), {
+            easing: 'easeInOutSine',
+            offsetY: -100,
+            duration: 100
+          })
+        ]}
+        tabindex='-1'
         focusProps={{borderLeftColor: 'blue', bg: 'off_white'}}
         tag='label'
         borderLeft='3px solid transparent'
@@ -157,9 +183,9 @@ const ScoreRow = summon(({activity, question}) => ({
         p='6px 12px 6px 9px'
         relative
         color='grey_medium'
-        tabindex='-1'
         fw='lighter'
-        fs='s'>
+        fs='s'
+        {...(isSelected ? focusProps : {})}>
         {num !== 1 && <Block w='calc(100% + 3px)' absolute left='-3' top borderTop='1px solid grey_light' />}
         <Text align='start center' color={color}>
           {num}. <Icon pl='s' fs='xs' name={questionIcon(question)} />
@@ -190,7 +216,7 @@ const ScoreRow = summon(({activity, question}) => ({
             </Block>
           )
         }
-      </ContainerBlock>
+      </Block>
     )
 
     function * setPoints (e) {
@@ -202,7 +228,6 @@ const ScoreRow = summon(({activity, question}) => ({
     function * setMax (e) {
       const max = Number(e.target.value)
 
-      console.log('max', max)
       if (isNaN(max)) return
       if (max === 0) {
         e.target.setCustomValidity('Must not be 0')

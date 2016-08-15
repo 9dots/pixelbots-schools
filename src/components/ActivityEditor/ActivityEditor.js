@@ -77,7 +77,7 @@ function initialState ({props, local, path}) {
  */
 
 function render ({props, local, state}) {
-  const {debouncedSave, defaultPoints, ...rest} = props
+  const {debouncedSave, defaultPoints, selectedObject, selectObject, save, ...rest} = props
   const {editing, editedActivity} = state
   const {attachments} = editedActivity._object[0]
   let idx = 0
@@ -107,10 +107,12 @@ function render ({props, local, state}) {
                   editable
                   object={object}
                   open={state.toggleEdit}
+                  selectObject={selectObject}
                   remove={state.removeObject}
                   onEdit={state.changeObject}
                   editing={editing === object._id}
                   hidden={state.dragging === object._id}
+                  isSelected={selectedObject === object._id}
                   idx={object.objectType === 'question' ? idx++ : null}
                   {...rest} />
               </Block>), attachments)

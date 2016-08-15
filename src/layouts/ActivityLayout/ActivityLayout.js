@@ -4,8 +4,8 @@
 
 import DiscardDraftModal from 'modals/DiscardDraftModal'
 import {back, setUrl} from 'redux-effects-location'
-import PageTitle from 'components/PageTitle'
 import handleActions from '@f/handle-actions'
+import PageTitle from 'components/PageTitle'
 import createAction from '@f/create-action'
 import FourOhFour from 'pages/FourOhFour'
 import {openModal} from 'reducer/modal'
@@ -17,10 +17,24 @@ import {Block} from 'vdux-ui'
 import Nav from  './Nav'
 
 /**
+ * initialState
+ */
+
+function initialState ({local}) {
+  return {
+    selectObject: local(selectObject),
+    setIndicator: local(setIndicator),
+    setSpeaking: local(setSpeaking)
+  }
+}
+
+/**
  * Activity Layout
  */
 
 function render ({props, children, local, state}) {
+  console.log('<ActivityLayout/>: ', state)
+
   return (
     <Block class='app' pb='60vh'>
       { internal(props, children, local, state) }
@@ -57,6 +71,8 @@ function internal (props, children, local, state) {
       discussion: (isClass && discussion) || isPublic
     }
 
+  console.log('state', state.setSpeaking)
+
   return [
     <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
@@ -66,12 +82,12 @@ function internal (props, children, local, state) {
       students: students.value.items, classId,
       instances: instances.value.items,
       savingIndicator: state.savingIndicator,
-      setIndicator: local(setIndicator),
-      speech: {
-        setSpeaking: local(setSpeaking),
-        speakingId: state.speakingId,
-        rate: currentUser.preferences.speech_speed || 1
-      },
+      setIndicator: state.setIndicator,
+      selectObject: state.selectObject,
+      selectedObject: state.selectedObject,
+      setSpeaking: state.setSpeaking,
+      speakingId: state.speakingId,
+      speechRate: currentUser.preferences.speech_speed || 1,
       setStatus,
       settingStatus
     }, children)
@@ -102,6 +118,7 @@ function internal (props, children, local, state) {
 
 const setSpeaking = createAction('<ActivityLayout/>: set speaking')
 const setIndicator = createAction('<ActivityLayout/>: set indicator')
+const selectObject = createAction('<ActivityLayout/>: select object')
 
 /**
  * Reducer
@@ -115,6 +132,10 @@ const reducer = handleActions({
   [setIndicator]: (state, savingIndicator) => ({
     ...state,
     savingIndicator
+  }),
+  [selectObject]: (state, selectedObject) => ({
+    ...state,
+    selectedObject
   })
 })
 
@@ -148,6 +169,7 @@ export default summon(({userId, activityId}) => ({
     subscribe: 'instances'
   }
 }))({
+  initialState,
   render,
   reducer
 }))

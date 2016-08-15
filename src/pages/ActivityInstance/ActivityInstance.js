@@ -26,7 +26,7 @@ function initialState ({local}) {
 
 function render ({props, local, state}) {
   const {isShown} = state
-  const {instance, currentUser, activities, speech} = props
+  const {instance, currentUser, activities, speechRate, speakingId, setSpeaking, selectObject, selectedObject} = props
   const isTeacher = currentUser.userType === 'teacher'
   const isStudent = currentUser.userType === 'student'
   const isReturned = instance.status === statusMap.returned
@@ -58,6 +58,8 @@ function render ({props, local, state}) {
           mb='l'>
           <PrintButton />
           <Activity
+            selectObject={selectObject}
+            selectedObject={selectedObject}
             showComments={state.showComments}
             commentsId={state.commentsId}
             comments={comments}
@@ -67,7 +69,9 @@ function render ({props, local, state}) {
             showIncorrect={isRedo || instance.status === statusMap.returned}
             showAnswers={isTeacher || instance.status === statusMap.returned}
             answerable={isStudent && instance.status <= statusMap.opened}
-            speech={speech} />
+            speechRate={speechRate}
+            speakingId={speakingId}
+            setSpeaking={setSpeaking} />
         </Card>
         <Block
           printProps={{hide: true}}
@@ -77,6 +81,8 @@ function render ({props, local, state}) {
           pointerEvents={commentsShown ? 'none' : 'all'}
           w={200}>
           <ActivitySidebar
+            selectedObject={selectedObject}
+            selectObject={selectObject}
             canGrade={isTeacher && instance.status >= statusMap.turnedIn}
             canSetMax={false}
             isRedo={isRedo}

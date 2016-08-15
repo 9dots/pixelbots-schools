@@ -15,14 +15,15 @@ import map from '@f/map'
  */
 
 function getProps (props, context) {
-  return {
-    ...props,
-    ...(context.uiMedia === 'print' ? (props.printProps || {}) : {})
+  if (context.uiMedia === 'print') {
+    return {...props, showAnswers: props.showAnswersOnPrint}
   }
+
+  return props
 }
 
 function render ({props}) {
-  const {activity, clickableTags, currentUser, ...rest} = props
+  const {activity, clickableTags, currentUser, selectObject, selectedObject, ...rest} = props
   const {
     displayName, _object, originalDescription,
     tags, commonCore
@@ -38,6 +39,8 @@ function render ({props}) {
       <Block>
         {
           map(object => <ActivityObject
+            isSelected={selectedObject === object._id}
+            selectObject={selectObject}
             currentUser={currentUser}
             actor={activity.actor}
             activityId={activity._id}

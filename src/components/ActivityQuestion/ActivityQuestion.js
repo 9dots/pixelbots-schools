@@ -35,7 +35,7 @@ function render ({props, local, state}) {
   if (props.editing) return <EditableQuestion {...props} />
 
   const {
-    actor, activityId, overview, object, idx, answerable, showAnswers,
+    actor, activityId, overview, object, idx, answerable, showAnswers, isSelected, selectObject,
     comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, ...rest
   } = props
   const {poll, attachments = [], points, id, content} = object
@@ -48,7 +48,8 @@ function render ({props, local, state}) {
   const type = getProp('0.objectType', attachments)
 
   return (
-    <Block fw='lighter' relative class='question' {...rest}>
+    <Block fw='lighter' relative class='question' onClick={() => selectObject(object._id)} {...rest}>
+      <Block id={object._id} />
       {
         !poll && comments && (!isStudent || commentList.length > 0) &&
         <QuestionComments
@@ -69,7 +70,7 @@ function render ({props, local, state}) {
       <Block align='start' py mb>
         {
           !overview &&
-          <Badge mr='l' pt={3} size={25}>{idx + 1}</Badge>
+          <Badge bgColor={isSelected ? 'blue' : 'grey_medium'} mr='l' pt={3} size={25}>{idx + 1}</Badge>
         }
         <Block flex>
           {content && <Block key='a' fs='s' innerHTML={content} class='markdown' mb='l' />}

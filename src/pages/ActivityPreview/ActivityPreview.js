@@ -17,8 +17,9 @@ import element from 'vdux/element'
  */
 
 function render ({props, local, state}) {
-  const {activity, currentUser, speech} = props
+  const {activity, currentUser, setSpeaking, speechRate, speakingId, selectObject, selectedObject} = props
   const isTeacher = currentUser.userType === 'teacher'
+
   return (
     <Block align='center start'>
       <Block align='end start'>
@@ -29,13 +30,17 @@ function render ({props, local, state}) {
           </Block>
           <Activity
             showAnswers={true}
-            printProps={{showAnswers: state.printAnswers}}
+            selectedObject={selectedObject}
+            selectObject={selectObject}
+            showAnswersOnPrint={state.printAnswers}
             clickableTags={isTeacher}
             activity={activity}
-            speech={speech} />
+            setSpeaking={setSpeaking}
+            speechRate={speechRate}
+            speakingId={speakingId} />
         </Card>
         <Block w={200} relative fixed={{top: 53}} printProps={{hide: true}}>
-          <ActivitySidebar activity={activity} currentUser={currentUser} />
+          <ActivitySidebar activity={activity} currentUser={currentUser} selectObject={selectObject} selectedObject={selectedObject} />
         </Block>
         <Block printProps={{hide: true}} w={200} ml/>
       </Block>
