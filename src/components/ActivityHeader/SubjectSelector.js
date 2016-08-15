@@ -2,10 +2,11 @@
  * Imports
  */
 
-import {Button, Dropdown, MenuItem, Checkbox} from 'vdux-containers'
+import {Button, Dropdown, MenuItem, Checkbox, Tooltip} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import subjects from '@weo-edu/subjects'
+import mapValues from '@f/map-values'
 import element from 'vdux/element'
 import {Block, Icon} from 'vdux-ui'
 import map from '@f/map'
@@ -17,8 +18,24 @@ import map from '@f/map'
 
 function render ({props, local, state}) {
   const current = state.category
+  const {selected, toggle, error} = props
+  const sbjList = []
+  const counts = {}
+
+  const selectedList = mapValues(t => { return t.displayName }, selected)
+
+  mapValues((cat, key) =>
+    cat.forEach(({displayName}) => {
+      if(selectedList.indexOf(displayName) !== -1) {
+        sbjList.push(displayName)
+        counts[key] = counts[key] ? ++counts[key] : 1
+      }
+  }), subjects)
+
+  const text = sbjList.length ? sbjList.join(', ') : 'Subject Selector'
+
   return (
-    <Dropdown w={505} left btn={<DDBtn text='Subject Selector'/>} onClick={e => e.stopPropagation()}>
+    <Dropdown w={505} left btn={<DDBtn text={text}/>} onClick={e => e.stopPropagation()}>
       <Block align='start' my={-6}>
         <Block flex='35%' borderRight='1px solid grey_light' py={6}>
           {
@@ -26,14 +43,15 @@ function render ({props, local, state}) {
               <Category
                 onClick={local(setCategory, category)}
                 category={category}
-                current={current}/>,
+                current={current}
+                count={counts[category]}/>,
             Object.keys(subjects))
           }
         </Block>
         <Block flex py={6}>
           {
             current
-              ? map(subject => <Item tag={subject} />, subjects[current])
+              ? map(subject => <Item tag={subject} selected={sbjList} toggle={toggle} error={error === subject.displayName} />, subjects[current])
               : <Block p='8px 16px' fs='xs' color='grey_medium'>
                   Select a Subject Area
                 </Block>
@@ -54,6 +72,7 @@ function DDBtn ({props}) {
       bgColor='off_white'
       textAlign='left'
       color='text'
+      capitalize
       lh='2.8em'
       ellipsis
       fs='xxs'
@@ -67,25 +86,44 @@ function DDBtn ({props}) {
 }
 
 function Category ({props}) {
-  const {current, category, ...rest} = props
+  const {current, category, count, ...rest} = props
   const curProps = current === category
     ? {bgColor: 'blue', color: 'white'}
     : {}
   return (
     <MenuItem bold fs='xs' p='3px 6px 3px 12px' align='start center' capitalize {...rest} {...curProps}>
-      <Block flex>{category}</Block>
+      <Block flex>
+        {category}
+        <Block tag='span' hide={!count} ml='s' italic fs='xxs'>
+          ({count})
+        </Block>
+      </Block>
       <Icon name='keyboard_arrow_right' fs='s' />
     </MenuItem>
   )
 }
 
 function Item ({props}) {
-  const {tag} = props
+  const {tag, selected, toggle, error} = props
   const {displayName} = tag
-
+  const checked = selected.indexOf(displayName) !== -1
+  const errorProps = error
+    ? {bgColor: 'rgba(red_light, .5)', hoverProps: {}}
+    : {}
   return (
-    <MenuItem tag='label' fs='xs' p='5px 8px' align='start center' capitalize>
-      <Checkbox mr='s' checkProps={{sq: 15}}/>{displayName}
+    <MenuItem
+      onClick={() => toggle(tag)}
+      align='start center'
+      {...errorProps}
+      p='5px 8px'
+      tag='label'
+      capitalize
+      fs='xs'>
+      <Checkbox mr='s' onClick={e => e.stopPropagation()} checkProps={{sq: 15}} checked={checked}/>
+      <Block flex>
+        {displayName}
+      </Block>
+      <Tooltip tooltipProps={{color: 'white', show: error, bgColor: 'red'}} placement='right' message='5 tags max' />
     </MenuItem>
   )
 }

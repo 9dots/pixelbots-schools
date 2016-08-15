@@ -20,7 +20,8 @@ const typeMap = {
   link: ActivityMedia,
   video: ActivityMedia,
   image: ActivityMedia,
-  document: ActivityMedia
+  document: ActivityMedia,
+  rich: ActivityMedia
 }
 
 const editingProps = {
