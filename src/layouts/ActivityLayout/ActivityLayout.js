@@ -33,8 +33,6 @@ function initialState ({local}) {
  */
 
 function render ({props, children, local, state}) {
-  console.log('<ActivityLayout/>: ', state)
-
   return (
     <Block class='app' pb='60vh'>
       { internal(props, children, local, state) }
@@ -70,8 +68,6 @@ function internal (props, children, local, state) {
       preview: !isInstance,
       discussion: (isClass && discussion) || isPublic
     }
-
-  console.log('state', state.setSpeaking)
 
   return [
     <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
