@@ -24,6 +24,7 @@ function render ({props}) {
     case 'link':
       return <LinkObject object={object} {...rest} />
     case 'video':
+    case 'rich':
       return <Video object={object} {...rest} />
     case 'document':
       return <Document object={object} {...rest} />

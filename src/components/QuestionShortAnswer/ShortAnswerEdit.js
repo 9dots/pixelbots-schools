@@ -22,7 +22,7 @@ function render ({props}) {
     <Block>
       <Block my='s' align='start center'>
         Provide each possible answer:
-        <Tooltip immediate placement='right' message='Student responses must exactly match one of your provided solutions. Provide all possible solutions to the question.' ml='s' tooltipProps={{whiteSpace: 'normal',lh: '1.4em', fs: '12px'}}>
+        <Tooltip placement='right' message='Student responses must exactly match one of your provided solutions. Provide all possible solutions to the question.' ml='s' tooltipProps={{whiteSpace: 'normal',lh: '1.4em', fs: '12px'}}>
             <Icon name='help' fs='s' pr />
           </Tooltip>
       </Block>
