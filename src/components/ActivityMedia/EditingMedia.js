@@ -26,7 +26,7 @@ function render ({props}) {
             bgColor='grey'
             mr='l'
             px>
-            Change {object.objectType}
+            Change {object.objectType === 'rich' ? 'Media' : object.objectType}
           </Button>
           {
             object.objectType === 'image' &&
