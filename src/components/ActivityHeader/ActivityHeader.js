@@ -61,7 +61,8 @@ const EditingHeader = {
             fs='s'
             lighter
             autofocus
-            onInput={e => onEdit({displayName: e.target.value})}
+            onFocus={e => e.target.select()}
+            onInput={e => onEdit({displayName: e.target.value || 'Untitled Activity'})}
             defaultValue={displayName} />
         </Block>
         <Block align='start center' mt='s'>
@@ -74,7 +75,7 @@ const EditingHeader = {
         </Block>
         <Block align='start center' mt={18} relative z={1}>
           <Text textAlign='right' minWidth={100} mr='l'>Label:</Text>
-          <Block align='start' w='75%'>
+          <Block align='start' flex>
             <Block flex='45%' mr>
               <GradeSelector selected={tags} toggle={toggleTag} error={errorSelect} />
             </Block>
