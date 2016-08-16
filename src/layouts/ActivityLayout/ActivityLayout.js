@@ -113,6 +113,9 @@ function internal (props, children, local, state) {
  */
 
 const setSpeaking = createAction('<ActivityLayout/>: set speaking')
+const setSpeechText = createAction('<ActivityLayout/>: set speech text')
+const setPlayState = createAction('<ActivityLayout/>: set play state')
+
 const setIndicator = createAction('<ActivityLayout/>: set indicator')
 const selectObject = createAction('<ActivityLayout/>: select object')
 
@@ -124,6 +127,14 @@ const reducer = handleActions({
   [setSpeaking]: (state, speakingId) => ({
     ...state,
     speakingId
+  }),
+  [setPlayState]: (state, playState) => ({
+    ...state,
+    playState
+  }),
+  [setSpeechText]: (state, speechText) => ({
+    ...state,
+    speechText
   }),
   [setIndicator]: (state, savingIndicator) => ({
     ...state,
