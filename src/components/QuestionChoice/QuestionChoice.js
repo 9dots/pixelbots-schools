@@ -46,7 +46,6 @@ function render ({props}) {
     answer = [], actor, numAtt, setCorrectAnswer, question,
     setSpeaking, speechRate, speakingId, speechEnabled
   } = props
-  console.log(props)
   const {content, originalContent} = object
   const isCorrect = question.correctAnswer.indexOf(object._id) !== -1
   const chosen = isChosen(object, answer)
