@@ -81,15 +81,17 @@ function render ({props, local, state}) {
               activity={activity}/>
           </Flex>
         </Block>
-        <Block flex px hide={!isEdit}>
+        <Block flex px hide={!isEdit} align='end center'>
+          <Block align='end center' mr color='grey_medium'>
+            <Block align='start center'>
+              {savingIndicator}
+            </Block>
+          </Block>
           <Block align='end center' hide={activity.published}>
             <Block color='red' align='start center' mr>DRAFT</Block>
             <EditDropdown activity={activity} />
           </Block>
           <Block align='end center' hide={!activity.published}>
-            <Block mr color='grey_medium'>
-              {savingIndicator}
-            </Block>
             <Button mr='s' text='Done' onClick={back} bgColor='grey' />
             <DeleteButton activity={activity} bgColor='red'/>
           </Block>
