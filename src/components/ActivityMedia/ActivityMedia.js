@@ -187,11 +187,11 @@ function Document ({props}) {
 
 function Image ({props}) {
   const {object, ...rest} = props
-  const {image = {}, justify} = object
+  const {image = {}, justify, zoom} = object
 
   return (
     <Block textAlign={justify}>
-      <Figure {...image} w={image.width} {...rest} display='inline-block' />
+      <Figure {...image} w={image.width * (zoom || 1)} {...rest} display='inline-block' />
     </Block>
   )
 }

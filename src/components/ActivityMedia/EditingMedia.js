@@ -5,8 +5,10 @@
 import ObjectControls from 'components/ObjectControls'
 import ActivityMedia from 'components/ActivityMedia'
 import MediaModal from 'modals/MediaModal'
+import Resizer from 'components/Resizer'
 import {openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
+import Figure from 'components/Figure'
 import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
 
@@ -18,7 +20,11 @@ function render ({props}) {
   const {object, onEdit} = props
   return (
     <Block>
-      <ActivityMedia {...props} editing={false} />
+      {
+        object.objectType === 'image'
+          ? <ImageEdit {...props} />
+          : <ActivityMedia {...props} editing={false} />
+      }
       <ObjectControls {...props} >
           <Button
             onClick={() => openModal(() => <MediaModal onAccept={newObj => onEdit({...object, ...newObj})} type={object.objectType} />)}
@@ -54,6 +60,19 @@ function AlignIcon ({props}) {
       {...rest} />
   )
 }
+
+function ImageEdit ({props}) {
+  const {object, onEdit, ...rest} = props
+  const {image = {}, justify, zoom} = object
+  return (
+    <Block textAlign={justify}>
+      <Resizer focusProps={{focus: true}} onEdit={onEdit} object={object}>
+        <Figure {...image} wide {...rest} display='block' m={0}/>
+      </Resizer>
+    </Block>
+  )
+}
+
 
 /**
  * Exports
