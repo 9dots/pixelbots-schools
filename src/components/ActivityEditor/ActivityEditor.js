@@ -143,6 +143,12 @@ function render ({props, local, state}) {
       return state.moveObject({src: state.dragging, target: id})
     }
   }
+
+  function beforeUnload () {
+    if (state.dirty) {
+      return 'test'
+    }
+  }
 }
 
 /**
@@ -171,6 +177,16 @@ function onUpdate (prev, next) {
   }
 
   return actions
+}
+
+/**
+ * onRemove
+ */
+
+function onRemove ({props, state}) {
+  if (state.dirty) {
+    return props.save(state.editedActivity)
+  }
 }
 
 /**
@@ -340,5 +356,6 @@ export default summon(({activity}) => ({
   initialState,
   render,
   onUpdate,
-  reducer
+  reducer,
+  onRemove
 })

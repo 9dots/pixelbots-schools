@@ -30,6 +30,7 @@ function middleware ({dispatch}) {
         if (msg) msg.onend = null
         dispatch(cb())
 
+        console.log('text', action.payload.text)
         text = action.payload.text
         rate = action.payload.rate
         cb = action.payload.onEnd
@@ -52,7 +53,7 @@ function middleware ({dispatch}) {
         break
       case cancelSpeech.type:
         cb = () => {}
-        msg.onend = null
+        if (msg) msg.onend = null
         speechSynthesis.cancel()
         break
       default:

@@ -86,6 +86,7 @@ function makeReadable(text) {
     return text.replace(/__+/g, ', blank,')
       .replace(/&amp;/g, 'and')
       .split(/[\.!\?]”?\s|[\n\r]/)
+      .filter(t => !!t)
   } else {
     return ['Text is not readable.']
   }
