@@ -6,6 +6,7 @@ import fetch, {fetchEncodeJSON} from 'redux-effects-fetch'
 import transformErrors from 'middleware/transform-errors'
 import {shouldLog, setLogLevel} from 'lib/log-level'
 import {lookup, isEphemeral} from 'redux-ephemeral'
+import speechSynth from 'middleware/speechSynth'
 import {query} from 'redux-effects-credentials'
 import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
@@ -43,6 +44,7 @@ const middleware = [
   scroll,
   upload,
   location(),
+  speechSynth,
   modal,
   title(),
   objectId,

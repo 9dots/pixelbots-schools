@@ -27,7 +27,7 @@ function middleware () {
  * Helpers
  */
 
-function scrollToElement ({element, duration, easing}) {
+function scrollToElement ({element, duration, easing, offsetX = 0, offsetY = 0}) {
   element = asElement(element)
   easing =  typeof easing === 'string'
     ? easingUtil[easing]
@@ -40,8 +40,8 @@ function scrollToElement ({element, duration, easing}) {
   }
 
   const end = {
-    left: start.left + left,
-    top: start.top + top
+    left: start.left + left + offsetX,
+    top: start.top + top + offsetY
   }
 
   animate(start, end, props => {
