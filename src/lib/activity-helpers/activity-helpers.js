@@ -134,7 +134,7 @@ function combineInstancesAndStudents (activity, students, instances) {
 
     return {
       total: totalPts,
-      displayName: instance.actor.displayName,
+      displayName: instance.actor && instance.actor.displayName,
       instanceId: instance._id,
       familyName: student.name.familyName,
       givenName: student.name.givenName,

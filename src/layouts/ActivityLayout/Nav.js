@@ -81,7 +81,7 @@ function render ({props, local, state}) {
               activity={activity}/>
           </Flex>
         </Block>
-        <Block flex px hide={!isEdit} align='end center'>
+        <Block flex px align='end center' hide={!isEdit}>
           <Block align='end center' mr color='grey_medium'>
             <Block align='start center'>
               {savingIndicator}
