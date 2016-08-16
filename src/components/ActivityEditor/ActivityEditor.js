@@ -19,6 +19,18 @@ import summon from 'vdux-summon'
 import index from '@f/index'
 import map from '@f/map'
 
+function onCreate ({path}) {
+  return (dispatch, getState) => {
+    window.onbeforeunload = function (e) {
+      const state = lookup(getState().ui, path)
+      if (state && state.dirty) {
+        e.returnValue = 'You have unsaved changes. Are you sure you want to exit?'
+        return e.returnValue
+      }
+    }
+  }
+}
+
 /**
  * initialState
  */
@@ -184,6 +196,8 @@ function onUpdate (prev, next) {
  */
 
 function onRemove ({props, state}) {
+  window.onbeforeunload = null
+
   if (state.dirty) {
     return props.save(state.editedActivity)
   }
@@ -353,6 +367,7 @@ export default summon(({activity}) => ({
     }
   })
 }))({
+  onCreate,
   initialState,
   render,
   onUpdate,

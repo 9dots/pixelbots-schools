@@ -30,7 +30,6 @@ function middleware ({dispatch}) {
         if (msg) msg.onend = null
         dispatch(cb())
 
-        console.log('text', action.payload.text)
         text = action.payload.text
         rate = action.payload.rate
         cb = action.payload.onEnd
