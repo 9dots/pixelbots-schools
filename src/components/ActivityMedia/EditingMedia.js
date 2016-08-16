@@ -66,11 +66,15 @@ function ImageEdit ({props}) {
   const {image = {}, justify, zoom} = object
   return (
     <Block textAlign={justify}>
-      <Resizer focusProps={{focus: true}} onEdit={onEdit} object={object}>
+      <Resizer onEnd={resize} object={object}>
         <Figure {...image} wide {...rest} display='block' m={0}/>
       </Resizer>
     </Block>
   )
+
+  function * resize (zoom) {
+    yield onEdit({...object, zoom})
+  }
 }
 
 
