@@ -15,19 +15,22 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {object, editing, open, editable, onEdit, remove, setSpeaking, speakingId, speechRate, ...rest} = props
+  const {object, editing, open, editable, onEdit, remove, setSpeaking, speakingId, speechRate, speechEnabled, ...rest} = props
 
   if (editing) return <EditablePost {...props} />
 
   return (
     <Block {...rest}>
-      <TextToSpeech
-        onStart={() => setSpeaking(object._id)}
-        onEnd={() => setSpeaking()}
-        rate={speechRate}
-        text={object.displayName}
-        current={speakingId === object._id}
-        float='left'/>
+      {
+        speechEnabled &&
+        <TextToSpeech
+          onStart={() => setSpeaking(object._id)}
+          onEnd={() => setSpeaking()}
+          rate={speechRate}
+          text={object.displayName}
+          current={speakingId === object._id}
+          float='left'/>
+      }
       <Block
         fs='s'
         fw='100'

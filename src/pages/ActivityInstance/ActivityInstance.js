@@ -71,7 +71,7 @@ function render ({props, local, state}) {
             answerable={isStudent && instance.status <= statusMap.opened}
             speechRate={speechRate}
             speakingId={speakingId}
-            setSpeaking={setSpeaking} />
+            setSpeaking={setSpeaking}/>
         </Card>
         <Block
           printProps={{hide: true}}

@@ -2,11 +2,12 @@
  * Imports
  */
 
+import {Button, Tooltip, Block as ContBlock} from 'vdux-containers'
 import {grey, blue, yellow, green, red} from 'lib/colors'
+import TextToSpeech from 'components/TextToSpeech'
 import BlockInput from 'components/BlockInput'
 import {Block, Icon, Checkbox} from 'vdux-ui'
 import ChoiceOverview from './ChoiceOverview'
-import {Button, Tooltip, Block as ContBlock} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import Color from 'Color'
@@ -42,8 +43,10 @@ function render ({props}) {
   const {
     object, editing, $media, onEdit, showAnswers, remove,
     focusPrevious, overview, answerable, submit, idx,
-    answer = [], actor, numAtt, setCorrectAnswer, question
+    answer = [], actor, numAtt, setCorrectAnswer, question,
+    setSpeaking, speechRate, speakingId, speechEnabled
   } = props
+  console.log(props)
   const {content, originalContent} = object
   const isCorrect = question.correctAnswer.indexOf(object._id) !== -1
   const chosen = isChosen(object, answer)
@@ -78,7 +81,19 @@ function render ({props}) {
       <Block wide>
         {
           !editing
-            ? <Block key='a' mx='40px' fs='s' innerHTML={content || '<br/>'} class='markdown' printProps={{ml: 0}} />
+            ? <Block mx='40px'>
+                {
+                  speechEnabled &&
+                  <TextToSpeech
+                    onStart={() => setSpeaking(object._id)}
+                    onEnd={() => setSpeaking()}
+                    rate={speechRate}
+                    text={object.displayName}
+                    current={speakingId === object._id}
+                    float='left'/>
+                }
+                <Block key='a' fs='s' innerHTML={content || '<br/>'} class='markdown' printProps={{ml: 0}} />
+              </Block>
             : <Block align='start center'>
                 <Tooltip message='Mark Correct' mr>
                   <Checkbox

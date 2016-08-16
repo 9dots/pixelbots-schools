@@ -4,6 +4,7 @@
 
 import PollChoiceOverview from './PollChoiceOverview'
 import {grey, blue, yellow, green, red} from 'lib/colors'
+import TextToSpeech from 'components/TextToSpeech'
 import BlockInput from 'components/BlockInput'
 import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
@@ -31,7 +32,8 @@ function render ({props}) {
   const {
     object, idx, editing, onEdit, remove,
     answerable, overview, focusPrevious, submit,
-    answer = [], actor, numAtt
+    answer = [], actor, numAtt,
+    setSpeaking, speechRate, speakingId, speechEnabled
   } = props
   const {content, originalContent} = object
   const chosen = answer[0] === object._id
@@ -56,6 +58,17 @@ function render ({props}) {
       mx='1%'
       tall
       >
+      {
+        !editing && speechEnabled &&
+        <TextToSpeech
+          absolute={{top: 5, right: -5}}
+          z={3}
+          onStart={() => setSpeaking(object._id)}
+          onEnd={() => setSpeaking()}
+          rate={speechRate}
+          text={object.displayName}
+          current={speakingId === object._id}/>
+      }
       <Button zIndex={2} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' tabindex='-1' hide={!editing || numAtt === 1} />
       <Block pb='100%' wide relative>
         <Block absolute wide tall top left align='center center'>
