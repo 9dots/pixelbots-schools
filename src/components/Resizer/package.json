@@ -1,0 +1,5 @@
+{
+  "name": "Resizer",
+  "main": "Resizer.js",
+  "browser": "Resizer.js"
+}
