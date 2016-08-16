@@ -5,6 +5,7 @@
 import {wrap, CSSContainer} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import {findDOMNode} from 'vdux/dom'
 import Document from 'vdux/document'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
@@ -21,12 +22,14 @@ const endDragging = createAction('<Resizer/>: end dragging')
  * <Resizer/>
  */
 
-export default wrap(CSSContainer)({
-  render({props, children, local, state}) {
-    let el = null
+export default wrap(CSSContainer, {
+  focusProps: { focus: true }
+})({
+  render(model) {
+    const {props, children, local, state} = model
     const w = 10
     const {x, y, startWidth, startHeight, dragging} = state
-    const {focus, object, onEdit} = props
+    const {focus, object, onEnd} = props
     const {image, justify = 'left', zoom} = object
     const focusProps = focus
       ? {
@@ -35,45 +38,40 @@ export default wrap(CSSContainer)({
           boxShadow: '0 0 6px rgba(blue, .8)'
         }
       : {}
+
+    const handleProps = {
+      boxShadow: 'z1', bgColor: 'blue', sq: w, p: 0, z: 1
+    }
     return (
       <Block
-        display='inline-block'
-        fn={element => el = element}
-        tabindex='-1'
         w={image.width * (zoom || 1)}
+        display='inline-block'
         maxWidth='100%'
+        tabindex='-1'
         relative
         {...focusProps}>
         {children}
       <Block
+        hide={!focus || justify === 'left' || justify === 'center'}
         absolute={{left: w/-4, bottom: w/-4}}
         cursor='nesw-resize'
-        draggable='true'
-        boxShadow='z1'
-        bgColor='blue'
         onMousedown={start}
-        hide={!focus || justify === 'left' || justify === 'center'}
-        sq={w}
-        p={0}
-        z={1} />
+        {...handleProps} />
       <Block
         absolute={{right: w/-4, bottom: w/-4}}
-        cursor='nwse-resize'
-        draggable='true'
-        boxShadow='z1'
-        bgColor='blue'
-        onMousedown={start}
         hide={!focus || justify === 'right'}
-        sq={w}
-        p={0}
-        z={1} />
+        cursor='nwse-resize'
+        onMousedown={start}
+        {...handleProps} />
         {
-          dragging && <Document onMouseup={up} onMouseMove={move} />
+          dragging &&
+          <Document onMouseup={local(endDragging)} onMouseMove={move} />
         }
     </Block>
     )
 
     function * move(e) {
+      const el = findDOMNode(model)
       const deltaX = x - e.clientX
       const deltaY = y - e.clientY
       const newHeight = startHeight - deltaY
@@ -91,14 +89,11 @@ export default wrap(CSSContainer)({
         : clamp(heightRatio * image.width, 100, image.width)
 
       el.style.width = width + 'px'
-      yield onEdit({...object, zoom: width / image.width})
-    }
-
-    function * up(e) {
-      yield local(endDragging)()
+      yield onEnd(width / image.width)
     }
 
     function * start(e) {
+      const el = findDOMNode(model)
       yield local(
         startDragging, {
           x: e.clientX,
