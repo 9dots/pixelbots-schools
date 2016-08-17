@@ -129,6 +129,7 @@ function render ({props, local, state}) {
                     bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
                     <ActivityObject
                       editable
+                      showAnswers
                       object={object}
                       open={state.toggleEdit}
                       selectObject={selectObject}
