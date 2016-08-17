@@ -64,6 +64,9 @@ function AlignIcon ({props}) {
 function ImageEdit ({props}) {
   const {object, onEdit, ...rest} = props
   const {image = {}, justify, zoom} = object
+
+  console.log('image', image)
+
   return (
     <Block textAlign={justify}>
       <Resizer onEnd={resize} object={object}>
