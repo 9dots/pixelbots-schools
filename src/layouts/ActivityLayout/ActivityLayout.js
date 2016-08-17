@@ -40,6 +40,16 @@ function render ({props, children, local, state}) {
   )
 }
 
+function * onUpdate (prev, next) {
+  const {activity, instances, students, getInstance, gettingInstance} = next.props
+
+  if (!gettingInstance && instances.value && students.value && instances.value.items.length < students.value.items.length) {
+    const filtered = students.value.items.filter(({_id}) => instances.value.items.every(inst => inst._id !== _id))
+    yield filtered.map(student => getInstance(student._id))
+    yield invalidate(`/share?channel=share!${activity.value._id}.instances`)
+  }
+}
+
 function internal (props, children, local, state) {
   const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus, isEdit, isNew
   } = props
@@ -52,6 +62,10 @@ function internal (props, children, local, state) {
 
   if (error || students.error ||  (isInstance && instance.error)) {
     return <FourOhFour />
+  }
+
+  if (instances.value.items.length < students.value.items.length) {
+    return ''
   }
 
   const classId = value.contexts[0].descriptor.id
@@ -174,9 +188,15 @@ export default summon(({userId, activityId}) => ({
       ? `/share?channel=share!${activity.value._id}.instances`
       : null,
     subscribe: 'instances'
-  }
+  },
+  getInstance: userId => ({
+    gettingInstance: {
+      url: `/share/${activity.value._id}/instance/${userId}`
+    }
+  })
 }))({
   initialState,
   render,
-  reducer
+  reducer,
+  onUpdate
 }))

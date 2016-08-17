@@ -42,10 +42,10 @@ function render ({props}) {
   const {
     object, editing, $media, onEdit, showAnswers, remove,
     focusPrevious, overview, answerable, submit, idx,
-    answer = [], actor, numAtt, setCorrectAnswer, question
+    answer = [], actor, numAtt
   } = props
-  const {content, originalContent} = object
-  const isCorrect = question.correctAnswer.indexOf(object._id) !== -1
+  const {content, originalContent, correctAnswer} = object
+  const isCorrect = correctAnswer.indexOf(object._id) !== -1
   const chosen = isChosen(object, answer)
   const hasAnswer = !!answer.length
   const bgColor = hasAnswer
@@ -114,13 +114,12 @@ function render ({props}) {
   )
 
   function toggleCorrectness (e) {
-    const {correctAnswer = []} = question
-
-    return setCorrectAnswer(
-      correctAnswer
+    return onEdit({
+      ...object,
+      correctAnswer: correctAnswer
         .filter(id => id !== object._id)
         .concat(e.target.checked ? object._id : [])
-    )
+    })
   }
 
   function * submitAnswer () {

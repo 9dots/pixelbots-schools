@@ -55,12 +55,14 @@ function initialState ({props, local, path}) {
     clearDragging: local(clearDragging),
     toggleEdit: id => (dispatch, getState) => {
       const state = lookup(getState().ui, path)
+      const parentState = lookup(getState().ui, path.slice(0, path.lastIndexOf('.')))
 
       if (state.editing && state.dirty) {
         cancelSave()
-        dispatch(props.save(state.editedActivity))
+        dispatch(local(clearDirty)())
+        return dispatch(props.save(state.editedActivity))
           .then(() => dispatch(state.open(id)))
-      } else {
+      } else if (!(parentState.saving && parentState.saving.loading)) {
         dispatch(state.open(id))
       }
     },
@@ -68,7 +70,7 @@ function initialState ({props, local, path}) {
       // XXX Hack until we find a good solution to avoid
       // creating new event handlers whenever anything changes
       const state = lookup(getState().ui, path)
-      if (!state) return
+      if (!state || !state.dirty) return
 
       dispatch(local(clearDirty)())
       return dispatch(props.save(state.editedActivity))
@@ -137,7 +139,9 @@ function render ({props, local, state}) {
   )
 
   function onDragStart (e, id) {
-    if(!state.target.classList.contains('handle')) {
+    const cls = [].slice.call(state.target ? state.target.classList : [])
+
+    if(cls.indexOf('handle') === -1) {
       e.preventDefault()
     } else {
       e._rawEvent.dataTransfer.setData('weo_attachment', id)
@@ -362,6 +366,7 @@ export default summon(({activity}) => ({
   save: body => ({
     saving: {
       url: `/share/${activity._id}`,
+      serialize: true,
       method: 'PUT',
       body
     }
