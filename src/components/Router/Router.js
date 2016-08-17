@@ -197,7 +197,7 @@ const router = enroute({
     <ActivityLayout {...props} {...params}>
       {({activity}) => activityRedirect(activity, props)}
     </ActivityLayout>,
-  '/activity/:activityId/edit/:isNew?': (params, props) =>
+  '/activity/:activityId/edit/:intent?': (params, props) =>
     <ActivityLayout isEdit {...props} {...params}>
       {data => <ActivityEdit {...props} {...params} {...data} />}
     </ActivityLayout>,

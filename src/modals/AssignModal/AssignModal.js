@@ -29,7 +29,7 @@ function render ({props}) {
     <Modal onDismiss={closeModal} w='620' bgColor='grey_light'>
       <Flex>
         <Block flex align='center center' py px='l'>
-          <ActivityTileModaled activity={activity} />
+          <ActivityTileModaled activity={activity} intent='assign' />
         </Block>
         <Flex column bg='white' flex boxShadow='-1px 0 1px 0 rgba(0,0,0,0.1)' relative minHeight='400px'>
           <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
