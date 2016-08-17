@@ -29,7 +29,7 @@ export default wrap(CSSContainer, {
     const {props, children, local, state} = model
     const {x, y, startWidth, startHeight, dragging, dir} = state
     const {focus, object, onEnd} = props
-    const {image, justify = 'left', zoom} = object
+    const {image, justify = 'center', zoom} = object
     const focusProps = focus
       ? {
           outline: '1px solid',

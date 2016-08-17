@@ -3,6 +3,7 @@
  */
 
 import {Block, Icon, Image as UiImage} from 'vdux-ui'
+import {Block as ContBlock} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import EditingMedia from './EditingMedia'
@@ -151,7 +152,7 @@ const Video = {
 }
 
 function Document ({props}) {
-  const {object, editable, ...rest} = props
+  const {object, editable, preview, ...rest} = props
   const {content, embed = {}} = object
   const {url} = embed
   const linkProps = {
@@ -177,9 +178,12 @@ function Document ({props}) {
           <Icon name='open_in_new' mr='xs' fs='inherit' />
           View File
         </Link>
-        {editable && <Link ml {...linkProps}>
-          <Icon name='edit' mr='xs' fs='inherit' />Edit File
-        </Link>}
+        {
+          editable && !preview &&
+          <ContBlock ml {...linkProps}>
+            <Icon name='edit' mr='xs' fs='inherit' />Edit
+          </ContBlock>
+        }
       </Block>
     </Block>
   )
@@ -187,11 +191,11 @@ function Document ({props}) {
 
 function Image ({props}) {
   const {object, ...rest} = props
-  const {image = {}, justify, zoom} = object
+  const {image = {}, justify = 'center', zoom} = object
 
   return (
-    <Block textAlign={justify}>
-      <Figure {...image} w={image.width * (zoom || 1)} {...rest} display='inline-block' />
+    <Block textAlign={justify} {...rest}>
+      <Figure {...image} w={image.width * (zoom || 1)} display='inline-block' />
     </Block>
   )
 }
