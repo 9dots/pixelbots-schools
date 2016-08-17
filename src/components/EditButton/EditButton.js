@@ -27,7 +27,7 @@ function render ({props}) {
   function * handleClick () {
     let act = activity
     if (copy) act = yield copyActivity()
-    yield setUrl(`/activity/${act._id}/edit/${intent}`)
+    yield setUrl(`/activity/${act._id}/edit${intent ? '/' + intent : ''}`)
   }
 }
 

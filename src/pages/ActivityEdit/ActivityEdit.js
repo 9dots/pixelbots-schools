@@ -14,6 +14,7 @@ import {Block, Icon, Card} from 'vdux-ui'
 import {Button} from 'vdux-containers'
 import {lookup} from 'redux-ephemeral'
 import findIndex from '@f/find-index'
+import deepEqual from '@f/deep-equal'
 import element from 'vdux/element'
 import debounce from '@f/debounce'
 import getProp from '@f/get-prop'
@@ -355,10 +356,14 @@ function mergeAttachments (edited, saved) {
 }
 
 function mergeAttachment (edited, saved) {
+  if (deepEqual(edited, saved)) return edited
+
   if (media.indexOf(edited.objectType) !== -1) {
     return {
       ...saved,
-      originalContent: edited.originalContent
+      originalContent: edited.originalContent,
+      zoom: edited.zoom,
+      justify: edited.justify
     }
   }
 
