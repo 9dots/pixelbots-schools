@@ -54,7 +54,6 @@ function render ({props}) {
           <Block class='choice-container' align='start' column={isMultipleChoice} onKeypress={{enter: [type === 'choice' && attach('choice'), e => focusLast(e.target)]}}>
             {
               map((att, i) => <QuestionAttachment
-                  question={object}
                   focusPrevious={focusPrevious}
                   remove={() => onEdit({
                     ...object,
@@ -66,7 +65,6 @@ function render ({props}) {
                       ? newObj
                       : att)
                   })}
-                  setCorrectAnswer={setCorrectAnswer}
                   editing
                   object={att}
                   key={att._id}
@@ -142,13 +140,6 @@ function render ({props}) {
     </Block>
   )
 
-  function setCorrectAnswer (correctAnswer = []) {
-    return onEdit({
-      ...object,
-      correctAnswer
-    })
-  }
-
   function attach (type, poll, removeAll) {
     return function * () {
       const id = yield generateObjectId()
@@ -168,7 +159,6 @@ function render ({props}) {
       yield onEdit({
         ...object,
         poll: poll === undefined ? object.poll : poll,
-        correctAnswer: removeAll ? answers : object.correctAnswer,
         attachments: removeAll
           ? [newObj]
           : attachments.concat(newObj)

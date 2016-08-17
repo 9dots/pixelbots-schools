@@ -15,8 +15,8 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {question, setCorrectAnswer, focusPrevious} = props
-  const {correctAnswer} = question
+  const {object, onEdit, focusPrevious} = props
+  const {correctAnswer = []} = object
 
   return (
     <Block>
@@ -68,13 +68,17 @@ function render ({props}) {
     </Block>
   )
 
-  function * save (correctAnswer) {
-    yield setCorrectAnswer(correctAnswer)
+  function save (correctAnswer) {
+    return onEdit({
+      ...object,
+      correctAnswer
+    })
   }
 
-  function * remove (idx) {
-    correctAnswer.splice(idx, 1)
-    yield setCorrectAnswer(correctAnswer)
+  function remove (idx) {
+    const ans = correctAnswer.slice()
+    ans.splice(idx, 1)
+    return save(ans)
   }
 }
 

@@ -40,9 +40,18 @@ function render ({props, children, local, state}) {
   )
 }
 
+function * onUpdate (prev, next) {
+  const {activity, instances, students, getInstance, gettingInstance} = next.props
+
+  if (!gettingInstance && instances.value && students.value && instances.value.items.length < students.value.items.length) {
+    const filtered = students.value.items.filter(({_id}) => instances.value.items.every(inst => inst._id !== _id))
+    yield filtered.map(student => getInstance(student._id))
+    yield invalidate(`/share?channel=share!${activity.value._id}.instances`)
+  }
+}
+
 function internal (props, children, local, state) {
-  const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus, isEdit, isNew
-  } = props
+  const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus, isEdit, intent} = props
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
@@ -52,6 +61,10 @@ function internal (props, children, local, state) {
 
   if (error || students.error ||  (isInstance && instance.error)) {
     return <FourOhFour />
+  }
+
+  if (instances.value.items.length < students.value.items.length) {
+    return ''
   }
 
   const classId = value.contexts[0].descriptor.id
@@ -70,7 +83,7 @@ function internal (props, children, local, state) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} intent={intent} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,
@@ -92,7 +105,7 @@ function internal (props, children, local, state) {
   function backBtn () {
     const {canExit} = props
 
-    if(isNew) {
+    if(intent === 'new') {
       return openModal(() => <DiscardDraftModal onAccept={() =>canExit ? back() : setUrl('/feed')} activity={value} />)
     } else {
       return canExit ? back() : setUrl(escapeUrl())
@@ -174,9 +187,15 @@ export default summon(({userId, activityId}) => ({
       ? `/share?channel=share!${activity.value._id}.instances`
       : null,
     subscribe: 'instances'
-  }
+  },
+  getInstance: userId => ({
+    gettingInstance: {
+      url: `/share/${activity.value._id}/instance/${userId}`
+    }
+  })
 }))({
   initialState,
   render,
-  reducer
+  reducer,
+  onUpdate
 }))

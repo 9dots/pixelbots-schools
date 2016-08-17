@@ -28,7 +28,8 @@ function render ({props}) {
   const questions = _object[0].attachments
     .filter(att => {
       if(att.objectType === 'question') {
-        count = att.response.length ? count + 1 : count
+        const {response = []} = att
+        count = response.length ? count + 1 : count
         return true
       }
     })

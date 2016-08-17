@@ -55,24 +55,28 @@ function render ({props, state, local}) {
         }
         {...btnProps}
         disabled={false}/>
-      <Block align='start center' disabled={isStopped} hide={text.length < 4}>
-        <Button
-          icon='fast_rewind'
-          onClick={rwSpeech}
-          {...btnProps} />
-        <Button
-          icon={isPaused ? 'play_arrow' : 'pause'}
-          onClick={
-            isPaused
-              ? [resumeSpeech, local(setState, 'playing')]
-              : [pauseSpeech, local(setState, 'paused')]
-          }
-          {...btnProps} />
-        <Button
-          icon='fast_forward'
-          onClick={ffSpeech}
-          {...btnProps} />
-      </Block>
+      {
+        text.length >= 4 && (
+          <Block align='start center' disabled={isStopped}>
+            <Button
+              icon='fast_rewind'
+              onClick={rwSpeech}
+              {...btnProps} />
+            <Button
+              icon={isPaused ? 'play_arrow' : 'pause'}
+              onClick={
+                isPaused
+                  ? [resumeSpeech, local(setState, 'playing')]
+                  : [pauseSpeech, local(setState, 'paused')]
+              }
+              {...btnProps} />
+            <Button
+              icon='fast_forward'
+              onClick={ffSpeech}
+              {...btnProps} />
+          </Block>
+        )
+      }
     </Block>
   )
 }
@@ -81,7 +85,7 @@ function render ({props, state, local}) {
  * Helpers
  */
 
-function makeReadable(text) {
+function makeReadable (text) {
   if(text) {
     return text.replace(/__+/g, ', blank,')
       .replace(/&amp;/g, 'and')
@@ -110,8 +114,10 @@ const reducer = handleActions({
  * onRemove
  */
 
-function onRemove ({props}) {
-  return cancelSpeech()
+function onRemove ({props, state}) {
+  if (state.playState === 'playing') {
+    return cancelSpeech()
+  }
 }
 
 /**

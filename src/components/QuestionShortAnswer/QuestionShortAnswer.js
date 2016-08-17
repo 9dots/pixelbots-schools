@@ -16,12 +16,12 @@ import element from 'vdux/element'
 function render ({props}) {
   const {
     answerable, showAnswers, answer = [], submit, object,
-    overview, editing, onEdit, editable, question
+    overview, editing, onEdit, editable
   } = props
 
   if(overview) return <ShortAnswerOverview {...props} />
 
-  const filterAnswers = question.correctAnswer.filter(Boolean)
+  const filterAnswers = object.correctAnswer.filter(Boolean)
 
   return (
     <Block relative wide>

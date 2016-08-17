@@ -98,7 +98,6 @@ function render ({props, local, state}) {
                   answer={state.answer}
                   overview={overview}
                   editable={editable}
-                  question={object}
                   submit={answer => [
                     state.debouncedSubmit(answer),
                     local(setAnswer)(answer)
