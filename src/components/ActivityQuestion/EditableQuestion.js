@@ -40,6 +40,7 @@ function render ({props}) {
 
   return (
     <Block fw='lighter' relative {...rest}>
+      <Block id={object._id} />
       <Block align='start' py mb>
         <Badge mr='l' pt={3} size={25}>{idx + 1}</Badge>
         <Block flex>
