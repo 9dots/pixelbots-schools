@@ -29,6 +29,7 @@ function render ({props, local, state}) {
           setSpeaking={setSpeaking}
           speakingId={speakingId}
           speechRate={speechRate}
+          speechEnabled={activity.textToSpeech}
           activity={activity}
           showAnswers />
         <Block w={200} relative fixed={{top: 53}} float='right'>

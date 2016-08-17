@@ -5,6 +5,7 @@
 import QuestionAttachment from 'components/QuestionAttachment'
 import QuestionComments from 'components/QuestionComments'
 import {debounceAction, Button} from 'vdux-containers'
+import TextToSpeech from 'components/TextToSpeech'
 import EditableQuestion from './EditableQuestion'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -36,7 +37,7 @@ function render ({props, local, state}) {
 
   const {
     actor, activityId, overview, object, idx, answerable, showAnswers, isSelected, selectObject,
-    comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, ...rest
+    comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, setSpeaking, speechRate, speakingId, speechEnabled, ...rest
   } = props
   const {poll, attachments = [], points, id, content} = object
 
@@ -73,12 +74,26 @@ function render ({props, local, state}) {
           <Badge bgColor={isSelected ? 'blue' : 'grey_medium'} mr='l' pt={3} size={25}>{idx + 1}</Badge>
         }
         <Block flex>
+          {
+            speechEnabled &&
+            <TextToSpeech
+              onStart={() => setSpeaking(object._id)}
+              onEnd={() => setSpeaking()}
+              rate={speechRate}
+              text={object.displayName}
+              current={speakingId === object._id}
+              float='left'/>
+          }
           {content && <Block key='a' fs='s' innerHTML={content} class='markdown' mb='l' />}
           <Block align='start' mx={overview ? 40 : 0} column={!poll && type === 'choice'}>
             {
               map(
                 (att, i) => <QuestionAttachment
                   showAnswers={showAnswers}
+                  speechEnabled={speechEnabled}
+                  setSpeaking={setSpeaking}
+                  speechRate={speechRate}
+                  speakingId={speakingId}
                   answerable={answerable}
                   answer={state.answer}
                   overview={overview}

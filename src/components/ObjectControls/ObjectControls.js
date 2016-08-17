@@ -22,7 +22,9 @@ function render ({props, children}) {
         <Btn onClick={() => remove(object)}>
           <Icon fs='s' name='delete' color='text' />
         </Btn>
-        <Btn onClick={() => open(null)} ml='s'>Done</Btn>
+        <Btn onClick={() => open(null)} ml='s'>
+          Done
+        </Btn>
       </Block>
     </Block>
   )

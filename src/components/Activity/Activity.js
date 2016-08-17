@@ -40,10 +40,11 @@ function render ({props}) {
         {
           map(object => <ActivityObject
             isSelected={selectedObject === object._id}
+            speechEnabled={activity.textToSpeech}
             selectObject={selectObject}
             currentUser={currentUser}
-            actor={activity.actor}
             activityId={activity._id}
+            actor={activity.actor}
             object={object}
             idx={object.objectType === 'question' ? i++ : null}
             {...rest} />, activity._object[0].attachments)
