@@ -110,8 +110,10 @@ const reducer = handleActions({
  * onRemove
  */
 
-function onRemove ({props}) {
-  return cancelSpeech()
+function onRemove ({props, state}) {
+  if (state.playState === 'playing') {
+    return cancelSpeech()
+  }
 }
 
 /**
