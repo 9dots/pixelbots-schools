@@ -27,10 +27,9 @@ export default wrap(CSSContainer, {
 })({
   render(model) {
     const {props, children, local, state} = model
-    const w = 10
-    const {x, y, startWidth, startHeight, dragging} = state
+    const {x, y, startWidth, startHeight, dragging, dir} = state
     const {focus, object, onEnd} = props
-    const {image, justify = 'left', zoom} = object
+    const {image, justify = 'center', zoom} = object
     const focusProps = focus
       ? {
           outline: '1px solid',
@@ -39,9 +38,6 @@ export default wrap(CSSContainer, {
         }
       : {}
 
-    const handleProps = {
-      boxShadow: 'z1', bgColor: 'blue', sq: w, p: 0, z: 1
-    }
     return (
       <Block
         w={image.width * (zoom || 1)}
@@ -51,18 +47,10 @@ export default wrap(CSSContainer, {
         relative
         {...focusProps}>
         {children}
-      <Block
-        hide={!focus || justify === 'left' || justify === 'center'}
-        absolute={{left: w/-4, bottom: w/-4}}
-        cursor='nesw-resize'
-        onMousedown={start}
-        {...handleProps} />
-      <Block
-        absolute={{right: w/-4, bottom: w/-4}}
-        hide={!focus || justify === 'right'}
-        cursor='nwse-resize'
-        onMousedown={start}
-        {...handleProps} />
+        <Handle dir='nw' start={start} hide={!focus || justify === 'left'} />
+        <Handle dir='ne' start={start} hide={!focus || justify === 'right'} />
+        <Handle dir='sw' start={start} hide={!focus || justify === 'left'} />
+        <Handle dir='se' start={start} hide={!focus || justify === 'right'} />
         {
           dragging &&
           <Document onMouseup={local(endDragging)} onMouseMove={move} />
@@ -72,15 +60,18 @@ export default wrap(CSSContainer, {
 
     function * move(e) {
       const el = findDOMNode(model)
-      const deltaX = x - e.clientX
-      const deltaY = y - e.clientY
-      const newHeight = startHeight - deltaY
-      let newWidth = startWidth + deltaX
+      const deltaX = (x - e.clientX) * (justify === 'center' ? 2 : 1)
+      const deltaY = (y - e.clientY)
+      let newWidth = 0
+      let newHeight = 0
 
-      if(justify === 'center')
-        newWidth = startWidth - deltaX * 2
-      else if(justify === 'left')
+      if(isSouth(dir))
+        newHeight = startHeight - deltaY
+
+      if(isEast(dir))
         newWidth = startWidth - deltaX
+      else if(isWest(dir))
+        newWidth = startWidth + deltaX
 
       const heightRatio = newHeight / image.height
       const widthRatio = newWidth / image.width
@@ -92,10 +83,11 @@ export default wrap(CSSContainer, {
       yield onEnd(width / image.width)
     }
 
-    function * start(e) {
+    function * start(e, dir) {
       const el = findDOMNode(model)
       yield local(
         startDragging, {
+          dir,
           x: e.clientX,
           y: e.clientY,
           startWidth: el.clientWidth,
@@ -105,16 +97,46 @@ export default wrap(CSSContainer, {
     }
   },
   reducer: handleActions({
-    [startDragging]: (state, {x, y, startWidth, startHeight}) => ({
-      ...state, x, y, startWidth, startHeight, dragging: true
+    [startDragging]: (state, {dir, x, y, startWidth, startHeight}) => ({
+      ...state, dir, x, y, startWidth, startHeight, dragging: true
     }),
     [endDragging]: state => ({...state, dragging: false}),
   })
 })
 
 /**
+ * Handles
+ */
+
+function Handle({props}) {
+  const {dir, start, ...rest} = props
+  const w = 11
+  return (
+    <Block
+      cursor={dir === 'sw' || dir === 'ne' ? 'nesw-resize' : 'nwse-resize'}
+      absolute={{
+        top: isNorth(dir) ? 0 : 'auto',
+        right: isEast(dir) ? 0 : 'auto',
+        bottom: isSouth(dir) ? 0 : 'auto',
+        left: isWest(dir) ? 0 : 'auto'
+      }}
+      onMousedown={e => start(e, dir)}
+      boxShadow='z1'
+      bgColor='blue'
+      circle={w}
+      m={w/-3}
+      {...rest}/>
+  )
+}
+
+/**
  * Helpers
  */
+
+function isNorth(dir) { return dir.indexOf('n') !== -1 }
+function isSouth(dir) { return dir.indexOf('s') !== -1 }
+function isEast(dir) { return dir.indexOf('e') !== -1 }
+function isWest(dir) { return dir.indexOf('w') !== -1 }
 
 function clamp(val, min, max) {
   return Math.min(Math.max(val, min), max)

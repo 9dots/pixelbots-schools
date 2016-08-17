@@ -23,7 +23,7 @@ function render ({props}) {
       {
         object.objectType === 'image'
           ? <ImageEdit {...props} />
-          : <ActivityMedia {...props} editing={false} />
+          : <ActivityMedia {...props} editing={false} preview={true} />
       }
       <ObjectControls {...props} >
           <Button
@@ -49,7 +49,7 @@ function render ({props}) {
 
 function AlignIcon ({props}) {
   const {justify, object, onEdit, ...rest} = props
-  const selected = justify === (object.justify || 'left')
+  const selected = justify === (object.justify || 'center')
   return (
     <Button
       onClick={() => onEdit({...object, justify})}
@@ -63,14 +63,12 @@ function AlignIcon ({props}) {
 
 function ImageEdit ({props}) {
   const {object, onEdit, ...rest} = props
-  const {image = {}, justify, zoom} = object
-
-  console.log('image', image)
+  const {image = {}, justify = 'center', zoom} = object
 
   return (
-    <Block textAlign={justify}>
+    <Block textAlign={justify} {...rest}>
       <Resizer onEnd={resize} object={object}>
-        <Figure {...image} wide {...rest} display='block' m={0}/>
+        <Figure {...image} wide display='block' m={0}/>
       </Resizer>
     </Block>
   )
