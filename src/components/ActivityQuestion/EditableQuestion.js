@@ -30,7 +30,7 @@ const highlightProps = {opacity: 1}
  */
 
 function render ({props}) {
-  const {object, idx,  onEdit, ...rest} = props
+  const {object, idx,  onEdit, selectObject, isSelected, ...rest} = props
   const {poll, attachments = [], originalContent, randomize, caseSensitive} = object
   const type = getProp('0.objectType', attachments)
   const isMultipleChoice = !poll && type === 'choice'
@@ -39,10 +39,10 @@ function render ({props}) {
   const isPoll = poll && type === 'choice'
 
   return (
-    <Block fw='lighter' relative {...rest}>
+    <Block fw='lighter' relative onClick={() => selectObject(object._id)} {...rest}>
       <Block id={object._id} />
       <Block align='start' py mb>
-        <Badge mr='l' pt={3} size={25}>{idx + 1}</Badge>
+        <Badge mr='l' bgColor={isSelected ? 'blue' : 'grey_medium'} pt={3} size={25}>{idx + 1}</Badge>
         <Block flex>
           <Block align='start center' mt={-8} mb='l'>
             <Block flex>

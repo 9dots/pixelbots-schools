@@ -129,11 +129,13 @@ function render ({props, local, state}) {
                     bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
                     <ActivityObject
                       editable
+                      showAnswers
                       object={object}
                       open={state.toggleEdit}
                       selectObject={selectObject}
                       remove={state.removeObject}
                       onEdit={state.changeObject}
+                      speechEnabled={editedActivity.textToSpeech}
                       editing={editing === object._id}
                       hidden={state.dragging === object._id}
                       isSelected={selectedObject === object._id}
@@ -290,6 +292,7 @@ const reducer = handleActions({
   }),
   [appendObject]: (state, object) => ({
     ...state,
+    dirty: true,
     editing: object._id,
     editedActivity: {
       ...state.editedActivity,
