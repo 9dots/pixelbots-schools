@@ -145,9 +145,9 @@ function render ({props}) {
     return function * () {
       const id = yield generateObjectId()
 
-      let answers = []
+      let correctAnswer = []
       if(removeAll) {
-        answers = type === 'choice' && !poll
+        correctAnswer = type === 'choice' && !poll
           ? [id]
           : type === 'shortAnswer' ? ['Answer 1'] : []
       }
@@ -155,6 +155,7 @@ function render ({props}) {
       const newObj = {
         _id: id,
         objectType: type,
+        correctAnswer
       }
 
       yield onEdit({
