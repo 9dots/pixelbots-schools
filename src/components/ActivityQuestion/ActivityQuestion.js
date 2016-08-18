@@ -82,7 +82,7 @@ function render ({props, local, state}) {
               rate={speechRate}
               text={object.displayName}
               current={speakingId === object._id}
-              float='left'/>
+              float='left' />
           }
           {content && <Block key='a' fs='s' innerHTML={content} class='markdown' mb='l' />}
           <Block align='start' mx={overview ? 40 : 0} column={!poll && type === 'choice'}>
