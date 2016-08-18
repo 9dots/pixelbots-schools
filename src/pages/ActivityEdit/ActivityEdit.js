@@ -292,6 +292,7 @@ const reducer = handleActions({
   }),
   [appendObject]: (state, object) => ({
     ...state,
+    dirty: true,
     editing: object._id,
     editedActivity: {
       ...state.editedActivity,

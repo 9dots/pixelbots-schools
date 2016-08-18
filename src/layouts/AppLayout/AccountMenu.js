@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Dropdown, MenuItem, Divider, Icon, Flex, Text} from 'vdux-containers'
+import {Dropdown, MenuItem, Divider, Icon, Flex, Text, Block} from 'vdux-containers'
 import {setUrl} from 'redux-effects-location'
 import WeoIcon from 'components/WeoIcon'
 import {logoutUser} from 'reducer/auth'
@@ -49,11 +49,11 @@ function render ({props}) {
         <Icon name='settings' fs='s' mr='s'/>
         Settings
       </Link>
-      <Link {...itemProps} tag='a' href='http://about.weo.io/help' target='_blank' hide={isStudent}>
+      <Block {...itemProps} tag='a' href='http://about.weo.io/help' target='_blank' hide={isStudent}>
         <Icon name='help' fs='s' mr='s'/>
         Help Center
         <Icon name='open_in_new' fs='11' ml='s'/>
-      </Link>
+      </Block>
       <MenuItem onClick={logoutUser} align='start center'>
         <Icon name='exit_to_app' fs='s' mr='s'/>
         Log Out
