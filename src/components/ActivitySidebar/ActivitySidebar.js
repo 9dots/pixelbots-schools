@@ -21,7 +21,7 @@ import moment from 'moment'
  */
 
 function render ({props}) {
-  const {activity, showScores, canGrade, canSetMax, isStudent, isRedo, selectObject, selectedObject} = props
+  const {activity, showScores, canGrade, canSetMax, isStudent, isRedo, selectObject, selectedObject, hasInstanceNav} = props
   const {actor, publishedAt, at = {}, _object, status, published} = activity
   const isInstance = activity.shareType === 'shareInstance'
   let count = 0
@@ -68,7 +68,7 @@ function render ({props}) {
         <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' ellipsis boxShadow='0 1px 1px rgba(75,82,87,0.08)' relative z='2'>
           {score} / {totalPoints(activity)}
         </Block>
-        <Block maxHeight='calc(100vh - 347px)' overflow='auto' borderBottom='1px solid grey_light'>
+        <Block maxHeight={`calc(100vh - ${hasInstanceNav ?  420 : 326}px)`} overflow='auto' borderBottom='1px solid grey_light'>
           {
             questions.map((q, i) => <ScoreRow
               num={i + 1}
