@@ -173,13 +173,13 @@ function getId (str) {
  * Exports
  */
 
-export default summon(({activity, object}) => ({
+export default summon(({activityId, rootId, actor, object}) => ({
   submitAnswer: answer => ({
     answering: {
       serialize: true,
       autoretry: true,
-      url: `/instance/${activity._id}/question/${object._id}/response`,
-      invalidates: `/share/${activity.root.id}/instance/${activity.actor.id}`,
+      url: `/instance/${activityId}/question/${object._id}/response`,
+      invalidates: `/share/${rootId}/instance/${actor.id}`,
       method: 'PUT',
       body: {
         answer
