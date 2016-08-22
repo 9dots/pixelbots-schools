@@ -11,8 +11,7 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const {object, question, bgColor, correctCheck: CorrectCheck} = props
-  const {responses, numAnswered, total} = question
+  const {object, responses, numAnswered, total, question, bgColor, correctCheck: CorrectCheck} = props
   const names = responses
     .filter(r => r.response.indexOf(object._id) !== -1)
     .map(r => r.actor.displayName)
@@ -32,7 +31,7 @@ function render ({props}) {
       w='70%'
       my='s'>
       { CorrectCheck && <CorrectCheck show={true} /> }
-      <Block  fs='s' absolute left={-67} textAlign='left'>
+      <Block fs='s' absolute left={-67} textAlign='left'>
         { percent }
       </Block>
       <Block>

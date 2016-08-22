@@ -1,0 +1,5 @@
+{
+  "name": "live",
+  "main": "live.js",
+  "browser": "live.js"
+}

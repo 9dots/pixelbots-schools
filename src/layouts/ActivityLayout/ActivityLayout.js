@@ -14,6 +14,7 @@ import maybeOver from '@f/maybe-over'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
+import live from 'lib/live'
 import Nav from  './Nav'
 
 /**
@@ -193,9 +194,28 @@ export default summon(({userId, activityId}) => ({
       url: `/share/${activity.value._id}/instance/${userId}`
     }
   })
+}))(live(({activityId, activity}) => ({
+  activity: {
+    url: '/share',
+    params: {
+      id: activityId
+    }
+  },
+  instances: {
+    url: '/share',
+    params: {
+      channel: `share!${activityId}.instances`
+    }
+  },
+  students: activity.value && {
+    url: '/share',
+    params: {
+      channel: `share!${activity.value.contexts[0].descriptor.id}`
+    }
+  }
 }))({
   initialState,
   render,
   reducer,
   onUpdate
-}))
+})))

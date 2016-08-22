@@ -16,6 +16,7 @@ import cookie from 'redux-effects-cookie'
 import media from 'redux-effects-media'
 import upload from 'middleware/upload'
 import scroll from 'middleware/scroll'
+import socket from 'middleware/socket'
 import * as summon from 'vdux-summon'
 import logger from 'weo-redux-logger'
 import OAuth from 'middleware/oauth'
@@ -45,6 +46,7 @@ const middleware = [
   upload,
   location(),
   speechSynth,
+  socket,
   modal,
   title(),
   objectId,

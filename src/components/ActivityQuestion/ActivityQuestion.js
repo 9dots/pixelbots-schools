@@ -39,7 +39,7 @@ function render ({props, local, state}) {
     actor, activityId, overview, object, idx, answerable, showAnswers, isSelected, selectObject,
     comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, setSpeaking, speechRate, speakingId, speechEnabled, ...rest
   } = props
-  const {poll, attachments = [], points, id, content} = object
+  const {poll, attachments = [], points, id, content, responses, numAnswered, total} = object
 
   const commentList = comments && comments
     .filter(comment => getId(getProp('_object.0.location.path', comment)) === getId(id))
@@ -92,9 +92,11 @@ function render ({props, local, state}) {
                   showAnswers={showAnswers}
                   speechEnabled={speechEnabled}
                   setSpeaking={setSpeaking}
+                  numAnswered={numAnswered}
                   speechRate={speechRate}
                   speakingId={speakingId}
                   answerable={answerable}
+                  responses={responses}
                   answer={state.answer}
                   overview={overview}
                   editable={editable}
@@ -102,6 +104,7 @@ function render ({props, local, state}) {
                     state.debouncedSubmit(answer),
                     local(setAnswer)(answer)
                   ]}
+                  total={total}
                   actor={actor}
                   object={att}
                   poll={poll}
