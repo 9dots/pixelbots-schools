@@ -74,7 +74,7 @@ function render ({props, state}) {
             selectObject={selectObject}
             currentUser={currentUser}
             activityId={activity._id}
-            rootId={activity.root || activity._id}
+            rootId={activity.root ? activity.root.id : activity._id}
             actor={activity.actor}
             object={object}
             idx={object.objectType === 'question' ? i++ : null}
