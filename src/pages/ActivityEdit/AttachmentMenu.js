@@ -83,9 +83,9 @@ function render ({props, state, local}) {
       points: {
         max: defaultPoints
       },
-      correctAnswer: [id2],
       attachments: [{
         _id: id2,
+        correctAnswer: [id2],
         objectType: 'choice',
       }]
     })
