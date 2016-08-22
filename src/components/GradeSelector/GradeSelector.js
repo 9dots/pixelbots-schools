@@ -2,7 +2,9 @@
  * Imports
  */
 
-import {Block, Checkbox} from 'vdux-ui'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
+import {Block, Checkbox, ErrorTip} from 'vdux-ui'
 import {Flex} from 'vdux-containers'
 import element from 'vdux/element'
 
@@ -10,7 +12,7 @@ import element from 'vdux/element'
  * <GradeSelector/>
  */
 
-function render ({props}) {
+function render ({props, state, local}) {
   const {toggle, selected} = props
 
   return (
@@ -27,11 +29,21 @@ function render ({props}) {
       column
       wrap
       p>
+      <ErrorTip show={state.tooMany} message='You may only select up to 5 grades.' placement='left' />
       {
-        grades.map(grade => item(grade, selected.indexOf(grade) !== -1, () => toggle(grade)))
+        grades.map(grade => item(grade, selected.indexOf(grade) !== -1, () => selectGrade(grade)))
       }
     </Flex>
   )
+
+  function * selectGrade(grade) {
+    if(selected.length >= 5 && selected.indexOf(grade) === -1) {
+      yield local(setError, true)()
+    } else {
+      yield toggle(grade)
+      yield local(setError, false)()
+    }
+  }
 }
 
 function item (grade, selected, toggle)  {
@@ -61,9 +73,25 @@ const grades = [
 ]
 
 /**
+ * Actions
+ */
+
+const setError = createAction('<GradeSelector/>: setError')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [setError]: (state, tooMany) => ({...state, tooMany})
+})
+
+
+/**
  * Exports
  */
 
 export default {
-  render
+  render,
+  reducer
 }

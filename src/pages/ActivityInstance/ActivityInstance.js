@@ -86,6 +86,7 @@ function render ({props, local, state}) {
             canGrade={isTeacher && instance.status >= statusMap.turnedIn}
             canSetMax={false}
             isRedo={isRedo}
+            hasInstanceNav={isTeacher}
             isStudent={isStudent}
             showScores={isTeacher || isReturned}
             activity={instance} />

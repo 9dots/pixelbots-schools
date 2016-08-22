@@ -61,7 +61,7 @@ function totalPoints (activity) {
   return activity._object[0].attachments
     .reduce((total, att) => total +
       (att.objectType === 'question' && !att.poll
-        ? att.points.max
+        ? parseFloat(att.points.max, 10)
         : 0), 0)
 }
 

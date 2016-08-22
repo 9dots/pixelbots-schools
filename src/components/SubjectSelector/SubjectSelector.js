@@ -2,16 +2,18 @@
  * Imports
  */
 
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
 import {Flex, Block} from 'vdux-containers'
+import {Checkbox, ErrorTip} from 'vdux-ui'
 import mapValues from '@f/map-values'
 import element from 'vdux/element'
-import {Checkbox} from 'vdux-ui'
 
 /**
  * <SubjectSelector/>
  */
 
-function render ({props}) {
+function render ({props, state, local}) {
   const {selected, toggle} = props
 
   return (
@@ -28,11 +30,21 @@ function render ({props}) {
       h='200'
       wrap
       p >
+      <ErrorTip show={state.tooMany} message='You may only select up to 5 subjects.' placement='left' />
       {
-        mapValues((subjects, category) => item(subjects, category, selected, toggle), subjectMap)
+        mapValues((subjects, category) => item(subjects, category, selected, selectSubject), subjectMap)
       }
     </Block>
   )
+
+  function * selectSubject(subject) {
+    if(selected.length >= 5 && selected.indexOf(subject) === -1) {
+      yield local(setError, true)()
+    } else {
+      yield toggle(subject)
+      yield local(setError, false)()
+    }
+  }
 }
 
 function item (subjects, category, selected, toggle)  {
@@ -120,9 +132,25 @@ const subjectMap = {
 }
 
 /**
+ * Actions
+ */
+
+const setError = createAction('<SubjectSelector/>: setError')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [setError]: (state, tooMany) => ({...state, tooMany})
+})
+
+
+/**
  * Exports
  */
 
 export default {
-  render
+  render,
+  reducer
 }
