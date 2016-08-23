@@ -104,7 +104,7 @@ const endLoading = createAction('<AvatarUploadModal/>: end loading')
  */
 
 const reducer = handleActions({
-  [setImage]: (state, url) => ({...state, url}),
+  [setImage]: (state, {url}) => ({...state, url}),
   [setCrop]: (state, crop) => ({...state, crop}),
   [beginLoading]: state => ({...state, loading: true}),
   [endLoading]: state => ({...state, loading: false})

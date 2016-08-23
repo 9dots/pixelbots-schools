@@ -40,10 +40,14 @@ function render ({props}) {
     </Modal>
   )
 
-  function * done (url) {
+  function * done ({name, url}) {
     const object = yield scrapeMedia(url)
     yield closeModal()
-    yield onAccept({...object, originalContent: url})
+    yield onAccept({
+      ...object,
+      originalFilename: name,
+      originalContent: url
+    })
   }
 
   function onDrop (e) {

@@ -21,7 +21,8 @@ const typeMap = {
   video: ActivityMedia,
   image: ActivityMedia,
   document: ActivityMedia,
-  rich: ActivityMedia
+  rich: ActivityMedia,
+  file: ActivityMedia
 }
 
 const editingProps = {

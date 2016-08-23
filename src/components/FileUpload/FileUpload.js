@@ -72,7 +72,10 @@ function render ({props, state, local}) {
       progress => local(uploadProgress)({n, progress})
     )
     yield local(uploadEnd)(n)
-    yield onUpload(url)
+    yield onUpload({
+      name: file.name,
+      url
+    })
   }
 }
 

@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {Block, Icon, Image as UiImage} from 'vdux-ui'
-import {Block as ContBlock} from 'vdux-containers'
+import {Block, Icon, Image as UiImage, Text} from 'vdux-ui'
+import {Block as ContBlock, Button} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import EditingMedia from './EditingMedia'
@@ -31,6 +31,8 @@ function render ({props}) {
       return <Document object={object} {...rest} />
     case 'image':
       return <Image object={object} {...rest} />
+    case 'file':
+      return <File object={object} {...rest} />
   }
 }
 
@@ -196,6 +198,25 @@ function Image ({props}) {
   return (
     <Block textAlign={justify} {...rest}>
       <Figure {...image} w={image.width * (zoom || 1)} display='inline-block' />
+    </Block>
+  )
+}
+
+function File ({props}) {
+  const {object, ...rest} = props
+  const {originalContent, originalFilename} = object
+
+  return (
+    <Block {...rest}>
+      <Block>
+        <a href={originalContent}>
+          <Button>
+            <Icon name='file_download' />
+            {originalFilename}
+          </Button>
+        </a>
+      </Block>
+      <Text color='grey_medium'>Download File</Text>
     </Block>
   )
 }
