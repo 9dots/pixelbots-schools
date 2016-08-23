@@ -35,7 +35,7 @@ function render ({props}) {
         {familyName}
       </TableCell>
       <TableCell p={p}>
-        { points} / {total} ({percent})
+        {Math.round(points * 100) / 100} / {total} ({percent})
       </TableCell>
       <TableCell p={p}>
         <Block pill h={26} fs='14' align='center center' bg={statProps.teacherColor} color='white' capitalize w='108'>

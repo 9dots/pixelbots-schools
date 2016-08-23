@@ -374,6 +374,7 @@ function mergeAttachment (edited, saved) {
   return {
     ...edited,
     content: saved.content,
+    displayName: saved.displayName || '',
     attachments: (edited.attachments || []).map((att, i) => ({
       ...edited.attachments[i],
       content: idMap[att._id] && idMap[att._id].content
