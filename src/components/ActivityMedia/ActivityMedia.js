@@ -48,7 +48,7 @@ function LinkObject ({props}) {
   }
 
   return (
-    <Block align='start center' bgColor='#fbfbfb' border='1px solid rgba(52, 52, 52, 0.08)' h={120} {...rest}>
+    <Block align='start center' bgColor='#fbfbfb' border='1px solid rgba(52, 52, 52, 0.08)' h={120} overflow='hidden' {...rest}>
       <Link {...linkProps} minWidth={118} tall relative hide={!image.url} bgColor='white' borderRight='1px solid rgba(grey_light, .5)'>
         <Block
           tag='img'
@@ -58,16 +58,18 @@ function LinkObject ({props}) {
           m='auto'
           src={image.url} />
       </Link>
-      <Block column p>
-        <Block column mb fs='xxs'>
-          <Link color='blue' fs='s' fw={200} {...linkProps}>
+      <Block flex p minWidth={0}>
+        <Block column mb fs='xxs' ellipsis>
+          <Link maxWidth='100%' color='blue' fs='s' fw={200} ellipsis {...linkProps}>
             {displayName}
           </Link>
-          <Link color='rgb(153, 153, 153)' {...linkProps}>
+          <Link color='rgb(153, 153, 153)' ellipsis {...linkProps}>
             {embed.url}
           </Link>
         </Block>
-        <Block lighter>{description}</Block>
+        <Block lighter overflow='hidden' maxHeight={43} lh='20px'>
+          {description}
+        </Block>
       </Block>
     </Block>
   )
