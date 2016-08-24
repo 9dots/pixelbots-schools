@@ -84,7 +84,7 @@ function internal (props, children, local, state) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} isOwner={isOwner} intent={intent} {...nav} />,
+    <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} exit={exit} isOwner={isOwner} intent={intent} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,
@@ -106,10 +106,20 @@ function internal (props, children, local, state) {
   function backBtn () {
     const {canExit} = props
 
-    if(intent === 'new') {
+    if (intent === 'new') {
       return openModal(() => <DiscardDraftModal onAccept={() =>canExit ? back() : setUrl('/feed')} activity={value} />)
     } else {
       return canExit ? back() : setUrl(escapeUrl())
+    }
+  }
+
+  function exit () {
+    const {canExit, exitDepth} = props
+
+    if (canExit) {
+      return exitDepth === 2 ? [back(), back()] : back()
+    } else {
+      return setUrl(escapeUrl())
     }
   }
 

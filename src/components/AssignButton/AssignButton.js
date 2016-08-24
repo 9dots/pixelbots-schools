@@ -13,10 +13,10 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {text, user, activity, onClick = [], ...rest} = props
+  const {text, user, activity, onClick = [], onAssign, ...rest} = props
   const action = () => openModal(() =>
     user
-      ? <AssignModal activity={activity} />
+      ? <AssignModal onClose={onAssign} activity={activity} />
       : <SignUpModal />)
   return (
     <OutlineButton

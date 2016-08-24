@@ -22,23 +22,18 @@ function getProps (props, {currentUrl}) {
  */
 
 function render ({props}) {
-  const {activity, isCurrent, deleteActivity} = props
+  const {activity, deleteActivity, onDelete} = props
+
   return (
     <Confirm
-      redirect={isCurrent && '/feed'}
       message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>}
       onAccept={accept} />
   )
 
   function * accept() {
     yield deleteActivity()
-    if(isCurrent) {
-      yield history.state && history.state.canExit
-        ? back()
-        : setUrl('/feed')
-    }
+    if (onDelete) yield onDelete()
   }
-
 }
 
 

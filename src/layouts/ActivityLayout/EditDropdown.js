@@ -14,6 +14,7 @@ import PinModal from 'modals/PinModal'
 import element from 'vdux/element'
 import Link from 'components/Link'
 import summon from 'vdux-summon'
+import sleep from '@f/sleep'
 
 
 /**
@@ -21,11 +22,12 @@ import summon from 'vdux-summon'
  */
 
 function render({props}) {
-  const {activity, saveDraft, ...rest} = props
+  const {activity, saveDraft, onAction, ...rest} = props
+
   return (
     <Block align='start center' {...rest}>
       <Button
-        onClick={() => openModal(() => <AssignModal redirect  activity={activity} />)}
+        onClick={() => openModal(() => <AssignModal onAssign={ids => onAction('assign', ids)} activity={activity} />)}
         borderRadius='99px 0 0 99px'
         text='Assign To Class'
         bgColor='green'
@@ -40,7 +42,7 @@ function render({props}) {
         }
         w={160}>
         <Item
-          onClick={() => openModal(() => <PinModal redirect activity={activity} />)}
+          onClick={() => openModal(() => <PinModal onPin={id => onAction('pin', id)} activity={activity} />)}
           weoIcon='pin'
           text='Pin to Board'
           color='blue' />
@@ -50,7 +52,7 @@ function render({props}) {
           text='Save to Drafts'
           color='yellow' />
         <Item
-          onClick={() => openModal(() => <DeleteActivityModal activity={activity} />)}
+          onClick={() => openModal(() => <DeleteActivityModal onDelete={() => onAction('delete')} activity={activity} />)}
           icon='delete'
           text='Delete Activity'
           color='red' />
@@ -60,9 +62,9 @@ function render({props}) {
 
   function * draft () {
     yield saveDraft()
-    yield history.state && history.state.canExit
-      ? back()
-      : setUrl('/activities/drafts')
+
+    yield back(true)
+
     yield toast(
       <Toast key='a'>
         <Block align='space-between center'>

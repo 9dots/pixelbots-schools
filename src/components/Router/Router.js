@@ -303,11 +303,20 @@ function isAuthorized (type, {currentUser}) {
  */
 
 const activityRe = /^\/activity\//
+const activityEditRe = /^\/activity\/[^\/]+\/edit/
 
 function * onUpdate (prev, next) {
   if (prev.props.url !== next.props.url) {
     if (prev.props.url && !activityRe.test(prev.props.url) && activityRe.test(next.props.url)) {
       yield next.local(canExit)(true)
+    }
+
+    if (prev.props.url && activityRe.test(prev.props.url) && activityEditRe.test(next.props.url)) {
+      yield next.local(exitDepth)(2)
+    }
+
+    if (prev.props.url && activityEditRe.test(prev.props.url) && !activityEditRe.test(next.props.url)) {
+      yield next.local(exitDepth)(undefined)
     }
 
     yield () => document.body.scrollTop = 0
@@ -319,6 +328,7 @@ function * onUpdate (prev, next) {
  */
 
 const canExit = createAction('<Router/>: canExit')
+const exitDepth = createAction('<Router/>: exitDepth')
 
 /**
  * Reducer
@@ -328,6 +338,10 @@ const reducer = handleActions({
   [canExit]: (state, canExit) => ({
     ...state,
     canExit
+  }),
+  [exitDepth]: (state, exitDepth) => ({
+    ...state,
+    exitDepth
   })
 })
 

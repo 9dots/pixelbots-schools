@@ -15,7 +15,7 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {activity, onClick, reassign = true, ...rest} = props
+  const {activity, onDelete, onClick, reassign = true, ...rest} = props
   const editUrl = `/activity/${activity._id}/edit`
 
   return (
@@ -31,7 +31,7 @@ function render ({props}) {
         color='blue'
         icon='edit'/>
       <Item
-        onClick={() => openModal(() => <DeleteActivityModal activity={activity} />)}
+        onClick={() => openModal(() => <DeleteActivityModal onDelete={onDelete} activity={activity} />)}
         icon='delete'
         text='Delete'
         color='red' />
