@@ -55,7 +55,7 @@ function render ({props}) {
             </Text>
             <Text fs='12px' color='grey_medium' align='start center' hide={isInstance || !published}>
               <Icon fs='xs' name='schedule' mr='xs' />
-              { moment(publishedAt || at.turnedIn).fromNow() }
+              {moment(publishedAt || at.turnedIn).fromNow()}
             </Text>
             <Text hide={!isInstance || (activity.status < statusMap.turnedIn)} color='grey_medium' fs='12px'>
               {moment(at.turnedIn).format('M/D/YY LT')}
@@ -168,14 +168,14 @@ const ScoreRow = summon(({activity, question}) => ({
 
     return (
       <Block
-        onFocus={[
-          () => selectObject(question._id),
+        onFocus={() => selectObject(question._id)}
+        onClick={
           () => scrollTo(document.getElementById(question._id), {
             easing: 'easeInOutSine',
             offsetY: -100,
             duration: 100
           })
-        ]}
+        }
         tabindex='-1'
         focusProps={{borderLeftColor: 'blue', bg: 'off_white'}}
         tag='label'
