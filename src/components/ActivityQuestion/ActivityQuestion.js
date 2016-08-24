@@ -37,9 +37,12 @@ function render ({props, local, state}) {
 
   const {
     actor, activityId, overview, object, idx, answerable, showAnswers, isSelected, selectObject,
-    comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, setSpeaking, speechRate, speakingId, speechEnabled, ...rest
+    comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, setSpeaking,
+    speechRate, speakingId, speechEnabled, overviewQuestion, showPollResults, ...rest
   } = props
-  const {poll, attachments = [], points, id, content, responses, numAnswered, total} = object
+  const {poll, attachments = [], points, id, content, responses, numAnswered, total} = showPollResults && object.poll
+    ? overviewQuestion
+    : object
 
   const commentList = comments && comments
     .filter(comment => getId(getProp('_object.0.location.path', comment)) === getId(id))
@@ -49,7 +52,7 @@ function render ({props, local, state}) {
   const type = getProp('0.objectType', attachments)
 
   return (
-    <Block fw='lighter' relative class='question' onClick={() => selectObject(object._id)} {...rest}>
+    <Block fw='lighter' relative class='question' onClick={answerable && (() => selectObject(object._id))} {...rest}>
       <Block id={object._id} />
       {
         !poll && comments && (!isStudent || commentList.length > 0) &&
@@ -89,6 +92,7 @@ function render ({props, local, state}) {
             {
               map(
                 (att, i) => <QuestionAttachment
+                  hidePollNames={showPollResults}
                   showAnswers={showAnswers}
                   speechEnabled={speechEnabled}
                   setSpeaking={setSpeaking}
@@ -98,7 +102,7 @@ function render ({props, local, state}) {
                   answerable={answerable}
                   responses={responses}
                   answer={state.answer}
-                  overview={overview}
+                  overview={overview || (showPollResults && object.poll)}
                   editable={editable}
                   submit={answer => [
                     state.debouncedSubmit(answer),

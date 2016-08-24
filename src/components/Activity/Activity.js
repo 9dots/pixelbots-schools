@@ -2,9 +2,11 @@
  * Imports
  */
 
+import {getOverviewQuestions} from 'lib/activity-helpers'
 import CommoncoreBadge from 'components/CommoncoreBadge'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
+import {statusMap} from 'lib/activity-helpers'
 import {setUrl} from 'redux-effects-location'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
@@ -49,7 +51,7 @@ function getProps (props, context) {
 }
 
 function render ({props, state}) {
-  const {activity, clickableTags, currentUser, selectObject, selectedObject, ...rest} = props
+  const {activity, instances, clickableTags, currentUser, selectObject, selectedObject, ...rest} = props
   const {
     displayName, _object, originalDescription,
     tags, commonCore
@@ -61,6 +63,11 @@ function render ({props, state}) {
     ? attachments
     : attachments.slice(0, state.limit)
 
+  const showPollResults = activity.status >= statusMap.turnedIn
+  const overviewQuestions = instances && showPollResults
+    ? getOverviewQuestions(attachments, instances)
+    : []
+
   return (
     <Block>
       <ActivityHeader
@@ -69,9 +76,11 @@ function render ({props, state}) {
       <Block>
         {
           map(object => <ActivityObject
+            overviewQuestion={object.objectType === 'question' ? overviewQuestions[i] : null}
             isSelected={selectedObject === object._id}
             speechEnabled={activity.textToSpeech}
             selectObject={selectObject}
+            showPollResults={showPollResults}
             currentUser={currentUser}
             activityId={activity._id}
             rootId={activity.root ? activity.root.id : activity._id}

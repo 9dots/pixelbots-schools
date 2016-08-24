@@ -11,17 +11,17 @@ import {Block} from 'vdux-ui'
  */
 
 function render ({props}) {
-  const { object, question, bgColor} = props
-  const {responses, numAnswered, total} = question
+  const {object, question, bgColor, responses, numAnswered, total, hidePollNames} = props
   const names = responses
     .filter(r => r.response.indexOf(object._id) !== -1)
     .map(r => r.actor.displayName)
   const percent = Math.round(names.length / numAnswered * 100) + '%'
 
   const offset = 30
+  const Tt = hidePollNames ? Block : Tooltip
 
   return (
-    <Tooltip
+    <Tt
       message={names.join('\n')}
       tooltipProps={{whiteSpace: 'pre'}}
       placement='right'
@@ -44,7 +44,7 @@ function render ({props}) {
           {percent}
         </Block>
       </Block>
-    </Tooltip>
+    </Tt>
   )
 }
 

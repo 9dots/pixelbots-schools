@@ -26,7 +26,7 @@ function initialState ({local}) {
 
 function render ({props, local, state}) {
   const {isShown} = state
-  const {instance, currentUser, activities, speechRate, speakingId, setSpeaking, selectObject, selectedObject} = props
+  const {instance, instances, currentUser, activities, speechRate, speakingId, setSpeaking, selectObject, selectedObject} = props
   const isTeacher = currentUser.userType === 'teacher'
   const isStudent = currentUser.userType === 'student'
   const isReturned = instance.status === statusMap.returned
@@ -58,6 +58,7 @@ function render ({props, local, state}) {
           mb='l'>
           <PrintButton />
           <Activity
+            instances={instances}
             selectObject={selectObject}
             selectedObject={selectedObject}
             showComments={state.showComments}
