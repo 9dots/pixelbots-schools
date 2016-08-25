@@ -67,8 +67,10 @@ function render ({props, state, local}) {
   function * createAndAttach (object) {
     const id = yield generateObjectId()
     yield attach({
-      _id: id,
-      ...object,
+      object:{
+        ...object,
+        _id: id
+      }
     })
     yield local(toggle)()
   }
@@ -78,16 +80,18 @@ function render ({props, state, local}) {
     const id2 = yield generateObjectId()
 
     yield attach({
-      _id: id1,
-      objectType: 'question',
-      points: {
-        max: defaultPoints
-      },
-      attachments: [{
-        _id: id2,
+      object: {
+        _id: id1,
+        objectType: 'question',
+        points: {
+          max: defaultPoints
+        },
         correctAnswer: [id2],
-        objectType: 'choice',
-      }]
+        attachments: [{
+          _id: id2,
+          objectType: 'choice',
+        }]
+      }
     })
     yield local(toggle)()
   }

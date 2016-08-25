@@ -119,7 +119,7 @@ function render ({props}) {
               onChange={e => onEdit({...object, randomize: e.target.checked})}
               label='Shuffle Choice Order'
               checked={randomize}
-              w={370}
+              w={350}
               ml/>
         }
         {
@@ -134,7 +134,7 @@ function render ({props}) {
               })}
               label='Case Sensitive'
               checked={object.attachments[0].caseSensitive}
-              w={370}
+              w={350}
               ml/>
         }
       </ObjectControls>
