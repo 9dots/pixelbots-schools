@@ -6,6 +6,7 @@ import middleware from './middleware'
 import domready from '@f/domready'
 import element from 'vdux/element'
 import Boot from 'components/Boot'
+import fastclick from 'fastclick'
 import theme from 'lib/theme'
 import reducer from 'reducer'
 import vdux from 'vdux/dom'
@@ -36,7 +37,10 @@ window.dispatch = dispatch
  * Render loop
  */
 
-domready(() => subscribe(app))
+domready(() => {
+  fastclick(document.body)
+  subscribe(app)
+})
 
 function app (state, forceUpdate) {
   render(<Boot state={state.app} />, {
