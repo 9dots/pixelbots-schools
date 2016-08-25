@@ -26,8 +26,8 @@ function render ({props, children}) {
         <Btn onClick={() => duplicate()} mx='s'>
           <Icon fs='s' name='content_copy' color='text' />
         </Btn>
-        <Btn onClick={() => open(null)}>
-          Done
+        <Btn onClick={() => open(null)} h={32}>
+          <Icon fs='s' name='check_circle' color='text' />
         </Btn>
       </Block>
     </Block>

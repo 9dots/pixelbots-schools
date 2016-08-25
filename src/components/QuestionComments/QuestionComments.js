@@ -53,7 +53,8 @@ function CommentButton ({props}) {
         onClick={e => [e.stopPropagation(), showComments(isShown ? null : question.id)]}
         color={hasComments ? 'white' : 'grey_medium'}
         bgColor={hasComments ? 'green' : '#F3F3F3'}
-        boxShadow='0 1px 3px rgba(0,0,0,0.3)'
+        boxShadow='0 1px 3px rgba(0,0,0,0.35)'
+        borderWidth={0}
         hoverProps={{highlight: 0.03}}
         focusProps={{highlight: 0.03}}
         absolute={{left: -10}}
