@@ -1,8 +1,20 @@
 {
   "comments": false,
+  "env": {
+    "development": {
+      "presets": ["es2015", "stage-2"],
+    },
+    "development-minimal": {
+      "plugins": [
+        "transform-es2015-destructuring",
+        "transform-object-rest-spread",
+        "transform-es2015-modules-commonjs",
+        "transform-es2015-parameters"
+      ]
+    }
+  },
   "plugins": [
     ["transform-react-jsx", {"pragma": "element"}],
-    "transform-runtime",
     ["vdux-transform", {
       "hoc": ["summon", "summonPrefs", "summonChannels", "form"],
       "transforms": [
@@ -12,18 +24,5 @@
       ]
     }],
     "jss-simple"
-  ],
-  "env": {
-    "production": {
-      "presets": ["es2015", "stage-2"],
-    },
-    "development": {
-      "plugins": [
-        "transform-es2015-destructuring",
-        "transform-object-rest-spread",
-        "transform-es2015-modules-commonjs",
-        "transform-es2015-parameters"
-      ]
-    }
-  }
+  ]
 }

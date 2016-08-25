@@ -12,8 +12,9 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {text, user, activity, onClick = [], ...rest} = props
-  const action = () => openModal(() => <DeleteActivityModal activity={activity} />)
+  const {text, user, activity, onDelete, onClick = [], ...rest} = props
+  const action = () => openModal(() => <DeleteActivityModal onDelete={onDelete} activity={activity} />)
+
   return (
     <OutlineButton
       onClick={[].concat(onClick, action)}

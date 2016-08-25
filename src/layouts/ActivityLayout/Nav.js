@@ -7,6 +7,7 @@ import AssignButton from 'components/AssignButton'
 import DeleteButton from 'components/DeleteButton'
 import {Block, Fixed, Flex, Text} from 'vdux-ui'
 import LikeButton from 'components/LikeButton'
+import {setUrl} from 'redux-effects-location'
 import handleActions from '@f/handle-actions'
 import PinButton from 'components/PinButton'
 import createAction from '@f/create-action'
@@ -24,7 +25,7 @@ function render ({props, local, state}) {
   const {
     activity, user, isPublic, isInstance, instance,
     progress, overview, preview, discussion, isEdit,
-    isOwner, back, savingIndicator, intent
+    isOwner, back, savingIndicator, intent, exit
   } = props
   const {_id: id, displayName} = activity
   const {locallyLiked} = state
@@ -76,6 +77,7 @@ function render ({props, local, state}) {
               hide={user.userType === 'student'}
               text='Pin'/>
             <ActivityDropdownMenu
+              onDelete={back}
               reassign={!isInstance && !isPublic}
               hide={user.userType === 'student' || !isOwner}
               activity={activity}/>
@@ -89,7 +91,7 @@ function render ({props, local, state}) {
           </Block>
           <Block align='end center' hide={activity.published || (intent && intent !== 'new')}>
             <Block color='red' align='start center' mr>DRAFT</Block>
-            <EditDropdown activity={activity} />
+            <EditDropdown onAction={onAction} back={back} activity={activity} />
           </Block>
           {
             intent === 'pin'
@@ -98,7 +100,7 @@ function render ({props, local, state}) {
                 ? <AssignButton activity={activity} text='Assign' user={user} />
                 : <Block align='end center' hide={!activity.published}>
                     <Button mr='s' text='Done' onClick={back} bgColor='grey' />
-                    <DeleteButton activity={activity} bgColor='red'/>
+                    <DeleteButton onDelete={exit} activity={activity} bgColor='red'/>
                   </Block>
           }
         </Block>
@@ -106,6 +108,21 @@ function render ({props, local, state}) {
       <Block pt={53} hidden mb />
     </Block>
   )
+
+  function onAction (action, arg) {
+    if (intent === 'new') {
+      switch (action) {
+        case 'delete':
+          return exit()
+        case 'assign':
+          return setUrl(`/class/${arg[0]}`)
+        case 'pin':
+          return setUrl(`/activities/${arg}`)
+      }
+    } else if (action === 'delete') {
+      return exit()
+    }
+  }
 }
 
 

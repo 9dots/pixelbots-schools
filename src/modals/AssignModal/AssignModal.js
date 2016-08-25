@@ -82,7 +82,7 @@ export default summon(props => ({
     }
   })
 }))(
-  form(({activity, copyActivity, assign, classes, redirect}) => ({
+  form(({activity, copyActivity, assign, onAssign, classes}) => ({
     fields: ['selected'],
     onSubmit: function *({selected, ...rest}) {
       const chosen = classes.value.items.filter(cls => selected.indexOf(cls._id) !== -1)
@@ -98,11 +98,7 @@ export default summon(props => ({
 
       yield closeModal()
 
-      if(redirect) {
-        yield history.state && history.state.canExit
-          ? back()
-          : setUrl(`/class/${chosen[0]._id}`)
-      }
+      if (onAssign) yield onAssign(chosen.map(({_id}) => _id))
 
       yield toast(
         <Toast key='a' onDismiss={hideToast}>

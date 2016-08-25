@@ -21,7 +21,7 @@ function render ({props}) {
   const {
     activity, fields, boards, redirect,
     createBoard, creatingBoard = {},
-    pin, pinning = {},
+    pin, pinning = {}, onPin,
     copyActivity, copying = {}
   } = props
   const {value, loaded} = boards
@@ -67,12 +67,7 @@ function render ({props}) {
     }
 
     yield closeModal()
-
-    if(redirect) {
-      yield history.state && history.state.canExit
-        ? back()
-        : setUrl(url)
-    }
+    if (onPin) yield onPin(board._id)
 
     yield toast(
       <Toast key='a'>
