@@ -52,7 +52,7 @@ function render({props}) {
           Return
         </Button>
         <Dropdown disabled={loading} btn={<Btn disabled={loading} />} w={120}>
-          <MenuItem align='start center' onClick={() => openModal(() => <RedoModal />)}>
+          <MenuItem align='start center' onClick={() => openModal(() => <RedoModal onAccept={redo} />)}>
             <Icon name='redo' mr fs='xs' />
             Redo
           </MenuItem>
@@ -64,6 +64,10 @@ function render({props}) {
       </Block>
     </Block>
   )
+
+  function * redo() {
+    yield setStatus('opened')
+  }
 }
 
 const ConfirmTurnIn = summon(({activity}) => ({

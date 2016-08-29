@@ -13,6 +13,8 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
+  const {onAccept = () => {}} = props
+
   return (
     <Modal onDismiss={closeModal}>
       <ModalHeader w='col_s' m='auto'>
@@ -29,10 +31,15 @@ function render ({props}) {
           <Text pointer underline onClick={closeModal}>cancel</Text>
           <Text mx>or</Text>
         </Text>
-        <Button type='submit'>Redo</Button>
+        <Button type='submit' onClick={submit}>Redo</Button>
       </ModalFooter>
     </Modal>
+
   )
+  function * submit() {
+    yield onAccept()
+    yield closeModal()
+  }
 }
 
 /**
@@ -42,5 +49,3 @@ function render ({props}) {
 export default {
   render
 }
-
-// () => setStatus('opened')
