@@ -22,7 +22,7 @@ function render ({props}) {
   return (
     <Block {...rest}>
       {
-        speechEnabled &&
+        speechEnabled && object.displayName &&
         <TextToSpeech
           onStart={() => setSpeaking(object._id)}
           onEnd={() => setSpeaking()}

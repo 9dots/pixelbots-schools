@@ -82,7 +82,7 @@ function render ({props}) {
           !editing
             ? <Block mx='40px'>
                 {
-                  speechEnabled &&
+                  speechEnabled && object.displayName &&
                   <TextToSpeech
                     onStart={() => setSpeaking(object._id)}
                     onEnd={() => setSpeaking()}
