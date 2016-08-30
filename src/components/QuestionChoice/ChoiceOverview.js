@@ -15,7 +15,7 @@ function render ({props}) {
   const names = responses
     .filter(r => r.response.indexOf(object._id) !== -1)
     .map(r => r.actor.displayName)
-  const percent = Math.round(names.length / numAnswered * 100) + '%'
+  const percent = numAnswered ? Math.round(names.length / numAnswered * 100) : 0
 
   return (
     <Tooltip message={names.join('\n')}
@@ -32,10 +32,10 @@ function render ({props}) {
       my='s'>
       { CorrectCheck && <CorrectCheck show={true} /> }
       <Block fs='s' absolute left={-67} textAlign='left'>
-        { percent }
+        { percent }%
       </Block>
       <Block>
-        <Block mx='40px' fs='s' innerHTML={object.content} class='markdown' printProps={{ml: 0}} />
+        <Block mx='40px' fs='s' innerHTML={object.content || '<br/>'} class='markdown' printProps={{ml: 0}} />
       </Block>
     </Tooltip>
   )

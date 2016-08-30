@@ -56,7 +56,7 @@ function initialState ({props, local, path}) {
     moveObject: local(moveObject),
     changeObject: local(changeObject),
     removeObject: local(removeObject),
-    appendObject: local(appendObject),
+    insertObject: local(insertObject),
     mergeSaved: local(mergeSaved),
     setDragging: local(setDragging),
     clearDragging: local(clearDragging),
@@ -134,11 +134,13 @@ function render ({props, local, state}) {
                       open={state.toggleEdit}
                       selectObject={selectObject}
                       remove={state.removeObject}
+                      insert={state.insertObject}
                       onEdit={state.changeObject}
                       speechEnabled={editedActivity.textToSpeech}
                       editing={editing === object._id}
                       hidden={state.dragging === object._id}
                       isSelected={selectedObject === object._id}
+                      pos={i}
                       idx={object.objectType === 'question' ? idx++ : null}
                       {...rest} />
                   </Block>), attachments)
@@ -146,7 +148,7 @@ function render ({props, local, state}) {
             </Block>
           </Card>
           <Block h={18} onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
-          <AttachmentMenu attach={state.appendObject} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
+          <AttachmentMenu attach={state.insertObject} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
         </Block>
         <Block w={200} relative fixed={{top: 53}} float='right'>
           <ActivitySidebar canSetMax activity={editedActivity} selectObject={selectObject} selectedObject={selectedObject} />
@@ -233,7 +235,7 @@ const open = createAction('<ActivityEditor/>: open')
 const change = createAction('<ActivityEditor/>: change')
 const changeObject = createAction('<ActivityEditor/>: change object')
 const removeObject = createAction('<ActivityEditor/>: remove object')
-const appendObject = createAction('<ActivityEditor/>: append object')
+const insertObject = createAction('<ActivityEditor/>: insert object')
 const moveObject = createAction('<ActivityEditor/>: move object')
 const mergeSaved = createAction('<ActivityEditor/>: merge saved')
 const setDragging = createAction('<ActivityEditor/>: set dragging')
@@ -290,18 +292,24 @@ const reducer = handleActions({
 
     return attachments
   }),
-  [appendObject]: (state, object) => ({
-    ...state,
-    dirty: true,
-    editing: object._id,
-    editedActivity: {
-      ...state.editedActivity,
-      _object: [{
-        ...state.editedActivity._object[0],
-        attachments: [...state.editedActivity._object[0].attachments, object]
-      }]
-    }
-  }),
+  [insertObject]: (state, {object, idx}) => {
+    let att = [...state.editedActivity._object[0].attachments]
+    att.splice(idx === undefined ? att.length : idx, 0, object)
+    return (
+      {
+        ...state,
+        dirty: true,
+        editing: object._id,
+        editedActivity: {
+          ...state.editedActivity,
+          _object: [{
+            ...state.editedActivity._object[0],
+            attachments: att
+          }]
+        }
+      }
+    )
+  },
   [setDragging]: (state, dragging) => ({
     ...state,
     dragging

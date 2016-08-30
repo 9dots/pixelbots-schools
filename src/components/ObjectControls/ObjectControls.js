@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {generateObjectId} from 'middleware/objectId'
 import {Button} from 'vdux-containers'
 import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
@@ -11,7 +12,7 @@ import element from 'vdux/element'
  */
 
 function render ({props, children}) {
-  const {object, remove, open} = props
+  const {object, remove, open, insert, pos} = props
 
   return (
     <Block p m={-24} mt={24} borderTop='1px solid grey_light' bgColor='off_white' align='space-between center'>
@@ -22,12 +23,33 @@ function render ({props, children}) {
         <Btn onClick={() => remove(object)}>
           <Icon fs='s' name='delete' color='text' />
         </Btn>
-        <Btn onClick={() => open(null)} ml='s'>
-          Done
+        <Btn onClick={() => duplicate()} mx='s'>
+          <Icon fs='s' name='content_copy' color='text' />
+        </Btn>
+        <Btn onClick={() => open(null)} h={32}>
+          <Icon fs='s' name='check_circle' color='text' />
         </Btn>
       </Block>
     </Block>
   )
+
+  function * duplicate () {
+    const _id = yield generateObjectId()
+    const newObj =  {
+      ...object,
+      _id,
+      attachments: []
+    }
+
+    for(var i = 0; i < object.attachments.length; i++) {
+      let id = yield generateObjectId()
+      newObj.attachments[i] =  {
+        ...object.attachments[i],
+        _id: id
+      }
+    }
+    yield insert({object: newObj, idx: pos + 1})
+  }
 }
 
 function Btn ({props, children}) {

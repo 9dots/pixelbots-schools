@@ -5,6 +5,7 @@
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import {statusMap} from 'lib/activity-helpers'
 import {Block, Text, Icon} from 'vdux-ui'
+import RedoModal from 'modals/RedoModal'
 import {openModal} from 'reducer/modal'
 import Confirm from 'modals/Confirm'
 import element from 'vdux/element'
@@ -51,7 +52,7 @@ function render({props}) {
           Return
         </Button>
         <Dropdown disabled={loading} btn={<Btn disabled={loading} />} w={120}>
-          <MenuItem align='start center' onClick={() => setStatus('opened')}>
+          <MenuItem align='start center' onClick={() => openModal(() => <RedoModal onAccept={redo} />)}>
             <Icon name='redo' mr fs='xs' />
             Redo
           </MenuItem>
@@ -63,6 +64,10 @@ function render({props}) {
       </Block>
     </Block>
   )
+
+  function * redo() {
+    yield setStatus('opened')
+  }
 }
 
 const ConfirmTurnIn = summon(({activity}) => ({
