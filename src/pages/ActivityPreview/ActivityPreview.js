@@ -23,7 +23,7 @@ function render ({props, local, state}) {
   return (
     <Block align='center start'>
       <Block align='end start'>
-        <Card w={756} mb='l' relative printProps={{mb: 0, boxShadow: '0 0 0'}}>
+        <Card w={756} mb='l' mr relative printProps={{mb: 0, boxShadow: '0 0 0'}}>
           <Block absolute right top m={8} align='start center' printProps={{hide: true}}>
             <ShareDropdown activity={activity} btn={() => <DDButton icon='share' mr='s'  />} />
             <PrintDropdown setPrintAns={local(setPrintAns)} />
@@ -42,7 +42,7 @@ function render ({props, local, state}) {
         <Block w={200} relative fixed={{top: 53}} printProps={{hide: true}}>
           <ActivitySidebar activity={activity} currentUser={currentUser} selectObject={selectObject} selectedObject={selectedObject} />
         </Block>
-        <Block printProps={{hide: true}} w={200} ml/>
+        <Block printProps={{hide: true}} w={200}/>
       </Block>
     </Block>
   )
