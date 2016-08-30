@@ -204,11 +204,17 @@ export default summon(({userId, activityId}) => ({
       url: `/share/${activity.value._id}/instance/${userId}`
     }
   })
-}))(live(({activityId, activity}) => ({
+}))(live(({activityId, activity, instance}) => ({
   activity: {
     url: '/share',
     params: {
       id: activityId
+    }
+  },
+  instance: {
+    url: '/share',
+    params: {
+      id: instance.value && instance.value._id
     }
   },
   instances: {

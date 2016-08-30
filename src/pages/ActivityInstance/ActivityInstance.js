@@ -34,7 +34,7 @@ function render ({props, local, state}) {
   const isTeacher = currentUser.userType === 'teacher'
   const isStudent = currentUser.userType === 'student'
   const isReturned = instance.status === statusMap.returned
-  const {at, status, hideOnTurnIn} = instance
+  const {at, status, hideOnTurnIn, showIncorrect} = instance
   const isRedo = at && at.turnedIn && (status === statusMap.opened)
   const commentsShown = state.commentsId
 
@@ -71,12 +71,12 @@ function render ({props, local, state}) {
             activity={instance}
             currentUser={currentUser}
             clickableTags={isTeacher}
-            showIncorrect={isRedo || instance.status === statusMap.returned}
+            showIncorrect={instance.status === statusMap.returned || showIncorrect}
             showAnswers={isTeacher || instance.status === statusMap.returned}
             answerable={isStudent && instance.status <= statusMap.opened}
             speechRate={speechRate}
             speakingId={speakingId}
-            setSpeaking={setSpeaking}/>
+            setSpeaking={setSpeaking} />
         </Card>
         <Block
           printProps={{hide: true}}
@@ -126,7 +126,11 @@ const showInstance = createAction('<ActivityInstance/>: showInstance')
  */
 
 const reducer = handleActions({
-  [showComments]: (state, commentsId) => ({...state, commentsId}),
+  [showComments]: (state, commentsId) => ({
+    ...state,
+    commentsId,
+    test: console.log('showComments', commentsId)
+  }),
   [showInstance]: (state) => ({...state, isShown: true})
 })
 

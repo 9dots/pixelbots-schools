@@ -3,17 +3,18 @@
  */
 
 import {Modal, ModalHeader, ModalBody, ModalFooter, Block, Text, Icon} from 'vdux-ui'
-import {Button, Toggle, Tooltip} from 'vdux-containers'
+import {form, Button, Toggle, Tooltip} from 'vdux-containers'
 import BlockInput from 'components/BlockInput'
 import {closeModal} from 'reducer/modal'
 import element from 'vdux/element'
+import summon from 'vdux-summon'
 
 /**
  * <RedoModal/>
  */
 
 function render ({props}) {
-  const {onAccept = () => {}} = props
+  const {fields, redoing = {}} = props
 
   return (
     <Modal onDismiss={closeModal}>
@@ -21,7 +22,7 @@ function render ({props}) {
         Redo
       </ModalHeader>
       <ModalBody pb={40} pt={12} align='space-between center'>
-        <Toggle fs='s' lighter label='Mark incorrect questions for students.' flex />
+        <Toggle checked={fields.showIncorrect.value} value name='showIncorrect' fs='s' lighter label='Mark incorrect questions for students.' flex />
         <Tooltip message='This toggles whether or not you want students to be able to see which questions they got right or wrong when they redo their Activity.' cursor='default' immediate tooltipProps={{whiteSpace: 'normal', textAlign: 'center', lh: '16px'}}>
           <Icon name='info' fs='s' />
         </Tooltip>
@@ -31,21 +32,32 @@ function render ({props}) {
           <Text pointer underline onClick={closeModal}>cancel</Text>
           <Text mx>or</Text>
         </Text>
-        <Button type='submit' onClick={submit}>Redo</Button>
+        <Button type='submit' busy={redoing.loading}>Redo</Button>
       </ModalFooter>
     </Modal>
-
   )
-  function * submit() {
-    yield onAccept()
-    yield closeModal()
-  }
 }
 
 /**
  * Exports
  */
 
-export default {
+export default summon(() => ({
+  redo: (id, body) => ({
+    redoing: {
+      url: `/instance/${id}/redo`,
+      method: 'PUT',
+      body
+    }
+  })
+}))(form(({instanceIds, redo, onAccept = () => {}}) => ({
+  fields: ['showIncorrect'],
+  onSubmit: function * (body) {
+    instanceIds = [].concat(instanceIds)
+    yield instanceIds.map(id => redo(id, body))
+    yield onAccept()
+    yield closeModal()
+  }
+}))({
   render
-}
+}))
