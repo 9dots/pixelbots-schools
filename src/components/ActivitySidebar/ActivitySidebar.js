@@ -205,7 +205,7 @@ const ScoreRow = summon(({activity, question}) => ({
                 {...inputProps}
                 onInput={setPoints}
                 disabled={!canGrade}
-                color={canGrade ? 'text' : 'grey_medium'}
+                color='text'
                 defaultValue={curPoints}
                 placeholder={canGrade ? curPoints : '-'} />
               <Text bgColor='transparent' color='black'>/</Text>
@@ -213,7 +213,7 @@ const ScoreRow = summon(({activity, question}) => ({
                 {...inputProps}
                 onInput={setMax}
                 disabled={!canSetMax}
-                color={canSetMax ? 'text' : 'grey_medium'}
+                color='text'
                 defaultValue={max} />
             </Block>
           )
