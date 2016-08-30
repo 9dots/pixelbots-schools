@@ -108,7 +108,7 @@ function render ({props, local, state}) {
     <Block align='center start'>
       <Block align='end start'>
         <Block>
-          <Card w={756}>
+          <Card w={756} mr>
             <ActivityHeader
               editable
               clickableTags
@@ -147,13 +147,15 @@ function render ({props, local, state}) {
               }
             </Block>
           </Card>
-          <Block h={18} onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
-          <AttachmentMenu attach={state.insertObject} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
+          <Block mr>
+            <Block h={18} onDrop={e => e.preventDefault()} onDragOver={onDragOver()} />
+            <AttachmentMenu attach={state.insertObject} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
+          </Block>
         </Block>
         <Block w={200} relative fixed={{top: 53}} float='right'>
           <ActivitySidebar canSetMax activity={editedActivity} selectObject={selectObject} selectedObject={selectedObject} />
         </Block>
-        <Block w={200} ml />
+        <Block w={200} />
       </Block>
     </Block>
   )

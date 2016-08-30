@@ -3,7 +3,7 @@
  */
 
 import {generateObjectId} from 'middleware/objectId'
-import {Button} from 'vdux-containers'
+import {Button, Tooltip} from 'vdux-containers'
 import {Block, Icon} from 'vdux-ui'
 import element from 'vdux/element'
 
@@ -20,13 +20,13 @@ function render ({props, children}) {
         {children}
       </Block>
       <Block align='end stretch'>
-        <Btn onClick={() => remove(object)}>
+        <Btn ui={Tooltip} message='Delete' align='center center' onClick={() => remove(object)}>
           <Icon fs='s' name='delete' color='text' />
         </Btn>
-        <Btn onClick={() => duplicate()} mx='s'>
+        <Btn ui={Tooltip} message='Duplicate' align='center center' onClick={() => duplicate()} mx='s'>
           <Icon fs='s' name='content_copy' color='text' />
         </Btn>
-        <Btn onClick={() => open(null)} h={32}>
+        <Btn ui={Tooltip} message='Done' align='center center' onClick={() => open(null)} h={32}>
           <Icon fs='s' name='check_circle' color='text' />
         </Btn>
       </Block>

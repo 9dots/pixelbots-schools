@@ -183,6 +183,7 @@ const ScoreRow = summon(({activity, question}) => ({
         align='space-between center'
         p='6px 12px 6px 9px'
         relative
+        cursor='pointer'
         color='grey_medium'
         fw='lighter'
         fs='s'
@@ -195,8 +196,8 @@ const ScoreRow = summon(({activity, question}) => ({
           !question.poll && (
             <Block
               border={'1px solid transparent'}
-              borderColor={canGrade ? 'grey_light' : 'transparent'}
-              bg={canGrade ? 'white' : 'transparent'}
+              borderColor={canGrade || canSetMax ? 'grey_light' : 'transparent'}
+              bg={canGrade || canSetMax ? 'white' : 'transparent'}
               align='start center'
               key={activity.id}
               w='50%'>

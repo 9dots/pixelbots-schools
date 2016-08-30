@@ -55,7 +55,8 @@ function render ({props, local, state}) {
           relative
           w={756}
           z={1}
-          mb='l'>
+          mb='l'
+          mr>
           <PrintButton />
           <Activity
             instances={instances}
@@ -95,7 +96,7 @@ function render ({props, local, state}) {
             isTeacher && <InstanceNav {...props} />
           }
         </Block>
-        <Block w={200} printProps={{hide: true}} ml/>
+        <Block w={200} printProps={{hide: true}}/>
       </Block>
       <EmptyState mx='auto' color='blue' icon='file_download' mt='xl' hide={!isHidden}>
         <Block fs='m' mt mb='l'>Your Activity Has Been Turned In</Block>
