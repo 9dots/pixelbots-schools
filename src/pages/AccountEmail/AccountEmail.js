@@ -5,8 +5,8 @@
 import {Block, Flex, Card} from 'vdux-ui'
 import {Toggle} from 'vdux-containers'
 import element from 'vdux/element'
-import summon from 'vdux-summon'
 import getProp from '@f/get-prop'
+import summon from 'vdux-summon'
 
 /**
  * <AccountEmail/>

@@ -5,6 +5,7 @@
 import {Flex, Block, DecoLine, Button} from 'vdux-containers'
 import {Google, Facebook} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
+import {track} from 'middleware/analytics'
 import {postLogin} from 'reducer/auth'
 import validate from 'lib/validate'
 import element from 'vdux/element'
@@ -20,7 +21,7 @@ function render ({props}) {
   const {loading} = creatingStudent
 
   return (
-    <Form onSubmit={createStudent} onSuccess={user => postLogin(user.token)} validate={validateStudent}>
+    <Form onSubmit={createStudent} onSuccess={[user => postLogin(user.token), track({name: 'Student Created', traits: user})]} validate={validateStudent}>
       <input type='hidden' name='userType' value='student' />
       <Flex>
         <BlockInput autofocus name='name[givenName]' placeholder='FIRST NAME' />

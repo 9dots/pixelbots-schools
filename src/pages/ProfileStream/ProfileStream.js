@@ -2,8 +2,8 @@
  * Imports
  */
 
-import EmptyProfileStream from './EmptyProfileStream'
 import StreamActivity from 'components/StreamActivity'
+import EmptyProfileStream from './EmptyProfileStream'
 import summonChannels from 'lib/summon-channels'
 import RowFeed from 'components/RowFeed'
 import element from 'vdux/element'

@@ -26,7 +26,7 @@ import map from '@f/map'
  * onCreate
  */
 
-function onCreate ({path}) {
+function onCreate ({path, props}) {
   return (dispatch, getState) => {
     window.onbeforeunload = function (e) {
       const state = lookup(getState().ui, path)

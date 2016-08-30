@@ -2,12 +2,12 @@
  * Imports
  */
 
-import InfiniteScroll from 'components/InfiniteScroll'
 import EmptyProfileFollowers from './EmptyProfileFollowers'
+import InfiniteScroll from 'components/InfiniteScroll'
 import UserTile from 'components/UserTile'
-import {Grid} from 'vdux-ui'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
+import {Grid} from 'vdux-ui'
 import map from '@f/map'
 
 /**

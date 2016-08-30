@@ -2,10 +2,10 @@
  * Imports
  */
 
-import {DecoLine, Flex, Block} from 'vdux-ui'
 import {Facebook, Google} from 'components/OAuthButtons'
 import {postLogin, oauthLogin} from 'reducer/auth'
 import BlockInput from 'components/BlockInput'
+import {DecoLine, Flex, Block} from 'vdux-ui'
 import {Button, Text} from 'vdux-containers'
 import element from 'vdux/element'
 import summon from 'vdux-summon'

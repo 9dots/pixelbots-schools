@@ -8,8 +8,8 @@ import summonSearch from 'lib/summon-search'
 import TileFeed from 'components/TileFeed'
 import {openModal} from 'reducer/modal'
 import {Text} from 'vdux-containers'
-import {Block} from 'vdux-ui'
 import element from 'vdux/element'
+import {Block} from 'vdux-ui'
 
 /**
  * SearchActivities

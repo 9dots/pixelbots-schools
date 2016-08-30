@@ -14,6 +14,10 @@ import {Button} from 'vdux-containers'
 import {Block, Card} from 'vdux-ui'
 import element from 'vdux/element'
 
+/**
+ * initialState
+ */
+
 function initialState ({local}) {
   return {
     showComments: local(showComments)
@@ -144,9 +148,6 @@ function PrintButton () {
       fs='s'/>
   )
 }
-
-
-
 
 /**
  * Exports
