@@ -3,8 +3,8 @@
  */
 
 import CreateBoardModal from 'modals/CreateBoardModal'
-import BoardTile from 'components/BoardTile'
 import {Flex, Block, Grid, Icon} from 'vdux-ui'
+import BoardTile from 'components/BoardTile'
 import {openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import EmptyState from './EmptyState'

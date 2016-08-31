@@ -60,7 +60,7 @@ const Activity = wrap(CSSContainer)({
     const likes = likers.length + locallyLiked
 
     return (
-      <Flex column cursor='pointer' pb onClick={() => setUrl(`/activity/${_id}`, console.log('tile click'))}>
+      <Flex column cursor='pointer' pb onClick={() => setUrl(`/activity/${_id}`)}>
         <ActivityCardActions hide={!(actions && hover)} spread liked={locallyLiked} localLike={local(localLike)} {...actions} activity={activity} user={user} absolute wide z='1' />
         <Figure key='img' {...image} thumb={true} opacity={hover && .88} />
         <Block textAlign='center' m='m'>

@@ -15,7 +15,7 @@ import summon from 'vdux-summon'
  * Render
  */
 
-function render({props}) {
+function render ({props}) {
   const {
     questions, count, isStudent,
     setStatus, settingStatus = {}, activity
@@ -23,6 +23,7 @@ function render({props}) {
   const {status} = activity
   const {loading} = settingStatus
   const canTurnIn = count === questions.length
+
   return (
     <Block>
       <Block hide={!isStudent || status >= statusMap.turnedIn}>
@@ -52,7 +53,7 @@ function render({props}) {
           Return
         </Button>
         <Dropdown disabled={loading} btn={<Btn disabled={loading} />} w={120}>
-          <MenuItem align='start center' onClick={() => openModal(() => <RedoModal onAccept={redo} />)}>
+          <MenuItem align='start center' onClick={() => openModal(() => <RedoModal instanceIds={activity._id} />)}>
             <Icon name='redo' mr fs='xs' />
             Redo
           </MenuItem>
@@ -64,10 +65,6 @@ function render({props}) {
       </Block>
     </Block>
   )
-
-  function * redo() {
-    yield setStatus('opened')
-  }
 }
 
 const ConfirmTurnIn = summon(({activity}) => ({
@@ -104,11 +101,7 @@ function Btn({props}) {
 export default summon(({activity}) => ({
   setStatus: status => ({
     settingStatus: {
-      url: `/instance/${activity.id}/${status}`,
-      invalidates: [
-        `/share/${activity.root.id}/`,
-        `/share/${activity.root.id}/instance/${activity.actor.id}`
-      ],
+      url: `/instance/${activity._id}/${status}`,
       method: 'PUT'
     }
   })

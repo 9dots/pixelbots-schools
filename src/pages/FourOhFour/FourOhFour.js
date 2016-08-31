@@ -2,9 +2,9 @@
  * Imports
  */
 
-import element from 'vdux/element'
-import {Text, Flex, Icon} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
+import {Text, Flex, Icon} from 'vdux-ui'
+import element from 'vdux/element'
 
 /**
  * <FourOhFour/>

@@ -6,6 +6,7 @@ import {Google, Facebook} from 'components/OAuthButtons'
 import {postLogin, oauthCreate} from 'reducer/auth'
 import BlockInput from 'components/BlockInput'
 import {DecoLine, Block, Flex} from 'vdux-ui'
+import {track} from 'middleware/analytics'
 import {Button} from 'vdux-containers'
 import validate from 'lib/validate'
 import element from 'vdux/element'
@@ -35,7 +36,7 @@ function render ({props}) {
           Free for teachers. Forever.
         </Block>
       </Flex>
-      <Form onSubmit={createTeacher} onSuccess={user => postLogin(user.token)} validate={validate.teacher} cast={cast}>
+      <Form onSubmit={createTeacher} onSuccess={user => [postLogin(user.token), track({name: 'Created Teacher', traits: user})]} validate={validate.teacher} cast={cast}>
         <Block w='col_s' color='white'>
           <input type='hidden' name='userType' value='teacher' />
           <BlockInput autofocus name='name' placeholder='FULL NAME' />

@@ -4,10 +4,10 @@
 
 
 import EmptyClassGradebook from './EmptyClassGradebook'
-import Gradebook from './Gradebook'
 import PageTitle from 'components/PageTitle'
 import Loading from 'components/Loading'
 import {Block, Icon} from 'vdux-ui'
+import Gradebook from './Gradebook'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 

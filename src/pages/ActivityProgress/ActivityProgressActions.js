@@ -6,6 +6,7 @@ import ClassActivityBadge from 'components/ClassActivityBadge'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import ActivityLinkModal from 'modals/ActivityLinkModal'
 import {Block, Flex, Icon} from 'vdux-ui'
+import RedoModal from 'modals/RedoModal'
 import {openModal} from 'reducer/modal'
 import {invalidate} from 'vdux-summon'
 import element from 'vdux/element'
@@ -33,7 +34,7 @@ function render ({props}) {
         <Button busy={loading} disabled={disabled} text='Return' h={32} onClick={() => doAction('returned')} />
         <Block mx>
         <Dropdown disabled={disabled} btn={<Button disabled={disabled} icon='more_vert' {...iconProps} />} left w={120}>
-          <MenuItem align='start center' onClick={() => doAction('opened')}>
+          <MenuItem align='start center' onClick={() => doAction('redo')}>
             <Icon name='redo' mr fs='xs' />
             Redo
           </MenuItem>
@@ -51,8 +52,9 @@ function render ({props}) {
     </Flex>
   )
 
-  function * doAction(status) {
-    yield selected.map(id => setStatus(id, status))
+  function * doAction (status) {
+    if (status === 'redo') yield openModal(() => <RedoModal instanceIds={selected} />)
+    else yield selected.map(id => setStatus(id, status))
   }
 }
 

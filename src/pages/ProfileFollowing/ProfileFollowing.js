@@ -2,8 +2,8 @@
  * Imports
  */
 
-import InfiniteScroll from 'components/InfiniteScroll'
 import EmptyProfileFollowing from './EmptyProfileFollowing'
+import InfiniteScroll from 'components/InfiniteScroll'
 import UserTile from 'components/UserTile'
 import element from 'vdux/element'
 import summon from 'vdux-summon'

@@ -3,6 +3,7 @@
  */
 
 import {appDidInitialize} from 'reducer/ready'
+import {identify} from 'middleware/analytics'
 import Transition from 'vdux-transition'
 import Router from 'components/Router'
 import {initializeApp} from 'reducer'
@@ -13,6 +14,16 @@ import {Block} from 'vdux-ui'
 import Form from 'vdux-form'
 import moment from 'moment'
 import 'lib/fonts'
+
+/**
+ * onCreate
+ */
+
+function onCreate ({props}) {
+  if (!props.currentUser.loading) {
+    return identify(props.currentUser.value)
+  }
+}
 
 /**
  * Root app component
@@ -39,12 +50,16 @@ function render ({path, props}) {
   )
 }
 
-function onUpdate (prev, next) {
+function * onUpdate (prev, next) {
   const {props} = next
   const {currentUser = {}, state} = props
 
   if (!isReady(state) && (currentUser.loaded || currentUser.error)) {
-    return appDidInitialize()
+    yield appDidInitialize()
+  }
+
+  if (prev.props.currentUser.loading && !next.props.currentUser.loading) {
+    yield identify(next.props.currentUser.value)
   }
 }
 
@@ -85,9 +100,10 @@ function isReady (state) {
  * Exports
  */
 
-export default summon(props => ({
+export default summon(() => ({
   currentUser: '/user'
 }))({
+  onCreate,
   onUpdate,
   render
 })

@@ -19,7 +19,7 @@ function render ({props, local, state}) {
     showComments, commentsId, question, comments, ...rest
   } = props
   const hasComments = !!comments.length
-  const isShown = commentsId === question.id
+  const isShown = commentsId === question._id
 
   return (
     <Block {...rest} question={question} z={2} printProps={{hide: true}}>
@@ -33,30 +33,33 @@ function render ({props, local, state}) {
   )
 }
 
+const highlightStyle = {highlight: 0.03}
+const shownCommentStyle = {
+  transform: 'rotate(360deg)',
+  bgColor: 'grey',
+  color: 'white',
+  circle: 24,
+  left: 5,
+  mt: 8
+}
+
 function CommentButton ({props}) {
   const {showComments, question, isShown, hasComments} = props
 
   const style = isShown
-    ? {
-        transform: 'rotate(360deg)',
-        bgColor: 'grey',
-        color: 'white',
-        circle: 24,
-        left: 5,
-        mt: 8
-      }
+    ? shownCommentStyle
     : {}
 
   return (
     <Block>
       <Button
-        onClick={e => [e.stopPropagation(), showComments(isShown ? null : question.id)]}
+        onClick={e => [e.stopPropagation(), showComments(isShown ? null : question._id)]}
         color={hasComments ? 'white' : 'grey_medium'}
         bgColor={hasComments ? 'green' : '#F3F3F3'}
         boxShadow='0 1px 3px rgba(0,0,0,0.35)'
         borderWidth={0}
-        hoverProps={{highlight: 0.03}}
-        focusProps={{highlight: 0.03}}
+        hoverProps={highlightStyle}
+        focusProps={highlightStyle}
         absolute={{left: -10}}
         transition='all .35s'
         align='center center'

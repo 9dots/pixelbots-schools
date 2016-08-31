@@ -6,27 +6,27 @@ import ActivitiesLayout from 'layouts/ActivitiesLayout'
 import ActivityLayout from 'layouts/ActivityLayout'
 import SettingsLayout from 'layouts/SettingsLayout'
 import ProfileLayout from 'layouts/ProfileLayout'
-import ClassLayout from 'layouts/ClassLayout'
 import SearchLayout from 'layouts/SearchLayout'
+import ClassLayout from 'layouts/ClassLayout'
+import BoardLayout from 'layouts/BoardLayout'
 import HomeLayout from 'layouts/HomeLayout'
 import AppLayout from 'layouts/AppLayout'
-import BoardLayout from 'layouts/BoardLayout'
 
 import SearchMyActivities from 'pages/SearchMyActivities'
 import SearchActivities from 'pages/SearchActivities'
 import SearchPeople from 'pages/SearchPeople'
 import SearchBoards from 'pages/SearchBoards'
 
+import ForgotPassword from 'pages/ForgotPassword'
 import TeacherSignup from 'pages/TeacherSignup'
 import StudentSignup from 'pages/StudentSignup'
-import ForgotPassword from 'pages/ForgotPassword'
 import ResetPassword from 'pages/ResetPassword'
 
-import ProfileBoards from 'pages/ProfileBoards'
-import ProfileLikes from 'pages/ProfileLikes'
 import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
 import ProfileStream from 'pages/ProfileStream'
+import ProfileBoards from 'pages/ProfileBoards'
+import ProfileLikes from 'pages/ProfileLikes'
 
 import BoardActivities from 'pages/BoardActivities'
 import BoardFollowers from 'pages/BoardFollowers'
@@ -58,212 +58,224 @@ import Home from 'pages/Home'
 import NotificationsFeed from 'pages/NotificationsFeed'
 import Connect from 'pages/Connect'
 
-import FourOhFour from 'pages/FourOhFour'
 import Redirect from 'components/Redirect'
+import FourOhFour from 'pages/FourOhFour'
 import element from 'vdux/element'
 import enroute from 'enroute'
 
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import {page} from 'middleware/analytics'
 
 /**
  * External router
  */
 
 const router = enroute({
-  '/': (params, props) => isLoggedIn(props)
-    ? <Redirect to='/feed' />
-    : <HomeLayout action='login'>
-        <Home {...props} />
-      </HomeLayout>,
-  '/login': (params, props) =>
+  '/': track(
+    (params, props) => isLoggedIn(props) ? 'Home Redirect' : 'Home',
+    (params, props) => isLoggedIn(props)
+      ? <Redirect to='/feed' />
+      : <HomeLayout action='login'>
+          <Home {...props} />
+        </HomeLayout>),
+  '/login': track('Login', (params, props) =>
     <HomeLayout action='signup'>
       <Login {...props} />
-    </HomeLayout>,
-  '/teacher': (params, props) =>
+    </HomeLayout>),
+  '/teacher': track('Teacher Signup', (params, props) =>
     <HomeLayout action='login'>
       <TeacherSignup {...props} />
-    </HomeLayout>,
-  '/student': (params, props) =>
+    </HomeLayout>),
+  '/student': track('Student Signup', (params, props) =>
     <HomeLayout action='login'>
       <StudentSignup {...props} />
-    </HomeLayout>,
-  '/forgot': (params, props) =>
+    </HomeLayout>),
+  '/forgot': track('Forgot Password', (params, props) =>
     <HomeLayout action='login'>
       <ForgotPassword {...props} />
-    </HomeLayout>,
-  '/reset/:token': (params, props) =>
+    </HomeLayout>),
+  '/reset/:token': track('Reset Password', (params, props) =>
     <HomeLayout action='login'>
       <ResetPassword {...props} {...params} />
-    </HomeLayout>,
+    </HomeLayout>),
 
   // Home
-  '/feed': auth('user', (params, props) =>
+  '/feed': track('Feed', auth('user', (params, props) =>
     <AppLayout {...props}>
       {
         isTeacher(props)
           ? <Feed {...props} />
           : <FeedStudent {...props} />
       }
-    </AppLayout>),
+    </AppLayout>)),
 
   // My Activities
-  '/activities': auth('teacher', (params, props) =>
+  '/activities': track('Activities Redirect', auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <Redirect to='/activities/all' />
-    </ActivitiesLayout>),
-  '/activities/all': auth('teacher', (params, props) =>
+    </ActivitiesLayout>)),
+  '/activities/all': track('My Activities', auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <MyActivities {...props} />
-    </ActivitiesLayout>),
-  '/activities/drafts': auth('teacher', (params, props) =>
+    </ActivitiesLayout>)),
+  '/activities/drafts': track('Drafts', auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <Drafts {...props} />
-    </ActivitiesLayout>),
-  '/activities/trash': auth('teacher', (params, props) =>
+    </ActivitiesLayout>)),
+  '/activities/trash': track('Trash', auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <Trash {...props} />
-    </ActivitiesLayout>),
-  '/activities/:boardId': auth('teacher', (params, props) =>
+    </ActivitiesLayout>)),
+  '/activities/:boardId': track('Activities Board', auth('teacher', (params, props) =>
     <ActivitiesLayout {...props}>
       <ActivitiesBoard {...params} {...props} />
-    </ActivitiesLayout>),
+    </ActivitiesLayout>)),
 
   // Search
-  '/search/activities/:query?': auth('nonstudent', (params, props) =>
+  '/search/activities/:query?': track('Search Activities', auth('nonstudent', (params, props) =>
     <SearchLayout {...props} {...params}>
       <SearchActivities {...props} {...params} />
-    </SearchLayout>),
-  '/search/my-activities/:query?': auth('nonstudent', (params, props) =>
+    </SearchLayout>)),
+  '/search/my-activities/:query?': track('Search My Activities', auth('nonstudent', (params, props) =>
     <SearchLayout {...props} {...params}>
       <SearchMyActivities {...props} {...params} />
-    </SearchLayout>),
-  '/search/boards/:query?': auth('nonstudent', (params, props) =>
+    </SearchLayout>)),
+  '/search/boards/:query?': track('Search Boards', auth('nonstudent', (params, props) =>
     <SearchLayout {...props} {...params}>
       <SearchBoards {...props} {...params} />
-    </SearchLayout>),
-  '/search/people/:query?': auth('nonstudent', (params, props) =>
+    </SearchLayout>)),
+  '/search/people/:query?': track('Search People', auth('nonstudent', (params, props) =>
     <SearchLayout {...props} {...params}>
       <SearchPeople {...props} {...params} />
-    </SearchLayout>),
+    </SearchLayout>)),
 
   // Class
-  '/class/:groupId': auth('user', (params, props) =>
+  '/class/:groupId': track('Class Redirect', auth('user', (params, props) =>
     <ClassLayout {...props} {...params}>
       <Redirect to={`/class/${params.groupId}/feed`} />
-    </ClassLayout>),
-  '/class/:groupId/feed': auth('user', (params, props) =>
+    </ClassLayout>)),
+  '/class/:groupId/feed': track('Class Feed', auth('user', (params, props) =>
     <ClassLayout {...props} {...params}>
       {group => <ClassFeed {...props} group={group} />}
-    </ClassLayout>),
-  '/class/:groupId/students': auth('user', (params, props) =>
+    </ClassLayout>)),
+  '/class/:groupId/students': track('Class Students', auth('user', (params, props) =>
     <ClassLayout {...props} {...params}>
       {group => <ClassStudents {...props} group={group} />}
-    </ClassLayout>),
-  '/class/:groupId/gradebook': auth('user', (params, props) =>
+    </ClassLayout>)),
+  '/class/:groupId/gradebook': track('Class Gradebook', auth('user', (params, props) =>
     <ClassLayout {...props} {...params}>
       {group => <ClassGradebook {...props} group={group} />}
-    </ClassLayout>),
+    </ClassLayout>)),
 
   // Acount
-  '/account/settings': auth('user', (params, props) =>
+  '/account/settings': track('Account Settings', auth('user', (params, props) =>
     <SettingsLayout {...props} {...params}>
       <AccountSettings {...props} />
-    </SettingsLayout>),
-  '/account/profile': auth('user', (params, props) =>
+    </SettingsLayout>)),
+  '/account/profile': track('Account Profile', auth('user', (params, props) =>
     <SettingsLayout {...props} {...params}>
       <AccountProfile {...props} />
-    </SettingsLayout>),
-  '/account/email': auth('teacher', (params, props) =>
+    </SettingsLayout>)),
+  '/account/email': track('Account Email', auth('teacher', (params, props) =>
     <SettingsLayout {...props} {...params}>
       <AccountEmail {...props} />
-    </SettingsLayout>),
+    </SettingsLayout>)),
 
   // Notifications
-  '/notifications': auth('user', (params, props) =>
+  '/notifications': track('Notifications Feed', auth('user', (params, props) =>
     <AppLayout bgColor='red_medium' {...props} {...params}>
       <NotificationsFeed {...props}/>
-    </AppLayout>),
+    </AppLayout>)),
 
   // Connect
-  '/connect/:userSearch?': auth('teacher', (params, props) =>
+  '/connect/:userSearch?': track('Connect', auth('teacher', (params, props) =>
     <AppLayout {...props} {...params}>
       <Connect {...props} {...params}/>
-    </AppLayout>),
+    </AppLayout>)),
 
   // Activity
 
-  '/activity/:activityId': (params, props) =>
+  '/activity/:activityId': track('Activity Redirect', (params, props) =>
     <ActivityLayout {...props} {...params}>
       {({activity}) => activityRedirect(activity, props)}
-    </ActivityLayout>,
-  '/activity/:activityId/edit/:intent?': (params, props) =>
+    </ActivityLayout>),
+  '/activity/:activityId/edit/:intent?': track('Activity Edit', (params, props) =>
     <ActivityLayout isEdit {...props} {...params}>
       {data => <ActivityEdit {...props} {...params} {...data} />}
-    </ActivityLayout>,
-  '/activity/:activityId/students' : (params, props) =>
+    </ActivityLayout>),
+  '/activity/:activityId/students': track('Activity Progress', (params, props) =>
     <ActivityLayout {...props} {...params}>
       {data => <ActivityProgress {...props} {...params} {...data} />}
-    </ActivityLayout>,
-  '/activity/:activityId/overview' : (params, props) =>
+    </ActivityLayout>),
+  '/activity/:activityId/overview': track('Activity Overview', (params, props) =>
     <ActivityLayout {...props} {...params}>
       {data => <ActivityOverview {...props} {...params} {...data} />}
-    </ActivityLayout>,
-  '/activity/:activityId/preview' : (params, props) =>
+    </ActivityLayout>),
+  '/activity/:activityId/preview': track('Activity Preview', (params, props) =>
     <ActivityLayout {...props} {...params}>
       {data => <ActivityPreview {...props} {...params} {...data} />}
-    </ActivityLayout>,
-  '/activity/:activityId/discussion' : (params, props) =>
+    </ActivityLayout>),
+  '/activity/:activityId/discussion': track('Activity Discussion', (params, props) =>
     <ActivityLayout {...props} {...params}>
       {data => <ActivityDiscussion {...props} {...params} {...data} />}
-    </ActivityLayout>,
-  '/activity/:activityId/instance/:userId': (params, props) =>
+    </ActivityLayout>),
+  '/activity/:activityId/instance/:userId': track('Activity Instance', (params, props) =>
     <ActivityLayout {...props} {...params}>
       {data => <ActivityInstance {...props} {...params} {...data} />}
-    </ActivityLayout>,
+    </ActivityLayout>),
 
   // Board
-  '/:username/board/:boardId/activities': auth('nonstudent', (params, props) =>
+  '/:username/board/:boardId/activities': track('Board Activities', auth('nonstudent', (params, props) =>
     <BoardLayout {...props} {...params}>
       {board => <BoardActivities {...props} {...params} board={board} />}
-    </BoardLayout>),
-  '/:username/board/:boardId/followers': auth('nonstudent', (params, props) =>
+    </BoardLayout>)),
+  '/:username/board/:boardId/followers': track('Board Followers', auth('nonstudent', (params, props) =>
     <BoardLayout {...props} {...params}>
       {board => <BoardFollowers {...props} {...params} board={board} />}
-    </BoardLayout>),
+    </BoardLayout>)),
 
   // Profile
-  '/:username/boards': auth('nonstudent', (params, props) =>
+  '/:username/boards': track('Profile Boards', auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileBoards {...props} user={user} />}
-    </ProfileLayout>),
-  '/:username/likes': auth('nonstudent', (params, props) =>
+    </ProfileLayout>)),
+  '/:username/likes': track('Profile Likes', auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileLikes {...props} user={user} />}
-    </ProfileLayout>),
-  '/:username/following': auth('nonstudent', (params, props) =>
+    </ProfileLayout>)),
+  '/:username/following': track('ProfileFollowing', auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileFollowing {...props} user={user} />}
-    </ProfileLayout>),
-  '/:username/followers': auth('nonstudent', (params, props) =>
+    </ProfileLayout>)),
+  '/:username/followers': track('Profile Followers', auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileFollowers {...props} user={user} />}
-    </ProfileLayout>),
-  '/:username/stream': (params, props) =>
+    </ProfileLayout>)),
+  '/:username/stream': track('Profile Stream', (params, props) =>
     <ProfileLayout {...props} {...params}>
       {user => <ProfileStream {...props} user={user} />}
-    </ProfileLayout>,
-  '/:username': (params, props) =>
+    </ProfileLayout>),
+  '/:username': track('Profile Redirect', (params, props) =>
     <ProfileLayout {...props} {...params}>
       { user => profileRedirect(props, user) }
-    </ProfileLayout>,
+    </ProfileLayout>),
 
   // 404
-  '*': (params, props) =>
+  '*': track('404', (params, props) =>
     <AppLayout {...props} {...params}>
       <FourOhFour />
-    </AppLayout>
+    </AppLayout>)
 })
+
+/**
+ * onCreate
+ */
+
+function * onCreate ({props, state}) {
+  const {name, params} = router(props.url, {...props, ...state})
+  yield page({name, params})
+}
 
 /**
  * Router
@@ -271,7 +283,7 @@ const router = enroute({
 
 function render ({props, state}) {
   if (! props.url || !props.ready) return <div>Loading...</div>
-  return router(props.url, {...props, ...state})
+  return router(props.url, {...props, ...state}).route
 }
 
 /**
@@ -283,6 +295,15 @@ function auth (type, route) {
     isAuthorized(type, props)
       ? route(params, props)
       : <Redirect to='/' />
+}
+
+function track (name, route) {
+  return (params, props) => ({
+    name: typeof name === 'function' ? name(params, props) : name,
+    params,
+    props,
+    route: route(params, props)
+  })
 }
 
 function isAuthorized (type, {currentUser}) {
@@ -307,6 +328,9 @@ const activityEditRe = /^\/activity\/[^\/]+\/edit/
 
 function * onUpdate (prev, next) {
   if (prev.props.url !== next.props.url) {
+    const {name, params} = router(next.props.url, {...next.props, ...next.state})
+    yield page({name, params})
+
     if (prev.props.url && !activityRe.test(prev.props.url) && activityRe.test(next.props.url)) {
       yield next.local(canExit)(true)
     }
@@ -388,6 +412,7 @@ function activityRedirect ({published, contexts, _id}, {currentUser}) {
  */
 
 export default {
+  onCreate,
   render,
   onUpdate,
   reducer

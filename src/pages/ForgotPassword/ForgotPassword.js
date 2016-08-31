@@ -6,10 +6,10 @@ import BlockInput from 'components/BlockInput'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {Button} from 'vdux-containers'
-import {Block} from 'vdux-ui'
 import Link from 'components/Link'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
+import {Block} from 'vdux-ui'
 import Form from 'vdux-form'
 /**
  * <ForgotPassword/>

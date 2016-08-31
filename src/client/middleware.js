@@ -10,6 +10,7 @@ import speechSynth from 'middleware/speechSynth'
 import {query} from 'redux-effects-credentials'
 import location from 'redux-effects-location'
 import normalize from 'middleware/normalize'
+import analytics from 'middleware/analytics'
 import objectId from 'middleware/objectId'
 import events from 'redux-effects-events'
 import cookie from 'redux-effects-cookie'
@@ -44,6 +45,7 @@ const middleware = [
   media,
   scroll,
   upload,
+  analytics(process.env.SEGMENT_IO_KEY),
   location(),
   speechSynth,
   socket,
