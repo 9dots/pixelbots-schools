@@ -165,17 +165,19 @@ const ScoreRow = summon(({activity, question}) => ({
 
 
     const color = getColor(activity, question, canGrade, isStudent, isRedo)
+    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStreams
 
     return (
       <Block
-        onFocus={() => selectObject(question._id)}
-        onClick={
-          () => scrollTo(document.getElementById(question._id), {
+        onFocus={isIos || (() => selectObject(question._id))}
+        onClick={[
+          isIos && (() => selectObject(question._id)),
+          () => dispatch => setTimeout(() => dispatch(scrollTo(document.getElementById(question._id), {
             easing: 'easeInOutSine',
             offsetY: -100,
             duration: 100
-          })
-        }
+          })))
+        ]}
         tabindex='-1'
         focusProps={{borderLeftColor: 'blue', bg: 'off_white'}}
         tag='label'
