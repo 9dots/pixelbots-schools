@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {setupStylePrefixer} from 'vdux-ui'
 import middleware from './middleware'
 import domready from '@f/domready'
 import element from 'vdux/element'
@@ -32,6 +33,7 @@ const {subscribe, render, replaceReducer, dispatch, getState} = vdux({
 
 jss.attach()
 window.dispatch = dispatch
+setupStylePrefixer(window.navigator.userAgent)
 
 /**
  * Render loop

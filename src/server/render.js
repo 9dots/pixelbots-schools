@@ -2,6 +2,7 @@
  * Imports
  */
 
+import {setupStylePrefixer} from 'vdux-ui'
 import middleware from './middleware'
 import element from 'vdux/element'
 import Boot from 'components/Boot'
@@ -22,6 +23,8 @@ const initialState = {}
 function render (opts) {
   return new Promise((resolve, reject) => {
     let title
+
+    setupStylePrefixer(opts.headers['user-agent'])
     const {subscribe, render} = vdux({
       middleware: middleware(opts, _title => title = _title),
       initialState,
