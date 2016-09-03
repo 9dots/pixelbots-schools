@@ -129,8 +129,7 @@ const showInstance = createAction('<ActivityInstance/>: showInstance')
 const reducer = handleActions({
   [showComments]: (state, commentsId) => ({
     ...state,
-    commentsId,
-    test: console.log('showComments', commentsId)
+    commentsId
   }),
   [showInstance]: (state) => ({...state, isShown: true})
 })
