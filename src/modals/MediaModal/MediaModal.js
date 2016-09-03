@@ -90,7 +90,7 @@ function MediaInput ({props}) {
   const {placeholder, loading, onSubmit, ...rest} = props
 
   return (
-    <Form align='start stretch' onClick={e => e.stopPropagation()} w='60%' onSubmit={({url}) => onSubmit(url)} {...rest}>
+    <Form align='start stretch' onClick={e => e.stopPropagation()} w='60%' onSubmit={onSubmit} {...rest}>
       <BlockInput
         placeholder={placeholder || 'Enter a url...'}
         borderRightWidth={0}
