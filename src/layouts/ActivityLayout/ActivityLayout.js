@@ -56,12 +56,12 @@ function internal (props, children, local, state) {
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
-  if (!loaded || !students.loaded || !instances.loaded || (isInstance && !instance.value)) {
-    return ''
-  }
-
   if (error || students.error ||  (isInstance && instance.error)) {
     return <FourOhFour />
+  }
+
+  if (!loaded || !students.loaded || !instances.loaded || (isInstance && !instance.value)) {
+    return ''
   }
 
   if (instances.value.items.length < students.value.items.length) {
