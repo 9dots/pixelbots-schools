@@ -108,8 +108,7 @@ const inputProps = {
   inputProps: {
     textAlign: 'center',
     borderWidth: 0,
-    bg: 'transparent',
-    type: 'number'
+    bg: 'transparent'
   }
 }
 
@@ -136,7 +135,6 @@ const ScoreRow = summon(({activity, question}) => ({
   setMax: max => ({
     settingMax: {
       url: `/share/${activity._id}/max_points/${question._id}`,
-      invalidates: `/share/${activity._id}`,
       method: 'PUT',
       body: {
         max
@@ -201,7 +199,7 @@ const ScoreRow = summon(({activity, question}) => ({
               borderColor={canGrade || canSetMax ? 'grey_light' : 'transparent'}
               bg={canGrade || canSetMax ? 'white' : 'transparent'}
               align='start center'
-              key={activity.id}
+              key={activity._id}
               w='50%'>
               <Input
                 {...inputProps}
@@ -224,22 +222,23 @@ const ScoreRow = summon(({activity, question}) => ({
     )
 
     function * setPoints (e) {
+      e.target.value = normalize(e.target.value)
       const points = Number(e.target.value)
       if (isNaN(points)) return
       yield debouncedSetPoints(points / max)
     }
 
     function * setMax (e) {
+      e.target.value = normalize(e.target.value)
+
       const max = Number(e.target.value)
 
       if (isNaN(max)) return
-      if (max === 0) {
-        e.target.setCustomValidity('Must not be 0')
-        return
-      }
-
-      e.target.setCustomValidity('')
       yield debouncedSetMax(max)
+    }
+
+    function normalize (str = '') {
+      return str.replace(/[^0-9]/g, '')
     }
   }
 })

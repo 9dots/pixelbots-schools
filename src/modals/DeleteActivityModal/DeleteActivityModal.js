@@ -44,7 +44,7 @@ function render ({props}) {
 export default summon(({activity}) => ({
   deleteActivity: () => ({
     deleting: {
-      url: `/share/${activity.id || activity._id}`,
+      url: `/share/${activity._id}`,
       method: 'DELETE',
       invalidates: ['activity_feed']
     }

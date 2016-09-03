@@ -96,7 +96,7 @@ function Item ({props}) {
 export default summon(({activity}) => ({
   saveDraft: () => ({
     savingDraft: {
-      url: `/share/${activity.id}/draft`,
+      url: `/share/${activity._id}/draft`,
       method: 'PUT'
     }
   })

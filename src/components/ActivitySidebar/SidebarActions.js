@@ -70,10 +70,10 @@ function render ({props}) {
 const ConfirmTurnIn = summon(({activity}) => ({
   onAccept: () => ({
     accepting: {
-      url: `/instance/${activity.id}/turned_in`,
+      url: `/instance/${activity._id}/turned_in`,
       invalidates: [
-        `/share/${activity.root.id}/`,
-        `/share/${activity.root.id}/instance/${activity.actor.id}`
+        `/share/${activity._root[0].id}/`,
+        `/share/${activity._root[0].id}/instance/${activity.actor.id}`
       ],
       method: 'PUT'
     }
