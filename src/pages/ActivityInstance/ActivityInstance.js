@@ -93,6 +93,7 @@ function render ({props, local, state}) {
             canSetMax={false}
             isRedo={isRedo}
             hasInstanceNav={isTeacher}
+            showIncorrect={showIncorrect}
             isStudent={isStudent}
             showScores={isTeacher || isReturned}
             activity={instance} />
