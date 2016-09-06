@@ -50,7 +50,8 @@ function render ({props, local, state}) {
           align='center center'
           hide={showNew || isStudent}
           opacity='.85'
-          pointer>
+          pointer
+          pb='l'>
           <Icon lh='17px' name='add_circle_outline' fs='s' mr='s'/>
           <Block lh='17px'>
             Leave a note for {actor.displayName}

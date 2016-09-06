@@ -43,17 +43,9 @@ function render ({props, children}) {
     const _id = yield generateObjectId()
     const newObj =  {
       ...object,
-      _id,
-      attachments: []
+      _id
     }
 
-    for(var i = 0; i < object.attachments.length; i++) {
-      let id = yield generateObjectId()
-      newObj.attachments[i] =  {
-        ...object.attachments[i],
-        _id: id
-      }
-    }
     yield insert({object: newObj, idx: pos + 1})
   }
 }
