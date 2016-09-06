@@ -159,7 +159,7 @@ function PrintButton () {
  */
 
 export default summonChannels(
-   ({instance}) => `share!${instance.id}.annotations`
+   ({instance}) => `share!${instance._id}.annotations`
 )({
   initialState,
   render,

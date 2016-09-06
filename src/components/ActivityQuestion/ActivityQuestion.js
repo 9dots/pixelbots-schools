@@ -40,12 +40,12 @@ function render ({props, local, state}) {
     comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, setSpeaking,
     speechRate, speakingId, speechEnabled, overviewQuestion, showPollResults, ...rest
   } = props
-  const {poll, attachments = [], points, id, content, responses, numAnswered, total} = showPollResults && object.poll
+  const {poll, attachments = [], points, _id, content, responses, numAnswered, total} = showPollResults && object.poll
     ? overviewQuestion
     : object
 
   const commentList = comments && comments
-    .filter(comment => getId(getProp('_object.0.location.path', comment)) === getId(id))
+    .filter(comment => getId(getProp('_object.0.location.path', comment)) === getId(_id))
     .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
 
   const isStudent = currentUser && currentUser.userType === 'student'

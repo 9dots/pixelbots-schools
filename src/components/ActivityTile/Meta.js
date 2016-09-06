@@ -26,7 +26,7 @@ function render ({props}) {
           <Link flex='0%' hoverProps={{underline: true}} bold href={`/${actor.username}`}>
             {actor.displayName}
           </Link>
-          <Link flex='0%' hoverProps={{underline: true}} href={`/${actor.username}/board/${board.id}/activities`} color='grey'>
+          <Link flex='0%' hoverProps={{underline: true}} href={`/${actor.username}/board/${board.id || board._id}/activities`} color='grey'>
             {board.displayName}
           </Link>
         </Flex>
