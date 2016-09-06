@@ -83,7 +83,7 @@ function render ({props, state}) {
             showPollResults={showPollResults}
             currentUser={currentUser}
             activityId={activity._id}
-            rootId={activity._root ? activity._root[0].id : activity._id}
+            rootId={activity._root && activity._root[0] ? activity._root[0].id : activity._id}
             actor={activity.actor}
             object={object}
             idx={object.objectType === 'question' ? i++ : null}

@@ -66,6 +66,8 @@ function EditCard ({props}) {
   )
 
   function * save (model) {
+    if (!model.comment) return
+
     yield annotate(model, comment)
     yield toggleEdit(false)
     if(dismiss) {

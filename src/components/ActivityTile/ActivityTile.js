@@ -54,7 +54,7 @@ const Activity = wrap(CSSContainer)({
     const {activity, user = {}, hover, actions} = props
     const {
       image, displayName, description, _id,
-      likers, repinCount, replies
+      likers = {}, repinCount, replies
     } = activity
     const {locallyLiked} = state
     const likes = likers.length + locallyLiked
