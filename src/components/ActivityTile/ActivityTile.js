@@ -8,6 +8,7 @@ import {wrap, CSSContainer} from 'vdux-containers'
 import {setUrl} from 'redux-effects-location'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
+import objectEqual from '@f/object-equal'
 import WeoIcon from 'components/WeoIcon'
 import Figure from 'components/Figure'
 import element from 'vdux/element'
@@ -98,9 +99,22 @@ const Activity = wrap(CSSContainer)({
 })
 
 /**
+ * shouldUpdate
+ */
+
+function shouldUpdate (prev, next) {
+  if (objectEqual(prev.props.actions, next.props.actions)) {
+    next.props.actions = prev.props.actions
+  }
+
+  return objectEqual(prev.props, next.props)
+}
+
+/**
  * Exports
  */
 
 export default {
-  render
+  render,
+  shouldUpdate
 }

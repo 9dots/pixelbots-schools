@@ -55,7 +55,6 @@ function renderItems (items, emptyState, children, user, skip, activityProps) {
       pin: true
     }
   }
-
 }
 
 /**
