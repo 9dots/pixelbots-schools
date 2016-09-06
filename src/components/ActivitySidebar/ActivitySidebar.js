@@ -152,7 +152,7 @@ const ScoreRow = summon(({activity, question}) => ({
   render ({props, state}) {
     const {
       question, selectObject, isSelected, showScore, canGrade, isRedo,
-      canSetMax, num, activity, isStudent
+      canSetMax, num, activity, isStudent, showIncorrect
     } = props
     const {debouncedSetPoints, debouncedSetMax} = state
     const {points} = question
@@ -162,7 +162,7 @@ const ScoreRow = summon(({activity, question}) => ({
       : max * scaled
 
 
-    const color = getColor(activity, question, canGrade, isStudent, isRedo)
+    const color = getColor(activity, question, canGrade, isStudent, isRedo && showIncorrect)
     const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStreams
 
     return (
