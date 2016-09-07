@@ -18,7 +18,7 @@ function render ({props}) {
       <Block p uppercase boxShadow={clsLength > 5 && '0 2px 1px rgba(75,82,87,0.1)'} z='1' relative>
         My Classes
       </Block>
-      <Block maxHeight='245px' overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
+      <Block maxHeight='247px' overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
         { !loading && value.items.sort(cmp).map(item) }
       </Block>
       <Block boxShadow={clsLength > 5 && '0 -2px 1px rgba(75,82,87,0.1)'} z='1' relative p/>
