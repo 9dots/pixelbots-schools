@@ -35,7 +35,7 @@ function render ({props}) {
           <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
             Select Classes to Assign to:
           </ModalHeader>
-          <ClassSelect loading={creatingClass.loading} classes={value.items} selected={selected} createClass={createClass} absolute h='calc(100% - 56px)' wide />
+          <ClassSelect loading={creatingClass.loading} classes={value.items} selected={selected} createClass={createClass} absolute h='calc(100% - 56px)' top={56} wide />
         </Flex>
       </Flex>
       <ModalFooter m='0'>
