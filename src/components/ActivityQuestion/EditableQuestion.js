@@ -100,7 +100,7 @@ function render ({props}) {
               )
             }
             {
-              isPoll && (
+              isPoll && attachments.length < 6 && (
                 <Block key={`add_${attachments.length}`} align='center center' mr={-24}>
                   <Button onClick={attach('choice')} m='auto' bgColor='grey' p={0} sq={50} ml='s'>
                     <Icon name='add' fs='s' />
