@@ -18,7 +18,8 @@ import map from '@f/map'
 
 function render ({props, local, state}) {
   const current = state.category
-  const {selected, toggle, error} = props
+  const {selected, toggle, max} = props
+  const {error} = state
   const sbjList = []
   const counts = {}
 
@@ -35,7 +36,7 @@ function render ({props, local, state}) {
   const text = sbjList.length ? sbjList.join(', ') : 'Subject Selector'
 
   return (
-    <Dropdown w={505} left btn={<DDBtn text={text}/>} onClick={e => e.stopPropagation()}>
+    <Dropdown w={505} left btn={<DDBtn text={text}/>} onClick={e => e.stopPropagation()} onClose={local(setError, null)}>
       <Block align='start' my={-6}>
         <Block flex='35%' borderRight='1px solid grey_light' py={6}>
           {
@@ -51,7 +52,7 @@ function render ({props, local, state}) {
         <Block flex py={6}>
           {
             current
-              ? map(subject => <Item tag={subject} selected={sbjList} toggle={toggle} error={error === subject.displayName} />, subjects[current])
+              ? map(subject => <Item tag={subject} selected={sbjList} toggle={toggleSubject} error={error === subject.displayName} />, subjects[current])
               : <Block p='8px 16px' fs='xs' color='grey_medium'>
                   Select a Subject Area
                 </Block>
@@ -61,6 +62,14 @@ function render ({props, local, state}) {
       </Block>
     </Dropdown>
   )
+
+  function * toggleSubject (subject) {
+    if (sbjList.indexOf(subject.displayName) === -1 && sbjList.length + 1 > max) {
+      yield local(setError, subject.displayName)()
+    } else {
+      yield toggle(subject)
+    }
+  }
 }
 
 function DDBtn ({props}) {
@@ -110,6 +119,7 @@ function Item ({props}) {
   const errorProps = error
     ? {bgColor: 'rgba(red_light, .5)', hoverProps: {}}
     : {}
+
   return (
     <MenuItem
       onClick={() => toggle(tag)}
@@ -123,7 +133,7 @@ function Item ({props}) {
       <Block flex>
         {displayName}
       </Block>
-      <Tooltip tooltipProps={{color: 'white', show: error, bgColor: 'red'}} placement='right' message='5 tags max' />
+      <Tooltip tooltipProps={{color: 'white', show: error, bgColor: 'red'}} placement='right' message='5 labels max' />
     </MenuItem>
   )
 }
@@ -133,15 +143,16 @@ function Item ({props}) {
  */
 
 const setCategory = createAction('<SubjectSelector />: setCategory')
+const setError = createAction('<GradeSelector/>: set error')
 
 /**
  * Reducer
  */
 
 const reducer = handleActions({
-  [setCategory]: (state, category) => ({...state, category})
+  [setCategory]: (state, category) => ({...state, category}),
+  [setError]: (state, error) => ({...state, error})
 })
-
 
 /**
  * Exports

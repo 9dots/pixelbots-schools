@@ -26,7 +26,7 @@ function getProps (props, {currentUrl}) {
  */
 
 function render ({props}) {
-  const {renameBoard, board, deleting = {}, renaming = {}, isCurrentBoard} = props
+  const {renameBoard, board, deleting = {}, renaming = {}, isCurrentBoard, exitPath = '/feed'} = props
 
   return (
     <Modal onDismiss={closeModal} opacity='1'>
@@ -59,7 +59,7 @@ function render ({props}) {
     return openModal(() =>
       <ConfirmDeleteBoard
         boardId={board._id}
-        redirect={isCurrentBoard && '/feed'}
+        redirect={isCurrentBoard && exitPath}
         message={'Are you sure you want to delete your board "' +  board.displayName + '?"'} />)
   }
 }

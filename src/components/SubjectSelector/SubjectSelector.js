@@ -14,7 +14,7 @@ import element from 'vdux/element'
  */
 
 function render ({props, state, local}) {
-  const {selected, toggle} = props
+  const {selected, toggle, max = 5} = props
 
   return (
     <Block
@@ -29,16 +29,16 @@ function render ({props, state, local}) {
       rounded
       h='200'
       wrap
-      p >
-      <ErrorTip show={state.tooMany} message='You may only select up to 5 subjects.' placement='left' />
+      p>
+      <ErrorTip show={state.tooMany} message={`You may only select up to ${max} subjects.`} placement='left' />
       {
         mapValues((subjects, category) => item(subjects, category, selected, selectSubject), subjectMap)
       }
     </Block>
   )
 
-  function * selectSubject(subject) {
-    if(selected.length >= 5 && selected.indexOf(subject) === -1) {
+  function * selectSubject (subject) {
+    if(selected.length >= max && selected.indexOf(subject) === -1) {
       yield local(setError, true)()
     } else {
       yield toggle(subject)

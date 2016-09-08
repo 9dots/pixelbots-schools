@@ -125,7 +125,6 @@ const ScoreRow = summon(({activity, question}) => ({
   setPoints: scaled => ({
     settingPoints: {
       url: `/instance/${activity._id}/score/${question._id}`,
-      invalidates: `/instance/${activity._id}`,
       method: 'PUT',
       body: {
         scaled
