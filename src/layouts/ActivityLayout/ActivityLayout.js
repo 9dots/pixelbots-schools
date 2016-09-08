@@ -52,7 +52,7 @@ function * onUpdate (prev, next) {
 }
 
 function internal (props, children, local, state) {
-  const {activity, students, instances, settingStatus, currentUser, userId, instance, setStatus, isEdit, intent} = props
+  const {activity, students, instances, settingStatus, redirect, currentUser, userId, instance, setStatus, isEdit, intent} = props
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
@@ -84,7 +84,7 @@ function internal (props, children, local, state) {
     }
 
   return [
-    <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} exit={exit} isOwner={isOwner} intent={intent} {...nav} />,
+    redirect || <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} exit={exit} isOwner={isOwner} intent={intent} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       activity: value,

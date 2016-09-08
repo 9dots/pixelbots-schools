@@ -7,12 +7,11 @@ import {Block as ContainerBlock, Button} from 'vdux-containers'
 import CommoncoreBadge from 'components/CommoncoreBadge'
 import SubjectSelector from './SubjectSelector'
 import {setUrl} from 'redux-effects-location'
-import handleActions from '@f/handle-actions'
 import LineInput from 'components/LineInput'
-import createAction from '@f/create-action'
 import GradeSelector from './GradeSelector'
 import {Block, Text, Icon} from 'vdux-ui'
 import {openModal} from 'reducer/modal'
+import findIndex from '@f/find-index'
 import element from 'vdux/element'
 import map from '@f/map'
 
@@ -20,14 +19,14 @@ import map from '@f/map'
  * <ActivityHeader/>
  */
 
-function render ({props, state, local}) {
+function render ({props}) {
   const {editing, open, editable, activity, clickableTags} = props
   const {displayName, originalDescription, tags, commonCore} = activity
   const editableProps = editable
     ? {hoverProps: {bgColor: 'off_white'}, onClick: open}
     : {}
 
-  if (editing) return <EditingHeader {...props} setErrorSelect={local(setErrorSelect)} errorSelect={state.errorSelect} />
+  if (editing) return <EditingHeader {...props} />
 
   return (
     <ContainerBlock p='12px 24px' {...editableProps}>
@@ -49,9 +48,8 @@ function render ({props, state, local}) {
 
 const EditingHeader = {
   render: function ({props}) {
-    const {activity, onEdit, open, setErrorSelect, errorSelect} = props
+    const {activity, onEdit, open} = props
     const {displayName, originalDescription, tags} = activity
-
 
     return (
       <Block bgColor='white' z={2} relative p={24} pt={18}  boxShadow='0 0 12px rgba(black, .5)' fs='s' lighter>
@@ -77,10 +75,10 @@ const EditingHeader = {
           <Text textAlign='right' minWidth={100} mr='l'>Label:</Text>
           <Block align='start' flex>
             <Block flex='45%' mr>
-              <GradeSelector selected={tags} toggle={toggleTag} error={errorSelect} />
+              <GradeSelector selected={tags} toggle={toggleTag} max={3} />
             </Block>
             <Block flex='45%' mr>
-              <SubjectSelector selected={tags} toggle={toggleTag} error={errorSelect}  />
+              <SubjectSelector selected={tags} toggle={toggleTag} max={3} />
             </Block>
           </Block>
         </Block>
@@ -93,27 +91,18 @@ const EditingHeader = {
       </Block>
     )
 
-    function * toggleTag(tag) {
-      yield setErrorSelect(null)
+    function * toggleTag (tag) {
       const newArr = tags.slice()
-      const i = tags.findIndex(({displayName}) => displayName === tag.displayName)
+      const i = findIndex(tags, t => tag.displayName === t.displayName)
 
       if(i === -1) {
-        if(tags.length < 5) {
-          newArr.push(tag)
-        } else {
-          yield setErrorSelect(tag.displayName)
-        }
+        newArr.push(tag)
       } else {
         newArr.splice(i, 1)
       }
 
-
       yield onEdit({tags: newArr})
     }
-  },
-  onRemove: function * ({props}) {
-    yield props.setErrorSelect(null)
   }
 }
 
@@ -167,24 +156,9 @@ function Label ({props}) {
 }
 
 /**
- * Actions
- */
-
-const setErrorSelect = createAction('<ActivityHeader />: set error select')
-
-/**
- * Reducer
- */
-
-const reducer = handleActions({
-  [setErrorSelect]: (state, errorSelect) => ({...state, errorSelect})
-})
-
-/**
  * Exports
  */
 
 export default {
-  render,
-  reducer
+  render
 }

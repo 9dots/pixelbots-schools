@@ -21,7 +21,7 @@ function render ({props}) {
   const {loading} = creatingStudent
 
   return (
-    <Form onSubmit={createStudent} onSuccess={[user => postLogin(user.token), track({name: 'Student Created', traits: user})]} validate={validateStudent}>
+    <Form onSubmit={createStudent} onSuccess={user => [postLogin(user.token), user => track({name: 'Student Created', traits: user})]} validate={validateStudent}>
       <input type='hidden' name='userType' value='student' />
       <Flex>
         <BlockInput autofocus name='name[givenName]' placeholder='FIRST NAME' />

@@ -197,7 +197,7 @@ const router = enroute({
   // Activity
 
   '/activity/:activityId': track('Activity Redirect', (params, props) =>
-    <ActivityLayout {...props} {...params}>
+    <ActivityLayout {...props} {...params} redirect>
       {({activity}) => activityRedirect(activity, props)}
     </ActivityLayout>),
   '/activity/:activityId/edit/:intent?': track('Activity Edit', (params, props) =>
