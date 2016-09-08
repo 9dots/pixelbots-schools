@@ -69,7 +69,11 @@ function render ({props}) {
           </Button>
         </Flex>
         <Flex hide={isMe} absolute='top 12px right 12px'>
-          { currentUser.userType === 'teacher' && <FollowButton w={120} user={user} /> }
+          {
+            currentUser.userType === 'teacher'
+              && user.userType === 'teacher'
+              && <FollowButton w={120} user={user} />
+          }
         </Flex>
       </Flex>
       {

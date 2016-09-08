@@ -34,9 +34,10 @@ function render ({props, local, state}) {
   }), subjects)
 
   const text = sbjList.length ? sbjList.join(', ') : 'Subject Selector'
+  const btnStyle = sbjList.length ? {'bold': true, color: 'blue'} : {}
 
   return (
-    <Dropdown w={505} left btn={<DDBtn text={text}/>} onClick={e => e.stopPropagation()} onClose={local(setError, null)}>
+    <Dropdown w={505} left btn={<DDBtn {...btnStyle} text={text}/>} onClick={e => e.stopPropagation()} onClose={local(setError, null)}>
       <Block align='start' my={-6}>
         <Block flex='35%' borderRight='1px solid grey_light' py={6}>
           {
@@ -89,7 +90,7 @@ function DDBtn ({props}) {
       px
       {...rest}>
       <Block flex ellipsis>{text}</Block>
-      <Icon fs='s' name='keyboard_arrow_down' />
+      <Icon fs='s' name='keyboard_arrow_down' color='text' />
     </Button>
   )
 }
@@ -133,7 +134,7 @@ function Item ({props}) {
       <Block flex>
         {displayName}
       </Block>
-      <Tooltip tooltipProps={{color: 'white', show: error, bgColor: 'red'}} placement='right' message='5 labels max' />
+      <Tooltip tooltipProps={{color: 'white', show: error, bgColor: 'red'}} placement='right' message='3 subjects max' />
     </MenuItem>
   )
 }
