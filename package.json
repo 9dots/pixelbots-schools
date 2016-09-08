@@ -42,6 +42,7 @@
     "@f/map-values": "^1.0.0",
     "@f/maybe-over": "^1.0.0",
     "@f/noop": "^1.2.0",
+    "@f/normalize-bowser": "^1.0.0",
     "@f/object-equal": "^1.1.1",
     "@f/reduce": "^1.0.0",
     "@f/remove-element": "^1.0.0",

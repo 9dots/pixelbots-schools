@@ -28,9 +28,10 @@ function render ({props, local, state}) {
   , [])
 
   const text = gradeList.length ? gradeList.join(', ') : 'Grade Selector'
+  const btnStyle = gradeList.length ? {'bold': true, color: 'blue'} : {}
 
   return (
-    <Dropdown onClick={e => e.stopPropagation()} wide btn={<DDBtn text={text}/>} onClose={local(setError, null)}>
+    <Dropdown onClick={e => e.stopPropagation()} wide btn={<DDBtn {...btnStyle} text={text}/>} onClose={local(setError, null)}>
       { map(grade => <Item tag={grade} selected={gradeList} toggle={toggleGrade} error={error === grade.displayName} max={max} />, grades) }
     </Dropdown>
   )
