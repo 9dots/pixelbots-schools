@@ -170,10 +170,10 @@ button {
   margin-top: 1.3em !important;
   margin-bottom: 1.3em !important;
 }
-.markdown *:first-child {
+.markdown > *:first-child {
   margin-top: 0 !important;
 }
-.markdown *:last-child {
+.markdown > *:last-child {
   margin-bottom: 0 !important;
 }
 .markdown ol,
@@ -195,16 +195,20 @@ button {
 }
 .markdown table {
   margin-bottom: 12px;
-}
-.markdown table th {
-  border-bottom: 1px solid #808080;
+  font-size: 13px;
+  line-height: 1.4em;
+  word-break: initial;
 }
 .markdown table td,
 .markdown table th {
   padding: 5px 12px;
+  border: 1px solid #ddd;
+}
+.markdown table th {
+  border-bottom-width: 2px;
 }
 .markdown table tr:nth-child(2n + 1) td {
-  background: rgba(0,0,0,0.05);
+  background: rgba(0,0,0,0.02);
 }
 
 .markdown h1,

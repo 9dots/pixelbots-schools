@@ -40,7 +40,7 @@ function render ({props}) {
           <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
             Select a Board to Pin to:
           </ModalHeader>
-          <PinSelect boards={value.items} onSelect={doPin} createBoard={createBoard} busy={busy} absolute h='calc(100% - 56px)' wide />
+          <PinSelect boards={value.items} onSelect={doPin} createBoard={createBoard} busy={busy} absolute h='calc(100% - 56px)' top={56} wide />
         </Flex>
       </Flex>
       <ModalFooter m='0'>

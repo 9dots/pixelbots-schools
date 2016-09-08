@@ -82,16 +82,16 @@ const Video = {
     [playVideo]: state => ({...state, play: true})
   }),
   render ({props, state, local}) {
-    const {object, ...rest} = props
+    const {object, editable, preview, ...rest} = props
     const {content, image = {}, displayName, embed = {}} = object
     const {url, height, width} = image
     const imgSize = height / width >= .74 ? '74.6%' : '100%'
-
+    const playable = editable ? preview : true
     return (
       <Block tag='span' {...rest}>
         <Block wide tall relative bg={`#000 url(${url}) no-repeat center`} bgSize={imgSize} printProps={{hide: true}}>
           <Loading show={state.play} dark={false} absolute top bottom left right/>
-          <Block hidden={state.play} onClick={local(playVideo)} pointer relative>
+          <Block hidden={state.play} onClick={playable && local(playVideo)} pointer relative>
             <Figure
               maxWidth={imgSize}
               height={height}
