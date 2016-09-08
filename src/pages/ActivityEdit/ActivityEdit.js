@@ -408,6 +408,7 @@ export default summon(({activity}) => ({
       url: `/share/${activity._id}`,
       serialize: true,
       method: 'PUT',
+      invalidates: false,
       body
     }
   })
