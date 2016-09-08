@@ -18,7 +18,7 @@ import Form from 'vdux-form'
 
 function render ({props}) {
   const {type, onAccept, scrapeMedia, scraping = {}} = props
-  const uploadable = type === 'document' || type === 'image'
+  const uploadable = type === 'document' || type === 'image' || type === 'file'
 
   return (
     <Modal onDismiss={closeModal} w='col_xl'>
