@@ -3,7 +3,7 @@
  */
 
 import AvatarUploadModal from 'modals/AvatarUploadModal'
-import {Block, Text, Icon, Image, Flex} from 'vdux-ui'
+import {Block, Text, Icon, Flex} from 'vdux-ui'
 import {CSSContainer, wrap} from 'vdux-containers'
 import {openModal} from 'reducer/modal'
 import element from 'vdux/element'
@@ -45,8 +45,9 @@ function render({props}) {
       relative
       sq='100'
       pointer
-      m='10'>
-      <Image sq='100%' src={url} />
+      m='10'
+      backgroundSize='100%'
+      bgImg={url}>
       <Icon
         transition='transform .35s'
         transform={checked ? 'scale(1)' : 'scale(0)'}
