@@ -42,7 +42,7 @@ function render ({props, state, local}) {
   return (
     <Modal onDismiss={closeModal}>
       <Form onSubmit={() => updateColor(selected)} onSuccess={closeModal}>
-        <ModalBody pb>
+        <ModalBody pb px={0}>
           <ModalHeader>
             Select a Color
           </ModalHeader>

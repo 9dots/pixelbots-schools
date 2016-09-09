@@ -66,7 +66,7 @@ function render ({props, state, local}) {
 
   return (
     <Modal onDismiss={closeModal}>
-      <ModalBody pb>
+      <ModalBody pb px={0}>
         <ModalHeader>
           Select an Avatar
         </ModalHeader>
