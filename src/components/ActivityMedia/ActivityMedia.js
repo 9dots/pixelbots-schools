@@ -88,7 +88,7 @@ const Video = {
     const imgSize = height / width >= .74 ? '74.6%' : '100%'
     const playable = editable ? preview : true
     return (
-      <Block tag='span' {...rest}>
+      <Block tag='span' {...rest} pointerEvents={isDragging ? 'none' : 'auto'}>
         <Block wide tall relative bg={`#000 url(${url}) no-repeat center`} bgSize={imgSize} printProps={{hide: true}}>
           <Loading show={state.play} dark={false} absolute top bottom left right/>
           <Block hidden={state.play} onClick={playable && local(playVideo)} pointer relative>
@@ -156,7 +156,7 @@ const Video = {
 }
 
 function Document ({props}) {
-  const {object, editable, preview, ...rest} = props
+  const {object, editable, preview, isDragging, ...rest} = props
   const {content, embed = {}} = object
   const {url} = embed
   const linkProps = {
@@ -169,7 +169,7 @@ function Document ({props}) {
   }
 
   return (
-    <Block {...rest}>
+    <Block {...rest} pointerEvents={isDragging ? 'none' : 'auto'}>
       <Block
         class='activity-document'
         innerHTML={content}

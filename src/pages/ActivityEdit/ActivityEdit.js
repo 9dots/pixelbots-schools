@@ -136,8 +136,9 @@ function render ({props, local, state}) {
                       remove={state.removeObject}
                       insert={state.insertObject}
                       onEdit={state.changeObject}
-                      speechEnabled={editedActivity.textToSpeech}
+                      isDragging={!!state.dragging}
                       editing={editing === object._id}
+                      speechEnabled={editedActivity.textToSpeech}
                       hidden={state.dragging === object._id}
                       isSelected={selectedObject === object._id}
                       pos={i}

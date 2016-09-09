@@ -100,7 +100,7 @@ function MediaInput ({props}) {
         lighter
         fs='s'
         mb={0}/>
-      <Button borderRadius='0' type='submit' busy={loading} >
+      <Button borderRadius='0' type='submit' busy={loading}>
         Submit
       </Button>
     </Form>
