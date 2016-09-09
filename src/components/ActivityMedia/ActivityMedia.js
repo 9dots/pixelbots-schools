@@ -209,7 +209,8 @@ function File ({props}) {
   const {originalContent, originalFilename} = object
 
   return (
-    <Block {...rest}>
+    <Block align='start center' {...rest}>
+      <Text color='grey_medium' mr>Download File: </Text>
       <Block>
         <a href={originalContent}>
           <Button>
@@ -218,7 +219,6 @@ function File ({props}) {
           </Button>
         </a>
       </Block>
-      <Text color='grey_medium'>Download File</Text>
     </Block>
   )
 }

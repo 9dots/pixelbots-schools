@@ -152,6 +152,7 @@ button {
   width: 100%;
   position: absolute;
   border: none;
+  background: #F9F9F9;
 }
 
 .markdown {
