@@ -12,6 +12,7 @@ import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
 import Form from 'vdux-form'
+import live from 'lib/live'
 import moment from 'moment'
 import 'lib/fonts'
 
@@ -102,8 +103,15 @@ function isReady (state) {
 
 export default summon(() => ({
   currentUser: '/user'
+}))(live(({currentUser}) => ({
+  currentUser: {
+    url: '/user',
+    params: {
+      id: currentUser.value && currentUser.value._id
+    }
+  }
 }))({
   onCreate,
   onUpdate,
   render
-})
+}))

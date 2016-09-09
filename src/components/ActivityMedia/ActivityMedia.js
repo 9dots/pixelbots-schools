@@ -87,6 +87,7 @@ const Video = {
     const {url, height, width} = image
     const imgSize = height / width >= .74 ? '74.6%' : '100%'
     const playable = editable ? preview : true
+
     return (
       <Block tag='span' {...rest} pointerEvents={isDragging ? 'none' : 'auto'}>
         <Block wide tall relative bg={`#000 url(${url}) no-repeat center`} bgSize={imgSize} printProps={{hide: true}}>
