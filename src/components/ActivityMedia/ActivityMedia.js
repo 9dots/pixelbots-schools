@@ -82,7 +82,7 @@ const Video = {
     [playVideo]: state => ({...state, play: true})
   }),
   render ({props, state, local}) {
-    const {object, editable, preview, ...rest} = props
+    const {object, editable, preview, isDragging, ...rest} = props
     const {content, image = {}, displayName, embed = {}} = object
     const {url, height, width} = image
     const imgSize = height / width >= .74 ? '74.6%' : '100%'

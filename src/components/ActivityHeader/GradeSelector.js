@@ -28,10 +28,9 @@ function render ({props, local, state}) {
   , [])
 
   const text = gradeList.length ? gradeList.join(', ') : 'Grade Selector'
-  const btnStyle = gradeList.length ? {'bold': true, color: 'blue'} : {}
 
   return (
-    <Dropdown onClick={e => e.stopPropagation()} wide btn={<DDBtn {...btnStyle} text={text}/>} onClose={local(setError, null)}>
+    <Dropdown onClick={e => e.stopPropagation()} wide btn={<DDBtn text={text}/>} onClose={local(setError, null)}>
       { map(grade => <Item tag={grade} selected={gradeList} toggle={toggleGrade} error={error === grade.displayName} max={max} />, grades) }
     </Dropdown>
   )
@@ -40,6 +39,7 @@ function render ({props, local, state}) {
     if (gradeList.indexOf(grade.displayName) === -1 && gradeList.length + 1 > max) {
       yield local(setError, grade.displayName)()
     } else {
+      yield local(setError, null)()
       yield toggle(grade)
     }
   }

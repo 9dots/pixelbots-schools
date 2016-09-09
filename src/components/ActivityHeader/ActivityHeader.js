@@ -60,7 +60,7 @@ const EditingHeader = {
             lighter
             autofocus
             onFocus={e => e.target.select()}
-            onInput={e => onEdit({displayName: e.target.value || 'Untitled Activity'})}
+            onInput={e => onEdit({displayName: e.target.value.trim() || 'Untitled Activity'})}
             defaultValue={displayName} />
         </Block>
         <Block align='start center' mt='s'>

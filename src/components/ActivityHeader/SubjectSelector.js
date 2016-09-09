@@ -68,6 +68,7 @@ function render ({props, local, state}) {
     if (sbjList.indexOf(subject.displayName) === -1 && sbjList.length + 1 > max) {
       yield local(setError, subject.displayName)()
     } else {
+      yield local(setError, null)()
       yield toggle(subject)
     }
   }

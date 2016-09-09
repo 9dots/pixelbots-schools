@@ -146,13 +146,15 @@ button {
 }
 
 .activity-video iframe,
-.activity-document iframe
-{
+.activity-document iframe {
   height: 100%;
   width: 100%;
   position: absolute;
   border: none;
-  background: #F9F9F9;
+}
+
+.activity-document iframe {
+  background-color: #F9F9F9;
 }
 
 .markdown {
