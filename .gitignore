@@ -37,7 +37,6 @@ node_modules
 assets
 serve.js
 .dockerignore
-DockerFile
 source-context.json
 source-contexts.json
 src/server/scripts
