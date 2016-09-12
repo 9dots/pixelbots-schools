@@ -105,7 +105,7 @@ export default summon(props => ({
           {
             chosen.map(({_id, displayName}) => (
               <Block align='space-between center' my>
-                <Block>
+                <Block ellipsis>
                   Assigned to <Link onClick={hideToast} href={`/class/${_id}`} color='blue'>{displayName}</Link>
                 </Block>
                 <Button onClick={[() => setUrl(`/class/${_id}`), hideToast]} bgColor='green'>Go to Class</Button>

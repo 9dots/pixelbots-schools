@@ -72,7 +72,7 @@ function render ({props}) {
     yield toast(
       <Toast key='a'>
         <Block align='space-between center'>
-          <Block>
+          <Block ellipsis>
             Pinned to <Link onClick={hideToast} href={url} color='blue'>{displayName}</Link>
           </Block>
           <Button onClick={[() => setUrl(url), hideToast]} bgColor='green'>Go to Board</Button>
