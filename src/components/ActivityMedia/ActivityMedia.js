@@ -130,6 +130,9 @@ const Video = {
             state.play &&
               <Block absolute={{top: 0}} tall wide innerHTML={content} class='activity-video' />
           }
+          {
+            state.play && console.log(object)
+          }
         </Block>
         <Block align='start center' hide printProps={{hide: false}}>
           <Block w={200} relative>
