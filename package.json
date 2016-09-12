@@ -8,7 +8,7 @@
     "postversion": "git push && git push --tags && npm publish --access=public",
     "dev": "unv dev",
     "build": "unv build --base //storage.googleapis.com/assets-weo-io/",
-    "sync": "gsutil rsync -x '.*\\.js$' -r assets gs://assets-weo-io; gsutil cp -Z assets/*.js gs://assets-weo-io;",
+    "sync": "gsutil rsync -x -m '.*\\.js$' -r assets gs://assets-weo-io; gsutil cp -Z assets/*.js gs://assets-weo-io;",
     "deploy": "gcloud preview app deploy --project www-weo-io --no-promote",
     "start": "unv serve"
   },
@@ -167,6 +167,6 @@
     }
   },
   "engines": {
-    "node": "~6.2.0"
+    "node": "~6.3.0"
   }
 }
