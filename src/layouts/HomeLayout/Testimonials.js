@@ -20,7 +20,7 @@ function render ({props, children}) {
 
   return (
     <Block maxWidth='1100' p='50px 12px' m='50px auto 0' relative>
-      <Block absolute top right left h='1' maxWidth='600' bg='gray' m='auto'/>
+      <Block absolute top right left h='1' maxWidth='600' bg='grey_light' m='auto'/>
       <Icon name='favorite' color='red' fs='66' absolute top='-33' right left m='0 auto' w='132' bg='white' textAlign='center'/>
       <Flex mt='50'>
         { map(testimonial, people) }
