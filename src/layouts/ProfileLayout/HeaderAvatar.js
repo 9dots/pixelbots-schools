@@ -9,7 +9,7 @@ import Avatar from 'components/Avatar'
 import * as colors from 'lib/colors'
 import {Block, Flex} from 'vdux-ui'
 import element from 'vdux/element'
-import Color from 'Color'
+import Color from 'color'
 
 /**
  * HeaderAvatar

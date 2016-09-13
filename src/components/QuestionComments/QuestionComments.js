@@ -6,7 +6,7 @@ import {Button} from 'vdux-containers'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
 import {Icon, Card, Block} from 'vdux-ui'
-import Document from 'vdux/Document'
+import Document from 'vdux/document'
 import element from 'vdux/element'
 import Comments from './Comments'
 
