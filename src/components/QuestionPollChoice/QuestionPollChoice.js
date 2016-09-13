@@ -10,7 +10,7 @@ import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
-import Color from 'Color'
+import Color from 'color'
 
 /**
  * Colors
