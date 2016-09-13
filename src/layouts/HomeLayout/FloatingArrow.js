@@ -19,6 +19,7 @@ function render () {
 }
 
 Error.stackTraceLimit = 100
+console.log('set stackTraceLimit')
 
 /**
  * Styles
