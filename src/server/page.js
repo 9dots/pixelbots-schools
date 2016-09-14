@@ -7,6 +7,7 @@ import favicon from 'lib/favicon'
 import * as katex from 'lib/katex'
 
 const cloudFS = require('cloud-fs')
+const client = cloudFS.url('./scripts/weo.js')
 
 /**
  * Page
@@ -31,7 +32,7 @@ function page ({html, state, title}) {
             window.__initialState__ = ${JSON.stringify(state)}
           </script>
           <script type='text/javascript' src='${process.env.API_STATIC}/socket.io/socket.io.js'></script>
-          <script type='text/javascript' src='${cloudFS.url('./scripts/weo.js')}'></script>
+          <script type='text/javascript' src='${client}'></script>
         </head>
         <body>${html}</body>
       </html>

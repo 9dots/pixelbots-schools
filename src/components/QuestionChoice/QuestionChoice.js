@@ -10,7 +10,7 @@ import {Block, Icon, Checkbox} from 'vdux-ui'
 import ChoiceOverview from './ChoiceOverview'
 import Avatar from 'components/Avatar'
 import element from 'vdux/element'
-import Color from 'Color'
+import Color from 'color'
 
 /**
  * Colors

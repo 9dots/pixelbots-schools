@@ -5,7 +5,7 @@ import ActivityQuestion from 'components/ActivityQuestion'
 import {questionIcon} from 'lib/activity-helpers'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {Block, Card, Flex, Icon} from 'vdux-ui'
-import Document from 'vdux/Document'
+import Document from 'vdux/document'
 import element from 'vdux/element'
 
 
