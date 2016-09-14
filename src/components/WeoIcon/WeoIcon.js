@@ -24,39 +24,37 @@ function render ({props}) {
  * Style
  */
 
-const weoIcon = 'weo-icon'
+css({
+  '@font-face': {
+    fontFamily: "'weo-icons'",
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    src: [
+      `url('${eot}')`,
+      `url('${eot}?#iefix') format('embedded-opentype')`,
+      `url('${woff}') format('woff')`,
+      `url('${ttf}') format('truetype')`,
+      `url('${svg}') format('svg')`,
+    ].join(',')
+  }
+}, {named: false})
 
-// css({
-//   '@font-face': {
-//     fontFamily: "'weo-icons'",
-//     fontWeight: 'normal',
-//     fontStyle: 'normal',
-//     src: [
-//       `url('${eot}')`,
-//       `url('${eot}?#iefix') format('embedded-opentype')`,
-//       `url('${woff}') format('woff')`,
-//       `url('${ttf}') format('truetype')`,
-//       `url('${svg}') format('svg')`,
-//     ].join(',')
-//   }
-// }, {named: false})
-
-// const {weoIcon} = css({
-//   weoIcon: {
-//     fontFamily: 'weo-icons',
-//     lineHeight: 1,
-//     letterSpacing: 'normal',
-//     textTransform: 'none',
-//     display: 'inline-block',
-//     whiteSpace: 'nowrap',
-//     wordWrap: 'normal',
-//     direction: 'ltr',
-//     verticalAlign: 'middle',
-//     fontFeatureSettings: "'liga'",
-//     '-webkit-font-feature-settings': "'liga'",
-//     '-webkit-font-smoothing': 'antialiased'
-//   }
-// })
+const {weoIcon} = css({
+  weoIcon: {
+    fontFamily: 'weo-icons',
+    lineHeight: 1,
+    letterSpacing: 'normal',
+    textTransform: 'none',
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    wordWrap: 'normal',
+    direction: 'ltr',
+    verticalAlign: 'middle',
+    fontFeatureSettings: "'liga'",
+    '-webkit-font-feature-settings': "'liga'",
+    '-webkit-font-smoothing': 'antialiased'
+  }
+})
 
 /**
  * Exports
