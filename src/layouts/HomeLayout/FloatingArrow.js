@@ -18,9 +18,6 @@ function render () {
     onClick={e => scrollTo('#info', {easing: 'easeOutCubic', duration: 500})} />
 }
 
-Error.stackTraceLimit = 100
-console.log('set stackTraceLimit')
-
 /**
  * Styles
  */
