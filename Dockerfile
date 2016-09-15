@@ -1,4 +1,6 @@
 FROM tutum/buildstep
-RUN export NODE_ENV=$SOURCE_BRANCH && cd app && .heroku/node/bin/node node_modules/.bin/unv build
+RUN cd app
+RUN export NODE_ENV=`git symbolic-ref --short -q HEAD`
+RUN .heroku/node/bin/node node_modules/.bin/unv build
 CMD ["./node_modules/.bin/unv", "serve"]
 
