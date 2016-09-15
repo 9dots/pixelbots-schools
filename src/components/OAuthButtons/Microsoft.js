@@ -7,7 +7,7 @@ import {IconButton} from 'vdux-ui'
 import element from 'vdux/element'
 
 const cloudFS = require('cloud-fs')
-const fbIcon = cloudFS.url('./fbIcon.png')
+const msIcon = cloudFS.url('./office365.png')
 
 /**
  * Facebook OAuth Button
@@ -15,7 +15,7 @@ const fbIcon = cloudFS.url('./fbIcon.png')
 
 function render ({props, children}) {
   return (
-    <Button ui={IconButton} fs='12px' img={fbIcon} iconSize='18px' pl='8px' bgColor='facebook_blue' {...props}>
+    <Button ui={IconButton} fs='12px' img={msIcon} iconSize='18px' pl='8px' bgColor='white' color='microsoft_red' {...props}>
       {children}
     </Button>
   )

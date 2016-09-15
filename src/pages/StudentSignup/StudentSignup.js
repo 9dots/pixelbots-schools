@@ -3,7 +3,7 @@
  */
 
 import {Flex, Block, DecoLine, Button} from 'vdux-containers'
-import {Google, Facebook} from 'components/OAuthButtons'
+import {Google, Facebook, Microsoft} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
 import {track} from 'middleware/analytics'
 import {postLogin} from 'reducer/auth'
@@ -42,6 +42,7 @@ function render ({props}) {
           <Google w='calc(50% - 6px)' onClick={() => oauthCreate('google', {userType: 'student'})}>Sign in With Google</Google>
           <Facebook w='calc(50% - 6px)' onClick={() => oauthCreate('facebook', {userType: 'student'})}>Sign in With Facebook</Facebook>
         </Flex>
+        <Microsoft w='100%' mt>Sign in With Office365</Microsoft>
       </Block>
     </Form>
   )
