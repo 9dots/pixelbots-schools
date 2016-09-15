@@ -144,7 +144,7 @@
   },
   "environment": {
     "base": {
-      "IMAGE_RESIZE": "http://images.weo.io",
+      "IMAGE_RESIZE": "//images.global.ssl.fastly.net",
       "GOOGLE_CLIENT_ID": "696300823052-2696vo4mtj8off6d577sn1vjjrr14o6t.apps.googleusercontent.com",
       "CLEVER_CLIENT_ID": "9e85d73ee95c90414fbd",
       "ASSETS_DIR": "/assets/"
