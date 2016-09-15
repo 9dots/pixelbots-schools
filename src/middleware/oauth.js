@@ -59,6 +59,13 @@ const providers = {
     clientId: process.env.CLEVER_CLIENT_ID,
     redirectUri: origin + '/clever/',
     scope: ['read:students', 'read:teachers', 'read:user_id']
+  },
+  office365: {
+    baseUrl: 'https://login.microsoftonline.com/common/oauth2/authorize',
+    clientId: process.env.OFFICE365_CLIENT_ID,
+    params: {
+      msafed: 0
+    }
   }
 }
 

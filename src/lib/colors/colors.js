@@ -35,6 +35,7 @@ const black = '#343434'
 
 const google_red = '#dd4b39'
 const facebook_blue = '#3B5998'
+const microsoft_red = '#ED4700'
 const khan_green = '#96AE3A'
 
 const placeholder_color = '#AEAEBB'
@@ -83,6 +84,7 @@ export {
   link_color,
   google_red,
   facebook_blue,
+  microsoft_red,
   divider,
 
   blue as primary,

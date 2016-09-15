@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Facebook, Google} from 'components/OAuthButtons'
+import {Facebook, Google, Microsoft} from 'components/OAuthButtons'
 import {postLogin, oauthLogin} from 'reducer/auth'
 import BlockInput from 'components/BlockInput'
 import {DecoLine, Flex, Block} from 'vdux-ui'
@@ -35,6 +35,7 @@ function render ({props}) {
         <Google w='calc(50% - 6px)' onClick={() => oauthLogin('google')}>Sign in With Google</Google>
         <Facebook w='calc(50% - 6px)' onClick={() => oauthLogin('facebook')}>Sign in With Facebook</Facebook>
       </Flex>
+      <Microsoft w='100%' mt onClick={() => oauthLogin('office365')}>Sign in With Office365</Microsoft>
       <Text tag='a' href='/forgot' hoverProps={{textDecoration: 'underline'}} pointer>
         <Block color='grey_light' mx='auto' mt='m' textAlign='center'>
           Forgot your password?

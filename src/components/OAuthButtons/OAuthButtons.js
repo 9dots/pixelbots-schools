@@ -4,6 +4,7 @@
 
 import Google from './Google'
 import Facebook from './Facebook'
+import Microsoft from './Microsoft'
 
 /**
  * Exports
@@ -11,5 +12,6 @@ import Facebook from './Facebook'
 
 export {
   Google,
-  Facebook
+  Facebook,
+  Microsoft
 }
