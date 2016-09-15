@@ -65,6 +65,7 @@
     "@weo-edu/schema": "github:weo-edu/schema",
     "@weo-edu/subjects": "^0.1.9",
     "@weo-edu/validate": "github:weo-edu/validate",
+    "babel-plugin-jss-simple": "^0.2.3",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-plugin-transform-regenerator": "^6.9.0",
     "babel-plugin-transform-runtime": "^6.12.0",
@@ -75,8 +76,9 @@
     "babelify": "^7.3.0",
     "br-cloud-fs": "^0.1.1",
     "browserify": "^13.0.1",
+    "browserify-hmr": "github:ashaffer/browserify-hmr",
     "browserify-mime": "^1.2.9",
-    "cloud-fs": "^0.1.6",
+    "cloud-fs": "^0.1.7",
     "color": "^0.11.1",
     "cookie": "^0.2.4",
     "cropperjs": "^0.7.1",
@@ -122,13 +124,11 @@
     "vdux-form": "^1.0.11",
     "vdux-position": "^1.0.5",
     "vdux-summon": "^0.1.25",
+    "vdux-transform-hmr": "^1.0.4",
     "vdux-ui": "^1.2.5",
     "virtex-dom": "^0.3.12",
     "virtex-element": "^0.3.6",
-    "weo-redux-logger": "^2.6.1",
-    "babel-plugin-jss-simple": "^0.2.3",
-    "browserify-hmr": "github:ashaffer/browserify-hmr",
-    "vdux-transform-hmr": "^1.0.4"
+    "weo-redux-logger": "^2.6.1"
   },
   "devDependencies": {
     "ava": "^0.10.0",
@@ -146,7 +146,8 @@
     "base": {
       "IMAGE_RESIZE": "http://images.weo.io",
       "GOOGLE_CLIENT_ID": "696300823052-2696vo4mtj8off6d577sn1vjjrr14o6t.apps.googleusercontent.com",
-      "CLEVER_CLIENT_ID": "9e85d73ee95c90414fbd"
+      "CLEVER_CLIENT_ID": "9e85d73ee95c90414fbd",
+      "ASSETS_DIR": "/assets/"
     },
     "staging": {
       "API_SERVER": "https://staging-api.weo.io/",
