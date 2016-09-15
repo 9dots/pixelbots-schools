@@ -42,7 +42,7 @@ function render ({props}) {
           <Google w='calc(50% - 6px)' onClick={() => oauthCreate('google', {userType: 'student'})}>Sign in With Google</Google>
           <Facebook w='calc(50% - 6px)' onClick={() => oauthCreate('facebook', {userType: 'student'})}>Sign in With Facebook</Facebook>
         </Flex>
-        <Microsoft w='100%' mt>Sign in With Office365</Microsoft>
+        <Microsoft w='100%' mt onClick={() => oauthCreate('office65', {userType: 'student'})}>Sign in With Office365</Microsoft>
       </Block>
     </Form>
   )
