@@ -32,10 +32,10 @@ function render ({props}) {
         </Flex>
       </Form>
       <Flex align='space-between center' pt={10}>
-        <Google w='calc(50% - 6px)' onClick={() => oauthLogin('google')}>Sign in With Google</Google>
-        <Facebook w='calc(50% - 6px)' onClick={() => oauthLogin('facebook')}>Sign in With Facebook</Facebook>
+        <Google w='calc(50% - 6px)' onClick={() => oauth('google')}>Sign in With Google</Google>
+        <Facebook w='calc(50% - 6px)' onClick={() => oauth('facebook')}>Sign in With Facebook</Facebook>
       </Flex>
-      <Microsoft w='100%' mt onClick={() => oauthLogin('office365')}>Sign in With Office365</Microsoft>
+      <Microsoft w='100%' mt onClick={() => oauth('office365')}>Sign in With Office365</Microsoft>
       <Text tag='a' href='/forgot' hoverProps={{textDecoration: 'underline'}} pointer>
         <Block color='grey_light' mx='auto' mt='m' textAlign='center'>
           Forgot your password?
@@ -43,6 +43,16 @@ function render ({props}) {
       </Text>
     </Block>
   )
+
+  function * oauth (provider) {
+    try {
+      yield oauthLogin(provider)
+    } catch (e) {
+      const ctrl = document.querySelector('input[name=username]')
+      ctrl.setCustomValidity('User not found')
+      ctrl.checkValidity()
+    }
+  }
 }
 
 /**
