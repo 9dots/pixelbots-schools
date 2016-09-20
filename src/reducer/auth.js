@@ -37,9 +37,9 @@ function * postLogin (token) {
   yield setUrl('/')
 }
 
-function * oauthLogin (provider, params, cb) {
+function * oauthLogin (provider, params = {}, cb) {
   const data = yield beginOAuthFlow(provider)
-  const {value} = yield user.oauthLogin(provider, data)
+  const {value} = yield user.oauthLogin(provider, {...data, ...params})
   yield postLogin(value.token)
 }
 
@@ -47,9 +47,9 @@ function * logoutUser () {
   yield postLogin(null)
 }
 
-function *oauthCreate (provider, params) {
+function *oauthCreate (provider, params = {}) {
   const data = yield beginOAuthFlow(provider)
-  const {value} = yield user.oauthCreate(provider, data)
+  const {value} = yield user.oauthCreate(provider, {...data, ...params})
   yield postLogin(value.token)
 }
 
