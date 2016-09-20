@@ -13,7 +13,9 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {currentUser, ...rest} = props
-  const total = currentUser.notifications.canonicalTotal.items - currentUser.readNotifications
+  const {notifications = {}} = currentUser
+  const {canonicalTotal = {}} = notifications
+  const total = (canonicalTotal.items || 0) - (currentUser.readNotifications || 0)
   const cSize = '15px'
 
   return (

@@ -21,6 +21,7 @@ import ForgotPassword from 'pages/ForgotPassword'
 import TeacherSignup from 'pages/TeacherSignup'
 import StudentSignup from 'pages/StudentSignup'
 import ResetPassword from 'pages/ResetPassword'
+import Clever from 'pages/Clever'
 
 import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
@@ -79,6 +80,11 @@ const router = enroute({
       : <HomeLayout action='login'>
           <Home {...props} />
         </HomeLayout>),
+
+  '/clever(\\?.*)': track('Clever', (params, props) =>
+    <HomeLayout action='signup'>
+      <Clever {...props} />
+    </HomeLayout>),
   '/login': track('Login', (params, props) =>
     <HomeLayout action='signup'>
       <Login {...props} />
