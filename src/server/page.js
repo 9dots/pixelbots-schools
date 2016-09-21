@@ -8,6 +8,7 @@ import * as katex from 'lib/katex'
 
 const cloudFS = require('cloud-fs')
 const client = cloudFS.url('./scripts/weo.js')
+const apiStatic = process.env.API_STATIC
 
 /**
  * Page
@@ -31,7 +32,7 @@ function page ({html, state, title}) {
           <script type='text/javascript'>
             window.__initialState__ = ${JSON.stringify(state)}
           </script>
-          <script type='text/javascript' src='${process.env.API_STATIC}/socket.io/socket.io.js'></script>
+          <script type='text/javascript' src='${apiStatic + '/socket.io/socket.io.js'}'></script>
           <script type='text/javascript' src='${client}'></script>
         </head>
         <body>${html}</body>
