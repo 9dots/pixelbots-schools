@@ -152,8 +152,8 @@
     "staging": {
       "PORT": 3000,
       "API_SERVER": "//staging-api.weo.io",
-      "API_STATIC": "//staging-api.global.ssl.fastly.net",
-      "STATIC_FILES": "//staging-weo.global.ssl.fastly.net",
+      "API_STATIC": "//staging-api.global.ssl.fastly.net/",
+      "CLOUD_FS_URL": "//staging-weo.global.ssl.fastly.net/assets/",
       "AVATAR_SERVER": "//staging-avatars.global.ssl.fastly.net",
       "CLEVER_CLIENT_ID": "9e85d73ee95c90414fbd",
       "FACEBOOK_APP_ID": "1696938930540934",
@@ -164,7 +164,6 @@
       "PAPERTRAIL_HOST": "logs2.papertrailapp.com",
       "PAPERTRAIL_PORT": 15920,
       "SEGMENT_IO_KEY": "e6e7s7djli",
-      "STATIC_FILES": "//staging.weo.io",
       "IMAGE_SERVER": "//images.global.ssl.fastly.net",
       "WEO_SOURCEMAPS": true,
       "WEO_ENGAGE": "Get early access",
