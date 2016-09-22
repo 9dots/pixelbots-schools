@@ -11,6 +11,12 @@ import summon from 'vdux-summon'
 import {Icon} from 'vdux-ui'
 
 /**
+ * Constants
+*/
+
+const introId = process.env.SHARE_INTRO_ID
+
+/**
  * <EmptyClassFeed/>
  */
 
@@ -48,8 +54,6 @@ function render({props}) {
 /**
  * Exports
  */
-
-const introId = process.env.SHARE_INTRO_ID
 
 export default summon(props => ({
   copyTemplate: () => ({

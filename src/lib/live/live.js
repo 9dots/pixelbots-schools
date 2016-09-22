@@ -75,14 +75,14 @@ function live (fn) {
     },
 
     reducer: handleActions({
-      [changeValue]: (state, {key, value}) => ({
+      [changeValue]: (state, {key, value}) => state && ({
         ...state,
         [key]: value
       }),
-      [update]: (state, {key, msg}) => state[key] ? ({
+      [update]: (state, {key, msg}) => state && (state[key] ? ({
         ...state,
         [key]: applyUpdate(state[key], msg)
-      }) : state
+      }) : state)
     }),
 
     * onRemove ({props, path}) {

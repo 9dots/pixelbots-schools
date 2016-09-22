@@ -167,7 +167,8 @@
       "IMAGE_SERVER": "//images.global.ssl.fastly.net",
       "WEO_SOURCEMAPS": true,
       "WEO_ENGAGE": "Get early access",
-      "OFFICE365_CLIENT_ID": "f2a70124-f015-4cd1-b80b-7e80cb022d16"
+      "OFFICE365_CLIENT_ID": "f2a70124-f015-4cd1-b80b-7e80cb022d16",
+      "SHARE_INTRO_ID": "56d61b4b1e6fae0a00f063f9"
     },
     "development": {
       "API_SERVER": "http://localhost:1337/",
