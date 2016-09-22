@@ -36,7 +36,7 @@ function render ({props}) {
           Free for teachers. Forever.
         </Block>
       </Flex>
-      <Form onSubmit={createTeacher} onSuccess={user => [postLogin(user.token), track({name: 'Created Teacher', traits: user})]} validate={validate.teacher} cast={cast}>
+      <Form onSubmit={createTeacher} onSuccess={user => [postLogin(user.token), track({name: 'Created Teacher', traits: user})]} validate={validateTeacher} cast={cast}>
         <Block w='col_s' color='white'>
           <input type='hidden' name='userType' value='teacher' />
           <BlockInput autofocus name='name' placeholder='FULL NAME' />
@@ -57,6 +57,19 @@ function render ({props}) {
       </Form>
     </Flex>
   )
+}
+
+function validateTeacher (model) {
+  const result = validate.teacher(model)
+
+  if (result.errors && result.errors.length) {
+    result.errors = result.errors.map(res => res.field === 'name.familyName'
+        ? {field: 'name', code: 'format', message: 'Please enter your first and last name'}
+        : res
+    )
+  }
+
+  return result
 }
 
 /**
