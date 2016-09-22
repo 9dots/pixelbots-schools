@@ -9,6 +9,17 @@
     },
     "development": {
       "presets": ["es2015", "stage-2"],
+      "plugins": [
+        ["vdux-transform", {
+          "hoc": ["summon", "summonPrefs", "summonChannels", "form"],
+          "transforms": [
+            {
+              "transform": "vdux-transform-hmr"
+            }
+          ]
+        }],
+        "jss-simple"
+      ]
     },
     "development-minimal": {
       "plugins": [
@@ -20,15 +31,6 @@
     }
   },
   "plugins": [
-    ["transform-react-jsx", {"pragma": "element"}],
-    ["vdux-transform", {
-      "hoc": ["summon", "summonPrefs", "summonChannels", "form"],
-      "transforms": [
-        {
-          "transform": "vdux-transform-hmr"
-        }
-      ]
-    }],
-    "jss-simple"
+    ["transform-react-jsx", {"pragma": "element"}]
   ]
 }
