@@ -28,7 +28,7 @@ function initialState () {
  */
 
 function render ({props, state, local}) {
-  const {cur, finishedIntroModal, saveGrades, saveSubjects} = props
+  const {cur, finishedIntroModal, saveGrades, saveSubjects, savingSubjects, savingPreference} = props
   const {isDone, grades, subjects} = state
   const ttProps = {
     placement: 'bottom',
@@ -73,7 +73,7 @@ function render ({props, state, local}) {
         </ModalHeader>
         <SubjectSelector toggle={local(toggleSubject)} selected={subjects} />
         <Tooltip message={!subjects.length && 'Please select one or more subjects'} {...ttProps}>
-          <Button {...btnProps} onClick={() => submit(grades, subjects)} disabled={!subjects.length}>
+          <Button {...btnProps} onClick={() => submit(grades, subjects)} disabled={!subjects.length} busy={(savingSubjects || savingPreference || {}).loading}>
             <Flex align='center center' fw='lighter'>
               <Icon name='check' mr/>
               Let's Get Started
