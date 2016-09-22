@@ -69,9 +69,11 @@ function render ({props, local, state}) {
             <AssignButton
               activity={activity}
               hide={!isPublic}
+              onAssign={() => exit()}
               text='Assign'
               user={user}/>
             <PinButton
+              onPin={() => exit()}
               activity={activity}
               user={user}
               hide={user.userType === 'student'}
@@ -91,13 +93,13 @@ function render ({props, local, state}) {
           </Block>
           <Block align='end center' hide={activity.published || (intent && intent !== 'new')}>
             <Block color='red' align='start center' mr>DRAFT</Block>
-            <EditDropdown onAction={onAction} back={back} activity={activity} />
+            <EditDropdown onAction={() => exit()} back={back} activity={activity} />
           </Block>
           {
             intent === 'pin'
-              ? <PinButton activity={activity} user={user} text='Pin' />
+              ? <PinButton activity={activity} user={user} text='Pin' onPin={exit} />
               : intent === 'assign'
-                ? <AssignButton activity={activity} text='Assign' user={user} />
+                ? <AssignButton activity={activity} text='Assign' user={user} onAssign={() => exit()} />
                 : <Block align='end center' hide={!activity.published}>
                     <Button mr='s' text='Done' onClick={back} bgColor='grey' />
                     <DeleteButton onDelete={exit} activity={activity} bgColor='red'/>
@@ -108,21 +110,6 @@ function render ({props, local, state}) {
       <Block pt={53} hidden mb />
     </Block>
   )
-
-  function onAction (action, arg) {
-    if (intent === 'new') {
-      switch (action) {
-        case 'delete':
-          return exit()
-        case 'assign':
-          return setUrl(`/class/${arg[0]}`)
-        case 'pin':
-          return setUrl(`/activities/${arg}`)
-      }
-    } else if (action === 'delete') {
-      return exit()
-    }
-  }
 }
 
 

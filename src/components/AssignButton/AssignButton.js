@@ -16,7 +16,7 @@ function render ({props}) {
   const {text, user, activity, onClick = [], onAssign, ...rest} = props
   const action = () => openModal(() =>
     user
-      ? <AssignModal onClose={onAssign} activity={activity} />
+      ? <AssignModal onAssign={onAssign} activity={activity} />
       : <SignUpModal />)
   return (
     <OutlineButton
