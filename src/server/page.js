@@ -32,7 +32,7 @@ function page ({html, state, title}) {
           <script type='text/javascript'>
             window.__initialState__ = ${JSON.stringify(state)}
           </script>
-          <script type='text/javascript' src='${apiStatic + '/socket.io/socket.io.js'}'></script>
+          <script type='text/javascript' src='${apiStatic + 'socket.io/socket.io.js'}'></script>
           <script type='text/javascript' src='${client}'></script>
         </head>
         <body>${html}</body>
