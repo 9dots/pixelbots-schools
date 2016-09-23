@@ -20,7 +20,7 @@ function render ({props}) {
   const isOwner = currentUser._id === board.owners[0].id
   return (
     <Block w='col_main' mt mx='auto' pb='xl'>
-      <TileFeed activities={activities} activityProps={{showFork: true}} currentUser={currentUser} more={more} emptyState={<EmptyBoardActivities currentUser={currentUser} isOwner={isOwner} />}>
+      <TileFeed activities={activities} activityProps={{showFork: true}} currentUser={currentUser} more={more} emptyState={<EmptyBoardActivities currentUser={currentUser} isOwner={isOwner} />} skip={250}>
         {
           isOwner &&
           <Flex bgColor='rgba(0,0,0,0.025)' mx={6} my={8} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
