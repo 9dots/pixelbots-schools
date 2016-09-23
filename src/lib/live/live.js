@@ -40,7 +40,7 @@ function live (fn) {
     render ({props, state, children}) {
       const newProps = map(
         (val, key) => has(key, state)
-          ? {...val, value: state[key]}
+          ? {...val, value: val.value ? state[key] : val.value}
           : val,
           props
       )
