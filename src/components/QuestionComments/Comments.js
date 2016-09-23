@@ -18,7 +18,8 @@ import map from '@f/map'
 function render ({props, local, state}) {
   const {
     comments, currentUser, question, actor,
-    makeAnnot, deleteAnnot, editAnnot
+    makeAnnot, deleteAnnot, editAnnot,
+    makingAnnot = {}, editingAnnot = {}
   } = props
   const showNew = !comments.length || state.showNew
   const isStudent = currentUser.userType === 'student'
@@ -31,6 +32,7 @@ function render ({props, local, state}) {
       <Block onClick={local(toggleDD, null)}>
         {
           map(comment => <CommentCard
+            submitting={makingAnnot.loading || editingAnnot.loading}
             toggleDD={local(toggleDD, comment._id)}
             showDD={state.dropdownId === comment._id}
             actor={comment.actor}
@@ -41,6 +43,7 @@ function render ({props, local, state}) {
         }
         <CommentCard
           dismiss={comments.length && local(toggleNew)}
+          submitting={makingAnnot.loading || editingAnnot.loading}
           actor={currentUser}
           annotate={annotate}
           hide={!showNew}/>

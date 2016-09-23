@@ -103,8 +103,15 @@ function isReady (state) {
 
 export default summon(() => ({
   currentUser: '/user'
+}))(live(({currentUser}) => ({
+  currentUser: {
+    url: '/user',
+    params: {
+      id: currentUser.value && currentUser.value._id
+    }
+  }
 }))(({
   onCreate,
   onUpdate,
   render
-}))
+})))

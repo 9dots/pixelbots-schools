@@ -33,7 +33,7 @@ function render ({props, state, local}) {
 }
 
 function EditCard ({props}) {
-  const {actor, comment, toggleEdit, annotate, dismiss, ...rest} = props
+  const {actor, comment, toggleEdit, annotate, dismiss, submitting, ...rest} = props
   const message = comment && comment._object[0].originalContent
 
   return (
@@ -59,7 +59,7 @@ function EditCard ({props}) {
           rows={3}
           p='s'
           mb />
-          <Button mr='s' px type='submit' text='Save' />
+          <Button busy={submitting} mr='s' px type='submit' text='Save' />
           <Button bgColor='grey_medium' hide={!dismiss} px onClick={dismiss} text='Cancel' />
       </Form>
     </Card>

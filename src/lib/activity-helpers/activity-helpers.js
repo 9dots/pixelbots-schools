@@ -91,7 +91,7 @@ function activitySort (sort) {
   }
 }
 
-function getOverviewQuestions(attachments, instances) {
+function getOverviewQuestions (attachments, instances) {
   const questions = []
   const attList = [].concat(attachments)
   attList.forEach((attachment, i) => {
@@ -130,11 +130,11 @@ function combineInstancesAndStudents (activity, students, instances) {
   return students.map(student => {
     const actor = actors[student._id]
     const pointsScaled = actor ? actor.pointsScaled : 0
-    const instance = studentToInstance[student._id]
+    const instance = studentToInstance[student._id] || {}
 
     return {
       total: totalPts,
-      displayName: instance.actor.displayName,
+      displayName: instance.actor && instance.actor.displayName,
       instanceId: instance._id,
       familyName: student.name.familyName,
       givenName: student.name.givenName,
