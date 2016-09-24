@@ -48,6 +48,7 @@ function initialState ({props, local, path}) {
   let cancelSave = () => {}
 
   return {
+    synced: true,
     numSaves: 0,
     editedActivity: activity,
     editing: 'header',
@@ -77,9 +78,17 @@ function initialState ({props, local, path}) {
       // XXX Hack until we find a good solution to avoid
       // creating new event handlers whenever anything changes
       const state = lookup(getState().ui, path)
+
+      if (!state.synced) {
+        dispatch(state.debouncedSave())
+        return
+      }
+
       if (!state || !state.dirty) return
 
       dispatch(local(clearDirty)())
+      dispatch(local(beginSave)())
+
       return dispatch(props.save(state.editedActivity))
     },
     debouncedSave: () => (dispatch, getState) => {
@@ -236,6 +245,7 @@ function onRemove ({props, state}) {
 
 const open = createAction('<ActivityEditor/>: open')
 const change = createAction('<ActivityEditor/>: change')
+const beginSave = createAction('<ActivityEditor/>: begin save')
 const changeObject = createAction('<ActivityEditor/>: change object')
 const removeObject = createAction('<ActivityEditor/>: remove object')
 const insertObject = createAction('<ActivityEditor/>: insert object')
@@ -257,12 +267,17 @@ const reducer = handleActions({
       ? null
       : id
   }),
+  [beginSave]: state => ({
+    ...state,
+    synced: false
+  }),
   [clearDirty]: state => ({
     ...state,
     dirty: false
   }),
   [mergeSaved]: (state, activity) => ({
     ...state,
+    synced: true,
     numSaves: state.numSaves + 1,
     editedActivity: {
       ...state.editedActivity,
