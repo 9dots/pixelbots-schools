@@ -12,7 +12,9 @@ import map from '@f/map'
  */
 
 function render ({props}) {
-  const {question: {responses}} = props
+  const {question = {}} = props
+  const {responses = []} = question
+
   return (
     <Block wide>
       { map(responder => <Response responder={responder} />, responses) }
@@ -21,12 +23,13 @@ function render ({props}) {
 }
 
 const Response = wrap(CSSContainer, {
-  focusProps: { focus: true},
-  hoverProps: { hover: true}
+  focusProps: {focus: true},
+  hoverProps: {hover: true}
 })({
   render ({props}) {
   const {responder, focus, hover} = props
   const {actor, response} = responder
+
     return (
       <Block
         highlight={focus || hover ? 0.03 : 0}
