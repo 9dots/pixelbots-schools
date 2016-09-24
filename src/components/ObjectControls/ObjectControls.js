@@ -41,9 +41,18 @@ function render ({props, children}) {
 
   function * duplicate () {
     const _id = yield generateObjectId()
-    const newObj =  {
+    const newObj = {
       ...object,
       _id
+    }
+
+    delete newObj.id
+    if (newObj.attachments) {
+      newObj.attachments = newObj.attachments.map(att => {
+        const newAtt = {...att}
+        delete newAtt.id
+        return newAtt
+      })
     }
 
     yield insert({object: newObj, idx: pos + 1})

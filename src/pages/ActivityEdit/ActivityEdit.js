@@ -79,12 +79,11 @@ function initialState ({props, local, path}) {
       // creating new event handlers whenever anything changes
       const state = lookup(getState().ui, path)
 
+      if (!state || !state.dirty) return
       if (!state.synced) {
         dispatch(state.debouncedSave())
         return
       }
-
-      if (!state || !state.dirty) return
 
       dispatch(local(clearDirty)())
       dispatch(local(beginSave)())
