@@ -21,14 +21,14 @@ const introId = process.env.SHARE_INTRO_ID
  */
 
 function render({props}) {
-  const {currentUser, copyTemplate} = props
+  const {currentUser, copyTemplate, copyingTemplate = {}} = props
   return(
     <Block p textAlign='center'>
       <Icon name='assignment' fs='xxl' color='green'/>
       <Block my fs='m' lighter>
         This is your class Activity Feed
       </Block>
-      <Button fs='s' lighter py my boxShadow='z2' relative>
+      <Button busy={copyingTemplate.loading} fs='s' lighter py my boxShadow='z2' relative>
         <Block align='center center' onClick={() => createIntro()}>
           Assign an Intro Activity
           <Tooltip message='Assign a tutorial Activity to teach your students the basics of Weo.' align='center center' tooltipProps={{whiteSpace: 'normal', w: '200'}}>
