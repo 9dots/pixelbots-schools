@@ -71,10 +71,6 @@ const ConfirmTurnIn = summon(({activity}) => ({
   onAccept: () => ({
     accepting: {
       url: `/instance/${activity._id}/turned_in`,
-      invalidates: [
-        `/share/${activity._root[0].id}/`,
-        `/share/${activity._root[0].id}/instance/${activity.actor.id}`
-      ],
       method: 'PUT'
     }
   })
@@ -102,6 +98,7 @@ export default summon(({activity}) => ({
   setStatus: status => ({
     settingStatus: {
       url: `/instance/${activity._id}/${status}`,
+      invalidates: false,
       method: 'PUT'
     }
   })
