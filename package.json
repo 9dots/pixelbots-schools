@@ -168,7 +168,28 @@
       "WEO_SOURCEMAPS": true,
       "WEO_ENGAGE": "Get early access",
       "OFFICE365_CLIENT_ID": "f2a70124-f015-4cd1-b80b-7e80cb022d16",
-      "SHARE_INTRO_ID": "56d61b4b1e6fae0a00f063f9"
+      "SHARE_INTRO_ID": "56d61b4b1e6fae0a00f063f9",
+      "TEMPLATE_BOARD_ID": "56149fd19c9d5d0c0024ad3c"
+    },
+    "production": {
+      "PORT": 3000,
+      "API_SERVER": "//api.weo.io",
+      "API_STATIC": "//weo-api.global.ssl.fastly.net",
+      "CLOUD_FS_URL": "//weo.global.ssl.fastly.net/assets/",
+      "AVATAR_SERVER": "//avatars.global.ssl.fastly.net",
+      "SHARE_INTRO_ID": "56d61b4b1e6fae0a00f063f9",
+      "CLEVER_CLIENT_ID": "504ffa19024513570be4",
+      "FACEBOOK_APP_ID": "1662916197276541",
+      "CRAWLABLE": true,
+      "GOOGLE_CLIENT_ID": "696300823052-gluo2j11ec7jfocj7opqt8qpmosbducq.apps.googleusercontent.com",
+      "NODE_ENV": "production",
+      "SEGMENT_IO_KEY": "0mhgcgv6ao",
+      "IMAGE_SERVER": "//images.global.ssl.fastly.net",
+      "WEO_TITLE": "Weo | Empower Your Classroom",
+      "WEO_TAGLINE": "Empower Your Classroom",
+      "WEO_DESCRIPTION": "Weo is a place to create and discover activities for your classroom that can be assigned to your students with a simple click.",
+      "OFFICE365_CLIENT_ID": "570e8309-8141-4588-b74d-ca708fd29ac3",
+      "TEMPLATE_BOARD_ID": "56149fd19c9d5d0c0024ad3c"
     },
     "development": {
       "API_SERVER": "http://localhost:1337/",
