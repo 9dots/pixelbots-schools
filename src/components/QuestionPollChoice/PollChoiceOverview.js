@@ -15,7 +15,7 @@ function render ({props}) {
   const names = responses
     .filter(r => r.response.indexOf(object._id) !== -1)
     .map(r => r.actor.displayName)
-  const percent = Math.round(names.length / ((numAnswered || 1) * 100)) + '%'
+  const percent = Math.round((names.length / (numAnswered || 1)) * 100) + '%'
 
   const offset = 30
   const Tt = hidePollNames ? Block : Tooltip
