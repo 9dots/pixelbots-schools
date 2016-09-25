@@ -186,7 +186,7 @@ export default summon(({userId, activityId}) => ({
   setStatus: (id, status) => ({
     settingStatus: {
       url: `/instance/${id}/${status}`,
-      invalidates: [`/share/${activityId}`, 'instances'],
+      invalidates: false,
       method: 'PUT'
     }
   }),
@@ -196,8 +196,7 @@ export default summon(({userId, activityId}) => ({
   instances: {
     url: activity.value
       ? `/share?channel=share!${activity.value._id}.instances`
-      : null,
-    subscribe: 'instances'
+      : null
   },
   getInstance: userId => ({
     gettingInstance: {

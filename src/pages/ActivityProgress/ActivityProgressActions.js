@@ -8,7 +8,6 @@ import ActivityLinkModal from 'modals/ActivityLinkModal'
 import {Block, Flex, Icon} from 'vdux-ui'
 import RedoModal from 'modals/RedoModal'
 import {openModal} from 'reducer/modal'
-import {invalidate} from 'vdux-summon'
 import element from 'vdux/element'
 
 
