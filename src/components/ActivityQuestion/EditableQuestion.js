@@ -181,7 +181,9 @@ function focusPrevious (node) {
   const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
   if (inputs.length) {
     const idx = inputs.indexOf(node)
-    setTimeout(() => inputs[idx - 1].focus())
+    const focusIdx = idx === 0 ? 1 : idx - 1
+
+    setTimeout(() => inputs[focusIdx] && inputs[focusIdx].focus(), 50)
   }
 }
 
@@ -192,7 +194,7 @@ function focusLast (node) {
   setTimeout(() => {
     const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
     if (inputs.length) {
-      inputs[inputs.length -1].focus()
+      inputs[inputs.length - 1].focus()
     }
   }, 30)
 }
