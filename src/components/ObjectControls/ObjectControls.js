@@ -31,7 +31,7 @@ function render ({props, children}) {
           </Btn>
         </Tooltip>
         <Tooltip message='Done'>
-          <Btn onClick={() => open(null)} h={32} busy={saving}>
+          <Btn onClick={() => open(null)} h={32} busy={saving} darkSpinner>
             <Icon fs='s' name='check_circle' color='text' />
           </Btn>
         </Tooltip>
