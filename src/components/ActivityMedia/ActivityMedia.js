@@ -102,6 +102,7 @@ const Video = {
               height={height}
               hidden={true}
               width={width}
+              thumbFirst
               url={url}
               mx='auto' />
             <Icon
@@ -204,7 +205,7 @@ function Image ({props}) {
 
   return (
     <Block textAlign={justify} {...rest}>
-      <Figure {...image} w={image.width * (zoom || 1)} display='inline-block' />
+      <Figure {...image} w={image.width * (zoom || 1)} display='inline-block' thumbFirst />
     </Block>
   )
 }
