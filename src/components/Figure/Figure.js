@@ -14,7 +14,9 @@ import {Block} from 'vdux-ui'
  */
 
 function onCreate ({props, local}) {
-  return loadImages(props, local(imageLoaded))
+  if (props.url) {
+    return loadImages(props, local(imageLoaded))
+  }
 }
 
 /**
