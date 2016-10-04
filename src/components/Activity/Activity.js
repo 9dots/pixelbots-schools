@@ -2,11 +2,11 @@
  * Imports
  */
 
+import {statusMap, totalScore, totalPoints} from 'lib/activity-helpers'
 import {getOverviewQuestions} from 'lib/activity-helpers'
 import CommoncoreBadge from 'components/CommoncoreBadge'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
-import {statusMap, totalScore, totalPoints} from 'lib/activity-helpers'
 import {setUrl} from 'redux-effects-location'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'

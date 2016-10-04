@@ -52,7 +52,7 @@ function render ({props, state}) {
 function onUpdate (prev, next) {
   if (getUrl(prev.props.url, prev.props.thumb) !== getUrl(next.props.url, next.props.thumb)) {
     if (next.props.url) {
-      return loadImages(next.props, local(imageLoaded))
+      return loadImages(next.props, next.local(imageLoaded))
     }
   }
 }
