@@ -6,11 +6,12 @@ import CommoncoreBadge from 'components/CommoncoreBadge'
 import ActivitySidebar from 'components/ActivitySidebar'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
+import {showToast, hideToast} from 'reducer/toast'
+import {Toast, Block, Icon, Card} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
 import AttachmentMenu from './AttachmentMenu'
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {Block, Icon, Card} from 'vdux-ui'
 import {Button} from 'vdux-containers'
 import {lookup} from 'redux-ephemeral'
 import findIndex from '@f/find-index'
@@ -105,6 +106,7 @@ function initialState ({props, local, path}) {
       dispatch(local(beginSave)())
 
       return dispatch(props.save(state.editedActivity))
+        .then(null, () => dispatch(local(saveFailed)()))
     },
     debouncedSave: () => (dispatch, getState) => {
       if (!debouncedSave) {
@@ -238,6 +240,18 @@ function onUpdate (prev, next) {
     actions.push(next.state.debouncedSave(next.state.editedActivity))
   }
 
+  if (saving.error && !(prev.props.saving || {}).error) {
+    actions.push(showToast(
+      <Toast key='a'>
+        <Block align='center center' color='red'>Your activity failed to save</Block>
+      </Toast>
+    ))
+  }
+
+  if (!saving.error && (prev.props.saving || {}).error) {
+    actions.push(hideToast())
+  }
+
   return actions
 }
 
@@ -260,6 +274,7 @@ function onRemove ({props, state}) {
 const open = createAction('<ActivityEditor/>: open')
 const change = createAction('<ActivityEditor/>: change')
 const beginSave = createAction('<ActivityEditor/>: begin save')
+const saveFailed = createAction('<ActivityEditor/>: save failed')
 const changeObject = createAction('<ActivityEditor/>: change object')
 const removeObject = createAction('<ActivityEditor/>: remove object')
 const insertObject = createAction('<ActivityEditor/>: insert object')
@@ -285,6 +300,10 @@ const reducer = handleActions({
   [beginSave]: state => ({
     ...state,
     synced: false
+  }),
+  [saveFailed]: state => ({
+    ...state,
+    synced: true
   }),
   [clearDirty]: state => ({
     ...state,
