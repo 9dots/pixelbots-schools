@@ -7,7 +7,7 @@ import ActivitySidebar from 'components/ActivitySidebar'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
 import {showToast, hideToast} from 'reducer/toast'
-import {Toast, Block, Icon, Card} from 'vdux-ui'
+import {Toast, Block, Icon, Card, Text} from 'vdux-ui'
 import {setUrl} from 'redux-effects-location'
 import AttachmentMenu from './AttachmentMenu'
 import handleActions from '@f/handle-actions'
@@ -242,8 +242,12 @@ function onUpdate (prev, next) {
 
   if (saving.error && !(prev.props.saving || {}).error) {
     actions.push(showToast(
-      <Toast key='a'>
-        <Block align='center center' color='red'>Your activity failed to save</Block>
+      <Toast key='a' bg='red' color='white' align='center center' w={520}>
+        <Block align='center center'>
+          <Icon name='error' fs='m' mr />
+          <Text fw='bolder' mr>SAVE FAILED:</Text>
+          <Text fw='lighter'>Please check your internet connection or refresh your page.</Text>
+        </Block>
       </Toast>
     ))
   }
