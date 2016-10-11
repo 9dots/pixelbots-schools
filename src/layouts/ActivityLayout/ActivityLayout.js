@@ -66,6 +66,7 @@ function internal (props, children, local, state) {
     return ''
   }
 
+  console.log('<ActivityLayout/>:', userId, instances.value.items, students.value.items)
   if (instances.value.items.length < students.value.items.length) {
     return ''
   }
@@ -93,13 +94,15 @@ function internal (props, children, local, state) {
       discussion: (isClass && discussion) || isPublic
     }
 
+
   return [
     redirect || <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={backBtn} exit={exit} isOwner={isOwner} intent={intent} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       instance,
       activity: value,
-      students: students.value.items, classId,
+      students: students.value.items,
+      classId,
       instances: instances.value.items,
       savingIndicator: state.savingIndicator,
       setIndicator: state.setIndicator,
