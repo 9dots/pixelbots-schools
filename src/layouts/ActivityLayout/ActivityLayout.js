@@ -49,7 +49,7 @@ function * onUpdate (prev, next) {
   if (!gettingInstance && instances.value && students.value && instances.value.items.length < students.value.items.length) {
     const filtered = students.value.items.filter(({_id}) => instances.value.items.every(inst => inst.actor.id !== _id))
     yield filtered.map(student => getInstance(student._id))
-    yield invalidate(`/share?channel=share!${activity.value._id}.instances`)
+    yield invalidate('activity_instances')
   }
 }
 
@@ -211,7 +211,8 @@ export default summon(({userId, activityId}) => ({
   instances: {
     url: activity.value
       ? `/share?channel=share!${activity.value._id}.instances`
-      : null
+      : null,
+    subscribe: 'activity_instances'
   },
   getInstance: userId => ({
     gettingInstance: {
