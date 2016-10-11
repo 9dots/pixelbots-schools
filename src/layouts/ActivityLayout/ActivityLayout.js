@@ -47,7 +47,7 @@ function * onUpdate (prev, next) {
   const {activity, instances, students, getInstance, gettingInstance} = next.props
 
   if (!gettingInstance && instances.value && students.value && instances.value.items.length < students.value.items.length) {
-    const filtered = students.value.items.filter(({_id}) => instances.value.items.every(inst => inst._id !== _id))
+    const filtered = students.value.items.filter(({_id}) => instances.value.items.every(inst => inst.actor.id !== _id))
     yield filtered.map(student => getInstance(student._id))
     yield invalidate(`/share?channel=share!${activity.value._id}.instances`)
   }
