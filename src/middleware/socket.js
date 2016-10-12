@@ -78,8 +78,6 @@ function middleware ({dispatch, getState}) {
     })
 
     socket.once('connect', () => socket.on('message', msg => {
-      console.log('socket msg', msg)
-
       for (const key in subs) {
         subs[key].forEach(({params, cb}) => {
           if (isMatch(params, msg.params)) {
