@@ -38,9 +38,9 @@ function page ({html, state, title}) {
           <meta name='fragment' content='!' />
           <meta name='pinterest' content='nohover' />
           <link rel='apple-touch-icon' href='${touchIcons.iphone}'>
-          <link rel='apple-touch-icon' sizes='76x76' href='${touchIcons.iphone}'>
-          <link rel='apple-touch-icon' sizes='120x120' href='${touchIcons.iphone}'>
-          <link rel='apple-touch-icon' sizes='152x152' href='${touchIcons.iphone}'>
+          <link rel='apple-touch-icon' sizes='76x76' href='${touchIcons.ipad}'>
+          <link rel='apple-touch-icon' sizes='120x120' href='${touchIcons.iphoneRetina}'>
+          <link rel='apple-touch-icon' sizes='152x152' href='${touchIcons.ipadRetina}'>
 
 
           <!-- Open Graph -->
