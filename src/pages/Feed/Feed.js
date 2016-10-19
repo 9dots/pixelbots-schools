@@ -6,6 +6,8 @@ import FeedWidgets from 'components/FeedWidgets'
 import PageTitle from 'components/PageTitle'
 import IntroModal from 'modals/IntroModal'
 import TileFeed from 'components/TileFeed'
+import ClassActivityRow from 'components/ClassActivityRow'
+import RowFeed from 'components/RowFeed'
 import {openModal} from 'reducer/modal'
 import EmptyFeed from './EmptyFeed'
 import element from 'vdux/element'
@@ -38,11 +40,19 @@ function render ({props}) {
   if (!preferences.group_joined) return <EmptyFeed  />
 
   return (
-    <Block w='col_main' mt mx='auto'>
+    <Block>
       <PageTitle title='Weo' />
-      <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
-        <FeedWidgets user={currentUser}/>
-     </TileFeed>
+      <Block w='col_main' mx='auto' px='s' py='l' relative align='start'>
+        <Block mr>
+          <FeedWidgets user={currentUser}/>
+        </Block>
+        <RowFeed flex {...props} item={ClassActivityRow} />
+      </Block>
+      {
+        // <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
+        //   <FeedWidgets user={currentUser}/>
+        // </TileFeed>
+      }
     </Block>
   )
 }

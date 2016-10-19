@@ -14,7 +14,7 @@ import element from 'vdux/element'
 
 function render ({props}) {
   const {user} = props
-  const cardMargin = '8px 6px 12px'
+  const cardMargin = '8px 6px 12px 0'
   const draftCount = user.drafts.canonicalTotal.items
 
   return (
