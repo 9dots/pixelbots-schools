@@ -37,8 +37,7 @@ function render ({props, state}) {
             {
               currentUser && [
                 <Item href='/feed' icon='home' text='Home' />,
-                <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />,
-                <Item hide={!isStudent} href={`/${currentUser.username}`} icon='person' text='My Profile' />,
+                <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />,
                 <ClassNav currentUser={currentUser}>
                   <Item href='/class' disabled={true} ml='s' fs='s' icon='school' text='Classes'>
                     <Icon name='arrow_drop_down' fs='s' ml='s' />

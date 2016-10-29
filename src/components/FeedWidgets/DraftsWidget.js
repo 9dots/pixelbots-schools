@@ -8,11 +8,11 @@ import element from 'vdux/element'
 import WeoIcon from 'components/WeoIcon'
 
 function render ({props}) {
-  const {draftCount} = props
+  const {draftCount, user} = props
   const size = '25px'
 
   return (
-    <Card align='start center' pointer p {...props} hide={!draftCount} onClick={() => setUrl('/activities/drafts')}>
+    <Card align='start center' pointer p {...props} hide={!draftCount} onClick={() => setUrl(`/${user.username}/boards/drafts`)}>
       <WeoIcon fs='m' mr name='drafts'/>
       <Flex align='start center' flex>
         Drafts

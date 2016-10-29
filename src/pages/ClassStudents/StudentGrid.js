@@ -31,8 +31,8 @@ function render ({props}) {
   return (
     <Table bgColor='white' wide tall>
       <TableRow py bgColor='grey' color='white'>
-        <TableHeader p w='40' hide={isStudent}>
-          <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={() => toggleAll('selected')} />
+        <TableHeader p w='50' hide={isStudent}>
+          <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={() => toggleAll('selected')}/>
         </TableHeader>
         <TableHeader w='40'/>
         <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={setSort} />

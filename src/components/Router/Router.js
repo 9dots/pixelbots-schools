@@ -9,6 +9,7 @@ import ProfileLayout from 'layouts/ProfileLayout'
 import SearchLayout from 'layouts/SearchLayout'
 import ClassLayout from 'layouts/ClassLayout'
 import BoardLayout from 'layouts/BoardLayout'
+import MainLayout from 'layouts/MainLayout'
 import HomeLayout from 'layouts/HomeLayout'
 import AppLayout from 'layouts/AppLayout'
 
@@ -115,28 +116,31 @@ const router = enroute({
           : <FeedStudent {...props} />
       }
     </AppLayout>)),
-
-  // My Activities
-  '/activities': track('Activities Redirect', auth('teacher', (params, props) =>
-    <ActivitiesLayout {...props}>
-      <Redirect to='/activities/all' />
-    </ActivitiesLayout>)),
-  '/activities/all': track('My Activities', auth('teacher', (params, props) =>
-    <ActivitiesLayout {...props}>
-      <MyActivities {...props} />
-    </ActivitiesLayout>)),
-  '/activities/drafts': track('Drafts', auth('teacher', (params, props) =>
-    <ActivitiesLayout {...props}>
-      <Drafts {...props} />
-    </ActivitiesLayout>)),
-  '/activities/trash': track('Trash', auth('teacher', (params, props) =>
-    <ActivitiesLayout {...props}>
-      <Trash {...props} />
-    </ActivitiesLayout>)),
-  '/activities/:boardId': track('Activities Board', auth('teacher', (params, props) =>
-    <ActivitiesLayout {...props}>
-      <ActivitiesBoard {...params} {...props} />
-    </ActivitiesLayout>)),
+  // Class
+  '/class/:groupId': track('Class Redirect', auth('user', (params, props) =>
+    <MainLayout {...props} {...params}>
+      <ClassLayout {...props} {...params}>
+        <Redirect to={`/class/${params.groupId}/feed`} />
+      </ClassLayout>
+    </MainLayout>)),
+  '/class/:groupId/feed': track('Class Feed', auth('user', (params, props) =>
+    <MainLayout {...props} {...params}>
+      <ClassLayout {...props} {...params}>
+        {group => <ClassFeed {...props} group={group} />}
+      </ClassLayout>
+    </MainLayout>)),
+  '/class/:groupId/students': track('Class Students', auth('user', (params, props) =>
+    <MainLayout {...props} {...params}>
+      <ClassLayout {...props} {...params}>
+        {group => <ClassStudents {...props} group={group} />}
+      </ClassLayout>
+    </MainLayout>)),
+  '/class/:groupId/gradebook': track('Class Gradebook', auth('user', (params, props) =>
+    <MainLayout {...props} {...params}>
+      <ClassLayout {...props} {...params}>
+        {group => <ClassGradebook {...props} group={group} />}
+      </ClassLayout>
+    </MainLayout>)),
 
   // Search
   '/search/activities/:query?': track('Search Activities', auth('nonstudent', (params, props) =>
@@ -156,23 +160,6 @@ const router = enroute({
       <SearchPeople {...props} {...params} />
     </SearchLayout>)),
 
-  // Class
-  '/class/:groupId': track('Class Redirect', auth('user', (params, props) =>
-    <ClassLayout {...props} {...params}>
-      <Redirect to={`/class/${params.groupId}/feed`} />
-    </ClassLayout>)),
-  '/class/:groupId/feed': track('Class Feed', auth('user', (params, props) =>
-    <ClassLayout {...props} {...params}>
-      {group => <ClassFeed {...props} group={group} />}
-    </ClassLayout>)),
-  '/class/:groupId/students': track('Class Students', auth('user', (params, props) =>
-    <ClassLayout {...props} {...params}>
-      {group => <ClassStudents {...props} group={group} />}
-    </ClassLayout>)),
-  '/class/:groupId/gradebook': track('Class Gradebook', auth('user', (params, props) =>
-    <ClassLayout {...props} {...params}>
-      {group => <ClassGradebook {...props} group={group} />}
-    </ClassLayout>)),
 
   // Acount
   '/account/settings': track('Account Settings', auth('user', (params, props) =>
@@ -201,7 +188,6 @@ const router = enroute({
     </AppLayout>)),
 
   // Activity
-
   '/activity/:activityId': track('Activity Redirect', (params, props) =>
     <ActivityLayout {...props} {...params} redirect>
       {({activity}) => activityRedirect(activity, props)}
@@ -244,7 +230,39 @@ const router = enroute({
   // Profile
   '/:username/boards': track('Profile Boards', auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>
-      {user => <ProfileBoards {...props} user={user} />}
+      { user => <Redirect to={`/${user.username}/boards/all`} /> }
+    </ProfileLayout>)),
+  '/:username/boards/all': track('Profile All Boards', auth('nonstudent', (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      {user =>
+        <ActivitiesLayout {...props} user={user}>
+          <MyActivities {...props} user={user} />
+        </ActivitiesLayout>
+      }
+    </ProfileLayout>)),
+  '/:username/boards/drafts': track('Profile Drafts', auth('nonstudent', (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      { user =>
+          <ActivitiesLayout {...props} user={user}>
+            <Drafts {...props} />
+          </ActivitiesLayout>
+      }
+    </ProfileLayout>)),
+  '/:username/boards/trash': track('Profile Trash', auth('nonstudent', (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      { user =>
+          <ActivitiesLayout {...props} user={user}>
+            <Trash {...props} />
+          </ActivitiesLayout>
+      }
+    </ProfileLayout>)),
+  '/:username/boards/:boardId': track('Profile Board', auth('nonstudent', (params, props) =>
+    <ProfileLayout {...props} {...params}>
+      { user =>
+          <ActivitiesLayout {...props} user={user}>
+            <ActivitiesBoard {...params} {...props} />
+          </ActivitiesLayout>
+      }
     </ProfileLayout>)),
   '/:username/likes': track('Profile Likes', auth('nonstudent', (params, props) =>
     <ProfileLayout {...props} {...params}>

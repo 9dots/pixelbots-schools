@@ -18,9 +18,9 @@ function render ({props}) {
   const draftCount = user.drafts.canonicalTotal.items
 
   return (
-    <Block>
-      <ProfileWidget user={user} w={230} m={cardMargin} />
-      <DraftsWidget w={230} m={cardMargin} draftCount={draftCount} />
+    <Block mr>
+      <ProfileWidget user={user} w={230} m={cardMargin} mt={0} />
+      <DraftsWidget w={230} m={cardMargin} draftCount={draftCount} user={user} />
       <ClassesWidget w={230} m={cardMargin}/>
     </Block>
   )

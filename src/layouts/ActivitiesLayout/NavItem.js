@@ -14,7 +14,7 @@ import element from 'vdux/element'
  */
 
 function render ({props, children}) {
-  const {showSettings, board, ...rest} = props
+  const {showSettings, board, isMe, ...rest} = props
 
   return (
     <Link
@@ -32,7 +32,7 @@ function render ({props, children}) {
       </Block>
       <Icon
         onClick={e => openSettings(e, board)}
-        hide={!board}
+        hide={!board || !isMe}
         transition='opacity 0.15s'
         fs='xs'
         opacity={showSettings ? 0.5 : 0}

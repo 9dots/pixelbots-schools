@@ -34,8 +34,8 @@ const Activity = wrap(CSSContainer)({
     return (
       <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='pointer' onClick={() => setUrl(`/activity/${id}`)}>
         <Flex tall align='start start'>
-          <Flex p='m' tall column align='space-between' flex='50%'>
-            <Block fs='s' fw='200'>{displayName}</Block>
+          <Flex p='m' tall column align='space-between' flex='49%'>
+            <Block fs='s' fw='200' ellipsis>{displayName}</Block>
             <Block fs='xs' lh='20px' maxHeight='40px' overflow='hidden' fw='200' color='text'>{description}</Block>
             <MetaUi activity={activity} currentUser={currentUser} />
           </Flex>

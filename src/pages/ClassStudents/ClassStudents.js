@@ -26,6 +26,7 @@ import index from '@f/index'
 function render ({props}) {
   const {group, students, toggleAll, fields, currentUser} = props
   const {value, loading, loaded} = students
+  console.log(props)
 
   if (!loaded && loading) return <Loading show={true} h='200' />
 
@@ -34,7 +35,7 @@ function render ({props}) {
   const selected = (fields.selected.value || []).filter(id => studentIds[id])
 
   return (
-    <Block w='col_main' mx='auto' relative my py>
+    <Block maxWidth='714px' my py mx='auto' relative>
       <PageTitle title={`${group.displayName} | Students`} />
       {
         loaded && studentList.length
@@ -83,15 +84,13 @@ function StudentMenu ({props}) {
       </Tooltip>
       <Tooltip message={!count && 'Select Students to Enable'}>
         <Button disabled={!count} bgColor='red' color='white' {...btnProps} onClick={() => openModal(() => <RemoveFromClassModal user={users} group={group} />)}>
-          <Icon name='delete' mr='s' fs='s'/>Remove from Class
+          <Icon name='delete' mr='s' fs='s'/>Remove
         </Button>
       </Tooltip>
       <Flex flex align='end center'>
         <Block color='blue' align='center center' hide={!count}>
           {count} selected
-          <Block mx='s' color='text'>|</Block>
         </Block>
-        {students.length} students
       </Flex>
     </Flex>
   )

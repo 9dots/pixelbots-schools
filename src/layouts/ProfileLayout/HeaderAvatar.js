@@ -45,7 +45,7 @@ const AvatarPicker = wrap(CSSContainer)({
     const shadow = Color(blue).alpha(0.5).rgbaString()
 
     return (
-      <Block w='18%' mr='m' relative {...rest}>
+      <Block w='15%' mr='m' relative {...rest}>
         <Block pb='100%' bgColor='grey_light' borderRadius='50%'>
           <Avatar actor={user} w='100%' h='auto' alignSelf='center' absolute />
           <Flex

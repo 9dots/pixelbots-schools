@@ -29,13 +29,13 @@ function render ({props}) {
   const location = pinnedFrom ? pinnedFrom.board.displayName : actor.displayName
   const message = pinnedFrom ? 'Pinned from' : 'Created by'
   const href = pinnedFrom
-    ? `/${actor.username}/board/${pinnedFrom.board.id}/activities`
+    ? `/${actor.username}/boards/${pinnedFrom.board.id}`
     : `/${actor.username}`
 
   return (
     <Flex align='start center'>
       <Avatar pointer mr thumb actor={actor} onClick={e => goToProfile(e, actor)}/>
-      <Flex column fs='xxs' align='space-around'>
+      <Flex column fs='xxs' align='space-around' onClick={e => e.stopPropagation()}>
         <Text color='text' mb='xs'>{message}</Text>
         <Link href={href} pointer hoverProps={{underline: true}} fw='bold'>
           {location}

@@ -30,7 +30,7 @@ function render ({props}) {
         <Icon name='person' fs='s' mr='s'/>
         My Profile
       </Link>
-      <Link {...itemProps} href='/activities/drafts' hide={isStudent}>
+      <Link {...itemProps} href={`/${username}/boards/drafts`} hide={isStudent}>
         <WeoIcon name='draft' fs='s' mr='s'/>
         My Drafts
         <Text color='grey_medium' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>

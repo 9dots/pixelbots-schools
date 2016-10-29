@@ -21,51 +21,55 @@ import map from '@f/map'
  */
 
 function render ({props, children}) {
-  const {boards} = props
+  const {boards, user, currentUser} = props
+  const isMe = currentUser._id === user._id
+  const {username} = user
   const iconSize = '25px'
   const {value = [], loaded} = boards
 
   return (
-    <AppLayout {...props}>
-      <PageTitle title='My Activities' />
-      <Flex w='col_main' mt='s' mx='auto' px='s' py='l' relative>
-        <Block>
-          <Card w={230} mr>
-            <Menu column py='s'>
-              <NavItem href='/activities/all' display='flex' align='start center'>
-                <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
-                All Activities
-              </NavItem>
-              {
-                loaded
-                  ? map(board =>
-                    <NavItem href={`/activities/${board._id}`} board={board} display='flex' align='start center'>
-                      {boardIcon(board)}
-                      <Block flex ellipsis>{board.displayName}</Block>
-                    </NavItem>, value.items)
-                  : ''
-              }
-              <NavItem href='/activities/drafts' display='flex' align='start center'>
-                <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr textAlign='center' />
-                Drafts
-              </NavItem>
-              <Divider/>
-              <NavItem onClick={() => openModal(() => <CreateBoardModal/>)} display='flex' align='start center'>
-                <Icon name='add' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
-                New Board
-              </NavItem>
-              <NavItem href='/activities/trash' display='flex' align='start center'>
-                <Icon name='delete' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
-                Trash
-              </NavItem>
-            </Menu>
-          </Card>
-        </Block>
-        <Block w='col_main' maxWidth='714px'>
-          {children}
-        </Block>
-      </Flex>
-    </AppLayout>
+    <Flex w='col_main' mt='s' mx='auto' pb='l' relative>
+      <Block>
+        <Card w={230} mr>
+          <Menu column py='s'>
+            <NavItem href={`/${username}/boards/all`} display='flex' align='start center'>
+              <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
+              All Activities
+            </NavItem>
+            {
+              loaded
+                ? map(board =>
+                  <NavItem href={`/${username}/boards/${board._id}`} board={board} isMe={isMe} display='flex' align='start center'>
+                    {boardIcon(board)}
+                    <Block flex ellipsis>{board.displayName}</Block>
+                  </NavItem>, value.items)
+                : ''
+            }
+            {
+              isMe &&
+                <span>
+                  <NavItem href={`/${username}/boards/drafts`} display='flex' align='start center'>
+                    <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr textAlign='center' />
+                    Drafts
+                  </NavItem>
+                  <Divider/>
+                  <NavItem onClick={() => openModal(() => <CreateBoardModal/>)} display='flex' align='start center'>
+                    <Icon name='add' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
+                    New Board
+                  </NavItem>
+                  <NavItem href={`/${username}/boards/trash`} display='flex' align='start center'>
+                    <Icon name='delete' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
+                    Trash
+                  </NavItem>
+                </span>
+            }
+          </Menu>
+        </Card>
+      </Block>
+      <Block w='col_main' maxWidth='714px'>
+        {children}
+      </Block>
+    </Flex>
   )
 }
 
@@ -97,8 +101,10 @@ function cmp (a, b) {
  * Exports
  */
 
-export default summon(props => ({
-  boards: '/user/boards',
+export default summon(({user, currentUser}) => ({
+  boards: user._id === currentUser._id
+    ? '/user/boards'
+    : `/user/${user._id}/boards`,
 }))({
   render
 })

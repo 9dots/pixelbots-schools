@@ -5,6 +5,7 @@
 import {setUrl} from 'redux-effects-location'
 import {Block, Card, Text} from 'vdux-ui'
 import {MenuItem} from 'vdux-containers'
+import Link from 'components/Link'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
 
@@ -29,10 +30,18 @@ function render ({props}) {
 function item (cls) {
   const {_id, displayName} = cls
   return (
-    <MenuItem align='start center' p onClick={() => setUrl(`/class/${_id}/feed`)}>
+    <Link
+      currentProps={{borderLeftColor: 'blue', highlight: 0.05, color: 'text'}}
+      borderLeft='3px solid transparent'
+      hoverProps={{color: 'text', bgColor: 'white'}}
+      // bg={'white'}
+      href={`/class/${_id}/feed`}
+      align='start center'
+      ui={MenuItem}
+      p>
       <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
       <Text capitalize>{displayName}</Text>
-    </MenuItem>
+    </Link>
   )
 }
 

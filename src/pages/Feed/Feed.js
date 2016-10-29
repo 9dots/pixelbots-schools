@@ -40,19 +40,11 @@ function render ({props}) {
   if (!preferences.group_joined) return <EmptyFeed  />
 
   return (
-    <Block>
+    <Block w='col_main' mx='auto'>
       <PageTitle title='Weo' />
-      <Block w='col_main' mx='auto' px='s' py='l' relative align='start'>
-        <Block mr>
+        <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
           <FeedWidgets user={currentUser}/>
-        </Block>
-        <RowFeed flex {...props} item={ClassActivityRow} />
-      </Block>
-      {
-        // <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
-        //   <FeedWidgets user={currentUser}/>
-        // </TileFeed>
-      }
+        </TileFeed>
     </Block>
   )
 }

@@ -3,7 +3,7 @@
  */
 
 import ClassCodeModal from 'modals/ClassCodeModal'
-import {Text, Flex, Block, Icon} from 'vdux-ui'
+import {Text, Block, Icon} from 'vdux-ui'
 import AppLayout from 'layouts/AppLayout'
 import FourOhFour from 'pages/FourOhFour'
 import NavTile from 'components/NavTile'
@@ -18,27 +18,24 @@ import summon from 'vdux-summon'
  */
 
 function render ({props, children}) {
-  return (
-    <AppLayout {...props} bgColor='green'>
-      {internal(props, children)}
-    </AppLayout>
-  )
-}
-
-function internal (props, children) {
-  const {group, currentUser} = props
+  console.log(props)
+  const {group, currentUser, students} = props
   const {value, loaded, error} = group
+  const {sValue, sLoaded, sError} = students
   const isStudent = currentUser.userType === 'student'
 
-  if (!loaded) return ''
+  if (!loaded || !sLoaded) return <span/>
   if (error) return <FourOhFour />
+  console.log(sValue)
 
-  return [
-    <Header group={value} isStudent={isStudent} />,
+  return (
     <Block>
-      {maybeOver(value, children)}
+      <Header group={value} isStudent={isStudent} />
+      <Block>
+        {maybeOver(value, children)}
+      </Block>
     </Block>
-  ]
+  )
 }
 
 function Header ({props}) {
@@ -46,8 +43,8 @@ function Header ({props}) {
   const {_id: id, displayName, code} = group
 
   return (
-    <Flex align='space-between center' h={46} bgColor='off_white' boxShadow='0 1px 2px 0 rgba(0,0,0,0.22)'>
-      <Block ml pl fs='s' fw='lighter' capitalize flex align='start center'>
+    <Block boxShadow='0 1px 2px 0 rgba(0,0,0,0.22)'>
+      <Block p='m' fs='s' fw='lighter' capitalize bgColor='green' color='white'>
         <Block ellipsis>
           {displayName}
         </Block>
@@ -63,8 +60,7 @@ function Header ({props}) {
           fw='normal'
           fs='xs'
           px='m'
-          h='30'
-          mx>
+          h='30'>
           Class Code: &nbsp;
           <Text color='blue' fs='15px' fontFamily='monospace'>
             {code}
@@ -73,7 +69,7 @@ function Header ({props}) {
         </Button>
       </Block>
 
-      <Flex align='center center' flex>
+      <Block align='center center' h={46} bgColor='off_white'>
         <NavTile href={`/class/${id}/feed`} highlight='red'>
           Feed
         </NavTile>
@@ -83,9 +79,8 @@ function Header ({props}) {
         <NavTile href={`/class/${id}/gradebook`} highlight='blue'>
           Gradebook
         </NavTile>
-      </Flex>
-      <Block flex />
-    </Flex>
+      </Block>
+    </Block>
   )
 }
 
@@ -94,7 +89,8 @@ function Header ({props}) {
  */
 
 export default summon(props => ({
-  group: `/group/${props.groupId}`
+  group: `/group/${props.groupId}`,
+  students: `/group/students?group=${props.groupId}`
 }))({
   render
 })
