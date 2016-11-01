@@ -77,7 +77,7 @@ const router = enroute({
   '/': track(
     (params, props) => isLoggedIn(props) ? 'Home Redirect' : 'Home',
     (params, props) => isLoggedIn(props)
-      ? <Redirect to='/feed' />
+      ? classRedirect(props)
       : <HomeLayout action='login'>
           <Home {...props} />
         </HomeLayout>),
@@ -396,6 +396,20 @@ const reducer = handleActions({
 /**
  * Helpers
  */
+
+function classRedirect ({currentUser}) {
+  const {groups, preferences = {}} = currentUser
+  const {lastClass} = preferences
+  const classes = groups.filter(({status, groupType}) =>
+    status === 'active' && groupType === 'class')
+
+  if(lastClass && classes.length) {
+    const curClass = classes.find(c => c.id === lastClass)
+    const path = curClass ? curClass.id : classes[0].id
+    return <Redirect to={`/class/${path}/feed/`}/>
+  } else
+    return <Redirect to='/feed/'/>
+}
 
 function isTeacher (state) {
   return state.currentUser.userType === 'teacher'

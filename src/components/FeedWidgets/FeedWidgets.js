@@ -21,7 +21,7 @@ function render ({props}) {
     <Block mr>
       <ProfileWidget user={user} w={230} m={cardMargin} mt={0} />
       <DraftsWidget w={230} m={cardMargin} draftCount={draftCount} user={user} />
-      <ClassesWidget w={230} m={cardMargin}/>
+      <ClassesWidget user={user} w={230} m={cardMargin}/>
     </Block>
   )
 }

@@ -29,7 +29,7 @@ function render ({props}) {
           </Link>
         </Block>
       </Flex>
-      <Flex py='s' px color='blue' fw='bolder'>
+      <Flex py='s' px color='blue' fw='bolder' hide={user.userType === 'student'}>
         <Block flex='30%' pointer onClick={() => setUrl(`/${username}/boards`)} hoverProps={{opacity: 0.9}}>
           <Block>Pins</Block>
           <Block>{pinCount}</Block>

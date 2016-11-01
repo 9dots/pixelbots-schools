@@ -12,7 +12,22 @@ import {openModal} from 'reducer/modal'
 import {Button} from 'vdux-containers'
 import maybeOver from '@f/maybe-over'
 import element from 'vdux/element'
+import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
+
+
+function onCreate({props}) {
+  const {currentUser, setPref, groupId} = props
+  if(getProp('preferences.lastClass', currentUser) !== groupId)
+    return props.setPref()
+}
+
+function onUpdate(prev, {props}) {
+  const {currentUser, setPref, groupId, savingPreference = {}} = props
+  const pref = getProp('preferences.lastClass', currentUser)
+  if(pref !== groupId && !savingPreference.loading)
+    return props.setPref()
+}
 
 /**
  * <ClassLayout/>
@@ -23,8 +38,8 @@ function render ({props, children}) {
   const {value, loaded, error} = group
   const isStudent = currentUser.userType === 'student'
 
-  if (!loaded && !students.loaded) return <span/>
-  if (error && students.error) return <FourOhFour />
+  if (!loaded || !students.loaded) return <span/>
+  if (error || students.error) return <FourOhFour />
 
   return (
     <Block>
@@ -111,9 +126,21 @@ function Header ({props}) {
  * Exports
  */
 
-export default summon(props => ({
-  group: `/group/${props.groupId}`,
-  students: `/group/students?group=${props.groupId}`
+export default summon(({groupId, currentUser}) => ({
+  group: `/group/${groupId}`,
+  students: `/group/students?group=${groupId}`,
+  setPref: () => ({
+    savingPreference:  {
+      url: '/preference/lastClass',
+      invalidates: '/user',
+      method: 'PUT',
+      body: {
+        value: groupId
+      }
+    }
+  })
 }))({
-  render
+  render,
+  onCreate,
+  onUpdate
 })

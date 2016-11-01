@@ -36,9 +36,9 @@ function render ({props, state}) {
             </Flex>
             {
               currentUser && [
-                <Item href='/feed' icon='home' text='Home' />,
+                <Item href='/' icon='home' text='Home' />,
                 <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />,
-                <ClassNav currentUser={currentUser}>
+                <ClassNav hide={!isStudent} currentUser={currentUser}>
                   <Item href='/class' disabled={true} ml='s' fs='s' icon='school' text='Classes'>
                     <Icon name='arrow_drop_down' fs='s' ml='s' />
                   </Item>
