@@ -83,7 +83,7 @@ const ActivityHeader = wrap(CSSContainer, {
     const btn = <Icon fs='xs' pointer absolute='top 0px right 0px' hide={!showSettings} name='info_outline' absolute top={-16} right={-8} />
 
     return (
-      <TableHeader {...rest}  fs='xxs' px maxWidth='100px' minWidth='100px'>
+      <TableHeader {...rest}  fs='xxs' px maxWidth='90px' minWidth='89px'>
         <Dropdown textAlign='left' lighter fs='xs' btn={btn} z='3' minWidth='150px' maxWidth='220px' px mt={-16} right={-8}>
           <Block bolder align='space-between start'>
             {activity.displayName}

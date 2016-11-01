@@ -26,7 +26,6 @@ import index from '@f/index'
 function render ({props}) {
   const {group, students, toggleAll, fields, currentUser} = props
   const {value, loading, loaded} = students
-  console.log(props)
 
   if (!loaded && loading) return <Loading show={true} h='200' />
 

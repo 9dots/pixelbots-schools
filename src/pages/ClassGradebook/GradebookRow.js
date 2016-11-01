@@ -38,7 +38,7 @@ function render ({props}) {
   return (
     <TableRow borderBottom={last ? '' : '1px solid rgba(black, .1)'}>
       <TableCell {...cellProps} {...nameCell}>
-        <Block ellipsis w={70}>
+        <Block ellipsis w={71}>
           {givenName}
         </Block>
       </TableCell>

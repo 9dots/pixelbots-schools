@@ -33,8 +33,6 @@ function item (cls) {
     <Link
       currentProps={{borderLeftColor: 'blue', highlight: 0.05, color: 'text'}}
       borderLeft='3px solid transparent'
-      hoverProps={{color: 'text', bgColor: 'white'}}
-      // bg={'white'}
       href={`/class/${_id}/feed`}
       align='start center'
       ui={MenuItem}

@@ -24,7 +24,7 @@ import map from '@f/map'
  * Constants
  */
 
-const pageSize = 7
+const pageSize = 5
 let hasData = false
 
 /**
@@ -65,7 +65,7 @@ function render ({props, local, state}) {
   const allowExport = currentUser.userType === 'teacher'
 
   return (
-    <Block w='col_main' mx='auto' my='l' relative>
+    <Block mx='auto' my='l' relative>
       <GradebookNav setPref={setPref} next={local(next, numPages)} prev={local(prev, numPages)} exportAll={exportAll} asPercent={displayPercent} page={page} numPages={numPages} hasData={hasData} allowExport={allowExport} />
       <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
         <Table overflow='auto'>
