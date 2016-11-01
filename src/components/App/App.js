@@ -2,13 +2,12 @@
  * Imports
  */
 
-import {appDidInitialize} from 'reducer/ready'
 import {identify} from 'middleware/analytics'
 import Transition from 'vdux-transition'
+import {component, element} from 'vdux'
 import Router from 'components/Router'
-import {initializeApp} from 'reducer'
+import {isApiServer} from 'lib/api'
 import Loading from 'pages/Loading'
-import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
 import Form from 'vdux-form'
@@ -17,59 +16,76 @@ import moment from 'moment'
 import 'lib/fonts'
 
 /**
- * onCreate
+ * <App/>
  */
 
-function onCreate ({props}) {
-  if (!props.currentUser.loading) {
-    return identify(props.currentUser.value)
+export default summon(() => ({
+  currentUser: '/user'
+}))(live(({currentUser}) => ({
+  currentUser: {
+    url: '/user',
+    params: {
+      id: currentUser.value && currentUser.value._id
+    }
   }
-}
+}))(component({
+  onCreate ({props}) {
+    if (!props.currentUser.loading) {
+      return identify(props.currentUser.value)
+    }
+  },
 
-/**
- * Root app component
- */
+  * onUpdate (prev, next) {
+    const {props, actions, state} = next
+    const {currentUser = {}} = props
 
-function render ({path, props}) {
-  const {state, currentUser} = props
-  if (!currentUser.loaded && !currentUser.error) return <span/>
+    if (!state.ready && (currentUser.loaded || currentUser.error)) {
+      yield actions.appDidInitialize()
+    }
 
-  return (
-    <Block>
+    if (prev.props.currentUser.loading && !next.props.currentUser.loading) {
+      yield identify(next.props.currentUser.value)
+    }
+  },
+
+  render ({props, state}) {
+    const {toast, modal, currentUser} = props
+    if (!currentUser.loaded && !currentUser.error) return <span/>
+
+    return (
       <Block>
-        <Transition>{state.toast}</Transition>
-        {state.modal && state.modal()}
+        <Block>
+          <Transition>{toast}</Transition>
+          {modal && modal()}
+        </Block>
+        <Block z={0}>
+          {
+            state.ready
+              ? <Router {...props} currentUser={currentUser.error ? null : currentUser.value} {...state} />
+              : <Loading />
+          }
+        </Block>
       </Block>
-      <Block z={0}>
-        {
-          isReady(state)
-            ? <Router {...state} currentUser={currentUser.error ? null : currentUser.value} />
-            : <Loading />
-        }
-      </Block>
-    </Block>
-  )
-}
+    )
+  },
 
-function * onUpdate (prev, next) {
-  const {props} = next
-  const {currentUser = {}, state} = props
-
-  if (!isReady(state) && (currentUser.loaded || currentUser.error)) {
-    yield appDidInitialize()
+  reducer: {
+    appDidInitialize: () => ({ready: true})
   }
-
-  if (prev.props.currentUser.loading && !next.props.currentUser.loading) {
-    yield identify(next.props.currentUser.value)
-  }
-}
+})))
 
 /**
  * Global component config
  */
 
-summon.defaults({
-  baseUrl: process.env.API_SERVER
+summon.configure({
+  baseUrl: process.env.API_SERVER,
+  credentials: {
+    type: 'query',
+    pattern: isApiServer,
+    name: 'access_token',
+    token: ({getContext}) => getContext().authToken
+  }
 })
 
 Form.setTransformError(err => {
@@ -88,30 +104,3 @@ moment.updateLocale('en', {
     sameElse: 'MMMM D, YYYY'
   }
 })
-
-/**
- * Helpers
- */
-
-function isReady (state) {
-  return state.ready
-}
-
-/**
- * Exports
- */
-
-export default summon(() => ({
-  currentUser: '/user'
-}))(live(({currentUser}) => ({
-  currentUser: {
-    url: '/user',
-    params: {
-      id: currentUser.value && currentUser.value._id
-    }
-  }
-}))(({
-  onCreate,
-  onUpdate,
-  render
-})))

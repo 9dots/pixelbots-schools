@@ -7,10 +7,8 @@ import ActivityQuestion from 'components/ActivityQuestion'
 import {getOverviewQuestions} from 'lib/activity-helpers'
 import ActivityMedia from 'components/ActivityMedia'
 import ActivityPost from 'components/ActivityPost'
-import objectEqual from '@f/object-equal'
-import arrayEqual from '@f/array-equal'
+import {component, element} from 'vdux'
 import {Block, Icon} from 'vdux-ui'
-import element from 'vdux/element'
 
 /**
  * Type map
@@ -36,15 +34,15 @@ const editingProps = {
  * <ActivityObject/>
  */
 
-const ActivityObject = wrap(CSSContainer, ({editable}) => editable
+export default wrap(CSSContainer, ({editable}) => editable
   ? {hoverProps: {hover: true}}
   : {}
-)({
+)(component({
   render({props}) {
     const {object, open, editing, editable, onEdit, hover, opening, ...rest} = props
     const Obj = typeMap[object.objectType]
     const editableProps = {
-      onClick: () => open(object._id),
+      onClick: open(object._id),
       bgColor: hover ? 'off_white' : 'white'
     }
 
@@ -78,10 +76,4 @@ const ActivityObject = wrap(CSSContainer, ({editable}) => editable
       </Block>
     )
   }
-})
-
-/**
- * Exports
- */
-
- export default ActivityObject
+}))

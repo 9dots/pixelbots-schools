@@ -2,9 +2,13 @@
  * Imports
  */
 
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 import {Icon} from 'vdux-ui'
 import css from 'jss-simple'
+
+/**
+ * Assets
+ */
 
 const cloudFS = require('cloud-fs')
 const woff = cloudFS.url('./weo-icons.woff')
@@ -16,9 +20,11 @@ const eot = cloudFS.url('./weo-icons.eot')
  * WeoIcon
  */
 
-function render ({props}) {
-  return <Icon iconClass={weoIcon} {...props} />
-}
+export default component({
+  render ({props}) {
+    return <Icon iconClass={weoIcon} {...props} />
+  }
+})
 
 /**
  * Style
@@ -55,11 +61,3 @@ const {weoIcon} = css({
     '-webkit-font-smoothing': 'antialiased'
   }
 })
-
-/**
- * Exports
- */
-
-export default {
-  render
-}

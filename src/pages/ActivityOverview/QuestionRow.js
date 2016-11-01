@@ -2,31 +2,32 @@
  * Imports
  */
 import ActivityQuestion from 'components/ActivityQuestion'
-import {questionIcon} from 'lib/activity-helpers'
 import {wrap, CSSContainer} from 'vdux-containers'
+import {questionIcon} from 'lib/activity-helpers'
+import {component, Document, element} from 'vdux'
 import {Block, Card, Flex, Icon} from 'vdux-ui'
-import Document from 'vdux/document'
-import element from 'vdux/element'
-
 
 /**
- * QuestionRow
+ * <QuestionRow/>
  */
 
-function render ({props}) {
-  return (
-    <Question  {...props} />
-  )
-}
+export default component({
+  render ({props}) {
+    return (
+      <Question  {...props} />
+    )
+  }
+})
+
+/**
+ * <Question/.
+ */
 
 const Question = wrap(CSSContainer, {
   hoverProps: {hover: true}
 })({
   render ({props}) {
-    const {
-      question, hover, i,
-      expanded, toggle, dismiss
-    } = props
+    const {question, hover, i, expanded, dismiss} = props
     const {displayName, total, numAnswered, points: {max}, poll} = question
     // Prevent division by zero
     const average = Math.round((total / (numAnswered || 1)) * 10) / 10
@@ -41,7 +42,7 @@ const Question = wrap(CSSContainer, {
     return (
       <Block>
         <Document onClick={dismiss} />
-        <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'z2' : '0 0 0'} onClick={e => open(e, toggle)}>
+        <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'z2' : '0 0 0'} onClick={actions.open}>
           <Flex fs='s' lighter wide pointer>
             <Card {...headerProps} ellipsis flex>
               <Block>{i+1}.</Block>
@@ -58,7 +59,7 @@ const Question = wrap(CSSContainer, {
           </Flex>
           {
             expanded && (
-              <Block onClick={e => e.stopPropagation()} bgColor='white' p='18px 50px 30px 50px'>
+              <Block onClick={actions.stopPropagation} bgColor='white' p='18px 50px 30px 50px'>
                 <ActivityQuestion overview object={question} />
               </Block>
             )
@@ -66,6 +67,17 @@ const Question = wrap(CSSContainer, {
         </Block>
       </Block>
     )
+  },
+
+  events: {
+    stopPropagation (model, e) {
+      e.stopPropagation()
+    },
+
+    * open ({props}, e) {
+      e.stopPropagation()
+      yield props.toggle()
+    }
   }
 })
 
@@ -73,25 +85,8 @@ const Question = wrap(CSSContainer, {
  * Helpers
  */
 
-function open(e, toggle) {
-  e.stopPropagation()
-  return toggle()
-}
-
 function getColor (average) {
-  let color = 'green'
-  if(average < .6)
-    color = 'red'
-  else if(average < .8)
-    color = 'yellow'
-
-  return color
-}
-
-/**
- * Render
- */
-
-export default {
-  render
+  return average < .6
+    ? 'red'
+    : average < .8 ? 'yellow' : 'green'
 }

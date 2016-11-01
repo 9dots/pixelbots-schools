@@ -5,11 +5,10 @@
 import {Flex, Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
 import {wrap, CSSContainer, TableRow, Button, Text} from 'vdux-containers'
 import StudentDropdown from './StudentDropdown'
-import handleActions from '@f/handle-actions'
 import summonPrefs from 'lib/summon-prefs'
+import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
-import element from 'vdux/element'
 import getProp from '@f/get-prop'
 import index from '@f/index'
 import map from '@f/map'
@@ -18,58 +17,69 @@ import map from '@f/map'
  * <StudentGrid/> in class -> students page
  */
 
-function render ({props}) {
-  const {students, selected, group, toggleAll, currentUser, setPref, prefs} = props
-  const isStudent = currentUser.userType === 'student'
-  const selMap = index(selected)
-  const allSelected = students.length === selected.length
-  const indeterminate = !allSelected && selected.length
-  const headerProps = {}
-  const sort = prefs.peopleSort || {dir: 1, property: 'name.givenName'}
-  const sortedStudents = students.sort(cmp)
+export default summonPrefs()(component({
+  render ({props, actions}) {
+    const {students, selected, group, toggleAll, currentUser, setPref, prefs} = props
+    const isStudent = currentUser.userType === 'student'
+    const selMap = index(selected)
+    const allSelected = students.length === selected.length
+    const indeterminate = !allSelected && selected.length
+    const headerProps = {}
+    const sort = prefs.peopleSort || {dir: 1, property: 'name.givenName'}
+    const sortedStudents = students.sort(cmp)
 
-  return (
-    <Table bgColor='white' wide tall>
-      <TableRow py bgColor='grey' color='white'>
-        <TableHeader p w='40' hide={isStudent}>
-          <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={() => toggleAll('selected')} />
-        </TableHeader>
-        <TableHeader w='40'/>
-        <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={setSort} />
-        <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setSort={setSort} />
-        <StudentHeader text='Username' prop='username' sort={sort} setSort={setSort} />
-        <TableHeader hide={isStudent} />
-      </TableRow>
-      {
-        map(student => (
-          <StudentRow group={group} student={student} highlight={!!selMap[student._id]} selected={!!selMap[student._id]} isStudent={isStudent} />
-        ), sortedStudents)
-      }
-    </Table>
-  )
+    return (
+      <Table bgColor='white' wide tall>
+        <TableRow py bgColor='grey' color='white'>
+          <TableHeader p w='40' hide={isStudent}>
+            <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
+          </TableHeader>
+          <TableHeader w='40'/>
+          <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={setSort} />
+          <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setSort={setSort} />
+          <StudentHeader text='Username' prop='username' sort={sort} setSort={setSort} />
+          <TableHeader hide={isStudent} />
+        </TableRow>
+        {
+          map(student => (
+            <StudentRow group={group} student={student} highlight={!!selMap[student._id]} selected={!!selMap[student._id]} isStudent={isStudent} />
+          ), sortedStudents)
+        }
+      </Table>
+    )
 
-  function * setSort(prop) {
-    yield setPref('peopleSort', {
-      property: prop,
-      dir: prop === sort.property ? sort.dir * -1 : 1
-    })
+    function cmp (a, b) {
+      if(!sort) return
+      const prop = sort.property
+
+      return getProp(prop, a).toUpperCase() > getProp(prop, b).toUpperCase()
+      ? 1 * sort.dir
+      : -1 * sort.dir
+    }
+  },
+
+  events: {
+    * setSort ({props}, prop) {
+      const {setPref, sort} = props
+
+      yield setPref('peopleSort', {
+        property: prop,
+        dir: prop === sort.property ? sort.dir * -1 : 1
+      })
+    }
   }
+}))
 
-  function cmp (a, b) {
-    if(!sort) return
-    const prop = sort.property
-
-    return getProp(prop, a).toUpperCase() > getProp(prop, b).toUpperCase()
-    ? 1 * sort.dir
-    : -1 * sort.dir
-  }
-}
+/**
+ * <StudentHeader/>
+ */
 
 const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps: {hover: true}})({
   render ({props}) {
     const {hover, sort, prop, text, setSort, ...rest} = props
+
     return (
-      <TableHeader pointer onClick={() => setSort(prop)} {...rest}>
+      <TableHeader pointer onClick={setSort(prop)} {...rest}>
         <Block align='start center'>
           <Text underline={hover}>
             {text}
@@ -85,13 +95,17 @@ const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps
   }
 })
 
+/**
+ * <StudentRow/>
+ */
+
 const StudentRow = wrap(CSSContainer, {
   hoverProps: {
     highlight: true,
     showSettings: true
   }
-})({
-  render ({props}) {
+})(component({
+  render ({props, actions}) {
     const {student, selected, group, highlight, showSettings, isStudent} = props
     const {name, username} = student
     const {givenName, familyName} = name
@@ -123,19 +137,17 @@ const StudentRow = wrap(CSSContainer, {
         <TableCell {...cellProps} textAlign='right' hide={isStudent}>
           <StudentDropdown
             group={group}
-            onClick={e => e.preventDefault()}
+            onClick={actions.preventDefault()}
             showSettings={showSettings}
             student={student}/>
         </TableCell>
       </TableRow>
     )
+  },
+
+  events: {
+    preventDefault (model, e) {
+      e.preventDefault()
+    }
   }
-})
-
-/**
- * Exports
- */
-
-export default summonPrefs()({
-  render
-})
+}))

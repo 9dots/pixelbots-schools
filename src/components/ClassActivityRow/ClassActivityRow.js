@@ -4,7 +4,7 @@
 
 import ClassActivityBadge from 'components/ClassActivityBadge'
 import ActivityRow from 'components/ActivityRow'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 import {Text} from 'vdux-ui'
 import moment from 'moment'
 
@@ -12,11 +12,17 @@ import moment from 'moment'
  * <ClassActivityRow/>
  */
 
-function render ({props}) {
-  return (
-    <ActivityRow actions={{pin: true}} ddMenu={true} badgeUi={ClassActivityBadge} metaUi={ClassMeta} {...props} />
-  )
-}
+export default component({
+  render ({props}) {
+    return (
+      <ActivityRow options={{pin: true}} ddMenu={true} badgeUi={ClassActivityBadge} metaUi={ClassMeta} {...props} />
+    )
+  }
+})
+
+/**
+ * <ClassMeta/>
+ */
 
 function ClassMeta ({props}) {
   const {activity} = props
@@ -27,12 +33,4 @@ function ClassMeta ({props}) {
       Assigned {moment(publishedAt).fromNow()}
     </Text>
   )
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

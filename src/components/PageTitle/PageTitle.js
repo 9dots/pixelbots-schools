@@ -2,41 +2,22 @@
  * Imports
  */
 
-import {setTitle} from 'middleware/title'
-import element from 'vdux/element'
-
-/**
- * onCreate
- */
-
-function onCreate ({props}) {
-  return setTitle(props.title || 'Weo')
-}
+import {component, element} from 'vdux'
 
 /**
  * <PageTitle/>
  */
 
-function render ({props}) {
-  return (
-    <span/>
-  )
-}
+export default component({
+  onCreate ({props, context}) {
+    return context.setTitle(props.title || 'Weo')
+  },
 
-/**
- * onUpdate
- */
+  render ({props}) {
+    return <span/>
+  },
 
-function onUpdate (prev, {props}) {
-  return setTitle(props.title || 'Weo')
-}
-
-/**
- * Exports
- */
-
-export default {
-  onCreate,
-  render,
-  onUpdate
-}
+  onUpdate (prev, {props, context}) {
+    return context.setTitle(props.title || 'Weo')
+  }
+})

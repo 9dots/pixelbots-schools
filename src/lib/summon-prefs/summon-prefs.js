@@ -4,7 +4,7 @@
 
 import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import element from 'vdux/element'
+import {element} from 'vdux'
 import setProp from '@f/set-prop'
 import summon from 'vdux-summon'
 

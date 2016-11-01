@@ -3,48 +3,62 @@
  */
 
 import {Button, Dropdown, MenuItem, Checkbox, Tooltip} from 'vdux-containers'
-import handleActions from '@f/handle-actions'
-import createAction from '@f/create-action'
+import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
 import grades from '@weo-edu/grades'
 import {Block, Icon} from 'vdux-ui'
-import element from 'vdux/element'
-import map from '@f/map'
 
 /**
- * Render
+ * <GradeSelector/>
  */
 
+export default component({
+  render ({props, actions, state}) {
+    const {selected, toggle, max = Infinity} = props
+    const {error} = state
 
-function render ({props, local, state}) {
-  const {selected, toggle, max = Infinity} = props
-  const {error} = state
+    const selectedList = mapValues(t => t.displayName, selected)
+    const gradeList = grades.reduce((arr, {displayName}) =>
+      selectedList.indexOf(displayName) !== -1
+        ? arr.concat(displayName)
+        : arr.concat([])
+    , [])
 
-  const selectedList = mapValues(t => t.displayName, selected)
-  const gradeList = grades.reduce((arr, {displayName}) =>
-    selectedList.indexOf(displayName) !== -1
-      ? arr.concat(displayName)
-      : arr.concat([])
-  , [])
+    const text = gradeList.length ? gradeList.join(', ') : 'Grade Selector'
+    const btnStyle = gradeList.length ? {'bold': true, color: 'blue'} : {}
 
-  const text = gradeList.length ? gradeList.join(', ') : 'Grade Selector'
-  const btnStyle = gradeList.length ? {'bold': true, color: 'blue'} : {}
+    return (
+      <Dropdown onClick={actions.stopPropagation} wide btn={<DDBtn {...btnStyle} text={text}/>} onClose={actions.setError(null)}>
+        {
+          grades.map(grade => <Item tag={grade} selected={gradeList} toggle={toggleGrade(gradeList)} error={error === grade.displayName} max={max} />)
+        }
+      </Dropdown>
+    )
+  },
 
-  return (
-    <Dropdown onClick={e => e.stopPropagation()} wide btn={<DDBtn {...btnStyle} text={text}/>} onClose={local(setError, null)}>
-      { map(grade => <Item tag={grade} selected={gradeList} toggle={toggleGrade} error={error === grade.displayName} max={max} />, grades) }
-    </Dropdown>
-  )
+  events: {
+    stopPropagation (model, e) {
+      e.stopPropagation()
+    },
 
-  function * toggleGrade (grade) {
-    if (gradeList.indexOf(grade.displayName) === -1 && gradeList.length + 1 > max) {
-      yield local(setError, grade.displayName)()
-    } else {
-      yield local(setError, null)()
-      yield toggle(grade)
+    * toggleGrade ({props, actions}, gradeList, grade) {
+      if (gradeList.indexOf(grade.displayName) === -1 && gradeList.length + 1 > max) {
+        yield actions.setError(grade.displayName)
+      } else {
+        yield actions.setError(null)
+        yield props.toggle(grade)
+      }
     }
+  },
+
+  reducer: {
+    setError: (state, error) => ({error})
   }
-}
+})
+
+/**
+ * <DDBtn/>
+ */
 
 function DDBtn ({props}) {
   const {text, ...rest} = props
@@ -68,6 +82,10 @@ function DDBtn ({props}) {
   )
 }
 
+/**
+ * <Item/>
+ */
+
 function Item ({props}) {
   const {tag, selected, toggle, error, max} = props
   const {displayName} = tag
@@ -78,7 +96,7 @@ function Item ({props}) {
 
   return (
     <MenuItem
-      onClick={() => toggle(tag)}
+      onClick={toggle(tag)}
       align='start center'
       {...errorProps}
       p='5px 8px'
@@ -92,30 +110,4 @@ function Item ({props}) {
       <Tooltip tooltipProps={{color: 'white', show: error, bgColor: 'red'}} placement='right' message={`You may only select up to ${max} grades.`} />
     </MenuItem>
   )
-}
-
-/**
- * Actions
- */
-
-const setError = createAction('<GradeSelector/>: set error')
-
-/**
- * Reducer
- */
-
-const reducer = handleActions({
-  [setError]: (state, error) => ({
-    ...state,
-    error
-  })
-})
-
-/**
- * Exports
- */
-
-export default {
-  render,
-  reducer
 }

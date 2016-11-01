@@ -4,40 +4,40 @@
 
 import FreeResponseOverview from './FreeResponseOverview'
 import LineTextarea from 'components/LineTextarea'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 import {Block} from 'vdux-ui'
 
 /**
  * <QuestionFreeResponse/>
  */
 
-function render ({props}) {
-  const {answerable, answer = [], submit, overview} = props
+export default component({
+  render ({props, actions}) {
+    const {answerable, answer = [], overview} = props
 
-  if(overview) return <FreeResponseOverview {...props} />
+    if(overview) return <FreeResponseOverview {...props} />
 
-  return (
-    <Block flex relative my>
-      <LineTextarea
-        onInput={e => submit(e.target.value)}
-        defaultValue={answer[0] || ''}
-        placeholder='Free response...'
-        fs='s'
-        lh='normal'
-        minHeight='40px'
-        verticalAlign='top'
-        disabled={!answerable}
-        borderStyle={answerable ? 'solid' : 'dotted'}
-        borderColor='grey_light'
-        opacity='1' />
-    </Block>
-  )
-}
+    return (
+      <Block flex relative my>
+        <LineTextarea
+          onInput={actions.send}
+          defaultValue={answer[0] || ''}
+          placeholder='Free response...'
+          fs='s'
+          lh='normal'
+          minHeight='40px'
+          verticalAlign='top'
+          disabled={!answerable}
+          borderStyle={answerable ? 'solid' : 'dotted'}
+          borderColor='grey_light'
+          opacity='1' />
+      </Block>
+    )
+  },
 
-/**
- * Exports
- */
-
-export default {
-  render
-}
+  events: {
+    * send ({props}, submit, e) {
+      yield props.submit(e.target.value)
+    }
+  }
+})

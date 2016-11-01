@@ -3,38 +3,40 @@
  */
 
 import {Card, Block, Text} from 'vdux-ui'
+import {component, element} from 'vdux'
 import ObjectIcon from './ObjectIcon'
 import Link from 'components/Link'
-import element from 'vdux/element'
 import moment from 'moment'
 
 /**
  * <StreamActivity/>
  */
 
-function render ({props}) {
-  const {activity} = props
-  const [object] = activity._object
-  const actor = object.actor || activity.actor
+export default component({
+  render ({props}) {
+    const {activity} = props
+    const [object] = activity._object
+    const actor = object.actor || activity.actor
 
-  return (
-    <Card wide align='space-between center' borderBottom='rgba(52, 52, 52, 0.05)'>
-      <Block align='start center' ml my>
-        <ObjectIcon object={object} my={-3} mr />
-        <Link bold href={`/${actor.username}`}>
-          {actor.displayName}
-        </Link>
-        &nbsp;
-        {verb(object)}
-        &nbsp;
-        {target(object)}
-      </Block>
-      <Block mr color='grey_medium' fs='xxs'>
-        {moment(activity.createdAt).fromNow()}
-      </Block>
-    </Card>
-  )
-}
+    return (
+      <Card wide align='space-between center' borderBottom='rgba(52, 52, 52, 0.05)'>
+        <Block align='start center' ml my>
+          <ObjectIcon object={object} my={-3} mr />
+          <Link bold href={`/${actor.username}`}>
+            {actor.displayName}
+          </Link>
+          &nbsp;
+          {verb(object)}
+          &nbsp;
+          {target(object)}
+        </Block>
+        <Block mr color='grey_medium' fs='xxs'>
+          {moment(activity.createdAt).fromNow()}
+        </Block>
+      </Card>
+    )
+  }
+})
 
 /**
  * Helpers
@@ -95,12 +97,4 @@ function isInClass (object) {
 
 function uncamel (str) {
   return str && str.replace(/([A-Z])/g, ' $1').toLowerCase()
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

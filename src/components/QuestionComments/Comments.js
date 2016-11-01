@@ -7,7 +7,7 @@ import createAction from '@f/create-action'
 import CommentCard from './CommentCard'
 import {Block} from 'vdux-containers'
 import {Icon, Card} from 'vdux-ui'
-import element from 'vdux/element'
+import {element} from 'vdux'
 import summon from 'vdux-summon'
 import map from '@f/map'
 

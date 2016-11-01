@@ -6,49 +6,13 @@ import FeedWidgets from 'components/FeedWidgets'
 import PageTitle from 'components/PageTitle'
 import IntroModal from 'modals/IntroModal'
 import TileFeed from 'components/TileFeed'
-import {openModal} from 'reducer/modal'
+import {component, element} from 'vdux'
 import EmptyFeed from './EmptyFeed'
-import element from 'vdux/element'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
 
 /**
- * onCreate
- */
-
-function onCreate ({props}) {
-  const {currentUser} = props
-  const {preferences = {}, userType} = currentUser
-  const {slideshow = {}} = preferences
-
-  if (!slideshow.done) {
-    return openModal(() => <IntroModal currentUser={currentUser} />)
-  }
-}
-
-/**
- * Following feed
- */
-
-function render ({props}) {
-  const {activities, more, currentUser} = props
-  const {preferences = {}, userType} = currentUser
-  const {loaded, value} = activities
-
-  if (!preferences.group_joined) return <EmptyFeed  />
-
-  return (
-    <Block w='col_main' mt mx='auto'>
-      <PageTitle title='Weo' />
-      <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
-        <FeedWidgets user={currentUser}/>
-     </TileFeed>
-    </Block>
-  )
-}
-
-/**
- * Exports
+ * <Feed/>
  */
 
 export default summon(props => ({
@@ -63,7 +27,31 @@ export default summon(props => ({
       }
     }
   })
-}))({
-  onCreate,
-  render
-})
+}))(component({
+  onCreate ({context, props}) {
+    const {currentUser} = props
+    const {preferences = {}, userType} = currentUser
+    const {slideshow = {}} = preferences
+
+    if (!slideshow.done) {
+      return context.openModal(() => <IntroModal currentUser={currentUser} />)
+    }
+  },
+
+  render ({props}) {
+    const {activities, more, currentUser} = props
+    const {preferences = {}, userType} = currentUser
+    const {loaded, value} = activities
+
+    if (!preferences.group_joined) return <EmptyFeed  />
+
+    return (
+      <Block w='col_main' mt mx='auto'>
+        <PageTitle title='Weo' />
+        <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
+          <FeedWidgets user={currentUser}/>
+       </TileFeed>
+      </Block>
+    )
+  }
+}))

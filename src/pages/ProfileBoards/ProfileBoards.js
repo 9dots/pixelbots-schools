@@ -5,39 +5,54 @@
 import CreateBoardModal from 'modals/CreateBoardModal'
 import {Flex, Block, Grid, Icon} from 'vdux-ui'
 import BoardTile from 'components/BoardTile'
-import {openModal} from 'reducer/modal'
+import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import EmptyState from './EmptyState'
-import element from 'vdux/element'
 import summon from 'vdux-summon'
 
 /**
  * <ProfileBoards/>
  */
 
-function render ({props}) {
-  const {user, currentUser, boards} = props
-  const {value, loaded} = boards
+export default summon(({user, currentUser}) => ({
+  boards: user._id === currentUser._id
+    ? '/user/boards'
+    : `/user/${user._id}/boards`,
+}))(component({
+  render ({props, actions}) {
+    const {user, currentUser, boards} = props
+    const {value, loaded} = boards
 
-  return (
-    <Block hide={!loaded} w='calc(100% + 12px)'>
-      {
-        loaded && value.items.length
-          ? renderGrid(value.items, currentUser, user)
-          : <EmptyState user={user} currentUser={currentUser} />
-      }
-    </Block>
-  )
-}
+    return (
+      <Block hide={!loaded} w='calc(100% + 12px)'>
+        {
+          loaded && value.items.length
+            ? renderGrid(value.items, currentUser, user, actions.createBoard)
+            : <EmptyState user={user} currentUser={currentUser} />
+        }
+      </Block>
+    )
+  },
 
-function renderGrid (boards, currentUser, user) {
+  events: {
+    * createBoard ({context}) {
+      yield context.openModal(() => <CreateBoardModal />)
+    }
+  }
+}))
+
+/**
+ * Helpers
+ */
+
+function renderGrid (boards, currentUser, user, createBoard) {
   return (
     <Grid alignRow='start'>
       {
         currentUser._id === user._id &&
         <Flex bgColor='rgba(0,0,0,0.025)' mx={6} my={8} column align='center center' border='1px dashed #b1b7bc' w={230} h={250}>
           <Block fs='s' fw='lighter' mb>Create New Board</Block>
-          <Button onClick={() => openModal(() => <CreateBoardModal />)}
+          <Button onClick={createBoard}
             hoverProps={{highlight: 0.02, boxShadow: 'z3'}}
             focusProps={{highlight: 0.02}}
             transition='box-shadow .15s'
@@ -58,15 +73,3 @@ function renderGrid (boards, currentUser, user) {
     </Grid>
   )
 }
-
-/**
- * Exports
- */
-
-export default summon(({user, currentUser}) => ({
-  boards: user._id === currentUser._id
-    ? '/user/boards'
-    : `/user/${user._id}/boards`,
-}))({
-  render
-})

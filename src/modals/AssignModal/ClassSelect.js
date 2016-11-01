@@ -5,7 +5,7 @@
 import NewMenuItem from 'components/NewMenuItem'
 import {Checkbox} from 'vdux-containers'
 import validate from 'lib/validate'
-import element from 'vdux/element'
+import {element} from 'vdux'
 import {Block} from 'vdux-ui'
 import map from '@f/map'
 

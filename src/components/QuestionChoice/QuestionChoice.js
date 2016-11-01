@@ -8,8 +8,8 @@ import TextToSpeech from 'components/TextToSpeech'
 import BlockInput from 'components/BlockInput'
 import {Block, Icon, Checkbox} from 'vdux-ui'
 import ChoiceOverview from './ChoiceOverview'
+import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
-import element from 'vdux/element'
 import Color from 'color'
 
 /**
@@ -27,128 +27,134 @@ const colors = [
 const printProps = {bgColor: 'transparent', p: '2px 0 2px 20px'}
 
 /**
- * getProps
- */
-
-function getProps (props, context) {
-  props.$media = context.uiMedia
-  return props
-}
-
-/**
  * <QuestionChoice/>
  */
 
-function render ({props}) {
-  const {
-    object, editing, $media, onEdit, showAnswers, remove,
-    focusPrevious, overview, answerable, submit, idx,
-    answer = [], actor, numAtt, setSpeaking, speechRate,
-    speakingId, speechEnabled
-  } = props
-  const {content, originalContent, correctAnswer = []} = object
-  const isCorrect = correctAnswer.indexOf(object._id) !== -1
-  const chosen = isChosen(object, answer)
-  const hasAnswer = !!answer.length
-  const bgColor = hasAnswer
-    ? chosen ? colors[idx % colors.length] : 'grey_light'
-    : colors[idx % colors.length]
+export default component({
+  render ({props, context}) {
+    const {
+      object, editing, onEdit, showAnswers, remove,
+      focusPrevious, overview, answerable, submit, idx,
+      answer = [], actor, numAtt, setSpeaking, speechRate,
+      speakingId, speechEnabled
+    } = props
+    const {content, originalContent, correctAnswer = []} = object
+    const isCorrect = correctAnswer.indexOf(object._id) !== -1
+    const chosen = isChosen(object, answer)
+    const hasAnswer = !!answer.length
+    const bgColor = hasAnswer
+      ? chosen ? colors[idx % colors.length] : 'grey_light'
+      : colors[idx % colors.length]
 
-  if (overview) return <ChoiceOverview correctCheck={isCorrect && CorrectCheck} bgColor={bgColor} {...props} />
+    if (overview) return <ChoiceOverview correctCheck={isCorrect && CorrectCheck} bgColor={bgColor} {...props} />
 
-  return (
-    <Block
-      printProps={printProps}
-      onClick={answerable && submitAnswer}
-      p={editing ? '12px 30px 12px 18px' : '12px 12px 12px 30px'}
-      pointer={answerable}
-      align='start center'
-      borderRadius='25px'
-      bgColor={bgColor}
-      relative
-      w='70%'
-      my='s'>
-      {!editing && showAnswers && isCorrect && <CorrectCheck />}
-      {chosen && <ChosenMarker actor={actor} />}
-      {
-        $media === 'print' && (
-          <Block mr>
-            <Checkbox checked={chosen} />
-          </Block>
-        )
-      }
-      <Block wide>
+    const answerToSubmit = answer.indexOf(object._id) !== -1
+      ? answer.filter(id => id !== object._id)
+      : answer.concat(object._id)
+
+    return (
+      <Block
+        printProps={printProps}
+        onClick={answerable && submitAnswer(answerToSubmit)}
+        p={editing ? '12px 30px 12px 18px' : '12px 12px 12px 30px'}
+        pointer={answerable}
+        align='start center'
+        borderRadius='25px'
+        bgColor={bgColor}
+        relative
+        w='70%'
+        my='s'>
+        {!editing && showAnswers && isCorrect && <CorrectCheck />}
+        {chosen && <ChosenMarker actor={actor} />}
         {
-          !editing
-            ? <Block mx='40px'>
-                {
-                  speechEnabled && object.displayName &&
-                  <TextToSpeech
-                    onStart={() => setSpeaking(object._id)}
-                    onEnd={() => setSpeaking()}
-                    rate={speechRate}
-                    text={object.displayName}
-                    current={speakingId === object._id}
-                    float='left'/>
-                }
-                <Block key='a' fs='s' innerHTML={content || '<br/>'} class='markdown' printProps={{ml: 0}} />
-              </Block>
-            : <Block align='start center'>
-                <Tooltip message='Mark Correct' mr>
-                  <Checkbox
-                    onChange={toggleCorrectness}
-                    checked={isCorrect}
-                    btn={Check}
-                    ml='s'/>
-                </Tooltip>
-                <BlockInput
-                  onInput={e => onEdit({...object, originalContent: e.target.value})}
-                  inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
-                  onKeydown={{backspace: e => e.target.value === '' && numAtt > 1 && [remove(), focusPrevious(e.target)]}}
-                  placeholder={`Choice ${idx + 1}`}
-                  defaultValue={originalContent}
-                  lighter
-                  my={-6}
-                  fs='s'
-                  wide/>
-                <Button
-                  absolute={{right: -24, top: 0, bottom: 0}}
-                  onClick={remove}
-                  tabindex='-1'
-                  icon='close'
-                  color='text'
-                  my='auto'
-                  hide={numAtt === 1}
-                  fs='s'/>
-              </Block>
-
+          context.uiMedia === 'print' && (
+            <Block mr>
+              <Checkbox checked={chosen} />
+            </Block>
+          )
         }
+        <Block wide>
+          {
+            !editing
+              ? <Block mx='40px'>
+                  {
+                    speechEnabled && object.displayName &&
+                    <TextToSpeech
+                      onStart={setSpeaking(object._id)}
+                      onEnd={setSpeaking(null)}
+                      rate={speechRate}
+                      text={object.displayName}
+                      current={speakingId === object._id}
+                      float='left'/>
+                  }
+                  <Block key='a' fs='s' innerHTML={content || '<br/>'} class='markdown' printProps={{ml: 0}} />
+                </Block>
+              : <Block align='start center'>
+                  <Tooltip message='Mark Correct' mr>
+                    <Checkbox
+                      onChange={toggleCorrectness}
+                      checked={isCorrect}
+                      btn={Check}
+                      ml='s'/>
+                  </Tooltip>
+                  <BlockInput
+                    onInput={editText}
+                    inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
+                    onKeydown={{backspace: maybeRemove}}
+                    placeholder={`Choice ${idx + 1}`}
+                    defaultValue={originalContent}
+                    lighter
+                    my={-6}
+                    fs='s'
+                    wide/>
+                  <Button
+                    absolute={{right: -24, top: 0, bottom: 0}}
+                    onClick={remove}
+                    tabindex='-1'
+                    icon='close'
+                    color='text'
+                    my='auto'
+                    hide={numAtt === 1}
+                    fs='s'/>
+                </Block>
+
+          }
+        </Block>
       </Block>
-    </Block>
-  )
+    )
+  },
 
-  function toggleCorrectness (e) {
-    return onEdit({
-      ...object,
-      correctAnswer: correctAnswer
-        .filter(id => id !== object._id)
-        .concat(e.target.checked ? object._id : [])
-    })
-  }
+  events: {
+    * toggleCorrectness ({props}, e) {
+      const {onEdit, object} = props
 
-  function * submitAnswer () {
-    if (answer.indexOf(object._id) !== -1) {
-      yield submit(answer.filter(id => id !== object._id))
-    } else {
-      yield submit(answer.concat(object._id))
+      yield onEdit({
+        ...object,
+        correctAnswer: object.correctAnswer
+          .filter(id => id !== object._id)
+          .concat(e.target.checked ? object._id : [])
+      })
+    },
+
+    * editText ({props}, e) {
+      const {object, onEdit} = props
+      yield onEdit({...object, originalContent: e.target.value})
+    },
+
+    * maybeRemove ({props}, e) {
+      const {numAtt, remove, focusPrevious} = props
+
+      if (e.target.value === '' && numAtt > 1) {
+        yield remove()
+        yield focusPrevious(e.target)
+      }
     }
   }
-}
+})
 
-function isChosen (obj, answer) {
-  answer = [].concat(answer)
-  return answer.indexOf(obj._id) !== -1
-}
+/**
+ * <ChosenMarker/>
+ */
 
 function ChosenMarker ({props}) {
   const {actor} = props
@@ -164,6 +170,10 @@ function ChosenMarker ({props}) {
       m='auto'/>
   )
 }
+
+/**
+ * <Check/>
+ */
 
 function Check ({props}) {
   const {checked} = props
@@ -184,6 +194,10 @@ function Check ({props}) {
   )
 }
 
+/**
+ * <CorrectCheck/>
+ */
+
 function CorrectCheck ({props}) {
   return (
     <Block
@@ -201,10 +215,10 @@ function CorrectCheck ({props}) {
 }
 
 /**
- * Exports
+ * Helpers
  */
 
-export default {
-  getProps,
-  render
+function isChosen (obj, answer) {
+  answer = [].concat(answer)
+  return answer.indexOf(obj._id) !== -1
 }

@@ -6,33 +6,28 @@ import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import ActivityCardActions from 'components/ActivityCardActions'
 import {Flex, Block, Card, Text, Image} from 'vdux-ui'
 import {wrap, CSSContainer} from 'vdux-containers'
-import {setUrl} from 'redux-effects-location'
+import {component, element} from 'vdux'
 import Figure from 'components/Figure'
 import resize from 'lib/resize-image'
 import BgImg from 'components/BgImg'
-import element from 'vdux/element'
 import Meta from './Meta'
 
 /**
  * <ActivityRow/>
  */
 
-function render ({props}) {
-  return (
-    <Activity {...props} hoverProps={{hover: true}} />
-  )
-}
-
-const Activity = wrap(CSSContainer)({
-  render ({props}) {
+export default wrap(CSSContainer, {
+  hoverProps: {hover: true}
+})(component({
+  render ({props, context, actions}) {
     const {
       hover, activity, metaUi: MetaUi = Meta, ddMenu,
-      badgeUi: BadgeUi = Badge, currentUser, actions
+      badgeUi: BadgeUi = Badge, currentUser, options
     } = props
     const {image, displayName, description, _id: id} = activity
 
     return (
-      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='pointer' onClick={() => setUrl(`/activity/${id}`)}>
+      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='pointer' onClick={context.setUrl(`/activity/${id}`)}>
         <Flex tall align='start start'>
           <Flex p='m' tall column align='space-between' flex='50%'>
             <Block fs='s' fw='200'>{displayName}</Block>
@@ -64,12 +59,12 @@ const Activity = wrap(CSSContainer)({
                 </Flex>
             }
             {
-              actions && hover &&
+              options && hover &&
                 <Flex align='end center'>
-                  <ActivityCardActions {...actions} align='end center' wide activity={activity} user={currentUser} />
+                  <ActivityCardActions {...options} align='end center' wide activity={activity} user={currentUser} />
                   {
                     ddMenu &&
-                      <Block mr ml='-6' onClick={e => e.stopPropagation()}>
+                      <Block mr ml='-6' onClick={actions.stopPropagation}>
                         <ActivityDropdownMenu activity={activity} />
                       </Block>
                   }
@@ -79,15 +74,19 @@ const Activity = wrap(CSSContainer)({
         </Flex>
       </Card>
     )
-  }
-})
+  },
 
-function Badge () { return <span/> }
+  events: {
+    stopPropagation (model, e) {
+      e.stopPropagation()
+    }
+  }
+}))
 
 /**
- * Exports
+ * <Badge/>
  */
 
-export default {
-  render
+function Badge () {
+  return <span/>
 }

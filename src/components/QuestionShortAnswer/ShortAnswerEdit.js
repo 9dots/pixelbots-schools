@@ -4,108 +4,137 @@
 
 import {Tooltip, Button, Block as ContBlock} from 'vdux-containers'
 import LineInput from 'components/LineInput'
+import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
 import {Block, Icon} from 'vdux-ui'
-import element from 'vdux/element'
 import Form from 'vdux-form'
 import map from '@f/map'
 
 /**
- * ShortAnswerEdit
+ * <ShortAnswerEdit/>
  */
 
-function render ({props}) {
-  const {object, onEdit, focusPrevious} = props
-  const {correctAnswer = []} = object
+export default component({
+  render ({props, actions}) {
+    const {object, onEdit, focusPrevious} = props
+    const {correctAnswer = []} = object
 
-  return (
-    <Block>
-      <Block my='s' align='start center'>
-        Provide each possible answer:
-        <Tooltip placement='right' message='Student responses must exactly match one of your provided solutions. Provide all possible solutions to the question.' ml='s' tooltipProps={{whiteSpace: 'normal',lh: '1.4em', fs: '12px'}}>
-            <Icon name='help' fs='s' pr />
-          </Tooltip>
-      </Block>
+    return (
       <Block>
-        {
-          map((ans, i) => <Answer
-            focusPrevious={focusPrevious}
-            answer={ans}
-            onInput={answer => save(replace(correctAnswer, i, answer))}
-            onEnter={() => save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
-            num={correctAnswer.length}
-            remove={remove}
-            idx={i} />,
-            correctAnswer)
-        }
-      </Block>
-      <Block align='start center' w='45%'>
-        <Block mr mt={-4} fs='s'>{correctAnswer.length + 1}.</Block>
-        <Button
-          key={`btn_${correctAnswer.length}`}
-          hoverProps={{borderBottomColor: 'grey_medium'}}
-          focusProps={{borderBottomColor: 'grey_medium'}}
-          border='1px dashed transparent'
-          borderBottomColor='grey_light'
-          bgColor='transparent'
-          onClick={() => save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
-          color='grey_medium'
-          cursor='text'
-          lh='12px'
-          h={38}
-          fs='s'
-          p={0}
-          flex
-          mr>
-          <Block align='start' flex lighter>
-            Add Answer
+        <Block my='s' align='start center'>
+          Provide each possible answer:
+          <Tooltip placement='right' message='Student responses must exactly match one of your provided solutions. Provide all possible solutions to the question.' ml='s' tooltipProps={{whiteSpace: 'normal',lh: '1.4em', fs: '12px'}}>
+              <Icon name='help' fs='s' pr />
+            </Tooltip>
+        </Block>
+        <Block>
+          {
+            map((ans, i) => <Answer
+              focusPrevious={focusPrevious}
+              answer={ans}
+              onInput={actions.edit(i)}
+              onEnter={save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
+              num={correctAnswer.length}
+              remove={remove}
+              idx={i} />,
+              correctAnswer)
+          }
+        </Block>
+        <Block align='start center' w='45%'>
+          <Block mr mt={-4} fs='s'>{correctAnswer.length + 1}.</Block>
+          <Button
+            key={`btn_${correctAnswer.length}`}
+            hoverProps={{borderBottomColor: 'grey_medium'}}
+            focusProps={{borderBottomColor: 'grey_medium'}}
+            border='1px dashed transparent'
+            borderBottomColor='grey_light'
+            bgColor='transparent'
+            onClick={save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
+            color='grey_medium'
+            cursor='text'
+            lh='12px'
+            h={38}
+            fs='s'
+            p={0}
+            flex
+            mr>
+            <Block align='start' flex lighter>
+              Add Answer
+            </Block>
+          </Button>
+          <Block align='center center'>
+            <Button icon='close' hidden pointerEvents='none' />
           </Block>
-        </Button>
-        <Block align='center center'>
-          <Button icon='close' hidden pointerEvents='none' />
         </Block>
       </Block>
-    </Block>
-  )
+    )
+  },
 
-  function save (correctAnswer) {
-    return onEdit({
-      ...object,
-      correctAnswer
-    })
+  events: {
+    * save ({props}, correctAnswer) {
+      yield props.onEdit({
+        ...props.object,
+        correctAnswer
+      })
+    },
+
+    * edit ({props}, i, e) {
+      yield save(replace(props.object.correctAnswer, i, e.target.value))
+    },
+
+    * remove ({props, actions}, idx) {
+      const ans = props.object.correctAnswer.slice()
+      ans.splice(idx, 1)
+      yield actions.save(ans)
+    }
   }
+})
 
-  function remove (idx) {
-    const ans = correctAnswer.slice()
-    ans.splice(idx, 1)
-    return save(ans)
+/**
+ * <Answer/>
+ */
+
+const Answer = component({
+  render ({props, actions}) {
+    const {answer, idx, remove, focusPrevious, num, onInput, onEnter} = props
+
+    return (
+      <Block align='start center' mr mb='s' flex='45%'>
+        <Block mr mt={-4} fs='s'>{idx + 1}.</Block>
+        <LineInput
+          onKeydown={{
+            backspace: actions.maybeRemove,
+            enter: onEnter
+          }}
+          onInput={onInput}
+          // placeholder={'Answer ' + (idx+1)}
+          onFocus={actions.selectTarget}
+          value={answer}
+          autofocus
+          fs='s'
+          m={0}/>
+        <Button tabindex='-1' color='text' icon='close' ml onClick={remove(idx)} hidden={num === 1} poinerEvents={num === 1 ? 'none' : 'default'}/>
+      </Block>
+    )
+  },
+
+  events: {
+    selectTarget (model, e) {
+      e.target.select()
+    },
+
+    * maybeRemove ({props}, e) {
+      const {num, focusPrevious, remove} = props
+
+      if (num !== 1 && e.target.value === '') {
+        yield [
+          remove(idx),
+          focusPrevious(e)
+        ]
+      }
+    }
   }
-}
-
-function Answer({props}) {
-  const {answer, idx, remove, focusPrevious, num, onInput, onEnter} = props
-
-  return (
-    <Block align='start center' mr mb='s' flex='45%'>
-      <Block mr mt={-4} fs='s'>{idx + 1}.</Block>
-      <LineInput
-        onKeydown={{
-          backspace: e => num !== 1 && e.target.value === '' &&
-            [remove(idx), idx && focusPrevious(e.target)],
-          enter: () => onEnter()
-        }}
-        onInput={e => onInput(e.target.value)}
-        // placeholder={'Answer ' + (idx+1)}
-        onFocus={e => e.target.select()}
-        value={answer}
-        autofocus
-        fs='s'
-        m={0}/>
-      <Button tabindex='-1' color='text' icon='close' ml onClick={() => remove(idx)} hidden={num === 1} poinerEvents={num === 1 ? 'none' : 'default'}/>
-    </Block>
-  )
-
-}
+})
 
 /**
  * Helpers
@@ -115,12 +144,4 @@ function replace (arr, idx, val) {
   arr = arr.slice()
   arr[idx] = val
   return arr
-}
-
-/**
- * Export
- */
-
-export default {
-  render
 }

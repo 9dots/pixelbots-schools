@@ -3,101 +3,104 @@
  */
 
 import {questionIcon, totalPoints, totalScore, statusMap} from 'lib/activity-helpers'
-import {Block as ContainerBlock, debounceAction} from 'vdux-containers'
+import {Block as ContainerBlock} from 'vdux-containers'
 import ActivityBadge from 'components/ActivityBadge'
 import {Card, Block, Text, Icon} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
 import SidebarActions from './SidebarActions'
-import {scrollTo} from 'middleware/scroll'
+import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import {Input} from 'vdux-containers'
+import {debounce} from 'redux-timing'
 import Link from 'components/Link'
-import element from 'vdux/element'
 import summon from 'vdux-summon'
+import sleep from '@f/sleep'
 import moment from 'moment'
 
 /**
  * <ActivitySidebar/>
  */
 
-function render ({props}) {
-  const {activity, showScores, setMax, canGrade, canSetMax, isStudent, isRedo, selectObject, selectedObject, hasInstanceNav} = props
-  const {actor, publishedAt, at = {}, _object, status, published} = activity
-  const isInstance = activity.shareType === 'shareInstance'
-  let count = 0
-  const questions = _object[0].attachments
-    .filter(att => {
-      if(att.objectType === 'question') {
-        const {response = []} = att
-        count = response.length ? count + 1 : count
-        return true
-      }
-    })
+export default component({
+  render ({props}) {
+    const {activity, showScores, setMax, canGrade, canSetMax, isStudent, isRedo, selectObject, selectedObject, hasInstanceNav} = props
+    const {actor, publishedAt, at = {}, _object, status, published} = activity
+    const isInstance = activity.shareType === 'shareInstance'
+    let count = 0
+    const questions = _object[0].attachments
+      .filter(att => {
+        if(att.objectType === 'question') {
+          const {response = []} = att
+          count = response.length ? count + 1 : count
+          return true
+        }
+      })
 
-  const {descriptor} = activity.contexts[0]
-  const classId = descriptor.id
-  const score = showScores ? totalScore(activity) : '-'
+    const {descriptor} = activity.contexts[0]
+    const classId = descriptor.id
+    const score = showScores ? totalScore(activity) : '-'
 
-  return (
-    <Block mt>
-      <Card mb relative>
-        <Block p align='start center'>
-          <Avatar mr actor={actor} size={60} />
-          <Block column align='start' fs='xs'>
-            <Link
-              hoverProps={{textDecoration: 'underline'}}
-              href={`/${actor.username}`}
-              mb='xs'>
-              {actor.displayName}
-            </Link>
-            <Text my='xs' hide={classId === 'public' || isInstance || !published} color='blue'>
-              {descriptor.displayName}
-            </Text>
-            <Text fs='12px' color='grey_medium' align='start center' hide={isInstance || !published}>
-              <Icon fs='xs' name='schedule' mr='xs' />
-              {moment(publishedAt || at.turnedIn).fromNow()}
-            </Text>
-            <Text hide={!isInstance || (activity.status < statusMap.turnedIn)} color='grey_medium' fs='12px'>
-              {moment(at.turnedIn).format('M/D/YY LT')}
-            </Text>
+    return (
+      <Block mt>
+        <Card mb relative>
+          <Block p align='start center'>
+            <Avatar mr actor={actor} size={60} />
+            <Block column align='start' fs='xs'>
+              <Link
+                hoverProps={{textDecoration: 'underline'}}
+                href={`/${actor.username}`}
+                mb='xs'>
+                {actor.displayName}
+              </Link>
+              <Text my='xs' hide={classId === 'public' || isInstance || !published} color='blue'>
+                {descriptor.displayName}
+              </Text>
+              <Text fs='12px' color='grey_medium' align='start center' hide={isInstance || !published}>
+                <Icon fs='xs' name='schedule' mr='xs' />
+                {moment(publishedAt || at.turnedIn).fromNow()}
+              </Text>
+              <Text hide={!isInstance || (activity.status < statusMap.turnedIn)} color='grey_medium' fs='12px'>
+                {moment(at.turnedIn).format('M/D/YY LT')}
+              </Text>
+            </Block>
           </Block>
-        </Block>
-        <ActivityBadge hide={!isInstance} status={status} userType={isStudent ? 'student' : 'teacher'} text={false} absolute top right />
-      </Card>
-      <Card hide={!questions.length}>
-        <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' ellipsis boxShadow='0 1px 1px rgba(75,82,87,0.08)' relative z='2'>
-          {score} / {totalPoints(activity)}
-        </Block>
-        <Block maxHeight={`calc(100vh - ${hasInstanceNav ?  420 : 326}px)`} overflow='auto' borderBottom='1px solid grey_light'>
-          {
-            questions.map((q, i) => <ScoreRow
-              num={i + 1}
-              question={q}
-              setMax={setMax}
-              isRedo={isRedo}
-              activity={activity}
-              canGrade={canGrade}
-              isStudent={isStudent}
-              canSetMax={canSetMax}
-              selectObject={selectObject}
-              isSelected={selectedObject === q._id}
-              showScore={showScores} />)
-          }
-        </Block>
-        <Block p boxShadow='0 -2px 1px rgba(75,82,87,0.08)' relative z='2'>
-          {
-            isInstance &&
-              <SidebarActions
-                questions={questions}
-                count={count}
+          <ActivityBadge hide={!isInstance} status={status} userType={isStudent ? 'student' : 'teacher'} text={false} absolute top right />
+        </Card>
+        <Card hide={!questions.length}>
+          <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' ellipsis boxShadow='0 1px 1px rgba(75,82,87,0.08)' relative z='2'>
+            {score} / {totalPoints(activity)}
+          </Block>
+          <Block maxHeight={`calc(100vh - ${hasInstanceNav ?  420 : 326}px)`} overflow='auto' borderBottom='1px solid grey_light'>
+            {
+              questions.map((q, i) => <ScoreRow
+                num={i + 1}
+                question={q}
+                setMax={setMax}
+                isRedo={isRedo}
                 activity={activity}
-                isStudent={isStudent} />
-          }
-        </Block>
-      </Card>
-    </Block>
-  )
-}
+                canGrade={canGrade}
+                isStudent={isStudent}
+                canSetMax={canSetMax}
+                selectObject={selectObject}
+                isSelected={selectedObject === q._id}
+                showScore={showScores} />)
+            }
+          </Block>
+          <Block p boxShadow='0 -2px 1px rgba(75,82,87,0.08)' relative z='2'>
+            {
+              isInstance &&
+                <SidebarActions
+                  questions={questions}
+                  count={count}
+                  activity={activity}
+                  isStudent={isStudent} />
+            }
+          </Block>
+        </Card>
+      </Block>
+    )
+  }
+})
 
 /**
  * ScoreRow Constants
@@ -105,7 +108,6 @@ function render ({props}) {
 
 const inputProps = {
   m: 0,
-  onFocus: e => e.target.select(),
   inputProps: {
     textAlign: 'center',
     borderWidth: 0,
@@ -138,39 +140,27 @@ const ScoreRow = summon(() => ({
       }
     }
   })
-}))({
-  initialState ({props}) {
-    return {
-      debouncedSetPoints: debounceAction(props.setPoints, 500)
-    }
-  },
-
-  render ({props, state}) {
+}))(component({
+  render ({props, actions}) {
     const {
       question, selectObject, isSelected, showScore, canGrade, isRedo,
       canSetMax, num, activity, isStudent, showIncorrect, setMax
     } = props
-    const {debouncedSetPoints} = state
     const {points} = question
     const {scaled, max} = points
     const curPoints = scaled === undefined || !showScore
       ? undefined
       : max * scaled
 
-
     const color = getColor(activity, question, canGrade, isStudent, isRedo && showIncorrect)
     const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStreams
 
     return (
       <Block
-        onFocus={isIos || (() => selectObject(question._id))}
+        onFocus={isIos || selectObject(question._id)}
         onClick={[
-          isIos && (() => selectObject(question._id)),
-          () => dispatch => setTimeout(() => dispatch(scrollTo(document.getElementById(question._id), {
-            easing: 'easeInOutSine',
-            offsetY: -100,
-            duration: 100
-          })))
+          isIos && selectObject(question._id),
+          actions.scrollTo(question._id)
         ]}
         tabindex='-1'
         focusProps={{borderLeftColor: 'blue', bg: 'off_white'}}
@@ -199,7 +189,8 @@ const ScoreRow = summon(() => ({
               w='50%'>
               <Input
                 {...inputProps}
-                onInput={setPoints}
+                onFocus={actions.selectTarget}
+                onInput={actions.debouncedSetPoints}
                 disabled={!canGrade}
                 color='text'
                 defaultValue={curPoints}
@@ -207,7 +198,8 @@ const ScoreRow = summon(() => ({
               <Text bgColor='transparent' color='black'>/</Text>
               <Input
                 {...inputProps}
-                onInput={trySetMax}
+                onFocus={actions.selectTarget}
+                onInput={actions.trySetMax}
                 disabled={!canSetMax}
                 color='text'
                 defaultValue={max} />
@@ -216,32 +208,58 @@ const ScoreRow = summon(() => ({
         }
       </Block>
     )
+  },
 
-    function * setPoints (e) {
+  middleware: [
+    debounce('debouncedSetPoints', 500)
+  ],
+
+  events: {
+    selectTarget (model, e) {
+      e.target.select()
+    },
+
+    * scrollTo ({context}, id) {
+      yield sleep(0)
+      const node = document.getElementById(id)
+      yield context.scrollTo(node, {
+        easing: 'easeInOutSine',
+        offsetY: -100,
+        duration: 100
+      })
+    },
+
+    * debouncedSetPoints ({props}, e) {
       e.target.value = normalize(e.target.value)
-      const points = Number(e.target.value)
-      if (isNaN(points)) return
-      yield debouncedSetPoints(activity._id, question._id, points / max)
-    }
 
-    function * trySetMax (e) {
+      const points = Number(e.target.value)
+      const {activity, question, setPoints} = props
+
+      if (! isNaN(points)) {
+        yield setPoints(activity._id, question._id, points / question.points.max)
+      }
+    },
+
+    * trySetMax ({props}, e) {
       e.target.value = normalize(e.target.value)
 
       const max = Number(e.target.value)
+      const {setMax, question} = props
 
-      if (isNaN(max)) return
-      yield setMax(question._id, max)
-    }
-
-    function normalize (str = '') {
-      return str.replace(/[^0-9\.]/g, '').replace(/\.+/g, '.')
+      if (! isNaN(max)) {
+        yield setMax(question._id, max)
+      }
     }
   }
-})
+}))
 
 /**
  * Helpers
  */
+
+function normalize (str = '') {
+  return str.replace(/[^0-9\.]/g, '').replace(/\.+/g, '.')
+}
 
 function getColor (activity, question, canGrade, isStudent, isRedo) {
   const {status} = activity
@@ -267,12 +285,4 @@ function getColor (activity, question, canGrade, isStudent, isRedo) {
       return response.length ? 'green' : 'yellow'
     }
   }
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

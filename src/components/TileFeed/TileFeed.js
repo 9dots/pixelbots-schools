@@ -4,27 +4,33 @@
 
 import InfiniteScroll from 'components/InfiniteScroll'
 import ActivityTile from 'components/ActivityTile'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 import times from '@f/times'
 import {Flex} from 'vdux-ui'
 import map from '@f/map'
 
 /**
- * Tile feed
+ * <TileFeed/>
  */
 
-function render ({children, props}) {
-  const {activities, more, emptyState, currentUser, skip, activityProps = {}} = props
-  const {value, loaded, loading} = activities
+export default component({
+  render ({children, props}) {
+    const {activities, more, emptyState, currentUser, skip, activityProps = {}} = props
+    const {value, loaded, loading} = activities
 
-  return (
-    <InfiniteScroll w='calc(100% + 12px)' loading={loading} more={() => value && more(value.nextPageToken)}>
-        {
-          loaded && renderItems(value.items, emptyState, children, currentUser, skip, activityProps)
-        }
-    </InfiniteScroll>
-  )
-}
+    return (
+      <InfiniteScroll w='calc(100% + 12px)' loading={loading} more={value && more(value.nextPageToken)}>
+          {
+            loaded && renderItems(value.items, emptyState, children, currentUser, skip, activityProps)
+          }
+      </InfiniteScroll>
+    )
+  }
+})
+
+/**
+ * Helpers
+ */
 
 function renderItems (items, emptyState, children, user, skip, activityProps) {
   const columns = toColumns(items, 4, skip)
@@ -37,7 +43,7 @@ function renderItems (items, emptyState, children, user, skip, activityProps) {
               <Flex column>
                 {i === 0 && children}
                 {
-                  map(activity => <ActivityTile user={user} activity={activity} actions={getActions(activity)} {...activityProps} />, items)
+                  map(activity => <ActivityTile user={user} activity={activity} options={getOptions(activity)} {...activityProps} />, items)
                 }
               </Flex>
             ), columns)
@@ -46,7 +52,7 @@ function renderItems (items, emptyState, children, user, skip, activityProps) {
       : emptyState
   )
 
-  function getActions (activity) {
+  function getOptions (activity) {
     const isOwner = activity.actor.id === user._id
     return {
       edit: isOwner,
@@ -56,11 +62,6 @@ function renderItems (items, emptyState, children, user, skip, activityProps) {
     }
   }
 }
-
-/**
- * Helpers
- */
-
 
 function toColumns (items, n, skip) {
   const columns = times(n, () => [])
@@ -131,12 +132,4 @@ function imageHeight (image = {}) {
   return !width || !height
     ? 0
     : Math.min((230 * height) / width, 350)
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

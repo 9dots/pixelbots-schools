@@ -2,25 +2,31 @@
  * Imports
  */
 
-import Avatar from 'components/Avatar'
 import {Block, wrap, CSSContainer} from 'vdux-containers'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
+import Avatar from 'components/Avatar'
 import map from '@f/map'
 
 /**
  * <ShortAnswerOverview/>
  */
 
-function render ({props}) {
-  const {question = {}} = props
-  const {responses = []} = question
+export default component({
+  render ({props}) {
+    const {question = {}} = props
+    const {responses = []} = question
 
-  return (
-    <Block wide>
-      { map(responder => <Response responder={responder} />, responses) }
-    </Block>
-  )
-}
+    return (
+      <Block wide>
+        { map(responder => <Response responder={responder} />, responses) }
+      </Block>
+    )
+  }
+})
+
+/**
+ * <Response/>
+ */
 
 const Response = wrap(CSSContainer, {
   focusProps: {focus: true},
@@ -53,11 +59,3 @@ const Response = wrap(CSSContainer, {
     )
   }
 })
-
-/**
- * Exports
- */
-
-export default {
-  render
-}

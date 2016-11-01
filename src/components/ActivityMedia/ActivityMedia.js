@@ -4,88 +4,109 @@
 
 import {Block, Icon, Image as UiImage, Text} from 'vdux-ui'
 import {Block as ContBlock, Button} from 'vdux-containers'
-import handleActions from '@f/handle-actions'
-import createAction from '@f/create-action'
 import EditingMedia from './EditingMedia'
 import Loading from 'components/Loading'
+import {component, element} from 'vdux'
 import Figure from 'components/Figure'
 import Link from 'components/Link'
-import element from 'vdux/element'
 
 /**
  * <ActivityMedia/>
  */
 
-function render ({props}) {
-  if (props.editing) return <EditingMedia {...props} />
+export default component({
+  render ({props}) {
+    if (props.editing) return <EditingMedia {...props} />
 
-  const {object, onEdit, remove, ...rest} = props
+    const {object, onEdit, remove, ...rest} = props
 
-  switch (object.objectType) {
-    case 'link':
-      return <LinkObject object={object} {...rest} />
-    case 'video':
-    case 'rich':
-      return <Video object={object} {...rest} />
-    case 'document':
-      return <Document object={object} {...rest} />
-    case 'image':
-      return <Image object={object} {...rest} />
-    case 'file':
-      return <File object={object} {...rest} />
+    switch (object.objectType) {
+      case 'link':
+        return <LinkObject object={object} {...rest} />
+      case 'video':
+      case 'rich':
+        return <Video object={object} {...rest} />
+      case 'document':
+        return <Document object={object} {...rest} />
+      case 'image':
+        return <Image object={object} {...rest} />
+      case 'file':
+        return <File object={object} {...rest} />
+    }
   }
-}
+})
 
-function LinkObject ({props}) {
-  const {object, ...rest} = props
-  const {description, embed = {}, image = {}, displayName} = object
-  const linkProps ={
-    onClick: e => e.stopPropagation(),
-    href: embed.url,
-    target: '_blank',
-    hoverProps: {textDecoration: 'underline'}
+/**
+ * <LinkObject/>
+ */
 
-  }
+const LinkObject = component({
+  render ({props, actions}) {
+    const {object, ...rest} = props
+    const {description, embed = {}, image = {}, displayName} = object
+    const linkProps ={
+      onClick: actions.stopPropagation,
+      href: embed.url,
+      target: '_blank',
+      hoverProps: {textDecoration: 'underline'}
 
-  return (
-    <Block align='start center' bgColor='#fbfbfb' border='1px solid rgba(52, 52, 52, 0.08)' h={120} overflow='hidden' {...rest}>
-      {
-        image.url && (
-          <Link {...linkProps} minWidth={118} tall relative bgColor='white' borderRight='1px solid rgba(grey_light, .5)'>
-            <Block
-              tag='img'
-              maxWidth='100%'
-              maxHeight='100%'
-              absolute={{top: 0, right: 0, bottom: 0, left: 0}}
-              m='auto'
-              src={image.url} />
-          </Link>
-        )
-      }
-      <Block flex p minWidth={0}>
-        <Block column mb fs='xxs' ellipsis>
-          <Link maxWidth='100%' color='blue' fs='s' fw={200} ellipsis {...linkProps}>
-            {displayName}
-          </Link>
-          <Link color='rgb(153, 153, 153)' ellipsis {...linkProps}>
-            {embed.url}
-          </Link>
-        </Block>
-        <Block lighter overflow='hidden' maxHeight={43} lh='20px'>
-          {description}
+    }
+
+    return (
+      <Block align='start center' bgColor='#fbfbfb' border='1px solid rgba(52, 52, 52, 0.08)' h={120} overflow='hidden' {...rest}>
+        {
+          image.url && (
+            <Link {...linkProps} minWidth={118} tall relative bgColor='white' borderRight='1px solid rgba(grey_light, .5)'>
+              <Block
+                tag='img'
+                maxWidth='100%'
+                maxHeight='100%'
+                absolute={{top: 0, right: 0, bottom: 0, left: 0}}
+                m='auto'
+                src={image.url} />
+            </Link>
+          )
+        }
+        <Block flex p minWidth={0}>
+          <Block column mb fs='xxs' ellipsis>
+            <Link maxWidth='100%' color='blue' fs='s' fw={200} ellipsis {...linkProps}>
+              {displayName}
+            </Link>
+            <Link color='rgb(153, 153, 153)' ellipsis {...linkProps}>
+              {embed.url}
+            </Link>
+          </Block>
+          <Block lighter overflow='hidden' maxHeight={43} lh='20px'>
+            {description}
+          </Block>
         </Block>
       </Block>
-    </Block>
-  )
-}
+    )
+  },
 
-const playVideo = createAction('<Video/>: play')
+  events: {
+    stopPropagation (model, e) {
+      e.stopPropagation()
+    }
+  }
+})
 
-const Video = {
-  reducer: handleActions({
-    [playVideo]: state => ({...state, play: true})
-  }),
-  render ({props, state, local}) {
+/**
+ * <Video/>
+ */
+
+const Video = component({
+  reducer: {
+    playVideo: () => ({play: true})
+  },
+
+  events: {
+    stopPropagation (model, e) {
+      e.stopPropagation()
+    }
+  },
+
+  render ({props, state, actions}) {
     const {object, editable, preview, isDragging, ...rest} = props
     const {content, image = {}, displayName, embed = {}} = object
     const {url, height, width} = image
@@ -96,7 +117,7 @@ const Video = {
       <Block tag='span' {...rest} pointerEvents={isDragging ? 'none' : 'auto'}>
         <Block wide tall relative bg={`#000 url(${url}) no-repeat center`} bgSize={imgSize} printProps={{hide: true}}>
           <Loading show={state.play} dark={false} absolute top bottom left right/>
-          <Block hidden={state.play} onClick={playable && local(playVideo)} pointer relative>
+          <Block hidden={state.play} onClick={playable && actions.playVideo} pointer relative>
             <Figure
               maxWidth={imgSize}
               height={height}
@@ -120,7 +141,7 @@ const Video = {
                 p='30% 5% 3%'
                 wide>
                 <Link
-                  onClick={e => e.stopPropagation()}
+                  onClick={actions.stopPropagation}
                   hoverProps={{underline: true}}
                   href={embed.url}
                   target='_blank'
@@ -159,45 +180,61 @@ const Video = {
       </Block>
     )
   }
-}
+})
 
-function Document ({props}) {
-  const {object, editable, preview, isDragging, ...rest} = props
-  const {content, embed = {}} = object
-  const {url} = embed
-  const linkProps = {
-    hoverProps: {opacity: .8},
-    align: 'start center',
-    target: '_blank',
-    pointer: true,
-    color: 'blue',
-    fs: 'xs'
-  }
+/**
+ * <Document/>
+ */
 
-  return (
-    <Block {...rest} pointerEvents={isDragging ? 'none' : 'auto'}>
-      <Block
-        class='activity-document'
-        innerHTML={content}
-        pb='123%'
-        w='100%'
-        relative
-        h={0} />
-      <Block align='start center' mt>
-        <Link onClick={e => e.stopPropagation()} href={url} {...linkProps}>
-          <Icon name='open_in_new' mr='xs' fs='inherit' />
-          View File
-        </Link>
-        {
-          editable && !preview &&
-          <ContBlock ml {...linkProps}>
-            <Icon name='edit' mr='xs' fs='inherit' />Edit
-          </ContBlock>
-        }
+const Document = component({
+  events: {
+    stoPropagation (model, e) {
+      e.stopPropagation()
+    }
+  },
+
+  render ({props, actions}) {
+    const {object, editable, preview, isDragging, ...rest} = props
+    const {content, embed = {}} = object
+    const {url} = embed
+    const linkProps = {
+      hoverProps: {opacity: .8},
+      align: 'start center',
+      target: '_blank',
+      pointer: true,
+      color: 'blue',
+      fs: 'xs'
+    }
+
+    return (
+      <Block {...rest} pointerEvents={isDragging ? 'none' : 'auto'}>
+        <Block
+          class='activity-document'
+          innerHTML={content}
+          pb='123%'
+          w='100%'
+          relative
+          h={0} />
+        <Block align='start center' mt>
+          <Link onClick={actions.stopPropagation} href={url} {...linkProps}>
+            <Icon name='open_in_new' mr='xs' fs='inherit' />
+            View File
+          </Link>
+          {
+            editable && !preview &&
+            <ContBlock ml {...linkProps}>
+              <Icon name='edit' mr='xs' fs='inherit' />Edit
+            </ContBlock>
+          }
+        </Block>
       </Block>
-    </Block>
-  )
-}
+    )
+  }
+})
+
+/**
+ * <Image/>
+ */
 
 function Image ({props}) {
   const {object, ...rest} = props
@@ -209,6 +246,10 @@ function Image ({props}) {
     </Block>
   )
 }
+
+/**
+ * <File/>
+ */
 
 function File ({props}) {
   const {object, ...rest} = props
@@ -227,12 +268,4 @@ function File ({props}) {
       </Block>
     </Block>
   )
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

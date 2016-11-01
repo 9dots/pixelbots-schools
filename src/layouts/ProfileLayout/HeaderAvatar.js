@@ -4,33 +4,37 @@
 
 import AvatarPickerModal from 'modals/AvatarPickerModal'
 import {wrap, CSSContainer} from 'vdux-containers'
-import {openModal} from 'reducer/modal'
+import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import * as colors from 'lib/colors'
 import {Block, Flex} from 'vdux-ui'
-import element from 'vdux/element'
 import Color from 'color'
 
 /**
- * HeaderAvatar
+ * <HeaderAvatar/>
  */
 
-function render({props}) {
-  const {user, isMe} = props
+export default component({
+  render ({props, actions}) {
+    const {user, isMe} = props
 
-  return (
-    <AvatarPicker user={user}
-      onClick={openAvatarModal(isMe, user)}
-      hoverProps={{hover: isMe}}
-      activeProps={{active: isMe}}
-      pointer={isMe}/>
-  )
-}
+    return (
+      <AvatarPicker user={user}
+        onClick={actions.openAvatarModal}
+        hoverProps={{hover: isMe}}
+        activeProps={{active: isMe}}
+        pointer={isMe}/>
+    )
+  },
 
-function openAvatarModal(isCurrentUser, user) {
-  if(isCurrentUser)
-    return () => openModal(() => <AvatarPickerModal user={user}/>)
-}
+  events: {
+    * openAvatarModal ({context, props}) {
+      if(props.isMe) {
+        yield context.openModal(() => <AvatarPickerModal user={props.user}/>)
+      }
+    }
+  }
+})
 
 /**
  * Avatar modal open
@@ -64,11 +68,3 @@ const AvatarPicker = wrap(CSSContainer)({
     )
   }
 })
-
-/**
- * Exports
- */
-
-export default {
-  render
-}

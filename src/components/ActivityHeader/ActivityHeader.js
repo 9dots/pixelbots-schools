@@ -6,49 +6,49 @@ import ActivitySettingsModal from 'modals/ActivitySettingsModal'
 import {Block as ContainerBlock, Button} from 'vdux-containers'
 import CommoncoreBadge from 'components/CommoncoreBadge'
 import SubjectSelector from './SubjectSelector'
-import {setUrl} from 'redux-effects-location'
 import LineInput from 'components/LineInput'
 import GradeSelector from './GradeSelector'
 import {Block, Text, Icon} from 'vdux-ui'
-import {openModal} from 'reducer/modal'
+import {component, element} from 'vdux'
 import findIndex from '@f/find-index'
-import element from 'vdux/element'
 import map from '@f/map'
 
 /**
  * <ActivityHeader/>
  */
 
-function render ({props}) {
-  const {editing, open, editable, activity, clickableTags} = props
-  const {displayName, originalDescription, tags, commonCore} = activity
-  const editableProps = editable
-    ? {hoverProps: {bgColor: 'off_white'}, onClick: open}
-    : {}
+export default component({
+  render ({props}) {
+    const {editing, open, editable, activity, clickableTags} = props
+    const {displayName, originalDescription, tags, commonCore} = activity
+    const editableProps = editable
+      ? {hoverProps: {bgColor: 'off_white'}, onClick: open}
+      : {}
 
-  if (editing) return <EditingHeader {...props} />
+    if (editing) return <EditingHeader {...props} />
 
-  return (
-    <ContainerBlock p='12px 24px' {...editableProps}>
-      <Block fs='xl' fw='800'>{displayName}</Block>
-      <Block mt='s' lighter>{originalDescription}</Block>
-      <Block align='start center' mt='xs'>
-        {
-          map(({displayName}) => <Label text={displayName} clickable={clickableTags} />, tags)
-        }
-        <CommoncoreBadge hide={!commonCore} placement='right' />
-      </Block>
-    </ContainerBlock>
-  )
-}
+    return (
+      <ContainerBlock p='12px 24px' {...editableProps}>
+        <Block fs='xl' fw='800'>{displayName}</Block>
+        <Block mt='s' lighter>{originalDescription}</Block>
+        <Block align='start center' mt='xs'>
+          {
+            map(({displayName}) => <Label text={displayName} clickable={clickableTags} />, tags)
+          }
+          <CommoncoreBadge hide={!commonCore} placement='right' />
+        </Block>
+      </ContainerBlock>
+    )
+  }
+})
 
 /**
  * <EditingHeader/>
  */
 
-const EditingHeader = {
+const EditingHeader = component({
   render: function ({props}) {
-    const {activity, onEdit, open} = props
+    const {activity, open} = props
     const {displayName, originalDescription, tags} = activity
 
     return (
@@ -59,8 +59,8 @@ const EditingHeader = {
             fs='s'
             lighter
             autofocus
-            onFocus={e => e.target.select()}
-            onInput={e => onEdit({displayName: e.target.value.trim() || 'Untitled Activity'})}
+            onFocus={actions.selectTarget}
+            onInput={actions.editDisplayName}
             defaultValue={displayName} />
         </Block>
         <Block align='start center' mt='s'>
@@ -68,7 +68,7 @@ const EditingHeader = {
           <LineInput
             fs='s'
             lighter
-            onInput={e => onEdit({originalDescription: e.target.value})}
+            onInput={actions.editOriginalDescription}
             defaultValue={originalDescription} />
         </Block>
         <Block align='start center' mt={18} relative z={1}>
@@ -83,15 +83,30 @@ const EditingHeader = {
           </Block>
         </Block>
         <Block bgColor='off_white' border='1px solid grey_light' borderWidth='1px 0' p m={-24} mt='l' align='end'>
-          <Button bgColor='grey' px mr='s' onClick={() => openModal(() => <ActivitySettingsModal activity={activity} onEdit={onEdit} />)}>
+          <Button bgColor='grey' px mr='s' onClick={actions.openActivitySettings}>
             <Icon color='white' fs='s' name='settings' />
           </Button>
           <Btn onClick={open}>Done</Btn>
         </Block>
       </Block>
     )
+  },
 
-    function * toggleTag (tag) {
+  events: {
+    * selectTarget (model, e) {
+      e.target.select()
+    },
+
+    * editDisplayName ({props}, e) {
+      yield props.onEdit({displayName: e.target.value.trim() || 'Untitled Activity'})
+    },
+
+    * editOriginalDescription ({props}, e) {
+      yield props.onEdit({originalDescription: e.target.value})
+    },
+
+    * toggleTag ({props}, tag) {
+      const {onEdit, tags} = props
       const newArr = tags.slice()
       const i = findIndex(tags, t => tag.displayName === t.displayName)
 
@@ -102,9 +117,14 @@ const EditingHeader = {
       }
 
       yield onEdit({tags: newArr})
+    },
+
+    * openActivitySettings ({props, context}) {
+      const {activity, onEdit} = props
+      yield context.openModal(() => <ActivitySettingsModal activity={activity} onEdit={onEdit} />)
     }
   }
-}
+})
 
 function Btn ({props, children}) {
   return (
@@ -125,11 +145,11 @@ function Btn ({props, children}) {
  * <Label/>
  */
 
-function Label ({props}) {
+function Label ({props, context}) {
   const {text, clickable} = props
   const clickableProps = clickable
     ? {
-        onClick: () => setUrl(`/search/activities/${text}`),
+        onClick: context.setUrl(`/search/activities/${text}`),
         pointer: true,
         hoverProps: {
           bgColor: 'transparent',
@@ -153,12 +173,4 @@ function Label ({props}) {
       {text}
     </ContainerBlock>
   )
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

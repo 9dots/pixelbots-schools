@@ -8,91 +8,104 @@ import CreateActivityModal from 'modals/CreateActivityModal'
 import SignUpModal from 'modals/SignUpModal'
 import ClassNav from 'components/ClassNav'
 import HomeOwl from 'components/HomeOwl'
-import {openModal} from 'reducer/modal'
 import AccountMenu from './AccountMenu'
+import {component, element} from 'vdux'
 import Link from 'components/Link'
-import element from 'vdux/element'
 import Search from './Search'
 
 /**
- * Main nav
+ * <Nav/>
  */
 
-function render ({props, state}) {
-  const {currentUser, url, bgColor = 'grey', search, query} = props
-  const isStudent = currentUser && currentUser.userType === 'student'
+export default component({
+  render ({props, actions}) {
+    const {currentUser, url, bgColor = 'grey', search, query} = props
+    const isStudent = currentUser && currentUser.userType === 'student'
 
-  return (
-    <Block>
-      <Fixed wide top z={2} boxShadow='card'>
-        <Flex align='space-between' wide bgColor={bgColor} color='white' h={53}>
-          <Flex align='start center'>
-            <Flex align='center center' mx='m'>
-              <HomeOwl />
+    return (
+      <Block>
+        <Fixed wide top z={2} boxShadow='card'>
+          <Flex align='space-between' wide bgColor={bgColor} color='white' h={53}>
+            <Flex align='start center'>
+              <Flex align='center center' mx='m'>
+                <HomeOwl />
+                {
+                  !currentUser &&
+                  <Text fs='m' ml bold>WEO</Text>
+                }
+              </Flex>
               {
-                !currentUser &&
-                <Text fs='m' ml bold>WEO</Text>
+                currentUser && [
+                  <Item href='/feed' icon='home' text='Home' />,
+                  <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />,
+                  <Item hide={!isStudent} href={`/${currentUser.username}`} icon='person' text='My Profile' />,
+                  <ClassNav currentUser={currentUser}>
+                    <Item href='/class' disabled={true} ml='s' fs='s' icon='school' text='Classes'>
+                      <Icon name='arrow_drop_down' fs='s' ml='s' />
+                    </Item>
+                  </ClassNav>
+                ]
               }
             </Flex>
-            {
-              currentUser && [
-                <Item href='/feed' icon='home' text='Home' />,
-                <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />,
-                <Item hide={!isStudent} href={`/${currentUser.username}`} icon='person' text='My Profile' />,
-                <ClassNav currentUser={currentUser}>
-                  <Item href='/class' disabled={true} ml='s' fs='s' icon='school' text='Classes'>
-                    <Icon name='arrow_drop_down' fs='s' ml='s' />
-                  </Item>
-                </ClassNav>
-              ]
-            }
-          </Flex>
-          <Menu flex align='end center'>
-            <Search url={url} searching={search} query={query} hide={isStudent} mr='s'/>
-            {
-              currentUser && [
-                <NotificationsButton currentUser={currentUser} />,
-                <AccountMenu ml currentUser={currentUser} />
-              ]
-            }
-            <Button
-              onClick={
-                () => openModal(() =>
-                  currentUser
-                    ? <CreateActivityModal currentUser={currentUser} />
-                    : <SignUpModal />
-                )
+            <Menu flex align='end center'>
+              <Search url={url} searching={search} query={query} hide={isStudent} mr='s'/>
+              {
+                currentUser && [
+                  <NotificationsButton currentUser={currentUser} />,
+                  <AccountMenu ml currentUser={currentUser} />
+                ]
               }
-              border='1px solid rgba(#000, .1)'
-              hide={isStudent}
-              px='21'
-              h={34}
-              pill
-              mx>
-              <Icon fs='s' mr='s' name='edit' />
-              Create Activity
-            </Button>
-            {
-              !currentUser &&
-                <Button
-                  px='16'
-                  mr
-                  h={53}
-                  boxShadow='inset 1px 0 0 rgba(255,255,255,0.07),inset -1px 0 0 rgba(255,255,255,0.07)'
-                  borderLeft='1px solid rgba(0,0,0,0.1)'
-                  borderRight='1px solid rgba(0,0,0,0.1)'
-                  bgColor='transparent'
-                  onClick={() => openModal(() => <SignUpModal />)}>
-                  SIGN UP
-                </Button>
-            }
-          </Menu>
-        </Flex>
-      </Fixed>
-      <Block pt={53} hidden />
-    </Block>
-  )
-}
+              <Button
+                onClick={actions.createActivity}
+                border='1px solid rgba(#000, .1)'
+                hide={isStudent}
+                px='21'
+                h={34}
+                pill
+                mx>
+                <Icon fs='s' mr='s' name='edit' />
+                Create Activity
+              </Button>
+              {
+                !currentUser &&
+                  <Button
+                    px='16'
+                    mr
+                    h={53}
+                    boxShadow='inset 1px 0 0 rgba(255,255,255,0.07),inset -1px 0 0 rgba(255,255,255,0.07)'
+                    borderLeft='1px solid rgba(0,0,0,0.1)'
+                    borderRight='1px solid rgba(0,0,0,0.1)'
+                    bgColor='transparent'
+                    onClick={actions.openSignupModal}>
+                    SIGN UP
+                  </Button>
+              }
+            </Menu>
+          </Flex>
+        </Fixed>
+        <Block pt={53} hidden />
+      </Block>
+    )
+  },
+
+  events: {
+    * openSignupModal ({context}) {
+      yield context.openModal(() => <SignUpModal />)
+    },
+
+    * createActivity ({context, props}) {
+      yield context.openModal(() =>
+        props.currentUser
+          ? <CreateActivityModal currentUser={props.currentUser} />
+          : <SignUpModal />
+      )
+    }
+  }
+})
+
+/**
+ * <Item/>
+ */
 
 function Item ({props, children}) {
   const {text, icon, href, onClick, hide, disabled} = props
@@ -118,14 +131,4 @@ function Item ({props, children}) {
       {children}
     </Link>
   )
-}
-
-
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

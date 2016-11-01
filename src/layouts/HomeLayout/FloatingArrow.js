@@ -2,21 +2,22 @@
  * Imports
  */
 
+import {component, element} from 'vdux'
 import css from 'jss-simple'
 import {Icon} from 'vdux-ui'
-import element from 'vdux/element'
-import {scrollTo} from 'middleware/scroll'
 
 /**
  * Floating arrow
  */
 
-function render () {
-  return <Icon
-    name='keyboard_arrow_down'
-    class={arrow}
-    onClick={e => scrollTo('#info', {easing: 'easeOutCubic', duration: 500})} />
-}
+export default component({
+  render ({context}) {
+    return <Icon
+      name='keyboard_arrow_down'
+      class={arrow}
+      onClick={context.scrollTo('#info', {easing: 'easeOutCubic', duration: 500})} />
+  }
+})
 
 /**
  * Styles
@@ -46,9 +47,3 @@ const {arrow} = css({
     '100%': {transform: 'translateY(0)'}
   }
 })
-
-/**
- * Exports
- */
-
-export default render

@@ -61,7 +61,7 @@ import Connect from 'pages/Connect'
 
 import Redirect from 'components/Redirect'
 import FourOhFour from 'pages/FourOhFour'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 import enroute from 'enroute'
 
 import handleActions from '@f/handle-actions'
@@ -110,7 +110,7 @@ const router = enroute({
   '/feed': track('Feed', auth('user', (params, props) =>
     <AppLayout {...props}>
       {
-        isTeacher(props)
+        props.currentUser.userType === 'teacher'
           ? <Feed {...props} />
           : <FeedStudent {...props} />
       }
@@ -275,22 +275,55 @@ const router = enroute({
 })
 
 /**
- * onCreate
+ * URL Regexes
  */
 
-function * onCreate ({props, state}) {
-  const {name, params} = router(props.url, {...props, ...state})
-  yield page({name, params})
-}
+const activityRe = /^\/activity\//
+const activityEditRe = /^\/activity\/[^\/]+\/edit/
 
 /**
- * Router
+ * <Router/>
  */
 
-function render ({props, state}) {
-  if (! props.url || !props.ready) return <div>Loading...</div>
-  return router(props.url, {...props, ...state}).route
-}
+export default component({
+  onCreate ({props, state}) {
+    const {name, params} = router(props.currentUrl, {...props, ...state})
+    return page({name, params})
+  },
+
+  render ({props, state}) {
+    if (! props.currentUrl || !props.ready) return <div>Loading...</div>
+    return router(props.currentUrl, {...props, ...state}).route
+  },
+
+  reducer: {
+    canExit: (state, canExit) => ({canExit}),
+    exitDepth: (state, exitDepth) => ({exitDepth})
+  },
+
+  * onUpdate (prev, next) {
+    const {actions} = next
+
+    if (prev.props.currentUrl !== next.props.currentUrl) {
+      const {name, params} = router(next.props.currentUrl, {...next.props, ...next.state})
+      yield page({name, params})
+
+      if (prev.props.currentUrl && !activityRe.test(prev.props.currentUrl) && activityRe.test(next.props.currentUrl)) {
+        yield actions.canExit(true)
+      }
+
+      if (prev.props.currentUrl && activityRe.test(prev.props.currentUrl) && activityEditRe.test(next.props.currentUrl)) {
+        yield actions.exitDepth(2)
+      }
+
+      if (prev.props.currentUrl && activityEditRe.test(prev.props.currentUrl) && !activityEditRe.test(next.props.currentUrl)) {
+        yield actions.exitDepth(undefined)
+      }
+
+      yield () => document.body.scrollTop = 0
+    }
+  }
+})
 
 /**
  * Helpers
@@ -325,64 +358,6 @@ function isAuthorized (type, {currentUser}) {
   }
 }
 
-/**
- * onUpdate
- */
-
-const activityRe = /^\/activity\//
-const activityEditRe = /^\/activity\/[^\/]+\/edit/
-
-function * onUpdate (prev, next) {
-  if (prev.props.url !== next.props.url) {
-    const {name, params} = router(next.props.url, {...next.props, ...next.state})
-    yield page({name, params})
-
-    if (prev.props.url && !activityRe.test(prev.props.url) && activityRe.test(next.props.url)) {
-      yield next.local(canExit)(true)
-    }
-
-    if (prev.props.url && activityRe.test(prev.props.url) && activityEditRe.test(next.props.url)) {
-      yield next.local(exitDepth)(2)
-    }
-
-    if (prev.props.url && activityEditRe.test(prev.props.url) && !activityEditRe.test(next.props.url)) {
-      yield next.local(exitDepth)(undefined)
-    }
-
-    yield () => document.body.scrollTop = 0
-  }
-}
-
-/**
- * Actions
- */
-
-const canExit = createAction('<Router/>: canExit')
-const exitDepth = createAction('<Router/>: exitDepth')
-
-/**
- * Reducer
- */
-
-const reducer = handleActions({
-  [canExit]: (state, canExit) => ({
-    ...state,
-    canExit
-  }),
-  [exitDepth]: (state, exitDepth) => ({
-    ...state,
-    exitDepth
-  })
-})
-
-/**
- * Helpers
- */
-
-function isTeacher (state) {
-  return state.currentUser.userType === 'teacher'
-}
-
 function isLoggedIn (state) {
   return !!state.currentUser
 }
@@ -411,15 +386,4 @@ function activityRedirect ({published, contexts, _id}, {currentUser}) {
   }
 
   return <Redirect to={`/activity/${_id}/students`} />
-}
-
-/**
- * Exports
- */
-
-export default {
-  onCreate,
-  render,
-  onUpdate,
-  reducer
 }

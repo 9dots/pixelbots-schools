@@ -3,14 +3,13 @@
  */
 
 import createAction from '@f/create-action'
-import {openModal} from 'reducer/modal'
 import Confirm from 'modals/Confirm'
 
 /**
  * Speech Synth.
  */
 
-function middleware ({dispatch}) {
+function middleware ({dispatch, getContext}) {
   let text = ''
   let rate = 1
   let sentence = 0
@@ -21,7 +20,7 @@ function middleware ({dispatch}) {
     switch (action.type) {
       case playSpeech.type:
         if (! ('speechSynthesis' in window)) {
-          dispatch(openModal(() => <Confirm header='Browser Incompatible' message='Your browser does not support reading text. Please use the most up to date versions of Chrome or Safari to enable this feature.' />))
+          dispatch(getContext().openModal(() => <Confirm header='Browser Incompatible' message='Your browser does not support reading text. Please use the most up to date versions of Chrome or Safari to enable this feature.' />))
           dispatch(cb())
           return
         }

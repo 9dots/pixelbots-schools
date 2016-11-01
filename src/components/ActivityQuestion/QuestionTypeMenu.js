@@ -4,29 +4,34 @@
 
 
 import {questionIcon, questionDisplay} from 'lib/activity-helpers'
-import {generateObjectId} from 'middleware/objectId'
 import {Dropdown, MenuItem, Button} from 'vdux-containers'
+import {component, element} from 'vdux'
 import {Block, Icon} from 'vdux-ui'
-import element from 'vdux/element'
 
 /**
  * QuestionTypeMenu
  */
 
-function render ({props}) {
-  const {attach, object, ...rest} = props
+export default component({
+  render ({props}) {
+    const {attach, object, ...rest} = props
 
-  return (
-    <Dropdown btn={<Btn object={object} relative {...rest} />} wide z={2}>
-      <Item object={object} onClick={attach('text', false, true)} type='text'/>
-      <Item object={object} onClick={attach('shortAnswer', false, true)} type='shortAnswer'/>
-      <Item object={object} onClick={attach('choice', false, true)} type='choice' />
-      <Item object={object} onClick={attach('choice', true, true)} type='poll'/>
-    </Dropdown>
-  )
-}
+    return (
+      <Dropdown btn={<Btn object={object} relative {...rest} />} wide z={2}>
+        <Item object={object} onClick={attach('text', false, true)} type='text'/>
+        <Item object={object} onClick={attach('shortAnswer', false, true)} type='shortAnswer'/>
+        <Item object={object} onClick={attach('choice', false, true)} type='choice' />
+        <Item object={object} onClick={attach('choice', true, true)} type='poll'/>
+      </Dropdown>
+    )
+  }
+})
 
-function Btn({props}) {
+/**
+ * <Btn/>
+ */
+
+function Btn ({props}) {
   const {object, ...rest} = props
   return (
     <Button
@@ -44,10 +49,13 @@ function Btn({props}) {
       <Icon name='arrow_drop_down' mr={-8}/>
     </Button>
   )
-
 }
 
-function Item({props}) {
+/**
+ * <Item/>
+ */
+
+function Item ({props}) {
   const {type, object, onClick, ...rest} = props
   const cur = object.poll
     ? type === 'poll'
@@ -63,12 +71,4 @@ function Item({props}) {
       <Block>{questionDisplay(type)}</Block>
     </MenuItem>
   )
-}
-
-/**
- * Render
- */
-
-export default {
-  render
 }

@@ -2,14 +2,12 @@
  * Imports
  */
 
-import CreateBoardModal from 'modals/CreateBoardModal'
 import InfiniteScroll from 'components/InfiniteScroll'
 import EmptyState from 'components/EmptyState'
 import summonSearch from 'lib/summon-search'
 import BoardTile from 'components/BoardTile'
 import {Grid, Block, Text} from 'vdux-ui'
-import {openModal} from 'reducer/modal'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 import Link from 'components/Link'
 import map from '@f/map'
 
@@ -17,22 +15,28 @@ import map from '@f/map'
  * <SearchBoards/>
  */
 
-function render ({props}) {
-  const {boards, currentUser, more, query} = props
-  const {value, loaded, loading} = boards
+export default summonSearch('boards', 'boards')(component({
+  render ({props}) {
+    const {boards, currentUser, more, query} = props
+    const {value, loaded, loading} = boards
 
-  return (
-    <InfiniteScroll loading={loading} more={() => value && more(value.nextPageToken)}>
-      {
-        <Grid>
-          {
-            loaded && renderItems(currentUser, value.items, query)
-          }
-        </Grid>
-      }
-    </InfiniteScroll>
-  )
-}
+    return (
+      <InfiniteScroll loading={loading} more={value && more(value.nextPageToken)}>
+        {
+          <Grid>
+            {
+              loaded && renderItems(currentUser, value.items, query)
+            }
+          </Grid>
+        }
+      </InfiniteScroll>
+    )
+  }
+}))
+
+/**
+ * Helpers
+ */
 
 function renderItems (user, items, query) {
   return (
@@ -41,6 +45,10 @@ function renderItems (user, items, query) {
       : <EmptySearch query={query} currentUser={user} />
   )
 }
+
+/**
+ * <EmptySearch/>
+ */
 
 function EmptySearch ({props}) {
   const {currentUser, query} = props
@@ -59,11 +67,3 @@ function EmptySearch ({props}) {
     </EmptyState>
   )
 }
-
-/**
- * Exports
- */
-
-export default summonSearch('boards', 'boards')({
-  render
-})

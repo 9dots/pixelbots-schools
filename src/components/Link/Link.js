@@ -4,45 +4,46 @@
 
 import {setUrl} from 'redux-effects-location'
 import {CSSContainer} from 'vdux-containers'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 import {Base} from 'vdux-ui'
-
-/**
- * getProps
- */
-
-function getProps (props, context) {
-  props.current = props.current || isCurrent(props.href, context.currentUrl)
-  return props
-}
 
 /**
  * <Link/>
  */
 
-function render ({props, children}) {
-  const {ui = InternalLink, current, href, disabled, replace, currentProps = {}, ...rest} = props
-  let onClick = props.onClick
+export default component({
+  render ({props, actions, children, context}) {
+    const {ui = InternalLink, current = isCurrent(props.href, context.currentUrl), href, disabled, replace, currentProps = {}, ...rest} = props
+    let onClick = props.onClick
 
-  if ((ui !== InternalLink && href && !disabled) || replace) {
-    onClick = e => {
+    if ((ui !== InternalLink && href && !disabled) || replace) {
+      onClick = actions.go(href, replace)
+    }
+
+    return (
+      <CSSContainer
+        ui={ui}
+        {...rest}
+        disabled={disabled}
+        href={href}
+        onClick={onClick}
+        {...(current ? currentProps : {})}>
+        {children}
+      </CSSContainer>
+    )
+  },
+
+  events: {
+    * go (model, href, replace, e) {
       e.preventDefault()
-      return setUrl(href, replace)
+      yield setUrl(href, replace)
     }
   }
+})
 
-  return (
-    <CSSContainer
-      ui={ui}
-      {...rest}
-      disabled={disabled}
-      href={href}
-      onClick={onClick}
-      {...(current ? currentProps : {})}>
-      {children}
-    </CSSContainer>
-  )
-}
+/**
+ * <InternalLink/>
+ */
 
 function InternalLink ({props, children}) {
   return (
@@ -53,20 +54,9 @@ function InternalLink ({props, children}) {
 }
 
 /**
- * isCurrent
- *
- * Check whether the route matches the current url
+ * Helpers
  */
 
 function isCurrent (href = '', currentUrl = '') {
   return href && currentUrl.indexOf(href) === 0
-}
-
-/**
- * Exports
- */
-
-export default {
-  getProps,
-  render
 }

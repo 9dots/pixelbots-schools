@@ -2,80 +2,60 @@
  * Imports
  */
 
-import handleActions from '@f/handle-actions'
-import createAction from '@f/create-action'
+import {component, element} from 'vdux'
 import {Block, Input} from 'vdux-ui'
-import element from 'vdux/element'
 import extend from '@f/extend'
 
 /**
  * <DropZone/>
  */
 
-function render ({props, children, local, state}) {
-  const mergedProps = props.dragonProps && state.over
-    ? extend({}, props, props.dragonProps)
-    : props
+export default component({
+  render ({props, children, actions, state}) {
+    const mergedProps = props.dragonProps && state.over
+      ? extend({}, props, props.dragonProps)
+      : props
 
-  const {
-    accepts = [], dragonProps, message, uploading,
-    onDragOver, onDragEnter, onDragLeave, onDrop,
-    ...rest
-  } = mergedProps
+    const {
+      accepts = [], dragonProps, message, uploading,
+      onDragOver, onDragEnter, onDragLeave, onDrop,
+      ...rest
+    } = mergedProps
 
-  const stop = acceptTypes(accepts)
+    const stop = actions.acceptTypes(accepts)
 
-  return (
-    <Block
-      {...rest}
-      onDragOver={[stop, local(over), onDragOver]}
-      onDragEnter={[stop, local(over), onDragEnter]}
-      onDragLeave={[stop, local(leave), onDragLeave]}
-      onDrop={[stop, local(leave), onDrop]}>
-      <Block wide tall align='center center' hide={uploading}>
-        {message}
+    return (
+      <Block
+        {...rest}
+        onDragOver={[stop, actions.over, onDragOver]}
+        onDragEnter={[stop, actions.over, onDragEnter]}
+        onDragLeave={[stop, actions.leave, onDragLeave]}
+        onDrop={[stop, actions.leave, onDrop]}>
+        <Block wide tall align='center center' hide={uploading}>
+          {message}
+        </Block>
+        {children}
       </Block>
-      {children}
-    </Block>
-  )
-}
+    )
+  },
 
-/**
- * Actions
- */
+  events: {
+    acceptTypes (model, accepts, e) {
+      accepts = Array.isArray(accepts)
+        ? accepts
+        : [accepts]
 
-const over = createAction('<DropZone/>: over', null, () => ({logLevel: 'debug'}))
-const leave = createAction('<DropZone/>: leave', null, () => ({logLevel: 'debug'}))
+      const {types} = e._rawEvent.dataTransfer
 
-function acceptTypes (accepts) {
-  accepts = Array.isArray(accepts)
-    ? accepts
-    : [accepts]
-
-  return e => {
-    const {types} = e._rawEvent.dataTransfer
-
-    if (types.every(type => accepts.indexOf(type) === -1)) {
-      e.preventDefault()
-      e.stopPropagation()
+      if (types.every(type => accepts.indexOf(type) === -1)) {
+        e.preventDefault()
+        e.stopPropagation()
+      }
     }
+  },
+
+  reducer: {
+    over: () => ({over: true}),
+    leave: () => ({over: false})
   }
-}
-
-/**
- * Reducer
- */
-
-const reducer = handleActions({
-  [over]: state => ({...state, over: true}),
-  [leave]: state => ({...state, over: false})
 })
-
-/**
- * Exports
- */
-
-export default {
-  render,
-  reducer
-}

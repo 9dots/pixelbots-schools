@@ -3,68 +3,81 @@
  */
 
 import {Button, Textarea} from 'vdux-containers'
-import {Block, Card} from 'vdux-ui'
+import validate from '@weo-edu/validate'
+import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
-import element from 'vdux/element'
+import Schema from '@weo-edu/schema'
+import {Block, Card} from 'vdux-ui'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
-import Schema from '@weo-edu/schema'
-import validate from '@weo-edu/validate'
 
 /**
- * Comment Form
+ * <CommentForm/>
  */
 
-function render({props}) {
-  const {
-    currentUser, makeComment,
-    id, classId, makingComment = {}
-  } = props
-  return (
-    <Form p='l' bg='off_white' borderTop='1px solid rgba(black, .05)' align='start start' onSubmit={createShare} validate={validateComment}>
-      <Avatar actor={currentUser} size='40px' />
-      <Block flex mx>
-        <Textarea
-          border='rgba(grey, 0.15)'
-          errorPlacement='left'
-          placeholder='Write your comment…'
-          borderColor='grey_light'
-          focusProps={{borderColor: 'rgba(blue, 0.35)'}}
-          name='comment'
-          lh='1.5em'
-          rows={3}
-          p/>
-      </Block>
-      <Button busy={makingComment.loading} bgColor='grey' type='submit'>Submit</Button>
-    </Form>
-  )
-
-  function * createShare (model) {
-    const type = classId === 'public' ? 'public' : 'group'
-    const comment = {
-      _object: [{
-        attachments: [],
-        objectType: 'comment',
-        originalContent: model.comment
-      }],
-      channels: [`share!${id}.replies`],
-      shareType: 'share',
-      contexts: [{
-        allow: [
-          {id: `${type}:${classId}:teacher`},
-          {id: `${type}:${classId}:student`},
-        ],
-        descriptor: {
-          displayName: classId,
-          id: classId,
-          url: '/'
-        }
-      }]
+export default summon(({id}) => ({
+  makeComment: body => ({
+    makingComent:  {
+      url: '/share',
+      method: 'POST',
+      invalidates: ['activity_feed', `/share/${id}`],
+      body
     }
+  })
+}))(component({
+  render ({props, actions}) {
+    const {
+      currentUser, makingComment = {}
+    } = props
+    return (
+      <Form p='l' bg='off_white' borderTop='1px solid rgba(black, .05)' align='start start' onSubmit={actions.createShare} validate={validateComment}>
+        <Avatar actor={currentUser} size='40px' />
+        <Block flex mx>
+          <Textarea
+            border='rgba(grey, 0.15)'
+            errorPlacement='left'
+            placeholder='Write your comment…'
+            borderColor='grey_light'
+            focusProps={{borderColor: 'rgba(blue, 0.35)'}}
+            name='comment'
+            lh='1.5em'
+            rows={3}
+            p/>
+        </Block>
+        <Button busy={makingComment.loading} bgColor='grey' type='submit'>Submit</Button>
+      </Form>
+    )
+  },
 
-    yield makeComment(comment)
+  events: {
+    * createShare ({props}, model) {
+      const {classId, id, makeComment} = props
+      const type = classId === 'public' ? 'public' : 'group'
+      const comment = {
+        _object: [{
+          attachments: [],
+          objectType: 'comment',
+          originalContent: model.comment
+        }],
+        channels: [`share!${id}.replies`],
+        shareType: 'share',
+        contexts: [{
+          allow: [
+            {id: `${type}:${classId}:teacher`},
+            {id: `${type}:${classId}:student`},
+          ],
+          descriptor: {
+            displayName: classId,
+            id: classId,
+            url: '/'
+          }
+        }]
+      }
+
+      yield makeComment(comment)
+    }
   }
-}
+}))
 
 /**
  * Validate
@@ -75,21 +88,3 @@ function validateComment (model) {
     .prop('comment', Schema('string').min(1, 'Required'))
     .required('comment'))(model)
 }
-
-/**
- * Exports
- */
-
-
-export default summon(({id}) => ({
-  makeComment: (body) => ({
-    makingComent:  {
-      url: '/share',
-      method: 'POST',
-      invalidates: ['activity_feed', `/share/${id}`],
-      body
-    }
-  })
-}))({
-  render
-})

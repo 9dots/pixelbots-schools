@@ -3,24 +3,35 @@
  */
 
 import CreateBoardModal from 'modals/CreateBoardModal'
-import {Block, Text} from 'vdux-ui'
 import EmptyState from 'components/EmptyState'
-import {openModal} from 'reducer/modal'
+import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
-import element from 'vdux/element'
+import {Block, Text} from 'vdux-ui'
 
 /**
  * ProfileBoards empty state
  */
 
-function render ({props}) {
-  const {user, currentUser} = props
-  const mine = user._id === currentUser._id
+export default component({
+  render ({props, actions}) {
+    const {user, currentUser} = props
+    const mine = user._id === currentUser._id
 
-  return currentUser._id === user._id
-    ? renderCurrentUserEmptyState()
-    : renderOthersEmptyState(user)
-}
+    return currentUser._id === user._id
+      ? renderCurrentUserEmptyState(actions.createBoard)
+      : renderOthersEmptyState(user)
+  },
+
+  events: {
+    * createBoard () {
+      yield context.openModal(() => <CreateBoardModal />)
+    }
+  }
+})
+
+/**
+ * Helpers
+ */
 
 function renderOthersEmptyState (user) {
   return (
@@ -31,13 +42,13 @@ function renderOthersEmptyState (user) {
   )
 }
 
-function renderCurrentUserEmptyState () {
+function renderCurrentUserEmptyState (createBoard) {
   return (
     <EmptyState icon='dashboard' color='blue'>
       <Block mt mb='xl' fs='m' lighter>
         Organize Activities with Boards
       </Block>
-      <Button onClick={() => openModal(() => <CreateBoardModal />)} mx='auto' px={35} h='3em' boxShadow='z2' fs='s' bgColor='accent' lighter>Create My First Board</Button>
+      <Button onClick={createBoard} mx='auto' px={35} h='3em' boxShadow='z2' fs='s' bgColor='accent' lighter>Create My First Board</Button>
       <Block my='l'>
         <Text fw='bold'>Boards </Text>
         are an easy, visual way of organizing Activities for your class.
@@ -45,12 +56,4 @@ function renderCurrentUserEmptyState () {
       </Block>
     </EmptyState>
   )
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

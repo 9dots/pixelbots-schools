@@ -18,13 +18,13 @@ const excluded = ['maxResults', 'pageToken', 'sort']
  * Socket
  */
 
-function middleware ({dispatch, getState}) {
+function middleware ({dispatch, getContext}) {
   const subs = {}
-  let lastToken = getState().app.auth.token
+  let lastToken = getContext().authToken
   let socket = connect(lastToken)
 
   return next => action => {
-    const token = getState().app.auth.token
+    const token = getContext().authToken
 
     if (token !== lastToken) {
       lastToken = token

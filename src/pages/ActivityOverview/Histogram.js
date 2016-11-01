@@ -2,78 +2,85 @@
  * Imports
  */
 
-import {Flex, Card, Text} from 'vdux-ui'
 import {Block, Tooltip} from 'vdux-containers'
-import element from 'vdux/element'
-import Color from 'color'
+import {Flex, Card, Text} from 'vdux-ui'
+import {component, element} from 'vdux'
 import * as colors from 'lib/colors'
+import Color from 'color'
 import map from '@f/map'
 
 /**
- * Render
+ * <Histogram/>
  */
 
-function render({props}) {
-  const {data} = props
-  const {
-    totalPoints, averagePoints, averagePercent,
-    numStudents, numReturned, bins, binMax
-  } = data
+export default component({
+  render ({props}) {
+    const {data} = props
+    const {
+      totalPoints, averagePoints, averagePercent,
+      numStudents, numReturned, bins, binMax
+    } = data
 
-  const step = Math.ceil(binMax / 4)
-  let lineMax = (binMax / step + 1) * step || 0
-  const lines = []
+    const step = Math.ceil(binMax / 4)
+    let lineMax = (binMax / step + 1) * step || 0
+    const lines = []
 
-  for(var i = 0; i <= lineMax; i++) {
-    if(!(i % step))
-      lines.push(i)
+    for(var i = 0; i <= lineMax; i++) {
+      if(!(i % step))
+        lines.push(i)
+    }
+
+    lineMax = lines[lines.length-1]
+
+
+    return (
+      <Flex pt>
+        <Card flex h={120} relative>
+          <Block transform='rotate(-90deg)' absolute top bottom lh='0px' lighter>
+            Students
+          </Block>
+          {
+            map((line, i) => <Line binMax={lineMax} i={i} line={line} />, lines)
+          }
+          {
+            map((bin, i) => <Bar bin={bin} binMax={lineMax} i={i} />, bins)
+          }
+        </Card>
+        <Card ui={Flex} lighter column ml w={138} h={120} p align='space-between'>
+          <Block fs='m' mb='s'>
+            Total
+          </Block>
+          <Block align='space-between'>
+            Students:
+            <Block>
+              {numReturned} / {numStudents}
+            </Block>
+          </Block>
+          <Block align='space-between'>
+            Score:
+            <Block>
+              {averagePoints} / {totalPoints}
+            </Block>
+          </Block>
+          <Block align='space-between'>
+            Percent:
+            <Block>
+              {averagePercent}
+            </Block>
+          </Block>
+        </Card>
+      </Flex>
+    )
   }
+})
 
-  lineMax = lines[lines.length-1]
+/**
+ * <Line/>
+ */
 
-
-  return (
-    <Flex pt>
-      <Card flex h={120} relative>
-        <Block transform='rotate(-90deg)' absolute top bottom lh='0px' lighter>
-          Students
-        </Block>
-        {
-          map((line, i) => <Line binMax={lineMax} i={i} line={line} />, lines)
-        }
-        {
-          map((bin, i) => <Bar bin={bin} binMax={lineMax} i={i} />, bins)
-        }
-      </Card>
-      <Card ui={Flex} lighter column ml w={138} h={120} p align='space-between'>
-        <Block fs='m' mb='s'>
-          Total
-        </Block>
-        <Block align='space-between'>
-          Students:
-          <Block>
-            {numReturned} / {numStudents}
-          </Block>
-        </Block>
-        <Block align='space-between'>
-          Score:
-          <Block>
-            {averagePoints} / {totalPoints}
-          </Block>
-        </Block>
-        <Block align='space-between'>
-          Percent:
-          <Block>
-            {averagePercent}
-          </Block>
-        </Block>
-      </Card>
-    </Flex>
-  )
-}
-
-function Line({props}) {
+function Line ({props}) {
   const {i, binMax, line} = props
+
   return (
     <Block
       borderBottom='1px solid #F2F2F2'
@@ -94,7 +101,11 @@ function Line({props}) {
   )
 }
 
-function Bar({props}) {
+/**
+ * <Bar/>
+ */
+
+function Bar ({props}) {
   const {bin, binMax, i} = props
   const colorStyles = indexToColor(i)
   const hideStyles = bin.length ? {} : {borderWidth: '0px'}
@@ -130,7 +141,11 @@ function Bar({props}) {
   )
 }
 
-function tooltipText(bin) {
+/**
+ * Helpers
+ */
+
+function tooltipText (bin) {
   const text = bin.map(student => {
     const {displayName, percent} = student
     return `${displayName}: ${percent}`
@@ -138,9 +153,8 @@ function tooltipText(bin) {
   return text.join('\n')
 }
 
-function indexToColor(i) {
-  let {red} = colors
-  red = Color(red)
+function indexToColor (i) {
+  const {red} = Color(colors.red)
   const blue = Color('#3EC1FA')
   const c1 = red.clone().saturate(.9).lighten((i * 5) / 100)
   const c2 = blue.clone().lighten(((10 - i) * 4) / 100)
@@ -156,12 +170,4 @@ function indexToColor(i) {
       borderColor: mix.clone().darken(.06).rgbString()
     }
   }
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

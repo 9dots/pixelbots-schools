@@ -2,101 +2,90 @@
  * Imports
  */
 
-import {subscribe, unsubscribe} from 'middleware/socket'
-import handleActions from '@f/handle-actions'
-import createAction from '@f/create-action'
-import element from 'vdux/element'
+import socket, {subscribe, unsubscribe} from 'middleware/socket'
+import {component, element} from 'vdux'
 import equal from '@f/equal'
 import map from '@f/map'
 import has from '@f/has'
 
 /**
- * Actions
+ * Live HOC
  */
 
-const update = createAction('live: update')
-const changeValue = createAction('live: change value')
+export default fn => Component => component({
+  * onCreate ({props, path, actions}) {
+    const descriptors = fn(props)
 
-/**
- * Live
- */
+    for (const key in descriptors) {
+      if (!descriptors[key]) continue
 
-function live (fn) {
-  return Component => ({
-    * onCreate ({props, path, local}) {
-      const descriptors = fn(props)
+      yield subscribe({
+        ...normalize(descriptors[key]),
+        path,
+        cb: msg => actions.update(key, msg)
+      })
+    }
+  },
 
-      for (const key in descriptors) {
-        if (!descriptors[key]) continue
+  middleware: typeof window !== 'undefined' && [
+    socket
+  ],
 
+  render ({props, state, children}) {
+    const newProps = map(
+      (val, key) => has(key, state)
+        ? {...val, value: val.value && state[key] ? state[key] : val.value}
+        : val,
+        props
+    )
+
+    return (
+      <Component {...newProps}>{children}</Component>
+    )
+  },
+
+  * onUpdate (prev, next) {
+    const pdescs = fn(prev.props)
+    const ndescs = fn(next.props)
+
+    for (const key in ndescs) {
+      const pdesc = normalize(pdescs[key])
+      const ndesc = normalize(ndescs[key])
+      if (!ndesc) continue
+
+      if (!pdesc || pdesc.url !== ndesc.url || !equal(pdesc.params, ndesc.params)) {
+        if (pdesc) yield unsubscribe({...pdesc, path: prev.path})
         yield subscribe({
-          ...normalize(descriptors[key]),
-          path,
-          cb: msg => local(update)({key, msg})
+          ...ndesc,
+          path: next.path,
+          cb: msg => next.actions.update(key, msg)
         })
       }
-    },
 
-    render ({props, state, children}) {
-      const newProps = map(
-        (val, key) => has(key, state)
-          ? {...val, value: val.value && state[key] ? state[key] : val.value}
-          : val,
-          props
-      )
-
-      return (
-        <Component {...newProps}>{children}</Component>
-      )
-    },
-
-    * onUpdate (prev, next) {
-      const pdescs = fn(prev.props)
-      const ndescs = fn(next.props)
-
-      for (const key in ndescs) {
-        const pdesc = normalize(pdescs[key])
-        const ndesc = normalize(ndescs[key])
-        if (!ndesc) continue
-
-        if (!pdesc || pdesc.url !== ndesc.url || !equal(pdesc.params, ndesc.params)) {
-          if (pdesc) yield unsubscribe({...pdesc, path: prev.path})
-          yield subscribe({
-            ...ndesc,
-            path: next.path,
-            cb: msg => next.local(update)({key, msg})
-          })
-        }
-
-        if (prev.props[key] && next.props[key] && prev.props[key].value !== next.props[key].value) {
-          yield next.local(changeValue)({key, value: next.props[key].value})
-        }
-      }
-    },
-
-    reducer: handleActions({
-      [changeValue]: (state, {key, value}) => state && ({
-        ...state,
-        [key]: value
-      }),
-      [update]: (state, {key, msg}) => state && (state[key] ? ({
-        ...state,
-        [key]: applyUpdate(state[key], msg)
-      }) : state)
-    }),
-
-    * onRemove ({props, path}) {
-      const descriptors = fn(props)
-
-      for (const key in descriptors) {
-        yield unsubscribe({
-          ...normalize(descriptors[key]),
-          path
-        })
+      if (prev.props[key] && next.props[key] && prev.props[key].value !== next.props[key].value) {
+        yield next.actions.changeValue(key, next.props[key].value)
       }
     }
-  })
-}
+  },
+
+  reducer: {
+    changeValue: (state, key, value) => ({[key]: value}),
+    update: (state, key, msg) => state[key] && ({
+      [key]: applyUpdate(state[key], msg)
+    })
+  },
+
+  * onRemove ({props, path}) {
+    const descriptors = fn(props)
+
+    for (const key in descriptors) {
+      yield unsubscribe({
+        ...normalize(descriptors[key]),
+        path
+      })
+    }
+  }
+})
 
 /**
  * Helpers
@@ -139,9 +128,3 @@ function applyUpdate (prev, {data, verb}) {
     }
   }
 }
-
-/**
- * Exports
- */
-
-export default live

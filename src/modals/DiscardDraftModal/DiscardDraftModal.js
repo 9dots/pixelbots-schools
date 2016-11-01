@@ -2,33 +2,13 @@
  * Imports
  */
 
+import {component, element} from 'vdux'
 import Confirm from 'modals/Confirm'
 import {Block, Text} from 'vdux-ui'
-import element from 'vdux/element'
 import summon from 'vdux-summon'
-import noop from '@f/noop'
 
 /**
  * <DiscardDraftModal/>
- */
-
-function render ({props}) {
-  const {activity, deleteActivity, onAccept = noop} = props
-  return (
-    <Confirm
-      header='Discard Draft?'
-      message='You will lose your Activity if you exit without saving. Are you sure you want to delete your draft?'
-      onAccept={accept} />
-  )
-
-  function * accept() {
-    yield deleteActivity()
-    yield onAccept()
-  }
-}
-
-/**
- * Exports
  */
 
 export default summon(({activity}) => ({
@@ -39,6 +19,20 @@ export default summon(({activity}) => ({
       invalidates: ['activity_feed']
     }
   })
-}))({
-  render
-})
+}))(component({
+  render ({actions}) {
+    return (
+      <Confirm
+        header='Discard Draft?'
+        message='You will lose your Activity if you exit without saving. Are you sure you want to delete your draft?'
+        onAccept={actions.accept} />
+    )
+  },
+
+  events: {
+    * accept ({props}) {
+      yield props.deleteActivity()
+      if (props.onAccept) yield props.onAccept()
+    }
+  }
+}))

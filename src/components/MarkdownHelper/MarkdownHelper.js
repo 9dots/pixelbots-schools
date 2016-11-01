@@ -4,55 +4,69 @@
 
 import {Dropdown, Block, Button, MenuItem} from 'vdux-containers'
 import {Icon, Table, TableRow, TableCell, Text} from 'vdux-ui'
-import handleActions from '@f/handle-actions'
-import createAction from '@f/create-action'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 
 /**
  * <MarkdownHelper/>
  */
 
-function render ({props, state, local}) {
-  const {menuProps, ...rest} = props
-  const tabs = ['emphasis', 'math', 'links', 'tables', 'symbols', 'lists']
-  const current = state.tab || 'emphasis'
+export default component({
+  render ({props, state, actions}) {
+    const {menuProps, ...rest} = props
+    const tabs = ['emphasis', 'math', 'links', 'tables', 'symbols', 'lists']
+    const current = state.tab || 'emphasis'
 
-  return (
-    <Dropdown
-      btn={<Button tabindex={-1} icon='info' color='text' fs='s' {...rest} />}
-      w={732} right mt={8} z={2} {...menuProps}>
-      <Block align='start stretch' my={-6} onClick={e => e.stopPropagation()}>
-        <Arrow />
-        <Block flex='40%' borderRight='1px solid grey_light' py>
-          {
-            tabs.map((tab, i) =>
-              <MenuItem
-                borderTop={!i ? '1px solid grey_light' : '0px solid transparent'}
-                borderBottom='1px solid grey_light'
-                highlight={tab === current ? 0.03 : 0}
-                onClick={local(setTab, tab)}
-                borderLeft={tab === current ? '3px solid blue' : '0px solid transparent'}
-                align='space-between center'
-                pl={tab === current ? 12 : 15}
-                capitalize>
-                <Block>{tab}</Block>
-                <Icon name='chevron_right' fs='s' hidden={tab !== current} />
-              </MenuItem>
-            )
-          }
+    return (
+      <Dropdown
+        btn={<Button tabindex={-1} icon='info' color='text' fs='s' {...rest} />}
+        w={732} right mt={8} z={2} {...menuProps}>
+        <Block align='start stretch' my={-6} onClick={actions.stopPropagation}>
+          <Arrow />
+          <Block flex='40%' borderRight='1px solid grey_light' py>
+            {
+              tabs.map((tab, i) =>
+                <MenuItem
+                  borderTop={!i ? '1px solid grey_light' : '0px solid transparent'}
+                  borderBottom='1px solid grey_light'
+                  highlight={tab === current ? 0.03 : 0}
+                  onClick={actions.setTab(tab)}
+                  borderLeft={tab === current ? '3px solid blue' : '0px solid transparent'}
+                  align='space-between center'
+                  pl={tab === current ? 12 : 15}
+                  capitalize>
+                  <Block>{tab}</Block>
+                  <Icon name='chevron_right' fs='s' hidden={tab !== current} />
+                </MenuItem>
+              )
+            }
+          </Block>
+          <Block p flex>
+            <Emphasis hide={current !== 'emphasis'} />
+            <Math hide={current !== 'math'} />
+            <Links hide={current !== 'links'} />
+            <Tables hide={current !== 'tables'} />
+            <Symbols hide={current !== 'symbols'} />
+            <Lists hide={current !== 'lists'} />
+          </Block>
         </Block>
-        <Block p flex>
-          <Emphasis hide={current !== 'emphasis'} />
-          <Math hide={current !== 'math'} />
-          <Links hide={current !== 'links'} />
-          <Tables hide={current !== 'tables'} />
-          <Symbols hide={current !== 'symbols'} />
-          <Lists hide={current !== 'lists'} />
-        </Block>
-      </Block>
-    </Dropdown>
-  )
-}
+      </Dropdown>
+    )
+  },
+
+  events: {
+    stopPropagation (model, e) {
+      e.stopPropagation()
+    }
+  },
+
+  reducer: {
+    setTab: (state, tab) => ({tab})
+  }
+})
+
+/**
+ * <Arrow/>
+ */
 
 function Arrow () {
   const props = {
@@ -68,7 +82,11 @@ function Arrow () {
   )
 }
 
-function H({props, children}) {
+/**
+ * <H/>
+ */
+
+function H ({props, children}) {
   return (
     <Block tag='span' bgColor='grey_light' px='4' bold>
       {children}
@@ -76,7 +94,11 @@ function H({props, children}) {
   )
 }
 
-function M({children}) {
+/**
+ * <M/>
+ */
+
+function M ({children}) {
   return (
     <Block tag='span'>
       <Text color='grey_medium' italic>$$&nbsp;</Text>
@@ -86,7 +108,11 @@ function M({children}) {
   )
 }
 
-function Row({props}) {
+/**
+ * <Row/>
+ */
+
+function Row ({props}) {
   const {text, display, ...rest} = props
   const Render = typeof text === 'string' ? <Text>{text}</Text> : text
 
@@ -100,6 +126,10 @@ function Row({props}) {
     </TableRow>
   )
 }
+
+/**
+ * <Emphasis/>
+ */
 
 function Emphasis ({props}) {
   return (
@@ -117,6 +147,10 @@ function Emphasis ({props}) {
     </Block>
   )
 }
+
+/**
+ * <Math/>
+ */
 
 function Math ({props}) {
   return (
@@ -136,7 +170,11 @@ function Math ({props}) {
   )
 }
 
-function Links({props}) {
+/**
+ * <Links/>
+ */
+
+function Links ({props}) {
   return (
     <Block {...props}>
       Links in your text will automatically be turned into clickable elements if they include <H>http://</H> or <H>https://</H>.  You can also format your links to make your text more readable.
@@ -149,7 +187,11 @@ function Links({props}) {
   )
 }
 
-function Tables({props}) {
+/**
+ * <Tables/>
+ */
+
+function Tables ({props}) {
   return  (
     <Block {...props}>
       Use <H>|</H>'s to create tables. <H>:</H>'s can be used to align the content of each column. You must add a blank line between any text and your table. The table must also include a header, which is the first row separated by dashes as shown below.
@@ -190,7 +232,11 @@ function Tables({props}) {
   )
 }
 
-function Symbols({props}) {
+/**
+ * <Symbols/>
+ */
+
+function Symbols ({props}) {
   return (
     <Block {...props}>
       To add mathematical symbols to your text, wrap the relevant area in <H>$$</H> <em>insert symbol here</em> <H>$$</H>.
@@ -219,7 +265,11 @@ function Symbols({props}) {
   )
 }
 
-function Lists({props}) {
+/**
+ * <Lists/>
+ */
+
+function Lists ({props}) {
   return (
     <Block {...props}>
       If you would like to put a list into your text, add a number before each line. Alternatively, you can add <H>-</H>, <H>+</H>, or <H>*</H>. You can also create sub lists by indenting your lists items by at least <H>4 spaces</H>.
@@ -231,28 +281,4 @@ function Lists({props}) {
       </Table>
     </Block>
   )
-}
-
-/**
- * Actions
- */
-
-const setTab = createAction('<MarkdownHelper/>: setTab')
-
-/**
- * Reducer
- */
-
-const reducer =  handleActions({
-  [setTab]: (state, tab) => ({...state, tab: tab})
-})
-
-
-/**
- * Exports
- */
-
-export default {
-  reducer,
-  render
 }

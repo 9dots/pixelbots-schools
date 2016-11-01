@@ -17,8 +17,6 @@ import cookie from 'redux-effects-cookie'
 import media from 'redux-effects-media'
 import upload from 'middleware/upload'
 import scroll from 'middleware/scroll'
-import socket from 'middleware/socket'
-import * as summon from 'vdux-summon'
 import logger from 'weo-redux-logger'
 import OAuth from 'middleware/oauth'
 import print from 'middleware/print'
@@ -36,7 +34,6 @@ const middleware = [
   flo(),
   cookie(),
   events(),
-  query(isApiServer, 'access_token', state => state.app.auth && state.app.auth.token),
   transformErrors(isApiServer),
   // normalize(isApiServer),
   fetchEncodeJSON,
@@ -48,11 +45,9 @@ const middleware = [
   analytics(process.env.SEGMENT_IO_KEY),
   location(),
   speechSynth,
-  socket,
   modal,
   title(),
   objectId,
-  summon.middleware('app.summon'),
   OAuth,
   print,
   logger({

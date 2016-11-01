@@ -6,9 +6,9 @@ import InfiniteScroll from 'components/InfiniteScroll'
 import RoundedInput from 'components/RoundedInput'
 import {Block, Text, Flex, Icon} from 'vdux-ui'
 import Loading from 'components/Loading'
+import {component, element} from 'vdux'
 import isSameDay from '@f/is-same-day'
 import {Button} from 'vdux-containers'
-import element from 'vdux/element'
 import reduce from '@f/reduce'
 import moment from 'moment'
 
@@ -16,45 +16,57 @@ import moment from 'moment'
  * <RowFeed/>
  */
 
-function render ({props}) {
-  const {
-    activities = [], more, search,
-    emptyState, item: Item,
-    itemProps = {}, currentUser, ...rest
-  } = props
-  const {value, hasLoaded, loaded, loading, params} = activities
-  const searching = !!(params && params.query)
+export default component({
+  render ({props, actions}) {
+    const {
+      activities = [], search, more,
+      emptyState, item: Item,
+      itemProps = {}, currentUser, ...rest
+    } = props
+    const {value, hasLoaded, loaded, loading, params} = activities
+    const searching = !!(params && params.query)
 
-  return (
-    <InfiniteScroll loading={loading} more={() => more(value && value.nextPageToken)} {...rest}>
-      {
-        <RoundedInput
-        hide={!search || !hasLoaded || (!loading && !value.items.length && !searching)}
-        onKeypress={{enter: e => search(e.target.value)}}
-        placeholder='Search your activities...'
-        inputProps={{textAlign: 'left'}}
-        key={props.boardId}
-        type='search'
-        icon='search'
-        right='6px'
-        py='8px'
-        absolute
-        w='242px' />
-      }
-      {
-        loaded && renderItems(
-          value.items,
-          Item,
-          itemProps,
-          loading
-            ? null
-            : (searching ? <EmptySearch /> : emptyState),
-          currentUser
-        )
-      }
-    </InfiniteScroll>
-  )
-}
+    return (
+      <InfiniteScroll loading={loading} more={more(value && value.nextPageToken)} {...rest}>
+        {
+          <RoundedInput
+          hide={!search || !hasLoaded || (!loading && !value.items.length && !searching)}
+          onKeypress={{enter: actions.search}}
+          placeholder='Search your activities...'
+          inputProps={{textAlign: 'left'}}
+          key={props.boardId}
+          type='search'
+          icon='search'
+          right='6px'
+          py='8px'
+          absolute
+          w='242px' />
+        }
+        {
+          loaded && renderItems(
+            value.items,
+            Item,
+            itemProps,
+            loading
+              ? null
+              : (searching ? <EmptySearch /> : emptyState),
+            currentUser
+          )
+        }
+      </InfiniteScroll>
+    )
+  },
+
+  events: {
+    * search ({props}, e) {
+      yield props.search(e.target.value)
+    }
+  }
+})
+
+/**
+ * Helpers
+ */
 
 function renderItems (items, Item, itemProps, emptyState, currentUser) {
   if (!items.length && emptyState) return emptyState
@@ -81,7 +93,15 @@ function renderItems (items, Item, itemProps, emptyState, currentUser) {
   }, [], items)
 }
 
-function EmptySearch() {
+function startOfDay (date) {
+ return (new Date(date)).setHours(0, 0, 0, 0)
+}
+
+/**
+ * <EmptySearch/>
+ */
+
+function EmptySearch () {
   return (
     <Flex column align='center center' p h='150px'>
       <Text fw='200' fs='s'>
@@ -89,20 +109,4 @@ function EmptySearch() {
       </Text>
     </Flex>
   )
-}
-
-/**
- * Helpers
- */
-
-function startOfDay (date) {
- return (new Date(date)).setHours(0, 0, 0, 0)
-}
-
-/**
- * Exports
- */
-
-export default {
-  render
 }

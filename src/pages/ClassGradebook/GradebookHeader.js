@@ -4,48 +4,57 @@
 
 import {wrap, CSSContainer, Button, Dropdown} from 'vdux-containers'
 import {TableRow, TableHeader, Icon, Block, Text} from 'vdux-ui'
-import {setUrl} from 'redux-effects-location'
-import element from 'vdux/element'
+import {component, element} from 'vdux'
 import moment from 'moment'
 import map from '@f/map'
 
 /**
- * Render
+ * <GradebookHeader/>
  */
 
-function render ({props}) {
-  const {activities, sort, setPref, totals, ...rest} = props
-  const headProps = {
-    borderRight: '1px solid text',
-    bgColor: 'grey',
-    color: 'white',
-    p: '16px'
-  }
+export default component({
+  render ({props, actions}) {
+    const {activities, sort, setPref, totals, ...rest} = props
+    const headProps = {
+      borderRight: '1px solid text',
+      bgColor: 'grey',
+      color: 'white',
+      p: '16px'
+    }
 
-  return (
-    <TableRow>
-      <NameHeader text='First' prop='name.givenName' {...headProps} setPref={setSort} sort={sort}/>
-      <NameHeader text='Last' prop='name.familyName' {...headProps} setPref={setSort} sort={sort} />
-      <TableHeader {...headProps}>
-        Total
-      </TableHeader>
-      {
-        map((activity, i) => <ActivityHeader
-          total={totals[i]}
-          {...headProps}
-          {...rest}
-          activity={activity} />, activities)
-      }
-    </TableRow>
-  )
+    return (
+      <TableRow>
+        <NameHeader text='First' prop='name.givenName' {...headProps} setPref={actions.setSort} sort={sort}/>
+        <NameHeader text='Last' prop='name.familyName' {...headProps} setPref={actions.setSort} sort={sort} />
+        <TableHeader {...headProps}>
+          Total
+        </TableHeader>
+        {
+          map((activity, i) => <ActivityHeader
+            total={totals[i]}
+            {...headProps}
+            {...rest}
+            activity={activity} />, activities)
+        }
+      </TableRow>
+    )
+  },
 
-  function * setSort (prop) {
-    yield setPref('gradebookSort', {
-      property: prop,
-      dir: prop === sort.property ? sort.dir * -1 : 1
-    })
+  events: {
+    * setSort ({props}, prop) {
+      const {setPref, sort} = props
+
+      yield setPref('gradebookSort', {
+        property: prop,
+        dir: prop === sort.property ? sort.dir * -1 : 1
+      })
+    }
   }
-}
+})
+
+/**
+ * <NameHeader/>
+ */
 
 const NameHeader = wrap(CSSContainer, {
     textAlign: 'left',
@@ -57,7 +66,7 @@ const NameHeader = wrap(CSSContainer, {
     const {hover, sort, prop, text, setPref, ...rest} = props
 
     return (
-      <TableHeader pointer onClick={() => setPref(prop)} {...rest} borderWidth={0}>
+      <TableHeader pointer onClick={setPref(prop)} {...rest} borderWidth={0}>
         <Block align='start center'>
           <Text underline={hover}>
             {text}
@@ -73,12 +82,16 @@ const NameHeader = wrap(CSSContainer, {
   }
 })
 
+/**
+ * <ActivityHeader/>
+ */
+
 const ActivityHeader = wrap(CSSContainer, {
   hoverProps: {
     showSettings: true
   }
 })({
-  render ({props}) {
+  render ({props, context}) {
     const {activity, showSettings, exportActivity, total, allowExport, ...rest} = props
     const btn = <Icon fs='xs' pointer absolute='top 0px right 0px' hide={!showSettings} name='info_outline' absolute top={-16} right={-8} />
 
@@ -96,10 +109,10 @@ const ActivityHeader = wrap(CSSContainer, {
             Points: {total}
           </Block>
           <Block align='center center'>
-            <Button hide={!allowExport} pill px py='s' fs='xxs' bgColor='grey_medium' onClick={() =>exportActivity(activity)}>
+            <Button hide={!allowExport} pill px py='s' fs='xxs' bgColor='grey_medium' onClick={exportActivity(activity)}>
               Export to CSV
             </Button>
-            <Button px py='s' ml='s' fs='xxs' pill onClick={() => setUrl(`/activity/${activity._id}`)}>
+            <Button px py='s' ml='s' fs='xxs' pill onClick={context.setUrl(`/activity/${activity._id}`)}>
               Go to Activity
             </Button>
           </Block>
@@ -111,7 +124,3 @@ const ActivityHeader = wrap(CSSContainer, {
     )
   }
 })
-
-export default {
-  render
-}
