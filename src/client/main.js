@@ -27,7 +27,7 @@ domready(() => {
 })
 
 const {forceRerender} = vdux(() => <Boot />, {
-  prerendered: !! window.__initialState__,
+  prerendered: !!window.__initialState__,
   initialState: window.__initialState__,
   middleware
 })

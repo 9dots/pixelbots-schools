@@ -2,10 +2,10 @@
  * Imports
  */
 
-import jss from './jss'
+import './jss'
+import 'lib/favicon'
 import 'regenerator-runtime/runtime'
 import promise from 'es6-promise'
-import favicon from 'lib/favicon'
 
 /**
  * Polyfills

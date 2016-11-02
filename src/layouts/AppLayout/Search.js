@@ -54,14 +54,14 @@ export default component({
   },
 
   events: {
-    * submitSearch ({context, actions}, url, e) {
-      if (!e.target.value) return
+    * submitSearch ({context, actions}, url, value) {
+      if (!value) return
 
       const parts = url.split('/').filter(Boolean)
-      parts[2] = e.target.value
+      parts[2] = value
       yield parts[0] === 'search'
           ? context.setUrl('/' + parts.join('/'))
-          : context.setUrl('/search/activities/' + e.target.value)
+          : context.setUrl('/search/activities/' + value)
     }
   },
 

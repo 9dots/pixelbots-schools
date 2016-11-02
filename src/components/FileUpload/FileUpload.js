@@ -44,7 +44,7 @@ export default component({
         {...props}>
         <ProgressBar w='50%' h='5' absolute top bottom right left m='auto' hide={!uploading} progress={progress} />
         <ErrorTip show={!!error} message={error} placement='right' />
-        <Base sq='100%' onChange={actions.upload} tag='input' type='file' opacity='0' absolute top left pointer />
+        <Base sq='100%' onChange={{handler: actions.upload}} tag='input' type='file' opacity='0' absolute top left pointer />
       </DropZone>
     )
   },

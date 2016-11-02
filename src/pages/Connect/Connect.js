@@ -65,9 +65,9 @@ export default summon(({userSearch: query}) => ({
       yield context.openModal(() => <InviteTeacherModal />)
     },
 
-    * submitSearch ({context, props}, e) {
-      const parts = props.url.split('/').filter(Boolean)
-      parts[1] = e.target.value
+    * submitSearch ({context, props}, value) {
+      const parts = props.currentUrl.split('/').filter(Boolean)
+      parts[1] = value
       yield context.setUrl('/' + parts.join('/'))
     }
   }

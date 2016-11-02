@@ -36,7 +36,7 @@ export default summon(() => ({
         <Block p='l' h={275} align='stretch'>
           {
              uploadable
-              ? <FileUpload onDrop={actions.onDrop} onUpload={actions.done} message={<Upload loading={scraping.loading} {...props} onSubmit={actions.done} />} align='center center' wide {...props} />
+              ? <FileUpload onDrop={{handler: actions.onDrop}} onUpload={actions.done} message={<Upload loading={scraping.loading} {...props} onSubmit={actions.done} />} align='center center' wide {...props} />
               : <ScrapeFile {...props} loading={scraping.loading} onSubmit={done} />
           }
         </Block>
@@ -110,11 +110,11 @@ function Upload ({props}) {
  */
 
 const MediaInput = component({
-  render ({props, actions}) {
+  render ({props}) {
     const {placeholder, loading, onSubmit, ...rest} = props
 
     return (
-      <Form align='start stretch' onClick={actions.stopPropagation} w='60%' onSubmit={onSubmit} {...rest}>
+      <Form align='start stretch' onClick={{stopPropagation: true}} w='60%' onSubmit={onSubmit} {...rest}>
         <BlockInput
           placeholder={placeholder || 'Enter a url...'}
           borderRightWidth={0}
@@ -129,11 +129,5 @@ const MediaInput = component({
         </Button>
       </Form>
     )
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
   }
 })

@@ -83,7 +83,7 @@ export default component({
                     placeholder={`Choice #${idx+1}`}
                     inputProps={{textAlign:'center', p: '6px 12px 5px', fs: 's', fw: 200}}
                     autofocus={!content}
-                    onKeydown={{backspace: actions.maybeRemove}} />
+                    onKeydown={{backspace: {handler: actions.maybeRemove}}} />
             }
           </Block>
           { chosen && <ChosenMarker actor={actor} /> }
@@ -93,8 +93,8 @@ export default component({
   },
 
   events: {
-    * editOriginalContent ({props}, e) {
-      yield props.onEdit({...props.object, originalContent: e.target.value})
+    * editOriginalContent ({props}, originalContent) {
+      yield props.onEdit({...props.object, originalContent})
     },
 
     * maybeRemove ({props}, e) {

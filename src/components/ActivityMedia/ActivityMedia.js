@@ -41,11 +41,11 @@ export default component({
  */
 
 const LinkObject = component({
-  render ({props, actions}) {
+  render ({props}) {
     const {object, ...rest} = props
     const {description, embed = {}, image = {}, displayName} = object
     const linkProps ={
-      onClick: actions.stopPropagation,
+      onClick: {stopPropagation: true},
       href: embed.url,
       target: '_blank',
       hoverProps: {textDecoration: 'underline'}
@@ -82,12 +82,6 @@ const LinkObject = component({
         </Block>
       </Block>
     )
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
   }
 })
 
@@ -98,12 +92,6 @@ const LinkObject = component({
 const Video = component({
   reducer: {
     playVideo: () => ({play: true})
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
   },
 
   render ({props, state, actions}) {
@@ -141,7 +129,7 @@ const Video = component({
                 p='30% 5% 3%'
                 wide>
                 <Link
-                  onClick={actions.stopPropagation}
+                  onClick={{stopPropagation: true}}
                   hoverProps={{underline: true}}
                   href={embed.url}
                   target='_blank'
@@ -187,13 +175,7 @@ const Video = component({
  */
 
 const Document = component({
-  events: {
-    stoPropagation (model, e) {
-      e.stopPropagation()
-    }
-  },
-
-  render ({props, actions}) {
+  render ({props}) {
     const {object, editable, preview, isDragging, ...rest} = props
     const {content, embed = {}} = object
     const {url} = embed
@@ -216,7 +198,7 @@ const Document = component({
           relative
           h={0} />
         <Block align='start center' mt>
-          <Link onClick={actions.stopPropagation} href={url} {...linkProps}>
+          <Link onClick={{stopPropagation: true}} href={url} {...linkProps}>
             <Icon name='open_in_new' mr='xs' fs='inherit' />
             View File
           </Link>

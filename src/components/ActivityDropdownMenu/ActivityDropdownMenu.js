@@ -4,9 +4,9 @@
 
 import DeleteActivityModal from 'modals/DeleteActivityModal'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
-import {Icon, Flex, Block, Text} from 'vdux-ui'
 import AssignModal from 'modals/AssignModal'
 import {component, element} from 'vdux'
+import {Icon} from 'vdux-ui'
 
 /**
  * <ActivityDropdownMenu/>
@@ -28,7 +28,7 @@ export default component({
         <Item onClick={context.setUrl(editUrl)}
           text='Edit'
           color='blue'
-          icon='edit'/>
+          icon='edit' />
         <Item
           onClick={actions.openDeleteModal}
           icon='delete'
@@ -79,6 +79,6 @@ function Btn ({props}) {
       color='text'
       circle={32}
       fs='m'
-      ml='s'/>
+      ml='s' />
   )
 }

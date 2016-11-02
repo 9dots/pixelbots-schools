@@ -17,10 +17,9 @@ import moment from 'moment'
  */
 
 export default component({
-  render ({props, actions}) {
+  render ({props}) {
     const {
-      activities = [], search, more,
-      emptyState, item: Item,
+      activities = [], more, emptyState, item: Item,
       itemProps = {}, currentUser, ...rest
     } = props
     const {value, hasLoaded, loaded, loading, params} = activities
@@ -31,7 +30,7 @@ export default component({
         {
           <RoundedInput
           hide={!search || !hasLoaded || (!loading && !value.items.length && !searching)}
-          onKeypress={{enter: actions.search}}
+          onKeypress={{enter: search}}
           placeholder='Search your activities...'
           inputProps={{textAlign: 'left'}}
           key={props.boardId}
@@ -55,12 +54,6 @@ export default component({
         }
       </InfiniteScroll>
     )
-  },
-
-  events: {
-    * search ({props}, e) {
-      yield props.search(e.target.value)
-    }
   }
 })
 

@@ -12,7 +12,7 @@ import Link from 'components/Link'
  */
 
 export default component({
-  render ({props, actions}) {
+  render ({props}) {
     const {activity} = props
     const {pinnedFrom} = activity
     const actor = pinnedFrom ? pinnedFrom.actor : activity.actor
@@ -24,7 +24,7 @@ export default component({
 
     return (
       <Flex align='start center'>
-        <Avatar pointer mr thumb actor={actor} onClick={actions.goToProfile(actor)}/>
+        <Avatar pointer mr thumb actor={actor} onClick={[context.setUrl(`/${actor.username}`), {stopPropagation: true}]} />
         <Flex column fs='xxs' align='space-around'>
           <Text color='text' mb='xs'>{message}</Text>
           <Link href={href} pointer hoverProps={{underline: true}} fw='bold'>
@@ -33,12 +33,5 @@ export default component({
         </Flex>
       </Flex>
     )
-  },
-
-  events: {
-    * goToProfile ({context}, actor, e) {
-      e.stopPropagation()
-      yield context.setUrl(`/${actor.username}`)
-    }
   }
 })

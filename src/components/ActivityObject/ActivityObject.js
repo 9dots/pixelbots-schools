@@ -42,7 +42,7 @@ export default wrap(CSSContainer, ({editable}) => editable
     const {object, open, editing, editable, onEdit, hover, opening, ...rest} = props
     const Obj = typeMap[object.objectType]
     const editableProps = {
-      onClick: open(object._id),
+      onClick: open && open(object._id),
       bgColor: hover ? 'off_white' : 'white'
     }
 

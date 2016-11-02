@@ -137,17 +137,11 @@ const StudentRow = wrap(CSSContainer, {
         <TableCell {...cellProps} textAlign='right' hide={isStudent}>
           <StudentDropdown
             group={group}
-            onClick={actions.preventDefault()}
+            onClick={{preventDefault: true}}
             showSettings={showSettings}
             student={student}/>
         </TableCell>
       </TableRow>
     )
-  },
-
-  events: {
-    preventDefault (model, e) {
-      e.preventDefault()
-    }
   }
 }))

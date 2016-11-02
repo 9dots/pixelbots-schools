@@ -78,8 +78,8 @@ export default component({
       })
     },
 
-    * edit ({props}, i, e) {
-      yield save(replace(props.object.correctAnswer, i, e.target.value))
+    * edit ({props}, i, value) {
+      yield save(replace(props.object.correctAnswer, i, value))
     },
 
     * remove ({props, actions}, idx) {
@@ -103,12 +103,12 @@ const Answer = component({
         <Block mr mt={-4} fs='s'>{idx + 1}.</Block>
         <LineInput
           onKeydown={{
-            backspace: actions.maybeRemove,
+            backspace: {handler: actions.maybeRemove},
             enter: onEnter
           }}
           onInput={onInput}
           // placeholder={'Answer ' + (idx+1)}
-          onFocus={actions.selectTarget}
+          onFocus={{selectTarget: true}}
           value={answer}
           autofocus
           fs='s'
@@ -119,10 +119,6 @@ const Answer = component({
   },
 
   events: {
-    selectTarget (model, e) {
-      e.target.select()
-    },
-
     * maybeRemove ({props}, e) {
       const {num, focusPrevious, remove} = props
 

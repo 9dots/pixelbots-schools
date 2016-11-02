@@ -22,15 +22,16 @@ export default component({
       ...rest
     } = mergedProps
 
-    const stop = actions.acceptTypes(accepts)
+    const {acceptTypes, over, leave} = actions
+    const stop = {handler: acceptTypes}
 
     return (
       <Block
         {...rest}
-        onDragOver={[stop, actions.over, onDragOver]}
-        onDragEnter={[stop, actions.over, onDragEnter]}
-        onDragLeave={[stop, actions.leave, onDragLeave]}
-        onDrop={[stop, actions.leave, onDrop]}>
+        onDragOver={[stop, over, onDragOver]}
+        onDragEnter={[stop, over, onDragEnter]}
+        onDragLeave={[stop, leave, onDragLeave]}
+        onDrop={[stop, leave, onDrop]}>
         <Block wide tall align='center center' hide={uploading}>
           {message}
         </Block>
@@ -40,7 +41,8 @@ export default component({
   },
 
   events: {
-    acceptTypes (model, accepts, e) {
+    acceptTypes ({props}, e) {
+      let {accepts = []} = props
       accepts = Array.isArray(accepts)
         ? accepts
         : [accepts]

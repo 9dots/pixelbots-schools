@@ -89,8 +89,8 @@ export default component({
       yield hideToast()
     },
 
-    * setUrl (model, ...args) {
-      yield setUrlEffect(...args)
+    * setUrl (model, url, replace) {
+      yield setUrlEffect(url, replace === true)
     },
 
     * back (model, ...args) {
@@ -98,19 +98,19 @@ export default component({
     },
 
     * generateObjectId () {
-      yield generateObjectIdEffect()
+      return yield generateObjectIdEffect()
     },
 
     * scrollTo (model, ...args) {
-      yield scrollToEffect(...args)
+      return yield scrollToEffect(...args)
     },
 
     * uploadFile (model, ...args) {
-      yield uploadFileEffect(...args)
+      return yield uploadFileEffect(...args)
     },
 
     * setTitle (model, ...args) {
-      yield setTitleEffect(...args)
+      return yield setTitleEffect(...args)
     },
 
     * logoutUser ({actions}) {

@@ -14,7 +14,7 @@ import {Block, Icon} from 'vdux-ui'
 
 export default component({
   render ({props, actions, state}) {
-    const {selected, toggle, max = Infinity} = props
+    const {selected, max = Infinity} = props
     const {error} = state
 
     const selectedList = mapValues(t => t.displayName, selected)
@@ -28,25 +28,23 @@ export default component({
     const btnStyle = gradeList.length ? {'bold': true, color: 'blue'} : {}
 
     return (
-      <Dropdown onClick={actions.stopPropagation} wide btn={<DDBtn {...btnStyle} text={text}/>} onClose={actions.setError(null)}>
+      <Dropdown onClick={{stopPropagation: true}} wide btn={<DDBtn {...btnStyle} text={text} />} onClose={actions.setError(null)}>
         {
-          grades.map(grade => <Item tag={grade} selected={gradeList} toggle={toggleGrade(gradeList)} error={error === grade.displayName} max={max} />)
+          grades.map(grade => <Item tag={grade} selected={gradeList} toggle={actions.toggleGrade(gradeList)} error={error === grade.displayName} max={max} />)
         }
       </Dropdown>
     )
   },
 
   events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    },
-
     * toggleGrade ({props, actions}, gradeList, grade) {
+      const {toggle, max = Infinity} = props
+
       if (gradeList.indexOf(grade.displayName) === -1 && gradeList.length + 1 > max) {
         yield actions.setError(grade.displayName)
       } else {
         yield actions.setError(null)
-        yield props.toggle(grade)
+        yield toggle(grade)
       }
     }
   },
@@ -62,6 +60,7 @@ export default component({
 
 function DDBtn ({props}) {
   const {text, ...rest} = props
+
   return (
     <Button
       hoverProps={{highlight: 0.02}}

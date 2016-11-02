@@ -42,7 +42,7 @@ const Question = wrap(CSSContainer, {
     return (
       <Block>
         <Document onClick={dismiss} />
-        <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'z2' : '0 0 0'} onClick={actions.open}>
+        <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'z2' : '0 0 0'} onClick={[props.toggle, {stopPropagation: true}]}>
           <Flex fs='s' lighter wide pointer>
             <Card {...headerProps} ellipsis flex>
               <Block>{i+1}.</Block>
@@ -59,7 +59,7 @@ const Question = wrap(CSSContainer, {
           </Flex>
           {
             expanded && (
-              <Block onClick={actions.stopPropagation} bgColor='white' p='18px 50px 30px 50px'>
+              <Block onClick={{stopPropagation: true}} bgColor='white' p='18px 50px 30px 50px'>
                 <ActivityQuestion overview object={question} />
               </Block>
             )
@@ -67,17 +67,6 @@ const Question = wrap(CSSContainer, {
         </Block>
       </Block>
     )
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    },
-
-    * open ({props}, e) {
-      e.stopPropagation()
-      yield props.toggle()
-    }
   }
 })
 

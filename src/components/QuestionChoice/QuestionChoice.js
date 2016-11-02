@@ -31,7 +31,7 @@ const printProps = {bgColor: 'transparent', p: '2px 0 2px 20px'}
  */
 
 export default component({
-  render ({props, context}) {
+  render ({props, context, actions}) {
     const {
       object, editing, onEdit, showAnswers, remove,
       focusPrevious, overview, answerable, submit, idx,
@@ -92,15 +92,15 @@ export default component({
               : <Block align='start center'>
                   <Tooltip message='Mark Correct' mr>
                     <Checkbox
-                      onChange={toggleCorrectness}
+                      onChange={actionss.toggleCorrectness}
                       checked={isCorrect}
                       btn={Check}
                       ml='s'/>
                   </Tooltip>
                   <BlockInput
-                    onInput={editText}
+                    onInput={actions.editText}
                     inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
-                    onKeydown={{backspace: maybeRemove}}
+                    onKeydown={{backspace: {handler: maybeRemove}}}
                     placeholder={`Choice ${idx + 1}`}
                     defaultValue={originalContent}
                     lighter
@@ -125,20 +125,20 @@ export default component({
   },
 
   events: {
-    * toggleCorrectness ({props}, e) {
+    * toggleCorrectness ({props}, checked) {
       const {onEdit, object} = props
 
       yield onEdit({
         ...object,
         correctAnswer: object.correctAnswer
           .filter(id => id !== object._id)
-          .concat(e.target.checked ? object._id : [])
+          .concat(checked ? object._id : [])
       })
     },
 
-    * editText ({props}, e) {
+    * editText ({props}, originalContent) {
       const {object, onEdit} = props
-      yield onEdit({...object, originalContent: e.target.value})
+      yield onEdit({...object, originalContent})
     },
 
     * maybeRemove ({props}, e) {
@@ -146,7 +146,7 @@ export default component({
 
       if (e.target.value === '' && numAtt > 1) {
         yield remove()
-        yield focusPrevious(e.target)
+        yield focusPrevious(e)
       }
     }
   }

@@ -40,7 +40,7 @@ export default wrap(CSSContainer, {
         <Handle dir='se' start={actions.start} hide={!focus || justify === 'right'} />
         {
           dragging &&
-          <Document onMouseup={actions.endDragging} onMouseMove={actions.move} />
+          <Document onMouseup={actions.endDragging} onMouseMove={{handler: actions.move}} />
         }
     </Block>
     )
@@ -91,7 +91,7 @@ export default wrap(CSSContainer, {
       startHeight,
       dragging: true
     }),
-    endDragging: state => ({dragging: false}),
+    endDragging: () => ({dragging: false}),
   }
 }))
 
@@ -112,7 +112,7 @@ function Handle ({props}) {
         bottom: isSouth(dir) ? 0 : 'auto',
         left: isWest(dir) ? 0 : 'auto'
       }}
-      onMousedown={start(dir)}
+      onMousedown={{handler: start(dir)}}
       boxShadow='z1'
       bgColor='blue'
       circle={w}

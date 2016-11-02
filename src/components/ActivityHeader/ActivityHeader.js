@@ -47,19 +47,19 @@ export default component({
  */
 
 const EditingHeader = component({
-  render: function ({props}) {
+  render: function ({props, actions}) {
     const {activity, open} = props
     const {displayName, originalDescription, tags} = activity
 
     return (
-      <Block bgColor='white' z={2} relative p={24} pt={18}  boxShadow='0 0 12px rgba(black, .5)' fs='s' lighter>
+      <Block bgColor='white' z={2} relative p={24} pt={18} boxShadow='0 0 12px rgba(black, .5)' fs='s' lighter>
         <Block align='start center'>
           <Text textAlign='right' minWidth={100} mr='l'>Title:</Text>
           <LineInput
             fs='s'
             lighter
             autofocus
-            onFocus={actions.selectTarget}
+            onFocus={{selectTarget: true}}
             onInput={actions.editDisplayName}
             defaultValue={displayName} />
         </Block>
@@ -75,10 +75,10 @@ const EditingHeader = component({
           <Text textAlign='right' minWidth={100} mr='l'>Label:</Text>
           <Block align='start' flex>
             <Block flex='45%' mr>
-              <GradeSelector selected={tags} toggle={toggleTag} max={3} />
+              <GradeSelector selected={tags} toggle={actions.toggleTag} max={3} />
             </Block>
             <Block flex='45%' mr>
-              <SubjectSelector selected={tags} toggle={toggleTag} max={3} />
+              <SubjectSelector selected={tags} toggle={actions.toggleTag} max={3} />
             </Block>
           </Block>
         </Block>
@@ -93,24 +93,22 @@ const EditingHeader = component({
   },
 
   events: {
-    * selectTarget (model, e) {
-      e.target.select()
+    * editDisplayName ({props}, value) {
+      yield props.onEdit({displayName: value.trim() || 'Untitled Activity'})
     },
 
-    * editDisplayName ({props}, e) {
-      yield props.onEdit({displayName: e.target.value.trim() || 'Untitled Activity'})
-    },
-
-    * editOriginalDescription ({props}, e) {
-      yield props.onEdit({originalDescription: e.target.value})
+    * editOriginalDescription ({props}, value) {
+      yield props.onEdit({originalDescription: value})
     },
 
     * toggleTag ({props}, tag) {
-      const {onEdit, tags} = props
+      const {onEdit, activity} = props
+      const {tags} = activity
+
       const newArr = tags.slice()
       const i = findIndex(tags, t => tag.displayName === t.displayName)
 
-      if(i === -1) {
+      if (i === -1) {
         newArr.push(tag)
       } else {
         newArr.splice(i, 1)

@@ -17,7 +17,7 @@ export default component({
   render ({props}) {
     const {
       answerable, showAnswers, answer = [], object,
-      overview, editing, onEdit, editable
+      overview, editing, onEdit, editable, submit
     } = props
 
     if(overview) return <ShortAnswerOverview {...props} />
@@ -31,7 +31,7 @@ export default component({
             ? <ShortAnswerEdit {...props} />
             : <Block align='start center'>
                 <LineInput
-                  onInput={actions.send}
+                  onInput={submit}
                   defaultValue={answer[0] || ''}
                   placeholder='Enter your answer...'
                   disabled={!answerable}
@@ -74,11 +74,5 @@ export default component({
         }
       </Block>
     )
-  },
-
-  events: {
-    * send ({props}, e) {
-      yield props.submit(e.target.value)
-    }
   }
 })

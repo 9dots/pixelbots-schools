@@ -77,10 +77,10 @@ export default summon(({activity}) => ({
                     <Block
                       key={object._id}
                       draggable={editing !== object._id}
-                      onDragOver={actions.onDragOver(object._id)}
+                      onDragOver={{handler: actions.onDragOver(object._id)}}
                       onDragEnd={actions.clearDragging}
-                      onMouseDown={actions.setMouseDown}
-                      onDragStart={actions.onDragStart(object._id)}
+                      onMouseDown={{handler: actions.setMouseDown}}
+                      onDragStart={{handler: actions.onDragStart(object._id)}}
                       bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
                       <ActivityObject
                         editable
@@ -108,7 +108,7 @@ export default summon(({activity}) => ({
               </Block>
             </Card>
             <Block mr>
-              <Block h={18} onDrop={actions.preventDefault} onDragOver={actions.onDragOver(null)} />
+              <Block h={18} onDrop={{preventDefault: true}} onDragOver={{handler: actions.onDragOver(null)}} />
               <AttachmentMenu attach={actions.insertObject} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
             </Block>
           </Block>
@@ -177,10 +177,6 @@ export default summon(({activity}) => ({
   ],
 
   events: {
-    preventDefault (model, e) {
-      e.preventDefault()
-    },
-
     * onDragOver ({actions, state}, id, e) {
       const types = [].slice.call(e._rawEvent.dataTransfer.types)
       if (types.indexOf('weo_attachment') === -1) return
@@ -285,6 +281,7 @@ export default summon(({activity}) => ({
       }
     }),
     changeHeader: (state, header) => ({
+      dirty: true,
       editedActivity: {
         ...state.editedActivity,
         ...header
@@ -307,7 +304,7 @@ export default summon(({activity}) => ({
 
       return attachments
     }),
-    insertObject: (state, {object, idx}) => {
+    insertObject: (state, object, idx) => {
       let att = [...state.editedActivity._object[0].attachments]
       att.splice(idx === undefined ? att.length : idx, 0, object)
       return (

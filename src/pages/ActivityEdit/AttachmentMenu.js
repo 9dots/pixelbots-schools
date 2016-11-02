@@ -17,7 +17,7 @@ export default component({
   }),
 
   render ({props, state, actions}) {
-    const {attach, startsOpen} = props
+    const {startsOpen} = props
 
     const menu = [
       <Close onClick={actions.toggle} absolute='top -10px right -10px' hide={startsOpen} />,
@@ -49,36 +49,37 @@ export default component({
       ))
     },
 
-    * createAndAttach ({actions, context}, object) {
+    * createAndAttach ({props, actions, context}, object) {
       const id = yield context.generateObjectId()
-      yield actions.attach({
-        object:{
-          ...object,
-          _id: id
-        }
+
+      console.log('id', id)
+
+      yield props.attach({
+        ...object,
+        _id: id
       })
+
       yield actions.toggle()
     },
 
     * attachQuestion ({actions, context, props}) {
-      const {defaultPoints = 10} = props
+      const {attach, defaultPoints = 10} = props
       const id1 = yield context.generateObjectId()
       const id2 = yield context.generateObjectId()
 
-      yield actions.attach({
-        object: {
-          _id: id1,
-          objectType: 'question',
-          points: {
-            max: defaultPoints
-          },
-          attachments: [{
-            _id: id2,
-            objectType: 'choice',
-            correctAnswer: [id2]
-          }]
-        }
+      yield attach({
+        _id: id1,
+        objectType: 'question',
+        points: {
+          max: defaultPoints
+        },
+        attachments: [{
+          _id: id2,
+          objectType: 'choice',
+          correctAnswer: [id2]
+        }]
       })
+
       yield actions.toggle()
     }
   },

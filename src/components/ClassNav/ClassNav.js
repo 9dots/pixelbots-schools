@@ -26,7 +26,7 @@ export default summon(() => ({
     return (
       <Dropdown btn={<div>{children}</div>} bg='white' color='black' maxHeight={350} overflow='auto' mt='-6' w='200' left>
         <Block>
-          <Block bg='transparent' pt='s' px onClick={actions.stopPropagation} hide={numClasses < 8}>
+          <Block bg='transparent' pt='s' px onClick={{stopPropagation: true}} hide={numClasses < 8}>
             <LineInput type='search' onInput={actions.setFilter} placeholder='Filter classes…' />
           </Block>
           <Block>
@@ -48,14 +48,8 @@ export default summon(() => ({
     )
   },
 
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
-  },
-
   reducer: {
-    setFilter: (state, e) => ({filter: e.target.value})
+    setFilter: (state, filter) => ({filter})
   }
 }))
 

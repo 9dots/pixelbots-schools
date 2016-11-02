@@ -15,58 +15,51 @@ import {Block} from 'vdux-ui'
  */
 
 export default component({
-  render ({props, actions}) {
+  render ({props}) {
     const {
       activity, user, assign, edit, like, pin, archive,
       spread, liked, localLike, ...rest
     } = props
-    const {published, channels, actor, likers = []} = activity
-    const isOwner = actor.id === user._id
+    const {published, actor} = activity
 
-    if(user.userType === 'student') return <span />
+    if (user.userType === 'student') return <span />
 
     return (
       <Block p align='center' {...rest}>
         <AssignButton
-          onClick={actions.stopPropagation}
+          onClick={{stopPropagation: true}}
           activity={activity}
           hide={!assign}
           text={assign}
-          user={user}/>
-        <Block hide={!spread || !activity.published} flex/>
+          user={user} />
+        <Block hide={!spread || !published} flex />
         <EditButton
-          onClick={actions.stopPropagation}
+          onClick={{stopPropagation: true}}
           activity={activity}
           hide={!edit}
-          text={edit}/>
+          text={edit} />
         <LikeButton
-          onClick={actions.stopPropagation}
+          onClick={{stopPropagation: true}}
           localLike={localLike}
           activity={activity}
           liked={liked}
           hide={!like}
           text={like}
-          user={user}/>
+          user={user} />
         <PinButton
-          onClick={actions.stopPropagation}
+          onClick={{stopPropagation: true}}
           activity={activity}
           user={user}
           hide={!pin}
           text={pin}
-          mr='0'/>
+          mr='0' />
         <DeleteButton
-          onClick={actions.stopPropagation}
+          onClick={{stopPropagation: true}}
           activity={activity}
           hide={!archive}
           text={archive}
-          mr='0'/>
+          mr='0' />
       </Block>
     )
-  },
-
-  events: {
-    stopPropagation (e) {
-      e.stopPropagation()
-    }
   }
 })

@@ -97,7 +97,7 @@ const EditCard = component({
 const CommentCard = wrap(CSSContainer, {
   hoverProps: {hover: true}
 })(component({
-  render ({props, actions}) {
+  render ({props}) {
     const {
       actor, annotate, toggleEdit, deleteAnnot,
       comment, showDD, toggleDD, isOwner
@@ -106,7 +106,7 @@ const CommentCard = wrap(CSSContainer, {
     return (
       <Card p mb>
         <Block relative>
-          <Block onClick={actions.stopPropagation} hide={!isOwner}>
+          <Block onClick={{stopPropagation: true}} hide={!isOwner}>
             <Icon
               absolute={{right: -6, top: -6}}
               opacity={props.hover ? 1 : 0}
@@ -139,11 +139,5 @@ const CommentCard = wrap(CSSContainer, {
         </Block>
       </Card>
     )
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
   }
 }))

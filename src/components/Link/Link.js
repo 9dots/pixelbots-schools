@@ -12,12 +12,12 @@ import {Base} from 'vdux-ui'
  */
 
 export default component({
-  render ({props, actions, children, context}) {
+  render ({props, children, context}) {
     const {ui = InternalLink, current = isCurrent(props.href, context.currentUrl), href, disabled, replace, currentProps = {}, ...rest} = props
     let onClick = props.onClick
 
     if ((ui !== InternalLink && href && !disabled) || replace) {
-      onClick = actions.go(href, replace)
+      onClick = [context.setUrl(href, replace), {preventDefault: true}]
     }
 
     return (
@@ -31,13 +31,6 @@ export default component({
         {children}
       </CSSContainer>
     )
-  },
-
-  events: {
-    * go (model, href, replace, e) {
-      e.preventDefault()
-      yield setUrl(href, replace)
-    }
   }
 })
 

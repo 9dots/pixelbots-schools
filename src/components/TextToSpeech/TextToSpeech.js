@@ -37,7 +37,7 @@ export default component({
     ]
 
     return (
-      <Block align='start center' mr='s' onClick={actions.stopPropagation} {...rest}>
+      <Block align='start center' mr='s' onClick={{stopPropagation: true}} {...rest}>
         <Button
           icon={isPlaying || isPaused ? 'volume_off' : 'volume_up'}
           onClick={
@@ -91,9 +91,6 @@ export default component({
   ],
 
   events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    },
     ...map(fn => function * (model, ...args) {
       yield fn(...args)
     }, speechSynth)

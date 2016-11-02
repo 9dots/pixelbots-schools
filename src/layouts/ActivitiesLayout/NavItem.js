@@ -35,7 +35,7 @@ export default wrap(CSSContainer, {
           {children}
         </Block>
         <Icon
-          onClick={actions.openSettings}
+          onClick={[{stopPropagation: true}, actions.openSettings]}
           hide={!board}
           transition='opacity 0.15s'
           fs='xs'
@@ -47,8 +47,7 @@ export default wrap(CSSContainer, {
   },
 
   events: {
-    * openSettings ({props, context}, e) {
-      e.stopPropagation()
+    * openSettings ({props, context}) {
       yield context.openModal(() => <BoardSettingsModal board={props.board} exitPath='/activities/all' />)
     }
   }

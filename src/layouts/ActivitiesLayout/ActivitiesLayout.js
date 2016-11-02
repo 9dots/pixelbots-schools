@@ -19,7 +19,7 @@ import map from '@f/map'
  * <MyActivities/> page
  */
 
-export default summon(props => ({
+export default summon(() => ({
   boards: '/user/boards',
 }))(component({
   render ({props, children, actions}) {

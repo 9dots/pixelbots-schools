@@ -20,7 +20,7 @@ export default component({
       <Dropdown
         btn={<Button tabindex={-1} icon='info' color='text' fs='s' {...rest} />}
         w={732} right mt={8} z={2} {...menuProps}>
-        <Block align='start stretch' my={-6} onClick={actions.stopPropagation}>
+        <Block align='start stretch' my={-6} onClick={{stopPropagation: true}}>
           <Arrow />
           <Block flex='40%' borderRight='1px solid grey_light' py>
             {
@@ -51,12 +51,6 @@ export default component({
         </Block>
       </Dropdown>
     )
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
   },
 
   reducer: {

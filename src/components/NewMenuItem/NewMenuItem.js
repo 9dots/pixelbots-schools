@@ -20,7 +20,7 @@ export default component({
     const {opened} = state
 
     return (
-      <Form onSubmit={onSubmit} onSuccess={!loading && actions.toggle} validate={validate} relative onChange={e => e.stopPropagation()}>
+      <Form onSubmit={onSubmit} onSuccess={!loading && actions.toggle} validate={validate} relative onChange={{stopPropagation: true}}>
         {
           opened
             ? <Block

@@ -52,7 +52,7 @@ export default summon(({activity}) => ({
             text='Pin to Board'
             color='blue' />
           <Item
-            onClick={draft}
+            onClick={actions.draft}
             weoIcon='drafts'
             text='Save to Drafts'
             color='yellow' />

@@ -11,7 +11,7 @@ import {Block, Icon} from 'vdux-ui'
  */
 
 export default component({
-  render ({props, children}) {
+  render ({props, actions, children}) {
     const {object, remove, open, saving} = props
 
     return (
@@ -26,7 +26,7 @@ export default component({
             </Btn>
           </Tooltip>
           <Tooltip message='Duplicate'>
-            <Btn onClick={duplicate} mx='s' h={32}>
+            <Btn onClick={actions.duplicate} mx='s' h={32}>
               <Icon fs='s' name='content_copy' color='text' />
             </Btn>
           </Tooltip>
@@ -42,7 +42,7 @@ export default component({
 
   events: {
     * duplicate ({props, context}) {
-      const {insert, pos} = props
+      const {insert, pos, object} = props
       const _id = yield context.generateObjectId()
       const newObj = {
         ...object,
@@ -58,7 +58,7 @@ export default component({
         })
       }
 
-      yield insert({object: newObj, idx: pos + 1})
+      yield insert(newObj, pos + 1)
     }
   }
 })

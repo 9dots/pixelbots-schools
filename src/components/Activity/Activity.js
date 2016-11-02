@@ -3,7 +3,6 @@
  */
 
 import {getOverviewQuestions, statusMap, totalScore, totalPoints} from 'lib/activity-helpers'
-import CommoncoreBadge from 'components/CommoncoreBadge'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
 import {component, element} from 'vdux'
@@ -29,11 +28,7 @@ export default component({
 
   render ({props, state, context}) {
     const {activity, instances, clickableTags, currentUser, selectObject, selectedObject, showAnswersOnPrint, ...rest} = props
-    const {
-      displayName, _object, originalDescription,
-      tags, commonCore
-    } = activity
-    const attachments = _object[0].attachments
+    const attachments = activity._object[0].attachments
     let i = 0
 
     const renderedAttachments = state.limit === undefined

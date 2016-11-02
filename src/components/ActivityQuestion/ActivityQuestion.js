@@ -4,11 +4,12 @@
 
 import QuestionAttachment from 'components/QuestionAttachment'
 import QuestionComments from 'components/QuestionComments'
-import {debounceAction, Button} from 'vdux-containers'
 import TextToSpeech from 'components/TextToSpeech'
 import EditableQuestion from './EditableQuestion'
 import {Block, Badge, Icon} from 'vdux-ui'
 import {component, element} from 'vdux'
+import {Button} from 'vdux-containers'
+import {debounce} from 'redux-timing'
 import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
 import map from '@f/map'
@@ -31,8 +32,7 @@ export default summon(({activityId, rootId, actor, object}) => ({
   })
 }))(component({
   initialState: ({props}) => ({
-    answer: props.object.response,
-    debouncedSubmit: debounceAction(props.submitAnswer, 500)
+    answer: props.object.response
   }),
 
   render ({props, actions, state}) {
@@ -108,7 +108,7 @@ export default summon(({activityId, rootId, actor, object}) => ({
                     overview={overview || (showPollResults && object.poll)}
                     editable={editable}
                     submit={[
-                      state.debouncedSubmit,
+                      actions.debouncedSubmit,
                       actions.setAnswer
                     ]}
                     total={total}
@@ -130,6 +130,16 @@ export default summon(({activityId, rootId, actor, object}) => ({
     if (!prev.props.activityId) return
     if (prev.props.activityId !== next.props.activityId) {
       return next.actions.setAnswer(next.props.object.response)
+    }
+  },
+
+  middleware: [
+    debounce('debouncedSubmit', 500)
+  ],
+
+  events: {
+    * debouncedSubmit ({props}, answer) {
+      yield props.submitAnswer(answer)
     }
   },
 

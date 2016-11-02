@@ -12,15 +12,15 @@ import {Block} from 'vdux-ui'
  */
 
 export default component({
-  render ({props, actions}) {
-    const {answerable, answer = [], overview} = props
+  render ({props}) {
+    const {answerable, answer = [], submit, overview} = props
 
     if(overview) return <FreeResponseOverview {...props} />
 
     return (
       <Block flex relative my>
         <LineTextarea
-          onInput={actions.send}
+          onInput={submit}
           defaultValue={answer[0] || ''}
           placeholder='Free response...'
           fs='s'
@@ -33,11 +33,5 @@ export default component({
           opacity='1' />
       </Block>
     )
-  },
-
-  events: {
-    * send ({props}, submit, e) {
-      yield props.submit(e.target.value)
-    }
   }
 })

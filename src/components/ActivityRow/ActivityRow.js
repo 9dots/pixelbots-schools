@@ -19,7 +19,7 @@ import Meta from './Meta'
 export default wrap(CSSContainer, {
   hoverProps: {hover: true}
 })(component({
-  render ({props, context, actions}) {
+  render ({props, context}) {
     const {
       hover, activity, metaUi: MetaUi = Meta, ddMenu,
       badgeUi: BadgeUi = Badge, currentUser, options
@@ -64,7 +64,7 @@ export default wrap(CSSContainer, {
                   <ActivityCardActions {...options} align='end center' wide activity={activity} user={currentUser} />
                   {
                     ddMenu &&
-                      <Block mr ml='-6' onClick={actions.stopPropagation}>
+                      <Block mr ml='-6' onClick={{stopPropagation: true}}>
                         <ActivityDropdownMenu activity={activity} />
                       </Block>
                   }
@@ -74,12 +74,6 @@ export default wrap(CSSContainer, {
         </Flex>
       </Card>
     )
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
   }
 }))
 

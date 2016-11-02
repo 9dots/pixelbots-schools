@@ -24,6 +24,7 @@ export default summon(({activity}) => {
     if(!isPublic && loading) return <span/>
 
     const url = `${window.location.origin}/activity/${activity._id}`
+
     return (
       <Modal onDismiss={context.closeModal} pb='l'>
         <ModalHeader w='col_s' m='auto'>
@@ -43,15 +44,9 @@ export default summon(({activity}) => {
                   </Block>
             }
           </Block>
-          <BlockInput readonly autofocus onFocus={actions.selectTarget} value={url} />
+          <BlockInput readonly autofocus onFocus={{selectTarget: true}} value={url} />
         </Block>
       </Modal>
     )
-  },
-
-  events: {
-    selectTarget (model, e) {
-      e.target.select()
-    }
   }
 }))

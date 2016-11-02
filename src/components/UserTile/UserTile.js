@@ -27,7 +27,7 @@ export default component({
           </Block>
           {
             currentUser && currentUser._id !== user._id && (
-              <Block onClick={actions.stopPropagation}>
+              <Block onClick={{stopPropagation: true}}>
                 <FollowButton w={105} m='s' absolute='bottom right' user={user} />
               </Block>
             )
@@ -63,11 +63,5 @@ export default component({
         </Block>
       </Card>
     )
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
   }
 })

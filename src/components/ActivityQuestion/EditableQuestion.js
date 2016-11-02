@@ -26,7 +26,7 @@ const highlightProps = {opacity: 1}
  */
 
 export default component({
-  render ({props}) {
+  render ({props, actions}) {
     const {object, idx,  onEdit, selectObject, isSelected, ...rest} = props
     const {poll, attachments = [], originalContent, randomize} = object
     const type = attachments[0] && attachments[0].objectType
@@ -49,24 +49,24 @@ export default component({
                 <MarkdownHelper mt={8} menuProps={markdownMenuProps} />
               </Block>
             </Block>
-            <Block class='choice-container' align='start' column={isMultipleChoice} onKeypress={{enter: [type === 'choice' && actions.insert, actions.focusNext]}}>
+            <Block class='choice-container' align='start' column={isMultipleChoice} onKeypress={{enter: [type === 'choice' && {handler: actions.insert}, {handler: actions.focusNext}]}}>
               {
                 map((att, i) => <QuestionAttachment
-                    focusPrevious={actions.focusPrevious}
-                    remove={actions.remove(att)}
-                    onEdit={actions.editChild}
-                    editing
-                    object={att}
-                    key={att._id}
-                    numAtt={attachments.length}
-                    poll={poll}
-                    idx={i} />, attachments)
+                  focusPrevious={{handler: actions.focusPrevious}}
+                  remove={actions.remove(att)}
+                  onEdit={actions.editChild}
+                  editing
+                  object={att}
+                  key={att._id}
+                  numAtt={attachments.length}
+                  poll={poll}
+                  idx={i} />, attachments)
               }
               {
                 isMultipleChoice && (
                   <Block key={`add_${attachments.length}`} mt='s' align='start center' wide>
                     <Button
-                      onClick={[actions.attach('choice'), actions.focusLast]}
+                      onClick={[actions.attach('choice'), {handler: actions.focusLast}]}
                       hoverProps={highlightProps}
                       focusProps={highlightProps}
                       transition='opacity .15s'
@@ -153,32 +153,32 @@ export default component({
       })
     },
 
-    * editOriginalContent ({props}, e) {
+    * editOriginalContent ({props}, value) {
       const {onEdit, object} = props
 
       yield onEdit({
         ...object,
-        originalContent: e.target.value
+        originalContent: value
       })
     },
 
-    * setRandomize ({props}, e) {
+    * setRandomize ({props}, randomize) {
       const {onEdit, object} = props
 
       yield onEdit({
         ...object,
-        randomize: e.target.checked
+        randomize
       })
     },
 
-    * setCaseSensitivity ({props}, e) {
+    * setCaseSensitivity ({props}, caseSensitive) {
       const {onEdit, object} = props
 
       yield onEdit({
         ...object,
         attachments: [{
           ...object.attachments[0],
-          caseSensitive: e.target.checked
+          caseSensitive
         }]
       })
     },
@@ -214,7 +214,7 @@ export default component({
     },
 
     * focusPrevious (model, e) {
-      const node = e.target
+      const node = e.target.node
       const p = findParent(node)
 
       const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
@@ -228,7 +228,7 @@ export default component({
     },
 
     * focusNext (model, e) {
-      const node = e.target
+      const node = e.target.node
       yield sleep(50)
 
       const p = findParent(node)
@@ -241,7 +241,7 @@ export default component({
     },
 
     * focusLast (model, e) {
-      const node = e.target
+      const node = e.target.node
       const p = findParent(node)
 
       // Wait until the next choice is rendered

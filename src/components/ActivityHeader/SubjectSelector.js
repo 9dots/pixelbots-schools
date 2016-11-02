@@ -34,7 +34,7 @@ export default component({
     const btnStyle = sbjList.length ? {'bold': true, color: 'blue'} : {}
 
     return (
-      <Dropdown w={505} left btn={<DDBtn {...btnStyle} text={text}/>} onClick={actions.stopPropagation} onClose={actions.setError(null)}>
+      <Dropdown w={505} left btn={<DDBtn {...btnStyle} text={text}/>} onClick={{stopPropagation: true}} onClose={actions.setError(null)}>
         <Block align='start' my={-6}>
           <Block flex='35%' borderRight='1px solid grey_light' py={6}>
             {
@@ -65,16 +65,14 @@ export default component({
   },
 
   events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    },
-
     * toggleSubject ({props, actions}, sbjList, subject) {
+      const {toggle, max = Infinity} = props
+
       if (sbjList.indexOf(subject.displayName) === -1 && sbjList.length + 1 > max) {
         yield actions.setError(subject.displayName)
       } else {
         yield actions.setError(null)
-        yield props.toggle(subject)
+        yield toggle(subject)
       }
     }
   },

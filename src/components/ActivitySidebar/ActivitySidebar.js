@@ -189,8 +189,8 @@ const ScoreRow = summon(() => ({
               w='50%'>
               <Input
                 {...inputProps}
-                onFocus={actions.selectTarget}
-                onInput={actions.debouncedSetPoints}
+                onFocus={{selectTarget: true}}
+                onInput={{handler: actions.debouncedSetPoints}}
                 disabled={!canGrade}
                 color='text'
                 defaultValue={curPoints}
@@ -198,8 +198,8 @@ const ScoreRow = summon(() => ({
               <Text bgColor='transparent' color='black'>/</Text>
               <Input
                 {...inputProps}
-                onFocus={actions.selectTarget}
-                onInput={actions.trySetMax}
+                onFocus={{selectTarget: true}}
+                onInput={{handler: actions.trySetMax}}
                 disabled={!canSetMax}
                 color='text'
                 defaultValue={max} />
@@ -215,10 +215,6 @@ const ScoreRow = summon(() => ({
   ],
 
   events: {
-    selectTarget (model, e) {
-      e.target.select()
-    },
-
     * scrollTo ({context}, id) {
       yield sleep(0)
       const node = document.getElementById(id)

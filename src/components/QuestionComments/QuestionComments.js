@@ -51,7 +51,7 @@ const shownCommentStyle = {
  */
 
 const CommentButton = component({
-  render ({props, actions}) {
+  render ({props}) {
     const {showComments, question, isShown, hasComments} = props
     const style = isShown
       ? shownCommentStyle
@@ -60,7 +60,7 @@ const CommentButton = component({
     return (
       <Block>
         <Button
-          onClick={[actions.stopPropagation(), showComments(isShown ? null : question._id)]}
+          onClick={[{stopPropagation: true}, showComments(isShown ? null : question._id)]}
           color={hasComments ? 'white' : 'grey_medium'}
           bgColor={hasComments ? 'green' : '#F3F3F3'}
           boxShadow='0 1px 3px rgba(0,0,0,0.35)'
@@ -79,11 +79,5 @@ const CommentButton = component({
         {isShown && <Docudment onClick={showComments(null)} />}
       </Block>
     )
-  },
-
-  events: {
-    stopPropagation (model, e) {
-      e.stopPropagation()
-    }
   }
 })
