@@ -3,9 +3,22 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Icon} from 'vdux-ui'
-import {Button, Toggle, Tooltip, form} from 'vdux-containers'
+import {Button, Toggle, Tooltip} from 'vdux-containers'
 import {component, element} from 'vdux'
-import summon from 'vdux-summon'
+
+/**
+ * Constants
+ */
+
+const ttProps = {
+  immediate: true,
+  cursor: 'default',
+  color: 'grey_medium',
+  tooltipProps: {
+    whiteSpace: 'pre',
+    textAlign: 'center'
+  }
+}
 
 /**
  * <ActivitySettingsModal/>
@@ -13,17 +26,8 @@ import summon from 'vdux-summon'
 
 export default component({
   render ({props, actions, context}) {
-    const {activity, fields} = props
+    const {fields} = props
     const {discussion, hideOnTurnIn, textToSpeech} = fields
-    const ttProps ={
-      immediate: true,
-      cursor: 'default',
-      color: 'grey_medium',
-      tooltipProps: {
-        whiteSpace: 'pre',
-        textAlign: 'center'
-      }
-    }
 
     return (
       <Modal onDismiss={context.closeModal}>
@@ -36,7 +40,7 @@ export default component({
               checked={discussion.value}
               label='Enable Discussion'
               value
-              name='discussion'/>
+              name='discussion' />
           </Block>
           <Block borderBottom='1px solid grey_light' py='16' wide align='start center'>
             <Toggle
@@ -44,9 +48,9 @@ export default component({
               checked={hideOnTurnIn.value}
               name='hideOnTurnIn'
               value
-              flex/>
+              flex />
             <Tooltip message={'Keep turned in Activity\nhidden until it\'s returned'} {...ttProps} >
-              <Icon name='help' fs='s'/>
+              <Icon name='help' fs='s' />
             </Tooltip>
           </Block>
           <Block py='16' wide align='start center'>
@@ -55,9 +59,9 @@ export default component({
               checked={textToSpeech.value}
               name='textToSpeech'
               value
-              flex/>
+              flex />
             <Tooltip message={'Supported Browser:\nChrome 33+ and Safari 7+'} {...ttProps} >
-              <Icon name='help' fs='s'/>
+              <Icon name='help' fs='s' />
             </Tooltip>
           </Block>
         </ModalBody>

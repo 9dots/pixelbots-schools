@@ -2,7 +2,6 @@
  * Imports
  */
 
-
 import InviteTeacherModal from 'modals/InviteTeacherModal'
 import InfiniteScroll from 'components/InfiniteScroll'
 import RoundedInput from 'components/RoundedInput'
@@ -43,7 +42,7 @@ export default summon(({userSearch: query}) => ({
     return (
       <Block w='col_main' mx='auto' mt='l' py>
         <Flex align='space-between center' mb='l'>
-          <RoundedInput m='0' icon='search' defaultValue={userSearch} inputProps={inputProps} flex='35%' placeholder='Find teachers to follow…'  />
+          <RoundedInput m='0' icon='search' defaultValue={userSearch} inputProps={inputProps} flex='35%' placeholder='Find teachers to follow…' />
           <Button bgColor='green' py='m' px='xl' fs='s' fw='lighter' boxShadow='z2' onClick={actions.inviteTeacher}>
             <Flex align='center center'>
               <Icon name='local_attraction' fs='l' mr='s' />
@@ -81,7 +80,7 @@ function renderFeed (props) {
   const {people, currentUser, more, userSearch: query} = props
   const {value, loaded, loading} = people
 
-  if(!loaded && loading) return <Loading show={true} h={200} />
+  if (!loaded && loading) return <Loading show h={200} />
 
   return (
     <Block>
@@ -94,7 +93,7 @@ function renderFeed (props) {
             loaded && value.items.length
               ? map(user =>
                 <UserTile currentUser={currentUser} user={user} />, value.items)
-              : <EmptyConnect search {...props}/>
+              : <EmptyConnect search {...props} />
           }
         </Grid>
       </InfiniteScroll>

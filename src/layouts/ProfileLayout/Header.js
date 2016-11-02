@@ -2,23 +2,22 @@
  * Imports
  */
 
-import {Block, Menu, MenuItem, Icon, Card, Flex} from 'vdux-ui'
 import {Button, Tooltip, Text} from 'vdux-containers'
 import ColorPickerModal from 'modals/ColorPickerModal'
 import DescriptionModal from 'modals/DescriptionModal'
 import FollowButton from 'components/FollowButton'
+import {Block, Icon, Card, Flex} from 'vdux-ui'
 import HeaderAvatar from './HeaderAvatar'
 import {component, element} from 'vdux'
 import ProfileNav from './ProfileNav'
 import * as colors from 'lib/colors'
-import Link from 'components/Link'
 
 /**
  * Profile Layout Header
  */
 
 export default component({
-  render ({context, props}) {
+  render ({context, props, actions}) {
     const {user, currentUser} = props
     const {
       displayName, username, website = '',
@@ -26,7 +25,7 @@ export default component({
       location, userType
     } = user
     const isMe = username === currentUser.username
-    const displayUrl = website && website.replace(/.*?:\/\//g, "")
+    const displayUrl = website && website.replace(/.*?:\/\//g, '')
     const showNav = userType === 'teacher' && (!currentUser || currentUser.userType === 'teacher')
 
     return (
@@ -34,7 +33,7 @@ export default component({
         <Flex p>
           <HeaderAvatar user={user} isMe={isMe} />
           <Flex column flex='60%'>
-            <Flex p={4}  fw='lighter' fs='m' align='start center'>
+            <Flex p={4} fw='lighter' fs='m' align='start center'>
               <Text capitalize>{displayName}</Text>
               <Text px='s'>&middot;</Text>
               <Text fs='s' color='blue'>{username}</Text>
@@ -47,11 +46,11 @@ export default component({
             </Flex>
             <Block color='text' ml='4' mt='m'>
               {
-                aboutMe
-                  ? aboutMe
-                  : <Text pointer hide={!isMe} color='grey_medium' hoverProps={{underline: true}} onClick={actions.openDescriptionModal}>
+                aboutMe || (
+                  <Text pointer hide={!isMe} color='grey_medium' hoverProps={{underline: true}} onClick={actions.openDescriptionModal}>
                       Add some information about yourself!
-                    </Text>
+                  </Text>
+                )
               }
             </Block>
           </Flex>
@@ -62,16 +61,16 @@ export default component({
               align='center center'
               bgColor={user.color || colors.pickerColors[0]}
               circle='30'
-              tag='div'/>
+              tag='div' />
             <Button uppercase ml='m' color='grey_medium' border='grey_medium' borderWidth='1px' bgColor='white' hoverProps={{highlight: 0.01}} focusProps={{highlight: 0.01}} onClick={context.setUrl('/account/profile')}>
               Edit Profile
             </Button>
           </Flex>
           <Flex hide={isMe} absolute='top 12px right 12px'>
             {
-              currentUser.userType === 'teacher'
-                && user.userType === 'teacher'
-                && <FollowButton w={120} user={user} />
+              currentUser.userType === 'teacher' &&
+                user.userType === 'teacher' &&
+                <FollowButton w={120} user={user} />
             }
           </Flex>
         </Flex>

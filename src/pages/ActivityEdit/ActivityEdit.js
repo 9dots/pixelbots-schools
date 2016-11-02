@@ -2,7 +2,6 @@
  * Imports
  */
 
-import CommoncoreBadge from 'components/CommoncoreBadge'
 import ActivitySidebar from 'components/ActivitySidebar'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
@@ -10,7 +9,6 @@ import {Toast, Block, Icon, Card, Text} from 'vdux-ui'
 import summon, {invalidate} from 'vdux-summon'
 import AttachmentMenu from './AttachmentMenu'
 import {component, element} from 'vdux'
-import {Button} from 'vdux-containers'
 import findIndex from '@f/find-index'
 import deepEqual from '@f/deep-equal'
 import {debounce} from 'redux-timing'
@@ -129,7 +127,6 @@ export default summon(({activity}) => ({
       ? 'Saving...'
       : dirty ? '' : 'Saved'
 
-
     if (next.props.savingIndicator !== indicator) {
       yield next.props.setIndicator(indicator)
     }
@@ -187,10 +184,10 @@ export default summon(({activity}) => ({
       yield actions.moveObject({src: state.dragging, target: id})
     },
 
-    * onDragStart ({actions}, id, e) {
+    * onDragStart ({actions, state}, id, e) {
       const cls = [].slice.call(state.target ? state.target.classList : [])
 
-      if(cls.indexOf('handle') === -1) {
+      if (cls.indexOf('handle') === -1) {
         e.preventDefault()
       } else {
         e._rawEvent.dataTransfer.setData('weo_attachment', id)
@@ -339,7 +336,7 @@ function replaceById (newObject) {
 
 function changeAttachments (fn, clearDirty) {
   return (state, payload) => ({
-    dirty: clearDirty ? false : true,
+    dirty: !clearDirty,
     editedActivity: {
       ...state.editedActivity,
       _object: [{

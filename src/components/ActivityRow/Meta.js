@@ -13,7 +13,7 @@ import moment from 'moment'
  */
 
 export default component({
-  render ({props}) {
+  render ({props, context}) {
     const {activity} = props
     const {pinnedFrom} = activity
 

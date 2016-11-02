@@ -3,7 +3,7 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
-import {Button, Input, Dropdown, MenuItem} from 'vdux-containers'
+import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import LineInput from 'components/LineInput'
 import validate from '@weo-edu/validate'
 import {component, element} from 'vdux'
@@ -23,7 +23,7 @@ const prefixes = ['Mrs.', 'Ms.', 'Mr.', 'Dr.']
 
 export default summon(({user, group}) => {
   let invalidates = ['/user', `/user/${user._id}`]
-  if(group) invalidates.push(`/group/students?group=${group._id}`)
+  if (group) invalidates.push(`/group/students?group=${group._id}`)
   return {
     changeName: name => ({
       changingName: {

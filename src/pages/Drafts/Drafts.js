@@ -18,7 +18,7 @@ export default summonChannels(props =>
 )(component({
   render ({props}) {
     return (
-      <RowFeed {...props} item={ActivityRow} emptyState={<EmptyDrafts />} itemProps={{options: {edit: true, archive: true}}}/>
+      <RowFeed {...props} item={ActivityRow} emptyState={<EmptyDrafts />} itemProps={{options: {edit: true, archive: true}}} />
     )
   }
 }))

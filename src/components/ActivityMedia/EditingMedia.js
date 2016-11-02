@@ -9,33 +9,33 @@ import Resizer from 'components/Resizer'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import Figure from 'components/Figure'
-import {Block, Icon} from 'vdux-ui'
+import {Block} from 'vdux-ui'
 
 /**
  * <EditingMedia/>
  */
 
 export default component({
-  render ({props}) {
-    const {object, onEdit} = props
+  render ({props, actions}) {
+    const {object} = props
 
     return (
       <Block>
         {
           object.objectType === 'image'
             ? <ImageEdit {...props} {...actions} />
-            : <ActivityMedia {...props} editing={false} preview={true} />
+            : <ActivityMedia {...props} editing={false} preview />
         }
         <ObjectControls {...props} >
-            <Button
-              onClick={actions.openMediaModal}
-              uppercase
-              bgColor='grey'
-              mr='l'
-              px>
-              Change {object.objectType === 'rich' ? 'Media' : object.objectType}
-            </Button>
-            {
+          <Button
+            onClick={actions.openMediaModal}
+            uppercase
+            bgColor='grey'
+            mr='l'
+            px>
+            {object.objectType === 'rich' ? 'Media' : object.objectType}
+          </Button>
+          {
               object.objectType === 'image' &&
               <Block align='start center'>
                 <AlignIcon {...props} {...actions} justify='left' />
@@ -57,7 +57,8 @@ export default component({
       yield actions.updateObject({zoom})
     },
 
-    * openMediaModal ({context, actions}) {
+    * openMediaModal ({props, context, actions}) {
+      const {object} = props
       yield context.openModal(() => <MediaModal onAccept={actions.updateObject} type={object.objectType} />)
     }
   }
@@ -88,12 +89,12 @@ function AlignIcon ({props}) {
 
 function ImageEdit ({props}) {
   const {object, updateZoom, ...rest} = props
-  const {image = {}, justify = 'center', zoom} = object
+  const {image = {}, justify = 'center'} = object
 
   return (
     <Block textAlign={justify} {...rest}>
       <Resizer onEnd={updateZoom} object={object}>
-        <Figure {...image} wide display='block' m={0}/>
+        <Figure {...image} wide display='block' m={0} />
       </Resizer>
     </Block>
   )

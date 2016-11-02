@@ -9,7 +9,6 @@ import AppLayout from 'layouts/AppLayout'
 import WeoIcon from 'components/WeoIcon'
 import {component, element} from 'vdux'
 import resize from 'lib/resize-image'
-import Link from 'components/Link'
 import summon from 'vdux-summon'
 import NavItem from './NavItem'
 import {Icon} from 'vdux-ui'
@@ -20,7 +19,7 @@ import map from '@f/map'
  */
 
 export default summon(() => ({
-  boards: '/user/boards',
+  boards: '/user/boards'
 }))(component({
   render ({props, children, actions}) {
     const {boards} = props
@@ -51,7 +50,7 @@ export default summon(() => ({
                   <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr textAlign='center' />
                   Drafts
                 </NavItem>
-                <Divider/>
+                <Divider />
                 <NavItem onClick={actions.createBoardModal} display='flex' align='start center'>
                   <Icon name='add' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                   New Board
@@ -73,7 +72,7 @@ export default summon(() => ({
 
   events: {
     * createBoardModal ({context}) {
-      yield context.openModal(() => <CreateBoardModal/>)
+      yield context.openModal(() => <CreateBoardModal />)
     }
   }
 }))
@@ -96,8 +95,4 @@ function boardIcon (board) {
       }
     </Block>
   )
-}
-
-function cmp (a, b) {
-  return a.displayName.toUpperCase() > b.displayName.toUpperCase() ? 1 : -1
 }

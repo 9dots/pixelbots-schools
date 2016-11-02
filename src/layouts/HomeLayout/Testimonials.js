@@ -21,12 +21,10 @@ const ari = cloudFS.url('./files/testimonials/ari.jpg')
 
 export default component({
   render ({props, children}) {
-    const {action} = props
-
     return (
       <Block maxWidth='1100' p='50px 12px' m='50px auto 0' relative>
-        <Block absolute top right left h='1' maxWidth='600' bg='grey_light' m='auto'/>
-        <Icon name='favorite' color='red' fs='66' absolute top='-33' right left m='0 auto' w='132' bg='white' textAlign='center'/>
+        <Block absolute top right left h='1' maxWidth='600' bg='grey_light' m='auto' />
+        <Icon name='favorite' color='red' fs='66' absolute top='-33' right left m='0 auto' w='132' bg='white' textAlign='center' />
         <Flex mt='50'>
           { map(testimonial, people) }
         </Flex>
@@ -44,7 +42,6 @@ function testimonial (person) {
       <Text uppercase color='blue' fw='lighter'>{person.school}</Text>
     </Flex>
   )
-
 }
 
 const people = [

@@ -3,9 +3,9 @@
  */
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import ActivityLinkModal from 'modals/ActivityLinkModal'
-import {Block, Card, Icon} from 'vdux-ui'
 import WeoIcon from 'components/WeoIcon'
 import {component, element} from 'vdux'
+import {Block, Icon} from 'vdux-ui'
 import qs from 'qs'
 
 /**
@@ -15,7 +15,7 @@ import qs from 'qs'
 export default component({
   render ({props, actions}) {
     const {btn: Btn = DDButton, activity, ...rest} = props
-    const data =  {
+    const data = {
       url: window.location.href,
       media: (activity.image && activity.image.url),
       title: activity.displayName,
@@ -24,9 +24,9 @@ export default component({
 
     return (
       <Dropdown w={120} z={2} btn={<Btn {...rest} />}>
-        <ShareItem onClick={actions.shareFacebook(data)} weoIcon='facebook'/>
-        <ShareItem onClick={actions.shareTwitter(data)} weoIcon='twitter'/>
-        <ShareItem onClick={actions.sharePinterest(data)} weoIcon='pinterest'/>
+        <ShareItem onClick={actions.shareFacebook(data)} weoIcon='facebook' />
+        <ShareItem onClick={actions.shareTwitter(data)} weoIcon='twitter' />
+        <ShareItem onClick={actions.sharePinterest(data)} weoIcon='pinterest' />
         <ShareItem icon='link' onClick={actions.openLinkModal} />
       </Dropdown>
     )
@@ -40,8 +40,8 @@ export default component({
     shareFacebook (data) {
       const url = 'https://www.facebook.com/dialog/feed?' + qs.stringify({
         app_id: 1662916197276541,
-        display: "popup",
-        redirect_uri: "http://www.weo.io/#closewindow",
+        display: 'popup',
+        redirect_uri: 'http://www.weo.io/#closewindow',
         link: data.url,
         picture: data.media,
         name: data.title,

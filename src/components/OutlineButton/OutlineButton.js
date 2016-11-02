@@ -27,9 +27,9 @@ export default component({
         px='8px'
         mr='s'
         {...rest}>
-          { icon && <Icon name={icon} fs='s' mr={m} /> }
-          { weoIcon && <WeoIcon name={weoIcon} fs='s' mr={m} /> }
-          { children }
+        { icon && <Icon name={icon} fs='s' mr={m} /> }
+        { weoIcon && <WeoIcon name={weoIcon} fs='s' mr={m} /> }
+        { children }
       </Button>
     )
   }

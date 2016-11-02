@@ -2,7 +2,6 @@
  * Imports
  */
 
-
 import {questionIcon, questionDisplay} from 'lib/activity-helpers'
 import {Dropdown, MenuItem, Button} from 'vdux-containers'
 import {component, element} from 'vdux'
@@ -18,10 +17,10 @@ export default component({
 
     return (
       <Dropdown btn={<Btn object={object} relative {...rest} />} wide z={2}>
-        <Item object={object} onClick={attach('text', false, true)} type='text'/>
-        <Item object={object} onClick={attach('shortAnswer', false, true)} type='shortAnswer'/>
+        <Item object={object} onClick={attach('text', false, true)} type='text' />
+        <Item object={object} onClick={attach('shortAnswer', false, true)} type='shortAnswer' />
         <Item object={object} onClick={attach('choice', false, true)} type='choice' />
-        <Item object={object} onClick={attach('choice', true, true)} type='poll'/>
+        <Item object={object} onClick={attach('choice', true, true)} type='poll' />
       </Dropdown>
     )
   }
@@ -46,7 +45,7 @@ function Btn ({props}) {
         <Icon name={questionIcon(object)} fs='s' mr='s' />
         <Block>{questionDisplay(object)}</Block>
       </Block>
-      <Icon name='arrow_drop_down' mr={-8}/>
+      <Icon name='arrow_drop_down' mr={-8} />
     </Button>
   )
 }
@@ -62,7 +61,7 @@ function Item ({props}) {
     : object.attachments[0].objectType === type
   return (
     <MenuItem
-      highlight={cur ? .08 : 0}
+      highlight={cur ? 0.08 : 0}
       align='start center'
       whiteSpace='nowrap'
       onClick={!cur && onClick}

@@ -26,7 +26,7 @@ export default summon(({user}) => ({
   })
 }))(component({
   render ({props, actions, context, state}) {
-    const {user, changeDescription, fields, changingDescription = {}} = props
+    const {user, changeDescription, changingDescription = {}} = props
     const {loading} = changingDescription
     const {aboutMe = ''} = user
     const {text = aboutMe} = state
@@ -51,10 +51,10 @@ export default summon(({user}) => ({
               px='10px'
               rows={5}
               py='8px'
-              m/>
-              <Block w='300px'>
-                <Text color='grey_medium' float='right'>{text.length}/300</Text>
-              </Block>
+              m />
+            <Block w='300px'>
+              <Text color='grey_medium' float='right'>{text.length}/300</Text>
+            </Block>
           </Flex>
           <ModalFooter bg='greydark'>
             <Text fs='xxs'>

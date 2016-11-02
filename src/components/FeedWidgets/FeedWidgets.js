@@ -22,7 +22,7 @@ export default component({
       <Block>
         <ProfileWidget user={user} w={230} m={cardMargin} />
         <DraftsWidget w={230} m={cardMargin} draftCount={draftCount} />
-        <ClassesWidget w={230} m={cardMargin}/>
+        <ClassesWidget w={230} m={cardMargin} />
       </Block>
     )
   }

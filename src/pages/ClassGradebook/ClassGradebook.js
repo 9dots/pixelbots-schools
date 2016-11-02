@@ -2,14 +2,13 @@
  * Imports
  */
 
-
 import EmptyClassGradebook from './EmptyClassGradebook'
 import PageTitle from 'components/PageTitle'
 import Loading from 'components/Loading'
 import {component, element} from 'vdux'
-import {Block, Icon} from 'vdux-ui'
 import Gradebook from './Gradebook'
 import summon from 'vdux-summon'
+import {Block} from 'vdux-ui'
 
 /**
  * <ClassGradebook/>
@@ -22,7 +21,7 @@ export default summon(({group}) => ({
     const {group, students, currentUser} = props
     const {value, loading, loaded} = students
 
-    if (!loaded && loading) return <Loading show={true} h='200' />
+    if (!loaded && loading) return <Loading show h='200' />
 
     const {items: studentList} = value
 

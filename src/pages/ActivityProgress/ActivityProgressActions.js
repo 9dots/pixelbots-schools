@@ -27,7 +27,7 @@ const iconProps = {
 
 export default component({
   render ({props, actions}) {
-    const {activity, setStatus, settingStatus = {}, selected} = props
+    const {activity, settingStatus = {}, selected} = props
     const {loading} = settingStatus
     const disabled = loading || !selected.length
 
@@ -44,7 +44,7 @@ export default component({
                 Redo
               </MenuItem>
               <MenuItem align='start center' onClick={actions.doAction('turned_in')}>
-                <Icon name='file_download' mr fs='xs'/>
+                <Icon name='file_download' mr fs='xs' />
                 Collect
               </MenuItem>
             </Dropdown>
@@ -60,7 +60,7 @@ export default component({
 
   events: {
     * openActivityLink ({props, context}) {
-      yield context.openModal(() => <ActivityLinkModal activity={props.activity}/>)
+      yield context.openModal(() => <ActivityLinkModal activity={props.activity} />)
     },
 
     * doAction ({props, context}, status) {

@@ -9,7 +9,7 @@ import PasswordModal from 'modals/PasswordModal'
 import NameModal from 'modals/NameModal'
 import {component, element} from 'vdux'
 import IdModal from 'modals/IdModal'
-import {Block, Icon} from 'vdux-ui'
+import {Icon} from 'vdux-ui'
 
 /**
  * StudentDropdown
@@ -21,19 +21,19 @@ export default component({
 
     return (
       <Dropdown z='2' {...rest} btn={({toggle}, open) => <DropButton showSettings={showSettings} open={open} toggle={toggle} />} whiteSpace='nowrap' minWidth='180px'>
-        <StudentItem icon='edit' modal={<UsernameModal group={group} user={student}/>}>
+        <StudentItem icon='edit' modal={<UsernameModal group={group} user={student} />}>
           Change Username
         </StudentItem>
-        <StudentItem icon='info' modal={<NameModal group={group} user={student}/>}>
+        <StudentItem icon='info' modal={<NameModal group={group} user={student} />}>
           Change Name
         </StudentItem>
-        <StudentItem icon='person' modal={<IdModal group={group} user={student}/>}>
+        <StudentItem icon='person' modal={<IdModal group={group} user={student} />}>
           Change ID
         </StudentItem>
-        <StudentItem icon='lock' modal={<PasswordModal group={group} user={student}/>}>
+        <StudentItem icon='lock' modal={<PasswordModal group={group} user={student} />}>
           Reset Password
         </StudentItem>
-        <StudentItem icon='cancel' modal={<RemoveFromClassModal group={group} user={student}/>}>
+        <StudentItem icon='cancel' modal={<RemoveFromClassModal group={group} user={student} />}>
           Remove From Class
         </StudentItem>
       </Dropdown>

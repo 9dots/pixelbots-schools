@@ -12,23 +12,23 @@ import map from '@f/map'
 
 export default component({
   render ({props}) {
-    const {student, data, scores, odd, last, currentUser, asPercent, page} = props
+    const {student, data, scores, odd, last, currentUser, asPercent} = props
     const {userType, _id: uid} = currentUser
     const {name: {givenName, familyName}, _id: sid} = student
     const isStudent = userType === 'student'
     const nameCell = {
       borderRightWidth: 0,
-      textAlign: 'left',
+      textAlign: 'left'
     }
     const cellProps = {
       bgColor: odd ? 'white' : 'off_white',
       borderBottom: last ? '' : '1px solid #E9E9E9',
       borderRight: '1px solid #E9E9E9',
       textAlign: 'center',
-      p: isStudent ? '40px 16px' : '16px',
+      p: isStudent ? '40px 16px' : '16px'
     }
 
-    if(isStudent && sid !== uid) return <span/>
+    if (isStudent && sid !== uid) return <span />
 
     return (
       <TableRow borderBottom={last ? '' : '1px solid rgba(black, .1)'}>
@@ -44,7 +44,7 @@ export default component({
         </TableCell>
         <TableCell color='blue' bold relative {...cellProps}>
           {data.percent || '0%'}
-          <ShadowBlock/>
+          <ShadowBlock />
         </TableCell>
         {
           map(({percent, points}) => (
@@ -70,6 +70,6 @@ function ShadowBlock () {
       left='100%'
       top='-1px'
       absolute
-      w='4'/>
+      w='4' />
   )
 }

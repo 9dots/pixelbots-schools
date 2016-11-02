@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {get, put, post, del} from './req'
+import {put, post} from './req'
 
 /**
  * API Wrappers

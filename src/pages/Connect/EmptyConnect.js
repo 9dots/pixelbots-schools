@@ -36,7 +36,7 @@ const FillOutProfile = component({
     return (
       <EmptyState>
         <Block lh='30px'>
-          Tell us what you teach<br/>
+          Tell us what you teach<br />
           We'll recommend teachers for you to follow.
         </Block>
         <Button
@@ -47,12 +47,12 @@ const FillOutProfile = component({
           h='3em'
           fs='s'
           my='l'>
-            <Block align='center center'>
-              <Icon name='info_outline' fs='m' mr='s' mt='-1' />
-              <Block>
+          <Block align='center center'>
+            <Icon name='info_outline' fs='m' mr='s' mt='-1' />
+            <Block>
                 Complete My Profile
-              </Block>
             </Block>
+          </Block>
         </Button>
       </EmptyState>
     )
@@ -89,7 +89,7 @@ const EmptySearch = component({
   render ({props, actions}) {
     return (
       <EmptyState icon='people' color='yellow'>
-        Sorry, we couldn't find anybody by that name.<br/>
+        Sorry, we couldn't find anybody by that name.<br />
         Try another search or invite&nbsp;
         <Text
           onClick={actions.inviteTeacher}

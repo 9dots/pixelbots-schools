@@ -3,8 +3,8 @@
  */
 
 import IntroSteps, {numSteps} from './IntroSteps'
-import {Button, Text} from 'vdux-containers'
 import {component, element} from 'vdux'
+import {Button} from 'vdux-containers'
 import IntroForms from './IntroForms'
 import {Block, Modal} from 'vdux-ui'
 
@@ -40,7 +40,7 @@ export default component({
           (cur >= numSteps) && <IntroForms cur={cur} currentUser={currentUser} />
         }
         <Block hide={cur >= numSteps}>
-          <Block absolute top='100%' wide h={btnProps.circle} top  bottom m='auto'>
+          <Block absolute wide h={btnProps.circle} top bottom m='auto'>
             <Button
               icon='keyboard_arrow_left'
               onClick={actions.prev}
@@ -111,6 +111,6 @@ function dots (cur, actions) {
   const arr = Array.apply(null, Array(numSteps))
 
   return (
-    arr.map((_, i) => <Block pointer circle='8' bgColor={cur == i ? 'white' : 'rgba(255,255,255,.5)'} mx='s' onClick={actions.go(i)}></Block>)
+    arr.map((_, i) => <Block pointer circle='8' bgColor={cur === i ? 'white' : 'rgba(255,255,255,.5)'} mx='s' onClick={actions.go(i)} />)
   )
 }

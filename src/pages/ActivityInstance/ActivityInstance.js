@@ -29,7 +29,7 @@ export default summonChannels(
     const isRedo = at && at.turnedIn && (status === statusMap.opened)
     const commentsShown = state.commentsId
 
-    const {loaded, error, value} = activities
+    const {loaded, value} = activities
     const comments = loaded ? value.items : []
 
     const isTurnedIn = status === statusMap.turnedIn || status === statusMap.graded
@@ -72,7 +72,7 @@ export default summonChannels(
             printProps={{hide: true}}
             fixed={{top: 53}}
             transition='opacity 0.35s'
-            opacity={commentsShown ?  0.07 : 1}
+            opacity={commentsShown ? 0.07 : 1}
             pointerEvents={commentsShown ? 'none' : 'all'}
             w={200}>
             <ActivitySidebar
@@ -90,7 +90,7 @@ export default summonChannels(
               isTeacher && <InstanceNav {...props} />
             }
           </Block>
-          <Block w={200} printProps={{hide: true}}/>
+          <Block w={200} printProps={{hide: true}} />
         </Block>
         <EmptyState mx='auto' color='blue' icon='file_download' mt='xl' hide={!isHidden}>
           <Block fs='m' mt mb='l'>Your Activity Has Been Turned In</Block>
@@ -127,7 +127,7 @@ const PrintButton = component({
         color='text'
         icon='print'
         circle={30}
-        fs='s'/>
+        fs='s' />
     )
   },
 

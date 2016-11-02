@@ -2,10 +2,9 @@
  * Imports
  */
 
-import {Button, CSSContainer, wrap} from 'vdux-containers'
 import ActivityQuestion from 'components/ActivityQuestion'
-import {getOverviewQuestions} from 'lib/activity-helpers'
 import ActivityMedia from 'components/ActivityMedia'
+import {CSSContainer, wrap} from 'vdux-containers'
 import ActivityPost from 'components/ActivityPost'
 import {component, element} from 'vdux'
 import {Block, Icon} from 'vdux-ui'
@@ -38,8 +37,8 @@ export default wrap(CSSContainer, ({editable}) => editable
   ? {hoverProps: {hover: true}}
   : {}
 )(component({
-  render({props}) {
-    const {object, open, editing, editable, onEdit, hover, opening, ...rest} = props
+  render ({props}) {
+    const {object, open, editing, editable, hover, opening, ...rest} = props
     const Obj = typeMap[object.objectType]
     const editableProps = {
       onClick: open && open(object._id),
@@ -50,7 +49,7 @@ export default wrap(CSSContainer, ({editable}) => editable
 
     return (
       <Block
-        opacity={opening ? .5 : 1}
+        opacity={opening ? 0.5 : 1}
         pageBreakInside='avoid'
         printProps={{p: 16}}
         bgColor='white'

@@ -26,35 +26,35 @@ export default component({
     return (
       <Dropdown w='180px' mr='s' btn={<DropdownToggle {...props} />}>
         <Link {...itemProps} href={`/${username}`}>
-          <Icon name='person' fs='s' mr='s'/>
+          <Icon name='person' fs='s' mr='s' />
           My Profile
         </Link>
         <Link {...itemProps} href='/activities/drafts' hide={isStudent}>
-          <WeoIcon name='draft' fs='s' mr='s'/>
+          <WeoIcon name='draft' fs='s' mr='s' />
           My Drafts
           <Text color='grey_medium' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
         </Link>
-        <Divider/>
+        <Divider />
         <Link {...itemProps} href='/connect' hide={isStudent}>
-          <Icon name='people' fs='s' mr='s'/>
+          <Icon name='people' fs='s' mr='s' />
           Connect
         </Link>
         <Link {...itemProps} href='/notifications' hide={isStudent}>
-          <Icon name='notifications' fs='s' mr='s'/>
+          <Icon name='notifications' fs='s' mr='s' />
           Notifications
         </Link>
-        <Divider hide={isStudent}/>
+        <Divider hide={isStudent} />
         <Link {...itemProps} href='/account/settings'>
-          <Icon name='settings' fs='s' mr='s'/>
+          <Icon name='settings' fs='s' mr='s' />
           Settings
         </Link>
         <Block {...itemProps} tag='a' href='http://about.weo.io/help' target='_blank' hide={isStudent}>
-          <Icon name='help' fs='s' mr='s'/>
+          <Icon name='help' fs='s' mr='s' />
           Help Center
-          <Icon name='open_in_new' fs='11' ml='s'/>
+          <Icon name='open_in_new' fs='11' ml='s' />
         </Block>
         <MenuItem onClick={context.logoutUser} align='start center'>
-          <Icon name='exit_to_app' fs='s' mr='s'/>
+          <Icon name='exit_to_app' fs='s' mr='s' />
           Log Out
         </MenuItem>
       </Dropdown>

@@ -15,7 +15,6 @@ import {Block, Text} from 'vdux-ui'
 export default component({
   render ({props, actions}) {
     const {user, currentUser} = props
-    const mine = user._id === currentUser._id
 
     return currentUser._id === user._id
       ? renderCurrentUserEmptyState(actions.createBoard)
@@ -23,7 +22,7 @@ export default component({
   },
 
   events: {
-    * createBoard () {
+    * createBoard ({context}) {
       yield context.openModal(() => <CreateBoardModal />)
     }
   }

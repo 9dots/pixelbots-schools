@@ -102,7 +102,7 @@ function Item ({props}) {
       tag='label'
       capitalize
       fs='xs'>
-      <Checkbox mr='s' checkProps={{sq: 15}} checked={checked}/>
+      <Checkbox mr='s' checkProps={{sq: 15}} checked={checked} />
       <Block flex>
         {displayName}
       </Block>

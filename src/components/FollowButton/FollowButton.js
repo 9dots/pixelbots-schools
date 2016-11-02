@@ -2,10 +2,9 @@
  * Imports
  */
 
-import summon, {invalidate} from 'vdux-summon'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
-import {Block} from 'vdux-ui'
+import summon from 'vdux-summon'
 
 /**
  * <FollowButton/>

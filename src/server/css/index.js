@@ -3,13 +3,14 @@
  */
 
 const fs = require('fs')
+const path = require('path')
 
 /**
  * Css
  */
 
-const cropperCss = fs.readFileSync(__dirname + '/cropper.css', 'utf8')
-const globalCss = fs.readFileSync(__dirname + '/global.css', 'utf8')
+const cropperCss = fs.readFileSync(path.join(__dirname, 'cropper.css'), 'utf8')
+const globalCss = fs.readFileSync(path.join(__dirname, 'global.css'), 'utf8')
 
 /**
  * Exports

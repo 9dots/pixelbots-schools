@@ -33,10 +33,8 @@ const printProps = {bgColor: 'transparent', p: '2px 0 2px 20px'}
 export default component({
   render ({props, context, actions}) {
     const {
-      object, editing, onEdit, showAnswers, remove,
-      focusPrevious, overview, answerable, submit, idx,
-      answer = [], actor, numAtt, setSpeaking, speechRate,
-      speakingId, speechEnabled
+      object, editing, showAnswers, remove, overview, submit, answerable, idx,
+      answer = [], actor, numAtt, setSpeaking, speechRate, speakingId, speechEnabled
     } = props
     const {content, originalContent, correctAnswer = []} = object
     const isCorrect = correctAnswer.indexOf(object._id) !== -1
@@ -55,7 +53,7 @@ export default component({
     return (
       <Block
         printProps={printProps}
-        onClick={answerable && submitAnswer(answerToSubmit)}
+        onClick={answerable && submit(answerToSubmit)}
         p={editing ? '12px 30px 12px 18px' : '12px 12px 12px 30px'}
         pointer={answerable}
         align='start center'
@@ -77,7 +75,7 @@ export default component({
           {
             !editing
               ? <Block mx='40px'>
-                  {
+                {
                     speechEnabled && object.displayName &&
                     <TextToSpeech
                       onStart={setSpeaking(object._id)}
@@ -85,38 +83,38 @@ export default component({
                       rate={speechRate}
                       text={object.displayName}
                       current={speakingId === object._id}
-                      float='left'/>
+                      float='left' />
                   }
-                  <Block key='a' fs='s' innerHTML={content || '<br/>'} class='markdown' printProps={{ml: 0}} />
-                </Block>
+                <Block key='a' fs='s' innerHTML={content || '<br/>'} class='markdown' printProps={{ml: 0}} />
+              </Block>
               : <Block align='start center'>
-                  <Tooltip message='Mark Correct' mr>
-                    <Checkbox
-                      onChange={actionss.toggleCorrectness}
-                      checked={isCorrect}
-                      btn={Check}
-                      ml='s'/>
-                  </Tooltip>
-                  <BlockInput
-                    onInput={actions.editText}
-                    inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
-                    onKeydown={{backspace: {handler: maybeRemove}}}
-                    placeholder={`Choice ${idx + 1}`}
-                    defaultValue={originalContent}
-                    lighter
-                    my={-6}
-                    fs='s'
-                    wide/>
-                  <Button
-                    absolute={{right: -24, top: 0, bottom: 0}}
-                    onClick={remove}
-                    tabindex='-1'
-                    icon='close'
-                    color='text'
-                    my='auto'
-                    hide={numAtt === 1}
-                    fs='s'/>
-                </Block>
+                <Tooltip message='Mark Correct' mr>
+                  <Checkbox
+                    onChange={actions.toggleCorrectness}
+                    checked={isCorrect}
+                    btn={Check}
+                    ml='s' />
+                </Tooltip>
+                <BlockInput
+                  onInput={actions.editText}
+                  inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
+                  onKeydown={{backspace: {handler: actions.maybeRemove}}}
+                  placeholder={`Choice ${idx + 1}`}
+                  defaultValue={originalContent}
+                  lighter
+                  my={-6}
+                  fs='s'
+                  wide />
+                <Button
+                  absolute={{right: -24, top: 0, bottom: 0}}
+                  onClick={remove}
+                  tabindex='-1'
+                  icon='close'
+                  color='text'
+                  my='auto'
+                  hide={numAtt === 1}
+                  fs='s' />
+              </Block>
 
           }
         </Block>
@@ -167,7 +165,7 @@ function ChosenMarker ({props}) {
       actor={actor}
       printProps={{hide: true}}
       size={32}
-      m='auto'/>
+      m='auto' />
   )
 }
 
@@ -177,7 +175,7 @@ function ChosenMarker ({props}) {
 
 function Check ({props}) {
   const {checked} = props
-  const hoverProps = checked ? {} : {highlight: .035}
+  const hoverProps = checked ? {} : {highlight: 0.035}
   return (
     <ContBlock
       border='1px solid'
@@ -209,7 +207,7 @@ function CorrectCheck ({props}) {
       circle={32}
       printProps={{boxShadow: '0 0 0', borderRadius: 0}}
       m='auto'>
-        <Icon fs='s' name='check' />
+      <Icon fs='s' name='check' />
     </Block>
   )
 }

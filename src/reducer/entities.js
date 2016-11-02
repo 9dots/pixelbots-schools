@@ -3,7 +3,6 @@
  */
 
 import has from '@f/has'
-import createAction from '@f/create-action'
 
 /**
  * Entities reducer

@@ -2,9 +2,9 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Flex, Toast} from 'vdux-ui'
+import {Modal, ModalFooter, ModalHeader, Block, Text, Flex, Toast} from 'vdux-ui'
 import ActivityTileModaled from 'components/ActivityTileModaled'
-import {Button, Input, form} from 'vdux-containers'
+import {Button, form} from 'vdux-containers'
 import {component, element} from 'vdux'
 import PinSelect from './PinSelect'
 import Link from 'components/Link'
@@ -45,71 +45,70 @@ export default summon(() => ({
   form(() => ({
     fields: ['originalDescription', 'displayName']
   }))(component({
-  render ({props, context, actions}) {
-    const {
-      activity, fields, boards, redirect,
+    render ({props, context, actions}) {
+      const {
+      activity, boards,
       createBoard, creatingBoard = {},
-      pin, pinning = {}, onPin,
-      copyActivity, copying = {}
+       pinning = {}, copying = {}
     } = props
-    const {value, loaded} = boards
+      const {value, loaded} = boards
 
-    const busy = creatingBoard.loading || copying.loading || pinning.loading
+      const busy = creatingBoard.loading || copying.loading || pinning.loading
 
-    if (!loaded) return <span/>
+      if (!loaded) return <span />
 
-    return (
-      <Modal onDismiss={context.closeModal} w='620' bgColor='grey_light'>
-        <Flex>
-          <Block flex align='center center' py px='l'>
-            <ActivityTileModaled busy={busy} activity={activity} intent='pin' />
-          </Block>
-          <Flex column bg='white' flex boxShadow='-1px 0 1px 0 rgba(0,0,0,0.1)' relative minHeight='400px'>
-            <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
-              Select a Board to Pin to:
-            </ModalHeader>
-            <PinSelect boards={value.items} onSelect={actions.doPin} createBoard={createBoard} busy={busy} absolute h='calc(100% - 56px)' top={56} wide />
-          </Flex>
-        </Flex>
-        <ModalFooter m='0'>
-          <Text fs='xxs' py='s'>
-            <Text pointer underline onClick={context.closeModal}>cancel</Text>
-          </Text>
-        </ModalFooter>
-      </Modal>
-    )
-  },
-
-  events: {
-    * doPin ({actions, props, context}, board) {
-      const {activity, copyActivity, onPin, fields, pin} = props
-      const {displayName, originalDescription} = activity
-      const url = `/activities/${board._id}`
-      const model = {
-        displayName: fields.displayName.value === undefined ? displayName : fields.displayName.value,
-        originalDescription: fields.originalDescription.value === undefined ? originalDescription : fields.originalDescription.value
-      }
-
-      if (activity.published) {
-        const copy = yield copyActivity(activity._id)
-        yield pin(board._id, copy._id, model)
-      } else {
-        yield pin(board._id, activity._id, model)
-      }
-
-      yield context.closeModal()
-      if (onPin) yield onPin(board._id)
-
-      yield context.toast(
-        <Toast key='a'>
-          <Block align='space-between center'>
-            <Block ellipsis>
-              Pinned to <Link onClick={context.hideToast} href={url} color='blue'>{displayName}</Link>
+      return (
+        <Modal onDismiss={context.closeModal} w='620' bgColor='grey_light'>
+          <Flex>
+            <Block flex align='center center' py px='l'>
+              <ActivityTileModaled busy={busy} activity={activity} intent='pin' />
             </Block>
-            <Button onClick={[context.setUrl(url), context.hideToast]} bgColor='green'>Go to Board</Button>
-          </Block>
-        </Toast>
+            <Flex column bg='white' flex boxShadow='-1px 0 1px 0 rgba(0,0,0,0.1)' relative minHeight='400px'>
+              <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
+              Select a Board to Pin to:
+              </ModalHeader>
+              <PinSelect boards={value.items} onSelect={actions.doPin} createBoard={createBoard} busy={busy} absolute h='calc(100% - 56px)' top={56} wide />
+            </Flex>
+          </Flex>
+          <ModalFooter m='0'>
+            <Text fs='xxs' py='s'>
+              <Text pointer underline onClick={context.closeModal}>cancel</Text>
+            </Text>
+          </ModalFooter>
+        </Modal>
+    )
+    },
+
+    events: {
+      * doPin ({actions, props, context}, board) {
+        const {activity, copyActivity, onPin, fields, pin} = props
+        const {displayName, originalDescription} = activity
+        const url = `/activities/${board._id}`
+        const model = {
+          displayName: fields.displayName.value === undefined ? displayName : fields.displayName.value,
+          originalDescription: fields.originalDescription.value === undefined ? originalDescription : fields.originalDescription.value
+        }
+
+        if (activity.published) {
+          const copy = yield copyActivity(activity._id)
+          yield pin(board._id, copy._id, model)
+        } else {
+          yield pin(board._id, activity._id, model)
+        }
+
+        yield context.closeModal()
+        if (onPin) yield onPin(board._id)
+
+        yield context.toast(
+          <Toast key='a'>
+            <Block align='space-between center'>
+              <Block ellipsis>
+                Pinned to <Link onClick={context.hideToast} href={url} color='blue'>{displayName}</Link>
+              </Block>
+              <Button onClick={[context.setUrl(url), context.hideToast]} bgColor='green'>Go to Board</Button>
+            </Block>
+          </Toast>
       )
+      }
     }
-  }
-})))
+  })))

@@ -7,7 +7,6 @@ import MarkdownHelper from 'components/MarkdownHelper'
 import LineTextarea from 'components/LineTextarea'
 import TextToSpeech from 'components/TextToSpeech'
 import {component, element} from 'vdux'
-import {Button} from 'vdux-containers'
 import {Block} from 'vdux-ui'
 
 /**
@@ -16,7 +15,7 @@ import {Block} from 'vdux-ui'
 
 export default component({
   render ({props}) {
-    const {object, editing, open, editable, onEdit, remove, setSpeaking, speakingId, speechRate, speechEnabled, ...rest} = props
+    const {object, editing, setSpeaking, speakingId, speechRate, speechEnabled, ...rest} = props
 
     if (editing) return <EditablePost {...props} />
 
@@ -30,7 +29,7 @@ export default component({
             rate={speechRate}
             text={object.displayName}
             current={speakingId === object._id}
-            float='left'/>
+            float='left' />
         }
         <Block
           fs='s'

@@ -17,8 +17,8 @@ export default component({
       <Flex tag='footer' align='center center' bg='grey' color='white' p='l' relative>
         <Text color='gray'>© 2015 WEO All rights reserved</Text>
         { map(link, links) }
-        <Link href="https://mixpanel.com/f/partner" rel="nofollow" absolute right='12px' top bottom h='36' m='auto' target='_blank'>
-          <img src="https://cdn.mxpnl.com/site_media/images/partner/badge_light.png" alt="Mobile Analytics"/>
+        <Link href='https://mixpanel.com/f/partner' rel='nofollow' absolute right='12px' top bottom h='36' m='auto' target='_blank'>
+          <img src='https://cdn.mxpnl.com/site_media/images/partner/badge_light.png' alt='Mobile Analytics' />
         </Link>
       </Flex>
     )
@@ -46,5 +46,5 @@ const links = [
   {
     displayName: 'Terms of Service',
     url: 'http://about.weo.io/terms'
-  },
+  }
 ]

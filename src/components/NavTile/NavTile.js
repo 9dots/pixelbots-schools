@@ -34,5 +34,5 @@ export default component({
         </Link>
       </Block>
      )
-   }
+  }
 })

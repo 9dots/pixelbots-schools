@@ -17,7 +17,7 @@ import {Block, Flex} from 'vdux-ui'
 export default summonChannels(
   props => `group!${props.boardId}.board`
 )(component({
-  render ({props}) {
+  render ({props, actions}) {
     const {activities, more, currentUser, board} = props
     const isOwner = currentUser._id === board.owners[0].id
 
@@ -40,7 +40,7 @@ export default summonChannels(
                 fw='200'
                 fs='m'
                 p='0'
-                mt/>
+                mt />
             </Flex>
           }
         </TileFeed>

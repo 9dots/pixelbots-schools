@@ -4,7 +4,6 @@
 
 import {component, element} from 'vdux'
 import Confirm from 'modals/Confirm'
-import {Block, Text} from 'vdux-ui'
 import summon from 'vdux-summon'
 
 /**

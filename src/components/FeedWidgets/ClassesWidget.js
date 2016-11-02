@@ -27,7 +27,7 @@ export default summon(() => ({
         <Block maxHeight='247px' overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
           { !loading && value.items.sort(cmp).map(cls => item(context.setUrl, cls)) }
         </Block>
-        <Block boxShadow={clsLength > 5 && '0 -2px 1px rgba(75,82,87,0.1)'} z='1' relative p/>
+        <Block boxShadow={clsLength > 5 && '0 -2px 1px rgba(75,82,87,0.1)'} z='1' relative p />
       </Card>
     )
   }

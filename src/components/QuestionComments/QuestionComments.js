@@ -2,9 +2,9 @@
  * Imports
  */
 
-import {component, Document, element} from 'vdux'
-import {Icon, Card, Block} from 'vdux-ui'
+import {Document, component, element} from 'vdux'
 import {Button} from 'vdux-containers'
+import {Icon, Block} from 'vdux-ui'
 import Comments from './Comments'
 
 /**
@@ -74,9 +74,9 @@ const CommentButton = component({
           circle={40}
           p={0}
           {...style}>
-            <Icon fs={19} name={isShown ? 'chevron_left' : 'chat_bubble'} />
+          <Icon fs={19} name={isShown ? 'chevron_left' : 'chat_bubble'} />
         </Button>
-        {isShown && <Docudment onClick={showComments(null)} />}
+        {isShown && <Document onClick={showComments(null)} />}
       </Block>
     )
   }

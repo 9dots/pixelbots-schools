@@ -5,8 +5,8 @@
 import CommentCard from './CommentCard'
 import {component, element} from 'vdux'
 import {Block} from 'vdux-containers'
-import {Icon, Card} from 'vdux-ui'
 import summon from 'vdux-summon'
+import {Icon} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -40,8 +40,7 @@ export default summon(({activityId, question}) => ({
 }))(component({
   render ({props, actions, state}) {
     const {
-      comments, currentUser, question, actor,
-      makeAnnot, deleteAnnot, editAnnot,
+      comments, currentUser, actor, deleteAnnot,
       makingAnnot = {}, editingAnnot = {}
     } = props
     const showNew = !comments.length || state.showNew
@@ -62,14 +61,14 @@ export default summon(({activityId, question}) => ({
               annotate={actions.annotate}
               isOwner={currentUser._id === comment.actor.id}
               deleteAnnot={deleteAnnot(comment._id)}
-              comment={comment}/>, comments)
+              comment={comment} />, comments)
           }
           <CommentCard
             dismiss={comments.length && actions.toggleNew}
             submitting={makingAnnot.loading || editingAnnot.loading}
             actor={currentUser}
             annotate={actions.annotate}
-            hide={!showNew}/>
+            hide={!showNew} />
           <Block
             onClick={actions.toggleNew}
             hoverProps={{opacity: 1}}
@@ -78,7 +77,7 @@ export default summon(({activityId, question}) => ({
             opacity='.85'
             pointer
             pb='l'>
-            <Icon lh='17px' name='add_circle_outline' fs='s' mr='s'/>
+            <Icon lh='17px' name='add_circle_outline' fs='s' mr='s' />
             <Block lh='17px'>
               Leave a note for {actor.displayName}
             </Block>
@@ -89,7 +88,7 @@ export default summon(({activityId, question}) => ({
   },
 
   events: {
-  * annotate ({props}, model, annotation) {
+    * annotate ({props}, model, annotation) {
       if (annotation) {
         annotation = {
           ...annotation,

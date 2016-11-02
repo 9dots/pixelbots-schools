@@ -44,7 +44,7 @@ export default summon(props => ({
           <Google w='calc(50% - 6px)' onClick={actions.oauth('google')}>Sign in With Google</Google>
           <Facebook w='calc(50% - 6px)' onClick={actions.oauth('facebook')}>Sign in With Facebook</Facebook>
         </Flex>
-        <Microsoft w='100%' mt onClick={oauth('office365')}>Sign in With Office365</Microsoft>
+        <Microsoft w='100%' mt onClick={actions.oauth('office365')}>Sign in With Office365</Microsoft>
         <Text tag='a' href='/forgot' hoverProps={{textDecoration: 'underline'}} pointer>
           <Block color='grey_light' mx='auto' mt='m' textAlign='center'>
             Forgot your password?

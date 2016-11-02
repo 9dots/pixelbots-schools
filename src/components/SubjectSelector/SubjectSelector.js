@@ -13,7 +13,7 @@ import mapValues from '@f/map-values'
 
 export default component({
   render ({props, state, actions}) {
-    const {selected, toggle, max = 5} = props
+    const {selected, max = 5} = props
 
     return (
       <Block
@@ -41,7 +41,7 @@ export default component({
     * selectSubject ({props, actions}, subject) {
       const {selected, toggle, max = 5} = props
 
-      if(selected.length >= max && selected.indexOf(subject) === -1) {
+      if (selected.length >= max && selected.indexOf(subject) === -1) {
         yield actions.setError(true)
       } else {
         yield toggle(subject)
@@ -59,7 +59,7 @@ export default component({
  * Helpers
  */
 
-function item (subjects, category, selected, toggle)  {
+function item (subjects, category, selected, toggle) {
   return (
     <Block whiteSpace='nowrap' pl='s'>
       <Block capitalize fw='bolder' py='s'>{category}:</Block>
@@ -70,14 +70,13 @@ function item (subjects, category, selected, toggle)  {
   )
 }
 
-function option (subject, selected, toggle)  {
+function option (subject, selected, toggle) {
   return (
     <Flex align='start center' px py='s'>
       <Checkbox label={subject} checked={selected} mr onChange={toggle} />
     </Flex>
   )
 }
-
 
 const subjectMap = {
   'Creative Arts': [

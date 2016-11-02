@@ -2,7 +2,6 @@
  * Imports
  */
 
-
 import NewMenuItem from 'components/NewMenuItem'
 import {Block, Button} from 'vdux-containers'
 import WeoIcon from 'components/WeoIcon'
@@ -17,7 +16,7 @@ import map from '@f/map'
 
 export default component({
   render ({props, actions, context, state}) {
-    const {boards, createBoard, onSelect, busy, ...rest} = props
+    const {boards, busy, ...rest} = props
 
     return (
       <Block overflowY='auto' {...rest}>
@@ -37,7 +36,7 @@ export default component({
 
     * handleSubmit ({props, actions}, board) {
       const newBoard = yield props.createBoard(board)
-      yield fork(onSelect(newBoard))
+      yield fork(props.onSelect(newBoard))
     }
   },
 
@@ -75,7 +74,7 @@ function BoardItem ({props}) {
         mr>
         <WeoIcon fs='s' name='pin' />
       </Button>
-        {board.displayName}
+      {board.displayName}
     </Block>
   )
 }

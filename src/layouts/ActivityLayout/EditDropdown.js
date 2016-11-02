@@ -11,11 +11,9 @@ import {component, element} from 'vdux'
 import PinModal from 'modals/PinModal'
 import Link from 'components/Link'
 import summon from 'vdux-summon'
-import sleep from '@f/sleep'
-
 
 /**
- * EditDropdown
+ * <EditDropdown/>
  */
 
 export default summon(({activity}) => ({
@@ -26,11 +24,9 @@ export default summon(({activity}) => ({
     }
   })
 }))(component({
-  render({props, actions}) {
-    const {activity, saveDraft, onAction, ...rest} = props
-
+  render ({props, actions}) {
     return (
-      <Block align='start center' {...rest}>
+      <Block align='start center' {...props}>
         <Button
           onClick={actions.openAssignModal}
           borderRadius='99px 0 0 99px'

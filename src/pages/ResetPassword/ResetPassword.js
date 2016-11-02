@@ -57,7 +57,7 @@ function ResetForm ({props}) {
 
   return (
     <Form onSubmit={resetPassword} onSuccess={setSuccess} validate={validatePassword}>
-      <BlockInput type='password' autofocus placeholder='PASSWORD' name='password'/>
+      <BlockInput type='password' autofocus placeholder='PASSWORD' name='password' />
       <BlockInput type='password' placeholder='CONFIRM PASSWORD' name='confirm_password' />
       <Button type='submit' busy={loading} wide bgColor='green' h={43} mt={10} lh='43px' fs={15}>
         Reset Password

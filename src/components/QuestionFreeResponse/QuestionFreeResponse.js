@@ -15,7 +15,7 @@ export default component({
   render ({props}) {
     const {answerable, answer = [], submit, overview} = props
 
-    if(overview) return <FreeResponseOverview {...props} />
+    if (overview) return <FreeResponseOverview {...props} />
 
     return (
       <Block flex relative my>

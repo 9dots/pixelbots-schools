@@ -20,7 +20,6 @@ export default component({
       activity, user, assign, edit, like, pin, archive,
       spread, liked, localLike, ...rest
     } = props
-    const {published, actor} = activity
 
     if (user.userType === 'student') return <span />
 
@@ -32,7 +31,7 @@ export default component({
           hide={!assign}
           text={assign}
           user={user} />
-        <Block hide={!spread || !published} flex />
+        <Block hide={!spread || !activity.published} flex />
         <EditButton
           onClick={{stopPropagation: true}}
           activity={activity}

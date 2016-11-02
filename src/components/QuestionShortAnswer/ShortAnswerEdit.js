@@ -2,12 +2,10 @@
  * Imports
  */
 
-import {Tooltip, Button, Block as ContBlock} from 'vdux-containers'
+import {Tooltip, Button} from 'vdux-containers'
 import LineInput from 'components/LineInput'
 import {component, element} from 'vdux'
-import mapValues from '@f/map-values'
 import {Block, Icon} from 'vdux-ui'
-import Form from 'vdux-form'
 import map from '@f/map'
 
 /**
@@ -16,16 +14,16 @@ import map from '@f/map'
 
 export default component({
   render ({props, actions}) {
-    const {object, onEdit, focusPrevious} = props
+    const {object, focusPrevious} = props
     const {correctAnswer = []} = object
 
     return (
       <Block>
         <Block my='s' align='start center'>
           Provide each possible answer:
-          <Tooltip placement='right' message='Student responses must exactly match one of your provided solutions. Provide all possible solutions to the question.' ml='s' tooltipProps={{whiteSpace: 'normal',lh: '1.4em', fs: '12px'}}>
-              <Icon name='help' fs='s' pr />
-            </Tooltip>
+          <Tooltip placement='right' message='Student responses must exactly match one of your provided solutions. Provide all possible solutions to the question.' ml='s' tooltipProps={{whiteSpace: 'normal', lh: '1.4em', fs: '12px'}}>
+            <Icon name='help' fs='s' pr />
+          </Tooltip>
         </Block>
         <Block>
           {
@@ -33,9 +31,9 @@ export default component({
               focusPrevious={focusPrevious}
               answer={ans}
               onInput={actions.edit(i)}
-              onEnter={save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
+              onEnter={actions.save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
               num={correctAnswer.length}
-              remove={remove}
+              remove={actions.remove}
               idx={i} />,
               correctAnswer)
           }
@@ -49,7 +47,7 @@ export default component({
             border='1px dashed transparent'
             borderBottomColor='grey_light'
             bgColor='transparent'
-            onClick={save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
+            onClick={actions.save(correctAnswer.concat(`Answer ${correctAnswer.length + 1}`))}
             color='grey_medium'
             cursor='text'
             lh='12px'
@@ -78,8 +76,8 @@ export default component({
       })
     },
 
-    * edit ({props}, i, value) {
-      yield save(replace(props.object.correctAnswer, i, value))
+    * edit ({props, actions}, i, value) {
+      yield actions.save(replace(props.object.correctAnswer, i, value))
     },
 
     * remove ({props, actions}, idx) {
@@ -96,7 +94,7 @@ export default component({
 
 const Answer = component({
   render ({props, actions}) {
-    const {answer, idx, remove, focusPrevious, num, onInput, onEnter} = props
+    const {answer, idx, remove, num, onInput, onEnter} = props
 
     return (
       <Block align='start center' mr mb='s' flex='45%'>
@@ -112,15 +110,15 @@ const Answer = component({
           value={answer}
           autofocus
           fs='s'
-          m={0}/>
-        <Button tabindex='-1' color='text' icon='close' ml onClick={remove(idx)} hidden={num === 1} poinerEvents={num === 1 ? 'none' : 'default'}/>
+          m={0} />
+        <Button tabindex='-1' color='text' icon='close' ml onClick={remove(idx)} hidden={num === 1} poinerEvents={num === 1 ? 'none' : 'default'} />
       </Block>
     )
   },
 
   events: {
     * maybeRemove ({props}, e) {
-      const {num, focusPrevious, remove} = props
+      const {num, idx, focusPrevious, remove} = props
 
       if (num !== 1 && e.target.value === '') {
         yield [

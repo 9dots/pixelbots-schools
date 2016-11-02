@@ -50,7 +50,7 @@ export default summon(() => ({
 
   render ({props, state}) {
     const {toast, modal, currentUser} = props
-    if (!currentUser.loaded && !currentUser.error) return <span/>
+    if (!currentUser.loaded && !currentUser.error) return <span />
 
     return (
       <Block>

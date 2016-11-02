@@ -34,7 +34,7 @@ function middleware ({dispatch, getContext}) {
 
     switch (action.type) {
       case subscribe.type: {
-        const {url, params = {}, cb, path} = action.payload
+        const {url, params = {}, path} = action.payload
         subs[path] = subs[path] || []
         subs[path].push(action.payload)
         return route(url, 'post', params)
@@ -72,7 +72,7 @@ function middleware ({dispatch, getContext}) {
   }
 
   function connect (token) {
-    const socket = io.connect(process.env.API_SERVER + '?access_token=' + encodeURIComponent(token), {
+    const socket = window.io.connect(process.env.API_SERVER + '?access_token=' + encodeURIComponent(token), {
       forceNew: true,
       transports: ['polling', 'websocket']
     })

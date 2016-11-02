@@ -29,12 +29,12 @@ export default component({
  */
 
 const Response = wrap(CSSContainer, {
-  focusProps: { focus: true},
-  hoverProps: { hover: true}
+  focusProps: {focus: true},
+  hoverProps: {hover: true}
 })(component({
   render ({props}) {
-  const {responder, focus, hover} = props
-  const {actor, response} = responder
+    const {responder, focus, hover} = props
+    const {actor, response} = responder
     return (
       <Block
         highlight={focus || hover ? 0.03 : 0}

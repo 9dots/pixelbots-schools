@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {Flex, Block, Card, Text} from 'vdux-ui'
 import EditButton from 'components/EditButton'
+import {Flex, Block, Card} from 'vdux-ui'
 import {Textarea} from 'vdux-containers'
 import {component, element} from 'vdux'
 import Figure from 'components/Figure'
@@ -27,13 +27,13 @@ const textareaProps = {
 
 export default component({
   render ({props}) {
-    const {activity, editable, intent, busy} = props
-    const {image, displayName, description, _id} = activity
+    const {activity, intent, busy} = props
+    const {image, displayName, description} = activity
 
     return (
       <Card w={230} relative my={8} mx={6}>
         <Flex column pb>
-          <Figure key='img' {...image} thumb={true} />
+          <Figure key='img' {...image} thumb />
           <Block textAlign='center' m='s' mt>
             <Textarea
               name='displayName'

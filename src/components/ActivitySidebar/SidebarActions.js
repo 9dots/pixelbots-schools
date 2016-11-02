@@ -41,7 +41,7 @@ export default summon(({activity}) => ({
               absolute={{top: 0, left: 0}}
               transition='width .6s ease'
               bg='blue'
-              tall/>
+              tall />
             <Text relative z='2' color='white'>Progress: {count} of {questions.length}</Text>
           </Block>
           <Button
@@ -62,7 +62,7 @@ export default summon(({activity}) => ({
               Redo
             </MenuItem>
             <MenuItem align='start center' onClick={setStatus('turned_in')}>
-              <Icon name='file_download' mr fs='xs'/>
+              <Icon name='file_download' mr fs='xs' />
               Collect
             </MenuItem>
           </Dropdown>
@@ -114,6 +114,6 @@ function Btn ({props}) {
       circle='32'
       fs='m'
       ml
-      {...props}/>
+      {...props} />
   )
 }

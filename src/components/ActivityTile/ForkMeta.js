@@ -12,7 +12,7 @@ import Link from 'components/Link'
  */
 
 export default component({
-  render ({props}) {
+  render ({props, context}) {
     const {activity} = props
     const {pinnedFrom} = activity
     const actor = pinnedFrom ? pinnedFrom.actor : activity.actor

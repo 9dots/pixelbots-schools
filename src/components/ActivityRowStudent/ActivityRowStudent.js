@@ -9,7 +9,6 @@ import getProp from '@f/get-prop'
 import {Text} from 'vdux-ui'
 import moment from 'moment'
 
-
 /**
  * <ClassActivityRow/>
  */

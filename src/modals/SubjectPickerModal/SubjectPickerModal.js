@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text} from 'vdux-ui'
 import SubjectSelector from 'components/SubjectSelector'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
@@ -30,7 +30,7 @@ export default summon(({user}) => ({
   }),
 
   render ({props, state, actions}) {
-    const {user, changeSubjects, changingSubjects = {}} = props
+    const {changeSubjects, changingSubjects = {}} = props
     const {loading} = changingSubjects
     const {subjects} = state
 

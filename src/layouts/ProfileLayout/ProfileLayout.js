@@ -8,9 +8,9 @@ import FourOhFour from 'pages/FourOhFour'
 import {pickerColors} from 'lib/colors'
 import {component, element} from 'vdux'
 import maybeOver from '@f/maybe-over'
-import {Card, Flex} from 'vdux-ui'
 import summon from 'vdux-summon'
 import Header from './Header'
+import {Flex} from 'vdux-ui'
 
 /**
  * <ProfileLayout/>
@@ -50,7 +50,7 @@ function internal (currentUser, {value, loaded, loading, error}, children) {
   if (!loaded) return ''
 
   return [
-    <Header user={value} currentUser={currentUser}  />,
+    <Header user={value} currentUser={currentUser} />,
     maybeOver(value, children)
   ]
 }

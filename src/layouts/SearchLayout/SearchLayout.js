@@ -7,7 +7,6 @@ import AppLayout from 'layouts/AppLayout'
 import {Flex, Block, Text} from 'vdux-ui'
 import NavTile from 'components/NavTile'
 import {component, element} from 'vdux'
-import Link from 'components/Link'
 import summon from 'vdux-summon'
 
 /**
@@ -31,8 +30,8 @@ export default summon(props => ({
           {
             currentUser
               ? <NavTile href={`/search/my-activities/${query}`} highlight='green'>
-                  {count(value.my_activities)} My Activities
-                </NavTile>
+                {count(value.my_activities)} My Activities
+              </NavTile>
               : undefined
           }
           <NavTile href={`/search/boards/${query}`} highlight='blue'>

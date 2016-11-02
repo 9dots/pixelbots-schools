@@ -3,8 +3,8 @@
  */
 
 import CreateBoardModal from 'modals/CreateBoardModal'
-import {Flex, Block, Grid, Icon} from 'vdux-ui'
 import BoardTile from 'components/BoardTile'
+import {Flex, Block, Grid} from 'vdux-ui'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import EmptyState from './EmptyState'
@@ -17,7 +17,7 @@ import summon from 'vdux-summon'
 export default summon(({user, currentUser}) => ({
   boards: user._id === currentUser._id
     ? '/user/boards'
-    : `/user/${user._id}/boards`,
+    : `/user/${user._id}/boards`
 }))(component({
   render ({props, actions}) {
     const {user, currentUser, boards} = props
@@ -64,7 +64,7 @@ function renderGrid (boards, currentUser, user, createBoard) {
             fw='200'
             fs='m'
             p='0'
-            mt/>
+            mt />
         </Flex>
       }
       {

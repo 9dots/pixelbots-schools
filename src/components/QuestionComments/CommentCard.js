@@ -20,10 +20,10 @@ export default component({
 
     return (
       <Block>
-      {
+        {
         isEdit
           ? <EditCard toggleEdit={actions.toggleEdit} {...props} dismiss={dismiss} />
-          : <CommentCard toggleEdit={ations.toggleEdit} {...props} />
+          : <CommentCard toggleEdit={actions.toggleEdit} {...props} />
       }
       </Block>
     )
@@ -31,7 +31,7 @@ export default component({
 
   reducer: {
     toggleEdit: (state, opened) => ({
-      isEdit:  opened !== undefined ? opened : !state.isEdit
+      isEdit: opened !== undefined ? opened : !state.isEdit
     })
   }
 })
@@ -68,8 +68,8 @@ const EditCard = component({
             rows={3}
             p='s'
             mb />
-            <Button busy={submitting} mr='s' px type='submit' text='Save' />
-            <Button bgColor='grey_medium' hide={!dismiss} px onClick={dismiss} text='Cancel' />
+          <Button busy={submitting} mr='s' px type='submit' text='Save' />
+          <Button bgColor='grey_medium' hide={!dismiss} px onClick={dismiss} text='Cancel' />
         </Form>
       </Card>
     )
@@ -83,7 +83,7 @@ const EditCard = component({
 
       yield annotate(model, comment)
       yield toggleEdit(false)
-      if(dismiss) {
+      if (dismiss) {
         yield dismiss()
       }
     }
@@ -99,7 +99,7 @@ const CommentCard = wrap(CSSContainer, {
 })(component({
   render ({props}) {
     const {
-      actor, annotate, toggleEdit, deleteAnnot,
+      actor, toggleEdit, deleteAnnot,
       comment, showDD, toggleDD, isOwner
     } = props
 
@@ -114,11 +114,11 @@ const CommentCard = wrap(CSSContainer, {
               onClick={toggleDD}
               name='settings'
               pointer
-              fs='xxs'/>
+              fs='xxs' />
           </Block>
           <DropdownMenu hide={!showDD} w={120} m={-6} z={2}>
             <MenuItem align='start center' onClick={toggleEdit(true)}>
-              <Icon fs='xs' name='edit' mr/> Edit
+              <Icon fs='xs' name='edit' mr /> Edit
             </MenuItem>
             <MenuItem align='start center' onClick={deleteAnnot}>
               <Icon fs='xs' name='delete' mr /> Delete

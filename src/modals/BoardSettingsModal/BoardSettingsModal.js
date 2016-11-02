@@ -26,7 +26,7 @@ export default summon(({board}) => ({
   })
 }))(component({
   render ({props, context, actions}) {
-    const {renameBoard, board, deleting = {}, renaming = {}} = props
+    const {renameBoard, board, renaming = {}} = props
 
     return (
       <Modal onDismiss={context.closeModal} opacity='1'>
@@ -65,7 +65,7 @@ export default summon(({board}) => ({
         <ConfirmDeleteBoard
           boardId={board._id}
           redirect={isCurrentBoard && exitPath}
-          message={'Are you sure you want to delete your board "' +  board.displayName + '?"'} />
+          message={'Are you sure you want to delete your board "' + board.displayName + '?"'} />
       ))
     }
   }

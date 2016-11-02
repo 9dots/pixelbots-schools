@@ -12,7 +12,7 @@ import Form from 'vdux-form'
  */
 
 export default component({
-  render ({props, context}) {
+  render ({props, context, actions}) {
     const {message, header = 'Confirm', accepting = {}} = props
 
     return (

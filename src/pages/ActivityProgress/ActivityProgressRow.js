@@ -16,7 +16,7 @@ export default component({
   render ({props, context}) {
     const {instance, activityId, selected} = props
     const {
-      status , turnedInAt, givenName, userId,
+      status, turnedInAt, givenName, userId,
       familyName, points, total, percent, instanceId
     } = instance
     const statProps = statusMap[status]
@@ -26,7 +26,7 @@ export default component({
     return (
       <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
         <TableCell p={p}>
-          <Checkbox pointer name='selected[]' value={instanceId} checked={selected}/>
+          <Checkbox pointer name='selected[]' value={instanceId} checked={selected} />
         </TableCell>
         <TableCell p={p}>
           {givenName}
@@ -48,7 +48,7 @@ export default component({
           }
         </TableCell>
         <TableCell py={p.split(' ')[0]} w='68'>
-          <Button text='Open' onClick={context.setUrl(url)} px='0' h='30' w='56'/>
+          <Button text='Open' onClick={context.setUrl(url)} px='0' h='30' w='56' />
         </TableCell>
       </TableRow>
     )

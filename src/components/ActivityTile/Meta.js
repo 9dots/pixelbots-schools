@@ -3,7 +3,7 @@
  */
 
 import CommoncoreBadge from 'components/CommoncoreBadge'
-import {Flex, Box, Text, Block} from 'vdux-containers'
+import {Flex, Box} from 'vdux-containers'
 import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'

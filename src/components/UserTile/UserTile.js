@@ -57,7 +57,7 @@ export default component({
                 <Icon fs='14px' name='class' />
                 <Text ml='2px' ellipsis>{subjects.join(', ')}</Text>
               </Flex>
-              <Icon fs='14px' name='placeholder' w='0' overflow='hidden'  />
+              <Icon fs='14px' name='placeholder' w='0' overflow='hidden' />
             </Flex>
           </Block>
         </Block>

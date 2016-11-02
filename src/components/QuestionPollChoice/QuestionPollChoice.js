@@ -42,7 +42,7 @@ export default component({
       ? chosen ? colors[idx % colors.length] : 'grey_light'
       : colors[idx % colors.length]
 
-    if(overview) return <PollChoiceOverview bgColor={bgColor} {...props} />
+    if (overview) return <PollChoiceOverview bgColor={bgColor} {...props} />
 
     return (
       <Block
@@ -67,7 +67,7 @@ export default component({
             onEnd={setSpeaking(null)}
             rate={speechRate}
             text={object.displayName}
-            current={speakingId === object._id}/>
+            current={speakingId === object._id} />
         }
         <Button zIndex={2} color='text' absolute='top 4px right 4px' icon='close' onClick={remove} fs='s' tabindex='-1' hide={!editing || numAtt === 1} />
         <Block pb='100%' wide relative>
@@ -76,14 +76,14 @@ export default component({
               !editing
                 ? <Block p='s' class='markdown' fs='s' textAlign='center' innerHTML={content} />
                 : <BlockInput
-                    onInput={actions.editOriginalContent}
-                    defaultValue={originalContent}
-                    mx={5}
-                    fs='s'
-                    placeholder={`Choice #${idx+1}`}
-                    inputProps={{textAlign:'center', p: '6px 12px 5px', fs: 's', fw: 200}}
-                    autofocus={!content}
-                    onKeydown={{backspace: {handler: actions.maybeRemove}}} />
+                  onInput={actions.editOriginalContent}
+                  defaultValue={originalContent}
+                  mx={5}
+                  fs='s'
+                  placeholder={`Choice #${idx + 1}`}
+                  inputProps={{textAlign: 'center', p: '6px 12px 5px', fs: 's', fw: 200}}
+                  autofocus={!content}
+                  onKeydown={{backspace: {handler: actions.maybeRemove}}} />
             }
           </Block>
           { chosen && <ChosenMarker actor={actor} /> }
@@ -98,10 +98,10 @@ export default component({
     },
 
     * maybeRemove ({props}, e) {
-      const {numAtt} = props
+      const {focusPrevious, numAtt, remove} = props
 
       if (e.target.value === '' && numAtt > 1) {
-        yield remove(),
+        yield remove()
         yield focusPrevious(e)
       }
     }
@@ -123,6 +123,6 @@ function ChosenMarker ({props}) {
       boxShadow='z2'
       actor={actor}
       size='23%'
-      m='auto'/>
+      m='auto' />
   )
 }

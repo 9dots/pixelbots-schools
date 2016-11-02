@@ -9,8 +9,8 @@ import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
 import Loading from 'pages/Loading'
 import Histogram from './Histogram'
-import {Block, Flex} from 'vdux-ui'
 import getProp from '@f/get-prop'
+import {Block} from 'vdux-ui'
 
 /**
  * <ActivityOverview/>
@@ -23,7 +23,7 @@ export default summonChannels(
     const {students, activity, activities} = props
     const {value, loading, error} = activities
 
-    if (loading) return <Loading show={true} />
+    if (loading) return <Loading show />
     if (error) return <FourOhFour />
 
     const instances = value.items
@@ -31,7 +31,7 @@ export default summonChannels(
 
     return (
       <Block w='col_main' mx='auto'>
-        <Histogram data={data}/>
+        <Histogram data={data} />
         <QuestionOverview instances={instances} {...props} />
       </Block>
     )
@@ -51,19 +51,18 @@ function getData (activity, students) {
   let binMax = 0
   let bins = []
 
-  for(var i = 0; i < 10; i++) {
+  for (var i = 0; i < 10; i++) {
     bins[i] = []
   }
 
-  students.forEach(function(student) {
+  students.forEach(function (student) {
     const actor = actors && actors[student._id]
 
-    if(!actor) return
+    if (!actor) return
 
     const {pointsScaled = 0, status = 1} = actor
     const points = pointsScaled * total
     const percent = pointsScaled * 100
-
 
     const instance = {
       points: round(points),
@@ -71,7 +70,7 @@ function getData (activity, students) {
       displayName: student.displayName
     }
 
-    if(status >= 4) {
+    if (status >= 4) {
       numReturned++
       averagePoints += points
       averagePercent += percent

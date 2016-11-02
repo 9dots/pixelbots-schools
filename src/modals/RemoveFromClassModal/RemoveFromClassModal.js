@@ -4,7 +4,6 @@
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import summon, {middleware as summonMw, invalidate} from 'vdux-summon'
-import RoundedInput from 'components/RoundedInput'
 import {Button, Tooltip} from 'vdux-containers'
 import {component, element} from 'vdux'
 import Form from 'vdux-form'
@@ -22,7 +21,7 @@ export default summon(() => ({
   })
 }))(component({
   render ({props, actions, context}) {
-    const {removing = {}, group} = props
+    const {removing = {}} = props
     const {loading} = removing
 
     const users = [].concat(props.user)
@@ -41,13 +40,13 @@ export default summon(() => ({
                 users.length === 1
                   ? <Text bold color='blue'> {users[0].displayName} </Text>
                   : <Text> these<Tooltip
-                      tooltipProps={{whiteSpace: 'pre-line'}}
-                      placement='bottom'
-                      cursor='default'
-                      display='inline'
-                      message={names.join('\n')}
-                      color='blue'
-                      bold> {users.length} </Tooltip>students </Text>
+                    tooltipProps={{whiteSpace: 'pre-line'}}
+                    placement='bottom'
+                    cursor='default'
+                    display='inline'
+                    message={names.join('\n')}
+                    color='blue'
+                    bold> {users.length} </Tooltip>students </Text>
               }
               from this class?
             </Block>

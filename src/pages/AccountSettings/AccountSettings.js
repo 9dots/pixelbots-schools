@@ -19,7 +19,7 @@ import {Block, Card} from 'vdux-ui'
 export default component({
   render ({props}) {
     const {currentUser} = props
-    const {name, displayName, email, username, preferences = {}, userType} = currentUser
+    const {displayName, email, username, preferences = {}, userType} = currentUser
     const isStudent = userType === 'student'
     const {max_points = 10} = preferences
 
@@ -29,10 +29,10 @@ export default component({
           User Settings
         </Block>
 
-        <SettingsRow name='Name' placeholder={'What\'s your name?'} Modal={<NameModal user={currentUser} />} prop={displayName} hide={isStudent}/>
-        <SettingsRow name='Username' placeholder='Get a username?' Modal={<UsernameModal user={currentUser} />} prop={username} hide={isStudent}/>
-        <SettingsRow name='Email' placeholder={'What\'s your email?'} Modal={<EmailModal user={currentUser} />} prop={email}/>
-        <SettingsRow name='Password' Modal={<PasswordModal isMe={true} user={currentUser} />} prop='*******'/>
+        <SettingsRow name='Name' placeholder={'What\'s your name?'} Modal={<NameModal user={currentUser} />} prop={displayName} hide={isStudent} />
+        <SettingsRow name='Username' placeholder='Get a username?' Modal={<UsernameModal user={currentUser} />} prop={username} hide={isStudent} />
+        <SettingsRow name='Email' placeholder={'What\'s your email?'} Modal={<EmailModal user={currentUser} />} prop={email} />
+        <SettingsRow name='Password' Modal={<PasswordModal isMe user={currentUser} />} prop='*******' />
 
         <Block fs='m' color='blue' pt='l' pb px>
           Activity Settings
@@ -42,7 +42,7 @@ export default component({
           <ReadingSpeedDropdown user={currentUser} />
         </SettingsRow>
 
-        <SettingsRow name='Point Value' placeholder='What is your name?' Modal={<PointValueModal user={currentUser} />} prop={max_points} message='The default point value given to each question in an activity' borderBottomWidth='0'  hide={isStudent}/>
+        <SettingsRow name='Point Value' placeholder='What is your name?' Modal={<PointValueModal user={currentUser} />} prop={max_points} message='The default point value given to each question in an activity' borderBottomWidth='0' hide={isStudent} />
       </Card>
     )
   }

@@ -2,9 +2,9 @@
  * Imports
  */
 
-import {Card, Block, Text} from 'vdux-ui'
 import {component, element} from 'vdux'
 import ObjectIcon from './ObjectIcon'
+import {Card, Block} from 'vdux-ui'
 import Link from 'components/Link'
 import moment from 'moment'
 
@@ -66,7 +66,6 @@ function target (object) {
 
   return uncamel(object.displayName)
 }
-
 
 function getHref (object) {
   const baseLink = object.object.url

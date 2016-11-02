@@ -27,7 +27,7 @@ css({
       `url('${woff2}') format('woff2')`,
       `url('${woff}') format('woff')`,
       `url('${ttf}') format('truetype')`,
-      `url('${svg}#Lato-Light') format('svg')`,
+      `url('${svg}#Lato-Light') format('svg')`
     ].join(',')
   }
 }, {named: false})
@@ -38,7 +38,7 @@ css({
     fontStyle: 'normal',
     fontWeight: 400,
     src: "local('Lato Regular'), local('Lato-Regular'), url(//themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff')"
-  },
+  }
 }, {named: false})
 
 css({

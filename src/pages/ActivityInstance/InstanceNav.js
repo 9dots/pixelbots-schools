@@ -25,7 +25,7 @@ const style = {
   minWidth: '40px',
   hoverProps: {highlight: 0.01},
   focusProps: {outline: '1px solid rgba(blue_light, .4)'},
-  activeProps: {highlight: 0},
+  activeProps: {highlight: 0}
 }
 
 /**
@@ -58,7 +58,7 @@ export default component({
             disabled={!prev}
             mr='s'
             {...style}
-            flexGrow={activePrev ?  1 : 0.0001}>
+            flexGrow={activePrev ? 1 : 0.0001}>
             <Icon name='chevron_left' fs='s' />
             <Block ellipsis hide={!prev || !activePrev} flex>
               {prev && prev.displayName}
@@ -72,7 +72,7 @@ export default component({
             disabled={!next}
             ml='s'
             {...style}
-            flexGrow={activeNext ?  1 : 0.0001}>
+            flexGrow={activeNext ? 1 : 0.0001}>
             <Block ellipsis hide={!next || !activeNext} flex>
               {next && next.displayName}
             </Block>

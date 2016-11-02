@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Block, Dropdown, MenuItem, Icon, Divider, CSSContainer} from 'vdux-containers'
+import {Block, Dropdown, MenuItem, Icon, Divider} from 'vdux-containers'
 import CreateClassModal from 'modals/CreateClassModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import LineInput from 'components/LineInput'
@@ -30,14 +30,14 @@ export default summon(() => ({
             <LineInput type='search' onInput={actions.setFilter} placeholder='Filter classes…' />
           </Block>
           <Block>
-          {
+            {
             !loading &&
             value.items
               .filter(search(state.filter))
               .map(cls => <ClassItem cls={cls} isStudent={isStudent} />)
           }
-          <Divider hide={!numClasses} />
-          {
+            <Divider hide={!numClasses} />
+            {
             isStudent
               ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
               : <AddClassItem Modal={CreateClassModal} text='New Class' />

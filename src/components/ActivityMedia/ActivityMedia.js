@@ -44,7 +44,7 @@ const LinkObject = component({
   render ({props}) {
     const {object, ...rest} = props
     const {description, embed = {}, image = {}, displayName} = object
-    const linkProps ={
+    const linkProps = {
       onClick: {stopPropagation: true},
       href: embed.url,
       target: '_blank',
@@ -98,18 +98,18 @@ const Video = component({
     const {object, editable, preview, isDragging, ...rest} = props
     const {content, image = {}, displayName, embed = {}} = object
     const {url, height, width} = image
-    const imgSize = height / width >= .74 ? '74.6%' : '100%'
+    const imgSize = height / width >= 0.74 ? '74.6%' : '100%'
     const playable = editable ? preview : true
 
     return (
       <Block tag='span' {...rest} pointerEvents={isDragging ? 'none' : 'auto'}>
         <Block wide tall relative bg={`#000 url(${url}) no-repeat center`} bgSize={imgSize} printProps={{hide: true}}>
-          <Loading show={state.play} dark={false} absolute top bottom left right/>
+          <Loading show={state.play} dark={false} absolute top bottom left right />
           <Block hidden={state.play} onClick={playable && actions.playVideo} pointer relative>
             <Figure
               maxWidth={imgSize}
               height={height}
-              hidden={true}
+              hidden
               width={width}
               thumbFirst
               url={url}
@@ -122,22 +122,22 @@ const Video = component({
               opacity='.7'
               sq={150}
               fs={150}
-              m='auto'/>
-              {displayName && <Block
-                bg='linear-gradient(to top,rgba(52,52,52,0.45),rgba(52,52,52,0))'
-                absolute={{bottom: 0, left: 0}}
-                p='30% 5% 3%'
-                wide>
-                <Link
-                  onClick={{stopPropagation: true}}
-                  hoverProps={{underline: true}}
-                  href={embed.url}
-                  target='_blank'
-                  color='white'
-                  lighter
-                  fs='s'>
-                  {displayName}
-                </Link>
+              m='auto' />
+            {displayName && <Block
+              bg='linear-gradient(to top,rgba(52,52,52,0.45),rgba(52,52,52,0))'
+              absolute={{bottom: 0, left: 0}}
+              p='30% 5% 3%'
+              wide>
+              <Link
+                onClick={{stopPropagation: true}}
+                hoverProps={{underline: true}}
+                href={embed.url}
+                target='_blank'
+                color='white'
+                lighter
+                fs='s'>
+                {displayName}
+              </Link>
               </Block>}
           </Block>
           {
@@ -156,7 +156,7 @@ const Video = component({
               opacity='.8'
               sq={75}
               fs={75}
-              m='auto'/>
+              m='auto' />
           </Block>
           <Block ml='l'>
             <Block fs='s' lighter mb='s' mt={-12}>
@@ -180,7 +180,7 @@ const Document = component({
     const {content, embed = {}} = object
     const {url} = embed
     const linkProps = {
-      hoverProps: {opacity: .8},
+      hoverProps: {opacity: 0.8},
       align: 'start center',
       target: '_blank',
       pointer: true,

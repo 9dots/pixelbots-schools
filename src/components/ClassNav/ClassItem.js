@@ -4,8 +4,8 @@
 
 import {Button, CSSContainer, wrap} from 'vdux-containers'
 import ClassSettingsModal from 'modals/ClassSettingsModal'
-import {Block, Text, MenuItem} from 'vdux-ui'
 import {component, element} from 'vdux'
+import {Text, MenuItem} from 'vdux-ui'
 import Link from 'components/Link'
 
 /**

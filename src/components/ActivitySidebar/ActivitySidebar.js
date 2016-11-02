@@ -3,10 +3,8 @@
  */
 
 import {questionIcon, totalPoints, totalScore, statusMap} from 'lib/activity-helpers'
-import {Block as ContainerBlock} from 'vdux-containers'
 import ActivityBadge from 'components/ActivityBadge'
 import {Card, Block, Text, Icon} from 'vdux-ui'
-import BlockInput from 'components/BlockInput'
 import SidebarActions from './SidebarActions'
 import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
@@ -29,7 +27,7 @@ export default component({
     let count = 0
     const questions = _object[0].attachments
       .filter(att => {
-        if(att.objectType === 'question') {
+        if (att.objectType === 'question') {
           const {response = []} = att
           count = response.length ? count + 1 : count
           return true
@@ -70,7 +68,7 @@ export default component({
           <Block p fs='l' borderBottom='1px solid grey_light' fw='lighter' align='center center' ellipsis boxShadow='0 1px 1px rgba(75,82,87,0.08)' relative z='2'>
             {score} / {totalPoints(activity)}
           </Block>
-          <Block maxHeight={`calc(100vh - ${hasInstanceNav ?  420 : 326}px)`} overflow='auto' borderBottom='1px solid grey_light'>
+          <Block maxHeight={`calc(100vh - ${hasInstanceNav ? 420 : 326}px)`} overflow='auto' borderBottom='1px solid grey_light'>
             {
               questions.map((q, i) => <ScoreRow
                 num={i + 1}
@@ -144,7 +142,7 @@ const ScoreRow = summon(() => ({
   render ({props, actions}) {
     const {
       question, selectObject, isSelected, showScore, canGrade, isRedo,
-      canSetMax, num, activity, isStudent, showIncorrect, setMax
+      canSetMax, num, activity, isStudent, showIncorrect
     } = props
     const {points} = question
     const {scaled, max} = points
@@ -231,7 +229,7 @@ const ScoreRow = summon(() => ({
       const points = Number(e.target.value)
       const {activity, question, setPoints} = props
 
-      if (! isNaN(points)) {
+      if (!isNaN(points)) {
         yield setPoints(activity._id, question._id, points / question.points.max)
       }
     },
@@ -242,7 +240,7 @@ const ScoreRow = summon(() => ({
       const max = Number(e.target.value)
       const {setMax, question} = props
 
-      if (! isNaN(max)) {
+      if (!isNaN(max)) {
         yield setMax(question._id, max)
       }
     }
@@ -261,20 +259,21 @@ function getColor (activity, question, canGrade, isStudent, isRedo) {
   const {status} = activity
   const {points, poll, response = []} = question
 
-  if(canGrade) {
+  if (canGrade) {
     return poll
       ? 'grey_medium'
       : points.scaled !== undefined ? 'green' : 'yellow'
-  } else if(isStudent) {
-    if(status === statusMap.turnedIn || status === statusMap.graded) {
+  } else if (isStudent) {
+    if (status === statusMap.turnedIn || status === statusMap.graded) {
       return 'grey_medium'
     } else if (isRedo || status === statusMap.returned) {
-      if(poll) return 'grey_medium'
+      if (poll) return 'grey_medium'
 
-      if(!points.scaled || points.scaled < .6)
+      if (!points.scaled || points.scaled < 0.6) {
         return 'red'
-      else if(points.scaled < 1)
+      } else if (points.scaled < 1) {
         return 'yellow'
+      }
 
       return 'green'
     } else {

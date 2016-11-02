@@ -18,7 +18,7 @@ export default component({
 
   render ({props, state}) {
     const {url, width, height, thumb, thumbFirst, ...rest} = props
-    if (!url) return <span/>
+    if (!url) return <span />
 
     const ratio = props.ratio || height / width
 
@@ -50,7 +50,6 @@ export default component({
     imageLoaded: (state, url) => ({[url]: true})
   }
 })
-
 
 /**
  * Helpers

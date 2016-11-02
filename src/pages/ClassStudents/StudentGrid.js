@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {Flex, Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
-import {wrap, CSSContainer, TableRow, Button, Text} from 'vdux-containers'
+import {Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
+import {wrap, CSSContainer, TableRow, Text} from 'vdux-containers'
 import StudentDropdown from './StudentDropdown'
 import summonPrefs from 'lib/summon-prefs'
 import {component, element} from 'vdux'
@@ -19,12 +19,11 @@ import map from '@f/map'
 
 export default summonPrefs()(component({
   render ({props, actions}) {
-    const {students, selected, group, toggleAll, currentUser, setPref, prefs} = props
+    const {students, selected, group, toggleAll, currentUser, prefs} = props
     const isStudent = currentUser.userType === 'student'
     const selMap = index(selected)
     const allSelected = students.length === selected.length
     const indeterminate = !allSelected && selected.length
-    const headerProps = {}
     const sort = prefs.peopleSort || {dir: 1, property: 'name.givenName'}
     const sortedStudents = students.sort(cmp)
 
@@ -34,10 +33,10 @@ export default summonPrefs()(component({
           <TableHeader p w='40' hide={isStudent}>
             <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
           </TableHeader>
-          <TableHeader w='40'/>
-          <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={setSort} />
-          <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setSort={setSort} />
-          <StudentHeader text='Username' prop='username' sort={sort} setSort={setSort} />
+          <TableHeader w='40' />
+          <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={actions.setSort} />
+          <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setSort={actions.setSort} />
+          <StudentHeader text='Username' prop='username' sort={sort} setSort={actions.setSort} />
           <TableHeader hide={isStudent} />
         </TableRow>
         {
@@ -49,7 +48,7 @@ export default summonPrefs()(component({
     )
 
     function cmp (a, b) {
-      if(!sort) return
+      if (!sort) return
       const prop = sort.property
 
       return getProp(prop, a).toUpperCase() > getProp(prop, b).toUpperCase()
@@ -88,7 +87,7 @@ const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps
             name={'arrow_drop_' + (sort.dir === 1 ? 'down' : 'up')}
             hidden={sort.property !== prop}
             ml='s'
-            fs='s'/>
+            fs='s' />
         </Block>
       </TableHeader>
     )
@@ -114,7 +113,7 @@ const StudentRow = wrap(CSSContainer, {
     return (
       <TableRow tag={isStudent ? 'tr' : 'label'} display='table-row' py bgColor={highlight && !isStudent ? '#fafdfe' : 'white'} borderBottom='1px solid grey_light'>
         <TableCell {...cellProps} hide={isStudent}>
-          <Checkbox name='selected[]' value={student._id} checked={selected}/>
+          <Checkbox name='selected[]' value={student._id} checked={selected} />
         </TableCell>
         <TableCell {...cellProps}>
           <Avatar display='flex' actor={student} mr='s' sq='26' />
@@ -139,7 +138,7 @@ const StudentRow = wrap(CSSContainer, {
             group={group}
             onClick={{preventDefault: true}}
             showSettings={showSettings}
-            student={student}/>
+            student={student} />
         </TableCell>
       </TableRow>
     )

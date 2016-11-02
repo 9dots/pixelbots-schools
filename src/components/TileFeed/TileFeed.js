@@ -20,7 +20,7 @@ export default component({
 
     return (
       <InfiniteScroll w='calc(100% + 12px)' loading={loading} more={value && more(value.nextPageToken)}>
-          {
+        {
             loaded && renderItems(value.items, emptyState, children, currentUser, skip, activityProps)
           }
       </InfiniteScroll>
@@ -38,7 +38,7 @@ function renderItems (items, emptyState, children, user, skip, activityProps) {
   return (
     items.length
       ? <Flex>
-          {
+        {
             map((items, i) => (
               <Flex column>
                 {i === 0 && children}
@@ -48,7 +48,7 @@ function renderItems (items, emptyState, children, user, skip, activityProps) {
               </Flex>
             ), columns)
           }
-        </Flex>
+      </Flex>
       : emptyState
   )
 

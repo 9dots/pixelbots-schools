@@ -7,8 +7,8 @@ import validate from '@weo-edu/validate'
 import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import Schema from '@weo-edu/schema'
-import {Block, Card} from 'vdux-ui'
 import summon from 'vdux-summon'
+import {Block} from 'vdux-ui'
 import Form from 'vdux-form'
 
 /**
@@ -17,7 +17,7 @@ import Form from 'vdux-form'
 
 export default summon(({id}) => ({
   makeComment: body => ({
-    makingComent:  {
+    makingComent: {
       url: '/share',
       method: 'POST',
       invalidates: ['activity_feed', `/share/${id}`],
@@ -42,7 +42,7 @@ export default summon(({id}) => ({
             name='comment'
             lh='1.5em'
             rows={3}
-            p/>
+            p />
         </Block>
         <Button busy={makingComment.loading} bgColor='grey' type='submit'>Submit</Button>
       </Form>
@@ -64,7 +64,7 @@ export default summon(({id}) => ({
         contexts: [{
           allow: [
             {id: `${type}:${classId}:teacher`},
-            {id: `${type}:${classId}:student`},
+            {id: `${type}:${classId}:student`}
           ],
           descriptor: {
             displayName: classId,

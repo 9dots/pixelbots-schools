@@ -22,7 +22,7 @@ export default summonChannels(
     const {currentUser} = props
 
     return (
-      <RowFeed {...props} emptyState={<EmptyBoard currentUser={currentUser} />} item={ActivityRow} itemProps={{options: {edit: true, assign: 'Assign', pin: true}}}/>
+      <RowFeed {...props} emptyState={<EmptyBoard currentUser={currentUser} />} item={ActivityRow} itemProps={{options: {edit: true, assign: 'Assign', pin: true}}} />
     )
   }
 }))

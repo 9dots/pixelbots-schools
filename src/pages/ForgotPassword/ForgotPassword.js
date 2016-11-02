@@ -35,7 +35,7 @@ export default summon(props => ({
           success
             ? <Block lighter fs='s'>
                 Reset request confirmed. Check your email.
-              </Block>
+            </Block>
             : <ForgotForm {...actions} sendReset={sendReset} />
         }
       </Block>

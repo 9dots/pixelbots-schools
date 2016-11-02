@@ -34,7 +34,7 @@ export default component({
           {
             message &&
             <Tooltip message={message} align='center center' tooltipProps={{whiteSpace: 'normal'}}>
-              <Icon name='info' fs='xs' ml='s'  />
+              <Icon name='info' fs='xs' ml='s' />
             </Tooltip>
           }
         </Block>
@@ -49,7 +49,7 @@ export default component({
 
   events: {
     * openModal ({props, context}) {
-      yield context.openModal(() => Modal)
+      yield context.openModal(() => props.Modal)
     }
   }
 })

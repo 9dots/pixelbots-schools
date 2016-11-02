@@ -2,12 +2,12 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
-import {Button, Input} from 'vdux-containers'
 import validate from '@weo-edu/validate'
 import {component, element} from 'vdux'
 import {email} from 'lib/schemas/user'
+import {Button} from 'vdux-containers'
 import Schema from '@weo-edu/schema'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'

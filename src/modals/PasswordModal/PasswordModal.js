@@ -3,8 +3,8 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
-import {Button, Input, Tooltip} from 'vdux-containers'
 import RoundedInput from 'components/RoundedInput'
+import {Button, Tooltip} from 'vdux-containers'
 import summon, {invalidate} from 'vdux-summon'
 import {password} from 'lib/schemas/user'
 import validate from '@weo-edu/validate'
@@ -26,7 +26,7 @@ export default summon(() => ({
   })
 }))(component({
   render ({props, actions, context, state}) {
-    const {changePassword, isMe, group} = props
+    const {isMe} = props
     const users = [].concat(props.user)
     const names = users.map(user => user.displayName)
     const {loading} = state
@@ -53,7 +53,7 @@ export default summon(() => ({
                 bold> {users.length} </Tooltip>
                 users.
             </Block>
-            <RoundedInput type='password' name='password' placeholder='Enter a new password' w='250' m autofocus inputProps={{textAlign: 'left'}}/>
+            <RoundedInput type='password' name='password' placeholder='Enter a new password' w='250' m autofocus inputProps={{textAlign: 'left'}} />
           </Flex>
           <ModalFooter bg='grey'>
             <Text fs='xxs'>
@@ -69,6 +69,9 @@ export default summon(() => ({
 
   events: {
     * handleSubmit ({props, actions}, body) {
+      const {group} = props
+      const users = [].concat(props.user)
+
       yield actions.beginLoading()
       yield users.map(user => props.changePassword(user, body))
       if (group) {

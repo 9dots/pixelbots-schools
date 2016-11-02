@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
@@ -24,7 +24,7 @@ export default summon(props => ({
     }
   })
 }))(component({
-  render ({props, context}) {
+  render ({props, context, actions}) {
     const {createClass, creatingClass = {}} = props
     const {loading} = creatingClass
 
@@ -42,7 +42,7 @@ export default summon(props => ({
           <ModalFooter bg='grey'>
             <Text fs='xxs'>
               <Text pointer underline onClick={context.closeModal}>cancel</Text>
-               <Text mx>or</Text>
+              <Text mx>or</Text>
             </Text>
             <Button type='submit' busy={loading}>Create</Button>
           </ModalFooter>

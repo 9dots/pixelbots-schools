@@ -2,7 +2,6 @@
  * Imports
  */
 
-import {setUrl} from 'redux-effects-location'
 import {CSSContainer} from 'vdux-containers'
 import {component, element} from 'vdux'
 import {Base} from 'vdux-ui'

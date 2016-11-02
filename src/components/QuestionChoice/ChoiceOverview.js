@@ -12,7 +12,7 @@ import {Block} from 'vdux-ui'
 
 export default component({
   render ({props}) {
-    const {object, responses, numAnswered, total, question, bgColor, correctCheck: CorrectCheck} = props
+    const {object, responses, numAnswered, bgColor, correctCheck: CorrectCheck} = props
     const names = responses
       .filter(r => r.response.indexOf(object._id) !== -1)
       .map(r => r.actor.displayName)
@@ -31,7 +31,7 @@ export default component({
         relative
         w='70%'
         my='s'>
-        { CorrectCheck && <CorrectCheck show={true} /> }
+        { CorrectCheck && <CorrectCheck show /> }
         <Block fs='s' absolute left={-67} textAlign='left'>
           { percent }%
         </Block>

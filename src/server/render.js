@@ -5,7 +5,6 @@
 import {setupStylePrefixer} from 'vdux-ui'
 import middleware from './middleware'
 import Boot from 'components/Boot'
-import uiTheme from 'lib/theme'
 import vdux from 'vdux/string'
 import {element} from 'vdux'
 
@@ -19,7 +18,7 @@ function render (opts) {
   setupStylePrefixer(opts.headers['user-agent'])
 
   return vdux(() => <Boot />, {
-    middleware: middleware(opts, _title => title = _title)
+    middleware: middleware(opts, _title => (title = _title))
   }).then(res => ({...res, title}), err => console.log('caught err', err))
 }
 

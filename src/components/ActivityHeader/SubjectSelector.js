@@ -15,7 +15,7 @@ import {Block, Icon} from 'vdux-ui'
 export default component({
   render ({props, state, actions}) {
     const current = state.category
-    const {selected, toggle, max} = props
+    const {selected} = props
     const {error} = state
     const sbjList = []
     const counts = {}
@@ -24,17 +24,17 @@ export default component({
 
     mapValues((cat, key) =>
       cat.forEach(({displayName}) => {
-        if(selectedList.indexOf(displayName) !== -1) {
+        if (selectedList.indexOf(displayName) !== -1) {
           sbjList.push(displayName)
           counts[key] = counts[key] ? ++counts[key] : 1
         }
-    }), subjects)
+      }), subjects)
 
     const text = sbjList.length ? sbjList.join(', ') : 'Subject Selector'
     const btnStyle = sbjList.length ? {'bold': true, color: 'blue'} : {}
 
     return (
-      <Dropdown w={505} left btn={<DDBtn {...btnStyle} text={text}/>} onClick={{stopPropagation: true}} onClose={actions.setError(null)}>
+      <Dropdown w={505} left btn={<DDBtn {...btnStyle} text={text} />} onClick={{stopPropagation: true}} onClose={actions.setError(null)}>
         <Block align='start' my={-6}>
           <Block flex='35%' borderRight='1px solid grey_light' py={6}>
             {
@@ -45,7 +45,7 @@ export default component({
                     onClick={actions.setCategory(category)}
                     category={category}
                     current={current}
-                    count={counts[category]}/>
+                    count={counts[category]} />
                 ))
             }
           </Block>
@@ -55,7 +55,7 @@ export default component({
                 ? subjects[current].map(subject => <Item tag={subject} selected={sbjList} toggle={actions.toggleSubject(sbjList)} error={error === subject.displayName} />)
                 : <Block p='8px 16px' fs='xs' color='grey_medium'>
                     Select a Subject Area
-                  </Block>
+                </Block>
 
             }
           </Block>
@@ -154,7 +154,7 @@ function Item ({props}) {
       tag='label'
       capitalize
       fs='xs'>
-      <Checkbox mr='s' checkProps={{sq: 15}} checked={checked}/>
+      <Checkbox mr='s' checkProps={{sq: 15}} checked={checked} />
       <Block flex>
         {displayName}
       </Block>

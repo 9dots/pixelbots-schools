@@ -30,7 +30,7 @@ export default component({
     return (
       <Block id='info' w='col_main' m='0 auto'>
         <Flex column align='center center' py='50'>
-          <Image src={spark} w='150' my='12px'/>
+          <Image src={spark} w='150' my='12px' />
           <Text fs='l' my='l' fw='bold'>
             We Believe Teachers are Superheroes
           </Text>
@@ -51,7 +51,7 @@ export default component({
 function infoItem (info, i) {
   return (
     <Flex py='50'>
-      <Flex column align='center' flex='50%' px='l' order={i%2}>
+      <Flex column align='center' flex='50%' px='l' order={i % 2}>
         <Image src={info.image} m='0 auto' maxWidth='90%' display='block' />
       </Flex>
       <Flex column align='center center' flex='50%' px='l' textAlign='center'>
@@ -87,5 +87,5 @@ const info = [
     description: 'Peek inside the minds of your students. Use assignment overviews to quickly understand where your students are struggling so you can help them more effectively.',
     icon: xray,
     image: students
-  },
+  }
 ]

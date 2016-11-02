@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Block, Checkbox, ErrorTip} from 'vdux-ui'
+import {Checkbox, ErrorTip} from 'vdux-ui'
 import {component, element} from 'vdux'
 import {Flex} from 'vdux-containers'
 
@@ -34,6 +34,7 @@ const grades = [
 
 export default component({
   render ({props, state, actions}) {
+    const {selected} = props
 
     return (
       <Flex
@@ -51,7 +52,7 @@ export default component({
         p>
         <ErrorTip show={state.tooMany} message='You may only select up to 5 grades.' placement='left' />
         {
-          grades.map(grade => item(grade, selected.indexOf(grade) !== -1, selectGrade(grade)))
+          grades.map(grade => item(grade, selected.indexOf(grade) !== -1, actions.selectGrade(grade)))
         }
       </Flex>
     )
@@ -61,7 +62,7 @@ export default component({
     * selectGrade ({actions, props}, grade) {
       const {toggle, selected} = props
 
-      if(selected.length >= 5 && selected.indexOf(grade) === -1) {
+      if (selected.length >= 5 && selected.indexOf(grade) === -1) {
         yield actions.setError(true)
       } else {
         yield toggle(grade)
@@ -79,7 +80,7 @@ export default component({
  * Helpers
  */
 
-function item (grade, selected, toggle)  {
+function item (grade, selected, toggle) {
   return (
     <Flex align='start center' flex='20%' w='33%' maxWidth='33%' whiteSpace='nowrap' pl='s'>
       <Checkbox label={grade} checked={selected} mr onChange={toggle} />

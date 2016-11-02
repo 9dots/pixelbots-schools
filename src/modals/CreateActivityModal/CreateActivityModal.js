@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalHeader, Icon, Block, Checkbox} from 'vdux-ui'
+import {Modal, ModalHeader, Icon, Block, Checkbox} from 'vdux-ui'
 import {Button, Image} from 'vdux-containers'
 import Loading from 'components/Loading'
 import {component, element} from 'vdux'
@@ -38,7 +38,7 @@ export default summon(props => ({
     }
   }),
   noTemplates: () => ({
-    savingPreference:  {
+    savingPreference: {
       url: '/preference/messages.templates',
       method: 'PUT',
       body: {
@@ -60,14 +60,13 @@ export default summon(props => ({
   },
 
   render ({props, state, actions, context}) {
-    const {templates, noTemplates, currentUser} = props
+    const {templates, currentUser} = props
     const {value, loaded} = templates
-    const {hideTemplates} = state
 
     // If this modal is supposed to not be shown, just render
     // a span until we get redirected away from it
     if (getProp('preferences.messages.templates', currentUser)) {
-      return <span/>
+      return <span />
     }
 
     return (
@@ -77,7 +76,7 @@ export default summon(props => ({
         </ModalHeader>
         <Button onClick={actions.createBlank} my pill bgColor='green' boxShadow='z2' py fs='s' fw='200'>
           Create a New Activity
-          <Icon name='keyboard_arrow_right' ml='s'/>
+          <Icon name='keyboard_arrow_right' ml='s' />
         </Button>
         <Block my='l' fs='s' fontStyle='italic' fw='200'>
           or try editing some samples first
@@ -87,17 +86,17 @@ export default summon(props => ({
             loaded
               ? map(activity => <TemplateItem activity={activity} copy={actions.copyTemplate(activity._id)} />, value.items)
               : <Block m>
-                  <Loading show={true} border='1px solid grey_medium' h={h} w={w}/>
-                  <Block py='xs' color='grey_medium' textAlign='left'>
+                <Loading show border='1px solid grey_medium' h={h} w={w} />
+                <Block py='xs' color='grey_medium' textAlign='left'>
                     Loading ...
-                  </Block>
                 </Block>
+              </Block>
 
           }
         </Block>
         <Block p align='end' fs='xxs'>
           <Checkbox
-            checked={hideTemplates}
+            checked={state.hideTemplates}
             onChange={actions.setHideTemplates}
             label={'Don\'t show me this again'}
             uiProps={{flexDirection: 'row-reverse'}}
@@ -108,18 +107,19 @@ export default summon(props => ({
   },
 
   events: {
-    * createBlank ({props, context}) {
+    * createBlank ({props, state, context}) {
       const {noTemplates, createBlank} = props
 
-      if (hideTemplates) yield noTemplates()
+      if (state.hideTemplates) yield noTemplates()
       const activity = yield createBlank()
       yield context.closeModal()
       yield context.setUrl(`/activity/${activity._id}/edit/new`)
     },
 
-    * copyTemplate ({props, context}, id) {
+    * copyTemplate ({props, state, context}, id) {
       const {copyTemplate, noTemplates} = props
-      if (hideTemplates) yield noTemplates()
+      if (state.hideTemplates) yield noTemplates()
+
       const activity = yield copyTemplate(id)
       yield context.closeModal()
       yield context.setUrl(`/activity/${activity._id}/edit/new`)
@@ -145,12 +145,12 @@ function TemplateItem ({props}) {
       hide={displayName === 'Announcement'}
       m>
       <Image hoverProps={{borderColor: 'blue_light', boxShadow: '0 0 1px 1px rgba(blue, .3)'}}
-      display='block'
-      border='1px solid grey_medium'
-      src={resize(image.url, 350)}
-      pointer
-      h={h}
-      w={w}/>
+        display='block'
+        border='1px solid grey_medium'
+        src={resize(image.url, 350)}
+        pointer
+        h={h}
+        w={w} />
       <Block py='xs' color='grey_medium' textAlign='left'>
         {displayName}
       </Block>

@@ -40,7 +40,7 @@ function ClassItem ({props}) {
       bgColor='white'
       capitalize
       pointer
-      p/>
+      p />
   )
 }
 

@@ -22,17 +22,17 @@ export default component({
         {
           isMe
             ? <Block>
-                No one has started following <Text bold>you </Text> yet.
-                <Block fs='xs' mt lh='20px' fw='normal'>
-                  Go <Link color='blue' href='/connect'>connect</Link> and start following people who pin and create things you like.
-                </Block>
+                No one ha<Text bold>you </Text> yet.
+              <Block fs='xs' mt lh='20px' fw='normal'>
+                <Link color='blue' href='/connect'>connect</Link> and start following people who pin and create things you like.
               </Block>
+            </Block>
             : <Block>
-                <FollowButton mx='auto' py w={175} fs='s' lighter showName user={user} boxShadow='z1' bgColor='blue' color='white'/>
-                <Block mt='l'>
-                  Be the first to start following <Text bold>{user.displayName}</Text>.
-                </Block>
+              <FollowButton mx='auto' py w={175} fs='s' lighter showName user={user} boxShadow='z1' bgColor='blue' color='white' />
+              <Block mt='l'>
+                  Be the first t<Text bold>{user.displayName}</Text>.
               </Block>
+            </Block>
         }
       </EmptyState>
     )

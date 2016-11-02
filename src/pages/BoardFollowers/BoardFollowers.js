@@ -27,7 +27,7 @@ export default summon(({boardId}) => ({
   render ({props}) {
     const {followers, more, currentUser} = props
     const {value, loaded, loading} = followers
-    if(!loaded) return <span/>
+    if (!loaded) return <span />
 
     return (
       <Block w='col_main' mx='auto' my>
@@ -41,7 +41,7 @@ export default summon(({boardId}) => ({
                     user={user} />, value.items)
                   : <EmptyState icon='person_outline' color='green'>
                       No one is following this board yet.
-                    </EmptyState>
+                  </EmptyState>
               }
             </Grid>
           }

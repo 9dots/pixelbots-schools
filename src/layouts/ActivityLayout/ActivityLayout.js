@@ -7,14 +7,13 @@ import PageTitle from 'components/PageTitle'
 import Redirect from 'components/Redirect'
 import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
-import {invalidate} from 'vdux-summon'
 import maybeOver from '@f/maybe-over'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
 import index from '@f/index'
 import live from 'lib/live'
 import find from '@f/find'
-import Nav from  './Nav'
+import Nav from './Nav'
 
 /**
  * <ActivityLayout/>
@@ -73,7 +72,7 @@ export default summon(({userId, activityId}) => ({
   },
 
   * onUpdate (prev, next) {
-    const {activity, instances, students, getInstance, gettingInstance} = next.props
+    const {instances, students, getInstance, gettingInstance} = next.props
     if (!gettingInstance && instances.value && students.value) {
       const studentMap = index(student => student._id, students.value.items)
       const insts = instances.value.items.filter(inst => studentMap[inst.actor.id])
@@ -87,10 +86,10 @@ export default summon(({userId, activityId}) => ({
 
   events: {
     * backBtn ({props, actions, context}, escapeUrl) {
-      const {intent, canExit} = props
+      const {intent, canExit, activity} = props
 
       if (intent === 'new') {
-        yield context.openModal(() => <DiscardDraftModal onAccept={actions.discardDraftAccept} activity={value} />)
+        yield context.openModal(() => <DiscardDraftModal onAccept={actions.discardDraftAccept} activity={activity.value} />)
       } else {
         yield canExit ? context.back() : context.setUrl(escapeUrl)
       }
@@ -121,7 +120,7 @@ export default summon(({userId, activityId}) => ({
 }))))
 
 function internal ({props, children, actions, context, state}) {
-  const {activity, students, instances, canExit, exitDepth, settingStatus, redirect, currentUser, activityId, userId, setStatus, isEdit, intent} = props
+  const {activity, students, instances, settingStatus, redirect, currentUser, activityId, userId, setStatus, isEdit, intent} = props
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
@@ -151,7 +150,7 @@ function internal ({props, children, actions, context, state}) {
     : null
 
   const classId = value.contexts[0].descriptor.id
-  const {shareType, discussion} = value
+  const {discussion} = value
   const isPublic = classId === 'public'
   const isClass = !isInstance && !isPublic
   const isOwner = currentUser._id === value.actor.id

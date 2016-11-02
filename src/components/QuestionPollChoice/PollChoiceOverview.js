@@ -12,7 +12,7 @@ import {Block} from 'vdux-ui'
 
 export default component({
   render ({props}) {
-    const {object, question, bgColor, responses, numAnswered, total, hidePollNames} = props
+    const {object, bgColor, responses, numAnswered, hidePollNames} = props
     const names = responses
       .filter(r => r.response.indexOf(object._id) !== -1)
       .map(r => r.actor.displayName)
@@ -37,9 +37,9 @@ export default component({
         mb={offset}
         tall>
         <Block pb='100%' relative wide>
-          <Block bgColor={bgColor} h={percent} absolute wide bottom/>
+          <Block bgColor={bgColor} h={percent} absolute wide bottom />
           <Block absolute wide tall top left align='center center'>
-            <Block innerHTML={object.content} class='markdown' fs='s' textAlign='center'/>
+            <Block innerHTML={object.content} class='markdown' fs='s' textAlign='center' />
           </Block>
           <Block fs='s' wide absolute bottom={(offset + 10) * -1} textAlign='center'>
             {percent}

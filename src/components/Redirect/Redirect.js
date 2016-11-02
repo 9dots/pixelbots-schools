@@ -14,7 +14,7 @@ export default component({
   },
 
   render ({props}) {
-    return <span/>
+    return <span />
   },
 
   /**

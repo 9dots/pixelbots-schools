@@ -3,6 +3,7 @@
  */
 
 import OutlineButton from 'components/OutlineButton'
+import SignUpModal from 'modals/SignUpModal'
 import {component, element} from 'vdux'
 import summon from 'vdux-summon'
 
@@ -35,7 +36,7 @@ export default summon(({activity: {_id}}) => ({
       : liked === 1 || likers.some(liker => liker.id === user._id)
 
     const click = user
-      ? [hasLiked ? unlikeActivity : likeActivity,  localLike && localLike(hasLiked ? -1 : 1)]
+      ? [hasLiked ? unlikeActivity : likeActivity, localLike && localLike(hasLiked ? -1 : 1)]
       : actions.openSignupModal
 
     return (

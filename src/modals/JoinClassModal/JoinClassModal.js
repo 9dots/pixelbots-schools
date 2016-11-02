@@ -2,11 +2,10 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
-import validate from 'lib/validate'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
@@ -19,7 +18,7 @@ export default summon(props => ({
     joiningClass: {
       url: `/group/join/${code}`,
       method: 'PUT',
-      invalidates: ['/user/classes', '/user'],
+      invalidates: ['/user/classes', '/user']
     }
   })
 }))(component({
@@ -41,7 +40,7 @@ export default summon(props => ({
           <ModalFooter bg='grey'>
             <Text fs='xxs'>
               <Text pointer underline onClick={context.closeModal}>cancel</Text>
-               <Text mx>or</Text>
+              <Text mx>or</Text>
             </Text>
             <Button type='submit' busy={loading}>Create</Button>
           </ModalFooter>

@@ -4,8 +4,8 @@
 
 import {Dropdown, Button, MenuItem} from 'vdux-containers'
 import {component, element} from 'vdux'
-import {Block, Flex} from 'vdux-ui'
 import summon from 'vdux-summon'
+import {Block} from 'vdux-ui'
 
 /**
  * Constants
@@ -40,7 +40,7 @@ const speeds = [
 
 export default summon(({currentUser}) => ({
   setSpeed: (val) => ({
-    savingPreference:  {
+    savingPreference: {
       url: '/preference/speech_speed',
       invalidates: '/user',
       method: 'PUT',
@@ -58,18 +58,18 @@ export default summon(({currentUser}) => ({
     return (
       <Block display='inline-block' fw='normal'>
         <Dropdown mb='l' wide btn={
-            <Button
-              focusProps={{highlight: .01}}
-              hoverProps={{highlight: .01}}
-              border='1px solid text'
-              bgColor='white'
-              color='text'
-              px>
+          <Button
+            focusProps={{highlight: 0.01}}
+            hoverProps={{highlight: 0.01}}
+            border='1px solid text'
+            bgColor='white'
+            color='text'
+            px>
               Reading Speed:
-              <Block fontFamily='monoSpace' ml='s'>
-                {speed.toFixed(1) || '1.0'}
-              </Block>
-            </Button>
+            <Block fontFamily='monoSpace' ml='s'>
+              {speed.toFixed(1) || '1.0'}
+            </Block>
+          </Button>
           }>
           {
             speeds.map(({displayName, val}) => <MenuItem
@@ -77,13 +77,13 @@ export default summon(({currentUser}) => ({
               align='start space-between'
               fs='xs'
               py>
-                <Block flex>
-                  {displayName}
-                </Block>
-                <Block fontFamily='monospace'>
-                  {val.toFixed(1)}
-                </Block>
-              </MenuItem>)
+              <Block flex>
+                {displayName}
+              </Block>
+              <Block fontFamily='monospace'>
+                {val.toFixed(1)}
+              </Block>
+            </MenuItem>)
           }
         </Dropdown>
       </Block>

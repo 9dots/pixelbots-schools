@@ -21,7 +21,7 @@ function analytics (writeKey) {
   }
 
   function hasIntercom (user) {
-    return !! (user._id && user.userType === 'teacher')
+    return !!(user._id && user.userType === 'teacher')
   }
 
   return api => next => action => {
@@ -29,8 +29,8 @@ function analytics (writeKey) {
       case identify.type: {
         const user = action.payload || {}
 
-        if ('undefined' !== typeof Intercom && !hasIntercom(user)) {
-          Intercom('shutdown')
+        if (typeof Intercom !== 'undefined' && !hasIntercom(user)) {
+          window.Intercom('shutdown')
           window.analytics._integrations.Intercom.booted = false
         }
 

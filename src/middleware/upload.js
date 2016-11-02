@@ -74,7 +74,9 @@ function ext (file) {
   if (mimeExt) return '.' + mimeExt
   if (!file.name) return ''
 
-  return file.name.lastIndexOf('.') > 0
+  const idx = file.name.lastIndexOf('.')
+
+  return idx > 0
     ? file.name.slice(idx - 1)
     : '._' + file.name
 }

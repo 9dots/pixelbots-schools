@@ -8,7 +8,6 @@ import TextToSpeech from 'components/TextToSpeech'
 import EditableQuestion from './EditableQuestion'
 import {Block, Badge, Icon} from 'vdux-ui'
 import {component, element} from 'vdux'
-import {Button} from 'vdux-containers'
 import {debounce} from 'redux-timing'
 import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
@@ -40,7 +39,7 @@ export default summon(({activityId, rootId, actor, object}) => ({
 
     const {
       actor, activityId, overview, object, idx, answerable, showAnswers, isSelected, selectObject,
-      comments, showIncorrect, showComments, commentsId, currentUser, onEdit, editable, setSpeaking,
+      comments, showIncorrect, showComments, commentsId, currentUser, editable, setSpeaking,
       speechRate, speakingId, speechEnabled, overviewQuestion, showPollResults, ...rest
     } = props
     const {poll, attachments = [], points, _id, content, responses, numAnswered, total} = showPollResults && object.poll
@@ -68,10 +67,10 @@ export default summon(({activityId, rootId, actor, object}) => ({
             actor={actor}
             activityId={activityId}
             question={object}
-            z='2'/>
+            z='2' />
         }
         {
-          !poll && showIncorrect && (!points.scaled || points.scaled <= .5) &&
+          !poll && showIncorrect && (!points.scaled || points.scaled <= 0.5) &&
             <IncorrectX />
         }
         <Block align='start' py mb>
@@ -88,7 +87,7 @@ export default summon(({activityId, rootId, actor, object}) => ({
                 rate={speechRate}
                 text={object.displayName}
                 current={speakingId === object._id}
-                float='left'/>
+                float='left' />
             }
             {content && <Block key='a' fs='s' innerHTML={content} class='markdown' mb='l' />}
             <Block align='start' mx={overview ? 40 : 0} column={!poll && type === 'choice'}>
@@ -163,10 +162,10 @@ function IncorrectX () {
       color='white'
       circle={32}
       m='auto'>
-        <Icon
-          printProps={{fs: 'l', color: 'red'}}
-          name='close'
-          fs='s' />
+      <Icon
+        printProps={{fs: 'l', color: 'red'}}
+        name='close'
+        fs='s' />
     </Block>
   )
 }

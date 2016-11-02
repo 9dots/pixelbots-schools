@@ -2,10 +2,10 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
-import {Button, Input} from 'vdux-containers'
 import {component, element} from 'vdux'
+import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
@@ -37,7 +37,7 @@ export default summon(({user}) => ({
             <ModalHeader>
               Location
             </ModalHeader>
-            <RoundedInput defaultValue={location} name='location' placeholder='Where are you located?' w='250px' m autofocus inputProps={{textAlign: 'left'}}/>
+            <RoundedInput defaultValue={location} name='location' placeholder='Where are you located?' w='250px' m autofocus inputProps={{textAlign: 'left'}} />
           </Flex>
           <ModalFooter bg='grey'>
             <Text fs='xxs'>

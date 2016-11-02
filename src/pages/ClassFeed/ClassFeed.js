@@ -25,19 +25,19 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(
       }
     }
   }))(component({
-  render ({props}) {
-    const {activities, group, currentUser} = props
-    const Item = currentUser.userType === 'student'
+    render ({props}) {
+      const {group, currentUser} = props
+      const Item = currentUser.userType === 'student'
       ? ActivityRowStudent
       : ClassActivityRow
 
-    return (
-      <Block maxWidth='714px' my py mx='auto' relative>
-        <PageTitle title={`${group.displayName} | Feed`} />
-        {
-          <RowFeed {...props} item={Item} emptyState={<EmptyClassFeed currentUser={currentUser}/>} />
+      return (
+        <Block maxWidth='714px' my py mx='auto' relative>
+          <PageTitle title={`${group.displayName} | Feed`} />
+          {
+            <RowFeed {...props} item={Item} emptyState={<EmptyClassFeed currentUser={currentUser} />} />
         }
-      </Block>
+        </Block>
     )
-  }
-})))
+    }
+  })))

@@ -2,9 +2,9 @@
  * Imports
  */
 
-import {Flex, Block, Text} from 'vdux-ui'
 import ActionButton from './ActionButton'
 import {component, element} from 'vdux'
+import {Flex, Text} from 'vdux-ui'
 import Nav from './Nav'
 
 /**

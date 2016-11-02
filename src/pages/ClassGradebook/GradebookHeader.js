@@ -14,7 +14,7 @@ import map from '@f/map'
 
 export default component({
   render ({props, actions}) {
-    const {activities, sort, setPref, totals, ...rest} = props
+    const {activities, sort, totals, ...rest} = props
     const headProps = {
       borderRight: '1px solid text',
       bgColor: 'grey',
@@ -24,7 +24,7 @@ export default component({
 
     return (
       <TableRow>
-        <NameHeader text='First' prop='name.givenName' {...headProps} setPref={actions.setSort} sort={sort}/>
+        <NameHeader text='First' prop='name.givenName' {...headProps} setPref={actions.setSort} sort={sort} />
         <NameHeader text='Last' prop='name.familyName' {...headProps} setPref={actions.setSort} sort={sort} />
         <TableHeader {...headProps}>
           Total
@@ -57,11 +57,11 @@ export default component({
  */
 
 const NameHeader = wrap(CSSContainer, {
-    textAlign: 'left',
-    hoverProps: {
-      hover: true
-    }
-  })({
+  textAlign: 'left',
+  hoverProps: {
+    hover: true
+  }
+})({
   render ({props}) {
     const {hover, sort, prop, text, setPref, ...rest} = props
 
@@ -75,7 +75,7 @@ const NameHeader = wrap(CSSContainer, {
             name={'arrow_drop_' + (sort.dir === 1 ? 'down' : 'up')}
             hidden={sort.property !== prop}
             ml='s'
-            fs='s'/>
+            fs='s' />
         </Block>
       </TableHeader>
     )
@@ -93,10 +93,10 @@ const ActivityHeader = wrap(CSSContainer, {
 })({
   render ({props, context}) {
     const {activity, showSettings, exportActivity, total, allowExport, ...rest} = props
-    const btn = <Icon fs='xs' pointer absolute='top 0px right 0px' hide={!showSettings} name='info_outline' absolute top={-16} right={-8} />
+    const btn = <Icon fs='xs' pointer hide={!showSettings} name='info_outline' absolute top={-16} right={-8} />
 
     return (
-      <TableHeader {...rest}  fs='xxs' px maxWidth='100px' minWidth='100px'>
+      <TableHeader {...rest} fs='xxs' px maxWidth='100px' minWidth='100px'>
         <Dropdown textAlign='left' lighter fs='xs' btn={btn} z='3' minWidth='150px' maxWidth='220px' px mt={-16} right={-8}>
           <Block bolder align='space-between start'>
             {activity.displayName}

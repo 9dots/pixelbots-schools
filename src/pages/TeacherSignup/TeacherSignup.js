@@ -37,7 +37,7 @@ export default summon(props => ({
             Welcome to Weo
           </Block>
           <Block ln='30px' fs='m'>
-            Join our growing community<br/>
+            Join our growing community<br />
             of educators today.
           </Block>
           <Block fs='s' mt='m'>

@@ -19,7 +19,6 @@ import Meta from './Meta'
 export default component({
   render ({props}) {
     const {activity, showFork} = props
-    const {image, displayName, description} = activity
     const TileMeta = showFork ? ForkMeta : Meta
 
     return (
@@ -56,7 +55,7 @@ const Activity = wrap(CSSContainer)(component({
         {
           options && hover && <ActivityCardActions spread liked={locallyLiked} localLike={actions.localLike} {...options} activity={activity} user={user} absolute wide z='1' />
         }
-        <Figure key='img' {...image} thumb={true} opacity={hover && .88} />
+        <Figure key='img' {...image} thumb opacity={hover && 0.88} />
         <Block textAlign='center' m='m'>
           <Text my='s' fs='s' display='block' fw='200'>{displayName}</Text>
           <Text fs='xxs' wordBreak='break-word'>{description}</Text>
@@ -65,7 +64,7 @@ const Activity = wrap(CSSContainer)(component({
           {
             !!likes && (
               <Flex align='center center'>
-                <Icon name='favorite' fs='xs'  />
+                <Icon name='favorite' fs='xs' />
                 <Text mr='4' ml='2'>{likes}</Text>
               </Flex>
             )

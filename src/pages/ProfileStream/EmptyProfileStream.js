@@ -5,7 +5,6 @@
 import EmptyState from 'components/EmptyState'
 import {component, element} from 'vdux'
 import {Block, Text} from 'vdux-ui'
-import Link from 'components/Link'
 
 /**
  * <EmptyProfileStream/>
@@ -20,11 +19,11 @@ export default component({
         {
           isMe
             ? <Block>
-                <Text bold>You </Text> don't have any events to show yet.
-              </Block>
+              <Text bold>You </Text> don't have any events to show yet.
+            </Block>
             : <Block>
-                <Text bold>{user.displayName} </Text> doesn't have any events to show yet.
-              </Block>
+              <Text bold>{user.displayName} </Text> doesn't have any events to show yet.
+            </Block>
         }
       </EmptyState>
     )

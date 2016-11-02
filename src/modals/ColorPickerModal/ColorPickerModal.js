@@ -36,7 +36,7 @@ export default summon(({user}) => ({
   }),
 
   render ({props, state, actions, context}) {
-    const {updateColor, user, submitting = {}} = props
+    const {updateColor, submitting = {}} = props
     const {loading} = submitting
     const {selected} = state
 
@@ -57,7 +57,7 @@ export default summon(({user}) => ({
           <ModalFooter bg='grey'>
             <Text fs='xxs'>
               <Text pointer underline onClick={context.closeModal}>cancel</Text>
-               <Text mx>or</Text>
+              <Text mx>or</Text>
             </Text>
             <Button type='submit' busy={loading}>Update</Button>
           </ModalFooter>
@@ -76,7 +76,7 @@ export default summon(({user}) => ({
  */
 
 const ColorBlock = wrap(CSSContainer, {hoverProps: {hovered: true}})(component({
-  render({props}) {
+  render ({props}) {
     const {color, hovered, selected, ...rest} = props
 
     return (

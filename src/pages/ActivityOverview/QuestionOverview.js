@@ -3,9 +3,9 @@
  */
 
 import {getOverviewQuestions} from 'lib/activity-helpers'
-import {Flex, Block, Card, Icon} from 'vdux-ui'
 import QuestionRow from './QuestionRow'
 import {component, element} from 'vdux'
+import {Flex, Block} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -13,7 +13,7 @@ import map from '@f/map'
  */
 
 export default component({
-  render({props, actions, state}) {
+  render ({props, actions, state}) {
     const {activity, instances} = props
     const questions = getOverviewQuestions(activity._object[0].attachments, instances)
 
@@ -30,7 +30,7 @@ export default component({
               dismiss={actions.toggle(null)}
               toggle={actions.toggle(i)}
               question={question}
-              i={i}/>, questions)
+              i={i} />, questions)
         }
       </Block>
     )

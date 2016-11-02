@@ -21,7 +21,7 @@ export default summon(({activity}) => {
     const {activity, group} = props
     const {value, loading} = group
     const isPublic = activity.contexts[0].descriptor.id === 'public'
-    if(!isPublic && loading) return <span/>
+    if (!isPublic && loading) return <span />
 
     const url = `${window.location.origin}/activity/${activity._id}`
 
@@ -36,12 +36,12 @@ export default summon(({activity}) => {
               isPublic
                 ? <Block>
                     Copy the link below to share this activity with your colleagues.
-                  </Block>
+                </Block>
                 : <Block>
                     Copy the link below to share this activity with the students in your
-                    <Text color='blue' bold> {value.displayName} </Text>
+                  <Text color='blue' bold> {value.displayName} </Text>
                     class.
-                  </Block>
+                </Block>
             }
           </Block>
           <BlockInput readonly autofocus onFocus={{selectTarget: true}} value={url} />

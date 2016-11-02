@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Block, Modal, Image, Text, Icon, Flex} from 'vdux-ui'
+import {Block, Image, Text, Icon} from 'vdux-ui'
 import {component, element} from 'vdux'
 
 /**
@@ -89,11 +89,11 @@ export {
  */
 
 function stepItem (step, i, cur, counts) {
-  const url =  step.image + '?v=' + (counts[i] || 0)
+  const url = step.image + '?v=' + (counts[i] || 0)
 
   return (
     <Block relative>
-      <Image src={url} wide my='l' absolute top right left bottom opacity={+(cur === i)} transition='opacity .35s'/>
+      <Image src={url} wide my='l' absolute top right left bottom opacity={+(cur === i)} transition='opacity .35s' />
     </Block>
   )
 }

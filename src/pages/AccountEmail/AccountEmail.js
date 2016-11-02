@@ -2,9 +2,9 @@
  * Imports
  */
 
-import {Block, Flex, Card} from 'vdux-ui'
 import {component, element} from 'vdux'
 import {Toggle} from 'vdux-containers'
+import {Block, Card} from 'vdux-ui'
 import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
 
@@ -14,7 +14,7 @@ import summon from 'vdux-summon'
 
 export default summon(({currentUser}) => ({
   togglePref: pref => ({
-    savingPreference:  {
+    savingPreference: {
       url: '/preference/' + encodeURIComponent(pref),
       invalidates: '/user',
       method: 'PUT',
@@ -33,7 +33,7 @@ export default summon(({currentUser}) => ({
           Email Notifications
         </Block>
         {
-          emailPrefs.map(({message, prop}, i) => <Toggle onChange={togglePref(prop)} checked={!getProp(prop, currentUser.preferences)} {...rowProps} label={message} tWidth='20' borderBottomWidth={(i+1) === emailPrefs.length ? 0 : 1}/>)
+          emailPrefs.map(({message, prop}, i) => <Toggle onChange={togglePref(prop)} checked={!getProp(prop, currentUser.preferences)} {...rowProps} label={message} tWidth='20' borderBottomWidth={(i + 1) === emailPrefs.length ? 0 : 1} />)
         }
       </Card>
     )
@@ -78,10 +78,10 @@ const emailPrefs = [
   },
   {
     message: 'Joins my class',
-    prop: 'email.disableJoinedClass',
+    prop: 'email.disableJoinedClass'
   },
   {
     message: 'Turns in an activity',
-    prop: 'email.disableTurnedIn',
+    prop: 'email.disableTurnedIn'
   }
 ]

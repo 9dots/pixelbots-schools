@@ -23,14 +23,14 @@ export default component({
         onClick={actions.openAvatarModal}
         hoverProps={{hover: isMe}}
         activeProps={{active: isMe}}
-        pointer={isMe}/>
+        pointer={isMe} />
     )
   },
 
   events: {
     * openAvatarModal ({context, props}) {
-      if(props.isMe) {
-        yield context.openModal(() => <AvatarPickerModal user={props.user}/>)
+      if (props.isMe) {
+        yield context.openModal(() => <AvatarPickerModal user={props.user} />)
       }
     }
   }
@@ -41,7 +41,7 @@ export default component({
  */
 
 const AvatarPicker = wrap(CSSContainer)({
-  render({props}) {
+  render ({props}) {
     const {blue} = colors
     const {user, hover, active, ...rest} = props
     const overlayBg = Color(blue).alpha(0.3).rgbaString()

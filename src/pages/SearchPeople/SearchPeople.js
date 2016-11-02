@@ -9,7 +9,7 @@ import summonSearch from 'lib/summon-search'
 import UserTile from 'components/UserTile'
 import {component, element} from 'vdux'
 import {Text} from 'vdux-containers'
-import {Grid, Block} from 'vdux-ui'
+import {Grid} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -55,7 +55,7 @@ const EmptySearch = component({
   render ({props, actions}) {
     return (
       <EmptyState icon='people' color='yellow'>
-        Sorry, we couldn't find anybody by that name.<br/>
+        Sorry, we couldn't find anybody by that name.<br />
         Try another search or invite&nbsp;
         <Text
           onClick={actions.inviteTeacher}

@@ -27,11 +27,11 @@ export default summon(props => ({
   })
 }))(component({
   render ({actions, props}) {
-    const {currentUser, copyingTemplate = {}} = props
+    const {copyingTemplate = {}} = props
 
-    return(
+    return (
       <Block p textAlign='center'>
-        <Icon name='assignment' fs='xxl' color='green'/>
+        <Icon name='assignment' fs='xxl' color='green' />
         <Block my fs='m' lighter>
           This is your class Activity Feed
         </Block>
@@ -39,11 +39,11 @@ export default summon(props => ({
           <Block align='center center'>
             Assign an Intro Activity
             <Tooltip message='Assign a tutorial Activity to teach your students the basics of Weo.' align='center center' tooltipProps={{whiteSpace: 'normal', w: '200'}}>
-              <Icon name='info' ml='s' fs='s'/>
+              <Icon name='info' ml='s' fs='s' />
             </Tooltip>
           </Block>
         </Button>
-        <Block underline pointer hoverProps={{opacity: .8}} onClick={actions.createActivity}>
+        <Block underline pointer hoverProps={{opacity: 0.8}} onClick={actions.createActivity}>
           or create your own!
         </Block>
         <Block fs='s' lighter mx='auto' mt='l' w='col_m'>

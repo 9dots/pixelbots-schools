@@ -16,9 +16,8 @@ export default component({
     opened: props.searching
   }),
 
-
   render ({props, actions, state}) {
-    const {url, searching, query, ...rest} = props
+    const {url, query, ...rest} = props
     const {opened} = state
 
     return (
@@ -37,7 +36,7 @@ export default component({
           activeProps={{}}
           focusProps={{}}
           h='34'
-          m='0'/>
+          m='0' />
         <Button
           icon={opened ? 'close' : 'search'}
           color={opened ? 'text' : 'white'}

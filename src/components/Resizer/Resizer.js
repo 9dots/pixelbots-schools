@@ -13,16 +13,16 @@ import {Block} from 'vdux-ui'
 export default wrap(CSSContainer, {
   focusProps: {focus: true}
 })(component({
-  render({props, children, state, actions}) {
+  render ({props, children, state, actions}) {
     const {focus, object} = props
     const {dragging} = state
     const {image, justify = 'center', zoom} = object
     const focusProps = focus
       ? {
-          outline: '1px solid',
-          outlineColor: 'blue_light',
-          boxShadow: '0 0 6px rgba(blue, .8)'
-        }
+        outline: '1px solid',
+        outlineColor: 'blue_light',
+        boxShadow: '0 0 6px rgba(blue, .8)'
+      }
       : {}
 
     return (
@@ -42,7 +42,7 @@ export default wrap(CSSContainer, {
           dragging &&
           <Document onMouseup={actions.endDragging} onMouseMove={{handler: actions.move}} />
         }
-    </Block>
+      </Block>
     )
   },
 
@@ -52,8 +52,8 @@ export default wrap(CSSContainer, {
       const el = findDOMNode(model)
 
       const {onEnd, object} = props
-      const {image, justify = 'center', zoom} = object
-      const {x, y, startWidth, startHeight} = state
+      const {image, justify = 'center'} = object
+      const {x, y, dir, startWidth, startHeight} = state
 
       const deltaX = (x - e.clientX) * (justify === 'center' ? 2 : 1)
       const deltaY = (y - e.clientY)
@@ -91,7 +91,7 @@ export default wrap(CSSContainer, {
       startHeight,
       dragging: true
     }),
-    endDragging: () => ({dragging: false}),
+    endDragging: () => ({dragging: false})
   }
 }))
 
@@ -116,7 +116,7 @@ function Handle ({props}) {
       boxShadow='z1'
       bgColor='blue'
       circle={w}
-      m={w/-3}
+      m={w / -3}
       {...rest} />
   )
 }

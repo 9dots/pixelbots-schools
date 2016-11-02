@@ -5,7 +5,6 @@
 import {Block, Button, Text} from 'vdux-containers'
 import VideoModal from 'modals/VideoModal'
 import {component, element} from 'vdux'
-import {Icon} from 'vdux-ui'
 
 /**
  * <HomeContent/>

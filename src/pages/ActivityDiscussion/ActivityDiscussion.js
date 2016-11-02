@@ -23,7 +23,7 @@ export default summonChannels(
     const { currentUser, activities, activity, classId } = props
     const {value, loading, loaded} = activities
 
-    if(loading && !loaded) return <Loading show h={200} />
+    if (loading && !loaded) return <Loading show h={200} />
 
     const comments = value.items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
 
@@ -36,7 +36,7 @@ export default summonChannels(
           No one has made any comments yet. Be the first to share!
         </Block>
         {
-          map((comment, i) => <Comment i={i} comment={comment}/>, comments)
+          map((comment, i) => <Comment i={i} comment={comment} />, comments)
         }
         <CommentForm id={activity._id} currentUser={currentUser} classId={classId} />
       </Card>
@@ -82,12 +82,12 @@ function Arrow () {
       <Block
         absolute={{top: 9, right: '100%'}}
         border='10px solid transparent'
-        borderRightColor='#CCC'/>
+        borderRightColor='#CCC' />
       <Block
         absolute={{top: 9, right: '100%'}}
         border='10px solid transparent'
         borderRightColor='off_white'
-        mr={-1}/>
+        mr={-1} />
     </span>
   )
 }

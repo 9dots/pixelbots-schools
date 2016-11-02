@@ -34,9 +34,7 @@ export default component({
         {
           state.open
             ? menu
-            : <Button onClick={actions.toggle} pointer circle={55} boxShadow='card' icon='add' bgColor='blue' fs='m'>
-
-              </Button>
+            : <Button onClick={actions.toggle} pointer circle={55} boxShadow='card' icon='add' bgColor='blue' fs='m' />
         }
       </Block>
     )
@@ -115,9 +113,7 @@ function Close ({props}) {
 
 const AttachButton = wrap(CSSContainer)({
   render ({props, children}) {
-    const {
-      attach, type, text, onClick, icon, color, hover
-    } = props
+    const {text, onClick, icon, color, hover} = props
 
     return (
       <Block
@@ -130,7 +126,7 @@ const AttachButton = wrap(CSSContainer)({
           color={color}
           name={icon}
           fs={42}
-          sq={50}/>
+          sq={50} />
         <Block fs='s' lighter>{text}</Block>
       </Block>
     )

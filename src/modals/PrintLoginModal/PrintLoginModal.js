@@ -10,12 +10,12 @@ import {Button} from 'vdux-containers'
  * Constants
  */
 
- const overlayPrint = {
-   overflow: 'visible',
-   w: '100%',
-   h: 'auto',
-   position: 'relative'
- }
+const overlayPrint = {
+  overflow: 'visible',
+  w: '100%',
+  h: 'auto',
+  position: 'relative'
+}
 
 /**
  * <PrintLoginModal/>
@@ -32,11 +32,11 @@ export default component({
             Cancel
           </Button>
           <Button onClick={actions.print}>
-            <Icon name='print' fs='s' mr='s'/> Print
+            <Icon name='print' fs='s' mr='s' /> Print
           </Button>
         </Block>
-          {
-            user.map((u, i) => <InfoBlock last={user.length === i + 1} user={u}/>)
+        {
+            user.map((u, i) => <InfoBlock last={user.length === i + 1} user={u} />)
           }
       </Modal>
     )

@@ -7,7 +7,6 @@ import QuestionShortAnswer from 'components/QuestionShortAnswer'
 import QuestionPollChoice from 'components/QuestionPollChoice'
 import QuestionChoice from 'components/QuestionChoice'
 import {component, element} from 'vdux'
-import {Block} from 'vdux-ui'
 
 /**
  * <QuestionAttachment/>

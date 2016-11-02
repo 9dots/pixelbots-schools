@@ -24,35 +24,34 @@ export default component({
         {
           opened
             ? <Block
-                highlight='0.03'
-                bgColor='white'
-                p
-                {...rest}
-                {...openedProps}>
-                <BlockInput
-                  autofocus
-                  autocomplete='off'
-                  errorPlacement='top'
-                  placeholder={type + ' Name …'}
-                  name='displayName'
-                  autofocus/>
-                <Block align='start center' mt>
-                  <Button px mr bgColor='grey' text='Cancel' onClick={actions.toggle} disabled={loading}/>
-                  <Button id={path} px text='Create' type='submit' disabled={loading} />
-                </Block>
+              highlight='0.03'
+              bgColor='white'
+              p
+              {...rest}
+              {...openedProps}>
+              <BlockInput
+                autofocus
+                autocomplete='off'
+                errorPlacement='top'
+                placeholder={type + ' Name …'}
+                name='displayName' />
+              <Block align='start center' mt>
+                <Button px mr bgColor='grey' text='Cancel' onClick={actions.toggle} disabled={loading} />
+                <Button id={path} px text='Create' type='submit' disabled={loading} />
               </Block>
+            </Block>
             : <Block
-                onClick={actions.toggle}
-                hoverProps={{highlight: 0.03}}
-                align='start center'
-                bgColor='white'
-                pointer
-                p
-                {...rest}
-                {...closedProps}>
-                <Button bgColor='red' h='32px' w='38px' p='0' mr icon='add' fs='s' disabled={loading}/>
-                New {type}
-              </Block>
+              onClick={actions.toggle}
+              hoverProps={{highlight: 0.03}}
+              align='start center'
+              bgColor='white'
+              pointer
+              p
+              {...rest}
+              {...closedProps}>
+              <Button bgColor='red' h='32px' w='38px' p='0' mr icon='add' fs='s' disabled={loading} />
+              {type}
+            </Block>
         }
       </Form>
     )

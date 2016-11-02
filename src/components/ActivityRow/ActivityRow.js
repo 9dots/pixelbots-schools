@@ -4,11 +4,9 @@
 
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import ActivityCardActions from 'components/ActivityCardActions'
-import {Flex, Block, Card, Text, Image} from 'vdux-ui'
 import {wrap, CSSContainer} from 'vdux-containers'
+import {Flex, Block, Card} from 'vdux-ui'
 import {component, element} from 'vdux'
-import Figure from 'components/Figure'
-import resize from 'lib/resize-image'
 import BgImg from 'components/BgImg'
 import Meta from './Meta'
 
@@ -35,7 +33,7 @@ export default wrap(CSSContainer, {
             <MetaUi activity={activity} currentUser={currentUser} />
           </Flex>
           <Block flex='22%' mr>
-          {
+            {
             image && image.url &&
               <BgImg
                 backgroundPosition='center center'
@@ -82,5 +80,5 @@ export default wrap(CSSContainer, {
  */
 
 function Badge () {
-  return <span/>
+  return <span />
 }

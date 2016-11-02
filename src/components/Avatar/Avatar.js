@@ -18,10 +18,9 @@ const {AVATAR_SERVER} = process.env
  * <Avatar/>
  */
 
-export default imageLoaded(({actor, thumb, avatarUpdates}) => avatarUrl(actor, thumb, avatarUpdates))
-(component({
+export default imageLoaded(({actor, thumb, avatarUpdates}) => avatarUrl(actor, thumb, avatarUpdates))(component({
   render ({props, state, context, actions}) {
-    const {actor, circle, thumb, size, link, isLoaded} = props
+    const {actor, thumb, link, isLoaded} = props
 
     return <Avatar
       hidden={!isLoaded}

@@ -23,7 +23,7 @@ export default summonChannels(({currentUser}) =>
 )(component({
   render ({props}) {
     const {currentUser} = props
-    const {userType, preferences = {}} = currentUser
+    const {preferences = {}} = currentUser
 
     if (!preferences.group_joined) return <Join />
 

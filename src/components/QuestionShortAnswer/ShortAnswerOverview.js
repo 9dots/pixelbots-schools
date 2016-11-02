@@ -33,8 +33,8 @@ const Response = wrap(CSSContainer, {
   hoverProps: {hover: true}
 })({
   render ({props}) {
-  const {responder, focus, hover} = props
-  const {actor, response} = responder
+    const {responder, focus, hover} = props
+    const {actor, response} = responder
 
     return (
       <Block

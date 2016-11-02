@@ -30,7 +30,7 @@ export default summon(props => ({
 }))(component({
   onCreate ({context, props}) {
     const {currentUser} = props
-    const {preferences = {}, userType} = currentUser
+    const {preferences = {}} = currentUser
     const {slideshow = {}} = preferences
 
     if (!slideshow.done) {
@@ -40,17 +40,16 @@ export default summon(props => ({
 
   render ({props}) {
     const {activities, more, currentUser} = props
-    const {preferences = {}, userType} = currentUser
-    const {loaded, value} = activities
+    const {preferences = {}} = currentUser
 
-    if (!preferences.group_joined) return <EmptyFeed  />
+    if (!preferences.group_joined) return <EmptyFeed />
 
     return (
       <Block w='col_main' mt mx='auto'>
         <PageTitle title='Weo' />
         <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
-          <FeedWidgets user={currentUser}/>
-       </TileFeed>
+          <FeedWidgets user={currentUser} />
+        </TileFeed>
       </Block>
     )
   }

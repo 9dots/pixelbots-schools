@@ -4,11 +4,9 @@
 
 import InfiniteScroll from 'components/InfiniteScroll'
 import RoundedInput from 'components/RoundedInput'
-import {Block, Text, Flex, Icon} from 'vdux-ui'
-import Loading from 'components/Loading'
+import {Block, Text, Flex} from 'vdux-ui'
 import {component, element} from 'vdux'
 import isSameDay from '@f/is-same-day'
-import {Button} from 'vdux-containers'
 import reduce from '@f/reduce'
 import moment from 'moment'
 
@@ -20,7 +18,7 @@ export default component({
   render ({props}) {
     const {
       activities = [], more, emptyState, item: Item,
-      itemProps = {}, currentUser, ...rest
+      itemProps = {}, currentUser, search, ...rest
     } = props
     const {value, hasLoaded, loaded, loading, params} = activities
     const searching = !!(params && params.query)
@@ -29,17 +27,17 @@ export default component({
       <InfiniteScroll loading={loading} more={more(value && value.nextPageToken)} {...rest}>
         {
           <RoundedInput
-          hide={!search || !hasLoaded || (!loading && !value.items.length && !searching)}
-          onKeypress={{enter: search}}
-          placeholder='Search your activities...'
-          inputProps={{textAlign: 'left'}}
-          key={props.boardId}
-          type='search'
-          icon='search'
-          right='6px'
-          py='8px'
-          absolute
-          w='242px' />
+            hide={!search || !hasLoaded || (!loading && !value.items.length && !searching)}
+            onKeypress={{enter: search}}
+            placeholder='Search your activities...'
+            inputProps={{textAlign: 'left'}}
+            key={props.boardId}
+            type='search'
+            icon='search'
+            right='6px'
+            py='8px'
+            absolute
+            w='242px' />
         }
         {
           loaded && renderItems(
@@ -81,13 +79,13 @@ function renderItems (items, Item, itemProps, emptyState, currentUser) {
       prevDate = date
     }
 
-    list.push(<Item activity={item} currentUser={currentUser} {...itemProps}/>)
+    list.push(<Item activity={item} currentUser={currentUser} {...itemProps} />)
     return list
   }, [], items)
 }
 
 function startOfDay (date) {
- return (new Date(date)).setHours(0, 0, 0, 0)
+  return (new Date(date)).setHours(0, 0, 0, 0)
 }
 
 /**

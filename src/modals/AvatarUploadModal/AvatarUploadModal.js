@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Text, Block, Flex, Icon, Base} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Text, Block, Icon} from 'vdux-ui'
 import AvatarPickerModal from 'modals/AvatarPickerModal'
 import FileUpload from 'components/FileUpload'
 import Cropper from 'components/Cropper'
@@ -33,8 +33,7 @@ export default summon(props => ({
   })
 }))(component({
   render ({props, actions, context, state}) {
-    const {user} = props
-    const {url, crop, loading} = state
+    const {url, loading} = state
 
     return (
       <Modal onDismiss={context.closeModal}>
@@ -59,7 +58,7 @@ export default summon(props => ({
           </Block>
           <Text fs='xxs'>
             <Text pointer underline onClick={context.closeModal}>cancel</Text>
-             <Text mx>or</Text>
+            <Text mx>or</Text>
           </Text>
           <Button onClick={actions.submit} busy={loading}>Update</Button>
         </ModalFooter>
@@ -72,7 +71,9 @@ export default summon(props => ({
       yield context.openModal(() => <AvatarPickerModal user={props.user} />)
     },
 
-    * submit ({props, actions, context}) {
+    * submit ({props, actions, context, state}) {
+      const {crop} = props
+      const {url} = state
       let uploadUrl = url
 
       yield actions.beginLoading()

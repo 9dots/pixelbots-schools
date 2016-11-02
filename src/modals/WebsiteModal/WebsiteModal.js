@@ -2,12 +2,10 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
-import {Button, Input} from 'vdux-containers'
-import {website} from 'lib/schemas/user'
 import {component, element} from 'vdux'
-import Schema from '@weo-edu/schema'
+import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
@@ -23,7 +21,7 @@ export default summon(({user}) => ({
       invalidates: `/user/${user._id}`,
       body: {
         ...user,
-        website: /^https?\:\/\//.test(website)
+        website: /^https?:\/\//.test(website)
           ? website
           : website ? 'http://' + website : ''
       }
@@ -42,7 +40,7 @@ export default summon(({user}) => ({
             <ModalHeader>
               Website
             </ModalHeader>
-            <RoundedInput name='website' defaultValue={website} placeholder='http://…' w='250px' m autofocus inputProps={{textAlign: 'left'}}/>
+            <RoundedInput name='website' defaultValue={website} placeholder='http://…' w='250px' m autofocus inputProps={{textAlign: 'left'}} />
           </Flex>
           <ModalFooter bg='grey'>
             <Text fs='xxs'>

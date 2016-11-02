@@ -17,32 +17,32 @@ import {Block} from 'vdux-ui'
 export default summonChannels(
   ({currentUser}) => `user!${currentUser._id}.notifications`, {
     markRead: () => ({
-      markingRead:  {
+      markingRead: {
         url: '/user/notifications',
         invalidates: '/user',
         method: 'DELETE'
       }
-  })
-})(component({
-  onCreate({props}) {
-    return props.markRead()
-  },
+    })
+  })(component({
+    onCreate ({props}) {
+      return props.markRead()
+    },
 
-  render ({props}) {
-    return (
-      <Block>
-        <PageTitle title='Notifications | Weo' />
-        <RowFeed
-          item={StreamActivity}
-          w='col_xl'
-          mt='l'
-          mx='auto'
-          {...props}
-          search={false}
-          emptyState={<EmptyState wide icon='cast' color='red_medium'>You have no notifications</EmptyState>}
+    render ({props}) {
+      return (
+        <Block>
+          <PageTitle title='Notifications | Weo' />
+          <RowFeed
+            item={StreamActivity}
+            w='col_xl'
+            mt='l'
+            mx='auto'
+            {...props}
+            search={false}
+            emptyState={<EmptyState wide icon='cast' color='red_medium'>You have no notifications</EmptyState>}
            />
           }
-      </Block>
+        </Block>
     )
-  }
-}))
+    }
+  }))

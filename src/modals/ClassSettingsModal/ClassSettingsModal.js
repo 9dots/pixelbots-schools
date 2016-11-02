@@ -26,7 +26,7 @@ export default summon(({group}) => ({
   })
 }))(component({
   render ({props, context, actions}) {
-    const {renameClass, renaming = {}, group, isCurrentClass} = props
+    const {renameClass, renaming = {}, group} = props
 
     return (
       <Modal onDismiss={context.closeModal}>

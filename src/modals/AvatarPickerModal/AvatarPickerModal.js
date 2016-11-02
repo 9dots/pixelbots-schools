@@ -58,9 +58,10 @@ component({
     const {loading} = changingAvatar
     const {page} = state
 
-    let extras = [{url: 'letters', name: 'letters'}]
-    if(user.userType === 'teacher')
+    const extras = [{url: 'letters', name: 'letters'}]
+    if (user.userType === 'teacher') {
       extras.unshift({url: 'upload', name: 'upload'})
+    }
 
     const avatars = reduce((avatars, url, name) => {
       avatars.push({
@@ -71,9 +72,8 @@ component({
     }, extras, avatarMap)
 
     const pageSize = 12
-    numPages =  Math.ceil(avatars.length / pageSize)
+    numPages = Math.ceil(avatars.length / pageSize)
     const curAvatars = avatars.slice(page * pageSize, (page + 1) * pageSize)
-
 
     return (
       <Modal onDismiss={context.closeModal}>
@@ -102,15 +102,15 @@ component({
         </ModalBody>
         <ModalFooter bg='grey'>
           <Block flex align='start center'>
-            <Button bgColor='black' icon='keyboard_arrow_left' mr='s' fs='s' h='30px' px='25' onClick={actions.prev} disabled={page == 0}/>
-            <Button bgColor='black' icon='keyboard_arrow_right' mr fs='s' h='30px' px='25' onClick={actions.next} disabled={page == (numPages - 1)}/>
+            <Button bgColor='black' icon='keyboard_arrow_left' mr='s' fs='s' h='30px' px='25' onClick={actions.prev} disabled={page === 0} />
+            <Button bgColor='black' icon='keyboard_arrow_right' mr fs='s' h='30px' px='25' onClick={actions.next} disabled={page === (numPages - 1)} />
             <Flex>
               { dots(page, actions, numPages) }
             </Flex>
           </Block>
           <Text fs='xxs'>
             <Text pointer underline onClick={context.closeModal}>cancel</Text>
-             <Text mx>or</Text>
+            <Text mx>or</Text>
           </Text>
           <Button type='submit' busy={loading}>Update</Button>
         </ModalFooter>
@@ -121,7 +121,7 @@ component({
   reducer: {
     next: state => ({page: Math.min(state.page + 1, (numPages - 1))}),
     prev: state => ({page: Math.max(state.page - 1, 0)}),
-    go: (state, page) => ({page: i})
+    go: (state, page) => ({page})
   }
 })))
 
@@ -132,7 +132,7 @@ component({
 function dots (page, actions, numPages) {
   const arr = Array.apply(null, Array(numPages))
   return (
-    arr.map((_, i) => <Block pointer circle='5' bgColor={page == i ? 'white' : 'rgba(255,255,255,.5)'} ml='s' onClick={actions.go(i)}></Block>)
+    arr.map((_, i) => <Block pointer circle='5' bgColor={page === i ? 'white' : 'rgba(255,255,255,.5)'} ml='s' onClick={actions.go(i)} />)
   )
 }
 

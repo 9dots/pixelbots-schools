@@ -40,7 +40,7 @@ css({
       `url('${eot}?#iefix') format('embedded-opentype')`,
       `url('${woff}') format('woff')`,
       `url('${ttf}') format('truetype')`,
-      `url('${svg}') format('svg')`,
+      `url('${svg}') format('svg')`
     ].join(',')
   }
 }, {named: false})

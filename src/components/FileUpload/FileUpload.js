@@ -37,7 +37,6 @@ export default component({
         border='1px dashed grey_light'
         bgColor='off_white'
         fs='m'
-        relative
         lighter
         mx='auto'
         uploading={uploading}
@@ -50,14 +49,13 @@ export default component({
   },
 
   events: {
-    * upload ({props, state, actions}, e) {
+    * upload ({props, state, actions, context}, e) {
       const {onUpload = noop, validate = () => ({valid: true})} = props
-      const {progress} = state
 
       const file = e._rawEvent.target.files[0]
       const {valid, message} = validate(file)
 
-      if (! valid) {
+      if (!valid) {
         yield actions.uploadError(message)
         return
       }
@@ -68,7 +66,7 @@ export default component({
       const url = yield context.uploadFile(file, progress => actions.uploadProgress({n, progress}))
 
       yield actions.uploadEnd(n)
-      yield props.onUpload({
+      yield onUpload({
         name: file.name,
         url
       })

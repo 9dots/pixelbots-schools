@@ -13,22 +13,22 @@ import {Button} from 'vdux-containers'
  */
 
 export default component({
-  render ({props}) {
+  render ({props, actions}) {
     const {group} = props
 
-    return(
+    return (
       <Block p textAlign='center'>
-        <Icon name='people' fs='xxl' color='green'/>
+        <Icon name='people' fs='xxl' color='green' />
         <Block my fs='m' lighter>
           Your class has no students
         </Block>
         <Block align='center center' my='l'>
-          <Button fs='s' lighter py  boxShadow='z2' bgColor='green' mr onClick={actions.inviteStudentsModal}>
-            <Icon name='send' mr='s' fs='s'/>
+          <Button fs='s' lighter py boxShadow='z2' bgColor='green' mr onClick={actions.inviteStudentsModal}>
+            <Icon name='send' mr='s' fs='s' />
             Invite Students
           </Button>
           <Button fs='s' lighter py boxShadow='z2' onClick={actions.addStudentModal}>
-            <Icon name='person_add' mr='s' fs='s'/>
+            <Icon name='person_add' mr='s' fs='s' />
             Add Students
           </Button>
         </Block>
@@ -49,7 +49,7 @@ export default component({
     },
 
     * inviteStudentsModal ({props, context}) {
-      yield context.openModal(() => <InviteStudentsModal group={props.group}  />)
+      yield context.openModal(() => <InviteStudentsModal group={props.group} />)
     }
   }
 })

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
@@ -14,9 +14,12 @@ import Form from 'vdux-form'
  */
 
 export default summon(({user, group}) => {
-  let invalidates = ['/user', `/user/${user._id}`]
-  if(group)
+  const invalidates = ['/user', `/user/${user._id}`]
+
+  if (group) {
     invalidates.push(`/group/students?group=${group._id}`)
+  }
+
   return {
     changeId: body => ({
       changingId: {

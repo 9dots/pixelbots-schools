@@ -6,9 +6,9 @@ import InfiniteScroll from 'components/InfiniteScroll'
 import EmptyState from 'components/EmptyState'
 import summonSearch from 'lib/summon-search'
 import BoardTile from 'components/BoardTile'
-import {Grid, Block, Text} from 'vdux-ui'
 import {component, element} from 'vdux'
 import Link from 'components/Link'
+import {Grid, Text} from 'vdux-ui'
 import map from '@f/map'
 
 /**
@@ -55,7 +55,7 @@ function EmptySearch ({props}) {
   return (
     <EmptyState icon='dashboard' color='blue'>
       Sorry, we couldn't find any boards for <Text bold>{query}</Text>
-      <br/>
+      <br />
       Be the first to&nbsp;
       <Link
         href={`/${currentUser.username}/boards`}

@@ -2,10 +2,9 @@
  * Imports
  */
 
-import {Modal, ModalFooter, Block, Base} from 'vdux-ui'
+import {Modal, ModalFooter, Block} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
 import FileUpload from 'components/FileUpload'
-import DropZone from 'components/DropZone'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
@@ -25,7 +24,7 @@ export default summon(() => ({
   })
 }))(component({
   render ({props, context, actions}) {
-    const {type, onAccept, scrapeMedia, scraping = {}} = props
+    const {type, scraping = {}} = props
     const uploadable = type === 'document' || type === 'image' || type === 'file'
 
     return (
@@ -37,7 +36,7 @@ export default summon(() => ({
           {
              uploadable
               ? <FileUpload onDrop={{handler: actions.onDrop}} onUpload={actions.done} message={<Upload loading={scraping.loading} {...props} onSubmit={actions.done} />} align='center center' wide {...props} />
-              : <ScrapeFile {...props} loading={scraping.loading} onSubmit={done} />
+              : <ScrapeFile {...props} loading={scraping.loading} onSubmit={actions.done} />
           }
         </Block>
         <ModalFooter mt={0} bg='grey'>
@@ -76,13 +75,12 @@ export default summon(() => ({
  */
 
 function ScrapeFile ({props}) {
-
   return (
     <Block column align='center center' wide>
       <Block mb='l' fs='s' lighter>
         Paste your link below.
       </Block>
-      <MediaInput mb={40} {...props}/>
+      <MediaInput mb={40} {...props} />
     </Block>
   )
 }
@@ -92,8 +90,6 @@ function ScrapeFile ({props}) {
  */
 
 function Upload ({props}) {
-  const {onUpload} = props
-
   return (
     <Block flex textAlign='center'>
       Drag File or Click Here
@@ -123,7 +119,7 @@ const MediaInput = component({
           autofocus
           lighter
           fs='s'
-          mb={0}/>
+          mb={0} />
         <Button borderRadius='0' type='submit' busy={loading}>
           Submit
         </Button>

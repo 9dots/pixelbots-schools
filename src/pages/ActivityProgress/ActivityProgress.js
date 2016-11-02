@@ -9,7 +9,6 @@ import ActivityProgressActions from './ActivityProgressActions'
 import ActivityProgressRow from './ActivityProgressRow'
 import EmptyState from 'components/EmptyState'
 import summonPrefs from 'lib/summon-prefs'
-import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
 import index from '@f/index'
 
@@ -20,23 +19,21 @@ import index from '@f/index'
 export default summonPrefs()(
   form(({students}) => ({
     fields: ['selected']
-  }))(component({
+  }))(
+component({
   render ({props, context, actions}) {
     const {
-      activity, students, currentUser, setStatus,
-      settingStatus, setPref, prefs, toggleAll, fields,
-      instances, classId
-    } = props
+    activity, students, setStatus, settingStatus, prefs,
+    toggleAll, fields, instances, classId
+  } = props
     const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
 
-    const actors = (activity.instances.total[0] || {}).actors || {}
-    const val = Object.keys(actors).filter(k => actors[k].status === 5)
     const instanceList = combineInstancesAndStudents(activity, students, instances)
-      .sort(activitySort(sort))
+    .sort(activitySort(sort))
 
     const headProps = {sort, setSort: actions.setSort, lighter: true, p: true}
 
-    // Multi Select Variables
+  // Multi Select Variables
     const instanceIds = index(({instanceId}) => instanceId, instanceList)
     const selected = (fields.selected.value || []).filter(id => instanceIds[id])
     const selMap = index(selected)
@@ -49,11 +46,11 @@ export default summonPrefs()(
           settingStatus={settingStatus}
           setStatus={setStatus}
           activity={activity}
-          selected={selected}/>
+          selected={selected} />
         <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
           <TableRow bgColor='grey' color='white'>
             <TableHeader {...headProps}>
-              <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')}/>
+              <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
             </TableHeader>
             <SortHead {...headProps} prop='givenName' text='First' />
             <SortHead {...headProps} prop='familyName' text='Last' />
@@ -63,28 +60,28 @@ export default summonPrefs()(
             <TableHeader {...headProps} />
           </TableRow>
           {
-            instanceList.length
-            ? instanceList.map(instance =>
-                <ActivityProgressRow
-                  selected={!!selMap[instance.instanceId]}
-                  instance={instance}
-                  activityId={activity._id}/>
-              )
-            : <tr>
-                <EmptyState tag='td' icon='person' color='green' colspan='100' pb='l'>
-                  <Block>
-                  You must add students to your class in order to view results.
-                  </Block>
-                  <Button onClick={context.setUrl(`/class/${classId}/students`)} fs='s' lighter py  boxShadow='z2' bgColor='green' mt='l'>
-                    <Icon name='person_add' mr='s' fs='s'/>
-                    Add Students
-                  </Button>
-                </EmptyState>
-              </tr>
-          }
+          instanceList.length
+          ? instanceList.map(instance =>
+            <ActivityProgressRow
+              selected={!!selMap[instance.instanceId]}
+              instance={instance}
+              activityId={activity._id} />
+            )
+          : <tr>
+            <EmptyState tag='td' icon='person' color='green' colspan='100' pb='l'>
+              <Block>
+                You must add students to your class in order to view results.
+              </Block>
+              <Button onClick={context.setUrl(`/class/${classId}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
+                <Icon name='person_add' mr='s' fs='s' />
+                  Add Students
+              </Button>
+            </EmptyState>
+          </tr>
+        }
         </Table>
       </Block>
-    )
+  )
   },
 
   events: {
@@ -102,10 +99,10 @@ export default summonPrefs()(
  */
 
 const SortHead = wrap(CSSContainer, {
-    hoverProps: {
-      hover: true
-    }
-  })({
+  hoverProps: {
+    hover: true
+  }
+})({
   render ({props}) {
     const {hover, sort, prop, text, setSort, ...rest} = props
 
@@ -119,7 +116,7 @@ const SortHead = wrap(CSSContainer, {
             name={'arrow_drop_' + (sort.dir === 1 ? 'down' : 'up')}
             hidden={sort.property !== prop}
             ml='s'
-            fs='s'/>
+            fs='s' />
         </Block>
       </TableHeader>
     )

@@ -3,8 +3,8 @@
  */
 
 import {component, element} from 'vdux'
-import {Block, Input} from 'vdux-ui'
 import extend from '@f/extend'
+import {Block} from 'vdux-ui'
 
 /**
  * <DropZone/>
@@ -17,9 +17,8 @@ export default component({
       : props
 
     const {
-      accepts = [], dragonProps, message, uploading,
-      onDragOver, onDragEnter, onDragLeave, onDrop,
-      ...rest
+      message, uploading, onDragOver, onDragEnter,
+      onDragLeave, onDrop, ...rest
     } = mergedProps
 
     const {acceptTypes, over, leave} = actions

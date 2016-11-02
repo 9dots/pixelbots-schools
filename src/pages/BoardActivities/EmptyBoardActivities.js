@@ -13,34 +13,34 @@ import {Block, Text} from 'vdux-ui'
  */
 
 export default component({
-  render({props}) {
-    const {isOwner, currentUser} = props
+  render ({props, actions}) {
+    const {isOwner} = props
 
     return (
       <EmptyState icon='dashboard' color='green'>
         {
           isOwner
             ? <Block>
-                <Block fs='m'>This is your Board</Block>
-                <Button
-                  onClick={actions.createActivity}
-                  bgColor='green'
-                  boxShadow='z2'
-                  color='white'
-                  px='35px'
-                  lighter
-                  h='3em'
-                  fs='s'
-                  my='l'>
+              <Block fs='m'>This is your Board</Block>
+              <Button
+                onClick={actions.createActivity}
+                bgColor='green'
+                boxShadow='z2'
+                color='white'
+                px='35px'
+                lighter
+                h='3em'
+                fs='s'
+                my='l'>
                   Add My First Activity
-                </Button>
-                <Block>
-                  <Text bold>Boards </Text> are collections of Activities. Save Activities to Boards to keep them organized and easy to find.
-                </Block>
+              </Button>
+              <Block>
+                <Text bold>Boards </Text> are collections of Activities. Save Activities to Boards to keep them organized and easy to find.
               </Block>
+            </Block>
             : <Block>
                 This Board has no Activities yet.
-              </Block>
+            </Block>
         }
       </EmptyState>
     )

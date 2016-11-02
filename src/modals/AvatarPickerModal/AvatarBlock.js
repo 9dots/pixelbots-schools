@@ -16,8 +16,8 @@ export default wrap(CSSContainer, {
     hovered: true
   }
 })(component({
-  render ({props}) {
-    const {avatar, hovered, checked, user, toggleUpload} = props
+  render ({props, actions}) {
+    const {avatar, hovered, checked} = props
     let url = avatar
 
     if (avatar === 'upload') {

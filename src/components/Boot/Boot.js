@@ -29,7 +29,6 @@ export default component({
   },
 
   getContext ({state, actions}) {
-    const {updateAvatar} = actions
     const {media, authToken, currentUrl, avatarUpdates} = state
 
     return {
@@ -45,7 +44,7 @@ export default component({
   render ({props, state}) {
     return state.authToken !== undefined
       ? <App {...state} {...props} />
-      : <span/>
+      : <span />
   },
 
   middleware: [
@@ -80,13 +79,13 @@ export default component({
     * postLogin ({actions}, user) {
       yield actions.setAuthToken(user.token)
       yield invalidate('/user')
-      yield setUrl('/')
+      yield actions.setUrl('/')
     },
 
     * toast ({actions}, fn, time = 4500) {
       yield actions.showToast(fn)
       yield sleep(time)
-      yield hideToast()
+      yield actions.hideToast()
     },
 
     * setUrl (model, url, replace) {

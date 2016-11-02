@@ -3,6 +3,7 @@
  */
 
 import PageTitle from 'components/PageTitle'
+import FourOhFour from 'pages/FourOhFour'
 import AppLayout from 'layouts/AppLayout'
 import {component, element} from 'vdux'
 import maybeOver from '@f/maybe-over'
@@ -17,8 +18,7 @@ export default summon(({boardId}) => ({
   board: `/group/${boardId}`
 }))(component({
   render ({props, children}) {
-    const {user, currentUser, board} = props
-    const {value, loading, error} = board
+    const {currentUser, board} = props
 
     return (
       <AppLayout {...props}>
@@ -37,7 +37,7 @@ function internal ({value, loading, error}, currentUser, children) {
   if (error) return <FourOhFour />
 
   return [
-    <Header value={value} currentUser={currentUser}/>,
+    <Header value={value} currentUser={currentUser} />,
     <PageTitle title={`${value.displayName} | Board`} />,
     maybeOver(value, children)
   ]

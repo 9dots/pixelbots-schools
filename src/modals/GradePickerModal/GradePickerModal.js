@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalHeader, ModalFooter, Flex, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalHeader, ModalFooter, Flex, Text} from 'vdux-ui'
 import GradeSelector from 'components/GradeSelector'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
@@ -58,7 +58,7 @@ export default summon(({user}) => ({
   events: {
     * close ({context, props}) {
       yield context.closeModal()
-      if (props.onClose) yield onClose()
+      if (props.onClose) yield props.onClose()
     }
   },
 

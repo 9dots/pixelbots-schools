@@ -2,10 +2,9 @@
  * Imports
  */
 
-import {Dropdown, Button, MenuItem, Tooltip, Toggle} from 'vdux-containers'
+import {Button, Tooltip, Toggle} from 'vdux-containers'
 import {component, element} from 'vdux'
 import {Block, Icon} from 'vdux-ui'
-import summon from 'vdux-summon'
 
 /**
  * Constants
@@ -36,10 +35,10 @@ export default component({
           <Block align='start center'>
             <Button hide={!allowExport} px mr='s' bgColor='blue' onClick={exportAll}>
               Export to CSV
-                <Icon name='file_download' fs='xs' ml='s' />
+              <Icon name='file_download' fs='xs' ml='s' />
             </Button>
             <Toggle onClick={setPref('gradebook.displayPercent', !asPercent)} checked={asPercent}
-            label='Display as Percentages' />
+              label='Display as Percentages' />
           </Block>
           <Tooltip
             message='Student scores will only show up after you return their Activities to them'
@@ -59,7 +58,7 @@ export default component({
           <Button mr {...navProps} onClick={prev} disabled={page === 0}>
             <Icon name='navigate_before' fs={19} />
           </Button>
-          <Button {...navProps} onClick={next} disabled={page+1 === numPages}>
+          <Button {...navProps} onClick={next} disabled={page + 1 === numPages}>
             <Icon name='navigate_next' fs={19} />
           </Button>
         </Block>

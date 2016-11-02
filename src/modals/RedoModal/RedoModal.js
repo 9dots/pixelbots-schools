@@ -2,9 +2,8 @@
  * Imports
  */
 
-import {Modal, ModalHeader, ModalBody, ModalFooter, Block, Text, Icon} from 'vdux-ui'
+import {Modal, ModalHeader, ModalBody, ModalFooter, Text, Icon} from 'vdux-ui'
 import {form, Button, Toggle, Tooltip} from 'vdux-containers'
-import BlockInput from 'components/BlockInput'
 import {component, element} from 'vdux'
 import summon from 'vdux-summon'
 

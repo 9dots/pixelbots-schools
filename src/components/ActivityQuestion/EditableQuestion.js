@@ -3,7 +3,6 @@
  */
 
 import QuestionAttachment from 'components/QuestionAttachment'
-import QuestionComments from 'components/QuestionComments'
 import ObjectControls from 'components/ObjectControls'
 import MarkdownHelper from 'components/MarkdownHelper'
 import LineTextarea from 'components/LineTextarea'
@@ -11,7 +10,7 @@ import QuestionTypeMenu from './QuestionTypeMenu'
 import {Button, Toggle} from 'vdux-containers'
 import {Block, Badge, Icon} from 'vdux-ui'
 import {component, element} from 'vdux'
-import summon from 'vdux-summon'
+import sleep from '@f/sleep'
 import map from '@f/map'
 
 /**
@@ -27,7 +26,7 @@ const highlightProps = {opacity: 1}
 
 export default component({
   render ({props, actions}) {
-    const {object, idx,  onEdit, selectObject, isSelected, ...rest} = props
+    const {object, idx, selectObject, isSelected, ...rest} = props
     const {poll, attachments = [], originalContent, randomize} = object
     const type = attachments[0] && attachments[0].objectType
     const isMultipleChoice = !poll && type === 'choice'
@@ -79,7 +78,7 @@ export default component({
                       pill
                       mr>
                       <Block align='start center' flex>
-                        <Icon ml={-6} mr align='center center' name='add' sq={21} fs='s' color='white'/>
+                        <Icon ml={-6} mr align='center center' name='add' sq={21} fs='s' color='white' />
                         <Block bg='white' h={32} lh='32px' px fs='s' color='grey_medium' lighter flex mr={6} border='1px solid rgba(black, .1)' textAlign='left' cursor='text'>
                           Add Choice
                         </Block>
@@ -101,7 +100,7 @@ export default component({
           </Block>
         </Block>
         <ObjectControls {...props}>
-          <QuestionTypeMenu mx object={object} attach={attach} />
+          <QuestionTypeMenu mx object={object} attach={actions.attach} />
           {
             isMultipleChoice &&
               <Toggle
@@ -109,7 +108,7 @@ export default component({
                 label='Shuffle Choice Order'
                 checked={randomize}
                 w={350}
-                ml/>
+                ml />
           }
           {
             type === 'shortAnswer' &&
@@ -118,7 +117,7 @@ export default component({
                 label='Case Sensitive'
                 checked={object.attachments[0].caseSensitive}
                 w={350}
-                ml/>
+                ml />
           }
         </ObjectControls>
       </Block>
@@ -190,7 +189,7 @@ export default component({
       const id = yield context.generateObjectId()
 
       let correctAnswer = []
-      if(removeAll) {
+      if (removeAll) {
         correctAnswer = type === 'choice' && !poll
           ? [id]
           : type === 'shortAnswer' ? ['Answer 1'] : []
@@ -262,8 +261,9 @@ export default component({
 function findParent (node) {
   let p = node
 
-  while ((p = p.parentNode) && p.className.indexOf('choice-container') === -1)
+  while ((p = p.parentNode) && p.className.indexOf('choice-container') === -1) {
     ;
+  }
 
   return p
 }

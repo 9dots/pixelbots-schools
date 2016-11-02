@@ -2,7 +2,6 @@
  * Imports
  */
 
-import {Table, TableRow, Block, Icon} from 'vdux-ui'
 import {totalPoints} from 'lib/activity-helpers'
 import summonChannels from 'lib/summon-channels'
 import GradebookHeader from './GradebookHeader'
@@ -13,6 +12,7 @@ import GradebookRow from './GradebookRow'
 import Loading from 'components/Loading'
 import {component, element} from 'vdux'
 import findIndex from '@f/find-index'
+import {Table, Block} from 'vdux-ui'
 import getProp from '@f/get-prop'
 import reduce from '@f/reduce'
 import toCsv from 'to-csv'
@@ -35,11 +35,11 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
   },
 
   render ({props, actions, state}) {
-    const {group, students, activities, currentUser, setPref, prefs} = props
+    const {activities, currentUser, setPref} = props
     const {page} = state
-    const {value, loading, loaded} = activities
+    const {loading, loaded} = activities
 
-    if (!loaded && loading) return <Loading show={true} h='200' />
+    if (!loaded && loading) return <Loading show h='200' />
 
     const {
       totals, sort, displayPercent, activityList,
@@ -58,11 +58,11 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
                 scores={curArr(usersData[i].scores)}
                 asPercent={displayPercent}
                 student={student}
-                odd={i%2}
+                odd={i % 2}
                 page={page}
                 allowExport={allowExport}
                 currentUser={currentUser}
-                last={studentList.length === (i+1)} />, studentList)
+                last={studentList.length === (i + 1)} />, studentList)
             }
           </Table>
         </Block>
@@ -71,15 +71,6 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
 
     function curArr (arr) {
       return arr.slice(page * pageSize, (page + 1) * pageSize)
-    }
-
-    function cmp (a, b) {
-      if(!sort) return
-      const {property, dir} = sort
-
-      return getProp(property, a).toUpperCase() > getProp(property, b).toUpperCase()
-        ? 1 * dir
-        : -1 * dir
     }
   },
 
@@ -97,7 +88,7 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
   events: {
     exportAll ({props}) {
       const {group} = props
-      const {activityList, usersData, studentList} = deriveData(props)
+      const {activityList, usersData, studentList, displayPercent} = deriveData(props)
 
       const headers = ['Id', 'Name', 'Total', ...activityList.map(({displayName}) => displayName)]
       const content = map((user, i) => [
@@ -116,8 +107,7 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
     },
 
     exportActivity ({props}, activity) {
-      const {group} = props
-      const {activityList, usersData, studentList} = deriveData(props)
+      const {activityList, usersData, studentList, displayPercent} = deriveData(props)
 
       const idx = findIndex(activityList, ({_id}) => _id === activity._id)
       const headers = ['Id', 'Name', 'Grade']
@@ -153,14 +143,16 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
  */
 
 function deriveData (props) {
-  const {group, students, activities, currentUser, setPref, prefs} = props
+  const {students, activities, currentUser, prefs} = props
+  const {value} = activities
+
   const totals = []
   const sort = prefs.gradebookSort || {property: 'name.givenName', dir: 1}
   const displayPercent = getProp('gradebook.displayPercent', prefs)
   const activityList = value.items.filter(activity => {
     const total = totalPoints(activity)
 
-    if(total) {
+    if (total) {
       totals.push(total)
       return true
     }
@@ -180,6 +172,15 @@ function deriveData (props) {
     studentList,
     usersData,
     allowExport
+  }
+
+  function cmp (a, b) {
+    if (!sort) return
+    const {property, dir} = sort
+
+    return getProp(property, a).toUpperCase() > getProp(property, b).toUpperCase()
+      ? 1 * dir
+      : -1 * dir
   }
 }
 

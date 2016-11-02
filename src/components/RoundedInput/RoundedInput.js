@@ -16,7 +16,7 @@ export default component({
         cursor='text'
         fs='xs'
         border='1px solid rgba(75, 82, 87, 0.15)'
-        pill={true}
+        pill
         px='20'
         py='10'
         boxShadow='0 0'
@@ -30,7 +30,7 @@ export default component({
           background: 'transparent',
           textAlign: 'center',
           ...(props.inputProps || {})
-        }}/>
+        }} />
     )
   }
 })

@@ -7,7 +7,6 @@ import ActivitySidebar from 'components/ActivitySidebar'
 import ShareDropdown from './ShareDropdown'
 import Activity from 'components/Activity'
 import {Block, Card, Icon} from 'vdux-ui'
-import WeoIcon from 'components/WeoIcon'
 import {component, element} from 'vdux'
 
 /**
@@ -24,11 +23,11 @@ export default component({
         <Block align='end start'>
           <Card w={756} mb='l' mr relative printProps={{mb: 0, boxShadow: '0 0 0'}}>
             <Block absolute right top m={8} align='start center' printProps={{hide: true}}>
-              <ShareDropdown activity={activity} btn={() => <DDButton icon='share' mr='s'  />} />
+              <ShareDropdown activity={activity} btn={() => <DDButton icon='share' mr='s' />} />
               <PrintDropdown setPrintAns={actions.setPrintAns} />
             </Block>
             <Activity
-              showAnswers={true}
+              showAnswers
               selectedObject={selectedObject}
               selectObject={selectObject}
               showAnswersOnPrint={state.printAnswers}
@@ -41,7 +40,7 @@ export default component({
           <Block w={200} relative fixed={{top: 53}} printProps={{hide: true}}>
             <ActivitySidebar activity={activity} currentUser={currentUser} selectObject={selectObject} selectedObject={selectedObject} />
           </Block>
-          <Block printProps={{hide: true}} w={200}/>
+          <Block printProps={{hide: true}} w={200} />
         </Block>
       </Block>
     )
@@ -56,15 +55,15 @@ export default component({
  * <DDButton/>
  */
 
-function DDButton({props}) {
-  return(
+function DDButton ({props}) {
+  return (
     <Button
       activeProps={{bgColor: 'rgba(black, .15)'}}
       hoverProps={{bgColor: 'rgba(black, .1)'}}
       color='text'
       circle={30}
       fs='s'
-      {...props}/>
+      {...props} />
   )
 }
 

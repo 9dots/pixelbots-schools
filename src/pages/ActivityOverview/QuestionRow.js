@@ -14,7 +14,7 @@ import {Block, Card, Flex, Icon} from 'vdux-ui'
 export default component({
   render ({props}) {
     return (
-      <Question  {...props} />
+      <Question {...props} />
     )
   }
 })
@@ -32,7 +32,7 @@ const Question = wrap(CSSContainer, {
     // Prevent division by zero
     const average = Math.round((total / (numAnswered || 1)) * 10) / 10
     const headerProps = {
-      highlight: hover || expanded ? .03 : 0,
+      highlight: hover || expanded ? 0.03 : 0,
       boxShadow: expanded ? '0 0 0' : 'card',
       align: 'start center',
       borderBottom: '1px solid off_white',
@@ -45,16 +45,16 @@ const Question = wrap(CSSContainer, {
         <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'z2' : '0 0 0'} onClick={[props.toggle, {stopPropagation: true}]}>
           <Flex fs='s' lighter wide pointer>
             <Card {...headerProps} ellipsis flex>
-              <Block>{i+1}.</Block>
+              <Block>{i + 1}.</Block>
               <Icon name={questionIcon(question)} fs='s' mx />
               <Block ellipsis flex>{displayName}</Block>
             </Card>
             <Card {...headerProps} ml={expanded ? 0 : 12} minWidth={138}>
-              <Block circle='7' bg={getColor(average / max)} mr='16' hide={poll}/>
+              <Block circle='7' bg={getColor(average / max)} mr='16' hide={poll} />
               <Block flex>
                 {poll ? '–' : average + ' / ' + max}
               </Block>
-              <Icon name={`expand_${expanded ? 'less' : 'more'}`}  ml='s' fs='s' />
+              <Icon name={`expand_${expanded ? 'less' : 'more'}`} ml='s' fs='s' />
             </Card>
           </Flex>
           {
@@ -75,7 +75,7 @@ const Question = wrap(CSSContainer, {
  */
 
 function getColor (average) {
-  return average < .6
+  return average < 0.6
     ? 'red'
-    : average < .8 ? 'yellow' : 'green'
+    : average < 0.8 ? 'yellow' : 'green'
 }

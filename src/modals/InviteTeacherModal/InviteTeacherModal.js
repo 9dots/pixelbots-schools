@@ -25,7 +25,7 @@ export default summon(props => ({
   })
 }))(component({
   render ({props, context, actions}) {
-    const {sendInvite, sendingInvites = {}} = props
+    const {sendingInvites = {}} = props
     const {loading} = sendingInvites
 
     return (

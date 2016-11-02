@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {Button, Text, Block, Tooltip} from 'vdux-containers'
 import SubjectSelector from 'components/SubjectSelector'
+import {Button, Text, Tooltip} from 'vdux-containers'
 import GradeSelector from 'components/GradeSelector'
 import {Flex, Icon, ModalHeader} from 'vdux-ui'
 import {component, element} from 'vdux'
@@ -76,7 +76,7 @@ export default summon(({currentUser}) => ({
   },
 
   render ({props, state, actions, context}) {
-    const {cur, finishedIntroModal, saveGrades, saveSubjects, savingSubjects, savingPreference} = props
+    const {saveGrades, savingSubjects, savingPreference} = props
     const {isDone, grades, subjects} = state
 
     return (
@@ -104,7 +104,7 @@ export default summon(({currentUser}) => ({
           <Tooltip message={!subjects.length && 'Please select one or more subjects'} {...ttProps}>
             <Button {...btnProps} onClick={actions.submit} disabled={!subjects.length} busy={(savingSubjects || savingPreference || {}).loading}>
               <Flex align='center center' fw='lighter'>
-                <Icon name='check' mr/>
+                <Icon name='check' mr />
                 Let's Get Started
               </Flex>
             </Button>

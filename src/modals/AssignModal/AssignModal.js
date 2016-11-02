@@ -2,9 +2,9 @@
  * Imports
  */
 
-import {Toast, Modal, ModalBody, ModalFooter, ModalHeader, Block, Text, Flex} from 'vdux-ui'
+import {Toast, Modal, ModalFooter, ModalHeader, Block, Text, Flex} from 'vdux-ui'
 import ActivityTileModaled from 'components/ActivityTileModaled'
-import {Button, Input, form} from 'vdux-containers'
+import {Button, form} from 'vdux-containers'
 import ClassSelect from './ClassSelect'
 import {component, element} from 'vdux'
 import Link from 'components/Link'
@@ -76,35 +76,35 @@ export default summon(props => ({
       )
     }
   }))(component({
-  render ({props, context}) {
-    const {activity, classes, fields, createClass, creatingClass = {}, assigning = {}, copyingActivity = {}} = props
-    const {value, loaded} = classes
-    const selected = fields.selected.value || []
-    const loading = assigning.loading || copyingActivity.loading
+    render ({props, context}) {
+      const {activity, classes, fields, createClass, creatingClass = {}, assigning = {}, copyingActivity = {}} = props
+      const {value, loaded} = classes
+      const selected = fields.selected.value || []
+      const loading = assigning.loading || copyingActivity.loading
 
-    if (! loaded) return <span/>
+      if (!loaded) return <span />
 
-    return (
-      <Modal onDismiss={context.closeModal} w='620' bgColor='grey_light'>
-        <Flex>
-          <Block flex align='center center' py px='l'>
-            <ActivityTileModaled activity={activity} intent='assign' />
-          </Block>
-          <Flex column bg='white' flex boxShadow='-1px 0 1px 0 rgba(0,0,0,0.1)' relative minHeight='400px'>
-            <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
+      return (
+        <Modal onDismiss={context.closeModal} w='620' bgColor='grey_light'>
+          <Flex>
+            <Block flex align='center center' py px='l'>
+              <ActivityTileModaled activity={activity} intent='assign' />
+            </Block>
+            <Flex column bg='white' flex boxShadow='-1px 0 1px 0 rgba(0,0,0,0.1)' relative minHeight='400px'>
+              <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
               Select Classes to Assign to:
-            </ModalHeader>
-            <ClassSelect loading={creatingClass.loading} classes={value.items} selected={selected} createClass={createClass} absolute h='calc(100% - 56px)' top={56} wide />
+              </ModalHeader>
+              <ClassSelect loading={creatingClass.loading} classes={value.items} selected={selected} createClass={createClass} absolute h='calc(100% - 56px)' top={56} wide />
+            </Flex>
           </Flex>
-        </Flex>
-        <ModalFooter m='0'>
-          <Text fs='xxs'>
-            <Text pointer underline onClick={context.closeModal}>cancel</Text>
-            <Text mx>or</Text>
-          </Text>
-          <Button type='submit' busy={loading}>Assign</Button>
-        </ModalFooter>
-      </Modal>
+          <ModalFooter m='0'>
+            <Text fs='xxs'>
+              <Text pointer underline onClick={context.closeModal}>cancel</Text>
+              <Text mx>or</Text>
+            </Text>
+            <Button type='submit' busy={loading}>Assign</Button>
+          </ModalFooter>
+        </Modal>
     )
-  }
-})))
+    }
+  })))

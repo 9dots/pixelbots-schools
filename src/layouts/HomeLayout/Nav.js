@@ -36,7 +36,6 @@ export default component({
   }
 })
 
-
 function item (text) {
   return (
     <CSSContainer ui={Block} tag='a' target='_blank' href={links[text]} p={13} color='white' transition='color 0.1s 0s ease-in-out' hoverProps={{color: '#CCC'}} >

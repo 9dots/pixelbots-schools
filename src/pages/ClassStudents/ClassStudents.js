@@ -4,14 +4,13 @@
 
 import RemoveFromClassModal from 'modals/RemoveFromClassModal'
 import InviteStudentsModal from 'modals/InviteStudentsModal'
-import ClassActivityRow from 'components/ClassActivityRow'
 import EmptyClassStudents from './EmptyClassStudents'
 import AddStudentModal from 'modals/AddStudentModal'
 import PrintLoginModal from 'modals/PrintLoginModal'
 import {Button, form, Tooltip} from 'vdux-containers'
-import {Icon, Flex, Block, Checkbox} from 'vdux-ui'
 import PasswordModal from 'modals/PasswordModal'
 import PageTitle from 'components/PageTitle'
+import {Icon, Flex, Block} from 'vdux-ui'
 import Loading from 'components/Loading'
 import StudentGrid from './StudentGrid'
 import {component, element} from 'vdux'
@@ -28,31 +27,31 @@ export default summon(({group}) => ({
   form(({students}) => ({
     fields: ['selected']
   }))(component({
-  render ({props}) {
-    const {group, students, toggleAll, fields, currentUser} = props
-    const {value, loading, loaded} = students
+    render ({props}) {
+      const {group, students, toggleAll, fields, currentUser} = props
+      const {value, loading, loaded} = students
 
-    if (!loaded && loading) return <Loading show={true} h='200' />
+      if (!loaded && loading) return <Loading show h='200' />
 
-    const {items: studentList} = value
-    const studentIds = index(({_id}) => _id, studentList)
-    const selected = (fields.selected.value || []).filter(id => studentIds[id])
+      const {items: studentList} = value
+      const studentIds = index(({_id}) => _id, studentList)
+      const selected = (fields.selected.value || []).filter(id => studentIds[id])
 
-    return (
-      <Block w='col_main' mx='auto' relative my py>
-        <PageTitle title={`${group.displayName} | Students`} />
-        {
+      return (
+        <Block w='col_main' mx='auto' relative my py>
+          <PageTitle title={`${group.displayName} | Students`} />
+          {
           loaded && studentList.length
             ? <Block>
-                <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} />
-                <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
-              </Block>
+              <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} />
+              <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
+            </Block>
             : <EmptyClassStudents group={group} />
         }
-      </Block>
+        </Block>
     )
-  }
-})))
+    }
+  })))
 
 /**
  * <StudentMenu/>
@@ -68,34 +67,34 @@ const btnProps = {
 
 const StudentMenu = component({
   render ({props, actions}) {
-    const {students, selected, group, currentUser} = props
+    const {students, selected, currentUser} = props
     const isStudent = currentUser.userType === 'student'
     const {length: count} = selected
     const users = students.filter(({_id}) => selected.indexOf(_id) !== -1)
 
-    if (isStudent) return <span/>
+    if (isStudent) return <span />
 
     return (
       <Flex align='space-between center' mb>
         <Button bgColor='blue' {...btnProps} onClick={actions.addStudentModal}>
-          <Icon name='people' mr='s' fs='s'/>Add Student
+          <Icon name='people' mr='s' fs='s' />Add Student
         </Button>
         <Button bgColor='green' {...btnProps} onClick={actions.inviteStudentModal}>
-          <Icon name='send' mr='s' fs='s'/>Invite Students
+          <Icon name='send' mr='s' fs='s' />Invite Students
         </Button>
         <Tooltip message={!count && 'Select Students to Enable'}>
           <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={actions.passwordModal(users)}>
-            <Icon name='lock' mr='s' fs='s'/>Reset Password
+            <Icon name='lock' mr='s' fs='s' />Reset Password
           </Button>
         </Tooltip>
         <Tooltip message={!count && 'Select Students to Enable'}>
           <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={actions.printLoginModal(users)}>
-            <Icon name='print' mr='s' fs='s'/>Print Login Info
+            <Icon name='print' mr='s' fs='s' />Print Login Info
           </Button>
         </Tooltip>
         <Tooltip message={!count && 'Select Students to Enable'}>
           <Button disabled={!count} bgColor='red' color='white' {...btnProps} onClick={actions.removeModal(users)}>
-            <Icon name='delete' mr='s' fs='s'/>Remove from Class
+            <Icon name='delete' mr='s' fs='s' />Remove from Class
           </Button>
         </Tooltip>
         <Flex flex align='end center'>

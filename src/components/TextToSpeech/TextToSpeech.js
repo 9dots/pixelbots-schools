@@ -5,7 +5,6 @@
 import speechSynthMw, * as speechSynth from 'middleware/speechSynth'
 import {component, element} from 'vdux'
 import {Button, Block} from 'vdux-ui'
-import Confirm from 'modals/Confirm'
 import noop from '@f/noop'
 import map from '@f/map'
 
@@ -14,10 +13,8 @@ import map from '@f/map'
  */
 
 export default component({
-  render ({props, state, local}) {
-    const {
-      rate, current, onStart = noop, onEnd = noop, ...rest
-    } = props
+  render ({props, state, actions}) {
+    const {rate, onEnd = noop, ...rest} = props
     const text = makeReadable(props.text)
     const {playState = 'stopped'} = state
     const isStopped = playState === 'stopped'
@@ -43,17 +40,17 @@ export default component({
           onClick={
             isStopped
               ? [
-                  actions.setState('playing'),
-                  actions.playSpeech({
-                    text,
-                    rate,
-                    onEnd: handleEnd
-                  })
-                ]
+                actions.setState('playing'),
+                actions.playSpeech({
+                  text,
+                  rate,
+                  onEnd: handleEnd
+                })
+              ]
               : [handleEnd, actions.setState('stopped')]
           }
           {...btnProps}
-          disabled={false}/>
+          disabled={false} />
         {
           text.length >= 4 && (
             <Block align='start center' disabled={isStopped}>
@@ -65,8 +62,8 @@ export default component({
                 icon={isPaused ? 'play_arrow' : 'pause'}
                 onClick={
                   isPaused
-                    ? [resumeSpeech, actions.setState('playing')]
-                    : [pauseSpeech, actions.setState('paused')]
+                    ? [actions.resumeSpeech, actions.setState('playing')]
+                    : [actions.pauseSpeech, actions.setState('paused')]
                 }
                 {...btnProps} />
               <Button
@@ -80,7 +77,7 @@ export default component({
     )
   },
 
-  onRemove ({props, state}) {
+  onRemove ({props, state, actions}) {
     if (state.playState === 'playing') {
       return actions.cancelSpeech()
     }
@@ -106,7 +103,7 @@ export default component({
  */
 
 function makeReadable (text) {
-  if(text) {
+  if (text) {
     return text.replace(/__+/g, ', blank,')
       .replace(/&amp;/g, 'and')
       .split(/[\.!\?]”?\s|[\n\r]/)

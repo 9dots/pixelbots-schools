@@ -60,13 +60,10 @@ import NotificationsFeed from 'pages/NotificationsFeed'
 import Connect from 'pages/Connect'
 
 import Redirect from 'components/Redirect'
+import {page} from 'middleware/analytics'
 import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
 import enroute from 'enroute'
-
-import handleActions from '@f/handle-actions'
-import createAction from '@f/create-action'
-import {page} from 'middleware/analytics'
 
 /**
  * External router
@@ -78,8 +75,8 @@ const router = enroute({
     (params, props) => isLoggedIn(props)
       ? <Redirect to='/feed' />
       : <HomeLayout action='login'>
-          <Home {...props} />
-        </HomeLayout>),
+        <Home {...props} />
+      </HomeLayout>),
 
   '/clever(\\?.*)': track('Clever', (params, props) =>
     <HomeLayout action='signup'>
@@ -191,13 +188,13 @@ const router = enroute({
   // Notifications
   '/notifications': track('Notifications Feed', auth('user', (params, props) =>
     <AppLayout bgColor='red_medium' {...props} {...params}>
-      <NotificationsFeed {...props}/>
+      <NotificationsFeed {...props} />
     </AppLayout>)),
 
   // Connect
   '/connect/:userSearch?': track('Connect', auth('teacher', (params, props) =>
     <AppLayout {...props} {...params}>
-      <Connect {...props} {...params}/>
+      <Connect {...props} {...params} />
     </AppLayout>)),
 
   // Activity
@@ -292,7 +289,7 @@ export default component({
   },
 
   render ({props, state}) {
-    if (! props.currentUrl || !props.ready) return <div>Loading...</div>
+    if (!props.currentUrl || !props.ready) return <div>Loading...</div>
     return router(props.currentUrl, {...props, ...state}).route
   },
 
@@ -320,7 +317,7 @@ export default component({
         yield actions.exitDepth(undefined)
       }
 
-      yield () => document.body.scrollTop = 0
+      yield () => (document.body.scrollTop = 0)
     }
   }
 })
@@ -366,10 +363,11 @@ function profileRedirect (props, user) {
   const {currentUser} = props
   let subState = 'stream'
 
-  if(currentUser.userType !== 'student')
+  if (currentUser.userType !== 'student') {
     subState = user.userType === 'student' ? 'stream' : 'boards'
+  }
 
-  return <Redirect to={`/${user.username}/${subState}`}/>
+  return <Redirect to={`/${user.username}/${subState}`} />
 }
 
 function activityRedirect ({published, contexts, _id}, {currentUser}) {
