@@ -27,9 +27,9 @@ function render({props}) {
   return (
     <Block align='start center' {...rest}>
       <Button
-        onClick={() => openModal(() => <AssignModal onAssign={ids => onAction('assign', ids)} activity={activity} />)}
+        onClick={() => openModal(() => <PinModal onPin={id => onAction('pin', id)} activity={activity} />)}
         borderRadius='99px 0 0 99px'
-        text='Assign To Class'
+        text='Save Activity'
         bgColor='green'
         pl={18}
         h={34}
@@ -41,11 +41,6 @@ function render({props}) {
           </Button>
         }
         w={160}>
-        <Item
-          onClick={() => openModal(() => <PinModal onPin={id => onAction('pin', id)} activity={activity} />)}
-          weoIcon='pin'
-          text='Pin to Board'
-          color='blue' />
         <Item
           onClick={draft}
           weoIcon='drafts'

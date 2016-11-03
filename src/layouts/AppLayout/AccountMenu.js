@@ -26,7 +26,7 @@ function render ({props}) {
 
   return (
     <Dropdown w='180px' mr='s' btn={<DropdownToggle {...props} />}>
-      <Link {...itemProps} href={`/${username}`}>
+      <Link {...itemProps} href={`/${username}/boards/all`}>
         <Icon name='person' fs='s' mr='s'/>
         My Profile
       </Link>

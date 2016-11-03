@@ -8,7 +8,6 @@ import SettingsLayout from 'layouts/SettingsLayout'
 import ProfileLayout from 'layouts/ProfileLayout'
 import SearchLayout from 'layouts/SearchLayout'
 import ClassLayout from 'layouts/ClassLayout'
-import BoardLayout from 'layouts/BoardLayout'
 import MainLayout from 'layouts/MainLayout'
 import HomeLayout from 'layouts/HomeLayout'
 import AppLayout from 'layouts/AppLayout'
@@ -30,9 +29,6 @@ import ProfileStream from 'pages/ProfileStream'
 import ProfileBoards from 'pages/ProfileBoards'
 import ProfileLikes from 'pages/ProfileLikes'
 
-import BoardActivities from 'pages/BoardActivities'
-import BoardFollowers from 'pages/BoardFollowers'
-
 import ActivityDiscussion from 'pages/ActivityDiscussion'
 import ActivityProgress from 'pages/ActivityProgress'
 import ActivityOverview from 'pages/ActivityOverview'
@@ -50,7 +46,7 @@ import AccountEmail from 'pages/AccountEmail'
 
 import ActivitiesBoard from 'pages/ActivitiesBoard'
 import MyActivities from 'pages/MyActivities'
-import FeedStudent from 'pages/FeedStudent'
+import AllClasses from 'pages/AllClasses'
 import Drafts from 'pages/Drafts'
 import Trash from 'pages/Trash'
 import Login from 'pages/Login'
@@ -77,7 +73,7 @@ const router = enroute({
   '/': track(
     (params, props) => isLoggedIn(props) ? 'Home Redirect' : 'Home',
     (params, props) => isLoggedIn(props)
-      ? classRedirect(props)
+      ? <Redirect to='/class/' />
       : <HomeLayout action='login'>
           <Home {...props} />
         </HomeLayout>),
@@ -109,15 +105,21 @@ const router = enroute({
 
   // Home
   '/feed': track('Feed', auth('user', (params, props) =>
-    <AppLayout {...props}>
+    <MainLayout {...props}>
       {
         isTeacher(props)
           ? <Feed {...props} />
-          : <FeedStudent {...props} />
+          : <Redirect to='/class/all' {...props} />
       }
-    </AppLayout>)),
+    </MainLayout>)),
   // Class
-  '/class/:groupId': track('Class Redirect', auth('user', (params, props) =>
+  '/class/': track('Class Redirect', auth('user', (params, props) =>
+    classRedirect(props))),
+  '/class/all': track('Class All', auth('user', (params, props) =>
+    <MainLayout {...props} {...params}>
+      <AllClasses {...props} />
+    </MainLayout>)),
+  '/class/:groupId': track('Class Feed Redirect', auth('user', (params, props) =>
     <MainLayout {...props} {...params}>
       <ClassLayout {...props} {...params}>
         <Redirect to={`/class/${params.groupId}/feed`} />
@@ -216,16 +218,6 @@ const router = enroute({
     <ActivityLayout {...props} {...params}>
       {data => <ActivityInstance {...props} {...params} {...data} />}
     </ActivityLayout>),
-
-  // Board
-  '/:username/board/:boardId/activities': track('Board Activities', auth('nonstudent', (params, props) =>
-    <BoardLayout {...props} {...params}>
-      {board => <BoardActivities {...props} {...params} board={board} />}
-    </BoardLayout>)),
-  '/:username/board/:boardId/followers': track('Board Followers', auth('nonstudent', (params, props) =>
-    <BoardLayout {...props} {...params}>
-      {board => <BoardFollowers {...props} {...params} board={board} />}
-    </BoardLayout>)),
 
   // Profile
   '/:username/boards': track('Profile Boards', auth('nonstudent', (params, props) =>
@@ -403,12 +395,12 @@ function classRedirect ({currentUser}) {
   const classes = groups.filter(({status, groupType}) =>
     status === 'active' && groupType === 'class')
 
-  if(lastClass && classes.length) {
-    const curClass = classes.find(c => c.id === lastClass)
-    const path = curClass ? curClass.id : classes[0].id
-    return <Redirect to={`/class/${path}/feed/`}/>
-  } else
-    return <Redirect to='/feed/'/>
+  // if(lastClass && classes.length) {
+  //   const curClass = classes.find(c => c.id === lastClass)
+  //   const path = curClass ? curClass.id : classes[0].id
+  //   return <Redirect to={`/class/${path}/feed/`}/>
+  // } else
+    return <Redirect to='/class/all/'/>
 }
 
 function isTeacher (state) {

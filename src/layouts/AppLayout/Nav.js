@@ -6,7 +6,6 @@ import {CSSContainer, Fixed, Text, Icon, Flex, Block, Menu, Button, MenuItem} fr
 import NotificationsButton from 'components/NotificationsButton'
 import CreateActivityModal from 'modals/CreateActivityModal'
 import SignUpModal from 'modals/SignUpModal'
-import ClassNav from 'components/ClassNav'
 import HomeOwl from 'components/HomeOwl'
 import {openModal} from 'reducer/modal'
 import AccountMenu from './AccountMenu'
@@ -36,13 +35,8 @@ function render ({props, state}) {
             </Flex>
             {
               currentUser && [
-                <Item href='/' icon='home' text='Home' />,
-                <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />,
-                <ClassNav hide={!isStudent} currentUser={currentUser}>
-                  <Item href='/class' disabled={true} ml='s' fs='s' icon='school' text='Classes'>
-                    <Icon name='arrow_drop_down' fs='s' ml='s' />
-                  </Item>
-                </ClassNav>
+                <Item href='/class' icon='home' text='Home' />,
+                <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />
               ]
             }
           </Flex>

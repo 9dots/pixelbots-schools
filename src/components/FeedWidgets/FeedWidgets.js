@@ -2,7 +2,8 @@
  * Imports
  */
 
-import {Block} from 'vdux-ui'
+import {Block, Card, Icon} from 'vdux-ui'
+import Link from 'components/Link'
 import ProfileWidget from './ProfileWidget'
 import DraftsWidget from './DraftsWidget'
 import ClassesWidget from './ClassesWidget'
@@ -22,6 +23,11 @@ function render ({props}) {
       <ProfileWidget user={user} w={230} m={cardMargin} mt={0} />
       <DraftsWidget w={230} m={cardMargin} draftCount={draftCount} user={user} />
       <ClassesWidget user={user} w={230} m={cardMargin}/>
+      <Link ui={Card} w={230} m={cardMargin} align='start center' pointer p href='/feed' hide={user.userType === 'student'}>
+        <Icon fs='m' mr name='dashboard'/>
+        <Block flex>My Feed</Block>
+        <Icon fs='s' name='keyboard_arrow_right'/>
+      </Link>
     </Block>
   )
 }

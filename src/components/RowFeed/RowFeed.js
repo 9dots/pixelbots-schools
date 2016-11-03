@@ -34,12 +34,12 @@ function render ({props}) {
         placeholder='Search your activities...'
         inputProps={{textAlign: 'left'}}
         key={props.boardId}
+        bgColor='#FDFDFD'
         type='search'
         icon='search'
-        right='6px'
         py='8px'
-        absolute
-        w='242px' />
+        absolute={{top: 6, right: 6}}
+        w='242px'/>
       }
       {
         loaded && renderItems(
