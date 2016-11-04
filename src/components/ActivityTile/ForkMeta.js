@@ -19,7 +19,7 @@ function render ({props}) {
   const location = pinnedFrom ? pinnedFrom.board.displayName : actor.displayName
   const message = pinnedFrom ? 'Pinned from' : 'Created by'
   const href = pinnedFrom
-    ? `/${actor.username}/board/${pinnedFrom.board.id}/activities`
+    ? `/${actor.username}/boards/${pinnedFrom.board.id}`
     : `/${actor.username}`
 
   return (

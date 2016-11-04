@@ -23,7 +23,7 @@ function render ({props}) {
   const {board, currentUser, hideMeta} = props
   const {owners = [], displayName, images = []} = board
   const [owner = {}] = owners
-  const url = '/' + owner.username + '/board/' + board._id + '/activities/'
+  const url = `/${owner.username}/boards/${board._id}`
 
   return (
     <Card w={230} h={250} relative my={8} mx={6}>

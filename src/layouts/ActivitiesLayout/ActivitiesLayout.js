@@ -39,7 +39,7 @@ function render ({props, children}) {
             {
               loaded
                 ? map(board =>
-                  <NavItem href={`/${username}/boards/${board._id}`} board={board} isMe={isMe} display='flex' align='start center'>
+                  <NavItem href={`/${username}/boards/${board._id}`} board={board} isMe={isMe} display='flex' currentUser={currentUser} align='start center'>
                     {boardIcon(board)}
                     <Block flex ellipsis>{board.displayName}</Block>
                   </NavItem>, value.items)

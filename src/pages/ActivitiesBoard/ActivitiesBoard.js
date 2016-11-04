@@ -46,7 +46,7 @@ function EmptyBoard({props}) {
               lighter
               fs='s'
               my>
-                Add My First Activitya
+                Add My First Activity
             </Button>
             <Block lh='30px' textAlign='center' m pt pb='l'>
               <Text fw='bold'>Boards </Text>

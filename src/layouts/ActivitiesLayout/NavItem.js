@@ -14,7 +14,7 @@ import element from 'vdux/element'
  */
 
 function render ({props, children}) {
-  const {showSettings, board, isMe, ...rest} = props
+  const {showSettings, board, isMe, currentUser, ...rest} = props
 
   return (
     <Link
@@ -31,7 +31,7 @@ function render ({props, children}) {
         {children}
       </Block>
       <Icon
-        onClick={e => openSettings(e, board)}
+        onClick={e => openSettings(e, board, currentUser)}
         hide={!board || !isMe}
         transition='opacity 0.15s'
         fs='xs'
@@ -42,9 +42,9 @@ function render ({props, children}) {
   )
 }
 
-function openSettings(e, board) {
+function openSettings(e, board, currentUser) {
   e.stopPropagation()
-  return openModal(() => <BoardSettingsModal board={board} exitPath='/activities/all' />)
+  return openModal(() => <BoardSettingsModal board={board} exitPath={`/${currentUser.username}/boards/all`} />)
 }
 
 /**

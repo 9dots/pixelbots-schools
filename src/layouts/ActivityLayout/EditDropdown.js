@@ -64,9 +64,9 @@ function render({props}) {
       <Toast key='a'>
         <Block align='space-between center'>
           <Block>
-            Saved to <Link onClick={hideToast} href='/activities/drafts' color='blue'>Drafts</Link>
+            Saved to <Link onClick={hideToast} href={`/${user.username}/boards/drafts`} color='blue'>Drafts</Link>
           </Block>
-          <Button onClick={[() => setUrl('/activities/drafts'), hideToast]} bgColor='green'>Go to Drafts</Button>
+          <Button onClick={[() => setUrl(`/${user.username}/boards/drafts`), hideToast]} bgColor='green'>Go to Drafts</Button>
         </Block>
       </Toast>
     )

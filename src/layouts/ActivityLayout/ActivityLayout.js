@@ -149,18 +149,18 @@ function internal (props, children, local, state) {
 
   function escapeUrl () {
     if (value.channels[0] === 'user!' + value.actor.id + '.drafts') {
-      return '/activities/drafts'
+      return '/' + value.actor.username + '/boards/all'
     }
 
     if (value.channels[0] === 'user!' + value.actor.id + '.trash') {
-      return '/activities/trash'
+      return '/' + value.actor.username + '/boards/trash'
     }
 
     return value.contexts[0].descriptor.id !== 'public'
       ? '/class/' + value.contexts[0].descriptor.id
       : value.actor.id === currentUser._id
-        ? '/activities/' + value.contexts[1].descriptor.id
-        : `/${value.actor.username}/board/${value.contexts[1].descriptor.id}/activities`
+        ? `/${value.actor.username}/boards/${value.contexts[1].descriptor.id}`
+        : '/class/all'
   }
 }
 
