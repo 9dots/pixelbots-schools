@@ -22,7 +22,7 @@ function render ({props}) {
     activity, fields, boards, redirect,
     createBoard, creatingBoard = {},
     pin, pinning = {}, onPin,
-    copyActivity, copying = {}
+    copyActivity, copying = {}, user
   } = props
   const {value, loaded} = boards
 
@@ -57,7 +57,7 @@ function render ({props}) {
       displayName: fields.displayName.value === undefined ? displayName : fields.displayName.value,
       originalDescription: fields.originalDescription.value === undefined ? originalDescription : fields.originalDescription.value
     }
-    const url = `/activities/${board._id}`
+    const url = `/${user.username}/boards/${board._id}`
 
     if (activity.published) {
       const copy = yield copyActivity(activity._id)

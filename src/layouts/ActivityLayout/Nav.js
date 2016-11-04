@@ -93,7 +93,7 @@ function render ({props, local, state}) {
           </Block>
           <Block align='end center' hide={activity.published || (intent && intent !== 'new')}>
             <Block color='red' align='start center' mr>DRAFT</Block>
-            <EditDropdown onAction={() => exit()} back={back} activity={activity} />
+            <EditDropdown user={user} onAction={() => exit()} back={back} activity={activity} />
           </Block>
           {
             intent === 'pin'

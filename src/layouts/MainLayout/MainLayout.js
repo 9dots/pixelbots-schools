@@ -3,9 +3,25 @@
  */
 
 import FeedWidgets from 'components/FeedWidgets'
+import IntroModal from 'modals/IntroModal'
 import AppLayout from 'layouts/AppLayout'
+import {openModal} from 'reducer/modal'
 import element from 'vdux/element'
 import {Block} from 'vdux-ui'
+
+/**
+ * onCreate
+ */
+
+function onCreate ({props}) {
+  const {currentUser} = props
+  const {preferences = {}, userType} = currentUser
+  const {slideshow = {}} = preferences
+
+  if (!slideshow.done && userType === 'teacher') {
+    return openModal(() => <IntroModal currentUser={currentUser} />)
+  }
+}
 
 /**
  * <MainLayout/>
@@ -29,5 +45,6 @@ function render ({props, children}) {
  */
 
 export default {
+  onCreate,
   render
 }

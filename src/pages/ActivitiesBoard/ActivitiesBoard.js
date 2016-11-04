@@ -17,9 +17,11 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {currentUser} = props
+  const {currentUser, username} = props
+  const isMe = currentUser.username === username
+
   return (
-    <RowFeed {...props} emptyState={<EmptyBoard currentUser={currentUser} />} item={ActivityRow} itemProps={{actions: {edit: true, assign: 'Assign', pin: true}}}/>
+    <RowFeed {...props} emptyState={<EmptyBoard isMe={isMe} currentUser={currentUser} />} item={ActivityRow} itemProps={{actions: {edit: true, assign: 'Assign', pin: true}}}/>
   )
 }
 
@@ -28,26 +30,36 @@ function render ({props}) {
  */
 
 function EmptyBoard({props}) {
-  const {currentUser} = props
+  const {currentUser, isMe} = props
   return (
     <EmptyState p='24px 12px 24px' bg='#E4E5E7' border='1px solid #D8DADD' icon='dashboard' color='green' w='auto'>
-      <Block fs='m' my='l'>This is your Board</Block>
-      <Button
-        onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
-        bgColor='blue'
-        boxShadow='z2'
-        color='white'
-        px='35px'
-        lh='3em'
-        lighter
-        fs='s'
-        my>
-          Add My First Activity
-      </Button>
-      <Block lh='30px' textAlign='center' m pt pb='l'>
-        <Text fw='bold'>Boards </Text>
-        are collections of Activities. Save Activities to Boards to keep them organized and easy to find.
-      </Block>
+      { isMe
+        ? <Block>
+            <Block fs='m' my='l'>This is your Board</Block>
+            <Button
+              onClick={() => openModal(() => <CreateActivityModal currentUser={currentUser} />)}
+              bgColor='blue'
+              boxShadow='z2'
+              color='white'
+              px='35px'
+              lh='3em'
+              lighter
+              fs='s'
+              my>
+                Add My First Activitya
+            </Button>
+            <Block lh='30px' textAlign='center' m pt pb='l'>
+              <Text fw='bold'>Boards </Text>
+              are collections of Activities. Save Activities to Boards to keep them organized and easy to find.
+            </Block>
+          </Block>
+        : <Block>
+            <Block fs='m' mt='l'>This Board is empty</Block>
+            <Block lh='30px' textAlign='center' m pb='l'>
+              Once <Text bold>{currentUser.displayName}</Text> saves an Activity to this Board it will show up here.
+            </Block>
+          </Block>
+        }
     </EmptyState>
   )
 }
