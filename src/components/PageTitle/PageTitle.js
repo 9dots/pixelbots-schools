@@ -18,6 +18,8 @@ export default component({
   },
 
   onUpdate (prev, {props, context}) {
-    return context.setTitle(props.title || 'Weo')
+    if (prev.props.title !== props.title) {
+      return context.setTitle(props.title || 'Weo')
+    }
   }
 })

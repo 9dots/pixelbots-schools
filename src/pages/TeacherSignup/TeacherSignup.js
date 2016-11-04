@@ -5,7 +5,6 @@
 import {Google, Facebook, Microsoft} from 'components/OAuthButtons'
 import BlockInput from 'components/BlockInput'
 import {DecoLine, Block, Flex} from 'vdux-ui'
-import {track} from 'middleware/analytics'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import validate from 'lib/validate'
@@ -68,8 +67,8 @@ export default summon(props => ({
   },
 
   events: {
-    * trackEvent (model, user) {
-      yield track({name: 'Created Teacher', traits: user})
+    * trackEvent ({context}, user) {
+      yield context.track({name: 'Created Teacher', traits: user})
     }
   }
 }))

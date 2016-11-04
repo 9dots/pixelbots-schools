@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {component, findDOMNode, Document, element} from 'vdux'
+import {component, findDOMNode, Document, element, decodeMouse} from 'vdux'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {Block} from 'vdux-ui'
 
@@ -40,14 +40,14 @@ export default wrap(CSSContainer, {
         <Handle dir='se' start={actions.start} hide={!focus || justify === 'right'} />
         {
           dragging &&
-          <Document onMouseup={actions.endDragging} onMouseMove={{handler: actions.move}} />
+          <Document onMouseup={actions.endDragging} onMouseMove={decodeMouse(actions.move)} />
         }
       </Block>
     )
   },
 
   events: {
-    * move (model, e) {
+    * move (model, {clientX, clientY}) {
       const {state, props} = model
       const el = findDOMNode(model)
 
@@ -55,8 +55,8 @@ export default wrap(CSSContainer, {
       const {image, justify = 'center'} = object
       const {x, y, dir, startWidth, startHeight} = state
 
-      const deltaX = (x - e.clientX) * (justify === 'center' ? 2 : 1)
-      const deltaY = (y - e.clientY)
+      const deltaX = (x - clientX) * (justify === 'center' ? 2 : 1)
+      const deltaY = (y - clientY)
       let newWidth = 0
       let newHeight = 0
 
@@ -75,10 +75,10 @@ export default wrap(CSSContainer, {
       yield onEnd(width / image.width)
     },
 
-    * start (model, dir, e) {
+    * start (model, dir, {clientX, clientY}) {
       const {actions} = model
       const el = findDOMNode(model)
-      yield actions.startDragging(dir, e.clientX, e.clientY, el.clientWidth, el.clientHeight)
+      yield actions.startDragging(dir, clientX, clientY, el.clientWidth, el.clientHeight)
     }
   },
 
@@ -112,7 +112,7 @@ function Handle ({props}) {
         bottom: isSouth(dir) ? 0 : 'auto',
         left: isWest(dir) ? 0 : 'auto'
       }}
-      onMousedown={{handler: start(dir)}}
+      onMousedown={decodeMouse(start(dir))}
       boxShadow='z1'
       bgColor='blue'
       circle={w}

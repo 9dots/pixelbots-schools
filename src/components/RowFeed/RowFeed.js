@@ -3,9 +3,9 @@
  */
 
 import InfiniteScroll from 'components/InfiniteScroll'
+import {decodeValue, component, element} from 'vdux'
 import RoundedInput from 'components/RoundedInput'
 import {Block, Text, Flex} from 'vdux-ui'
-import {component, element} from 'vdux'
 import isSameDay from '@f/is-same-day'
 import reduce from '@f/reduce'
 import moment from 'moment'
@@ -24,11 +24,11 @@ export default component({
     const searching = !!(params && params.query)
 
     return (
-      <InfiniteScroll loading={loading} more={more(value && value.nextPageToken)} {...rest}>
+      <InfiniteScroll loading={loading} more={value && more(value.nextPageToken)} {...rest}>
         {
           <RoundedInput
             hide={!search || !hasLoaded || (!loading && !value.items.length && !searching)}
-            onKeypress={{enter: search}}
+            onKeypress={{enter: decodeValue(search)}}
             placeholder='Search your activities...'
             inputProps={{textAlign: 'left'}}
             key={props.boardId}

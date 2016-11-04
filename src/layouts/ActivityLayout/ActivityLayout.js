@@ -198,6 +198,6 @@ function internal ({props, children, actions, context, state}) {
       ? '/class/' + value.contexts[0].descriptor.id
       : value.actor.id === currentUser._id
         ? '/activities/' + value.contexts[1].descriptor.id
-        : `/${value.actor.username}/board/${value.contexts[1].descriptor.id}/activities`
+        : '/'
   }
 }

@@ -2,9 +2,7 @@
  * Imports
  */
 
-import handleActions from '@f/handle-actions'
-import createAction from '@f/create-action'
-import {element} from 'vdux'
+import {component, element} from 'vdux'
 import setProp from '@f/set-prop'
 import summon from 'vdux-summon'
 
@@ -12,7 +10,7 @@ import summon from 'vdux-summon'
  * summonPrefs
  */
 
-function summonPrefs (extras = {}) {
+export default function summonPrefs (extras = {}) {
   return Component => summon(props => ({
     persistPref: (name, value) => ({
       persistingPref: {
@@ -25,47 +23,26 @@ function summonPrefs (extras = {}) {
       }
     }),
     ...(typeof extras === 'function' ? extras(props) : {})
-  }))({
-    initialState ({props}) {
-      const {currentUser} = props
-      return currentUser.preferences || {}
-    },
+  }))(component({
+    initialState: ({props}) => props.currentUser.preferences || {},
 
-    render ({props, local, state, children}) {
-      const {persistPref} = props
-
+    render ({props, actions, state, children}) {
       return (
-        <Component {...props} prefs={state} setPref={setPref}>
+        <Component {...props} prefs={state} setPref={actions.setPref}>
           {children}
         </Component>
       )
+    },
 
-      function * setPref (name, value) {
-        yield local(updatePref)({name, value})
-        yield persistPref(name, value)
+    events: {
+      * setPref ({actions, props}, name, value) {
+        yield actions.updatePref(name, value)
+        yield props.persistPref(name, value)
       }
     },
 
-    reducer
-  })
+    reducer: {
+      updatePref: (state, name, value) => setProp(name, state, value)
+    }
+  }))
 }
-
-/**
- * Actions
- */
-
-const updatePref = createAction('summon-prefs: update pref')
-
-/**
- * Reducer
- */
-
-const reducer = handleActions({
-  [updatePref]: (state, {name, value}) => setProp(name, state, value)
-})
-
-/**
- * Exports
- */
-
-export default summonPrefs

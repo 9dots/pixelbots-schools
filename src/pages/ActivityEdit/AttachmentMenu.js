@@ -50,8 +50,6 @@ export default component({
     * createAndAttach ({props, actions, context}, object) {
       const id = yield context.generateObjectId()
 
-      console.log('id', id)
-
       yield props.attach({
         ...object,
         _id: id

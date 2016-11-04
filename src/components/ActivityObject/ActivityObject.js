@@ -39,6 +39,7 @@ export default wrap(CSSContainer, ({editable}) => editable
 )(component({
   render ({props}) {
     const {object, open, editing, editable, hover, opening, ...rest} = props
+    if (!object.objectType) object.objectType = 'link'
     const Obj = typeMap[object.objectType]
     const editableProps = {
       onClick: open && open(object._id),

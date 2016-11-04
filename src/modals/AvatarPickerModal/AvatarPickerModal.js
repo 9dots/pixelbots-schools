@@ -35,17 +35,17 @@ export default summon(() => ({
     }
   })
 }))(
-form(({changeAvatar, user}) => ({
+form(({changeAvatar, user}, context) => ({
   fields: ['avatar'],
   validate: validate(schema),
-  onSubmit: function * ({avatar}, context) {
+  * onSubmit ({avatar}) {
     if (avatar === 'letters') {
       avatar = yield context.uploadFile(toBlob(letterAvatar(user)))
     }
 
     yield changeAvatar(avatar)
     yield context.closeModal()
-    yield context.avatarDidUpdate()
+    yield context.updateAvatar()
   }
 }))(
 component({

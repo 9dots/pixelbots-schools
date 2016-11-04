@@ -3,6 +3,10 @@
  */
 
 function segment (writeKey) {
+  if (typeof window === 'undefined') {
+    return {}
+  }
+
   var analytics = window.analytics = window.analytics || []
   if (!analytics.initialize) {
     if (analytics.invoked) {

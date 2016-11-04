@@ -4,9 +4,9 @@
 
 import {questionIcon, totalPoints, totalScore, statusMap} from 'lib/activity-helpers'
 import ActivityBadge from 'components/ActivityBadge'
+import {component, element, decodeNode} from 'vdux'
 import {Card, Block, Text, Icon} from 'vdux-ui'
 import SidebarActions from './SidebarActions'
-import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import {Input} from 'vdux-containers'
 import {debounce} from 'redux-timing'
@@ -188,7 +188,7 @@ const ScoreRow = summon(() => ({
               <Input
                 {...inputProps}
                 onFocus={{selectTarget: true}}
-                onInput={{handler: actions.debouncedSetPoints}}
+                onInput={decodeNode(actions.trySetPoints)}
                 disabled={!canGrade}
                 color='text'
                 defaultValue={curPoints}
@@ -197,7 +197,7 @@ const ScoreRow = summon(() => ({
               <Input
                 {...inputProps}
                 onFocus={{selectTarget: true}}
-                onInput={{handler: actions.trySetMax}}
+                onInput={decodeNode(actions.trySetMax)}
                 disabled={!canSetMax}
                 color='text'
                 defaultValue={max} />
@@ -223,10 +223,12 @@ const ScoreRow = summon(() => ({
       })
     },
 
-    * debouncedSetPoints ({props}, e) {
-      e.target.value = normalize(e.target.value)
+    * trySetPoints ({actions}, node) {
+      node.value = normalize(node.value)
+      yield actions.debouncedSetPoints(Number(node.value))
+    },
 
-      const points = Number(e.target.value)
+    * debouncedSetPoints ({props}, points) {
       const {activity, question, setPoints} = props
 
       if (!isNaN(points)) {
@@ -234,10 +236,10 @@ const ScoreRow = summon(() => ({
       }
     },
 
-    * trySetMax ({props}, e) {
-      e.target.value = normalize(e.target.value)
+    * trySetMax ({props}, node) {
+      node.value = normalize(node.value)
 
-      const max = Number(e.target.value)
+      const max = Number(node.value)
       const {setMax, question} = props
 
       if (!isNaN(max)) {

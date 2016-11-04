@@ -7,6 +7,15 @@ import {component, element} from 'vdux'
 import map from '@f/map'
 
 /**
+ * Constants
+ */
+
+const nameCell = {
+  borderRightWidth: 0,
+  textAlign: 'left'
+}
+
+/**
  * <GradebookRow/>
  */
 
@@ -16,10 +25,6 @@ export default component({
     const {userType, _id: uid} = currentUser
     const {name: {givenName, familyName}, _id: sid} = student
     const isStudent = userType === 'student'
-    const nameCell = {
-      borderRightWidth: 0,
-      textAlign: 'left'
-    }
     const cellProps = {
       bgColor: odd ? 'white' : 'off_white',
       borderBottom: last ? '' : '1px solid #E9E9E9',

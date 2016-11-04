@@ -17,8 +17,7 @@
               "transform": "vdux-transform-hmr"
             }
           ]
-        }],
-        "jss-simple"
+        }]
       ]
     },
     "development-minimal": {

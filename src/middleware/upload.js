@@ -4,8 +4,13 @@
 
 import mime from 'browserify-mime'
 import _upload from '@f/s3-upload'
-import {post} from 'lib/api/req'
 import noop from '@f/noop'
+
+/**
+ * Constants
+ */
+
+const apiServer = process.env.API_SERVER
 
 /**
  * Actions
@@ -45,7 +50,7 @@ function middleware ({dispatch}) {
 function * doUploadFile ({file, progress = noop}, dispatch) {
   try {
     const {type} = file
-    const {value: S3} = yield post('/s3/upload')
+    const {value: S3} = yield fetch(`${apiServer}/s3/upload`, {method: 'POST'})
 
     return yield upload({
       file,

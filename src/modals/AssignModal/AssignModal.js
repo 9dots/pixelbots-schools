@@ -105,6 +105,6 @@ export default summon(props => ({
             <Button type='submit' busy={loading}>Assign</Button>
           </ModalFooter>
         </Modal>
-    )
+      )
     }
   })))

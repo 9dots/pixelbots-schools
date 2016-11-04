@@ -2,9 +2,9 @@
  * Imports
  */
 
+import {decodeFiles, component, element} from 'vdux'
 import {Base, ProgressBar, ErrorTip} from 'vdux-ui'
 import DropZone from 'components/DropZone'
-import {component, element} from 'vdux'
 import noop from '@f/noop'
 
 /**
@@ -43,16 +43,14 @@ export default component({
         {...props}>
         <ProgressBar w='50%' h='5' absolute top bottom right left m='auto' hide={!uploading} progress={progress} />
         <ErrorTip show={!!error} message={error} placement='right' />
-        <Base sq='100%' onChange={{handler: actions.upload}} tag='input' type='file' opacity='0' absolute top left pointer />
+        <Base sq='100%' onChange={decodeFiles(actions.upload)} tag='input' type='file' opacity='0' absolute top left pointer />
       </DropZone>
     )
   },
 
   events: {
-    * upload ({props, state, actions, context}, e) {
+    * upload ({props, state, actions, context}, [file]) {
       const {onUpload = noop, validate = () => ({valid: true})} = props
-
-      const file = e._rawEvent.target.files[0]
       const {valid, message} = validate(file)
 
       if (!valid) {

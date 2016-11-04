@@ -5,11 +5,11 @@
 import QuestionAttachment from 'components/QuestionAttachment'
 import ObjectControls from 'components/ObjectControls'
 import MarkdownHelper from 'components/MarkdownHelper'
+import {decodeNode, component, element} from 'vdux'
 import LineTextarea from 'components/LineTextarea'
 import QuestionTypeMenu from './QuestionTypeMenu'
 import {Button, Toggle} from 'vdux-containers'
 import {Block, Badge, Icon} from 'vdux-ui'
-import {component, element} from 'vdux'
 import sleep from '@f/sleep'
 import map from '@f/map'
 
@@ -34,6 +34,10 @@ export default component({
     // false when switching to short or free
     const isPoll = poll && type === 'choice'
 
+    const focusNext = decodeNode(actions.focusNext)
+    const focusLast = decodeNode(actions.focusLast)
+    const insert = decodeNode(actions.insert)
+
     return (
       <Block fw='lighter' relative onClick={selectObject(object._id)} {...rest}>
         <Block id={object._id} />
@@ -48,10 +52,10 @@ export default component({
                 <MarkdownHelper mt={8} menuProps={markdownMenuProps} />
               </Block>
             </Block>
-            <Block class='choice-container' align='start' column={isMultipleChoice} onKeypress={{enter: [type === 'choice' && {handler: actions.insert}, {handler: actions.focusNext}]}}>
+            <Block class='choice-container' align='start' column={isMultipleChoice} onKeypress={{enter: [type === 'choice' && insert, focusNext]}}>
               {
                 map((att, i) => <QuestionAttachment
-                  focusPrevious={{handler: actions.focusPrevious}}
+                  focusPrevious={actions.focusPrevious}
                   remove={actions.remove(att)}
                   onEdit={actions.editChild}
                   editing
@@ -65,7 +69,7 @@ export default component({
                 isMultipleChoice && (
                   <Block key={`add_${attachments.length}`} mt='s' align='start center' wide>
                     <Button
-                      onClick={[actions.attach('choice'), {handler: actions.focusLast}]}
+                      onClick={[actions.attach('choice'), focusLast]}
                       hoverProps={highlightProps}
                       focusProps={highlightProps}
                       transition='opacity .15s'
@@ -125,10 +129,10 @@ export default component({
   },
 
   events: {
-    * insert ({actions}, e) {
-      const p = findParent(e.target)
+    * insert ({actions}, node) {
+      const p = findParent(node)
       const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
-      const idx = inputs.indexOf(e.target)
+      const idx = inputs.indexOf(node)
 
       yield actions.attach('choice', undefined, false, idx + 1)()
     },
@@ -212,8 +216,7 @@ export default component({
       })
     },
 
-    * focusPrevious (model, e) {
-      const node = e.target.node
+    * focusPrevious (model, node) {
       const p = findParent(node)
 
       const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
@@ -226,8 +229,7 @@ export default component({
       }
     },
 
-    * focusNext (model, e) {
-      const node = e.target.node
+    * focusNext (model, node) {
       yield sleep(50)
 
       const p = findParent(node)
@@ -239,8 +241,7 @@ export default component({
       }
     },
 
-    * focusLast (model, e) {
-      const node = e.target.node
+    * focusLast (model, node) {
       const p = findParent(node)
 
       // Wait until the next choice is rendered

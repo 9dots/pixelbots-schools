@@ -4,9 +4,9 @@
 
 import PollChoiceOverview from './PollChoiceOverview'
 import {grey, blue, yellow, green, red} from 'lib/colors'
+import {decodeNode, component, element} from 'vdux'
 import TextToSpeech from 'components/TextToSpeech'
 import BlockInput from 'components/BlockInput'
-import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import {Block} from 'vdux-ui'
@@ -83,7 +83,7 @@ export default component({
                   placeholder={`Choice #${idx + 1}`}
                   inputProps={{textAlign: 'center', p: '6px 12px 5px', fs: 's', fw: 200}}
                   autofocus={!content}
-                  onKeydown={{backspace: {handler: actions.maybeRemove}}} />
+                  onKeydown={{backspace: decodeNode(actions.maybeRemove)}} />
             }
           </Block>
           { chosen && <ChosenMarker actor={actor} /> }
@@ -97,12 +97,12 @@ export default component({
       yield props.onEdit({...props.object, originalContent})
     },
 
-    * maybeRemove ({props}, e) {
+    * maybeRemove ({props}, node) {
       const {focusPrevious, numAtt, remove} = props
 
-      if (e.target.value === '' && numAtt > 1) {
+      if (node.value === '' && numAtt > 1) {
         yield remove()
-        yield focusPrevious(e)
+        yield focusPrevious(node)
       }
     }
   }

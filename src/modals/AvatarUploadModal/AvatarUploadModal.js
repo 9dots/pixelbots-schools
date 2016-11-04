@@ -72,8 +72,7 @@ export default summon(props => ({
     },
 
     * submit ({props, actions, context, state}) {
-      const {crop} = props
-      const {url} = state
+      const {url, crop} = state
       let uploadUrl = url
 
       yield actions.beginLoading()
@@ -99,7 +98,7 @@ export default summon(props => ({
       }
 
       yield context.closeModal()
-      yield context.avatarDidUpdate()
+      yield context.updateAvatar()
     }
   },
 

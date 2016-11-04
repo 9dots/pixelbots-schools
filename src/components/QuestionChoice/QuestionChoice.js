@@ -4,11 +4,11 @@
 
 import {Button, Tooltip, Block as ContBlock} from 'vdux-containers'
 import {grey, blue, yellow, green, red} from 'lib/colors'
+import {component, element, decodeNode} from 'vdux'
 import TextToSpeech from 'components/TextToSpeech'
 import BlockInput from 'components/BlockInput'
 import {Block, Icon, Checkbox} from 'vdux-ui'
 import ChoiceOverview from './ChoiceOverview'
-import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import Color from 'color'
 
@@ -98,7 +98,7 @@ export default component({
                 <BlockInput
                   onInput={actions.editText}
                   inputProps={{p: '4px 12px 5px', fs: 's', fw: 200}}
-                  onKeydown={{backspace: {handler: actions.maybeRemove}}}
+                  onKeydown={{backspace: decodeNode(actions.maybeRemove)}}
                   placeholder={`Choice ${idx + 1}`}
                   defaultValue={originalContent}
                   lighter
@@ -139,12 +139,12 @@ export default component({
       yield onEdit({...object, originalContent})
     },
 
-    * maybeRemove ({props}, e) {
+    * maybeRemove ({props}, node) {
       const {numAtt, remove, focusPrevious} = props
 
-      if (e.target.value === '' && numAtt > 1) {
+      if (node.value === '' && numAtt > 1) {
         yield remove()
-        yield focusPrevious(e)
+        yield focusPrevious(node)
       }
     }
   }

@@ -2,7 +2,6 @@
  * Imports
  */
 
-import './jss'
 import 'lib/favicon'
 import 'regenerator-runtime/runtime'
 import promise from 'es6-promise'

@@ -2,9 +2,9 @@
  * Imports
  */
 
+import {decodeNode, component, element} from 'vdux'
 import {Tooltip, Button} from 'vdux-containers'
 import LineInput from 'components/LineInput'
-import {component, element} from 'vdux'
 import {Block, Icon} from 'vdux-ui'
 import map from '@f/map'
 
@@ -101,7 +101,7 @@ const Answer = component({
         <Block mr mt={-4} fs='s'>{idx + 1}.</Block>
         <LineInput
           onKeydown={{
-            backspace: {handler: actions.maybeRemove},
+            backspace: decodeNode(actions.maybeRemove),
             enter: onEnter
           }}
           onInput={onInput}
@@ -117,13 +117,13 @@ const Answer = component({
   },
 
   events: {
-    * maybeRemove ({props}, e) {
+    * maybeRemove ({props}, node) {
       const {num, idx, focusPrevious, remove} = props
 
-      if (num !== 1 && e.target.value === '') {
+      if (num !== 1 && node.value === '') {
         yield [
           remove(idx),
-          focusPrevious(e)
+          focusPrevious(node)
         ]
       }
     }

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {component, element} from 'vdux'
+import {component, element, decodeRaw} from 'vdux'
 import extend from '@f/extend'
 import {Block} from 'vdux-ui'
 
@@ -22,7 +22,7 @@ export default component({
     } = mergedProps
 
     const {acceptTypes, over, leave} = actions
-    const stop = {handler: acceptTypes}
+    const stop = decodeRaw(acceptTypes)
 
     return (
       <Block

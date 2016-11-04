@@ -2,18 +2,35 @@
  * Imports
  */
 
-import {bindUrl, setUrl as setUrlEffect, back as backEffect} from 'redux-effects-location'
 import {generateObjectId as generateObjectIdEffect} from 'middleware/objectId'
-import {uploadFile as uploadFileEffect} from 'middleware/upload'
+import uploadMw, {uploadFile as uploadFileEffect} from 'middleware/upload'
+import scrollMw, {scrollTo as scrollToEffect} from 'middleware/scroll'
+import fetchMw, {fetch, fetchEncodeJSON} from 'redux-effects-fetch'
+import fastclickMw, {initFastclick} from 'middleware/fastclick'
 import {invalidate, middleware as summonMw} from 'vdux-summon'
-import {scrollTo as scrollToEffect} from 'middleware/scroll'
-import {setTitle as setTitleEffect} from 'middleware/title'
-import {watchMedia} from 'redux-effects-media'
-import {cookie} from 'redux-effects-cookie'
+import analyticsMw, * as analytics from 'middleware/analytics'
+import locationMw, * as location from 'redux-effects-location'
+import OAuthMw, {beginOAuthFlow} from 'middleware/oauth'
+import mediaMw, {watchMedia} from 'redux-effects-media'
+import cookieMw, {cookie} from 'redux-effects-cookie'
+import {query} from 'redux-effects-credentials'
 import {component, element} from 'vdux'
+import modalMw from 'middleware/modal'
+import printMw from 'middleware/print'
+import cookieParser from 'cookie'
 import App from 'components/App'
+import summon from 'vdux-summon'
 import theme from 'lib/theme'
+import Form from 'vdux-form'
 import sleep from '@f/sleep'
+import moment from 'moment'
+import map from '@f/map'
+
+/**
+ * Constants
+ */
+
+const apiServer = process.env.API_SERVER
 
 /**
  * <Boot/>
@@ -28,12 +45,29 @@ export default component({
     ]
   },
 
-  getContext ({state, actions}) {
+  initialState ({props}) {
+    if (props.req) {
+      const cookieObj = cookieParser.parse(props.req.headers.cookie || '')
+
+      return {
+        currentUrl: props.req.url,
+        authToken: cookieObj.authToken
+      }
+    }
+
+    return {}
+  },
+
+  getContext ({props, state, actions}) {
     const {media, authToken, currentUrl, avatarUpdates} = state
+    const userAgent = props.req
+      ? props.req.headers['user-agent']
+      : window.navigator.userAgent
 
     return {
       uiTheme: theme,
       uiMedia: media,
+      uiPrefixUserAgent: userAgent,
       currentUrl,
       avatarUpdates,
       authToken,
@@ -47,14 +81,38 @@ export default component({
       : <span />
   },
 
-  middleware: [
-    summonMw
-  ],
+  onUpdate (prev, next) {
+    if (prev.state.title !== next.state.title && typeof document !== 'undefined') {
+      document.title = next.state.title
+    }
+  },
+
+  middleware: {
+    browser: [
+      scrollMw,
+      locationMw(),
+      cookieMw(),
+      OAuthMw
+    ],
+
+    shared: [
+      fetchEncodeJSON,
+      fetchMw,
+      summonMw,
+      uploadMw,
+      query(isApiServer, 'access_token', ({getState}) => getState().authToken),
+      modalMw,
+      mediaMw,
+      printMw
+    ]
+  },
 
   events: {
-    * initializeAuth ({actions}) {
-      const token = yield cookie('authToken')
-      yield actions.updateToken(token || '')
+    * initializeAuth ({actions, state}) {
+      if (!state.authToken) {
+        const token = yield cookie('authToken')
+        yield actions.updateToken(token || '')
+      }
     },
 
     * setAuthToken ({actions}, token) {
@@ -73,11 +131,12 @@ export default component({
     },
 
     * watchUrl ({actions}) {
-      yield bindUrl(actions.updateUrl)
+      yield location.bindUrl(actions.updateUrl)
     },
 
     * postLogin ({actions}, user) {
-      yield actions.setAuthToken(user.token)
+      const token = user ? user.token : null
+      yield actions.setAuthToken(token)
       yield invalidate('/user')
       yield actions.setUrl('/')
     },
@@ -88,33 +147,49 @@ export default component({
       yield actions.hideToast()
     },
 
-    * setUrl (model, url, replace) {
-      yield setUrlEffect(url, replace === true)
+    * logoutUser ({actions}) {
+      yield actions.postLogin(null)
     },
 
-    * back (model, ...args) {
-      yield backEffect(...args)
-    },
-
-    * generateObjectId () {
-      return yield generateObjectIdEffect()
-    },
-
-    * scrollTo (model, ...args) {
-      return yield scrollToEffect(...args)
-    },
-
-    * uploadFile (model, ...args) {
-      return yield uploadFileEffect(...args)
-    },
-
-    * setTitle (model, ...args) {
-      return yield setTitleEffect(...args)
+    * oauthLogin ({actions}, provider, params = {}, cb) {
+      const data = yield beginOAuthFlow(provider)
+      const {value} = yield fetch(`${apiServer}/auth/${provider}`, {
+        method: 'PUT',
+        body: {
+          ...data,
+          ...params
+        }
+      })
+      yield actions.postLogin(value.token)
     },
 
     * logoutUser ({actions}) {
       yield actions.postLogin(null)
-    }
+    },
+
+    * oauthCreate (provider, params = {}) {
+      const data = yield beginOAuthFlow(provider)
+      const {value} = yield fetch(`${apiServer}/auth/${provider}`, {
+        method: 'POST',
+        body: {
+          ...data,
+          ...params
+        }
+      })
+      yield postLogin(value.token)
+    },
+
+    fastclick () {
+      if (typeof window !== 'undefined') {
+        fastclick(document.body)
+      }
+    },
+
+    generateObjectOid: wrapEffect(generateObjectIdEffect),
+    scrollTo: wrapEffect(uploadFileEffect),
+    uploadFile: wrapEffect(uploadFileEffect),
+    ...map(wrapEffect, location),
+    ...map(wrapEffect, analytics)
   },
 
   reducer: {
@@ -131,6 +206,71 @@ export default component({
     openModal: (state, modal) => ({modal}),
     closeModal: () => ({modal: null}),
     showToast: (state, toast) => ({toast}),
-    hideToast: () => ({toast: null})
+    hideToast: () => ({toast: null}),
+    setTitle: (state, title) => ({title})
+  }
+})
+
+/**
+ * Helpers
+ */
+
+function wrapEffect (fn) {
+  return (model, ...args) => fn(...args)
+}
+
+/**
+ * Test whether or not a URL points to our API server
+ * Useful for adding credentials and such
+ */
+
+function isApiServer (url) {
+  return url.indexOf(process.env.API_SERVER) === 0
+}
+
+/**
+ * Global config
+ */
+
+summon.configure({
+  baseUrl: process.env.API_SERVER,
+  credentials: {
+    type: 'query',
+    pattern: isApiServer,
+    name: 'access_token',
+    token: ({getContext}) => getContext().authToken
+  },
+
+  transformError (err) {
+    if (err.url && isApiServer(err.url) && err.status >= 400 && err.status < 500) {
+      return {
+        ...err,
+        value: {
+          ...err.value,
+          errors: Object
+            .keys(err.value.errors)
+            .map(field => ({field, message: err.value.errors[field].message}))
+        }
+      }
+    }
+
+    return err
+  }
+})
+
+Form.setTransformError(err => {
+  if (err.status >= 400 && err.status < 500) {
+    return err.value && err.value.errors
+  }
+})
+
+moment.updateLocale('en', {
+  calendar: {
+    lastDay: '[Yesterday]',
+    sameDay: '[Today]',
+    nextDay: '[Tomorrow]',
+    lastWeek: '[last] dddd',
+    nextWeek: 'dddd',
+    sameElse: 'MMMM D, YYYY'
   }
 })

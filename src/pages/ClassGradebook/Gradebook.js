@@ -29,9 +29,8 @@ const pageSize = 7
  */
 
 export default summonChannels(({group}) => `group!${group._id}.board`)(summonPrefs()(component({
-  intialState: {
-    page: 0,
-    hasData: false
+  initialState: {
+    page: 0
   },
 
   render ({props, actions, state}) {
@@ -43,12 +42,13 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
 
     const {
       totals, sort, displayPercent, activityList,
-      numPages, studentList, usersData, allowExport
+      numPages, studentList, usersData, allowExport,
+      hasData
     } = deriveData(props)
 
     return (
       <Block w='col_main' mx='auto' my='l' relative>
-        <GradebookNav setPref={setPref} next={actions.next(numPages)} prev={actions.prev(numPages)} exportAll={actions.exportAll} asPercent={displayPercent} page={page} numPages={numPages} hasData={state.hasData} allowExport={allowExport} />
+        <GradebookNav setPref={setPref} next={actions.next(numPages)} prev={actions.prev(numPages)} exportAll={actions.exportAll} asPercent={displayPercent} page={page} numPages={numPages} hasData={hasData} allowExport={allowExport} />
         <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
           <Table overflow='auto'>
             <GradebookHeader setPref={setPref} activities={curArr(activityList)} exportActivity={actions.exportActivity} totals={totals} sort={sort} allowExport={allowExport} />
@@ -71,17 +71,6 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
 
     function curArr (arr) {
       return arr.slice(page * pageSize, (page + 1) * pageSize)
-    }
-  },
-
-  onUpdate (prev, next) {
-    if (!next.state.hasData) {
-      const pdata = deriveData(prev.props)
-      const ndata = deriveData(next.props)
-
-      if (!pdata.usersData.scores.length && ndata.usersData.scores.length) {
-        return next.actions.setHasData()
-      }
     }
   },
 
@@ -133,8 +122,7 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
     }),
     prev: state => ({
       page: Math.max(state.page - 1, 0)
-    }),
-    setHasData: () => ({hasData: true})
+    })
   }
 })))
 
@@ -171,7 +159,8 @@ function deriveData (props) {
     numPages,
     studentList,
     usersData,
-    allowExport
+    allowExport,
+    hasData: usersData.some(data => data.scores.length)
   }
 
   function cmp (a, b) {

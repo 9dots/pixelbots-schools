@@ -60,7 +60,6 @@ import NotificationsFeed from 'pages/NotificationsFeed'
 import Connect from 'pages/Connect'
 
 import Redirect from 'components/Redirect'
-import {page} from 'middleware/analytics'
 import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
 import enroute from 'enroute'
@@ -283,9 +282,9 @@ const activityEditRe = /^\/activity\/[^\/]+\/edit/
  */
 
 export default component({
-  onCreate ({props, state}) {
+  onCreate ({props, state, context}) {
     const {name, params} = router(props.currentUrl, {...props, ...state})
-    return page({name, params})
+    return context.page({name, params})
   },
 
   render ({props, state}) {
@@ -299,11 +298,11 @@ export default component({
   },
 
   * onUpdate (prev, next) {
-    const {actions} = next
+    const {actions, context} = next
 
     if (prev.props.currentUrl !== next.props.currentUrl) {
       const {name, params} = router(next.props.currentUrl, {...next.props, ...next.state})
-      yield page({name, params})
+      yield context.page({name, params})
 
       if (prev.props.currentUrl && !activityRe.test(prev.props.currentUrl) && activityRe.test(next.props.currentUrl)) {
         yield actions.canExit(true)

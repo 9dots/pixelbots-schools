@@ -7,10 +7,16 @@ import segment from 'lib/segment'
 import prep from 'track-prep'
 
 /**
+ * Constants
+ */
+
+const writeKey = process.env.SEGMENT_IO_KEY
+
+/**
  * Analytics middleware
  */
 
-function analytics (writeKey) {
+function analytics () {
   segment(writeKey)
 
   const config = {
@@ -24,7 +30,7 @@ function analytics (writeKey) {
     return !!(user._id && user.userType === 'teacher')
   }
 
-  return api => next => action => {
+  return next => action => {
     switch (action.type) {
       case identify.type: {
         const user = action.payload || {}

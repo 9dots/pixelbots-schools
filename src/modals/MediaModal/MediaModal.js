@@ -2,10 +2,10 @@
  * Imports
  */
 
+import {decodeRaw, component, element} from 'vdux'
 import {Modal, ModalFooter, Block} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
 import FileUpload from 'components/FileUpload'
-import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
@@ -35,7 +35,7 @@ export default summon(() => ({
         <Block p='l' h={275} align='stretch'>
           {
              uploadable
-              ? <FileUpload onDrop={{handler: actions.onDrop}} onUpload={actions.done} message={<Upload loading={scraping.loading} {...props} onSubmit={actions.done} />} align='center center' wide {...props} />
+              ? <FileUpload onDrop={decodeRaw(actions.onDrop)} onUpload={actions.done} message={<Upload loading={scraping.loading} {...props} onSubmit={actions.done} />} align='center center' wide {...props} />
               : <ScrapeFile {...props} loading={scraping.loading} onSubmit={actions.done} />
           }
         </Block>

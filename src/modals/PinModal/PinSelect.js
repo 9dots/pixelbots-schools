@@ -7,7 +7,7 @@ import {Block, Button} from 'vdux-containers'
 import WeoIcon from 'components/WeoIcon'
 import {component, element} from 'vdux'
 import validate from 'lib/validate'
-import {fork} from '@flox/fork'
+import flox, {fork} from '@flox/fork'
 import map from '@f/map'
 
 /**
@@ -27,6 +27,10 @@ export default component({
       </Block>
     )
   },
+
+  middleware: [
+    flox
+  ],
 
   events: {
     * selectBoared ({actions, props}, board) {

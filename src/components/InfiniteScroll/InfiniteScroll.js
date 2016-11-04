@@ -26,6 +26,8 @@ export default component({
   events: {
     * handleScroll ({props}) {
       const {more, threshold = 350} = props
+      if (!more) return
+
       const delta = document.body.scrollHeight - (document.body.scrollTop + window.innerHeight)
 
       if (delta <= threshold) {

@@ -6,9 +6,9 @@ import ActivitySidebar from 'components/ActivitySidebar'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
 import {Toast, Block, Icon, Card, Text} from 'vdux-ui'
+import {decodeRaw, component, element} from 'vdux'
 import summon, {invalidate} from 'vdux-summon'
 import AttachmentMenu from './AttachmentMenu'
-import {component, element} from 'vdux'
 import findIndex from '@f/find-index'
 import deepEqual from '@f/deep-equal'
 import {debounce} from 'redux-timing'
@@ -75,10 +75,10 @@ export default summon(({activity}) => ({
                     <Block
                       key={object._id}
                       draggable={editing !== object._id}
-                      onDragOver={{handler: actions.onDragOver(object._id)}}
+                      onDragOver={decodeRaw(actions.onDragOver(object._id))}
                       onDragEnd={actions.clearDragging}
-                      onMouseDown={{handler: actions.setMouseDown}}
-                      onDragStart={{handler: actions.onDragStart(object._id)}}
+                      onMouseDown={decodeRaw(actions.setMouseDown)}
+                      onDragStart={decodeRaw(actions.onDragStart(object._id))}
                       bgColor={state.dragging === object._id ? '#e2f4fb' : undefined}>
                       <ActivityObject
                         editable
@@ -106,7 +106,7 @@ export default summon(({activity}) => ({
               </Block>
             </Card>
             <Block mr>
-              <Block h={18} onDrop={{preventDefault: true}} onDragOver={{handler: actions.onDragOver(null)}} />
+              <Block h={18} onDrop={{preventDefault: true}} onDragOver={decodeRaw(actions.onDragOver(null))} />
               <AttachmentMenu attach={actions.insertObject} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
             </Block>
           </Block>
@@ -265,7 +265,7 @@ export default summon(({activity}) => ({
       synced: true,
       openNext: undefined,
       editing: state.openNext !== undefined
-        ? state.openNext
+        ? (state.openNext === state.editing ? null : state.openNext)
         : state.editing,
       numSaves: state.numSaves + 1,
       editedActivity: {
