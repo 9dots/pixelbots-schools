@@ -4,6 +4,7 @@
 
 import CreateActivityModal from 'modals/CreateActivityModal'
 import {Block, Button, Tooltip} from 'vdux-containers'
+import EmptyState from 'components/EmptyState'
 import {component, element} from 'vdux'
 import summon from 'vdux-summon'
 import {Icon} from 'vdux-ui'
@@ -28,6 +29,14 @@ export default summon(props => ({
 }))(component({
   render ({actions, props}) {
     const {copyingTemplate = {}} = props
+
+    if (currentUser.userType === 'student') {
+      return (
+        <EmptyState icon='assignment' color='green' m='auto' wide>
+          Your teacher hasn't assigned anything yet.  Check back here for future Activities.
+        </EmptyState>
+      )
+    }
 
     return (
       <Block p textAlign='center'>

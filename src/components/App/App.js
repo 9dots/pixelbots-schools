@@ -46,7 +46,7 @@ export default summon(() => ({
     }
   },
 
-  render ({props, state}) {
+  render ({props, state, context}) {
     const {toast, modal, currentUser} = props
     if (!currentUser.loaded && !currentUser.error) return <span />
 

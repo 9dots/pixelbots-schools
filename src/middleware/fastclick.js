@@ -4,7 +4,6 @@
 
 function middleware () {
   return next => action => {
-    console.log('running')
     if (typeof window !== 'undefined' && action.type === 'INIT_FASTCLICK') {
       require('fastclick')(action.payload || document.body)
       return

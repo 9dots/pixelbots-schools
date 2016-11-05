@@ -2,11 +2,12 @@
  * Imports
  */
 
-import css from './css'
-import fonts from 'lib/fonts'
-import favicon from 'lib/favicon'
-import * as katex from 'lib/katex'
 import * as touchIcons from 'lib/apple-touch-icons'
+import * as katex from 'lib/katex'
+import favicon from 'lib/favicon'
+import og from 'lib/open-graph'
+import fonts from 'lib/fonts'
+import css from 'lib/css'
 
 /**
  * Assets
@@ -14,21 +15,12 @@ import * as touchIcons from 'lib/apple-touch-icons'
 
 const cloudFS = require('cloud-fs')
 const client = cloudFS.url('./scripts/weo.js')
-const image = cloudFS.url('./simple1200x620.png')
 
 /**
  * Config
  */
 
 const apiStatic = process.env.API_STATIC
-
-const og = {
-  title: 'Your assignments Simplified | WEO',
-  image,
-  site_name: 'Weo',
-  type: 'website',
-  description: 'Create and share educational activities with colleagues and students.'
-}
 
 /**
  * Page
