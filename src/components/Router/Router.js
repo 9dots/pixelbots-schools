@@ -400,7 +400,7 @@ function classRedirect ({currentUser}) {
   //   const path = curClass ? curClass.id : classes[0].id
   //   return <Redirect to={`/class/${path}/feed/`}/>
   // } else
-    return <Redirect to='/class/all/'/>
+    return <Redirect to='/class/all'/>
 }
 
 function isTeacher (state) {

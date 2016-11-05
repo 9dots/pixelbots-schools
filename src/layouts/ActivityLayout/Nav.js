@@ -93,13 +93,13 @@ function render ({props, local, state}) {
           </Block>
           <Block align='end center' hide={activity.published || (intent && intent !== 'new')}>
             <Block color='red' align='start center' mr>DRAFT</Block>
-            <EditDropdown user={user} onAction={() => exit()} back={back} activity={activity} />
+            <EditDropdown user={user} onAction={exit} back={back} activity={activity} />
           </Block>
           {
             intent === 'pin'
               ? <PinButton activity={activity} user={user} text='Pin' onPin={exit} />
               : intent === 'assign'
-                ? <AssignButton activity={activity} text='Assign' user={user} onAssign={() => exit()} />
+                ? <AssignButton activity={activity} text='Assign' user={user} onAssign={exit} />
                 : <Block align='end center' hide={!activity.published}>
                     <Button mr='s' text='Done' onClick={back} bgColor='grey' />
                     <DeleteButton onDelete={exit} activity={activity} bgColor='red'/>

@@ -137,13 +137,17 @@ function internal (props, children, local, state) {
     }
   }
 
-  function exit () {
+  function exit (action, id) {
     const {canExit, exitDepth} = props
+    const channel = value.channels[0]
+    const draftChannel = `user!${value.actor.id}.drafts`
 
-    if (canExit) {
+    if (action === 'pin' && channel === draftChannel) {
+      return setUrl(`/activity/${value._id}/preview`, true)
+    } else if (canExit) {
       return exitDepth === 2 ? [back(), back()] : back()
     } else {
-      return setUrl(escapeUrl())
+      return setUrl(escapeUrl(action, id))
     }
   }
 

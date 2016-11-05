@@ -47,7 +47,7 @@ function item (cls) {
     <Link
       currentProps={{borderLeftColor: 'blue', highlight: 0.05, color: 'text'}}
       borderLeft='3px solid transparent'
-      href={`/class/${_id}/`}
+      href={`/class/${_id}`}
       align='start center'
       ui={MenuItem}
       p>
