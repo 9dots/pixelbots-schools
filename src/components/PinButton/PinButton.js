@@ -32,7 +32,7 @@ export default component({
 
       yield context.openModal(() =>
             user
-              ? <PinModal onPin={onPin} activity={activity} />
+              ? <PinModal user={user} onPin={onPin} activity={activity} />
               : <SignUpModal />)
     }
   }

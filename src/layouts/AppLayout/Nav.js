@@ -6,7 +6,6 @@ import {Fixed, Text, Icon, Flex, Block, Menu, Button} from 'vdux-containers'
 import NotificationsButton from 'components/NotificationsButton'
 import CreateActivityModal from 'modals/CreateActivityModal'
 import SignUpModal from 'modals/SignUpModal'
-import ClassNav from 'components/ClassNav'
 import HomeOwl from 'components/HomeOwl'
 import AccountMenu from './AccountMenu'
 import {component, element} from 'vdux'
@@ -36,19 +35,13 @@ export default component({
               </Flex>
               {
                 currentUser && [
-                  <Item href='/feed' icon='home' text='Home' />,
-                  <Item hide={isStudent} href='/activities' icon='assignment' text='My Activities' />,
-                  <Item hide={!isStudent} href={`/${currentUser.username}`} icon='person' text='My Profile' />,
-                  <ClassNav currentUser={currentUser}>
-                    <Item href='/class' disabled ml='s' fs='s' icon='school' text='Classes'>
-                      <Icon name='arrow_drop_down' fs='s' ml='s' />
-                    </Item>
-                  </ClassNav>
+                  <Item href='/class' icon='home' text='Home' />,
+                  <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />
                 ]
               }
             </Flex>
             <Menu flex align='end center'>
-              <Search url={url} searching={search} query={query} hide={isStudent} mr='s' />
+              <Search url={url} searching={search} query={query} hide={isStudent} mr='s'/>
               {
                 currentUser && [
                   <NotificationsButton currentUser={currentUser} />,

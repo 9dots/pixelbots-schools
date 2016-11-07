@@ -30,10 +30,10 @@ export default summonPrefs()(component({
     return (
       <Table bgColor='white' wide tall>
         <TableRow py bgColor='grey' color='white'>
-          <TableHeader p w='40' hide={isStudent}>
+          <TableHeader p w='50' hide={isStudent}>
             <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
           </TableHeader>
-          <TableHeader w='40' />
+          <TableHeader w='40'/>
           <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={actions.setSort} />
           <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setSort={actions.setSort} />
           <StudentHeader text='Username' prop='username' sort={sort} setSort={actions.setSort} />
@@ -52,8 +52,8 @@ export default summonPrefs()(component({
       const prop = sort.property
 
       return getProp(prop, a).toUpperCase() > getProp(prop, b).toUpperCase()
-      ? 1 * sort.dir
-      : -1 * sort.dir
+        ? 1 * sort.dir
+        : -1 * sort.dir
     }
   },
 

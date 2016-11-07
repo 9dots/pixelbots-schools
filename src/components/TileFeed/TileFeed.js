@@ -15,13 +15,13 @@ import map from '@f/map'
 
 export default component({
   render ({children, props}) {
-    const {activities, more, emptyState, currentUser, skip, activityProps = {}} = props
+    const {activities, more, emptyState, currentUser, skip, activityProps = {}, columns = 4, ...rest} = props
     const {value, loaded, loading} = activities
 
     return (
-      <InfiniteScroll w='calc(100% + 12px)' loading={loading} more={value && more(value.nextPageToken)}>
+      <InfiniteScroll w='calc(100% + 12px)' loading={loading} more={value && more(value.nextPageToken)} {...rest}>
         {
-            loaded && renderItems(value.items, emptyState, children, currentUser, skip, activityProps)
+            loaded && renderItems(value.items, emptyState, children, currentUser, skip, activityProps, columns)
           }
       </InfiniteScroll>
     )
@@ -32,8 +32,8 @@ export default component({
  * Helpers
  */
 
-function renderItems (items, emptyState, children, user, skip, activityProps) {
-  const columns = toColumns(items, 4, skip)
+function renderItems (items, emptyState, children, user, skip, activityProps, cols) {
+  const columns = toColumns(items, cols, skip)
 
   return (
     items.length

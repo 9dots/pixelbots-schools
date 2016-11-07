@@ -22,7 +22,7 @@ import map from '@f/map'
  * Constants
  */
 
-const pageSize = 7
+const pageSize = 5
 
 /**
  * <Gradebook/>
@@ -47,7 +47,7 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
     } = deriveData(props)
 
     return (
-      <Block w='col_main' mx='auto' my='l' relative>
+      <Block mx='auto' my='l' relative>
         <GradebookNav setPref={setPref} next={actions.next(numPages)} prev={actions.prev(numPages)} exportAll={actions.exportAll} asPercent={displayPercent} page={page} numPages={numPages} hasData={hasData} allowExport={allowExport} />
         <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
           <Table overflow='auto'>

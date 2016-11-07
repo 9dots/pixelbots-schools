@@ -28,9 +28,9 @@ export default summon(({activity}) => ({
     return (
       <Block align='start center' {...props}>
         <Button
-          onClick={actions.openAssignModal}
+          onClick={actions.openPinModal}
           borderRadius='99px 0 0 99px'
-          text='Assign To Class'
+          text='Save Activity'
           bgColor='green'
           pl={18}
           h={34}
@@ -42,11 +42,6 @@ export default summon(({activity}) => ({
             </Button>
           }
           w={160}>
-          <Item
-            onClick={actions.openPinModal}
-            weoIcon='pin'
-            text='Pin to Board'
-            color='blue' />
           <Item
             onClick={actions.draft}
             weoIcon='drafts'
@@ -64,6 +59,8 @@ export default summon(({activity}) => ({
 
   events: {
     * draft ({props, context}) {
+      const {user} = props
+
       yield props.saveDraft()
       yield context.back(true)
 
@@ -71,9 +68,9 @@ export default summon(({activity}) => ({
         <Toast key='a'>
           <Block align='space-between center'>
             <Block>
-              Saved to <Link onClick={context.hideToast} href='/activities/drafts' color='blue'>Drafts</Link>
+              Saved to <Link onClick={context.hideToast} href={`/${user.username}/boards/drafts`} color='blue'>Drafts</Link>
             </Block>
-            <Button onClick={[context.setUrl('/activities/drafts'), context.hideToast]} bgColor='green'>Go to Drafts</Button>
+            <Button onClick={[context.setUrl(`/${user.username}/boards/drafts`), context.hideToast]} bgColor='green'>Go to Drafts</Button>
           </Block>
         </Toast>
       )

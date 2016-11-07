@@ -3,8 +3,8 @@
  */
 
 import {Block, Flex, Card, Icon} from 'vdux-ui'
-import {component, element} from 'vdux'
 import WeoIcon from 'components/WeoIcon'
+import {component, element} from 'vdux'
 
 /**
  * <DraftsWidget/>
@@ -12,11 +12,11 @@ import WeoIcon from 'components/WeoIcon'
 
 export default component({
   render ({props, context}) {
-    const {draftCount} = props
+    const {draftCount, user} = props
     const size = '25px'
 
     return (
-      <Card align='start center' pointer p {...props} hide={!draftCount} onClick={context.setUrl('/activities/drafts')}>
+      <Card align='start center' pointer p {...props} hide={!draftCount} onClick={context.setUrl(`/${user.username}/boards/drafts`)}>
         <WeoIcon fs='m' mr name='drafts' />
         <Flex align='start center' flex>
           Drafts

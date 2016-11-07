@@ -34,9 +34,8 @@ export default component({
             key={props.boardId}
             type='search'
             icon='search'
-            right='6px'
             py='8px'
-            absolute
+            absolute={{top: 6, right: 6}}
             w='242px' />
         }
         {

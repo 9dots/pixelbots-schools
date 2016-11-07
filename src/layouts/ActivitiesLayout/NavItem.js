@@ -9,7 +9,14 @@ import {component, element} from 'vdux'
 import Link from 'components/Link'
 
 /**
- * ActivitiesLayout <NavItem/> component
+ * Constants
+ */
+
+const hoverProps = {color: 'text'}
+const currentProps = {borderLeftColor: 'blue', highlight: 0.05, color: 'test'}
+
+/**
+ * <NavItem/> in <ActivitiesLayout/>
  */
 
 export default wrap(CSSContainer, {
@@ -18,7 +25,7 @@ export default wrap(CSSContainer, {
   }
 })(component({
   render ({props, children, actions}) {
-    const {showSettings, board, ...rest} = props
+    const {showSettings, board, isMe, ...rest} = props
 
     return (
       <Link
@@ -29,14 +36,14 @@ export default wrap(CSSContainer, {
         {...rest}
         py='m'
         borderLeft='3px solid transparent'
-        hoverProps={{color: 'text'}}
-        currentProps={{borderLeftColor: 'blue', highlight: 0.05, color: 'text'}}>
+        hoverProps={hoverProps}
+        currentProps={currentProps}>
         <Block flex align='start center' ellipsis>
           {children}
         </Block>
         <Icon
           onClick={[{stopPropagation: true}, actions.openSettings]}
-          hide={!board}
+          hide={!board || !isMe}
           transition='opacity 0.15s'
           fs='xs'
           opacity={showSettings ? 0.5 : 0}
@@ -48,7 +55,8 @@ export default wrap(CSSContainer, {
 
   events: {
     * openSettings ({props, context}) {
-      yield context.openModal(() => <BoardSettingsModal board={props.board} exitPath='/activities/all' />)
+      const {currentUser} = props
+      yield context.openModal(() => <BoardSettingsModal board={props.board} exitPath={`/${currentUser.username}/activities/all`} />)
     }
   }
 }))

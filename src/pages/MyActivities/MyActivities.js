@@ -12,17 +12,23 @@ import {Button} from 'vdux-containers'
 import {Block} from 'vdux-ui'
 
 /**
+ * Constants
+ */
+
+const itemProps = {options: {edit: true, assign: 'Assign', pin: true}}
+
+/**
  * <MyActivities/> Page
  */
 
-export default summonChannels(({currentUser}) =>
-  currentUser.groups
+export default summonChannels(({user}) =>
+  user.groups
     .filter(group => group.groupType === 'board')
     .map(board => `group!${board.id}.board`), {}, 'updatedAt'
 )(component({
   render ({props}) {
     return (
-      <RowFeed {...props} item={ActivityRow} itemProps={{options: {edit: true, assign: 'Assign', pin: true}}} emptyState={<EmptyBoard currentUser={props.currentUser} />} />
+      <RowFeed {...props} item={ActivityRow} itemProps={itemProps} emptyState={<EmptyBoard currentUser={props.currentUser} user={props.user} />} />
     )
   }
 }))
@@ -33,24 +39,38 @@ export default summonChannels(({currentUser}) =>
 
 const EmptyBoard = component({
   render ({props, actions}) {
+    const {currentUser, user} = props
+    const isMine = user._id === currentUser._id
+
     return (
-      <EmptyState p='24px 12px 24px' bg='#E4E5E7' border='1px solid #D8DADD' icon='assignment' color='green' w='auto'>
-        <Block fs='m' my='l'>This is a list of your pinned Activities</Block>
-        <Button
-          onClick={actions.createActivity}
-          bgColor='blue'
-          boxShadow='z2'
-          color='white'
-          px='35px'
-          lh='3em'
-          lighter
-          fs='s'
-          my>
-            Create My First Activity
-        </Button>
-        <Block lh='30px' textAlign='center' m pb='l'>
-          Activities saved to boards will appear here.
-        </Block>
+      <EmptyState p='24px 12px 24px' bg='grey_light' border='1px solid #D4D4D4' icon='assignment' color='green' w='auto'>
+        { isMine
+            ? <Block>
+                <Block fs='m' my='l'>This is a list of your pinned Activities</Block>
+                <Button
+                  onClick={actions.createActivity}
+                  bgColor='blue'
+                  boxShadow='z2'
+                  color='white'
+                  px='35px'
+                  lh='3em'
+                  lighter
+                  fs='s'
+                  my>
+                    Create My First Activity
+                </Button>
+                <Block lh='30px' textAlign='center' m pb='l'>
+                  Activities saved to boards will appear here.
+                </Block>
+              </Block>
+            : <Block>
+                <Block fs='m' my='l'>
+                  {user.displayName} has no public Activites</Block>
+                <Block lh='30px' textAlign='center' m pb='l'>
+                  Saved activities saved will appear here.
+                </Block>
+              </Block>
+        }
       </EmptyState>
     )
   },

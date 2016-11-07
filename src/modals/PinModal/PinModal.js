@@ -47,10 +47,10 @@ export default summon(() => ({
   }))(component({
     render ({props, context, actions}) {
       const {
-      activity, boards,
-      createBoard, creatingBoard = {},
-       pinning = {}, copying = {}
-    } = props
+        activity, boards,
+        createBoard, creatingBoard = {},
+        pinning = {}, copying = {}
+      } = props
       const {value, loaded} = boards
 
       const busy = creatingBoard.loading || copying.loading || pinning.loading
@@ -76,14 +76,14 @@ export default summon(() => ({
             </Text>
           </ModalFooter>
         </Modal>
-    )
+      )
     },
 
     events: {
       * doPin ({actions, props, context}, board) {
-        const {activity, copyActivity, onPin, fields, pin} = props
+        const {activity, copyActivity, onPin, fields, pin, user} = props
         const {displayName, originalDescription} = activity
-        const url = `/activities/${board._id}`
+        const url = `/${user.username}/boards/${board._id}`
         const model = {
           displayName: fields.displayName.value === undefined ? displayName : fields.displayName.value,
           originalDescription: fields.originalDescription.value === undefined ? originalDescription : fields.originalDescription.value
@@ -108,7 +108,7 @@ export default summon(() => ({
               <Button onClick={[context.setUrl(url), context.hideToast]} bgColor='green'>Go to Board</Button>
             </Block>
           </Toast>
-      )
+        )
       }
     }
   })))

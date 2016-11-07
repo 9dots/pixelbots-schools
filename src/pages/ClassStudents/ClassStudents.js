@@ -38,25 +38,27 @@ export default summon(({group}) => ({
       const selected = (fields.selected.value || []).filter(id => studentIds[id])
 
       return (
-        <Block w='col_main' mx='auto' relative my py>
+        <Block maxWidth='714px' my py mx='auto' relative>
           <PageTitle title={`${group.displayName} | Students`} />
           {
-          loaded && studentList.length
-            ? <Block>
-              <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} />
-              <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
-            </Block>
-            : <EmptyClassStudents group={group} />
-        }
+            loaded && studentList.length
+              ? <Block>
+                  <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} />
+                  <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
+                </Block>
+                : <EmptyClassStudents group={group} />
+          }
         </Block>
-    )
+      )
     }
-  })))
+  })
+))
 
 /**
  * <StudentMenu/>
  */
 
+const highlightProps = {highlight: 0.02}
 const btnProps = {
   color: 'white',
   h: '30',
@@ -83,26 +85,24 @@ const StudentMenu = component({
           <Icon name='send' mr='s' fs='s' />Invite Students
         </Button>
         <Tooltip message={!count && 'Select Students to Enable'}>
-          <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={actions.passwordModal(users)}>
+          <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={highlightProps} focusProps={highlightProps} color='text' onClick={actions.passwordModal(users)}>
             <Icon name='lock' mr='s' fs='s' />Reset Password
           </Button>
         </Tooltip>
         <Tooltip message={!count && 'Select Students to Enable'}>
-          <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={{highlight: 0.02}} focusProps={{highlight: 0.02}} color='text' onClick={actions.printLoginModal(users)}>
+          <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={highlightProps} focusProps={highlightProps} color='text' onClick={actions.printLoginModal(users)}>
             <Icon name='print' mr='s' fs='s' />Print Login Info
           </Button>
         </Tooltip>
         <Tooltip message={!count && 'Select Students to Enable'}>
           <Button disabled={!count} bgColor='red' color='white' {...btnProps} onClick={actions.removeModal(users)}>
-            <Icon name='delete' mr='s' fs='s' />Remove from Class
+            <Icon name='delete' mr='s' fs='s' />Remove
           </Button>
         </Tooltip>
         <Flex flex align='end center'>
           <Block color='blue' align='center center' hide={!count}>
             {count} selected
-            <Block mx='s' color='text'>|</Block>
           </Block>
-          {students.length} students
         </Flex>
       </Flex>
     )

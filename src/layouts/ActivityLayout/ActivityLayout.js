@@ -185,19 +185,43 @@ function internal ({props, children, actions, context, state}) {
     }, children)
   ]
 
+  function backBtn () {
+    const {canExit} = props
+
+    if (intent === 'new') {
+      return openModal(() => <DiscardDraftModal onAccept={() =>canExit ? back() : setUrl('/feed')} activity={value} />)
+    } else {
+      return canExit ? back() : setUrl(escapeUrl())
+    }
+  }
+
+  function exit (action, id) {
+    const {canExit, exitDepth} = props
+    const channel = value.channels[0]
+    const draftChannel = `user!${value.actor.id}.drafts`
+
+    if (action === 'pin' && channel === draftChannel) {
+      return setUrl(`/activity/${value._id}/preview`, true)
+    } else if (canExit) {
+      return exitDepth === 2 ? [back(), back()] : back()
+    } else {
+      return setUrl(escapeUrl(action, id))
+    }
+  }
+
   function escapeUrl () {
     if (value.channels[0] === 'user!' + value.actor.id + '.drafts') {
-      return '/activities/drafts'
+      return '/' + value.actor.username + '/boards/all'
     }
 
     if (value.channels[0] === 'user!' + value.actor.id + '.trash') {
-      return '/activities/trash'
+      return '/' + value.actor.username + '/boards/trash'
     }
 
     return value.contexts[0].descriptor.id !== 'public'
       ? '/class/' + value.contexts[0].descriptor.id
       : value.actor.id === currentUser._id
-        ? '/activities/' + value.contexts[1].descriptor.id
-        : '/'
+        ? `/${value.actor.username}/boards/${value.contexts[1].descriptor.id}`
+        : '/class/all'
   }
 }

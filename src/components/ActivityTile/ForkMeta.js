@@ -8,7 +8,13 @@ import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 
 /**
- * Fork Meta
+ * Constants
+ */
+
+const underline = {underline: true}
+
+/**
+ * <ForkMeta/>
  */
 
 export default component({
@@ -19,7 +25,7 @@ export default component({
     const location = pinnedFrom ? pinnedFrom.board.displayName : actor.displayName
     const message = pinnedFrom ? 'Pinned from' : 'Created by'
     const href = pinnedFrom
-      ? `/${actor.username}/board/${pinnedFrom.board.id}/activities`
+      ? `/${actor.username}/boards/${pinnedFrom.board.id}`
       : `/${actor.username}`
 
     return (
@@ -27,7 +33,7 @@ export default component({
         <Avatar pointer mr thumb actor={actor} onClick={[context.setUrl(`/${actor.username}`), {stopPropagation: true}]} />
         <Flex column fs='xxs' align='space-around'>
           <Text color='text' mb='xs'>{message}</Text>
-          <Link href={href} pointer hoverProps={{underline: true}} fw='bold'>
+          <Link href={href} pointer hoverProps={underline} fw='bold'>
             {location}
           </Link>
         </Flex>

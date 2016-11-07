@@ -2,10 +2,11 @@
  * Imports
  */
 
+import ClassActivityRow from 'components/ClassActivityRow'
 import FeedWidgets from 'components/FeedWidgets'
 import PageTitle from 'components/PageTitle'
-import IntroModal from 'modals/IntroModal'
 import TileFeed from 'components/TileFeed'
+import RowFeed from 'components/RowFeed'
 import {component, element} from 'vdux'
 import EmptyFeed from './EmptyFeed'
 import summon from 'vdux-summon'
@@ -28,16 +29,6 @@ export default summon(props => ({
     }
   })
 }))(component({
-  onCreate ({context, props}) {
-    const {currentUser} = props
-    const {preferences = {}} = currentUser
-    const {slideshow = {}} = preferences
-
-    if (!slideshow.done) {
-      return context.openModal(() => <IntroModal currentUser={currentUser} />)
-    }
-  },
-
   render ({props}) {
     const {activities, more, currentUser} = props
     const {preferences = {}} = currentUser

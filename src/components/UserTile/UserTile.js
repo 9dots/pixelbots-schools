@@ -18,7 +18,7 @@ export default component({
     const isActor = user._id === undefined
 
     return (
-      <Card w={230} my={8} mx={6} pointer onClick={context.setUrl(`/${user.username}/boards`)}>
+      <Card w={230} my={8} mx={6} pointer onClick={context.setUrl(`/${user.username}/boards/all`)}>
         <Block relative>
           <Block w='100%' relative bgColor='grey_light'>
             <Block pb='100%'>

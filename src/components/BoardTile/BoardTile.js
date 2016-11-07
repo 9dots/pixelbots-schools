@@ -13,6 +13,14 @@ import BgImg from 'components/BgImg'
 import Link from 'components/Link'
 
 /**
+ * Constants
+ */
+
+const underline = {underline: true}
+const opacity = {opacity: 0.92}
+const highlight = {highlight: 0.03}
+
+/**
  * <BoardTile/>
  */
 
@@ -21,7 +29,7 @@ export default component({
     const {board, currentUser, hideMeta} = props
     const {owners = [], displayName, images = []} = board
     const [owner = {}] = owners
-    const url = '/' + owner.username + '/board/' + board._id + '/activities/'
+    const url = `/${owner.username}/boards/${board._id}`
 
     return (
       <Card w={230} h={250} relative my={8} mx={6}>
@@ -34,15 +42,15 @@ export default component({
               : <Flex px h={50} align='start center'>
                 <Avatar link thumb actor={owner} />
                 <Flex column ml='m'>
-                  <Link hoverProps={{underline: true}} href={url} mb='2px' bold>{displayName}</Link>
-                  <Link color='grey_medium' fs='xxs' hoverProps={{underline: true}} href={`/${owner.username}/boards`}>
+                  <Link hoverProps={underline} href={url} mb='2px' bold>{displayName}</Link>
+                  <Link color='grey_medium' fs='xxs' hoverProps={underline} href={`/${owner.username}/boards`}>
                     {owner.displayName}
                   </Link>
                 </Flex>
               </Flex>
           }
           <Block bg='grey'>
-            <Flex wrap h={158} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop pointer onClick={context.setUrl(url)} hoverProps={{opacity: 0.92}}>
+            <Flex wrap h={158} bgColor='off_white' borderColor='rgba(75,82,87,0.03)' borderBottom borderTop pointer onClick={context.setUrl(url)} hoverProps={opacity}>
               {
                 !images.length && (
                   <Text p fs='xxs'>
@@ -62,7 +70,7 @@ export default component({
                 !currentUser
                   ? <Block />
                   : currentUser._id === owner.id
-                    ? <Button color='text' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={{highlight: 0.03}} focusProps={{highlight: 0.03}} onClick={actions.openBoardSettings}>Edit</Button>
+                    ? <Button color='text' px='l' bgColor='off_white' border='1px solid rgba(0,0,0,0.15)' hoverProps={highlight} focusProps={highlight} onClick={actions.openBoardSettings}>Edit</Button>
                     : <FollowButton w='150' px='0' board={board} />
               }
             <Block color='grey_medium' lh='30px'>

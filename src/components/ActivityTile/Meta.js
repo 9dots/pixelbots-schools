@@ -9,6 +9,12 @@ import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 
 /**
+ * Constants
+ */
+
+const underline = {underline: true}
+
+/**
  * <Meta/>
  */
 
@@ -23,10 +29,10 @@ export default component({
         <Avatar link mr='s' thumb actor={actor} />
         <Box flex ellipsis lh='18px'>
           <Flex column align='space-around' h={18 * 2}>
-            <Link flex='0%' hoverProps={{underline: true}} bold href={`/${actor.username}`}>
+            <Link flex='0%' hoverProps={underline} bold href={`/${actor.username}`}>
               {actor.displayName}
             </Link>
-            <Link flex='0%' hoverProps={{underline: true}} href={`/${actor.username}/board/${board.id || board._id}/activities`} color='grey'>
+            <Link flex='0%' hoverProps={underline} href={`/${actor.username}/boards/${board.id || board._id}`} color='grey'>
               {board.displayName}
             </Link>
           </Flex>
