@@ -14,12 +14,12 @@ import element from 'vdux/element'
  */
 
 function render ({props}) {
-  const {user} = props
+  const {user, ...rest} = props
   const cardMargin = '8px 6px 12px 0'
   const draftCount = user.drafts.canonicalTotal.items
 
   return (
-    <Block mr>
+    <Block mr {...rest}>
       <ProfileWidget user={user} w={230} m={cardMargin} mt={0} />
       <DraftsWidget w={230} m={cardMargin} draftCount={draftCount} user={user} />
       <ClassesWidget user={user} w={230} m={cardMargin}/>

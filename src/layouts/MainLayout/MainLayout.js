@@ -31,7 +31,8 @@ function render ({props, children}) {
   return (
     <AppLayout {...props}>
       <Block align='start' w='col_main' mx='auto' py>
-        <FeedWidgets user={props.currentUser}/>
+        <FeedWidgets user={props.currentUser} fixed/>
+        <Block minWidth={230} mr />
         <Block flex>
           { children }
         </Block>
