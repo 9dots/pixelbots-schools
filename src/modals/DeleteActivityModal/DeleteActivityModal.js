@@ -21,10 +21,11 @@ export default summon(({activity}) => ({
   })
 }))(component({
   render ({props, actions}) {
-    const {activity} = props
+    const {activity, deleting} = props
 
     return (
       <Confirm
+        accepting={deleting}
         message={<Block>Are you sure you want to delete <Text bold color='blue'> {activity.displayName}</Text>?</Block>}
         onAccept={actions.accept} />
     )

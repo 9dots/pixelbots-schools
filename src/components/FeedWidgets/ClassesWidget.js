@@ -30,14 +30,18 @@ export default summon(() => ({
     const {classes, user} = props
     const {value, loading} = classes
     const clsLength = !loading && value.items.length
+    const {drafts: {canonicalTotal: {items}}, userType} = user
+    const offset = userType === 'teacher'
+      ? items ? '440px' : '370px'
+      : '262px'
 
     return (
       <Card {...props}>
-        <Block p uppercase boxShadow={clsLength > 5 && '0 2px 1px rgba(75,82,87,0.1)'} z='1' relative align='space-between center'>
+        <Block p uppercase boxShadow='0 2px 1px rgba(75,82,87,0.1)' z='1' relative align='space-between center'>
           <Block>Classes</Block>
           <RoundedInput type='search' onInput={actions.setFilter} placeholder='Filter…' py='s' px={10} m={0} bgColor='#FDFDFD' inputProps={alignLeft} w={120} hide={clsLength < 7} />
         </Block>
-        <Block maxHeight='247px' overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
+        <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
           {[
             !state.filter && <Item cls={allClasses} />,
             !loading && value.items.filter(search(state.filter)).sort(cmp).map(item => <Item cls={item} />),
@@ -46,7 +50,7 @@ export default summon(() => ({
               : <AddClassItem Modal={CreateClassModal} text='New Class' />
           ]}
         </Block>
-        <Block boxShadow={clsLength > 5 && '0 -2px 1px rgba(75,82,87,0.1)'} z='1' relative p />
+        <Block boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p />
       </Card>
     )
   },
@@ -96,6 +100,7 @@ const AddClassItem = component({
 
   events: {
     * openModal ({props, context}) {
+      const {Modal} = props
       yield context.openModal(() => <Modal />)
     }
   }

@@ -66,24 +66,24 @@ export default component({
                 hide={!isPublic}
                 localLike={actions.localLike}
                 activity={activity}
-                user={user}/>
+                user={user} />
               <AssignButton
                 activity={activity}
                 hide={!isPublic}
                 onAssign={exit}
                 text='Assign'
-                user={user}/>
+                user={user} />
               <PinButton
                 onPin={exit}
                 activity={activity}
                 user={user}
                 hide={user.userType === 'student'}
-                text='Pin'/>
+                text='Pin' />
               <ActivityDropdownMenu
                 onDelete={back}
                 reassign={!isInstance && !isPublic}
                 hide={user.userType === 'student' || !isOwner}
-                activity={activity}/>
+                activity={activity} />
             </Flex>
           </Block>
           <Block flex px align='end center' hide={!isEdit}>
@@ -103,7 +103,7 @@ export default component({
                   ? <AssignButton activity={activity} text='Assign' user={user} onAssign={exit} />
                   : <Block align='end center' hide={!activity.published}>
                       <Button mr='s' text='Done' onClick={back} bgColor='grey' />
-                      <DeleteButton onDelete={exit} activity={activity} bgColor='red'/>
+                      <DeleteButton onDelete={exit} activity={activity} bgColor='red' />
                     </Block>
             }
           </Block>

@@ -63,10 +63,10 @@ export default summon(({group}) => ({
 
       yield context.openModal(() =>
         <ConfirmDeleteClass
-          redirect={isCurrentClass && '/feed'}
+          redirect={isCurrentClass && '/class/all'}
           classId={group._id}
           message={'Are you sure you want to delete your class "' + group.displayName + '?"'} />
-        )
+      )
     }
   }
 }))

@@ -85,13 +85,13 @@ export default summon(({userId, activityId}) => ({
   },
 
   events: {
-    * backBtn ({props, actions, context}, escapeUrl) {
+    * backBtn ({props, actions, context}) {
       const {intent, canExit, activity} = props
 
       if (intent === 'new') {
         yield context.openModal(() => <DiscardDraftModal onAccept={actions.discardDraftAccept} activity={activity.value} />)
       } else {
-        yield canExit ? context.back() : context.setUrl(escapeUrl)
+        yield canExit ? context.back() : context.setUrl(escapeUrl(props))
       }
     },
 
@@ -99,13 +99,17 @@ export default summon(({userId, activityId}) => ({
       yield props.canExit ? context.back() : context.setUrl('/feed')
     },
 
-    * exit ({props, actions, context}, escapeUrl) {
-      const {canExit, exitDepth} = props
+    * exit ({props, actions, context}, action) {
+      const {activity, canExit, exitDepth} = props
+      const channel = activity.value.channels[0]
+      const draftChannel = `user!${activity.value.actor.id}.drafts`
 
-      if (canExit) {
-        return exitDepth === 2 ? [context.back(), context.back()] : context.back()
+      if (action === 'pin' && channel === draftChannel) {
+        yield context.setUrl(`/activity/${activity.value._id}/preview`, true)
+      } else if (canExit) {
+        yield exitDepth === 2 ? [context.back(), context.back()] : context.back()
       } else {
-        return context.setUrl(escapeUrl)
+        yield context.setUrl(escapeUrl(props))
       }
     }
   },
@@ -118,6 +122,10 @@ export default summon(({userId, activityId}) => ({
     selectObject: (state, selectedObject) => ({selectedObject})
   }
 }))))
+
+/**
+ * Internal rendering method
+ */
 
 function internal ({props, children, actions, context, state}) {
   const {activity, students, instances, settingStatus, redirect, currentUser, activityId, userId, setStatus, isEdit, intent} = props
@@ -165,7 +173,7 @@ function internal ({props, children, actions, context, state}) {
     }
 
   return [
-    redirect || <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={actions.backBtn(escapeUrl())} exit={actions.exit(escapeUrl())} isOwner={isOwner} intent={intent} {...nav} />,
+    redirect || <Nav activity={value} isInstance={isInstance} savingIndicator={state.savingIndicator} user={currentUser} isPublic={isPublic} isEdit={isEdit} back={actions.backBtn} exit={actions.exit} isOwner={isOwner} intent={intent} {...nav} />,
     <PageTitle title={`${value.displayName}`} />,
     maybeOver({
       instance,
@@ -184,44 +192,26 @@ function internal ({props, children, actions, context, state}) {
       settingStatus
     }, children)
   ]
+}
 
-  function backBtn () {
-    const {canExit} = props
+/**
+ * Helpers
+ */
 
-    if (intent === 'new') {
-      return openModal(() => <DiscardDraftModal onAccept={() =>canExit ? back() : setUrl('/feed')} activity={value} />)
-    } else {
-      return canExit ? back() : setUrl(escapeUrl())
-    }
+function escapeUrl ({activity, currentUser}) {
+  const {value} = activity
+
+  if (value.channels[0] === 'user!' + value.actor.id + '.drafts') {
+    return '/' + value.actor.username + '/boards/all'
   }
 
-  function exit (action, id) {
-    const {canExit, exitDepth} = props
-    const channel = value.channels[0]
-    const draftChannel = `user!${value.actor.id}.drafts`
-
-    if (action === 'pin' && channel === draftChannel) {
-      return setUrl(`/activity/${value._id}/preview`, true)
-    } else if (canExit) {
-      return exitDepth === 2 ? [back(), back()] : back()
-    } else {
-      return setUrl(escapeUrl(action, id))
-    }
+  if (value.channels[0] === 'user!' + value.actor.id + '.trash') {
+    return '/' + value.actor.username + '/boards/trash'
   }
 
-  function escapeUrl () {
-    if (value.channels[0] === 'user!' + value.actor.id + '.drafts') {
-      return '/' + value.actor.username + '/boards/all'
-    }
-
-    if (value.channels[0] === 'user!' + value.actor.id + '.trash') {
-      return '/' + value.actor.username + '/boards/trash'
-    }
-
-    return value.contexts[0].descriptor.id !== 'public'
-      ? '/class/' + value.contexts[0].descriptor.id
-      : value.actor.id === currentUser._id
-        ? `/${value.actor.username}/boards/${value.contexts[1].descriptor.id}`
-        : '/class/all'
-  }
+  return value.contexts[0].descriptor.id !== 'public'
+    ? '/class/' + value.contexts[0].descriptor.id
+    : value.actor.id === currentUser._id
+      ? `/${value.actor.username}/boards/${value.contexts[1].descriptor.id}`
+      : '/class/all'
 }

@@ -44,7 +44,8 @@ const EmptyBoard = component({
 
     return (
       <EmptyState p='24px 12px 24px' bg='grey_light' border='1px solid #D4D4D4' icon='assignment' color='green' w='auto'>
-        { isMine
+        {
+          isMine
             ? <Block>
                 <Block fs='m' my='l'>This is a list of your pinned Activities</Block>
                 <Button

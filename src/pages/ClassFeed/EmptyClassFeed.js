@@ -28,7 +28,7 @@ export default summon(props => ({
   })
 }))(component({
   render ({actions, props}) {
-    const {copyingTemplate = {}} = props
+    const {currentUser, copyingTemplate = {}} = props
 
     if (currentUser.userType === 'student') {
       return (

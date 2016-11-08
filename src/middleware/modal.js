@@ -20,10 +20,6 @@ function middleware ({dispatch, getState}) {
       applyClasses({modal: false}, document.body)
     }
 
-    if (prevState.url && nextState.url && nextState.modal) {
-      dispatch(closeModal())
-    }
-
     return result
   }
 }

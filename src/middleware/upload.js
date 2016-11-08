@@ -2,6 +2,7 @@
  * Imports
  */
 
+import fetch from 'redux-effects-fetch'
 import mime from 'browserify-mime'
 import _upload from '@f/s3-upload'
 import noop from '@f/noop'

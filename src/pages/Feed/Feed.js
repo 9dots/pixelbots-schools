@@ -2,11 +2,8 @@
  * Imports
  */
 
-import ClassActivityRow from 'components/ClassActivityRow'
-import FeedWidgets from 'components/FeedWidgets'
 import PageTitle from 'components/PageTitle'
 import TileFeed from 'components/TileFeed'
-import RowFeed from 'components/RowFeed'
 import {component, element} from 'vdux'
 import EmptyFeed from './EmptyFeed'
 import summon from 'vdux-summon'
@@ -38,9 +35,7 @@ export default summon(props => ({
     return (
       <Block w='col_main' mt mx='auto'>
         <PageTitle title='Weo' />
-        <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555}>
-          <FeedWidgets user={currentUser} />
-        </TileFeed>
+        <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555} />
       </Block>
     )
   }

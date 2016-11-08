@@ -39,7 +39,7 @@ export default component({
                     borderStyle='solid'
                     opacity={1}
                     w='30%'
-                    fs='s'/>
+                    fs='s' />
                 </Block>
               : <Block align='start center'>
                   <Block

@@ -46,7 +46,7 @@ export default summonChannels(({currentUser}) =>
  */
 
 const Join = component({
-  render ({props}) {
+  render ({props, actions}) {
     const {isTeacher} = props
 
     return (

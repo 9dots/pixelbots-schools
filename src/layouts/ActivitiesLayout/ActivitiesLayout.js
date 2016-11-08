@@ -4,8 +4,6 @@
 
 import {Block, Flex, Card, Menu, Divider} from 'vdux-containers'
 import CreateBoardModal from 'modals/CreateBoardModal'
-import PageTitle from 'components/PageTitle'
-import AppLayout from 'layouts/AppLayout'
 import WeoIcon from 'components/WeoIcon'
 import {component, element} from 'vdux'
 import resize from 'lib/resize-image'
@@ -55,7 +53,7 @@ export default summon(({user, currentUser}) => ({
                       <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr textAlign='center' />
                       Drafts
                     </NavItem>
-                    <Divider/>
+                    <Divider />
                     <NavItem onClick={actions.createBoardModal} display='flex' align='start center'>
                       <Icon name='add' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                       New Board
@@ -73,7 +71,8 @@ export default summon(({user, currentUser}) => ({
           {children}
         </Block>
       </Flex>
-    )  },
+    )
+  },
 
   events: {
     * createBoardModal ({context}) {
@@ -101,12 +100,4 @@ function BoardIcon ({props}) {
       }
     </Block>
   )
-}
-
-/**
- * Helpers
- */
-
-function cmp (a, b) {
-  return a.displayName.toUpperCase() > b.displayName.toUpperCase() ? 1 : -1
 }

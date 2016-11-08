@@ -2,12 +2,12 @@
  * Imports
  */
 
-import {generateObjectId as generateObjectIdEffect} from 'middleware/objectId'
+import objectIdMw, {generateObjectId as generateObjectIdEffect} from 'middleware/objectId'
 import uploadMw, {uploadFile as uploadFileEffect} from 'middleware/upload'
 import scrollMw, {scrollTo as scrollToEffect} from 'middleware/scroll'
+import summon, {invalidate, middleware as summonMw} from 'vdux-summon'
 import fetchMw, {fetch, fetchEncodeJSON} from 'redux-effects-fetch'
 import fastclickMw, {initFastclick} from 'middleware/fastclick'
-import {invalidate, middleware as summonMw} from 'vdux-summon'
 import analyticsMw, * as analytics from 'middleware/analytics'
 import locationMw, * as location from 'redux-effects-location'
 import OAuthMw, {beginOAuthFlow} from 'middleware/oauth'
@@ -19,7 +19,6 @@ import modalMw from 'middleware/modal'
 import printMw from 'middleware/print'
 import cookieParser from 'cookie'
 import App from 'components/App'
-import summon from 'vdux-summon'
 import theme from 'lib/theme'
 import Form from 'vdux-form'
 import sleep from '@f/sleep'
@@ -41,7 +40,8 @@ export default component({
     return [
       actions.initializeAuth(),
       actions.initializeMedia(),
-      actions.watchUrl()
+      actions.watchUrl(),
+      initFastclick()
     ]
   },
 
@@ -92,6 +92,9 @@ export default component({
       scrollMw,
       locationMw(),
       cookieMw(),
+      objectIdMw,
+      fastclickMw,
+      analyticsMw,
       OAuthMw
     ],
 
@@ -163,11 +166,7 @@ export default component({
       yield actions.postLogin(value.token)
     },
 
-    * logoutUser ({actions}) {
-      yield actions.postLogin(null)
-    },
-
-    * oauthCreate (provider, params = {}) {
+    * oauthCreate ({actions}, provider, params = {}) {
       const data = yield beginOAuthFlow(provider)
       const {value} = yield fetch(`${apiServer}/auth/${provider}`, {
         method: 'POST',
@@ -176,17 +175,11 @@ export default component({
           ...params
         }
       })
-      yield postLogin(value.token)
+      yield actions.postLogin(value.token)
     },
 
-    fastclick () {
-      if (typeof window !== 'undefined') {
-        fastclick(document.body)
-      }
-    },
-
-    generateObjectOid: wrapEffect(generateObjectIdEffect),
-    scrollTo: wrapEffect(uploadFileEffect),
+    generateObjectId: wrapEffect(generateObjectIdEffect),
+    scrollTo: wrapEffect(scrollToEffect),
     uploadFile: wrapEffect(uploadFileEffect),
     ...map(wrapEffect, location),
     ...map(wrapEffect, analytics)
@@ -201,7 +194,10 @@ export default component({
         ? matches ? key : null
         : matches ? key : state.media
     }),
-    updateUrl: (state, currentUrl) => ({currentUrl}),
+    updateUrl: (state, currentUrl) => ({
+      currentUrl,
+      modal: state.currentUrl === currentUrl ? state.modal : null
+    }),
     updateToken: (state, authToken) => ({authToken}),
     openModal: (state, modal) => ({modal}),
     closeModal: () => ({modal: null}),

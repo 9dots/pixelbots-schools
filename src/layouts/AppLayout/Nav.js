@@ -41,7 +41,7 @@ export default component({
               }
             </Flex>
             <Menu flex align='end center'>
-              <Search url={url} searching={search} query={query} hide={isStudent} mr='s'/>
+              <Search url={url} searching={search} query={query} hide={isStudent} mr='s' />
               {
                 currentUser && [
                   <NotificationsButton currentUser={currentUser} />,

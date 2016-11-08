@@ -33,7 +33,7 @@ export default component({
   ],
 
   events: {
-    * selectBoared ({actions, props}, board) {
+    * selectBoard ({actions, props}, board) {
       yield actions.select(board._id)
       yield props.onSelect(board)
     },

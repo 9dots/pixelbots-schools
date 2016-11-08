@@ -3,13 +3,11 @@
  */
 
 import {appReady, component, element} from 'vdux'
-import {isApiServer} from 'components/Boot'
 import Transition from 'vdux-transition'
 import Router from 'components/Router'
 import Loading from 'pages/Loading'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
-import sleep from '@f/sleep'
 import live from 'lib/live'
 
 /**

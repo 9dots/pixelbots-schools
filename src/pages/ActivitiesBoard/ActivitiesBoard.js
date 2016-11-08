@@ -38,32 +38,33 @@ const EmptyBoard = component({
 
     return (
       <EmptyState p='24px 12px 24px' bg='#E4E5E7' border='1px solid #D8DADD' icon='dashboard' color='green' w='auto'>
-        { isMe
-          ? <Block>
-              <Block fs='m' my='l'>This is your Board</Block>
-              <Button
-                onClick={actions.createActivity}
-                bgColor='blue'
-                boxShadow='z2'
-                color='white'
-                px='35px'
-                lh='3em'
-                lighter
-                fs='s'
-                my>
-                  Add My First Activity
-              </Button>
-              <Block lh='30px' textAlign='center' m pt pb='l'>
-                <Text fw='bold'>Boards </Text>
-                are collections of Activities. Save Activities to Boards to keep them organized and easy to find.
+        {
+          isMe
+            ? <Block>
+                <Block fs='m' my='l'>This is your Board</Block>
+                <Button
+                  onClick={actions.createActivity}
+                  bgColor='blue'
+                  boxShadow='z2'
+                  color='white'
+                  px='35px'
+                  lh='3em'
+                  lighter
+                  fs='s'
+                  my>
+                    Add My First Activity
+                </Button>
+                <Block lh='30px' textAlign='center' m pt pb='l'>
+                  <Text fw='bold'>Boards </Text>
+                  are collections of Activities. Save Activities to Boards to keep them organized and easy to find.
+                </Block>
               </Block>
-            </Block>
-          : <Block>
-              <Block fs='m' mt='l'>This Board is empty</Block>
-              <Block lh='30px' textAlign='center' m pb='l'>
-                Once <Text bold>{currentUser.displayName}</Text> saves an Activity to this Board it will show up here.
+            : <Block>
+                <Block fs='m' mt='l'>This Board is empty</Block>
+                <Block lh='30px' textAlign='center' m pb='l'>
+                  Once <Text bold>{currentUser.displayName}</Text> saves an Activity to this Board it will show up here.
+                </Block>
               </Block>
-            </Block>
           }
       </EmptyState>
     )

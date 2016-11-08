@@ -52,7 +52,6 @@ export default summon(() => ({
         pinning = {}, copying = {}
       } = props
       const {value, loaded} = boards
-
       const busy = creatingBoard.loading || copying.loading || pinning.loading
 
       if (!loaded) return <span />
@@ -65,7 +64,7 @@ export default summon(() => ({
             </Block>
             <Flex column bg='white' flex boxShadow='-1px 0 1px 0 rgba(0,0,0,0.1)' relative minHeight='400px'>
               <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
-              Select a Board to Pin to:
+              Select a Board to Save to:
               </ModalHeader>
               <PinSelect boards={value.items} onSelect={actions.doPin} createBoard={createBoard} busy={busy} absolute h='calc(100% - 56px)' top={56} wide />
             </Flex>

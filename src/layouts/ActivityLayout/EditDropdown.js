@@ -84,8 +84,8 @@ export default summon(({activity}) => ({
     },
 
     * openPinModal ({props, context}) {
-      const {onAction, activity} = props
-      yield context.openModal(() => <PinModal onPin={onAction('pin')} activity={activity} />)
+      const {onAction, activity, user} = props
+      yield context.openModal(() => <PinModal onPin={onAction('pin')} activity={activity} user={user} />)
     },
 
     * openDeleteModal ({props, context}) {

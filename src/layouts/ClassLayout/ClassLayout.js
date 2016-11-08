@@ -5,7 +5,6 @@
 import ClassSettingsModal from 'modals/ClassSettingsModal'
 import ClassCodeModal from 'modals/ClassCodeModal'
 import {Text, Block, Icon} from 'vdux-ui'
-import AppLayout from 'layouts/AppLayout'
 import FourOhFour from 'pages/FourOhFour'
 import NavTile from 'components/NavTile'
 import {component, element} from 'vdux'
@@ -18,8 +17,8 @@ import summon from 'vdux-summon'
  * <ClassLayout/>
  */
 
-export default summon(props => ({
-  group: `/group/${props.groupId}`,
+export default summon(({groupId}) => ({
+  group: `/group/${groupId}`,
   students: `/group/students?group=${groupId}`,
   setPref: () => ({
     settingPref: {
@@ -33,11 +32,11 @@ export default summon(props => ({
   })
 }))(component({
   onCreate ({actions}) {
-    return actions.setPref()
+    return actions.updatePref()
   },
 
   onUpdate ({actions}) {
-    return actions.setPref()
+    return actions.updatePref()
   },
 
   render ({props, children}) {
@@ -45,7 +44,7 @@ export default summon(props => ({
     const {value, loaded, error} = group
     const isStudent = currentUser.userType === 'student'
 
-    if (!loaded || !students.loaded) return <span/>
+    if (!loaded || !students.loaded) return <span />
     if (error || students.error) return <FourOhFour />
 
     return (
@@ -60,7 +59,7 @@ export default summon(props => ({
 
   events: {
     * updatePref ({props}) {
-      const {currentUser, setPref, groupId, settingPref} = props
+      const {currentUser, setPref, groupId, settingPref = {}} = props
       const value = getProp('preferences.lastClass', currentUser)
 
       if (!settingPref.loading && value !== groupId) {
@@ -102,8 +101,8 @@ const Header = component({
               border='1px solid grey_medium'
               align='start center'
               bgColor='off_white'
-              hoverProps={{highlight: .03}}
-              focusProps={{highlight: .03}}
+              hoverProps={{highlight: 0.03}}
+              focusProps={{highlight: 0.03}}
               hide={isStudent}
               color='text'
               fw='normal'
@@ -152,7 +151,7 @@ const Header = component({
     },
 
     * classSettings ({context, props}) {
-      yield context.openModal(() => <ClassSetitngsModal group={props.group} />)
+      yield context.openModal(() => <ClassSettingsModal group={props.group} />)
     }
   }
 })

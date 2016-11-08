@@ -26,7 +26,6 @@ import Clever from 'pages/Clever'
 import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
 import ProfileStream from 'pages/ProfileStream'
-import ProfileBoards from 'pages/ProfileBoards'
 import ProfileLikes from 'pages/ProfileLikes'
 
 import ActivityDiscussion from 'pages/ActivityDiscussion'
@@ -157,7 +156,6 @@ const router = enroute({
     <SearchLayout {...props} {...params}>
       <SearchPeople {...props} {...params} />
     </SearchLayout>)),
-
 
   // Acount
   '/account/settings': track('Account Settings', auth('user', (params, props) =>
@@ -336,10 +334,10 @@ export default component({
  */
 
 function classRedirect ({currentUser}) {
-  const {groups, preferences = {}} = currentUser
-  const {lastClass} = preferences
-  const classes = groups.filter(({status, groupType}) =>
-    status === 'active' && groupType === 'class')
+  // const {groups, preferences = {}} = currentUser
+  // const {lastClass} = preferences
+  // const classes = groups.filter(({status, groupType}) =>
+  //   status === 'active' && groupType === 'class')
 
   // if(lastClass && classes.length) {
   //   const curClass = classes.find(c => c.id === lastClass)
