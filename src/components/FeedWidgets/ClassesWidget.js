@@ -20,7 +20,6 @@ function render ({props, state, local}) {
   const {value, loading} = classes
   const clsLength = !loading && value.items.length
   const {drafts: {canonicalTotal: {items}}, userType} = user
-  console.log(items)
   const offset = userType === 'teacher'
     ? items ? '440px' : '370px'
     : '262px'
