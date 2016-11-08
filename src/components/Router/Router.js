@@ -26,7 +26,6 @@ import Clever from 'pages/Clever'
 import ProfileFollowers from 'pages/ProfileFollowers'
 import ProfileFollowing from 'pages/ProfileFollowing'
 import ProfileStream from 'pages/ProfileStream'
-import ProfileBoards from 'pages/ProfileBoards'
 import ProfileLikes from 'pages/ProfileLikes'
 
 import ActivityDiscussion from 'pages/ActivityDiscussion'

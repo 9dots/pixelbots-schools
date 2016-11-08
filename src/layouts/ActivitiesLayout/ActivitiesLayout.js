@@ -5,10 +5,13 @@
 import {Block, Flex, Card, Menu, Divider} from 'vdux-containers'
 import CreateBoardModal from 'modals/CreateBoardModal'
 import PageTitle from 'components/PageTitle'
+import handleActions from '@f/handle-actions'
+import createAction from '@f/create-action'
 import AppLayout from 'layouts/AppLayout'
 import WeoIcon from 'components/WeoIcon'
 import {openModal} from 'reducer/modal'
 import resize from 'lib/resize-image'
+import Document from 'vdux/document'
 import Link from 'components/Link'
 import element from 'vdux/element'
 import summon from 'vdux-summon'
@@ -20,8 +23,9 @@ import map from '@f/map'
  * <MyActivities/> page
  */
 
-function render ({props, children}) {
+function render ({props, children, local, state}) {
   const {boards, user, currentUser} = props
+  const {isScrolled} = state
   const isMe = currentUser._id === user._id
   const {username} = user
   const iconSize = '25px'
@@ -30,7 +34,8 @@ function render ({props, children}) {
   return (
     <Flex w='col_main' mt='s' mx='auto' pb='l' relative>
       <Block>
-        <Card w={230} mr>
+        <Card mr  w={230} hide={!isScrolled} />
+        <Card w={230} mr position={isScrolled ? 'fixed' : 'static'} top={66} overflowY='auto' maxHeight='calc(100vh - 80px)'>
           <Menu column py='s'>
             <NavItem href={`/${username}/boards/all`} display='flex' align='start center'>
               <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
@@ -69,9 +74,21 @@ function render ({props, children}) {
       <Block w='col_main' maxWidth='714px'>
         {children}
       </Block>
+      <Document onScroll={handleScroll(state, local, 230)} />
     </Flex>
   )
 }
+
+function handleScroll (state, local, threshold = 0) {
+  return e => {
+    const isScrolled = document.body.scrollTop >= threshold
+    return state.isScrolled === isScrolled
+      ? ''
+      : local(setScrolled)(isScrolled)
+  }
+}
+
+
 
 function boardIcon (board) {
   const {images = []} = board
@@ -98,6 +115,23 @@ function cmp (a, b) {
 }
 
 /**
+ * Actions
+ */
+
+const setScrolled = createAction('<ActivityLayout/>: set scrolled')
+
+/**
+ * Reducer
+ */
+
+const reducer = handleActions({
+  [setScrolled]: (state, isScrolled) => ({
+    ...state,
+    isScrolled
+  })
+})
+
+/**
  * Exports
  */
 
@@ -106,5 +140,6 @@ export default summon(({user, currentUser}) => ({
     ? '/user/boards'
     : `/user/${user._id}/boards`,
 }))({
-  render
+  render,
+  reducer
 })
