@@ -3,8 +3,8 @@
  */
 
 import {Button, Textarea, DropdownMenu, MenuItem, wrap, CSSContainer} from 'vdux-containers'
+import {stopPropagation, component, element} from 'vdux'
 import {Icon, Card, Block} from 'vdux-ui'
-import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import Form from 'vdux-form'
 import moment from 'moment'
@@ -106,7 +106,7 @@ const CommentCard = wrap(CSSContainer, {
     return (
       <Card p mb>
         <Block relative>
-          <Block onClick={{stopPropagation: true}} hide={!isOwner}>
+          <Block onClick={stopPropagation} hide={!isOwner}>
             <Icon
               absolute={{right: -6, top: -6}}
               opacity={props.hover ? 1 : 0}

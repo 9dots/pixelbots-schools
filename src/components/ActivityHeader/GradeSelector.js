@@ -3,7 +3,7 @@
  */
 
 import {Button, Dropdown, MenuItem, Checkbox, Tooltip} from 'vdux-containers'
-import {component, element} from 'vdux'
+import {stopPropagation, component, element} from 'vdux'
 import mapValues from '@f/map-values'
 import grades from '@weo-edu/grades'
 import {Block, Icon} from 'vdux-ui'
@@ -28,7 +28,7 @@ export default component({
     const btnStyle = gradeList.length ? {'bold': true, color: 'blue'} : {}
 
     return (
-      <Dropdown onClick={{stopPropagation: true}} wide btn={<DDBtn {...btnStyle} text={text} />} onClose={actions.setError(null)}>
+      <Dropdown onClick={stopPropagation} wide btn={<DDBtn {...btnStyle} text={text} />} onClose={actions.setError(null)}>
         {
           grades.map(grade => <Item tag={grade} selected={gradeList} toggle={actions.toggleGrade(gradeList)} error={error === grade.displayName} max={max} />)
         }

@@ -35,12 +35,12 @@ export default component({
   events: {
     * selectBoard ({actions, props}, board) {
       yield actions.select(board._id)
-      yield props.onSelect(board)
+      yield props.onSelectBoard(board)
     },
 
     * handleSubmit ({props, actions}, board) {
       const newBoard = yield props.createBoard(board)
-      yield fork(props.onSelect(newBoard))
+      yield fork(props.onSelectBoard(newBoard))
     }
   },
 
@@ -55,6 +55,7 @@ export default component({
 
 function BoardItem ({props}) {
   const {onClick, board, busy, selected} = props
+
   return (
     <Block
       hoverProps={{highlight: 0.03}}

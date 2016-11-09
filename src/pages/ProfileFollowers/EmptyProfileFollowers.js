@@ -30,7 +30,7 @@ export default component({
             : <Block>
               <FollowButton mx='auto' py w={175} fs='s' lighter showName user={user} boxShadow='z1' bgColor='blue' color='white' />
               <Block mt='l'>
-                  Be the first t<Text bold>{user.displayName}</Text>.
+                Be the first t<Text bold>{user.displayName}</Text>.
               </Block>
             </Block>
         }

@@ -3,9 +3,9 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
-import summon, {middleware as summonMw, invalidate} from 'vdux-summon'
 import {Button, Tooltip} from 'vdux-containers'
 import {component, element} from 'vdux'
+import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
@@ -63,16 +63,12 @@ export default summon(() => ({
     )
   },
 
-  middleware: [
-    summonMw
-  ],
-
   events: {
     * handleSubmit ({props}, body) {
       const {group, user, remove} = props
       const users = [].concat(user)
       yield users.map(user => remove(user, group))
-      yield invalidate(`/group/students?group=${group._id}`)
+      yield props.summonInvalidate(`/group/students?group=${group._id}`)
     }
   }
 }))

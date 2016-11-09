@@ -43,7 +43,7 @@ export default summon(props => ({
             Free for teachers. Forever.
           </Block>
         </Flex>
-        <Form onSubmit={createTeacher} onSuccess={[context.postLogin, actions.trackEvent]} validate={validateTeacher} cast={cast}>
+        <Form onSubmit={createTeacher} onSuccess={actions.handleSuccess} validate={validateTeacher} cast={cast}>
           <Block w='col_s' color='white'>
             <input type='hidden' name='userType' value='teacher' />
             <BlockInput autofocus name='name' placeholder='FULL NAME' />
@@ -69,6 +69,11 @@ export default summon(props => ({
   events: {
     * trackEvent ({context}, user) {
       yield context.track({name: 'Created Teacher', traits: user})
+    },
+
+    * handleSuccess ({context, actions}, user) {
+      yield context.postLogin(user)
+      yield actions.trackEvent(user)
     }
   }
 }))

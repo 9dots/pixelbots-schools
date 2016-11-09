@@ -2,8 +2,8 @@
  * Imports
  */
 
+import {stopPropagation, component, element} from 'vdux'
 import CommentCard from './CommentCard'
-import {component, element} from 'vdux'
 import {Block} from 'vdux-containers'
 import summon from 'vdux-summon'
 import {Icon} from 'vdux-ui'
@@ -48,7 +48,7 @@ export default summon(({activityId, question}) => ({
 
     return (
       <Block
-        onClick={{stopPropagation: true}}
+        onClick={stopPropagation}
         absolute={{left: 36, top: 0}}
         w={250}>
         <Block onClick={actions.toggleDD(null)}>

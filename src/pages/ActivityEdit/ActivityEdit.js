@@ -2,17 +2,17 @@
  * Imports
  */
 
+import {decodeRaw, preventDefault, component, element} from 'vdux'
 import ActivitySidebar from 'components/ActivitySidebar'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
 import {Toast, Block, Icon, Card, Text} from 'vdux-ui'
-import {decodeRaw, component, element} from 'vdux'
-import summon, {invalidate} from 'vdux-summon'
 import AttachmentMenu from './AttachmentMenu'
 import findIndex from '@f/find-index'
 import deepEqual from '@f/deep-equal'
 import {debounce} from 'redux-timing'
 import getProp from '@f/get-prop'
+import summon from 'vdux-summon'
 import index from '@f/index'
 import map from '@f/map'
 
@@ -106,7 +106,7 @@ export default summon(({activity}) => ({
               </Block>
             </Card>
             <Block mr>
-              <Block h={18} onDrop={{preventDefault: true}} onDragOver={decodeRaw(actions.onDragOver(null))} />
+              <Block h={18} onDrop={preventDefault} onDragOver={decodeRaw(actions.onDragOver(null))} />
               <AttachmentMenu attach={actions.insertObject} startsOpen={!attachments.length} defaultPoints={defaultPoints} />
             </Block>
           </Block>
@@ -239,7 +239,7 @@ export default summon(({activity}) => ({
         yield actions.debouncedSave()
 
         if (err && err.value && err.value.name === 'VersionError') {
-          yield invalidate('refresh_activity')
+          yield props.summonInvalidate('refresh_activity')
         }
       }
     },

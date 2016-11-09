@@ -2,9 +2,15 @@
  * Imports
  */
 
+import {component, element, decodeValue} from 'vdux'
 import RoundedInput from 'components/RoundedInput'
-import {component, element} from 'vdux'
 import {Button, Block} from 'vdux-ui'
+
+/**
+ * Constants
+ */
+
+const taLeft = {textAlign: 'left'}
 
 /**
  * <Search/> site search input/icon (depending on whether
@@ -25,16 +31,14 @@ export default component({
         <RoundedInput
           bgColor={opened ? 'rgba(white,0.8)' : 'transparent'}
           pointerEvents={opened ? 'auto' : 'none'}
-          onKeypress={{enter: actions.submitSearch(url)}}
-          inputProps={{textAlign: 'left'}}
+          onKeypress={{enter: decodeValue(actions.submitSearch(url))}}
+          inputProps={taLeft}
           borderColor='transparent'
           placeholder='Search Weo'
           transition='all .24s'
           defaultValue={query}
           w={opened ? 220 : 0}
           autofocus={opened}
-          activeProps={{}}
-          focusProps={{}}
           h='34'
           m='0' />
         <Button
@@ -53,7 +57,7 @@ export default component({
   },
 
   events: {
-    * submitSearch ({context, actions}, url, value) {
+    * submitSearch ({context, actions}, url = '', value) {
       if (!value) return
 
       const parts = url.split('/').filter(Boolean)

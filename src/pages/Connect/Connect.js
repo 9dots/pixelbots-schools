@@ -53,7 +53,7 @@ export default summon(({userSearch: query}) => ({
         {
           (gradeLevels.length && subjects.length) || userSearch
             ? renderFeed(props)
-            : <EmptyConnect currentUser={currentUser} />
+            : <EmptyConnect currentUser={currentUser} refresh={props.summonInvalidate('connect_people')} />
         }
       </Block>
     )

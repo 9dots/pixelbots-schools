@@ -5,11 +5,11 @@
 import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {Button, Tooltip} from 'vdux-containers'
-import summon, {invalidate} from 'vdux-summon'
 import {password} from 'lib/schemas/user'
 import validate from '@weo-edu/validate'
 import {component, element} from 'vdux'
 import Schema from '@weo-edu/schema'
+import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
@@ -75,7 +75,7 @@ export default summon(() => ({
       yield actions.beginLoading()
       yield users.map(user => props.changePassword(user, body))
       if (group) {
-        yield invalidate(`/group/students?group=${group._id}`)
+        yield props.summonInvalidate(`/group/students?group=${group._id}`)
       }
       yield actions.endLoading()
     }

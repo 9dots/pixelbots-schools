@@ -4,9 +4,9 @@
 
 import {Block, Icon, Image as UiImage, Text} from 'vdux-ui'
 import {Block as ContBlock, Button} from 'vdux-containers'
+import {stopPropagation, component, element} from 'vdux'
 import EditingMedia from './EditingMedia'
 import Loading from 'components/Loading'
-import {component, element} from 'vdux'
 import Figure from 'components/Figure'
 import Link from 'components/Link'
 
@@ -45,11 +45,10 @@ const LinkObject = component({
     const {object, ...rest} = props
     const {description, embed = {}, image = {}, displayName} = object
     const linkProps = {
-      onClick: {stopPropagation: true},
+      onClick: stopPropagation,
       href: embed.url,
       target: '_blank',
       hoverProps: {textDecoration: 'underline'}
-
     }
 
     return (
@@ -129,7 +128,7 @@ const Video = component({
               p='30% 5% 3%'
               wide>
               <Link
-                onClick={{stopPropagation: true}}
+                onClick={stopPropagation}
                 hoverProps={{underline: true}}
                 href={embed.url}
                 target='_blank'
@@ -171,6 +170,19 @@ const Video = component({
 })
 
 /**
+ * Constants
+ */
+
+const linkProps = {
+  hoverProps: {opacity: 0.8},
+  align: 'start center',
+  target: '_blank',
+  pointer: true,
+  color: 'blue',
+  fs: 'xs'
+}
+
+/**
  * <Document/>
  */
 
@@ -179,14 +191,6 @@ const Document = component({
     const {object, editable, preview, isDragging, ...rest} = props
     const {content, embed = {}} = object
     const {url} = embed
-    const linkProps = {
-      hoverProps: {opacity: 0.8},
-      align: 'start center',
-      target: '_blank',
-      pointer: true,
-      color: 'blue',
-      fs: 'xs'
-    }
 
     return (
       <Block {...rest} pointerEvents={isDragging ? 'none' : 'auto'}>
@@ -198,7 +202,7 @@ const Document = component({
           relative
           h={0} />
         <Block align='start center' mt>
-          <Link onClick={{stopPropagation: true}} href={url} {...linkProps}>
+          <Link onClick={stopPropagation} href={url} {...linkProps}>
             <Icon name='open_in_new' mr='xs' fs='inherit' />
             View File
           </Link>

@@ -4,8 +4,8 @@
 
 import BoardSettingsModal from 'modals/BoardSettingsModal'
 import {CSSContainer, Icon, wrap} from 'vdux-containers'
+import {stopPropagation, component, element} from 'vdux'
 import {MenuItem, Block} from 'vdux-ui'
-import {component, element} from 'vdux'
 import Link from 'components/Link'
 
 /**
@@ -42,7 +42,7 @@ export default wrap(CSSContainer, {
           {children}
         </Block>
         <Icon
-          onClick={[{stopPropagation: true}, actions.openSettings]}
+          onClick={[stopPropagation, actions.openSettings]}
           hide={!board || !isMe}
           transition='opacity 0.15s'
           fs='xs'

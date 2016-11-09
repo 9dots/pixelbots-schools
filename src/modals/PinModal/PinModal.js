@@ -66,7 +66,7 @@ export default summon(() => ({
               <ModalHeader fs='s' h='56px' lh='56px' p='0' bg='off_white' borderBottom='1px solid grey_light'>
               Select a Board to Save to:
               </ModalHeader>
-              <PinSelect boards={value.items} onSelect={actions.doPin} createBoard={createBoard} busy={busy} absolute h='calc(100% - 56px)' top={56} wide />
+              <PinSelect boards={value.items} onSelectBoard={actions.doPin} createBoard={createBoard} busy={busy} absolute h='calc(100% - 56px)' top={56} wide />
             </Flex>
           </Flex>
           <ModalFooter m='0'>

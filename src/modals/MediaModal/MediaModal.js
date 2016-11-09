@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {decodeRaw, component, element} from 'vdux'
+import {stopPropagation, decodeRaw, component, element} from 'vdux'
 import {Modal, ModalFooter, Block} from 'vdux-ui'
 import BlockInput from 'components/BlockInput'
 import FileUpload from 'components/FileUpload'
@@ -110,7 +110,7 @@ const MediaInput = component({
     const {placeholder, loading, onSubmit, ...rest} = props
 
     return (
-      <Form align='start stretch' onClick={{stopPropagation: true}} w='60%' onSubmit={onSubmit} {...rest}>
+      <Form align='start stretch' onClick={stopPropagation} w='60%' onSubmit={onSubmit} {...rest}>
         <BlockInput
           placeholder={placeholder || 'Enter a url...'}
           borderRightWidth={0}

@@ -4,7 +4,7 @@
 
 import {Dropdown, Block, Button, MenuItem} from 'vdux-containers'
 import {Icon, Table, TableRow, TableCell, Text} from 'vdux-ui'
-import {component, element} from 'vdux'
+import {stopPropagation, component, element} from 'vdux'
 
 /**
  * <MarkdownHelper/>
@@ -20,7 +20,7 @@ export default component({
       <Dropdown
         btn={<Button tabindex={-1} icon='info' color='text' fs='s' {...rest} />}
         w={732} right mt={8} z={2} {...menuProps}>
-        <Block align='start stretch' my={-6} onClick={{stopPropagation: true}}>
+        <Block align='start stretch' my={-6} onClick={stopPropagation}>
           <Arrow />
           <Block flex='40%' borderRight='1px solid grey_light' py>
             {

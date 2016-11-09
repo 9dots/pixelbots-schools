@@ -3,7 +3,7 @@
  */
 
 import speechSynthMw, * as speechSynth from 'middleware/speechSynth'
-import {component, element} from 'vdux'
+import {stopPropagation, component, element} from 'vdux'
 import {Button, Block} from 'vdux-ui'
 import noop from '@f/noop'
 import map from '@f/map'
@@ -34,7 +34,7 @@ export default component({
     ]
 
     return (
-      <Block align='start center' mr='s' onClick={{stopPropagation: true}} {...rest}>
+      <Block align='start center' mr='s' onClick={stopPropagation} {...rest}>
         <Button
           icon={isPlaying || isPaused ? 'volume_off' : 'volume_up'}
           onClick={

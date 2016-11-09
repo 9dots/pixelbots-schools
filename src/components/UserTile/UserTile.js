@@ -2,9 +2,9 @@
  * Imports
  */
 
+import {stopPropagation, component, element} from 'vdux'
 import {Card, Text, Flex, Block, Icon} from 'vdux-ui'
 import FollowButton from 'components/FollowButton'
-import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 
 /**
@@ -27,7 +27,7 @@ export default component({
           </Block>
           {
             currentUser && currentUser._id !== user._id && (
-              <Block onClick={{stopPropagation: true}}>
+              <Block onClick={stopPropagation}>
                 <FollowButton w={105} m='s' absolute='bottom right' user={user} />
               </Block>
             )

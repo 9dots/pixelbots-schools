@@ -2,8 +2,8 @@
  * Imports
  */
 
+import {preventDefault, component, element} from 'vdux'
 import {CSSContainer} from 'vdux-containers'
-import {component, element} from 'vdux'
 import {Base} from 'vdux-ui'
 
 /**
@@ -16,7 +16,7 @@ export default component({
     let onClick = props.onClick
 
     if ((ui !== InternalLink && href && !disabled) || replace) {
-      onClick = [context.setUrl(href, replace), {preventDefault: true}]
+      onClick = [context.setUrl(href, replace), preventDefault]
     }
 
     return (

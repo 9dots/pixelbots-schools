@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Document, component, element} from 'vdux'
+import {stopPropagation, Document, component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import {Icon, Block} from 'vdux-ui'
 import Comments from './Comments'
@@ -60,7 +60,7 @@ const CommentButton = component({
     return (
       <Block>
         <Button
-          onClick={[{stopPropagation: true}, showComments(isShown ? null : question._id)]}
+          onClick={[stopPropagation, showComments(isShown ? null : question._id)]}
           color={hasComments ? 'white' : 'grey_medium'}
           bgColor={hasComments ? 'green' : '#F3F3F3'}
           boxShadow='0 1px 3px rgba(0,0,0,0.35)'

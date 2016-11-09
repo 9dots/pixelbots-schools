@@ -3,8 +3,8 @@
  */
 
 import {Button, Dropdown, MenuItem, Checkbox, Tooltip} from 'vdux-containers'
+import {stopPropagation, component, element} from 'vdux'
 import subjects from '@weo-edu/subjects'
-import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
 import {Block, Icon} from 'vdux-ui'
 
@@ -34,7 +34,7 @@ export default component({
     const btnStyle = sbjList.length ? {'bold': true, color: 'blue'} : {}
 
     return (
-      <Dropdown w={505} left btn={<DDBtn {...btnStyle} text={text} />} onClick={{stopPropagation: true}} onClose={actions.setError(null)}>
+      <Dropdown w={505} left btn={<DDBtn {...btnStyle} text={text} />} onClick={stopPropagation} onClose={actions.setError(null)}>
         <Block align='start' my={-6}>
           <Block flex='35%' borderRight='1px solid grey_light' py={6}>
             {

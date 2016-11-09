@@ -154,7 +154,7 @@ function tooltipText (bin) {
 }
 
 function indexToColor (i) {
-  const {red} = Color(colors.red)
+  const red = Color(colors.red)
   const blue = Color('#3EC1FA')
   const c1 = red.clone().saturate(0.9).lighten((i * 5) / 100)
   const c2 = blue.clone().lighten(((10 - i) * 4) / 100)

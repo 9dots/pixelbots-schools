@@ -51,7 +51,7 @@ export default component({
 
       return {
         currentUrl: props.req.url,
-        authToken: cookieObj.authToken
+        authToken: cookieObj.authToken || ''
       }
     }
 
@@ -112,7 +112,7 @@ export default component({
 
   events: {
     * initializeAuth ({actions, state}) {
-      if (!state.authToken) {
+      if (state.authToken === undefined) {
         const token = yield cookie('authToken')
         yield actions.updateToken(token || '')
       }

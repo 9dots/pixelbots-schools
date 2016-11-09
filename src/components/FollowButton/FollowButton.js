@@ -7,6 +7,12 @@ import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
 
 /**
+ * Constants
+ */
+
+const highlight = {highlight: 0.03}
+
+/**
  * <FollowButton/>
  */
 
@@ -67,8 +73,8 @@ export default summon((props) => {
         px={25}
         rounded
         bgColor='off_white'
-        hoverProps={{highlight: 0.03}}
-        focusProps={{highlight: 0.03}}
+        hoverProps={highlight}
+        focusProps={highlight}
         border='1px solid rgba(0,0,0,0.15)'
         {...rest}>
         {verb} {noun}

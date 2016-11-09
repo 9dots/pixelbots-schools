@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {component, element, findDOMNode} from 'vdux'
+import {stopPropagation, component, element, findDOMNode} from 'vdux'
 import BlockInput from 'components/BlockInput'
 import {Block, Button} from 'vdux-containers'
 import Form from 'vdux-form'
@@ -20,7 +20,7 @@ export default component({
     const {opened} = state
 
     return (
-      <Form onSubmit={onSubmit} onSuccess={!loading && actions.toggle} validate={validate} relative onChange={{stopPropagation: true}}>
+      <Form onSubmit={onSubmit} onSuccess={!loading && actions.toggle} validate={validate} relative onChange={stopPropagation}>
         {
           opened
             ? <Block

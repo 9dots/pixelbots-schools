@@ -4,9 +4,9 @@
 
 import {Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
 import {wrap, CSSContainer, TableRow, Text} from 'vdux-containers'
+import {preventDefault, component, element} from 'vdux'
 import StudentDropdown from './StudentDropdown'
 import summonPrefs from 'lib/summon-prefs'
-import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import getProp from '@f/get-prop'
@@ -95,6 +95,13 @@ const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps
 })
 
 /**
+ * Constants
+ */
+
+const underline = {underline: true}
+const cellProps = {p: '10px 12px'}
+
+/**
  * <StudentRow/>
  */
 
@@ -108,7 +115,6 @@ const StudentRow = wrap(CSSContainer, {
     const {student, selected, group, highlight, showSettings, isStudent} = props
     const {name, username} = student
     const {givenName, familyName} = name
-    const cellProps = {p: '10px 12px'}
 
     return (
       <TableRow tag={isStudent ? 'tr' : 'label'} display='table-row' py bgColor={highlight && !isStudent ? '#fafdfe' : 'white'} borderBottom='1px solid grey_light'>
@@ -119,24 +125,24 @@ const StudentRow = wrap(CSSContainer, {
           <Avatar display='flex' actor={student} mr='s' sq='26' />
         </TableCell>
         <TableCell {...cellProps}>
-          <Link hoverProps={{underline: true}} href={`/${username}`}>
+          <Link hoverProps={underline} href={`/${username}`}>
             {givenName}
           </Link>
         </TableCell>
         <TableCell {...cellProps}>
-          <Link hoverProps={{underline: true}} href={`/${username}`}>
+          <Link hoverProps={underline} href={`/${username}`}>
             {familyName}
           </Link>
         </TableCell>
         <TableCell {...cellProps}>
-          <Link hoverProps={{underline: true}} href={`/${username}`}>
+          <Link hoverProps={underline} href={`/${username}`}>
             {username}
           </Link>
         </TableCell>
         <TableCell {...cellProps} textAlign='right' hide={isStudent}>
           <StudentDropdown
             group={group}
-            onClick={{preventDefault: true}}
+            onClick={preventDefault}
             showSettings={showSettings}
             student={student} />
         </TableCell>

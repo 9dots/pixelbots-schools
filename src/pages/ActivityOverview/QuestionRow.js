@@ -1,31 +1,19 @@
 /**
  * Imports
  */
+import {stopPropagation, component, Document, element} from 'vdux'
 import ActivityQuestion from 'components/ActivityQuestion'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {questionIcon} from 'lib/activity-helpers'
-import {component, Document, element} from 'vdux'
 import {Block, Card, Flex, Icon} from 'vdux-ui'
 
 /**
  * <QuestionRow/>
  */
 
-export default component({
-  render ({props}) {
-    return (
-      <Question {...props} />
-    )
-  }
-})
-
-/**
- * <Question/.
- */
-
-const Question = wrap(CSSContainer, {
+export default wrap(CSSContainer, {
   hoverProps: {hover: true}
-})({
+})(component({
   render ({props}) {
     const {question, hover, i, expanded, dismiss} = props
     const {displayName, total, numAnswered, points: {max}, poll} = question
@@ -42,7 +30,7 @@ const Question = wrap(CSSContainer, {
     return (
       <Block>
         <Document onClick={dismiss} />
-        <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'z2' : '0 0 0'} onClick={[props.toggle, {stopPropagation: true}]}>
+        <Block m={expanded ? '12px -30px' : 0} boxShadow={expanded ? 'z2' : '0 0 0'} onClick={[props.toggle, stopPropagation]}>
           <Flex fs='s' lighter wide pointer>
             <Card {...headerProps} ellipsis flex>
               <Block>{i + 1}.</Block>
@@ -59,7 +47,7 @@ const Question = wrap(CSSContainer, {
           </Flex>
           {
             expanded && (
-              <Block onClick={{stopPropagation: true}} bgColor='white' p='18px 50px 30px 50px'>
+              <Block onClick={stopPropagation} bgColor='white' p='18px 50px 30px 50px'>
                 <ActivityQuestion overview object={question} />
               </Block>
             )
@@ -68,7 +56,7 @@ const Question = wrap(CSSContainer, {
       </Block>
     )
   }
-})
+}))
 
 /**
  * Helpers

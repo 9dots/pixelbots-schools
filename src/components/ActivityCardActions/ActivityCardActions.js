@@ -2,12 +2,12 @@
  * Imports
  */
 
+import {stopPropagation, component, element} from 'vdux'
 import DeleteButton from 'components/DeleteButton'
 import AssignButton from 'components/AssignButton'
 import LikeButton from 'components/LikeButton'
 import EditButton from 'components/EditButton'
 import PinButton from 'components/PinButton'
-import {component, element} from 'vdux'
 import {Block} from 'vdux-ui'
 
 /**
@@ -26,19 +26,19 @@ export default component({
     return (
       <Block p align='center' {...rest}>
         <AssignButton
-          onClick={{stopPropagation: true}}
+          onClick={stopPropagation}
           activity={activity}
           hide={!assign}
           text={assign}
           user={user} />
         <Block hide={!spread || !activity.published} flex />
         <EditButton
-          onClick={{stopPropagation: true}}
+          onClick={stopPropagation}
           activity={activity}
           hide={!edit}
           text={edit} />
         <LikeButton
-          onClick={{stopPropagation: true}}
+          onClick={stopPropagation}
           localLike={localLike}
           activity={activity}
           liked={liked}
@@ -46,14 +46,14 @@ export default component({
           text={like}
           user={user} />
         <PinButton
-          onClick={{stopPropagation: true}}
+          onClick={stopPropagation}
           activity={activity}
           user={user}
           hide={!pin}
           text={pin}
           mr='0' />
         <DeleteButton
-          onClick={{stopPropagation: true}}
+          onClick={stopPropagation}
           activity={activity}
           hide={!archive}
           text={archive}

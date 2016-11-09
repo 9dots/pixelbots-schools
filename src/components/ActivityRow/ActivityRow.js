@@ -4,9 +4,9 @@
 
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import ActivityCardActions from 'components/ActivityCardActions'
+import {stopPropagation, component, element} from 'vdux'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {Flex, Block, Card} from 'vdux-ui'
-import {component, element} from 'vdux'
 import BgImg from 'components/BgImg'
 import Meta from './Meta'
 
@@ -62,7 +62,7 @@ export default wrap(CSSContainer, {
                   <ActivityCardActions {...options} align='end center' wide activity={activity} user={currentUser} />
                   {
                     ddMenu &&
-                      <Block mr ml='-6' onClick={{stopPropagation: true}}>
+                      <Block mr ml='-6' onClick={stopPropagation}>
                         <ActivityDropdownMenu activity={activity} />
                       </Block>
                   }

@@ -18,7 +18,7 @@ import Search from './Search'
 
 export default component({
   render ({props, actions}) {
-    const {currentUser, url, bgColor = 'grey', search, query} = props
+    const {currentUser, currentUrl, bgColor = 'grey', search, query} = props
     const isStudent = currentUser && currentUser.userType === 'student'
 
     return (
@@ -41,7 +41,7 @@ export default component({
               }
             </Flex>
             <Menu flex align='end center'>
-              <Search url={url} searching={search} query={query} hide={isStudent} mr='s' />
+              <Search url={currentUrl} searching={search} query={query} hide={isStudent} mr='s' />
               {
                 currentUser && [
                   <NotificationsButton currentUser={currentUser} />,

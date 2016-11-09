@@ -70,6 +70,14 @@ export default summon(({groupId}) => ({
 }))
 
 /**
+ * Constants
+ */
+
+const activeProps = {opacity: 1}
+const hoverProps = {opacity: 0.7}
+const highlight = {highlight: 0.03}
+
+/**
  * <Header/>
  */
 
@@ -85,9 +93,9 @@ const Header = component({
             <Block ellipsis fs='m' lighter align='start center'>
               {displayName}
               <Button
-                onClick={actions.classSettingsModal}
-                activeProps={{opacity: 1}}
-                hoverProps={{opacity: 0.7}}
+                onClick={actions.classSettings}
+                activeProps={activeProps}
+                hoverProps={hoverProps}
                 hide={isStudent}
                 icon='settings'
                 opacity={1}
@@ -101,8 +109,8 @@ const Header = component({
               border='1px solid grey_medium'
               align='start center'
               bgColor='off_white'
-              hoverProps={{highlight: 0.03}}
-              focusProps={{highlight: 0.03}}
+              hoverProps={highlight}
+              focusProps={highlight}
               hide={isStudent}
               color='text'
               fw='normal'

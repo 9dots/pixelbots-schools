@@ -2,8 +2,8 @@
  * Imports
  */
 
+import {stopPropagation, component, element} from 'vdux'
 import {Flex, Text, Block} from 'vdux-containers'
-import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import moment from 'moment'
@@ -40,8 +40,8 @@ export default component({
 
     return (
       <Flex align='start center'>
-        <Avatar pointer mr thumb actor={actor} onClick={[context.setUrl(`/${actor.username}`), {stopPropagation: true}]} />
-        <Flex column fs='xxs' align='space-around' onClick={{stopPropagation: true}}>
+        <Avatar pointer mr thumb actor={actor} onClick={[context.setUrl(`/${actor.username}`), stopPropagation]} />
+        <Flex column fs='xxs' align='space-around' onClick={stopPropagation}>
           <Text color='text' mb='xs'>{message}</Text>
           <Link href={href} pointer hoverProps={underline} fw='bold'>
             {location}

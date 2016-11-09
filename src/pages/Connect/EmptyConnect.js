@@ -8,7 +8,6 @@ import GradePickerModal from 'modals/GradePickerModal'
 import EmptyState from 'components/EmptyState'
 import {Button, Text} from 'vdux-containers'
 import {component, element} from 'vdux'
-import {invalidate} from 'vdux-summon'
 import {Block, Icon} from 'vdux-ui'
 
 /**
@@ -74,7 +73,7 @@ const FillOutProfile = component({
             break
           }
         case 3:
-          yield invalidate('connect_people')
+          yield props.refresh()
           break
       }
     }
