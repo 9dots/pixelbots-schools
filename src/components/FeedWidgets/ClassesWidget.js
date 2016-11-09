@@ -2,14 +2,15 @@
  * Imports
  */
 
+import {MenuItem, Button, CSSContainer, wrap} from 'vdux-containers'
+import ClassSettingsModal from 'modals/ClassSettingsModal'
 import CreateClassModal from 'modals/CreateClassModal'
 import JoinClassModal from 'modals/JoinClassModal'
-import {setUrl} from 'redux-effects-location'
-import {Block, Card, Text, Icon} from 'vdux-ui'
-import handleActions from '@f/handle-actions'
 import RoundedInput from 'components/RoundedInput'
+import {Block, Card, Text, Icon} from 'vdux-ui'
+import {setUrl} from 'redux-effects-location'
+import handleActions from '@f/handle-actions'
 import createAction from '@f/create-action'
-import {MenuItem} from 'vdux-containers'
 import {openModal} from 'reducer/modal'
 import Link from 'components/Link'
 import element from 'vdux/element'
@@ -20,7 +21,8 @@ function render ({props, state, local}) {
   const {value, loading} = classes
   const clsLength = !loading && value.items.length
   const {drafts: {canonicalTotal: {items}}, userType} = user
-  const offset = userType === 'teacher'
+  const isTeacher = userType === 'teacher'
+  const offset = isTeacher
     ? items ? '440px' : '370px'
     : '262px'
 
@@ -33,8 +35,8 @@ function render ({props, state, local}) {
       <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
         {[
           !state.filter &&
-            item({_id: 'all', displayName: 'All Classes'}),
-          !loading && value.items.filter(search(state.filter)).sort(cmp).map(item),
+            <Item cls={{_id: 'all', displayName: 'All Classes'}} />,
+          !loading && value.items.filter(search(state.filter)).sort(cmp).map(cls => <Item cls={cls} isTeacher={isTeacher} />),
           user.userType === 'student'
             ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
             : <AddClassItem Modal={CreateClassModal} text='New Class' />
@@ -45,21 +47,39 @@ function render ({props, state, local}) {
   )
 }
 
-function item (cls) {
-  const {_id, displayName} = cls
-  return (
-    <Link
-      currentProps={{borderLeftColor: 'blue', highlight: 0.05, color: 'text'}}
-      borderLeft='3px solid transparent'
-      href={`/class/${_id}`}
-      align='start center'
-      ui={MenuItem}
-      p>
-      <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
-      <Text capitalize>{displayName}</Text>
-    </Link>
-  )
-}
+const Item = wrap(CSSContainer, {
+  hoverProps: {showIcon: true}
+})({
+  render({props}) {
+    const {cls, isTeacher, showIcon} = props
+    const {_id, displayName} = cls
+
+    return (
+      <Link
+        currentProps={{borderLeftColor: 'blue', highlight: 0.05, color: 'text'}}
+        borderLeft='3px solid transparent'
+        href={`/class/${_id}`}
+        align='start center'
+        ui={MenuItem}
+        p>
+        <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
+        <Text capitalize flex>{displayName}</Text>
+        <Block onClick={e => e.stopPropagation()}>
+        <Button
+          onClick={() => openModal(() => <ClassSettingsModal group={cls} />)}
+          activeProps={{opacity: 0.7}}
+          hoverProps={{opacity: 1}}
+          hide={!(isTeacher && showIcon)}
+          icon='settings'
+          opacity={0.7}
+          color='text'
+          fs='xs'
+          />
+        </Block>
+      </Link>
+    )
+  }
+})
 
 function AddClassItem ({props}) {
   const {Modal, text} = props
