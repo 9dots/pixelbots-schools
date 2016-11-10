@@ -76,7 +76,7 @@ const EmptyBoard = component({
     )
   },
 
-  events: {
+  controller: {
     * createActivity ({props, context}) {
       yield context.openModal(() => <CreateActivityModal currentUser={props.currentUser} />)
     }

@@ -64,7 +64,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * toggleSubject ({props, actions}, sbjList, subject) {
       const {toggle, max = Infinity} = props
 

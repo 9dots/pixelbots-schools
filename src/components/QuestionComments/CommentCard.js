@@ -75,7 +75,7 @@ const EditCard = component({
     )
   },
 
-  events: {
+  controller: {
     * save ({props}, model) {
       const {comment, annotate, toggleEdit, dismiss} = props
 

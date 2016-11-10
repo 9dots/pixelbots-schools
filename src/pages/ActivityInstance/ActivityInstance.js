@@ -131,7 +131,7 @@ const PrintButton = component({
     )
   },
 
-  events: {
+  controller: {
     print () {
       window.print()
     }

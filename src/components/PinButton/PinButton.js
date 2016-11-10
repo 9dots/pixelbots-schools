@@ -26,7 +26,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openModal ({props, context}) {
       const {user, onPin, activity} = props
 

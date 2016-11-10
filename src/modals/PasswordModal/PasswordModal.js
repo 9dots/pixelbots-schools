@@ -67,7 +67,7 @@ export default summon(() => ({
     )
   },
 
-  events: {
+  controller: {
     * handleSubmit ({props, actions}, body) {
       const {group} = props
       const users = [].concat(props.user)

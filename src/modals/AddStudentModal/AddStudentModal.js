@@ -66,7 +66,7 @@ export default summon(({groupId}) => ({
     )
   },
 
-  events: {
+  controller: {
     * studentJoin ({props}, model) {
       const user = yield props.createStudent(model)
       yield props.joinClass(user.id)

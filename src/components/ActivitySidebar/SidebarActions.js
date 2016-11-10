@@ -71,7 +71,7 @@ export default summon(({activity}) => ({
     )
   },
 
-  events: {
+  controller: {
     * openRedoModal ({props, context}) {
       yield context.openModal(() => <RedoModal instanceIds={props.activity._id} />)
     },

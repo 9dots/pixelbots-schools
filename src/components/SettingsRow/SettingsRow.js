@@ -47,7 +47,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openModal ({props, context}) {
       yield context.openModal(() => props.Modal)
     }

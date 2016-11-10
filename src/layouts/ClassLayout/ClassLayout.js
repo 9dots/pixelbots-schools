@@ -57,7 +57,7 @@ export default summon(({groupId}) => ({
     )
   },
 
-  events: {
+  controller: {
     * updatePref ({props}) {
       const {currentUser, setPref, groupId, settingPref = {}} = props
       const value = getProp('preferences.lastClass', currentUser)
@@ -153,7 +153,7 @@ const Header = component({
     )
   },
 
-  events: {
+  controller: {
     * classCodeModal ({context, props}) {
       yield context.openModal(() => <ClassCodeModal code={props.group.code} />)
     },

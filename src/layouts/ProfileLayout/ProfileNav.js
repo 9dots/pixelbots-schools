@@ -7,7 +7,7 @@ import {component, element} from 'vdux'
 import {Text, Flex} from 'vdux-ui'
 
 /**
- * ProfileNav
+ * <ProfileNav/>
  */
 
 export default component({
@@ -17,7 +17,7 @@ export default component({
 
     return (
       <Flex fs='xxs' align='center center' h='46px' bgColor='off_white' uppercase>
-        <NavTile href={`/${username}/boards`} highlight='red'>Boards</NavTile>
+        <NavTile href={`/${username}/boards`} highlight='red'>Activities</NavTile>
         <NavTile href={`/${username}/likes`} highlight='green'>Likes</NavTile>
         <NavTile href={`/${username}/following`} highlight='blue'>
           <Text mr={3} weight='bolder' fs='xs'>{following}</Text>

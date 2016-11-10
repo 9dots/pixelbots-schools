@@ -87,7 +87,7 @@ export default summon(({activityId, question}) => ({
     )
   },
 
-  events: {
+  controller: {
     * annotate ({props}, model, annotation) {
       if (annotation) {
         annotation = {

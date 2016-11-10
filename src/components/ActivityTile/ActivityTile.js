@@ -90,7 +90,7 @@ const Activity = wrap(CSSContainer)(component({
     )
   },
 
-  events: {
+  controller: {
     * goToActivity ({context}, id) {
       yield context.setUrl(`/activity/${id}`)
     }

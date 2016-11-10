@@ -122,7 +122,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * toggleCorrectness ({props}, checked) {
       const {onEdit, object} = props
 

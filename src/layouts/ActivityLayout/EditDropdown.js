@@ -57,7 +57,7 @@ export default summon(({activity}) => ({
     )
   },
 
-  events: {
+  controller: {
     * draft ({props, context}) {
       const {user} = props
 

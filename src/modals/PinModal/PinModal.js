@@ -78,7 +78,7 @@ export default summon(() => ({
       )
     },
 
-    events: {
+    controller: {
       * doPin ({actions, props, context}, board) {
         const {activity, copyActivity, onPin, fields, pin, user} = props
         const {displayName, originalDescription} = activity

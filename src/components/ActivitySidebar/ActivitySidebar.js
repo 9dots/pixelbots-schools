@@ -212,7 +212,7 @@ const ScoreRow = summon(() => ({
     debounce('debouncedSetPoints', 500)
   ],
 
-  events: {
+  controller: {
     * scrollTo ({context}, id) {
       yield sleep(0)
       const node = document.getElementById(id)

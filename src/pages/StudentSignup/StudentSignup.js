@@ -28,7 +28,7 @@ export default summon(props => ({
     const {loading} = creatingStudent
 
     return (
-      <Form onSubmit={createStudent} onSuccess={[context.postLogin, actions.trackEvent]} validate={validateStudent}>
+      <Form onSubmit={createStudent} onSuccess={actions.handleSuccess} validate={validateStudent}>
         <input type='hidden' name='userType' value='student' />
         <Flex>
           <BlockInput autofocus name='name[givenName]' placeholder='FIRST NAME' />
@@ -55,8 +55,9 @@ export default summon(props => ({
     )
   },
 
-  events: {
-    * trackEvent ({context}, user) {
+  controller: {
+    * handleSuccess ({context}, user) {
+      yield context.postLogin(user)
       yield context.track({name: 'Student Created', traits: user})
     }
   }

@@ -87,7 +87,7 @@ export default component({
     speechSynthMw
   ],
 
-  events: {
+  controller: {
     ...map(fn => function * (model, ...args) {
       yield fn(...args)
     }, speechSynth)

@@ -68,7 +68,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * save ({props}, correctAnswer) {
       yield props.onEdit({
         ...props.object,
@@ -116,7 +116,7 @@ const Answer = component({
     )
   },
 
-  events: {
+  controller: {
     * maybeRemove ({props}, node) {
       const {num, idx, focusPrevious, remove} = props
 

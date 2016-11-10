@@ -32,7 +32,7 @@ export default summon(({activity}) => ({
     )
   },
 
-  events: {
+  controller: {
     * handleClick ({context, props}) {
       const {activity, copy, intent, copyActivity} = props
       const act = copy

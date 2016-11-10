@@ -2,12 +2,13 @@
  * Imports
  */
 
+import {MenuItem, Button, CSSContainer, wrap} from 'vdux-containers'
+import ClassSettingsModal from 'modals/ClassSettingsModal'
+import {stopPropagation, component, element} from 'vdux'
 import CreateClassModal from 'modals/CreateClassModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import RoundedInput from 'components/RoundedInput'
 import {Icon, Block, Card, Text} from 'vdux-ui'
-import {MenuItem} from 'vdux-containers'
-import {component, element} from 'vdux'
 import Link from 'components/Link'
 import summon from 'vdux-summon'
 
@@ -16,6 +17,8 @@ import summon from 'vdux-summon'
  */
 
 const itemCurrentProps = {borderLeftColor: 'blue', highlight: 0.05, color: 'text'}
+const itemActiveProps = {opacity: 0.7}
+const itemHoverProps = {opacity: 1}
 const allClasses = {_id: 'all', displayName: 'All Classes'}
 const alignLeft = {textAlign: 'left'}
 
@@ -64,23 +67,44 @@ export default summon(() => ({
  * <Item/>
  */
 
-function Item ({props}) {
-  const {cls} = props
-  const {_id, displayName} = cls
+const Item = wrap(CSSContainer, {
+  hoverProps: {showIcon: true}
+})(component({
+  render ({props, actions}) {
+    const {cls, isTeacher, showIcon} = props
+    const {_id, displayName} = cls
 
-  return (
-    <Link
-      currentProps={itemCurrentProps}
-      borderLeft='3px solid transparent'
-      href={`/class/${_id}`}
-      align='start center'
-      ui={MenuItem}
-      p>
-      <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
-      <Text capitalize>{displayName}</Text>
-    </Link>
-  )
-}
+    return (
+      <Link
+        currentProps={itemCurrentProps}
+        borderLeft='3px solid transparent'
+        href={`/class/${_id}`}
+        align='start center'
+        ui={MenuItem}
+        p>
+        <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
+        <Text capitalize flex>{displayName}</Text>
+        <Block onClick={stopPropagation}>
+          <Button
+            onClick={actions.classSettings}
+            activeProps={itemActiveProps}
+            hoverProps={itemHoverProps}
+            hide={!(isTeacher && showIcon)}
+            icon='settings'
+            opacity={0.7}
+            color='text'
+            fs='xs' />
+        </Block>
+      </Link>
+    )
+  },
+
+  controller: {
+    * classSettings ({context, props}) {
+      yield context.openModal(() => <ClassSettingsModal group={props.cls} />)
+    }
+  }
+}))
 
 /**
  * <AddClassItem/>
@@ -98,7 +122,7 @@ const AddClassItem = component({
     )
   },
 
-  events: {
+  controller: {
     * openModal ({props, context}) {
       const {Modal} = props
       yield context.openModal(() => <Modal />)

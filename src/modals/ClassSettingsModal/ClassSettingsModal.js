@@ -56,7 +56,7 @@ export default summon(({group}) => ({
     )
   },
 
-  events: {
+  controller: {
     * deleteClass ({props, context}) {
       const {group} = props
       const isCurrentClass = context.currentUrl.indexOf(group._id) !== -1

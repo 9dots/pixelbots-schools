@@ -39,7 +39,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     acceptTypes ({props}, e) {
       let {accepts = []} = props
       accepts = Array.isArray(accepts)

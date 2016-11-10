@@ -26,7 +26,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openModalAction ({context, props}) {
       const {onAssign, user, activity} = props
 

@@ -25,7 +25,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * videoModal ({context}) {
       yield context.openModal(() => <VideoModal videoId='7o_CcepYp7A' options={{autoplay: 1, showinfo: 0, iv_load_policy: 3, autohide: 1}} />)
     }

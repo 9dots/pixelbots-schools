@@ -37,7 +37,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * selectSubject ({props, actions}, subject) {
       const {selected, toggle, max = 5} = props
 

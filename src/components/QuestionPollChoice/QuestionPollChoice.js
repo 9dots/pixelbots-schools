@@ -92,7 +92,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * editOriginalContent ({props}, originalContent) {
       yield props.onEdit({...props.object, originalContent})
     },

@@ -23,7 +23,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * handleScroll ({props}) {
       const {more, threshold = 350} = props
       if (!more) return

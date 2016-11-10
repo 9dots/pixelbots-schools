@@ -48,7 +48,7 @@ export default summon(() => ({
     )
   },
 
-  events: {
+  controller: {
     * done ({props, context}, {name, url}) {
       const object = yield props.scrapeMedia(url)
       yield context.closeModal()

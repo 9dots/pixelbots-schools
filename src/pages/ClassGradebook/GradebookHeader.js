@@ -40,7 +40,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * setSort ({props}, prop) {
       const {setPref, sort} = props
 

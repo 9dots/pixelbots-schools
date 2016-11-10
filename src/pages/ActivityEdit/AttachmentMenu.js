@@ -40,7 +40,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * attachMedia ({context, actions}, type) {
       yield context.openModal(() => (
         <MediaModal onAccept={actions.createAndAttach} type={type} />

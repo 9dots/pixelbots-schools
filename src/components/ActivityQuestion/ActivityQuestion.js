@@ -105,11 +105,8 @@ export default summon(({activityId, rootId, actor, object}) => ({
                     responses={responses}
                     answer={answerable ? state.answer : object.response}
                     overview={overview || (showPollResults && object.poll)}
+                    submit={actions.handleSubmit}
                     editable={editable}
-                    submit={[
-                      actions.debouncedSubmit,
-                      actions.setAnswer
-                    ]}
                     total={total}
                     actor={actor}
                     object={att}
@@ -136,7 +133,11 @@ export default summon(({activityId, rootId, actor, object}) => ({
     debounce('debouncedSubmit', 500)
   ],
 
-  events: {
+  controller: {
+    * handleSubmit ({actions}, answer) {
+      yield [actions.debouncedSubmit(answer), actions.setAnswer(answer)]
+    },
+
     * debouncedSubmit ({props}, answer) {
       yield props.submitAnswer(answer)
     }

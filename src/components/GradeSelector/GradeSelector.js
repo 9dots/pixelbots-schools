@@ -58,7 +58,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * selectGrade ({actions, props}, grade) {
       const {toggle, selected} = props
 

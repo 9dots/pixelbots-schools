@@ -38,7 +38,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openAssignModal ({context, props}) {
       yield context.openModal(() => <AssignModal activity={props.activity} />)
     },

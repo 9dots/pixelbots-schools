@@ -49,7 +49,7 @@ export default summon(props => ({
     )
   },
 
-  events: {
+  controller: {
     * goToClass ({context}, {_id}) {
       yield context.setUrl(`/class/${_id}/feed`)
     }

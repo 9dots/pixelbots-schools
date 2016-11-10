@@ -69,7 +69,7 @@ const EmptySearch = component({
     )
   },
 
-  events: {
+  controller: {
     * inviteTeacher ({context}) {
       yield context.openModal(() => <InviteTeacherModal />)
     }

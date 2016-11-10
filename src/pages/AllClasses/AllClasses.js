@@ -90,7 +90,7 @@ const Join = component({
     )
   },
 
-  events: {
+  controller: {
     * joinClass ({context}) {
       yield context.openModal(() => <JoinClassModal />)
     },

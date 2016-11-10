@@ -83,7 +83,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * go ({props, actions, context}, inst) {
       const {activity} = props
       yield context.setUrl(`/activity/${activity._id}/instance/${inst.userId}`, true)

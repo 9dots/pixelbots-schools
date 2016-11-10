@@ -77,7 +77,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * save ({props, context}) {
       const {onEdit, fields} = props
       const {discussion, hideOnTurnIn, textToSpeech} = fields

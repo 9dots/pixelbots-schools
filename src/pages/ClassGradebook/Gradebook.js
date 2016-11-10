@@ -74,7 +74,7 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
     }
   },
 
-  events: {
+  controller: {
     exportAll ({props}) {
       const {group} = props
       const {activityList, usersData, studentList, displayPercent} = deriveData(props)

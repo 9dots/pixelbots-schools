@@ -81,7 +81,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openSignupModal ({context}) {
       yield context.openModal(() => <SignUpModal />)
     },

@@ -27,7 +27,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openAvatarModal ({context, props}) {
       if (props.isMe) {
         yield context.openModal(() => <AvatarPickerModal user={props.user} />)

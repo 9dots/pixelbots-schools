@@ -55,7 +55,7 @@ export default summon(({group}) => ({
     )
   },
 
-  events: {
+  controller: {
     * submit ({props}, {emails}) {
       yield props.sendInvite(emails.split(',').map(email => email.replace(/\s/g, '')))
     }

@@ -46,7 +46,7 @@ export default wrap(CSSContainer, {
     )
   },
 
-  events: {
+  controller: {
     * move (model, {clientX, clientY}) {
       const {state, props} = model
       const el = findDOMNode(model)

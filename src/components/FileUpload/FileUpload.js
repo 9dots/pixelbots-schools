@@ -48,7 +48,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * upload ({props, state, actions, context}, [file]) {
       const {onUpload = noop, validate = () => ({valid: true})} = props
       const {valid, message} = validate(file)

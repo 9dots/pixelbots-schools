@@ -69,7 +69,7 @@ export default wrap(CSSContainer, {
     )
   },
 
-  events: {
+  controller: {
     * openUploadModal ({props, context}) {
       yield context.openModal(() => <AvatarUploadModal user={props.user} />)
     }

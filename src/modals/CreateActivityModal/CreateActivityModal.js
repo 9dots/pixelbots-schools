@@ -106,7 +106,7 @@ export default summon(props => ({
     )
   },
 
-  events: {
+  controller: {
     * createBlank ({props, state, context}) {
       const {noTemplates, createBlank} = props
 

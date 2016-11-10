@@ -49,7 +49,7 @@ export default summon(({id}) => ({
     )
   },
 
-  events: {
+  controller: {
     * createShare ({props}, model) {
       const {classId, id, makeComment} = props
       const type = classId === 'public' ? 'public' : 'group'

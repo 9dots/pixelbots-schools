@@ -56,7 +56,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * submitSearch ({context, actions}, url = '', value) {
       if (!value) return
 

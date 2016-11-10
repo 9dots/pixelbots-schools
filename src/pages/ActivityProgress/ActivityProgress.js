@@ -84,7 +84,7 @@ component({
   )
   },
 
-  events: {
+  controller: {
     * setSort ({props}, sort, property) {
       yield props.setPref('shareStudentSort', {
         property,

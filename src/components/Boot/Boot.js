@@ -110,7 +110,7 @@ export default component({
     ]
   },
 
-  events: {
+  controller: {
     * initializeAuth ({actions, state}) {
       if (state.authToken === undefined) {
         const token = yield cookie('authToken')

@@ -25,7 +25,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openDeleteModal ({context, props}) {
       const {onDelete, activity} = props
       yield context.openModal(() => <DeleteActivityModal onDelete={onDelete} activity={activity} />)

@@ -70,7 +70,7 @@ const EditablePost = component({
     )
   },
 
-  events: {
+  controller: {
     * editOriginalContent ({props}, value) {
       const {onEdit, object} = props
       yield onEdit({...object, originalContent: value})

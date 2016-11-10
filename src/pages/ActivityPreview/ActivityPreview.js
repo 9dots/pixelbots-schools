@@ -87,7 +87,7 @@ const PrintDropdown = component({
     )
   },
 
-  events: {
+  controller: {
     * print (setAnswers) {
       setTimeout(() => window.print())
       yield setAnswers()

@@ -58,7 +58,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openActivityLink ({props, context}) {
       yield context.openModal(() => <ActivityLinkModal activity={props.activity} />)
     },

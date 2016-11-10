@@ -62,7 +62,7 @@ export default summon(props => ({
     )
   },
 
-  events: {
+  controller: {
     * createActivity ({props, context}) {
       yield context.openModal(() => <CreateActivityModal currentUser={props.currentUser} />)
     },

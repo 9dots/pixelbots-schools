@@ -57,7 +57,7 @@ const StudentItem = component({
     )
   },
 
-  events: {
+  controller: {
     * openModal ({context, props}) {
       yield context.openModal(() => props.modal)
     }

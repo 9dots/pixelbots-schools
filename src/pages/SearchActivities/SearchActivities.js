@@ -43,7 +43,7 @@ const EmptySearch = component({
     )
   },
 
-  events: {
+  controller: {
     * createActivity ({context, props}) {
       yield context.openModal(() => <CreateActivityModal currentUser={props.currentUser} />)
     }

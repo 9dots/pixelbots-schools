@@ -57,7 +57,7 @@ export default summonPrefs()(component({
     }
   },
 
-  events: {
+  controller: {
     * setSort ({props}, prop) {
       const {setPref, sort} = props
 

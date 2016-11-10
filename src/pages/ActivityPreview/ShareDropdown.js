@@ -32,7 +32,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openLinkModal ({context, props}) {
       yield context.openModal(() => <ActivityLinkModal activity={props.activity} />)
     },

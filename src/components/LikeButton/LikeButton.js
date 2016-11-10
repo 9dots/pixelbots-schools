@@ -51,7 +51,7 @@ export default summon(({activity: {_id}}) => ({
     )
   },
 
-  events: {
+  controller: {
     * openSignupModal ({context}) {
       yield context.openModal(() => <SignUpModal />)
     }

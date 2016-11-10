@@ -4,9 +4,11 @@
 
 import {Block, Flex, Card, Menu, Divider} from 'vdux-containers'
 import CreateBoardModal from 'modals/CreateBoardModal'
+import {Document, component, element} from 'vdux'
+import PageTitle from 'components/PageTitle'
 import WeoIcon from 'components/WeoIcon'
-import {component, element} from 'vdux'
 import resize from 'lib/resize-image'
+import Link from 'components/Link'
 import summon from 'vdux-summon'
 import NavItem from './NavItem'
 import {Icon} from 'vdux-ui'
@@ -21,7 +23,7 @@ export default summon(({user, currentUser}) => ({
     ? '/user/boards'
     : `/user/${user._id}/boards`
 }))(component({
-  render ({props, children, actions}) {
+  render ({props, children, actions, state}) {
     const {boards, user, currentUser} = props
     const isMe = currentUser._id === user._id
     const {username} = user
@@ -31,7 +33,8 @@ export default summon(({user, currentUser}) => ({
     return (
       <Flex w='col_main' mt='s' mx='auto' pb='l' relative>
         <Block>
-          <Card w={230} mr>
+          <Card mr w={230} hide={!state.isScrolled} />
+          <Card mr w={230} position={state.isScrolled ? 'fixed' : 'static'} top={66} overflowY='auto' maxHeight='calc(100vh - 80px)'>
             <Menu column py='s'>
               <NavItem href={`/${username}/boards/all`} display='flex' align='start center'>
                 <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
@@ -70,14 +73,29 @@ export default summon(({user, currentUser}) => ({
         <Block w='col_main' maxWidth='714px'>
           {children}
         </Block>
+        <Document onScroll={actions.handleScroll(230)} />
       </Flex>
     )
   },
 
-  events: {
+  controller: {
     * createBoardModal ({context}) {
       yield context.openModal(() => <CreateBoardModal />)
+    },
+
+    * handleScroll ({actions, state}, threshold = 0, e) {
+      const isScrolled = document.body.scrollTop >= threshold
+
+      if (state.isScrolled !== isScrolled) {
+        yield actions.setScrolled(isScrolled)
+      }
     }
+  },
+
+  reducer: {
+    setScrolled: (state, isScrolled) => ({
+      isScrolled
+    })
   }
 }))
 
@@ -87,6 +105,7 @@ export default summon(({user, currentUser}) => ({
 
 function BoardIcon ({props}) {
   const {board} = props
+
   const {images = []} = board
   const [img] = images
 

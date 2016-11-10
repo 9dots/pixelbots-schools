@@ -173,7 +173,7 @@ export default summon(({activity}) => ({
     debounce('debouncedSave', 1000)
   ],
 
-  events: {
+  controller: {
     * onDragOver ({actions, state}, id, e) {
       const types = [].slice.call(e._rawEvent.dataTransfer.types)
       if (types.indexOf('weo_attachment') === -1) return

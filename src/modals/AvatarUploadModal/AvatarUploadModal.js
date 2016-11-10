@@ -66,7 +66,7 @@ export default summon(props => ({
     )
   },
 
-  events: {
+  controller: {
     * openPicker ({context, props}) {
       yield context.openModal(() => <AvatarPickerModal user={props.user} />)
     },

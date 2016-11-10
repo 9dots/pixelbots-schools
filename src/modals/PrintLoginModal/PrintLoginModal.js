@@ -42,7 +42,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     print () {
       window.print()
     }

@@ -66,7 +66,7 @@ export default summon(props => ({
     )
   },
 
-  events: {
+  controller: {
     * trackEvent ({context}, user) {
       yield context.track({name: 'Created Teacher', traits: user})
     },

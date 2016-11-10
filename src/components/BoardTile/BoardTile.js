@@ -85,7 +85,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openBoardSettings ({context, props}) {
       yield context.openModal(() => <BoardSettingsModal board={props.board} />)
     }

@@ -92,7 +92,7 @@ const EditingHeader = component({
     )
   },
 
-  events: {
+  controller: {
     * editDisplayName ({props}, value) {
       yield props.onEdit({displayName: value.trim() || 'Untitled Activity'})
     },

@@ -28,7 +28,7 @@ export default summon(({activity}) => ({
     )
   },
 
-  events: {
+  controller: {
     * accept ({props}) {
       yield props.deleteActivity()
       if (props.onAccept) yield props.onAccept()

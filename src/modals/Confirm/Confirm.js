@@ -37,7 +37,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * accept ({props, context}) {
       if (props.onAccept) yield props.onAccept()
       if (props.redirect) yield context.setUrl(props.redirect)

@@ -40,7 +40,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * duplicate ({props, context}) {
       const {insert, pos, object} = props
       const _id = yield context.generateObjectId()

@@ -43,7 +43,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * addStudentModal ({props, context}) {
       yield context.openModal(() => <AddStudentModal groupId={props.group._id} />)
     },

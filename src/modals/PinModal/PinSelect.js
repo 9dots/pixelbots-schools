@@ -32,7 +32,7 @@ export default component({
     flox
   ],
 
-  events: {
+  controller: {
     * selectBoard ({actions, props}, board) {
       yield actions.select(board._id)
       yield props.onSelectBoard(board)

@@ -31,7 +31,7 @@ export default summon(({activity}) => ({
     )
   },
 
-  events: {
+  controller: {
     * accept ({props}) {
       const {deleteActivity, onDelete} = props
 

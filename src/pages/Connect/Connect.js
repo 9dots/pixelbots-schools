@@ -59,7 +59,7 @@ export default summon(({userSearch: query}) => ({
     )
   },
 
-  events: {
+  controller: {
     * inviteTeacher ({context}) {
       yield context.openModal(() => <InviteTeacherModal />)
     },

@@ -57,7 +57,7 @@ const FillOutProfile = component({
     )
   },
 
-  events: {
+  controller: {
     * completeProfile ({props, actions, context}, step) {
       const {currentUser} = props
 
@@ -102,7 +102,7 @@ const EmptySearch = component({
     )
   },
 
-  events: {
+  controller: {
     * inviteTeacher ({context}) {
       yield context.openModal(() => <InviteTeacherModal />)
     }

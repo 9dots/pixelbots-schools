@@ -118,7 +118,7 @@ export default summon(({currentUser}) => ({
     )
   },
 
-  events: {
+  controller: {
     * skip ({props, context}) {
       yield props.finishedIntroModal()
       yield context.closeModal()

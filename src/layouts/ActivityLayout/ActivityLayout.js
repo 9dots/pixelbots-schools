@@ -84,7 +84,7 @@ export default summon(({userId, activityId}) => ({
     }
   },
 
-  events: {
+  controller: {
     * backBtn ({props, actions, context}) {
       const {intent, canExit, activity} = props
 

@@ -55,7 +55,7 @@ export default summon(({user}) => ({
     )
   },
 
-  events: {
+  controller: {
     * close ({context, props}) {
       yield context.closeModal()
       if (props.onClose) yield props.onClose()

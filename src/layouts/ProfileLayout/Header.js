@@ -81,7 +81,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * openColorPicker ({context, props}) {
       yield context.openModal(() => <ColorPickerModal user={props.user} />)
     },

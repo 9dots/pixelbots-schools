@@ -36,7 +36,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * toggleGrade ({props, actions}, gradeList, grade) {
       const {toggle, max = Infinity} = props
 

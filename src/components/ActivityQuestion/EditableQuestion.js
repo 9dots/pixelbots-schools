@@ -128,7 +128,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * insert ({actions}, node) {
       const p = findParent(node)
       const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))

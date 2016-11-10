@@ -48,7 +48,7 @@ export default component({
     )
   },
 
-  events: {
+  controller: {
     * updateObject ({props}, newObj) {
       yield props.onEdit({...props.object, ...newObj})
     },
