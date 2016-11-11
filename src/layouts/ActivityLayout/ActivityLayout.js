@@ -96,7 +96,7 @@ export default summon(({userId, activityId}) => ({
     },
 
     * discardDraftAccept ({props, actions, context}) {
-      yield props.canExit ? context.back() : context.setUrl('/feed')
+      yield props.canExit ? context.back() : context.setUrl('/')
     },
 
     * exit ({props, actions, context}, action) {

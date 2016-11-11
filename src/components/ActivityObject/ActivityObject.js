@@ -29,6 +29,8 @@ const editingProps = {
   z: 2
 }
 
+const absolute = {top: 0, left: 0}
+
 /**
  * <ActivityObject/>
  */
@@ -39,7 +41,6 @@ export default wrap(CSSContainer, ({editable}) => editable
 )(component({
   render ({props}) {
     const {object, open, editing, editable, hover, opening, ...rest} = props
-    if (!object.objectType) object.objectType = 'link'
     const Obj = typeMap[object.objectType]
     const editableProps = {
       onClick: open && open(object._id),
@@ -63,8 +64,7 @@ export default wrap(CSSContainer, ({editable}) => editable
         {
           editable && (!editing && hover) &&
             <Icon
-              absolute={{top: 0, left: 0}}
-
+              absolute={absolute}
               color='grey_medium'
               name='drag_handle'
               textAlign='center'

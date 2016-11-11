@@ -58,7 +58,7 @@ export default summon(({board}) => ({
 
   controller: {
     * deleteBoard ({props, context}) {
-      const {board, exitPath = '/feed'} = props
+      const {board, exitPath = '/'} = props
       const isCurrentBoard = context.currentUrl.indexOf(board._id) !== -1
 
       yield context.openModal(() => (

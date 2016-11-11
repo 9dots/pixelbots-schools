@@ -6,8 +6,8 @@ import NewMenuItem from 'components/NewMenuItem'
 import {Block, Button} from 'vdux-containers'
 import WeoIcon from 'components/WeoIcon'
 import {component, element} from 'vdux'
-import validate from 'lib/validate'
 import flox, {fork} from '@flox/fork'
+import validate from 'lib/validate'
 import map from '@f/map'
 
 /**
@@ -50,6 +50,13 @@ export default component({
 })
 
 /**
+ * Constants
+ */
+
+const outerHover = {highlight: 0.03}
+const innerHover = {highlight: 0.01}
+
+/**
  * <BoardItem/>
  */
 
@@ -58,15 +65,15 @@ function BoardItem ({props}) {
 
   return (
     <Block
-      hoverProps={{highlight: 0.03}}
+      hoverProps={outerHover}
       align='start center'
       bgColor='white'
       pointer={!busy}
       onClick={!busy && onClick}
       p>
       <Button
-        hoverProps={{highlight: 0.01}}
-        focusProps={{highlight: 0.01}}
+        hoverProps={innerHover}
+        focusProps={innerHover}
         border='1px solid blue'
         bgColor='white'
         color='blue'
