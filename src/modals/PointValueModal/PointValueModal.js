@@ -17,7 +17,6 @@ export default summon(({user}) => ({
   setPointValue: body => ({
     changingPoints: {
       url: '/preference/max_points',
-      invalidates: '/user',
       method: 'PUT',
       body
     }

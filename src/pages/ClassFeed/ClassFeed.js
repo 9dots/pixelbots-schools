@@ -28,8 +28,8 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(
     render ({props}) {
       const {group, currentUser} = props
       const Item = currentUser.userType === 'student'
-      ? ActivityRowStudent
-      : ClassActivityRow
+        ? ActivityRowStudent
+        : ClassActivityRow
 
       return (
         <Block maxWidth='714px' my py mx='auto' relative>

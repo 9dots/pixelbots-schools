@@ -18,7 +18,6 @@ export default summon(({user}) => ({
     changingSubjects: {
       url: `/user/${user._id}/subjects`,
       method: 'PUT',
-      invalidates: '/user',
       body: {
         subjects
       }

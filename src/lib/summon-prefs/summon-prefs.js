@@ -15,7 +15,6 @@ export default function summonPrefs (extras = {}) {
     persistPref: (name, value) => ({
       persistingPref: {
         url: `/preference/${name}`,
-        invalidates: '/user',
         method: 'PUT',
         body: {
           value

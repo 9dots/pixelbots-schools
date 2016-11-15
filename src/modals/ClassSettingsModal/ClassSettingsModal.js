@@ -20,7 +20,7 @@ export default summon(({group}) => ({
     renaming: {
       url: `/group/${group._id}`,
       method: 'PUT',
-      invalidates: ['/user/classes', '/user'],
+      invalidates: '/user/classes',
       body
     }
   })
@@ -80,7 +80,7 @@ const ConfirmDeleteClass = summon(({classId}) => ({
     accepting: {
       url: `/group/${classId}`,
       method: 'DELETE',
-      invalidates: ['/user/classes', '/user']
+      invalidates: '/user/classes',
     }
   })
 }))(Confirm)

@@ -19,7 +19,6 @@ export default summonChannels(
     markRead: () => ({
       markingRead: {
         url: '/user/notifications',
-        invalidates: '/user',
         method: 'DELETE'
       }
     })

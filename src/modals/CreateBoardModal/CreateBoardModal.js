@@ -19,7 +19,7 @@ export default summon(props => ({
     creatingBoard: {
       url: '/board/',
       method: 'POST',
-      invalidates: ['/user/boards', '/user'],
+      invalidates: '/user/boards',
       body
     }
   })

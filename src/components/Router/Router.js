@@ -117,7 +117,7 @@ const router = enroute({
     </MainLayout>)),
   // Class
   '/class/': track('Class Redirect', auth('user', (params, props) =>
-    classRedirect(props))),
+    <Redirect to='/class/all' />)),
   '/class/all': track('Class All', auth('user', (params, props) =>
     <MainLayout {...props} {...params}>
       <AllClasses {...props} />
@@ -340,20 +340,6 @@ export default component({
 /**
  * Helpers
  */
-
-function classRedirect ({currentUser}) {
-  // const {groups, preferences = {}} = currentUser
-  // const {lastClass} = preferences
-  // const classes = groups.filter(({status, groupType}) =>
-  //   status === 'active' && groupType === 'class')
-
-  // if(lastClass && classes.length) {
-  //   const curClass = classes.find(c => c.id === lastClass)
-  //   const path = curClass ? curClass.id : classes[0].id
-  //   return <Redirect to={`/class/${path}/feed/`}/>
-  // } else
-  return <Redirect to='/class/all' />
-}
 
 function auth (type, route) {
   return (params, props) =>

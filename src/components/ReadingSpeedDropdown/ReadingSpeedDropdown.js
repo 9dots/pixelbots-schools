@@ -34,6 +34,8 @@ const speeds = [
   }
 ]
 
+const highlight = {highlight: 0.01}
+
 /**
  * <ReadingSpeedDropdown/>
  */
@@ -42,7 +44,6 @@ export default summon(({currentUser}) => ({
   setSpeed: (val) => ({
     savingPreference: {
       url: '/preference/speech_speed',
-      invalidates: '/user',
       method: 'PUT',
       body: {
         value: val
@@ -59,8 +60,8 @@ export default summon(({currentUser}) => ({
       <Block display='inline-block' fw='normal'>
         <Dropdown mb='l' wide btn={
           <Button
-            focusProps={{highlight: 0.01}}
-            hoverProps={{highlight: 0.01}}
+            focusProps={highlight}
+            hoverProps={highlight}
             border='1px solid text'
             bgColor='white'
             color='text'

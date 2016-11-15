@@ -43,8 +43,7 @@ export default summon(props => ({
       method: 'PUT',
       body: {
         value: true
-      },
-      invalidates: '/user'
+      }
     }
   })
 }))(component({

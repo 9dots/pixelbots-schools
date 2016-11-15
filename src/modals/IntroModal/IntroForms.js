@@ -43,7 +43,6 @@ export default summon(({currentUser}) => ({
     savingGrades: {
       url: `/user/${currentUser._id}/gradeLevels`,
       method: 'PUT',
-      invalidates: '/user',
       body: {
         gradeLevels
       }
@@ -53,7 +52,6 @@ export default summon(({currentUser}) => ({
     savingSubjects: {
       url: `/user/${currentUser._id}/subjects`,
       method: 'PUT',
-      invalidates: '/user',
       body: {
         subjects
       }
@@ -62,7 +60,6 @@ export default summon(({currentUser}) => ({
   finishedIntroModal: () => ({
     savingPreference: {
       url: '/preference/' + encodeURIComponent('slideshow.done'),
-      invalidates: '/user',
       method: 'PUT',
       body: {
         value: true

@@ -16,7 +16,6 @@ export default summon(({currentUser}) => ({
   togglePref: pref => ({
     savingPreference: {
       url: '/preference/' + encodeURIComponent(pref),
-      invalidates: '/user',
       method: 'PUT',
       body: {
         value: !getProp(pref, currentUser.preferences)

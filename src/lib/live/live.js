@@ -47,29 +47,34 @@ export default fn => Component => component({
   * onUpdate (prev, next) {
     const pdescs = fn(prev.props)
     const ndescs = fn(next.props)
+    const queue = []
 
     for (const key in ndescs) {
       const pdesc = normalize(pdescs[key])
       const ndesc = normalize(ndescs[key])
       if (!ndesc) continue
 
+      if (prev.props[key] && next.props[key] && prev.props[key].value !== next.props[key].value) {
+        queue.push(next.actions.change(key, next.props[key].value))
+      }
+
       if (!pdesc || pdesc.url !== ndesc.url || !equal(pdesc.params, ndesc.params)) {
-        if (pdesc) yield unsubscribe({...pdesc, path: prev.path})
-        yield subscribe({
+        if (pdesc) queue.push(unsubscribe({...pdesc, path: prev.path}))
+        queue.push(subscribe({
           ...ndesc,
           path: next.path,
           cb: msg => next.actions.update(key, msg)
-        })
-      }
-
-      if (prev.props[key] && next.props[key] && prev.props[key].value !== next.props[key].value) {
-        yield next.actions.changeValue(key, next.props[key].value)
+        }))
       }
     }
+
+    // Queue everything up so that the subscribe/unsubscribes dont
+    // block the updates that come down from props
+    yield queue
   },
 
   reducer: {
-    changeValue: (state, key, value) => ({[key]: value}),
+    change: (state, key, value) => ({[key]: value}),
     update: (state, key, msg) => state[key] && ({
       [key]: applyUpdate(state[key], msg)
     })

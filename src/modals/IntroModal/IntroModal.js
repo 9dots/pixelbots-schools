@@ -9,6 +9,20 @@ import IntroForms from './IntroForms'
 import {Block, Modal} from 'vdux-ui'
 
 /**
+ * Constants
+ */
+
+const btnProps = {
+  bgColor: 'white',
+  color: 'text',
+  circle: '40px',
+  align: 'center center',
+  fs: 'm',
+  p: 0,
+  boxShadow: 'card'
+}
+
+/**
  * <IntroModal/>
  */
 
@@ -21,15 +35,6 @@ export default component({
   render ({props, state, actions, context}) {
     const {currentUser} = props
     const {cur, counts} = state
-    const btnProps = {
-      bgColor: 'white',
-      color: 'text',
-      circle: '40px',
-      align: 'center center',
-      fs: 'm',
-      p: 0,
-      boxShadow: 'card'
-    }
 
     return (
       <Modal relative w='670' h='535' overlayProps={{bg: 'rgba(51,51,51,0.96)'}}>

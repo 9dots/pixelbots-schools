@@ -18,7 +18,7 @@ export default summon(props => ({
     joiningClass: {
       url: `/group/join/${code}`,
       method: 'PUT',
-      invalidates: ['/user/classes', '/user']
+      invalidates: '/user/classes',
     }
   })
 }))(component({

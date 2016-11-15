@@ -22,7 +22,7 @@ export default summon(({user}) => ({
       url: `/user/${user._id}/email`,
       method: 'PUT',
       body,
-      invalidates: ['/user', `/user/${user._id}`]
+      invalidates: `/user/${user._id}`
     }
   })
 }))(component({
