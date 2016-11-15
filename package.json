@@ -118,7 +118,7 @@
     "vdux-delay": "^1.0.6",
     "vdux-form": "^1.2.0",
     "vdux-position": "^1.0.5",
-    "vdux-summon": "^0.2.1",
+    "vdux-summon": "^0.2.2",
     "vdux-transform-hmr": "^1.0.4",
     "vdux-transition": "^1.1.0",
     "vdux-ui": "^1.2.5",
