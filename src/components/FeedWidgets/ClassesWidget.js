@@ -47,7 +47,7 @@ export default summon(() => ({
         <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
           {[
             !state.filter && <Item cls={allClasses} />,
-            !loading && value.items.filter(search(state.filter)).sort(cmp).map(item => <Item cls={item} />),
+            !loading && value.items.filter(search(state.filter)).sort(cmp).map(item => <Item cls={item} hasSettings={userType === 'teacher'} />),
             user.userType === 'student'
               ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
               : <AddClassItem Modal={CreateClassModal} text='New Class' />
@@ -71,7 +71,7 @@ const Item = wrap(CSSContainer, {
   hoverProps: {showIcon: true}
 })(component({
   render ({props, actions}) {
-    const {cls, isTeacher, showIcon} = props
+    const {cls, hasSettings, showIcon} = props
     const {_id, displayName} = cls
 
     return (
@@ -89,7 +89,7 @@ const Item = wrap(CSSContainer, {
             onClick={actions.classSettings}
             activeProps={itemActiveProps}
             hoverProps={itemHoverProps}
-            hide={!(isTeacher && showIcon)}
+            hide={!(hasSettings && showIcon)}
             icon='settings'
             opacity={0.7}
             color='text'

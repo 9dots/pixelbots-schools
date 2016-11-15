@@ -80,7 +80,7 @@ const ConfirmDeleteBoard = summon(({boardId}) => ({
     accepting: {
       url: `/board/${boardId}`,
       method: 'DELETE',
-      invalidates: ['/user/boards', '/user']
+      invalidates: '/user/boards'
     }
   })
 }))(Confirm)

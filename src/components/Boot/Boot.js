@@ -95,6 +95,7 @@ export default component({
       objectIdMw,
       fastclickMw,
       analyticsMw,
+      modalMw,
       OAuthMw
     ],
 
@@ -104,7 +105,6 @@ export default component({
       summonMw,
       uploadMw,
       query(isApiServer, 'access_token', ({getState}) => getState().authToken),
-      modalMw,
       mediaMw,
       printMw
     ]

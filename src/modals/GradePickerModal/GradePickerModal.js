@@ -18,7 +18,6 @@ export default summon(({user}) => ({
     changingGradeLevels: {
       url: `/user/${user._id}/gradeLevels`,
       method: 'PUT',
-      invalidates: '/user',
       body: {
         gradeLevels
       }

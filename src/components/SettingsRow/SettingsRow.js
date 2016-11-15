@@ -23,7 +23,7 @@ export default component({
       fw: 'lighter',
       p: 'l',
       fs: 's',
-      onClick: actions.openModal,
+      onClick: props.Modal && actions.openModal,
       ...rest
     }
 

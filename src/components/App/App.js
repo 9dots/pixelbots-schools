@@ -19,6 +19,7 @@ export default summon(() => ({
 }))(live(({currentUser}) => ({
   currentUser: {
     url: '/user',
+    clear: true,
     params: {
       id: currentUser.value && currentUser.value._id
     }
@@ -34,7 +35,7 @@ export default summon(() => ({
     const {props, actions, state, context} = next
     const {currentUser = {}} = props
 
-    if (!state.ready && (currentUser.loaded || currentUser.error)) {
+    if (!state.ready && (!currentUser.loading || currentUser.error)) {
       yield actions.appDidInitialize()
       yield appReady({title: next.props.title})
     }
@@ -46,7 +47,7 @@ export default summon(() => ({
 
   render ({props, state, context}) {
     const {toast, modal, currentUser} = props
-    if (!currentUser.loaded && !currentUser.error) return <span />
+    if (currentUser.loading && !currentUser.error) return <span />
 
     return (
       <Block>

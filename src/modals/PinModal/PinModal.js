@@ -20,7 +20,7 @@ export default summon(() => ({
     creatingBoard: {
       url: '/board/',
       method: 'POST',
-      invalidates: ['/user/boards', '/user'],
+      invalidates: '/user/boards',
       body
     }
   }),

@@ -19,26 +19,8 @@ import summon from 'vdux-summon'
 
 export default summon(({groupId}) => ({
   group: `/group/${groupId}`,
-  students: `/group/students?group=${groupId}`,
-  setPref: () => ({
-    settingPref: {
-      url: '/preference/lastClass',
-      invalidates: '/user',
-      method: 'PUT',
-      body: {
-        value: groupId
-      }
-    }
-  })
+  students: `/group/students?group=${groupId}`
 }))(component({
-  onCreate ({actions}) {
-    return actions.updatePref()
-  },
-
-  onUpdate ({actions}) {
-    return actions.updatePref()
-  },
-
   render ({props, children}) {
     const {group, currentUser, students} = props
     const {value, loaded, error} = group
@@ -55,17 +37,6 @@ export default summon(({groupId}) => ({
         </Block>
       </Block>
     )
-  },
-
-  controller: {
-    * updatePref ({props}) {
-      const {currentUser, setPref, groupId, settingPref = {}} = props
-      const value = getProp('preferences.lastClass', currentUser)
-
-      if (!settingPref.loading && value !== groupId) {
-        yield setPref()
-      }
-    }
   }
 }))
 
