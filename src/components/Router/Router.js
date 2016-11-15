@@ -12,6 +12,8 @@ import MainLayout from 'layouts/MainLayout'
 import HomeLayout from 'layouts/HomeLayout'
 import AppLayout from 'layouts/AppLayout'
 
+import GetStarted from 'pages/GetStarted'
+
 import SearchMyActivities from 'pages/SearchMyActivities'
 import SearchActivities from 'pages/SearchActivities'
 import SearchPeople from 'pages/SearchPeople'
@@ -97,6 +99,12 @@ const router = enroute({
     <HomeLayout action='login'>
       <ResetPassword {...props} {...params} />
     </HomeLayout>),
+
+  //Get Started
+  '/get-started': track('Get started', auth('teacher', (params, props) =>
+    <AppLayout {...props} {...params}>
+      <GetStarted {...props} />
+    </AppLayout>)),
 
   // Home
   '/feed': track('Feed', auth('user', (params, props) =>

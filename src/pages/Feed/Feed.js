@@ -33,9 +33,9 @@ export default summon(props => ({
     if (!preferences.group_joined) return <EmptyFeed />
 
     return (
-      <Block w='col_main' mt mx='auto'>
+      <Block w='col_xl' mx='auto'>
         <PageTitle title='Weo' />
-        <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555} />
+        <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555} columns={3} mt={-8} />
       </Block>
     )
   }
