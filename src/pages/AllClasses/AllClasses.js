@@ -3,6 +3,7 @@
  */
 
 import ActivityRowStudent from 'components/ActivityRowStudent'
+import ClassActivityRow from 'components/ClassActivityRow'
 import CreateClassModal from 'modals/CreateClassModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import summonChannels from 'lib/summon-channels'
@@ -26,6 +27,7 @@ export default summonChannels(({currentUser}) =>
     const {currentUser} = props
     const {userType, preferences = {}} = currentUser
     const isTeacher = userType === 'teacher'
+    const item = isTeacher ? ClassActivityRow : ActivityRowStudent
 
     if (!preferences.group_joined) return <Join isTeacher={isTeacher} />
 
@@ -35,7 +37,7 @@ export default summonChannels(({currentUser}) =>
         <Card p fs='s' lighter mb>
           All Classes
         </Card>
-        <RowFeed {...props} item={ActivityRowStudent} emptyState={<Empty isTeacher={isTeacher} />} />
+        <RowFeed {...props} itemProps={{showClass: true}} item={item} emptyState={<Empty isTeacher={isTeacher} />} />
       </Block>
     )
   }

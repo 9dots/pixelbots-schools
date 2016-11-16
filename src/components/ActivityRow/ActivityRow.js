@@ -20,7 +20,7 @@ export default wrap(CSSContainer, {
   render ({props, context}) {
     const {
       hover, activity, metaUi: MetaUi = Meta, ddMenu,
-      badgeUi: BadgeUi = Badge, currentUser, options
+      badgeUi: BadgeUi = Badge, currentUser, options, showClass
     } = props
     const {image, displayName, description, _id: id} = activity
 
@@ -30,7 +30,7 @@ export default wrap(CSSContainer, {
           <Flex p='m' tall column align='space-between' flex='49%'>
             <Block fs='s' fw='200' ellipsis>{displayName}</Block>
             <Block fs='xs' lh='20px' maxHeight='40px' overflow='hidden' fw='200' color='text'>{description}</Block>
-            <MetaUi activity={activity} currentUser={currentUser} />
+            <MetaUi activity={activity} currentUser={currentUser} showClass={showClass} />
           </Flex>
           <Block flex='22%' mr>
             {

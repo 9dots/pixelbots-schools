@@ -9,6 +9,7 @@ import SignUpModal from 'modals/SignUpModal'
 import HomeOwl from 'components/HomeOwl'
 import AccountMenu from './AccountMenu'
 import {component, element} from 'vdux'
+import getProp from '@f/get-prop'
 import Link from 'components/Link'
 import Search from './Search'
 
@@ -20,6 +21,7 @@ export default component({
   render ({props, actions}) {
     const {currentUser, currentUrl, bgColor = 'grey', search, query} = props
     const isStudent = currentUser && currentUser.userType === 'student'
+    const stepsLeft = getSteps(currentUser)
 
     return (
       <Block>
@@ -36,7 +38,12 @@ export default component({
               {
                 currentUser && [
                   <Item href='/class' icon='home' text='Home' />,
-                  <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />
+                  <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />,
+                  <Item href='/get-started' icon='stars' text='Get Started' relative hide={!stepsLeft || isStudent}>
+                    <Block circle={15} bg='red' absolute left={3} top={7} boxShadow='z2' fs='xxs' textAlign='center' lh='14px' textIndent='-2px'>
+                      {stepsLeft}
+                    </Block>
+                  </Item>
                 ]
               }
             </Flex>
@@ -97,11 +104,24 @@ export default component({
 })
 
 /**
+ * Helpers
+ */
+
+function getSteps(user) {
+  const steps = ['group_joined', 'onboard.add_students', 'onboard.create_share', 'onboard.assign_share', 'onboard.profile_set', 'onboard.follow']
+  let len = 0
+  steps.forEach(val => {
+    len += !getProp(val, user.preferences)
+  })
+  return len
+}
+
+/**
  * <Item/>
  */
 
 function Item ({props, children}) {
-  const {text, icon, href, onClick, hide, disabled} = props
+  const {text, icon, href, onClick, hide, disabled, ...rest} = props
 
   return (
     <Link
@@ -118,7 +138,8 @@ function Item ({props, children}) {
       borderBottom='3px solid transparent'
       transition='all 0.15s'
       currentProps={{borderBottom: '3px solid #fff'}}
-      hoverProps={{borderBottom: '3px solid #fff'}}>
+      hoverProps={{borderBottom: '3px solid #fff'}}
+      {...rest}>
       <Icon fs='m' name={icon} />
       <Text ml='s'>{text}</Text>
       {children}

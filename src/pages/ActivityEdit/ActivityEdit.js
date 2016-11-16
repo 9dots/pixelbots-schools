@@ -21,6 +21,16 @@ import map from '@f/map'
  */
 
 export default summon(({activity}) => ({
+  setPref: () => ({
+    settingPref: {
+      url: '/preference/onboard.create_share',
+      invalidates: '/user',
+      method: 'PUT',
+      body: {
+        value: true
+      }
+    }
+  }),
   save: body => ({
     saving: {
       url: `/share/${activity._id}`,
@@ -31,8 +41,8 @@ export default summon(({activity}) => ({
     }
   })
 }))(component({
-  onCreate ({path, props}) {
-    return (dispatch, getState) => {
+  * onCreate ({path, props, actions}) {
+    yield (dispatch, getState) => {
       window.onbeforeunload = function (e) {
         const state = getState()
         if (state && state.dirty) {
@@ -41,6 +51,7 @@ export default summon(({activity}) => ({
         }
       }
     }
+    yield actions.updatePref()
   },
 
   initialState: ({props}) => ({
@@ -245,6 +256,14 @@ export default summon(({activity}) => ({
     },
     * debouncedSave ({actions}) {
       yield actions.save()
+    },
+    * updatePref ({props}) {
+      const {currentUser, setPref, settingPref = {}} = props
+      const value = getProp('preferences.onboard.create_share', currentUser)
+
+      if (!settingPref.loading && !value) {
+        yield setPref()
+      }
     }
   },
 
