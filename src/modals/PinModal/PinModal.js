@@ -31,8 +31,7 @@ export default summon(() => ({
       body: {
         to: [boardId],
         ...rest
-      },
-      invalidates: 'activity_feed'
+      }
     }
   }),
   copyActivity: activityId => ({

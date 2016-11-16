@@ -15,8 +15,7 @@ import {Block} from 'vdux-ui'
 
 export default summon(props => ({
   activities: {
-    url: '/share/feed?maxResults=32',
-    subscribe: 'activity_feed'
+    url: '/share/feed?maxResults=32'
   },
   more: pageToken => ({
     activities: {

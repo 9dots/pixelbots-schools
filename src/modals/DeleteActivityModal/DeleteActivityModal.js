@@ -15,8 +15,7 @@ export default summon(({activity}) => ({
   deleteActivity: () => ({
     deleting: {
       url: `/share/${activity._id}`,
-      method: 'DELETE',
-      invalidates: ['activity_feed']
+      method: 'DELETE'
     }
   })
 }))(component({
