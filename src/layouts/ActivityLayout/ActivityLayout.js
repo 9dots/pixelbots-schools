@@ -99,12 +99,10 @@ export default summon(({userId, activityId}) => ({
       yield props.canExit ? context.back() : context.setUrl('/')
     },
 
-    * exit ({props, actions, context}, action) {
+    * exit ({props, actions, context}, action, stay) {
       const {activity, canExit, exitDepth} = props
-      const channel = activity.value.channels[0]
-      const draftChannel = `user!${activity.value.actor.id}.drafts`
 
-      if (action === 'pin' && channel === draftChannel) {
+      if (action === 'pin' && stay) {
         yield context.setUrl(`/activity/${activity.value._id}/preview`, true)
       } else if (canExit) {
         yield exitDepth === 2 ? [context.back(), context.back()] : context.back()
