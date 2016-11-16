@@ -13,6 +13,10 @@ import has from '@f/has'
  */
 
 export default fn => Component => component({
+  initialState: ({props}) => map((val, key) => ({
+    history: [],
+    value: undefined
+  }), fn(props)),
   * onCreate ({props, path, actions}) {
     const descriptors = fn(props)
 
@@ -34,7 +38,7 @@ export default fn => Component => component({
   render ({props, state, children}) {
     const newProps = map(
       (val, key) => has(key, state)
-        ? {...val, value: val.value && state[key] ? state[key] : val.value}
+        ? {...val, value: val.value && state[key].value ? state[key].value : val.value}
         : val,
         props
     )
@@ -59,7 +63,11 @@ export default fn => Component => component({
       }
 
       if (!pdesc || pdesc.url !== ndesc.url || !equal(pdesc.params, ndesc.params)) {
-        if (pdesc) queue.push(unsubscribe({...pdesc, path: prev.path}))
+        if (pdesc) {
+          queue.push(next.actions.clearHistory(key))
+          queue.push(unsubscribe({...pdesc, path: prev.path}))
+        }
+
         queue.push(subscribe({
           ...ndesc,
           path: next.path,
@@ -74,9 +82,24 @@ export default fn => Component => component({
   },
 
   reducer: {
-    change: (state, key, value) => ({[key]: value}),
+    clearHistory: (state, key) => ({
+      [key]: {
+        ...state[key],
+        history: []
+      }
+    }),
+    change: (state, key, value) => ({
+      [key]: {
+        ...state[key],
+        value: state[key].history.reduce(applyUpdate, value)
+      }
+    }),
     update: (state, key, msg) => state[key] && ({
-      [key]: applyUpdate(state[key], msg)
+      [key]: {
+        ...state[key],
+        history: state[key].history.concat(msg),
+        value: applyUpdate(state[key].value, msg)
+      }
     })
   },
 
@@ -114,6 +137,11 @@ function applyUpdate (prev, {data, verb}) {
     }
     case 'add': {
       if (prev._id) throw new Error('Cannot add to scalar value')
+
+      // If it's already there, don't do anything
+      if (prev.items.some(item => item._id === data._id)) {
+        return prev
+      }
 
       return {
         ...prev,

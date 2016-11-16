@@ -10,6 +10,13 @@ import {Icon} from 'vdux-ui'
 import map from '@f/map'
 
 /**
+ * Constants
+ */
+
+const absolute = {left: 36, top: 0}
+const hoverProps = {opacity: 1}
+
+/**
  * <Comments/>
  */
 
@@ -18,7 +25,6 @@ export default summon(({activityId, question}) => ({
     makingAnnot: {
       url: `/instance/${activityId}/annotate?objectId=${question._id}`,
       method: 'POST',
-      invalidates: 'activity_feed',
       body
     }
   }),
@@ -26,15 +32,13 @@ export default summon(({activityId, question}) => ({
     editingAnnot: {
       url: `/share/${body._id}`,
       method: 'PUT',
-      invalidates: 'activity_feed',
       body
     }
   }),
   deleteAnnot: id => ({
     deletingAnnot: {
       url: `/share/${id}`,
-      method: 'DELETE',
-      invalidates: 'activity_feed'
+      method: 'DELETE'
     }
   })
 }))(component({
@@ -49,7 +53,7 @@ export default summon(({activityId, question}) => ({
     return (
       <Block
         onClick={stopPropagation}
-        absolute={{left: 36, top: 0}}
+        absolute={absolute}
         w={250}>
         <Block onClick={actions.toggleDD(null)}>
           {
@@ -71,7 +75,7 @@ export default summon(({activityId, question}) => ({
             hide={!showNew} />
           <Block
             onClick={actions.toggleNew}
-            hoverProps={{opacity: 1}}
+            hoverProps={hoverProps}
             align='center center'
             hide={showNew || isStudent}
             opacity='.85'

@@ -17,7 +17,7 @@ import {Block, Card} from 'vdux-ui'
  */
 
 export default summonChannels(
-   ({instance}) => `share!${instance._id}.annotations`
+  ({instance}) => `share!${instance._id}.annotations`
 )(component({
   render ({props, actions, state}) {
     const {isShown} = state

@@ -20,7 +20,6 @@ export default summon(({id}) => ({
     makingComent: {
       url: '/share',
       method: 'POST',
-      invalidates: ['activity_feed', `/share/${id}`],
       body
     }
   })
