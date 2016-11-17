@@ -4,7 +4,7 @@
 
 import socket, {subscribe, unsubscribe} from 'middleware/socket'
 import {component, element} from 'vdux'
-import equal from '@f/equal'
+import deepEqual from '@f/deep-equal'
 import map from '@f/map'
 import has from '@f/has'
 
@@ -17,6 +17,7 @@ export default fn => Component => component({
     history: [],
     value: undefined
   }), fn(props)),
+
   * onCreate ({props, path, actions}) {
     const descriptors = fn(props)
 
@@ -51,7 +52,6 @@ export default fn => Component => component({
   * onUpdate (prev, next) {
     const pdescs = fn(prev.props)
     const ndescs = fn(next.props)
-    const queue = []
 
     for (const key in ndescs) {
       const pdesc = normalize(pdescs[key])
@@ -59,26 +59,22 @@ export default fn => Component => component({
       if (!ndesc) continue
 
       if (prev.props[key] && next.props[key] && prev.props[key].value !== next.props[key].value) {
-        queue.push(next.actions.change(key, next.props[key].value))
+        yield next.actions.change(key, next.props[key].value)
       }
 
-      if (!pdesc || pdesc.url !== ndesc.url || !equal(pdesc.params, ndesc.params)) {
+      if (!pdesc || pdesc.url !== ndesc.url || !deepEqual(pdesc.params, ndesc.params)) {
         if (pdesc) {
-          queue.push(next.actions.clearHistory(key))
-          queue.push(unsubscribe({...pdesc, path: prev.path}))
+          yield next.actions.clearHistory(key)
+          yield unsubscribe({...pdesc, path: prev.path})
         }
 
-        queue.push(subscribe({
+        yield subscribe({
           ...ndesc,
           path: next.path,
           cb: msg => next.actions.update(key, msg)
-        }))
+        })
       }
     }
-
-    // Queue everything up so that the subscribe/unsubscribes dont
-    // block the updates that come down from props
-    yield queue
   },
 
   reducer: {
@@ -128,7 +124,7 @@ function normalize (descriptor) {
 function applyUpdate (prev, {data, verb}) {
   switch (verb) {
     case 'change': {
-      if (prev._id) return data
+      if (!prev || prev._id) return data
 
       return {
         ...prev,
@@ -136,7 +132,7 @@ function applyUpdate (prev, {data, verb}) {
       }
     }
     case 'add': {
-      if (prev._id) throw new Error('Cannot add to scalar value')
+      if (!prev || prev._id) throw new Error('Cannot add to scalar value')
 
       // If it's already there, don't do anything
       if (prev.items.some(item => item._id === data._id)) {
@@ -149,7 +145,7 @@ function applyUpdate (prev, {data, verb}) {
       }
     }
     case 'remove': {
-      if (prev._id) throw new Error('Cannot remove from scalar value')
+      if (!prev || prev._id) throw new Error('Cannot remove from scalar value')
 
       return {
         ...prev,

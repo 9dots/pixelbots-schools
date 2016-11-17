@@ -8,6 +8,12 @@ import {Block, Button} from 'vdux-containers'
 import Form from 'vdux-form'
 
 /**
+ * Constants
+ */
+
+const hoverProps = {highlight: 0.03}
+
+/**
  * <NewMenuItem/>
  */
 
@@ -42,7 +48,7 @@ export default component({
             </Block>
             : <Block
               onClick={actions.toggle}
-              hoverProps={{highlight: 0.03}}
+              hoverProps={hoverProps}
               align='start center'
               bgColor='white'
               pointer

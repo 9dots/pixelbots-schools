@@ -44,7 +44,7 @@ export default summon(props => ({
 }))(
   form(({activity, copyActivity, assign, onAssign, classes}, context) => ({
     fields: ['selected'],
-    * onSubmit ({selected, ...rest}) {
+    * onSubmit ({selected = [], ...rest}) {
       const chosen = classes.value.items.filter(cls => selected.indexOf(cls._id) !== -1)
 
       yield chosen.map(function *({_id}, i) {

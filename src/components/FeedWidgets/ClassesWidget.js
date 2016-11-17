@@ -31,8 +31,8 @@ export default summon(() => ({
 }))(component({
   render ({props, context, state, actions}) {
     const {classes, user} = props
-    const {value, loading} = classes
-    const clsLength = !loading && value.items.length
+    const {value, loaded} = classes
+    const clsLength = loaded && value.items.length
     const {drafts: {canonicalTotal: {items}}, userType} = user
     const offset = userType === 'teacher'
       ? items ? '440px' : '370px'
@@ -47,7 +47,7 @@ export default summon(() => ({
         <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
           {[
             !state.filter && <Item cls={allClasses} />,
-            !loading && value.items.filter(search(state.filter)).sort(cmp).map(item => <Item cls={item} hasSettings={userType === 'teacher'} />),
+            loaded && value.items.filter(search(state.filter)).sort(cmp).map(item => <Item cls={item} hasSettings={userType === 'teacher'} />),
             user.userType === 'student'
               ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
               : <AddClassItem Modal={CreateClassModal} text='New Class' />
