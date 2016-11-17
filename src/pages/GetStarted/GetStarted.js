@@ -8,6 +8,7 @@ import {Block, Card, Icon} from 'vdux-ui'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import getProp from '@f/get-prop'
+import find from '@f/find'
 
 /**
  * <Get Started/>
@@ -55,6 +56,11 @@ const Step = component({
 })
 
 function getSteps(ctx, user) {
+  const cls = find(
+    user.groups,
+    ({groupType, status}) =>  groupType === 'class' && status === 'active'
+  )
+
   return [
     {
       icon: 'school',
@@ -70,7 +76,8 @@ function getSteps(ctx, user) {
       text: 'In order for students to receive Activities, they must join your class.  Create a class and then add or invite students to join.',
       color: 'yellow',
       prop: 'onboard.add_students',
-      action: ctx.setUrl('/class/all')
+      action: ctx.setUrl( cls ? `/class/${cls.id}/students` : '/class/all' )
+
     },
     {
       icon: 'assignment',

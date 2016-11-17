@@ -36,7 +36,7 @@ const FillOutProfile = component({
       <EmptyState>
         <Block lh='30px'>
           Tell us what you teach<br />
-          We'll recommend teachers for you to follow.
+          We'll recommend teachers for you to <Text bold>follow</Text>.
         </Block>
         <Button
           onClick={actions.completeProfile(1)}
