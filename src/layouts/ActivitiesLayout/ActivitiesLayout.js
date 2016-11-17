@@ -33,7 +33,7 @@ export default summon(({user, currentUser}) => ({
     return (
       <Flex w='col_main' mt='s' mx='auto' pb='l' relative>
         <Block>
-          <Card mr w={230} hide={!state.isScrolled} />
+          <Block mr w={230} h='100vh' hide={!state.isScrolled} />
           <Card mr w={230} position={state.isScrolled ? 'fixed' : 'static'} top={66} overflowY='auto' maxHeight='calc(100vh - 80px)'>
             <Menu column py='s'>
               <NavItem href={`/${username}/boards/all`} display='flex' align='start center'>
