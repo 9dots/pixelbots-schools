@@ -21,7 +21,7 @@ export default component({
     return (
       search
         ? <EmptySearch {...props} />
-        : <FillOutProfile currentUser={currentUser} />
+        : <FillOutProfile {...props} />
     )
   }
 })
@@ -81,6 +81,12 @@ const FillOutProfile = component({
 })
 
 /**
+ * Constants
+ */
+
+const hoverProps = {underline: true}
+
+/**
  * <EmptySearch/>
  */
 
@@ -92,7 +98,7 @@ const EmptySearch = component({
         Try another search or invite&nbsp;
         <Text
           onClick={actions.inviteTeacher}
-          hoverProps={{underline: true}}
+          hoverProps={hoverProps}
           color='blue'
           pointer>
           {props.connectQuery}
