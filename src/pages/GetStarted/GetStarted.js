@@ -77,7 +77,6 @@ function getSteps(ctx, user) {
       color: 'yellow',
       prop: 'onboard.add_students',
       action: ctx.setUrl( cls ? `/class/${cls.id}/students` : '/class/all' )
-
     },
     {
       icon: 'assignment',

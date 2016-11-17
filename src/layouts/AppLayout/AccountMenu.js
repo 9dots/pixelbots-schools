@@ -22,39 +22,40 @@ export default component({
       align: 'start center'
     }
     const isStudent = userType === 'student'
+    const iconProps = {lh: '23px', fs: 's', mr: 's'}
 
     return (
       <Dropdown w='180px' mr='s' btn={<DropdownToggle {...props} />}>
         <Link {...itemProps} href={`/${username}/boards/all`}>
-          <Icon name='person' fs='s' mr='s' />
+          <Icon name='person' {...iconProps} />
           My Profile
         </Link>
         <Link {...itemProps} href={`/${username}/boards/drafts`} hide={isStudent}>
-          <WeoIcon name='draft' fs='s' mr='s' />
+          <WeoIcon name='draft' {...iconProps} />
           My Drafts
           <Text color='grey_medium' ml='s'>{currentUser.drafts.canonicalTotal.items}</Text>
         </Link>
         <Divider />
         <Link {...itemProps} href='/connect' hide={isStudent}>
-          <Icon name='people' fs='s' mr='s' />
+          <Icon name='people' {...iconProps} />
           Connect
         </Link>
         <Link {...itemProps} href='/notifications' hide={isStudent}>
-          <Icon name='notifications' fs='s' mr='s' />
+          <Icon name='notifications' {...iconProps} />
           Notifications
         </Link>
         <Divider hide={isStudent} />
         <Link {...itemProps} href='/account/settings'>
-          <Icon name='settings' fs='s' mr='s' />
+          <Icon name='settings' {...iconProps} />
           Settings
         </Link>
         <Block {...itemProps} tag='a' href='http://about.weo.io/help' target='_blank' hide={isStudent}>
-          <Icon name='help' fs='s' mr='s' />
+          <Icon name='help' {...iconProps} />
           Help Center
           <Icon name='open_in_new' fs='11' ml='s' />
         </Block>
         <MenuItem onClick={context.logoutUser} align='start center'>
-          <Icon name='exit_to_app' fs='s' mr='s' />
+          <Icon name='exit_to_app' {...iconProps} />
           Log Out
         </MenuItem>
       </Dropdown>
