@@ -15,12 +15,18 @@ import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 
 /**
+ * Constants
+ */
+
+const itemProps = {showClass: true}
+
+/**
  * <AllClasses/>
  */
 
 export default summonChannels(({currentUser}) =>
   currentUser.groups
-    .filter(group => group.groupType === 'class')
+    .filter(group => group.groupType === 'class' && group.status !== 'archived')
     .map(cls => `group!${cls.id}.board`)
 )(component({
   render ({props}) {
@@ -37,7 +43,7 @@ export default summonChannels(({currentUser}) =>
         <Card p fs='s' lighter mb>
           All Classes
         </Card>
-        <RowFeed {...props} itemProps={{showClass: true}} item={item} emptyState={<Empty isTeacher={isTeacher} />} />
+        <RowFeed {...props} itemProps={itemProps} item={item} emptyState={<Empty isTeacher={isTeacher} />} />
       </Block>
     )
   }
