@@ -56,7 +56,7 @@ export default wrap(CSSContainer, {
   controller: {
     * openSettings ({props, context}) {
       const {currentUser} = props
-      yield context.openModal(() => <BoardSettingsModal board={props.board} exitPath={`/${currentUser.username}/activities/all`} />)
+      yield context.openModal(() => <BoardSettingsModal board={props.board} exitPath={`/${currentUser.username}/boards/all`} />)
     }
   }
 }))

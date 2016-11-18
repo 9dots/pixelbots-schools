@@ -148,7 +148,7 @@ function deriveData (props) {
 
   const numPages = Math.ceil(activityList.length / pageSize)
   const studentList = students.sort(cmp)
-  const usersData = map(user => getUsersData(user._id, activityList, totals), studentList)
+  const {usersData, hasData} = getUsersData(studentList, activityList, totals)
   const allowExport = currentUser.userType === 'teacher'
 
   return {
@@ -160,7 +160,7 @@ function deriveData (props) {
     studentList,
     usersData,
     allowExport,
-    hasData: usersData.some(data => data.scores.length)
+    hasData
   }
 
   function cmp (a, b) {
@@ -182,29 +182,36 @@ function today () {
   return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-')
 }
 
-function getUsersData (id, activities, totals) {
-  return reduce((acc, {instances: {total}}, i) => {
-    const inst = total.length ? total[0].actors[id] : false
 
-    acc.total += totals[i]
+function getUsersData (studentList, activities, totals) {
+  let hasData = false
+  const usersData = map(user => {
+    return reduce((acc, {instances: {total}}, i) => {
+      const inst = total.length ? total[0].actors[user._id] : false
 
-    if (!inst || inst.status < 5) {
-      acc.scores.push({
-        points: '-',
-        percent: '-',
-        total: totals[i]
-      })
+      acc.total += totals[i]
+
+      if (!inst || inst.status < 5) {
+        acc.scores.push({
+          points: '-',
+          percent: '-',
+          total: totals[i]
+        })
+        acc.percent = Math.round((acc.points / acc.total) * 100) + '%'
+        return acc
+      }
+      hasData = true
+      const points = inst.pointsScaled * totals[i]
+      const percent = Math.round(inst.pointsScaled * 100) + '%'
+
+      acc.points += points
+
       acc.percent = Math.round((acc.points / acc.total) * 100) + '%'
+      acc.scores.push({total: totals[i], points, percent})
+
       return acc
-    }
-    const points = inst.pointsScaled * totals[i]
-    const percent = Math.round(inst.pointsScaled * 100) + '%'
+    }, {points: 0, total: 0, scores: []}, activities)
+  }, studentList)
 
-    acc.points += points
-
-    acc.percent = Math.round((acc.points / acc.total) * 100) + '%'
-    acc.scores.push({total: totals[i], points, percent})
-
-    return acc
-  }, {points: 0, total: 0, scores: []}, activities)
+  return {usersData, hasData}
 }
