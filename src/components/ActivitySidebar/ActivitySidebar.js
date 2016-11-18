@@ -3,8 +3,8 @@
  */
 
 import {questionIcon, totalPoints, totalScore, statusMap} from 'lib/activity-helpers'
+import {t, component, element, decodeNode} from 'vdux'
 import ActivityBadge from 'components/ActivityBadge'
-import {component, element, decodeNode} from 'vdux'
 import {Card, Block, Text, Icon} from 'vdux-ui'
 import SidebarActions from './SidebarActions'
 import Avatar from 'components/Avatar'
@@ -20,6 +20,19 @@ import moment from 'moment'
  */
 
 export default component({
+  propTypes: {
+    activity: t.Object,
+    showScores: t.maybe(t.Boolean),
+    setMax: t.maybe(t.Function),
+    canGrade: t.maybe(t.Boolean),
+    canSetMax: t.maybe(t.Boolean),
+    isStudent: t.maybe(t.Boolean),
+    isRedo: t.maybe(t.Boolean),
+    selectObject: t.Function,
+    selectedObject: t.maybe(t.String),
+    hasInstanceNav: t.maybe(t.Boolean)
+  },
+
   render ({props}) {
     const {activity, showScores, setMax, canGrade, canSetMax, isStudent, isRedo, selectObject, selectedObject, hasInstanceNav} = props
     const {actor, publishedAt, at = {}, _object, status, published} = activity

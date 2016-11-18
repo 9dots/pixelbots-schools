@@ -17,7 +17,7 @@ import map from '@f/map'
  * <ActivityQuestion/>
  */
 
-export default summon(({activityId, rootId, actor, object}) => ({
+export default summon(({activityId, object}) => ({
   submitAnswer: answer => ({
     answering: {
       serialize: true,

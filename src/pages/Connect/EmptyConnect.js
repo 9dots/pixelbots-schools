@@ -7,7 +7,7 @@ import SubjectPickerModal from 'modals/SubjectPickerModal'
 import GradePickerModal from 'modals/GradePickerModal'
 import EmptyState from 'components/EmptyState'
 import {Button, Text} from 'vdux-containers'
-import {component, element} from 'vdux'
+import {t, component, element} from 'vdux'
 import {Block, Icon} from 'vdux-ui'
 
 /**
@@ -15,6 +15,12 @@ import {Block, Icon} from 'vdux-ui'
  */
 
 export default component({
+  propTypes: {
+    search: t.maybe(t.Boolean),
+    currentUser: t.Object,
+    refresh: t.maybe(t.Function)
+  },
+
   render ({props}) {
     const {search, currentUser} = props
 
@@ -31,6 +37,13 @@ export default component({
  */
 
 const FillOutProfile = component({
+  name: 'FillOutProfile',
+
+  propTypes: {
+    currentUser: t.Object,
+    refresh: t.Function
+  },
+
   render ({props, actions}) {
     return (
       <EmptyState>

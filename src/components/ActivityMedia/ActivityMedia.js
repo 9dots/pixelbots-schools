@@ -3,8 +3,8 @@
  */
 
 import {Block, Icon, Image as UiImage, Text} from 'vdux-ui'
+import {t, stopPropagation, component, element} from 'vdux'
 import {Block as ContBlock, Button} from 'vdux-containers'
-import {stopPropagation, component, element} from 'vdux'
 import EditingMedia from './EditingMedia'
 import Loading from 'components/Loading'
 import Figure from 'components/Figure'
@@ -15,6 +15,12 @@ import Link from 'components/Link'
  */
 
 export default component({
+  propTypes: {
+    object: t.Object,
+    onEdit: t.maybe(t.Function),
+    remove: t.maybe(t.Function)
+  },
+
   render ({props}) {
     if (props.editing) return <EditingMedia {...props} />
 

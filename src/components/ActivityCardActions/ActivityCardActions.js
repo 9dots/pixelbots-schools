@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {stopPropagation, component, element} from 'vdux'
+import {t, stopPropagation, component, element} from 'vdux'
 import DeleteButton from 'components/DeleteButton'
 import AssignButton from 'components/AssignButton'
 import LikeButton from 'components/LikeButton'
@@ -11,10 +11,29 @@ import PinButton from 'components/PinButton'
 import {Block} from 'vdux-ui'
 
 /**
+ * Types
+ */
+
+const optType = t.maybe(t.union([t.Boolean, t.String]))
+
+/**
  * <ActivityCardActions/>
  */
 
 export default component({
+  propTypes: {
+    activity: t.Object,
+    user: t.Object,
+    assign: optType,
+    edit: optType,
+    like: optType,
+    pin: optType,
+    archive: optType,
+    spread: t.maybe(t.Boolean),
+    liked: t.maybe(t.Integer),
+    localLike: t.maybe(t.Function)
+  },
+
   render ({props}) {
     const {
       activity, user, assign, edit, like, pin, archive,

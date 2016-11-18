@@ -3,7 +3,7 @@
  */
 
 import {Button, Dropdown, MenuItem, Checkbox, Tooltip} from 'vdux-containers'
-import {stopPropagation, component, element} from 'vdux'
+import {t, stopPropagation, component, element} from 'vdux'
 import subjects from '@weo-edu/subjects'
 import mapValues from '@f/map-values'
 import {Block, Icon} from 'vdux-ui'
@@ -13,6 +13,12 @@ import {Block, Icon} from 'vdux-ui'
  */
 
 export default component({
+  propTypes: {
+    selected: t.Array,
+    toggle: t.Function,
+    max: t.maybe(t.Integer)
+  },
+
   render ({props, state, actions}) {
     const current = state.category
     const {selected} = props
@@ -84,6 +90,12 @@ export default component({
 })
 
 /**
+ * Constants
+ */
+
+const highlight = {highlight: 0.02}
+
+/**
  * <DDBtn/>
  */
 
@@ -92,8 +104,8 @@ function DDBtn ({props}) {
 
   return (
     <Button
-      hoverProps={{highlight: 0.02}}
-      focusProps={{highlight: 0.02}}
+      hoverProps={highlight}
+      focusProps={highlight}
       bgColor='off_white'
       textAlign='left'
       color='text'

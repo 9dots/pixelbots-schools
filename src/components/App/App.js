@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {appReady, component, element} from 'vdux'
+import {appReady, component, element, t} from 'vdux'
 import Transition from 'vdux-transition'
 import Router from 'components/Router'
 import Loading from 'pages/Loading'

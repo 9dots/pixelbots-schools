@@ -5,9 +5,9 @@
 import ActivityCardActions from 'components/ActivityCardActions'
 import {Flex, Block, Card, Text, Icon} from 'vdux-ui'
 import {wrap, CSSContainer} from 'vdux-containers'
+import {t, component, element} from 'vdux'
 import objectEqual from '@f/object-equal'
 import WeoIcon from 'components/WeoIcon'
-import {component, element} from 'vdux'
 import Figure from 'components/Figure'
 import ForkMeta from './ForkMeta'
 import Meta from './Meta'
@@ -17,13 +17,19 @@ import Meta from './Meta'
  */
 
 export default component({
+  propTypes: {
+    activity: t.Object,
+    showFork: t.maybe(t.Boolean),
+    user: t.maybe(t.Object)
+  },
+
   render ({props}) {
     const {activity, showFork} = props
     const TileMeta = showFork ? ForkMeta : Meta
 
     return (
       <Card w={230} relative my={8} mx={6}>
-        <Activity {...props} hoverProps={{hover: true}} />
+        <Activity {...props} />
         <Block px={12} py={6} fs='xxs' borderTop='rgba(0, 0, 0, 0.04)' bgColor='#FCFCFC'>
           <TileMeta activity={activity} />
         </Block>
@@ -36,7 +42,9 @@ export default component({
  * <Activity/> component
  */
 
-const Activity = wrap(CSSContainer)(component({
+const Activity = wrap(CSSContainer, {
+  hoverProps: {hover: true}
+})(component({
   initialState: {
     locallyLiked: 0
   },

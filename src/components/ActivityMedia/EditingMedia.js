@@ -4,9 +4,9 @@
 
 import ObjectControls from 'components/ObjectControls'
 import ActivityMedia from 'components/ActivityMedia'
+import {t, component, element} from 'vdux'
 import MediaModal from 'modals/MediaModal'
 import Resizer from 'components/Resizer'
-import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import Figure from 'components/Figure'
 import {Block} from 'vdux-ui'
@@ -16,6 +16,11 @@ import {Block} from 'vdux-ui'
  */
 
 export default component({
+  propTypes: {
+    onEdit: t.Function,
+    object: t.Object
+  },
+
   render ({props, actions}) {
     const {object} = props
 
@@ -65,6 +70,12 @@ export default component({
 })
 
 /**
+ * Constants
+ */
+
+const hoverProps = {color: 'text'}
+
+/**
  * <AlignIcon/>
  */
 
@@ -77,7 +88,7 @@ function AlignIcon ({props}) {
       onClick={updateObject({justify})}
       color={selected ? 'text' : 'grey_medium'}
       icon={`format_align_${justify}`}
-      hoverProps={{color: 'text'}}
+      hoverProps={hoverProps}
       fs={24}
       {...rest} />
   )

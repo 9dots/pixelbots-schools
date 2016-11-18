@@ -4,9 +4,9 @@
 
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import {statusMap} from 'lib/activity-helpers'
+import {t, component, element} from 'vdux'
 import {Block, Text, Icon} from 'vdux-ui'
 import RedoModal from 'modals/RedoModal'
-import {component, element} from 'vdux'
 import Confirm from 'modals/Confirm'
 import summon from 'vdux-summon'
 
@@ -23,6 +23,14 @@ export default summon(({activity}) => ({
     }
   })
 }))(component({
+  propTypes: {
+    questions: t.Array,
+    count: t.Integer,
+    isStudent: t.maybe(t.Boolean),
+    setStatus: t.Function,
+    activity: t.Object
+  },
+
   render ({props, actions}) {
     const {
       questions, count, isStudent,

@@ -10,7 +10,8 @@
     "build": "unv build --base //storage.googleapis.com/assets-weo-io/",
     "sync": "gsutil rsync -x -m '.*\\.js$' -r assets gs://assets-weo-io; gsutil cp -Z assets/*.js gs://assets-weo-io;",
     "deploy": "gcloud preview app deploy --project www-weo-io --no-promote",
-    "start": "unv serve"
+    "start": "unv serve",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "dependencies": {
     "@f/animate": "^1.0.1",
@@ -67,6 +68,8 @@
     "@weo-edu/schema": "github:weo-edu/schema",
     "@weo-edu/subjects": "^0.1.9",
     "@weo-edu/validate": "github:weo-edu/validate",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-plugin-transform-regenerator": "^6.9.0",
     "babel-plugin-vdux-transform": "^1.1.0",
@@ -109,6 +112,7 @@
     "redux-flo": "^2.2.1",
     "redux-timing": "^0.1.0",
     "regenerator-runtime": "^0.9.5",
+    "tcomb": "^3.2.15",
     "to-csv": "github:weo-edu/to-csv",
     "track-prep": "^0.2.0",
     "unv": "^0.3.5",
@@ -128,6 +132,7 @@
   },
   "devDependencies": {
     "ava": "^0.10.0",
+    "flow-bin": "^0.35.0",
     "tap-dev-tool": "^1.3.0",
     "tape": "^4.2.0"
   },

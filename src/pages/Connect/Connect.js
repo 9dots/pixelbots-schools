@@ -3,16 +3,24 @@
  */
 
 import InviteTeacherModal from 'modals/InviteTeacherModal'
+import {decodeValue, component, element, t} from 'vdux'
 import InfiniteScroll from 'components/InfiniteScroll'
 import RoundedInput from 'components/RoundedInput'
 import {Block, Flex, Icon, Grid} from 'vdux-ui'
 import UserTile from 'components/UserTile'
 import EmptyConnect from './EmptyConnect'
 import Loading from 'components/Loading'
-import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
 import map from '@f/map'
+
+/**
+ * Constants
+ */
+
+const inputProps = {
+  textAlign: 'left'
+}
 
 /**
  * <Connect/>
@@ -31,18 +39,19 @@ export default summon(({userSearch: query}) => ({
     }
   })
 }))(component({
+  propTypes: {
+    currentUser: t.Object,
+    userSearch: t.maybe(t.String)
+  },
+
   render ({props, actions}) {
     const {currentUser, userSearch} = props
     const {gradeLevels = [], subjects = []} = currentUser
-    const inputProps = {
-      textAlign: 'left',
-      onKeypress: {enter: actions.submitSearch}
-    }
 
     return (
       <Block w='col_main' mx='auto' mt='l' py>
         <Flex align='space-between center' mb='l'>
-          <RoundedInput m='0' icon='search' defaultValue={userSearch} inputProps={inputProps} flex='35%' placeholder='Find teachers to follow…' />
+          <RoundedInput onKeypress={{enter: decodeValue(actions.submitSearch)}} m='0' icon='search' defaultValue={userSearch} inputProps={inputProps} flex='35%' placeholder='Find teachers to follow…' />
           <Button bgColor='green' py='m' px='xl' fs='s' fw='lighter' boxShadow='z2' onClick={actions.inviteTeacher}>
             <Flex align='center center'>
               <Icon name='local_attraction' fs='l' mr='s' />

@@ -5,7 +5,7 @@
 import QuestionAttachment from 'components/QuestionAttachment'
 import ObjectControls from 'components/ObjectControls'
 import MarkdownHelper from 'components/MarkdownHelper'
-import {decodeNode, component, element} from 'vdux'
+import {t, decodeNode, component, element} from 'vdux'
 import LineTextarea from 'components/LineTextarea'
 import QuestionTypeMenu from './QuestionTypeMenu'
 import {Button, Toggle} from 'vdux-containers'
@@ -25,6 +25,13 @@ const highlightProps = {opacity: 1}
  */
 
 export default component({
+  propTypes: {
+    object: t.Object,
+    idx: t.Integer,
+    selectObject: t.Function,
+    isSelected: t.Boolean
+  },
+
   render ({props, actions}) {
     const {object, idx, selectObject, isSelected, ...rest} = props
     const {poll, attachments = [], originalContent, randomize} = object

@@ -5,7 +5,7 @@
 import {getOverviewQuestions, statusMap, totalScore, totalPoints} from 'lib/activity-helpers'
 import ActivityObject from 'components/ActivityObject'
 import ActivityHeader from 'components/ActivityHeader'
-import {component, element} from 'vdux'
+import {t, component, element} from 'vdux'
 import {Block, Text} from 'vdux-ui'
 import sleep from '@f/sleep'
 import map from '@f/map'
@@ -15,6 +15,20 @@ import map from '@f/map'
  */
 
 export default component({
+  propTypes: {
+    activity: t.Object,
+    instances: t.maybe(t.Array),
+    clickableTags: t.Boolean,
+    currentUser: t.maybe(t.Object),
+    selectObject: t.Function,
+    selectedObject: t.maybe(t.String),
+    showAnswersOnPrint: t.maybe(t.Boolean),
+  },
+
+  stateTypes: {
+    limit: t.maybe(t.Integer)
+  },
+
   initialState: ({props}) => ({
     limit: props.activity._object[0].attachments.length <= 10
       ? undefined
@@ -55,9 +69,7 @@ export default component({
             </Text>
           </Block>
         }
-        <ActivityHeader
-          activity={activity}
-          clickableTags={clickableTags} />
+        <ActivityHeader activity={activity} clickableTags={clickableTags} />
         <Block>
           {
             map(object => <ActivityObject

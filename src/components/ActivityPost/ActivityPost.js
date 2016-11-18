@@ -6,7 +6,7 @@ import ObjectControls from 'components/ObjectControls'
 import MarkdownHelper from 'components/MarkdownHelper'
 import LineTextarea from 'components/LineTextarea'
 import TextToSpeech from 'components/TextToSpeech'
-import {component, element} from 'vdux'
+import {t, component, element} from 'vdux'
 import {Block} from 'vdux-ui'
 
 /**
@@ -14,6 +14,15 @@ import {Block} from 'vdux-ui'
  */
 
 export default component({
+  propTypes: {
+    object: t.struct({
+      objectType: t.enums.of('post')
+    }),
+    editing: t.maybe(t.Boolean),
+    setSpeaking: t.Function,
+    speakingId: t.maybe(t.String)
+  },
+
   render ({props}) {
     const {object, editing, setSpeaking, speakingId, speechRate, speechEnabled, ...rest} = props
 

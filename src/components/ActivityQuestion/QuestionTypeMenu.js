@@ -4,7 +4,7 @@
 
 import {questionIcon, questionDisplay} from 'lib/activity-helpers'
 import {Dropdown, MenuItem, Button} from 'vdux-containers'
-import {component, element} from 'vdux'
+import {t, component, element} from 'vdux'
 import {Block, Icon} from 'vdux-ui'
 
 /**
@@ -12,6 +12,11 @@ import {Block, Icon} from 'vdux-ui'
  */
 
 export default component({
+  propTypes: {
+    attach: t.Function,
+    object: t.Object
+  },
+
   render ({props}) {
     const {attach, object, ...rest} = props
 

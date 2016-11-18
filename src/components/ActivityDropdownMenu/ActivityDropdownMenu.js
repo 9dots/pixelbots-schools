@@ -5,7 +5,7 @@
 import DeleteActivityModal from 'modals/DeleteActivityModal'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import AssignModal from 'modals/AssignModal'
-import {component, element} from 'vdux'
+import {t, component, element} from 'vdux'
 import {Icon} from 'vdux-ui'
 
 /**
@@ -13,6 +13,12 @@ import {Icon} from 'vdux-ui'
  */
 
 export default component({
+  propTypes: {
+    activity: t.Object,
+    reassign: t.maybe(t.Boolean),
+    onDelete: t.maybe(t.Function)
+  },
+
   render ({props, context, actions}) {
     const {activity, reassign = true, ...rest} = props
     const editUrl = `/activity/${activity._id}/edit`

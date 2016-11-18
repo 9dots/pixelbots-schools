@@ -3,7 +3,7 @@
  */
 
 import {Button, Dropdown, MenuItem, Checkbox, Tooltip} from 'vdux-containers'
-import {stopPropagation, component, element} from 'vdux'
+import {t, stopPropagation, component, element} from 'vdux'
 import mapValues from '@f/map-values'
 import grades from '@weo-edu/grades'
 import {Block, Icon} from 'vdux-ui'
@@ -13,6 +13,11 @@ import {Block, Icon} from 'vdux-ui'
  */
 
 export default component({
+  propTypes: {
+    selected: t.Array,
+    max: t.maybe(t.Integer)
+  },
+
   render ({props, actions, state}) {
     const {selected, max = Infinity} = props
     const {error} = state

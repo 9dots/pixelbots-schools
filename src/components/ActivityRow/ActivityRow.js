@@ -4,7 +4,7 @@
 
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import ActivityCardActions from 'components/ActivityCardActions'
-import {stopPropagation, component, element} from 'vdux'
+import {t, stopPropagation, component, element} from 'vdux'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {Flex, Block, Card} from 'vdux-ui'
 import BgImg from 'components/BgImg'
@@ -17,6 +17,13 @@ import Meta from './Meta'
 export default wrap(CSSContainer, {
   hoverProps: {hover: true}
 })(component({
+  propTypes: {
+    activity: t.Object,
+    currentUser: t.Object,
+    options: t.Object,
+    showClass: t.maybe(t.Boolean)
+  },
+
   render ({props, context}) {
     const {
       hover, activity, metaUi: MetaUi = Meta, ddMenu,

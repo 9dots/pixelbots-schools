@@ -3,7 +3,7 @@
  */
 
 import {Flex, Text, Icon, Block} from 'vdux-ui'
-import {component, element} from 'vdux'
+import {t, component, element} from 'vdux'
 import statusMap from 'lib/status'
 
 /**
@@ -11,6 +11,12 @@ import statusMap from 'lib/status'
  */
 
 export default component({
+  propTypes: {
+    status: t.maybe(t.Integer),
+    text: t.Boolean,
+    userType: t.String
+  },
+
   render ({props}) {
     const {status, text = true, userType, ...rest} = props
     const {icon, teacherColor, studentColor, displayName} = statusMap[status || 1]

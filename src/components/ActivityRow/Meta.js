@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {stopPropagation, component, element} from 'vdux'
+import {t, stopPropagation, component, element} from 'vdux'
 import {Flex, Text, Block} from 'vdux-containers'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
@@ -19,6 +19,10 @@ const underline = {underline: true}
  */
 
 export default component({
+  propTypes: {
+    activity: t.Object
+  },
+
   render ({props, context}) {
     const {activity} = props
     const {pinnedFrom} = activity

@@ -6,7 +6,7 @@ import ActivityQuestion from 'components/ActivityQuestion'
 import ActivityMedia from 'components/ActivityMedia'
 import {CSSContainer, wrap} from 'vdux-containers'
 import ActivityPost from 'components/ActivityPost'
-import {component, element} from 'vdux'
+import {t, component, element} from 'vdux'
 import {Block, Icon} from 'vdux-ui'
 
 /**
@@ -30,6 +30,7 @@ const editingProps = {
 }
 
 const absolute = {top: 0, left: 0}
+const printProps = {p: 16}
 
 /**
  * <ActivityObject/>
@@ -39,6 +40,14 @@ export default wrap(CSSContainer, ({editable}) => editable
   ? {hoverProps: {hover: true}}
   : {}
 )(component({
+  propTypes: {
+    object: t.Object,
+    open: t.maybe(t.Function),
+    editing: t.maybe(t.Boolean),
+    hover: t.maybe(t.Boolean),
+    opening: t.maybe(t.Boolean)
+  },
+
   render ({props}) {
     const {object, open, editing, editable, hover, opening, ...rest} = props
     const Obj = typeMap[object.objectType]
@@ -53,7 +62,7 @@ export default wrap(CSSContainer, ({editable}) => editable
       <Block
         opacity={opening ? 0.5 : 1}
         pageBreakInside='avoid'
-        printProps={{p: 16}}
+        printProps={printProps}
         bgColor='white'
         p={24}
         relative

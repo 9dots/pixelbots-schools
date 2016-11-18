@@ -8,8 +8,8 @@ import CommoncoreBadge from 'components/CommoncoreBadge'
 import SubjectSelector from './SubjectSelector'
 import LineInput from 'components/LineInput'
 import GradeSelector from './GradeSelector'
+import {t, component, element} from 'vdux'
 import {Block, Text, Icon} from 'vdux-ui'
-import {component, element} from 'vdux'
 import findIndex from '@f/find-index'
 import map from '@f/map'
 
@@ -18,6 +18,14 @@ import map from '@f/map'
  */
 
 export default component({
+  propTypes: {
+    editing: t.maybe(t.Boolean),
+    open: t.maybe(t.Function),
+    editable: t.maybe(t.Boolean),
+    activity: t.Object,
+    clickableTags: t.maybe(t.Boolean)
+  },
+
   render ({props}) {
     const {editing, open, editable, activity, clickableTags} = props
     const {displayName, originalDescription, tags, commonCore} = activity
@@ -47,6 +55,14 @@ export default component({
  */
 
 const EditingHeader = component({
+  name: 'EditingHeader',
+
+  propTypes: {
+    activity: t.Object,
+    open: t.maybe(t.Function),
+    onEdit: t.Function
+  },
+
   render: function ({props, actions}) {
     const {activity, open} = props
     const {displayName, originalDescription, tags} = activity

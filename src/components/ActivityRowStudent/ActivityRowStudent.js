@@ -4,7 +4,7 @@
 
 import ActivityBadge from 'components/ActivityBadge'
 import ActivityRow from 'components/ActivityRow'
-import {component, element} from 'vdux'
+import {t, component, element} from 'vdux'
 import getProp from '@f/get-prop'
 import {Text} from 'vdux-ui'
 import moment from 'moment'
@@ -14,6 +14,11 @@ import moment from 'moment'
  */
 
 export default component({
+  propTypes: {
+    activity: t.Object,
+    currentUser: t.Object
+  },
+
   render ({props}) {
     return (
       <ActivityRow badgeUi={StudentBadge} metaUi={StudentMeta} {...props} />
