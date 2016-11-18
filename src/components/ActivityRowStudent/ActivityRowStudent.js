@@ -40,12 +40,15 @@ function StudentBadge ({props}) {
  */
 
 function StudentMeta ({props}) {
-  const {activity} = props
-  const {publishedAt} = activity
+  const {activity, showClass} = props
+  const {publishedAt, contexts} = activity
+  const text = showClass
+    ? contexts[0].descriptor.displayName
+    : 'Assigned' + moment(publishedAt).fromNow()
 
   return (
     <Text fs='xxs' color='grey_medium'>
-      Assigned {moment(publishedAt).fromNow()}
+      {text}
     </Text>
   )
 }
