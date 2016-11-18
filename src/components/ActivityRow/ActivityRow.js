@@ -20,7 +20,7 @@ export default wrap(CSSContainer, {
   propTypes: {
     activity: t.Object,
     currentUser: t.Object,
-    options: t.Object,
+    options: t.maybe(t.Object),
     showClass: t.maybe(t.Boolean)
   },
 

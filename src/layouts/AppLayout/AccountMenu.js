@@ -9,6 +9,17 @@ import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 
 /**
+ * Constants
+ */
+
+const iconProps = {lh: '23px', fs: 's', mr: 's'}
+const itemProps = {
+   ui: MenuItem,
+  currentProps: {highlight: true},
+  align: 'start center'
+}
+
+/**
  * <AccountMenu/>
  */
 
@@ -16,17 +27,11 @@ export default component({
   render ({props, context}) {
     const {currentUser} = props
     const {username, userType} = currentUser
-    const itemProps = {
-      ui: MenuItem,
-      currentProps: {highlight: true},
-      align: 'start center'
-    }
     const isStudent = userType === 'student'
-    const iconProps = {lh: '23px', fs: 's', mr: 's'}
 
     return (
       <Dropdown w='180px' mr='s' btn={<DropdownToggle {...props} />}>
-        <Link {...itemProps} href={`/${username}/boards/all`}>
+        <Link {...itemProps} href={`/${username}/${isStudent ? 'stream' : 'boards/all'}`}>
           <Icon name='person' {...iconProps} />
           My Profile
         </Link>

@@ -13,7 +13,7 @@ import statusMap from 'lib/status'
 export default component({
   propTypes: {
     status: t.maybe(t.Integer),
-    text: t.Boolean,
+    text: t.maybe(t.Boolean),
     userType: t.String
   },
 
