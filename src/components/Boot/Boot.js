@@ -239,6 +239,8 @@ summon.configure({
 
   transformError (err) {
     if (err.url && isApiServer(err.url) && err.status >= 400 && err.status < 500) {
+      if (!(err.value && err.value.errors)) return err
+
       return {
         ...err,
         value: {

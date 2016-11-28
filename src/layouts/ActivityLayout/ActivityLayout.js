@@ -16,6 +16,12 @@ import find from '@f/find'
 import Nav from './Nav'
 
 /**
+ * Constants
+ */
+
+const printProps = {pb: 0}
+
+/**
  * <ActivityLayout/>
  */
 
@@ -65,7 +71,7 @@ export default summon(({userId, activityId}) => ({
 }))(component({
   render (model) {
     return (
-      <Block class='app' pb='60vh' printProps={{pb: 0}}>
+      <Block class='app' pb='60vh' printProps={printProps}>
         { internal(model) }
       </Block>
     )

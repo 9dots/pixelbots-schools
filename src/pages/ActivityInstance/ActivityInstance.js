@@ -17,8 +17,24 @@ import {Block, Card} from 'vdux-ui'
  */
 
 export default summonChannels(
-  ({instance}) => `share!${instance._id}.annotations`
+  ({instance}) => `share!${instance._id}.annotations`,
+  ({instance}) => ({
+    setOpened: () => ({
+      settingOpened: {
+        url: `/instance/${instance._id}/opened`,
+        method: 'PUT'
+      }
+    })
+  })
 )(component({
+  * onCreate ({props}) {
+    const {currentUser, instance, setOpened} = props
+
+    if (currentUser._id === instance.actor.id && instance.status === statusMap.unopened) {
+      yield setOpened()
+    }
+  },
+
   render ({props, actions, state}) {
     const {isShown} = state
     const {instance, instances, currentUser, activities, speechRate, speakingId, setSpeaking, selectObject, selectedObject} = props

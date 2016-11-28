@@ -72,30 +72,29 @@ const router = enroute({
     (params, props) => isLoggedIn(props)
       ? <Redirect to='/class/' />
       : <HomeLayout action='login'>
-        <Home {...props} />
-      </HomeLayout>),
-
-  '/clever(\\?.*)': track('Clever', (params, props) =>
+          <Home {...props} />
+        </HomeLayout>),
+  '/clever(\\?.*)?': track('Clever', (params, props) =>
     <HomeLayout action='signup'>
       <Clever {...props} />
     </HomeLayout>),
-  '/login': track('Login', (params, props) =>
+  '/login(\\?.*)?': track('Login', (params, props) =>
     <HomeLayout action='signup'>
       <Login {...props} />
     </HomeLayout>),
-  '/teacher': track('Teacher Signup', (params, props) =>
+  '/teacher(\\?.*)?': track('Teacher Signup', (params, props) =>
     <HomeLayout action='login'>
       <TeacherSignup {...props} />
     </HomeLayout>),
-  '/student': track('Student Signup', (params, props) =>
+  '/student(\\?.*)?': track('Student Signup', (params, props) =>
     <HomeLayout action='login'>
       <StudentSignup {...props} />
     </HomeLayout>),
-  '/forgot': track('Forgot Password', (params, props) =>
+  '/forgot(\\?.*)?': track('Forgot Password', (params, props) =>
     <HomeLayout action='login'>
       <ForgotPassword {...props} />
     </HomeLayout>),
-  '/reset/:token': track('Reset Password', (params, props) =>
+  '/reset/:token?': track('Reset Password', (params, props) =>
     <HomeLayout action='login'>
       <ResetPassword {...props} {...params} />
     </HomeLayout>),
