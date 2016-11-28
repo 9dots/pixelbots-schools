@@ -70,7 +70,7 @@ export default summon(({user, currentUser}) => ({
             </Menu>
           </Card>
         </Block>
-        <Block w='col_main' maxWidth='714px'>
+        <Block w='col_main' maxWidth='714px' pt={6} relative>
           {children}
         </Block>
         <Document onScroll={actions.handleScroll(230)} />
