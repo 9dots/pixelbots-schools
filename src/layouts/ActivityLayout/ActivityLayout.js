@@ -191,7 +191,7 @@ function internal ({props, children, actions, context, state}) {
       selectedObject: state.selectedObject,
       setSpeaking: actions.setSpeaking,
       speakingId: state.speakingId,
-      speechRate: currentUser.preferences.speech_speed || 1,
+      speechRate: (currentUser.preferences || {}).speech_speed || 1,
       setStatus,
       settingStatus
     }, children)
