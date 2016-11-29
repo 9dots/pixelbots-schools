@@ -225,6 +225,7 @@ export default component({
 
     * focusPrevious (model, node) {
       const p = findParent(node)
+      if (!p) return
 
       const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
       if (inputs.length) {
@@ -240,6 +241,8 @@ export default component({
       yield sleep(50)
 
       const p = findParent(node)
+      if (!p) return
+
       const inputs = [].slice.call(p.querySelectorAll('input[type="text"]'))
       if (inputs.length) {
         const idx = inputs.indexOf(node)
@@ -250,6 +253,7 @@ export default component({
 
     * focusLast (model, node) {
       const p = findParent(node)
+      if (!p) return
 
       // Wait until the next choice is rendered
       yield sleep(30)
