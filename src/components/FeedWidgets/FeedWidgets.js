@@ -5,7 +5,7 @@
 import ProfileWidget from './ProfileWidget'
 import ClassesWidget from './ClassesWidget'
 import DraftsWidget from './DraftsWidget'
-import {Card, Icon, Block} from 'vdux-ui'
+import {Card, Icon, Block, Divider} from 'vdux-ui'
 import {component, element} from 'vdux'
 import Link from 'components/Link'
 
@@ -27,15 +27,23 @@ export default component({
 
     return (
       <Block mr {...rest}>
-        <ProfileWidget user={user} w={230} m={cardMargin} mt={0} />
-        <DraftsWidget w={230} m={cardMargin} draftCount={draftCount} user={user} />
-        <ClassesWidget user={user} w={230} m={cardMargin} />
-        <Link ui={Card} w={230} m={cardMargin} align='start center' currentProps={currentProps} pointer p href='/feed' hide={user.userType === 'student'}>
+        <ProfileWidget user={user} w={230} m={cardMargin} my={0} />
+        <Divider m={0} mr='s' color='#EEE'/>
+        <DraftsWidget w={230} m={cardMargin} my={0} draftCount={draftCount} user={user} />
+        <Divider m={0} mr='s' color='#EEE'/>
+        <Link ui={Card} w={230} m={cardMargin} mt={0} align='start center' currentProps={currentProps} pointer p href='/feed' hide={user.userType === 'student'}>
           <Icon fs='m' mr name='dashboard' />
           <Block flex>My Feed</Block>
           <Icon fs='s' name='keyboard_arrow_right' />
         </Link>
+        <ClassesWidget user={user} w={230} m={cardMargin} />
       </Block>
     )
   }
 })
+
+// function Divider() {
+//   return (
+//     <Block />
+//   )
+// }

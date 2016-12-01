@@ -38,13 +38,13 @@ export default component({
               </Flex>
               {
                 currentUser && [
-                  <Item href='/class' icon='home' text='Home' />,
+                  <Item href='/class' icon='home' text='Classes' />,
                   <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />,
-                  <ClassNav currentUser={currentUser}>
-                    <Item ml='s'  icon='school' text='Classes'>
-                      <Icon name='arrow_drop_down' fs='s' ml='s' />
-                    </Item>
-                  </ClassNav>,
+                  // <ClassNav currentUser={currentUser}>
+                  //   <Item ml='s'  icon='school' text='Classes'>
+                  //     <Icon name='arrow_drop_down' fs='s' ml='s' />
+                  //   </Item>
+                  // </ClassNav>,
                   <Item href='/get-started' icon='stars' text='Get Started' relative hide={!stepsLeft || isStudent}>
                     <Block circle={15} bg='red' absolute left={3} top={7} boxShadow='z2' fs='xxs' textAlign='center' lh='14px' textIndent='-2px'>
                       {stepsLeft}
