@@ -77,13 +77,14 @@ function DropdownToggle ({props}) {
   const {userType, displayName} = currentUser
 
   return (
-    <Flex {...rest} align='center'>
+    <Flex {...rest} align='center center'>
       <Avatar actor={currentUser} />
-      <Flex align='start center' mx hide={userType === 'teacher'}>
+      <Flex align='start center' ml hide={userType === 'teacher'}>
         <Block maxWidth={125} ellipsis>
           {displayName}
         </Block>
       </Flex>
+      <Icon name='arrow_drop_down' fs='s' mr />
     </Flex>
   )
 }

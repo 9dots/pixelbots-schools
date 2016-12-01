@@ -68,7 +68,7 @@ export default component({
                 px='21'
                 h={34}
                 pill
-                mx>
+                mr>
                 <Icon fs='s' mr='s' name='edit' />
                 Create Activity
               </Button>

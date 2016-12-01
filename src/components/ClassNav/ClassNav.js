@@ -26,23 +26,23 @@ export default summon(() => ({
     return (
       <Dropdown btn={<div>{children}</div>} bg='white' color='black' maxHeight={350} overflow='auto' mt='-6' w='200' left>
         <Block>
-          <Block bg='transparent' pt='s' px onClick={{stopPropagation: true}} hide={numClasses < 8}>
+          <Block bg='transparent' pt='s' px onClick={{stopPropagation: true}} hide={numClasses < 7}>
             <LineInput type='search' onInput={actions.setFilter} placeholder='Filter classes…' />
           </Block>
           <Block>
             {
-            !loading &&
-            value.items
-              .filter(search(state.filter))
-              .sort(cmp)
-              .map(cls => <ClassItem cls={cls} isStudent={isStudent} />)
-          }
+              !loading &&
+              value.items
+                .filter(search(state.filter))
+                .sort(cmp)
+                .map(cls => <ClassItem cls={cls} isStudent={isStudent} />)
+            }
             <Divider hide={!numClasses} />
             {
-            isStudent
-              ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
-              : <AddClassItem Modal={CreateClassModal} text='New Class' />
-          }
+              isStudent
+                ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
+                : <AddClassItem Modal={CreateClassModal} text='New Class' />
+            }
           </Block>
         </Block>
       </Dropdown>
