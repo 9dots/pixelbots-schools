@@ -38,7 +38,6 @@ export default component({
     const {content, originalContent} = object
     const chosen = answer[0] === object._id
     const hasAnswer = !!answer.length
-    console.log(overview)
     const bgColor = hasAnswer && !overview
       ? chosen ? colors[idx % colors.length] : 'grey_light'
       : colors[idx % colors.length]
