@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Block, Flex, Card, Icon} from 'vdux-ui'
+import {Block, Flex, Card} from 'vdux-ui'
 import WeoIcon from 'components/WeoIcon'
 import {component, element} from 'vdux'
 
@@ -24,7 +24,6 @@ export default component({
             {draftCount < 100 ? draftCount : '99+'}
           </Block>
         </Flex>
-        <Icon fs='s' name='keyboard_arrow_right' />
       </Card>
     )
   }

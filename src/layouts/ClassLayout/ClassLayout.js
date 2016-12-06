@@ -4,6 +4,7 @@
 
 import ClassSettingsModal from 'modals/ClassSettingsModal'
 import ClassCodeModal from 'modals/ClassCodeModal'
+import Redirect from 'components/Redirect'
 import {Text, Block, Icon} from 'vdux-ui'
 import FourOhFour from 'pages/FourOhFour'
 import NavTile from 'components/NavTile'
@@ -27,6 +28,7 @@ export default summon(({groupId}) => ({
     const isStudent = currentUser.userType === 'student'
 
     if (!loaded || !students.loaded) return <span />
+    if (currentUser.groups.every(g => g.id !== value._id)) return <Redirect to='/' />
     if (error || students.error) return <FourOhFour />
 
     return (
@@ -111,7 +113,7 @@ const Header = component({
 
         <Block align='center center' h={46} bgColor='off_white'>
           <NavTile href={`/class/${id}/feed`} highlight='red'>
-            Feed
+            Assignments
           </NavTile>
           <NavTile href={`/class/${id}/students`} highlight='green'>
             Students

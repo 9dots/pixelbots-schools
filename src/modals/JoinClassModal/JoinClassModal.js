@@ -42,7 +42,7 @@ export default summon(props => ({
               <Text pointer underline onClick={context.closeModal}>cancel</Text>
               <Text mx>or</Text>
             </Text>
-            <Button type='submit' busy={loading}>Create</Button>
+            <Button type='submit' busy={loading}>Join</Button>
           </ModalFooter>
         </Form>
       </Modal>

@@ -59,7 +59,8 @@ export default summonPrefs()(component({
 
   controller: {
     * setSort ({props}, prop) {
-      const {setPref, sort} = props
+      const {setPref, prefs} = props
+      const sort = prefs.peopleSort || {dir: 1, property: 'name.givenName'}
 
       yield setPref('peopleSort', {
         property: prop,
