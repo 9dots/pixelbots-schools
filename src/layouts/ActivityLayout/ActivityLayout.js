@@ -78,7 +78,8 @@ export default summon(({userId, activityId}) => ({
   },
 
   * onUpdate (prev, next) {
-    const {instances, students, getInstance, gettingInstance} = next.props
+    const {instances, students, getInstance, gettingInstance, userId} = next.props
+
     if (!gettingInstance && instances.value && students.value) {
       const studentMap = index(student => student._id, students.value.items)
       const insts = instances.value.items.filter(inst => studentMap[inst.actor.id])
@@ -86,6 +87,8 @@ export default summon(({userId, activityId}) => ({
       if (insts.length < students.value.items.length) {
         const filtered = students.value.items.filter(({_id}) => instances.value.items.every(inst => inst.actor.id !== _id))
         yield filtered.map(student => getInstance(student._id))
+      } else if (userId && !instances.value.items.some(inst => inst.actor.id === userId)) {
+        yield getInstance(userId)
       }
     }
   },
