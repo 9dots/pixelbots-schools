@@ -6,6 +6,6 @@ COPY package.json /usr/src/app
 COPY yarn.lock /usr/src/app
 RUN yarn install
 COPY . /usr/src/app
-RUN node_modules/.bin/unv build --production
+RUN export NODE_ENV=`git symbolic-ref --short -q HEAD` && node_modules/.bin/unv build --production
 CMD ["./node_modules/.bin/unv", "serve"]
 
