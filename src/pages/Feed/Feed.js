@@ -34,7 +34,7 @@ export default summon(props => ({
     return (
       <Block w='col_xl' mx='auto'>
         <PageTitle title='Weo' />
-        <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555} columns={3} mt={-8} />
+        <TileFeed currentUser={currentUser} activities={activities} more={more} emptyState={<EmptyFeed follow />} skip={555} columns={3} mt={-8} ml={-6} />
       </Block>
     )
   }
