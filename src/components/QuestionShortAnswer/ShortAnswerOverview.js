@@ -13,8 +13,7 @@ import map from '@f/map'
 
 export default component({
   render ({props}) {
-    const {question = {}} = props
-    const {responses = []} = question
+    const {responses = []} = props
 
     if (!responses.length) {
       return (
