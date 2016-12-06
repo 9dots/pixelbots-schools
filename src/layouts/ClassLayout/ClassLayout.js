@@ -111,7 +111,7 @@ const Header = component({
 
         <Block align='center center' h={46} bgColor='off_white'>
           <NavTile href={`/class/${id}/feed`} highlight='red'>
-            Feed
+            Assignments
           </NavTile>
           <NavTile href={`/class/${id}/students`} highlight='green'>
             Students

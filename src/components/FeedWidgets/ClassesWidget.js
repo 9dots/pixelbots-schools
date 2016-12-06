@@ -42,7 +42,7 @@ export default summon(() => ({
       <Card {...props}>
         <Block p uppercase boxShadow='0 2px 1px rgba(75,82,87,0.1)' z='1' relative align='space-between center'>
           <Block>Classes</Block>
-          <RoundedInput type='search' onInput={actions.setFilter} placeholder='Filter…' py='s' px={10} m={0} bgColor='#FDFDFD' inputProps={alignLeft} w={120} hide={clsLength < 7} />
+          <RoundedInput type='search' onInput={actions.setFilter} placeholder='Filter…' py='s' px={10} m='-6px 0' bgColor='#FDFDFD' inputProps={alignLeft} w={120} hide={clsLength < 7} />
         </Block>
         <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
           {[
@@ -84,7 +84,7 @@ const Item = wrap(CSSContainer, {
         p>
         <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
         <Text capitalize flex>{displayName}</Text>
-        <Block onClick={stopPropagation}>
+        <Block onClick={stopPropagation} align='end center'>
           <Button
             onClick={actions.classSettings}
             activeProps={itemActiveProps}

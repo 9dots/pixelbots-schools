@@ -30,8 +30,6 @@
     }
   },
   "plugins": [
-    "syntax-flow",
-    ["transform-react-jsx", {"pragma": "element"}],
-    "transform-flow-strip-types"
+    ["transform-react-jsx", {"pragma": "element"}]
   ]
 }
