@@ -164,7 +164,7 @@ export default component({
           ...params
         }
       })
-      yield actions.postLogin(value.token)
+      yield actions.postLogin(value)
     },
 
     * oauthCreate ({actions}, provider, params = {}) {
@@ -176,7 +176,7 @@ export default component({
           ...params
         }
       })
-      yield actions.postLogin(value.token)
+      yield actions.postLogin(value)
     },
 
     generateObjectId: wrapEffect(generateObjectIdEffect),
