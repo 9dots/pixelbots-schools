@@ -7,7 +7,7 @@
   "scripts": {
     "postversion": "git push && git push --tags && npm publish --access=public",
     "dev": "unv dev",
-    "build": "unv build --base //storage.googleapis.com/assets-weo-io/",
+    "build": "export NODE_ENV=`git symbolic-ref --short -q HEAD` && unv build --production",
     "sync": "gsutil rsync -x -m '.*\\.js$' -r assets gs://assets-weo-io; gsutil cp -Z assets/*.js gs://assets-weo-io;",
     "deploy": "gcloud preview app deploy --project www-weo-io --no-promote",
     "start": "unv serve",
@@ -117,7 +117,7 @@
     "to-csv": "github:weo-edu/to-csv",
     "track-prep": "^0.2.0",
     "unv": "^0.3.5",
-    "vdux": "^3.0.4",
+    "vdux": "^3.0.6",
     "vdux-containers": "^1.1.6",
     "vdux-css-transition": "^1.2.1",
     "vdux-delay": "^1.0.6",
@@ -201,5 +201,6 @@
   },
   "engines": {
     "node": "~6.3.0"
-  }
+  },
+  "license": "UNLICENSED"
 }
