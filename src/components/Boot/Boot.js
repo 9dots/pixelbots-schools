@@ -17,6 +17,7 @@ import {query} from 'redux-effects-credentials'
 import {component, element} from 'vdux'
 import modalMw from 'middleware/modal'
 import printMw from 'middleware/print'
+import escapeRe from 'escape-regexp'
 import cookieParser from 'cookie'
 import App from 'components/App'
 import theme from 'lib/theme'
@@ -220,8 +221,10 @@ function wrapEffect (fn) {
  * Useful for adding credentials and such
  */
 
+const apiRe = new RegExp(`^(?:https?\:)?${escapeRe(process.env.API_SERVER)}`)
+
 function isApiServer (url) {
-  return url.indexOf(process.env.API_SERVER) === 0
+  return apiRe.test(url)
 }
 
 /**

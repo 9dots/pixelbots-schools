@@ -91,6 +91,7 @@
     "easing-utils": "0.0.4",
     "enroute": "^1.0.1",
     "envitro": "^1.0.2",
+    "escape-regexp": "^0.0.1",
     "fastclick": "^1.0.6",
     "is-datauri": "^0.1.0",
     "moment": "^2.13.0",
