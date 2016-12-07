@@ -14,6 +14,12 @@ import summon from 'vdux-summon'
 import map from '@f/map'
 
 /**
+ * Constants
+ */
+
+const absolutePos = {right: 0, top: 0}
+
+/**
  * <ActivityQuestion/>
  */
 
@@ -59,7 +65,7 @@ export default summon(({activityId, object}) => ({
         {
           !poll && comments && (!isStudent || commentList.length > 0) &&
           <QuestionComments
-            absolute={{right: 0, top: 0}}
+            absolute={absolutePos}
             showComments={showComments}
             currentUser={currentUser}
             commentsId={commentsId}
