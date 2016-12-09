@@ -8,10 +8,7 @@
     "postversion": "git push && git push --tags && npm publish --access=public",
     "dev": "unv dev",
     "build": "export NODE_ENV=`git symbolic-ref --short -q HEAD` && unv build --production",
-    "sync": "gsutil rsync -x -m '.*\\.js$' -r assets gs://assets-weo-io; gsutil cp -Z assets/*.js gs://assets-weo-io;",
-    "deploy": "gcloud preview app deploy --project www-weo-io --no-promote",
-    "start": "unv serve",
-    "flow": "flow; test $? -eq 0 -o $? -eq 2"
+    "start": "unv serve"
   },
   "dependencies": {
     "@f/animate": "^1.0.1",
@@ -129,6 +126,7 @@
     "vdux-ui": "^1.2.5",
     "virtex-dom": "^0.3.12",
     "virtex-element": "^0.3.6",
+    "weo-logger": "weo-edu/weo-logger",
     "weo-redux-logger": "^2.6.1"
   },
   "devDependencies": {
