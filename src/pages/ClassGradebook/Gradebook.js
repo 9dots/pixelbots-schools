@@ -49,8 +49,9 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(summonPre
     return (
       <Block mx='auto' my='l' relative>
         <GradebookNav setPref={setPref} next={actions.next(numPages)} prev={actions.prev(numPages)} exportAll={actions.exportAll} asPercent={displayPercent} page={page} numPages={numPages} hasData={hasData} allowExport={allowExport} />
-        <Block boxShadow='card' overflow='auto' relative bg='linear-gradient(to bottom, grey 0px, grey 55px, off_white 55px)'>
-          <Table overflow='auto'>
+        <Block boxShadow='card' overflow='auto' relative bg='off_white'>
+          <Block absolute top left wide h={55} bg='grey' z={0}/>
+          <Table overflow='auto' z={1} relative>
             <GradebookHeader setPref={setPref} activities={curArr(activityList)} exportActivity={actions.exportActivity} totals={totals} sort={sort} allowExport={allowExport} />
             {
               map((student, i) => <GradebookRow
