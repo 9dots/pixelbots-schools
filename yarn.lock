@@ -5949,9 +5949,9 @@ unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
 
-unv@^0.3.5:
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/unv/-/unv-0.3.8.tgz#827be9bb43214fe5cf4c9bd0621c898de0c5bf97"
+unv:
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/unv/-/unv-0.3.9.tgz#5113c3ebdcf9128e891daf36058c14b81a939bfd"
   dependencies:
     "@f/debounce" "^1.0.0"
     "@f/promise-stream" "^1.1.3"
