@@ -34,8 +34,9 @@ export default summon(({user, currentUser}) => ({
       <Flex w='col_main' mt='s' mx='auto' pb='l' relative>
         <Block>
           <Block mr w={230} h='100vh' hide={!state.isScrolled} />
-          <Card mr w={230} position={state.isScrolled ? 'fixed' : 'static'} top={66} overflowY='auto' maxHeight='calc(100vh - 80px)'>
-            <Menu column py='s'>
+          <Card mr w={230} overflowY='auto' position={state.isScrolled ? 'fixed' : 'static'} top={66}>
+            <Block relative uppercase p boxShadow='0 2px 1px rgba(75,82,87,0.1)'>Boards</Block>
+            <Menu column maxHeight='calc(100vh - 158px)' overflow='auto'>
               <NavItem href={`/${username}/boards/all`} display='flex' align='start center'>
                 <Icon name='assignment' color='white' bg='green' circle={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                 All Activities
@@ -52,25 +53,28 @@ export default summon(({user, currentUser}) => ({
               {
                 isMe &&
                   <span>
+                    <Divider />
                     <NavItem href={`/${username}/boards/drafts`} display='flex' align='start center'>
                       <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr textAlign='center' />
                       Drafts
-                    </NavItem>
-                    <Divider />
-                    <NavItem onClick={actions.createBoardModal} display='flex' align='start center'>
-                      <Icon name='add' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
-                      New Board
                     </NavItem>
                     <NavItem href={`/${username}/boards/trash`} display='flex' align='start center'>
                       <Icon name='delete' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
                       Trash
                     </NavItem>
+                    <NavItem onClick={actions.createBoardModal} display='flex' align='start center'>
+                      <Icon  bolder name='add' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />
+                      New Board
+                    </NavItem>
                   </span>
               }
             </Menu>
+            <Block hide={!isMe} boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p fs='xxs' color='grey_medium'>
+              Storage: {user.pinCount} / 1000
+            </Block>
           </Card>
         </Block>
-        <Block w='col_main' maxWidth='714px' pt={6} relative>
+        <Block w='col_main' maxWidth='714px' relative>
           {children}
         </Block>
         <Document onScroll={actions.handleScroll(230)} />

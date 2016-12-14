@@ -2,13 +2,13 @@
  * Imports
  */
 
-import {MenuItem, Button, CSSContainer, wrap} from 'vdux-containers'
+import {Button, CSSContainer, wrap} from 'vdux-containers'
 import ClassSettingsModal from 'modals/ClassSettingsModal'
+import {Icon, Block, Card, Text, MenuItem} from 'vdux-ui'
 import {stopPropagation, component, element} from 'vdux'
 import CreateClassModal from 'modals/CreateClassModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import RoundedInput from 'components/RoundedInput'
-import {Icon, Block, Card, Text} from 'vdux-ui'
 import Link from 'components/Link'
 import summon from 'vdux-summon'
 
@@ -81,9 +81,11 @@ const Item = wrap(CSSContainer, {
         href={`/class/${_id}`}
         align='start center'
         ui={MenuItem}
+        color='grey_medium'
+        hoverProps={{color: 'text'}}
         p>
         <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
-        <Text capitalize flex>{displayName}</Text>
+        <Text capitalize flex bolder>{displayName}</Text>
         <Block onClick={stopPropagation} align='end center'>
           <Button
             onClick={actions.classSettings}
@@ -115,10 +117,10 @@ const AddClassItem = component({
     const {text} = props
 
     return (
-      <MenuItem onClick={actions.openModal} py='m' color='text_color' display='flex' align='start center'>
-        <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
+      <Link ui={MenuItem} hoverProps={{color: 'text'}} onClick={actions.openModal} py='m' color='grey_medium' bolder display='flex' align='start center'>
+        <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' bolder />
         {text}
-      </MenuItem>
+      </Link>
     )
   },
 
