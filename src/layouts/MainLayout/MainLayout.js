@@ -26,10 +26,10 @@ export default component({
   render ({props, children}) {
     return (
       <AppLayout {...props}>
-        <Block align='start' w='col_main' mx='auto' py>
+        <Block align='start' w='col_main' mx='auto' py px='s' mt='s'>
           <FeedWidgets user={props.currentUser} fixed />
-          <Block minWidth={230} mr />
-          <Block flex>
+          <Block mr minWidth={230}  />
+          <Block w='col_xl'>
             { children }
           </Block>
         </Block>

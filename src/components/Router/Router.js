@@ -7,6 +7,7 @@ import ActivityLayout from 'layouts/ActivityLayout'
 import SettingsLayout from 'layouts/SettingsLayout'
 import ProfileLayout from 'layouts/ProfileLayout'
 import SearchLayout from 'layouts/SearchLayout'
+import SchoolLayout from 'layouts/SchoolLayout'
 import ClassLayout from 'layouts/ClassLayout'
 import MainLayout from 'layouts/MainLayout'
 import HomeLayout from 'layouts/HomeLayout'
@@ -114,6 +115,27 @@ const router = enroute({
           : <Redirect to='/class/all' {...props} />
       }
     </MainLayout>)),
+
+  // School
+  '/school/': track('School Redirect', auth('user', (params, props) =>
+    <Redirect to='/school/discussion' />)),
+  '/school/discussion': track('School Discussion', auth('teacher', (params, props) =>
+    <SchoolLayout {...props} {...params}>
+      Discussion
+    </SchoolLayout>)),
+  '/school/teachers': track('School Teachers', auth('teacher', (params, props) =>
+    <SchoolLayout {...props} {...params}>
+      Teachers
+    </SchoolLayout>)),
+  '/school/students': track('School Students', auth('teacher', (params, props) =>
+    <SchoolLayout {...props} {...params}>
+      Students
+    </SchoolLayout>)),
+  '/school/stream': track('School Stream', auth('teacher', (params, props) =>
+    <SchoolLayout {...props} {...params}>
+      Stream
+    </SchoolLayout>)),
+  
   // Class
   '/class/': track('Class Redirect', auth('user', (params, props) =>
     <Redirect to='/class/all' />)),
@@ -164,7 +186,7 @@ const router = enroute({
       <SearchPeople {...props} {...params} />
     </SearchLayout>)),
 
-  // Acount
+  // Account
   '/account/settings': track('Account Settings', auth('user', (params, props) =>
     <SettingsLayout {...props} {...params}>
       <AccountSettings {...props} />
