@@ -3,6 +3,7 @@
  */
 
 import {component, element} from 'vdux'
+import {Block} from 'vdux-ui'
 
 /**
  * <School Students/>
@@ -11,6 +12,9 @@ import {component, element} from 'vdux'
 export default component({
   render ({props}) {
     return (
+    	<Block>
+    		Students dd
+    	</Block>
     )
   }
 })

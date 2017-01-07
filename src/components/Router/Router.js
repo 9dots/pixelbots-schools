@@ -38,6 +38,11 @@ import ActivityInstance from 'pages/ActivityInstance'
 import ActivityPreview from 'pages/ActivityPreview'
 import ActivityEdit from 'pages/ActivityEdit'
 
+import SchoolDiscussion from 'pages/SchoolDiscussion'
+import SchoolTeachers from 'pages/SchoolTeachers'
+import SchoolStudents from 'pages/SchoolStudents'
+import SchoolStream from 'pages/SchoolStream'
+
 import ClassGradebook from 'pages/ClassGradebook'
 import ClassStudents from 'pages/ClassStudents'
 import ClassFeed from 'pages/ClassFeed'
@@ -121,19 +126,19 @@ const router = enroute({
     <Redirect to='/school/discussion' />)),
   '/school/discussion': track('School Discussion', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      Discussion
+      <SchoolDiscussion {...params} />
     </SchoolLayout>)),
   '/school/teachers': track('School Teachers', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      Teachers
+      <SchoolTeachers {...params} />
     </SchoolLayout>)),
   '/school/students': track('School Students', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      Students
+      <SchoolStudents {...params} />
     </SchoolLayout>)),
   '/school/stream': track('School Stream', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      Stream
+      <SchoolStream {...params} />
     </SchoolLayout>)),
   
   // Class
