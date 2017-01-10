@@ -112,7 +112,7 @@
     "to-csv": "github:weo-edu/to-csv",
     "track-prep": "^0.2.0",
     "vdux": "^3.0.6",
-    "vdux-containers": "^1.2.7",
+    "vdux-containers": "^1.2.8",
     "vdux-form": "^1.2.3",
     "vdux-position": "^1.0.5",
     "vdux-summon": "^0.2.6",

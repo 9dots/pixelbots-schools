@@ -41,6 +41,7 @@ import ActivityEdit from 'pages/ActivityEdit'
 import SchoolDiscussion from 'pages/SchoolDiscussion'
 import SchoolTeachers from 'pages/SchoolTeachers'
 import SchoolStudents from 'pages/SchoolStudents'
+import SchoolSettings from 'pages/SchoolSettings'
 import SchoolStream from 'pages/SchoolStream'
 
 import ClassGradebook from 'pages/ClassGradebook'
@@ -122,23 +123,27 @@ const router = enroute({
     </MainLayout>)),
 
   // School
-  '/school/': track('School Redirect', auth('user', (params, props) =>
+  '/school/': track('School Redirect', auth('teacher', (params, props) =>
     <Redirect to='/school/discussion' />)),
   '/school/discussion': track('School Discussion', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      <SchoolDiscussion {...params} />
+      <SchoolDiscussion {...props} {...params} />
     </SchoolLayout>)),
   '/school/teachers': track('School Teachers', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      <SchoolTeachers {...params} />
+      <SchoolTeachers {...props} {...params} />
     </SchoolLayout>)),
   '/school/students': track('School Students', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      <SchoolStudents {...params} />
+      <SchoolStudents {...props} {...params} />
     </SchoolLayout>)),
   '/school/stream': track('School Stream', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      <SchoolStream {...params} />
+      <SchoolStream {...props} {...params} />
+    </SchoolLayout>)),
+  '/school/settings': track('School Settings', auth('teacher', (params, props) =>
+    <SchoolLayout {...props} {...params}>
+      <SchoolSettings {...props} {...params} />
     </SchoolLayout>)),
   
   // Class

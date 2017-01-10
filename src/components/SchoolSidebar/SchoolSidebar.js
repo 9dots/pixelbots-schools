@@ -2,6 +2,7 @@
  * Imports
  */
 
+import InviteTeacherModal from 'modals/InviteTeacherModal'
 import {Button, Icon} from 'vdux-containers'
 import {Block, Card, Divider, MenuItem} from 'vdux-ui'
 import {component, element} from 'vdux'
@@ -12,7 +13,7 @@ import Link from 'components/Link'
  */
 
 export default component({
-  render ({props}) {
+  render ({props, actions}) {
     return (
     	<Block mr>
 	    	<Card w={230} mb>
@@ -30,7 +31,7 @@ export default component({
 	          </Block>
 	    		<Divider m='s' color='#EEE'/>
 	    		<Block align='center center' p pb='18px'>
-	    			<Button py='s' px='32px'>
+	    			<Button py='s' px='32px' onClick={actions.inviteTeacher}>
 	    				<Icon fs='s' name='local_activity' mr />
 	    				Invite Colleagues
 	    			</Button>
@@ -50,10 +51,19 @@ export default component({
 		        <Item icon='view_headline' href='/school/stream'>
 		        	Stream
 		        </Item>
+		        <Item icon='settings' href='/school/settings'>
+		        	Settings
+		        </Item>
 	    		<Block boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p/>
 	    	</Card>
 	    </Block>
     )
+  },
+
+  controller: {
+    * inviteTeacher ({context}) {
+      yield context.openModal(() => <InviteTeacherModal />)
+    },
   }
 })
 
