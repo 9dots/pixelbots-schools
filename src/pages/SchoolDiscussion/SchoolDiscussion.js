@@ -2,18 +2,19 @@
  * Imports
  */
 
-import {component, element} from 'vdux'
-import {Block, Card} from 'vdux-ui'
+import InviteTeacherModal from 'modals/InviteTeacherModal'
 import {Textarea, Button} from 'vdux-containers'
-import Avatar from 'components/Avatar'
 import EmptyState from 'components/EmptyState'
+import {Block, Card, Icon} from 'vdux-ui'
+import {component, element} from 'vdux'
+import Avatar from 'components/Avatar'
 
 /**
  * <School Discussion/>
  */
 
 export default component({
-  render ({props}) {
+  render ({props, actions}) {
   	const {currentUser} = props
     return (
     	<Block>
@@ -33,8 +34,12 @@ export default component({
 		            p />
 	          </Block>
           </Block>
-          <Block align='end'>
-          	<Button mt bgColor='grey' type='submit'>Submit</Button>
+          <Block align='end center' mt>
+            <Button mr py='s' onClick={actions.inviteTeacher}>
+              <Icon name='local_activity' fs='s' mr />
+              Invite Colleagues
+            </Button>
+          	<Button bgColor='grey' py='s' type='submit'>Submit</Button>
         	</Block>
     		</Card>
     		<EmptyState mt p='60px 12px' wide icon='forum' color='blue' bg='grey_light' border='1px solid #D4D4D4'>
@@ -42,5 +47,11 @@ export default component({
     		</EmptyState>
     	</Block>
     )
+  },
+
+  controller: {
+    * inviteTeacher ({context}) {
+      yield context.openModal(() => <InviteTeacherModal />)
+    },
   }
 })

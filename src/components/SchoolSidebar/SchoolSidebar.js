@@ -3,8 +3,8 @@
  */
 
 import InviteTeacherModal from 'modals/InviteTeacherModal'
-import {Button, Icon} from 'vdux-containers'
 import {Block, Card, Divider, MenuItem} from 'vdux-ui'
+import {Button, Icon} from 'vdux-containers'
 import {component, element} from 'vdux'
 import Link from 'components/Link'
 
@@ -39,17 +39,14 @@ export default component({
 	    	</Card>
 	    	<Card>
 	    		<Block boxShadow='0 2px 1px rgba(75,82,87,0.1)' z='1' relative p/>
-		        <Item icon='forum' href='/school/discussion'>
-		        	Discussion
+		        <Item icon='view_headline' href='/school/stream'>
+		        	Stream
 		        </Item>
 		        <Item icon='school' href='/school/teachers'>
 		        	Teachers
 		        </Item>
 		        <Item icon='people' href='/school/students'>
 		        	Students
-		        </Item>
-		        <Item icon='view_headline' href='/school/stream'>
-		        	Stream
 		        </Item>
 		        <Item icon='settings' href='/school/settings'>
 		        	Settings

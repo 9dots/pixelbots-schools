@@ -16,7 +16,7 @@ import summon from 'vdux-summon'
  * Constants
  */
 
-const itemCurrentProps = {borderLeftColor: 'blue', highlight: 0.05, color: 'text'}
+const itemCurrentProps = {borderLeftColor: 'blue', highlight: 0.03, color: 'text'}
 const itemActiveProps = {opacity: 0.7}
 const itemHoverProps = {opacity: 1}
 const allClasses = {_id: 'all', displayName: 'All Classes'}

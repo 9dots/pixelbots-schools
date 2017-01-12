@@ -40,7 +40,7 @@ export default summon(({userSearch: query}) => ({
 	          {
 	            loaded && value.items.length
 	              ? map(user =>
-	                <UserTile currentUser={currentUser} user={user} />, value.items)
+	                <Row currentUser={currentUser} user={user} />, value.items)
 	              : <Block /> // Empty results goes here
 	          }
 	        </Grid>
@@ -49,3 +49,13 @@ export default summon(({userSearch: query}) => ({
     )
   }
 }))
+
+const Row = component({
+  render ({props}) {
+    return (
+      <Block>
+        row
+      </Block>
+    )
+  }
+})
