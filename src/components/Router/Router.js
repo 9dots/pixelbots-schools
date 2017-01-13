@@ -123,12 +123,12 @@ const router = enroute({
     </MainLayout>)),
 
   // School
-  '/school/': track('School Redirect', auth('teacher', (params, props) =>
-    <Redirect to='/school/discussion' />)),
-  '/school/discussion': track('School Discussion', auth('teacher', (params, props) =>
-    <SchoolLayout {...props} {...params}>
+  '/discussion': track('School Discussion', auth('teacher', (params, props) =>
+    <MainLayout {...props} {...params}>
       <SchoolDiscussion {...props} {...params} />
-    </SchoolLayout>)),
+    </MainLayout>)),
+  '/school/': track('School Redirect', auth('teacher', (params, props) =>
+    <Redirect to='/school/stream' />)),
   '/school/teachers': track('School Teachers', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
       <SchoolTeachers {...props} {...params} />

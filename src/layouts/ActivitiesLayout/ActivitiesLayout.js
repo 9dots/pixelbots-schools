@@ -27,6 +27,7 @@ export default summon(({user, currentUser}) => ({
     const {boards, user, currentUser} = props
     const isMe = currentUser._id === user._id
     const {username} = user
+    const drafts = currentUser.drafts.canonicalTotal.items
     const iconSize = '25px'
     const {value = [], loaded} = boards
 
@@ -55,8 +56,11 @@ export default summon(({user, currentUser}) => ({
                   <span>
                     <Divider />
                     <NavItem href={`/${username}/boards/drafts`} display='flex' align='start center'>
-                      <WeoIcon name='draft' color='white' bg='yellow' circle={iconSize} lh={iconSize} fs='s' fw='bolder' mr textAlign='center' />
+                      <WeoIcon w={iconSize} name='draft' fs='s' mr textAlign='center' />
                       Drafts
+                      <Block color='white' lighter circle={20} bg='yellow' textAlign='center' lh='20px' textIndent='-2px' ml hide={drafts < 1}>
+                        { drafts > 99 ? '99+' : drafts }
+                      </Block>
                     </NavItem>
                     <NavItem href={`/${username}/boards/trash`} display='flex' align='start center'>
                       <Icon name='delete' sq={iconSize} lh={iconSize} fs='s' mr textAlign='center' />

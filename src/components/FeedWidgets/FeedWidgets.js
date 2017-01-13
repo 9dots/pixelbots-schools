@@ -13,7 +13,16 @@ import Link from 'components/Link'
  * Constants
  */
 
-const currentProps = {highlight: 0.05, color: 'text'}
+const linkProps = {
+  borderWidth: '0px',
+  boxShadow: '0 0',
+  borderLeft: '3px solid transparent',
+  currentProps: {
+    highlight: 0.03, 
+    color: 'text', 
+    borderColor: 'blue'
+  }
+}
 
 /**
  * <FeedWidgets/>
@@ -27,14 +36,23 @@ export default component({
 
     return (
       <Block mr {...rest}>
-        <ProfileWidget user={user} w={230} m={cardMargin} my={0} />
-        <Divider m={0} mr='s' color='#EEE' hide={!draftCount} />
-        <DraftsWidget w={230} m={cardMargin} my={0} draftCount={draftCount} user={user} />
-        <Divider m={0} mr='s' color='#EEE'/>
-        <Link ui={Card} w={230} m={cardMargin} mt={0} align='start center' currentProps={currentProps} pointer p href='/feed' hide={user.userType === 'student'}>
-          <Icon fs='m' mr name='dashboard' />
-          <Block flex>My Feed</Block>
-        </Link>
+        <Card w='230px'>
+          {
+            //<ProfileWidget user={user} w={230} m={cardMargin} my={0} />
+          }
+          <Divider wide m={0} mr='s' color='#EEE'/>
+          <Link ui={Card} align='start center' {...linkProps} pointer p href='/discussion' hide={user.userType === 'student'}>
+            <Icon fs='m' mr name='forum' />
+            <Block flex>Discussion</Block>
+          </Link>
+          <Divider m={0} color='#EEE'/>
+          <Link ui={Card} w={230} m={cardMargin} my={0} align='start center' {...linkProps} pointer p href='/feed' hide={user.userType === 'student'}>
+            <Icon fs='m' mr name='view_headline' />
+            <Block flex>My Feed</Block>
+          </Link>
+          <Divider m={0} color='#EEE' hide={!draftCount} />
+          <DraftsWidget boxShadow='0 0' w={230} {...linkProps} m={cardMargin} mt={0} draftCount={draftCount} user={user} />
+        </Card>
         <ClassesWidget user={user} w={230} m={cardMargin} />
       </Block>
     )
