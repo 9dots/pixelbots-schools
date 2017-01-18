@@ -5,9 +5,10 @@
 import RemoveFromClassModal from 'modals/RemoveFromClassModal'
 import InviteStudentsModal from 'modals/InviteStudentsModal'
 import EmptyClassStudents from './EmptyClassStudents'
+import CreateStudentModal from 'modals/CreateStudentModal'
 import AddStudentModal from 'modals/AddStudentModal'
 import PrintLoginModal from 'modals/PrintLoginModal'
-import {Button, form, Tooltip} from 'vdux-containers'
+import {Button, form, Tooltip, Dropdown, MenuItem} from 'vdux-containers'
 import PasswordModal from 'modals/PasswordModal'
 import PageTitle from 'components/PageTitle'
 import {Icon, Flex, Block} from 'vdux-ui'
@@ -78,12 +79,21 @@ const StudentMenu = component({
 
     return (
       <Flex align='space-between center' mb>
-        <Button bgColor='blue' {...btnProps} onClick={actions.addStudentModal}>
-          <Icon name='people' mr='s' fs='s' />Add Student
-        </Button>
-        <Button bgColor='green' {...btnProps} onClick={actions.inviteStudentModal}>
-          <Icon name='send' mr='s' fs='s' />Invite Students
-        </Button>
+        <Dropdown wide mr='s' btn={<Button {...btnProps}>
+          <Icon name='people' mr='s' fs='s'/>
+          Add Students 
+          <Icon name='arrow_drop_down' ml='s' fs='s'/>
+        </Button>}>
+          <MenuItem align='start center' fs='xxs' onClick={actions.addStudentModal}>
+            <Icon name='add' bold mr fs='s' />Add From School
+          </MenuItem>
+          <MenuItem align='start center' fs='xxs' onClick={actions.inviteStudentModal}>
+            <Icon name='email' mr fs='s' />Email Invitation
+          </MenuItem>
+          <MenuItem align='start center' fs='xxs' onClick={actions.createStudentModal}>
+            <Icon name='edit' mr fs='s' />Create New
+          </MenuItem>
+        </Dropdown>
         <Tooltip message={!count && 'Select Students to Enable'}>
           <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={highlightProps} focusProps={highlightProps} color='text' onClick={actions.passwordModal(users)}>
             <Icon name='lock' mr='s' fs='s' />Reset Password
@@ -111,6 +121,10 @@ const StudentMenu = component({
   controller: {
     * addStudentModal ({props, context}) {
       yield context.openModal(() => <AddStudentModal groupId={props.group._id} />)
+    },
+
+    * createStudentModal ({props, context}) {
+      yield context.openModal(() => <CreateStudentModal groupId={props.group._id} />)
     },
 
     * inviteStudentModal ({props, context}) {
