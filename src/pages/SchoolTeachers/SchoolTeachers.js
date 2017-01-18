@@ -51,7 +51,6 @@ export default summon(({userSearch: query}) => ({
 
   controller: {
     * inviteTeacher ({context}) {
-      console.log('called')
       yield context.openModal(() => <InviteTeacherModal />)
     },
   }
@@ -61,7 +60,7 @@ export default summon(({userSearch: query}) => ({
  * Helpers
  */
 
-function renderItems (me, profUser, items, fn) {
+function renderItems (me, user, items, fn) {
   return (
     items && items.length
       ? map(user => <UserTile currentUser={me} user={user} />, items)

@@ -4,8 +4,9 @@
 
 import {Block, Table, TableHeader, TableCell, Card, Icon} from 'vdux-ui'
 import InfiniteScroll from 'components/InfiniteScroll'
+import EmptyState from 'components/EmptyState'
 import UserTile from 'components/UserTile'
-import {TableRow} from 'vdux-containers'
+import {TableRow, Button} from 'vdux-containers'
 import Loading from 'components/Loading'
 import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
@@ -36,6 +37,17 @@ export default summon(({userSearch: query}) => ({
     const headProps = {p: '10px 12px', align: 'start center'}
 
   	if (!loaded && loading) return <Loading show h={200} />
+    if (!value.items || !value.items.length) {
+      return (
+        <EmptyState icon='people' color='blue' fill>
+          No Students Have Joined Your School Yet
+          <Button py mt='l' px='32px'>
+            <Icon fs='s' name='add' mr />
+            Add Students
+          </Button>
+        </EmptyState>
+      )
+    }
 
     return (
     	<Block>
@@ -63,10 +75,8 @@ export default summon(({userSearch: query}) => ({
               </TableHeader>
             </TableRow>
 	          {
-	            loaded && value.items.length
-	              ? map(user =>
-	                <Row currentUser={currentUser} user={user} />, value.items)
-	              : <Block /> // Empty results goes here
+	            loaded && 
+                map(user => <Row currentUser={me} user={user} />, items)
 	          }
 	        </Table>
 	      </InfiniteScroll>
