@@ -26,7 +26,7 @@ export default component({
             <Text pointer underline onClick={context.closeModal}>cancel</Text>
             <Text mx>or</Text>
           </Text>
-          <Button type='submit'>Add Student</Button>
+          <Button type='submit'>Add</Button>
 				</ModalFooter>
     	</Modal>
     )

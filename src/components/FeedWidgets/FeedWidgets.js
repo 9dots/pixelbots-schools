@@ -32,15 +32,12 @@ export default component({
   render ({props}) {
     const {user, ...rest} = props
     const cardMargin = '8px 6px 12px 0'
+    const isTeacher = user.userType === 'teacher'
     const draftCount = user.drafts.canonicalTotal.items
 
     return (
       <Block mr {...rest}>
-        <Card w='230px'>
-          {
-            //<ProfileWidget user={user} w={230} m={cardMargin} my={0} />
-          }
-          <Divider wide m={0} mr='s' color='#EEE'/>
+        <Card w='230px' hide={!isTeacher}>
           <Link ui={Card} align='start center' {...linkProps} pointer p href='/discussion' hide={user.userType === 'student'}>
             <Icon fs='m' mr name='forum' />
             <Block flex>Discussion</Block>
@@ -51,9 +48,9 @@ export default component({
             <Block flex>My Feed</Block>
           </Link>
           <Divider m={0} color='#EEE' hide={!draftCount} />
-          <DraftsWidget boxShadow='0 0' w={230} {...linkProps} m={cardMargin} mt={0} draftCount={draftCount} user={user} />
+          <DraftsWidget boxShadow='0 0' w={230} {...linkProps} m={cardMargin} my={0} draftCount={draftCount} user={user} />
         </Card>
-        <ClassesWidget user={user} w={230} m={cardMargin} />
+        <ClassesWidget user={user} w={230} m={cardMargin}  mt={isTeacher ? true : 0}/>
       </Block>
     )
   }
