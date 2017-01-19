@@ -65,8 +65,8 @@ function renderItems (me, user, items, fn) {
     items && items.length
       ? map(user => <UserTile currentUser={me} user={user} />, items)
       : <EmptyState icon='school' color='blue' fill>
-          No Teachers Have Joined Your School Yet.
-          <Button py mt='l' px='32px' onClick={fn}>
+          No Teachers Have Joined Your School Yet
+          <Button py mt='l' px='32px' boxShadow='z2' onClick={fn}>
             <Icon fs='s' name='local_activity' mr />
             Invite Colleagues
           </Button>

@@ -2,15 +2,17 @@
  * Imports
  */
 
-import {Block, Table, TableHeader, TableCell, Card, Icon} from 'vdux-ui'
+import {Block, Table, TableHeader, TableCell, Card, Icon, Text} from 'vdux-ui'
+import {wrap, CSSContainer, TableRow, Button} from 'vdux-containers'
 import InfiniteScroll from 'components/InfiniteScroll'
 import EmptyState from 'components/EmptyState'
 import UserTile from 'components/UserTile'
-import {TableRow, Button} from 'vdux-containers'
+import summonPrefs from 'lib/summon-prefs'
 import Loading from 'components/Loading'
 import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
 import Link from 'components/Link'
+import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
 import map from '@f/map'
 
@@ -18,7 +20,7 @@ import map from '@f/map'
  * <School Students/>
  */
 
-export default summon(({userSearch: query}) => ({
+export default summonPrefs()(summon(({userSearch: query}) => ({
   students: {
     subscribe: 'connect_people',
     url: query
@@ -31,17 +33,18 @@ export default summon(({userSearch: query}) => ({
     }
   })
 }))(component({
-  render ({props}) {
-  	const {students, currentUser, more} = props
+  render ({props, actions}) {
+  	const {students, currentUser, more, prefs} = props
 	  const {value, loaded, loading} = students
     const headProps = {p: '10px 12px', align: 'start center'}
+    const sort = prefs.schoolStudentSort || {property: 'name.givenName', dir: 1}
 
   	if (!loaded && loading) return <Loading show h={200} />
     if (!value.items || !value.items.length) {
       return (
         <EmptyState icon='people' color='blue' fill>
           No Students Have Joined Your School Yet
-          <Button py mt='l' px='32px'>
+          <Button py mt='l' px='32px' boxShadow='z2'>
             <Icon fs='s' name='add' mr />
             Add Students
           </Button>
@@ -55,35 +58,69 @@ export default summon(({userSearch: query}) => ({
 	        <Table bg='white' boxShadow='card' wide tall>
             <TableRow bg='grey' color='white' textAlign='left'>
               <TableHeader /> 
-              <TableHeader>
-                <Block {...headProps}>
-                  First Name
-                  <Icon name='arrow_drop_down' fs='s' ml='s' />
-                </Block>
-              </TableHeader>
-              <TableHeader>
-                <Block {...headProps}>
-                  Last Name
-                  <Icon name='arrow_drop_down' fs='s' ml='s' />
-                </Block>
-              </TableHeader>
-              <TableHeader>
-                <Block {...headProps}>
-                  Username
-                  <Icon name='arrow_drop_down' fs='s' ml='s' />
-                </Block>
-              </TableHeader>
+             <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={actions.setSort} />
+              <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setSort={actions.setSort} />
+              <StudentHeader text='Username' prop='username' sort={sort} setSort={actions.setSort} />
             </TableRow>
 	          {
 	            loaded && 
-                map(user => <Row currentUser={me} user={user} />, items)
+                map(user => <Row currentUser={currentUser} user={user} />, value.items.sort(cmp))
 	          }
 	        </Table>
 	      </InfiniteScroll>
     	</Block>
     )
+
+    function cmp (a, b) {
+      if (!sort) return
+      const prop = sort.property
+      const bool = norm(prop, a) === norm(prop, b)
+        ? norm('displayName', a) > norm('displayName', b)
+        : norm(prop, a) > norm(prop, b)
+
+      return bool ? 1 * sort.dir : -1 * sort.dir
+
+      function norm(prop, obj) {
+        return getProp(prop, obj).toUpperCase()
+      }
+    }
+  },
+
+  controller: {
+    * setSort ({props}, prop) {
+      const {setPref, prefs} = props
+      const sort = prefs.schoolStudentSort || {dir: 1, property: 'name.givenName'}
+
+      yield setPref('schoolStudentSort', {
+        property: prop,
+        dir: prop === sort.property ? sort.dir * -1 : 1
+      })
+    }
   }
-}))
+})))
+
+
+const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps: {hover: true}})({
+  render ({props}) {
+    const {hover, sort, prop, text, setSort, ...rest} = props
+
+    return (
+      <TableHeader pointer onClick={setSort(prop)} {...rest}>
+        <Block align='start center'>
+          <Text underline={hover}>
+            {text}
+          </Text>
+          <Icon
+            name={'arrow_drop_' + (sort.dir === 1 ? 'down' : 'up')}
+            hidden={sort.property !== prop}
+            ml='s'
+            fs='s' />
+        </Block>
+      </TableHeader>
+    )
+  }
+})
+
 
 const underline = {underline: true}
 const cellProps = {p: '10px 12px'}
