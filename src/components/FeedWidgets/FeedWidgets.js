@@ -2,10 +2,11 @@
  * Imports
  */
 
+import CreateSchoolModal from 'modals/CreateSchoolModal'
+import {Card, Icon, Block, Divider} from 'vdux-ui'
 import ProfileWidget from './ProfileWidget'
 import ClassesWidget from './ClassesWidget'
 import DraftsWidget from './DraftsWidget'
-import {Card, Icon, Block, Divider} from 'vdux-ui'
 import {component, element} from 'vdux'
 import Link from 'components/Link'
 
@@ -18,8 +19,8 @@ const linkProps = {
   boxShadow: '0 0',
   borderLeft: '3px solid transparent',
   currentProps: {
-    highlight: 0.03, 
-    color: 'text', 
+    highlight: 0.03,
+    color: 'text',
     borderColor: 'blue'
   }
 }
@@ -29,7 +30,7 @@ const linkProps = {
  */
 
 export default component({
-  render ({props}) {
+  render ({props, context}) {
     const {user, ...rest} = props
     const cardMargin = '8px 6px 12px 0'
     const draftCount = user.drafts.canonicalTotal.items
@@ -49,6 +50,10 @@ export default component({
           <Link ui={Card} w={230} m={cardMargin} my={0} align='start center' {...linkProps} pointer p href='/feed' hide={user.userType === 'student'}>
             <Icon fs='m' mr name='view_headline' />
             <Block flex>My Feed</Block>
+          </Link>
+          <Link ui={Card} onClick={context.openModal(() => <CreateSchoolModal />)} w={230} m={cardMargin} my={0} align='start center' {...linkProps} pointer p hide={user.userType === 'student'}>
+            <Icon fs='m' mr name='view_headline' />
+            <Block flex>Create School</Block>
           </Link>
           <Divider m={0} color='#EEE' hide={!draftCount} />
           <DraftsWidget boxShadow='0 0' w={230} {...linkProps} m={cardMargin} mt={0} draftCount={draftCount} user={user} />

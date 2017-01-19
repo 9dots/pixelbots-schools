@@ -14,15 +14,18 @@ import summon from 'vdux-summon'
 import map from '@f/map'
 
 /**
+ * Constants
+ */
+
+const headProps = {p: '10px 12px', align: 'start center'}
+
+/**
  * <School Students/>
  */
 
-export default summon(({userSearch: query}) => ({
+export default summon(({userSearch: query, school}) => ({
   students: {
-    subscribe: 'connect_people',
-    url: query
-      ? `/search/people?query=${query}&maxResults=12`
-      : '/user/similar?maxResults=12'
+    url: `/school/${school._id}/students?maxResults=10`
   },
   more: pageToken => ({
     students: {
@@ -33,7 +36,6 @@ export default summon(({userSearch: query}) => ({
   render ({props}) {
   	const {students, currentUser, more} = props
 	  const {value, loaded, loading} = students
-    const headProps = {p: '10px 12px', align: 'start center'}
 
   	if (!loaded && loading) return <Loading show h={200} />
 
@@ -42,7 +44,7 @@ export default summon(({userSearch: query}) => ({
     		<InfiniteScroll more={more(value.nextPageToken)}>
 	        <Table bg='white' boxShadow='card' wide tall>
             <TableRow bg='grey' color='white' textAlign='left'>
-              <TableHeader /> 
+              <TableHeader />
               <TableHeader>
                 <Block {...headProps}>
                   First Name

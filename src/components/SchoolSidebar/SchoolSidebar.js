@@ -7,6 +7,7 @@ import {Block, Card, Divider, MenuItem} from 'vdux-ui'
 import {Button, Icon} from 'vdux-containers'
 import {component, element} from 'vdux'
 import Link from 'components/Link'
+import summon from 'vdux-summon'
 
 /**
  * <School Sidebar/>
@@ -14,18 +15,20 @@ import Link from 'components/Link'
 
 export default component({
   render ({props, actions}) {
+  	const {school} = props
+
     return (
     	<Block mr>
 	    	<Card w={230} mb>
 	    		<Block bg='blue' h='60' />
 	    		<Block align='start' p='s'>
-							<Block bg='yellow' circle='75px' m='-37.5px 6px 0 0' boxShadow='z1' border='2px solid white' />
+							<Block bg={school.color} circle='75px' m='-37.5px 6px 0 0' boxShadow='z1' border='2px solid white' />
 	        		<Block overflow='hidden' flex>
 		            <Block ellipsis fw='bolder'>
-		              9 Dots Community Learning Center
+		              {school.name}
 		            </Block>
 		            <Block ellsipis fs='xxs'>
-		              Los Angeles, CA
+		              {school.location}
 		            </Block>
 		          </Block>
 	          </Block>
@@ -38,7 +41,7 @@ export default component({
 					</Block>
 	    	</Card>
 	    	<Card>
-	    		<Block boxShadow='0 2px 1px rgba(75,82,87,0.1)' z='1' relative p/>
+	    		<Block boxShadow='0 2px 1px rgba(75,82,87,0.1)' z='1' relative p />
 		        <Item icon='view_headline' href='/school/stream'>
 		        	Stream
 		        </Item>
@@ -51,7 +54,7 @@ export default component({
 		        <Item icon='settings' href='/school/settings'>
 		        	Settings
 		        </Item>
-	    		<Block boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p/>
+	    		<Block boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p />
 	    	</Card>
 	    </Block>
     )
@@ -79,6 +82,6 @@ const Item = component({
 				<Icon name={icon} fs='s' mr />
 				{ children }
 			</Link>
-		) 
+		)
 	}
 })

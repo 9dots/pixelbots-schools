@@ -14,13 +14,8 @@ import map from '@f/map'
  * <School Teachers/>
  */
 
-export default summon(({userSearch: query}) => ({
-  people: {
-    subscribe: 'connect_people',
-    url: query
-      ? `/search/people?query=${query}&maxResults=12`
-      : '/user/similar?maxResults=12'
-  },
+export default summon(({userSearch: query, school}) => ({
+  people: `/school/${school._id}/teachers`,
   more: pageToken => ({
     people: {
       params: pageToken && {pageToken}

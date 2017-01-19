@@ -3,6 +3,7 @@
  */
 
 import ReadingSpeedDropdown from 'components/ReadingSpeedDropdown'
+import JoinSchoolModal from 'modals/JoinSchoolModal'
 import PointValueModal from 'modals/PointValueModal'
 import PasswordModal from 'modals/PasswordModal'
 import UsernameModal from 'modals/UsernameModal'
@@ -33,6 +34,7 @@ export default component({
         <SettingsRow name='Username' placeholder='Get a username?' Modal={<UsernameModal user={currentUser} />} prop={username} hide={isStudent} />
         <SettingsRow name='Email' placeholder={'What\'s your email?'} Modal={<EmailModal user={currentUser} />} prop={email} />
         <SettingsRow name='Password' Modal={<PasswordModal isMe user={currentUser} />} prop='*******' />
+        <SettingsRow name='School' Modal={<JoinSchoolModal />} />
 
         <Block fs='m' color='blue' pt='l' pb px>
           Activity Settings
