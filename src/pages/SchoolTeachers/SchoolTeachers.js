@@ -39,11 +39,9 @@ export default summon(({userSearch: query}) => ({
     return (
     	<Block>
     		<InfiniteScroll more={more(value.nextPageToken)}>
-	        <Grid>
-	          {
-              loaded && renderItems(currentUser, user, value.items, actions.inviteTeacher)
-	          }
-	        </Grid>
+          {
+            loaded && renderItems(currentUser, user, value.items, actions.inviteTeacher)
+          }
 	      </InfiniteScroll>
     	</Block>
     )
@@ -63,7 +61,9 @@ export default summon(({userSearch: query}) => ({
 function renderItems (me, user, items, fn) {
   return (
     items && items.length
-      ? map(user => <UserTile currentUser={me} user={user} />, items)
+      ? <Grid mt={-8}>
+          { map(user => <UserTile currentUser={me} user={user} />, items) }
+        </Grid>
       : <EmptyState icon='school' color='blue' fill>
           No Teachers Have Joined Your School Yet
           <Button py mt='l' px='32px' boxShadow='z2' onClick={fn}>

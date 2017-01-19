@@ -2,10 +2,12 @@
  * Imports
  */
 
-import {Block, Table, TableHeader, TableCell, Card, Icon, Text} from 'vdux-ui'
-import {wrap, CSSContainer, TableRow, Button} from 'vdux-containers'
+import {Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
+import {wrap, CSSContainer, TableRow, Button, Text} from 'vdux-containers'
 import InfiniteScroll from 'components/InfiniteScroll'
+import StudentDropdown from './StudentDropdown'
 import EmptyState from 'components/EmptyState'
+import StudentOptions from './StudentOptions'
 import UserTile from 'components/UserTile'
 import summonPrefs from 'lib/summon-prefs'
 import Loading from 'components/Loading'
@@ -55,12 +57,17 @@ export default summonPrefs()(summon(({userSearch: query}) => ({
     return (
     	<Block>
     		<InfiniteScroll more={more(value.nextPageToken)}>
+          <StudentOptions />
 	        <Table bg='white' boxShadow='card' wide tall>
             <TableRow bg='grey' color='white' textAlign='left'>
+              <TableHeader p w='50'>
+                <Checkbox />
+              </TableHeader>
               <TableHeader /> 
-             <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={actions.setSort} />
+              <StudentHeader text='First Name' prop='name.givenName' sort={sort} setSort={actions.setSort} />
               <StudentHeader text='Last Name' prop='name.familyName' sort={sort} setSort={actions.setSort} />
               <StudentHeader text='Username' prop='username' sort={sort} setSort={actions.setSort} />
+              <TableHeader/>
             </TableRow>
 	          {
 	            loaded && 
@@ -125,12 +132,20 @@ const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps
 const underline = {underline: true}
 const cellProps = {p: '10px 12px'}
 
-const Row = component({
+const Row = wrap(CSSContainer, {
+  hoverProps: {
+    highlight: true,
+    showSettings: true
+  }
+})(component({
   render ({props}) {
-    const {user} = props
+    const {user, highlight, showSettings} = props
     const {name: {givenName}, name: {familyName}, username} = user
     return (
-      <TableRow borderBottom='1px solid grey_light'>
+      <TableRow borderBottom='1px solid grey_light' bgColor={highlight ? '#fafdfe' : 'white'}>
+        <TableCell p w='50'>
+          <Checkbox />
+        </TableCell>
         <TableCell {...cellProps}>
           <Avatar display='flex' actor={user} mr='s' sq='26' />
         </TableCell>
@@ -147,7 +162,10 @@ const Row = component({
         <TableCell {...cellProps}>
           {username}
         </TableCell>
+        <TableCell>
+          <StudentDropdown showSettings={showSettings} />
+        </TableCell>
       </TableRow>
     )
   }
-})
+}))
