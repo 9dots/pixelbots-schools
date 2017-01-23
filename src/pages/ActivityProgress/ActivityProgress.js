@@ -34,14 +34,13 @@ component({
 
     const headProps = {sort, setSort: actions.setSort, lighter: true, p: true}
 
-  // Multi Select Variables
+    // Multi Select Variables
     const instanceIds = index(({instanceId}) => instanceId, instanceList)
     const selected = (fields.selected.value || []).filter(id => instanceIds[id])
     const selMap = index(selected)
     const allSelected = instanceList.length === selected.length && students.length
     const indeterminate = !allSelected && selected.length
 
-    console.log('shareStudentSort', sort)
     return (
       <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
         <ActivityProgressActions

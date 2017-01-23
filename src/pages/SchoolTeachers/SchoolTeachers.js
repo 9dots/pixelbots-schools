@@ -2,11 +2,14 @@
  * Imports
  */
 
+import InviteTeacherModal from 'modals/InviteTeacherModal'
 import InfiniteScroll from 'components/InfiniteScroll'
+import EmptyState from 'components/EmptyState'
 import UserTile from 'components/UserTile'
+import {Block, Grid, Icon} from 'vdux-ui'
 import Loading from 'components/Loading'
 import {component, element} from 'vdux'
-import {Block, Grid} from 'vdux-ui'
+import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
 import map from '@f/map'
 
@@ -22,8 +25,8 @@ export default summon(({userSearch: query, school}) => ({
     }
   })
 }))(component({
-  render ({props}) {
-  	const {people, currentUser, more} = props
+  render ({props, actions}) {
+  	const {people, currentUser, more, user} = props
 	  const {value, loaded, loading} = people
 
   	if (!loaded && loading) return <Loading show h={200} />
@@ -31,16 +34,37 @@ export default summon(({userSearch: query, school}) => ({
     return (
     	<Block>
     		<InfiniteScroll more={more(value.nextPageToken)}>
-	        <Grid mt={-8}>
-	          {
-	            loaded && value.items.length
-	              ? map(user =>
-	                <UserTile currentUser={currentUser} user={user} />, value.items)
-	              : <Block /> // Empty results goes here
-	          }
-	        </Grid>
+          {
+            loaded && renderItems(currentUser, user, value.items, actions.inviteTeacher)
+          }
 	      </InfiniteScroll>
     	</Block>
     )
+  },
+
+  controller: {
+    * inviteTeacher ({context}) {
+      yield context.openModal(() => <InviteTeacherModal />)
+    },
   }
 }))
+
+/**
+ * Helpers
+ */
+
+function renderItems (me, user, items, fn) {
+  return (
+    items && items.length
+      ? <Grid mt={-8}>
+          { map(user => <UserTile currentUser={me} user={user} />, items) }
+        </Grid>
+      : <EmptyState icon='school' color='blue' fill>
+          No Teachers Have Joined Your School Yet
+          <Button py mt='l' px='32px' boxShadow='z2' onClick={fn}>
+            <Icon fs='s' name='local_activity' mr />
+            Invite Colleagues
+          </Button>
+        </EmptyState>
+  )
+}
