@@ -3,7 +3,7 @@
  */
 
 import {Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
-import {wrap, CSSContainer, TableRow, Button, Text} from 'vdux-containers'
+import {wrap, CSSContainer, TableRow, Button, Text, form} from 'vdux-containers'
 import InfiniteScroll from 'components/InfiniteScroll'
 import StudentDropdown from './StudentDropdown'
 import EmptyState from 'components/EmptyState'
@@ -16,6 +16,7 @@ import Avatar from 'components/Avatar'
 import Link from 'components/Link'
 import getProp from '@f/get-prop'
 import summon from 'vdux-summon'
+import index from '@f/index'
 import map from '@f/map'
 
 /**
@@ -34,12 +35,16 @@ export default summonPrefs()(summon(({userSearch: query}) => ({
       params: pageToken && {pageToken}
     }
   })
-}))(component({
+}))(
+  form(({students}) => ({
+    fields: ['selected']
+  }))(component({
   render ({props, actions}) {
-  	const {students, currentUser, more, prefs} = props
+  	const {students, currentUser, more, prefs, fields} = props
 	  const {value, loaded, loading} = students
     const headProps = {p: '10px 12px', align: 'start center'}
     const sort = prefs.schoolStudentSort || {property: 'name.givenName', dir: 1}
+    
 
   	if (!loaded && loading) return <Loading show h={200} />
     if (!value.items || !value.items.length) {
@@ -54,10 +59,14 @@ export default summonPrefs()(summon(({userSearch: query}) => ({
       )
     }
 
+    const studentIds = index(({_id}) => _id, value.items)
+    const selected = (fields.selected.value || []).filter(id => studentIds[id])
+    const selMap = index(selected)
+
     return (
     	<Block>
     		<InfiniteScroll more={more(value.nextPageToken)}>
-          <StudentOptions />
+          <StudentOptions selected={selected} students={value.items} />
 	        <Table bg='white' boxShadow='card' wide tall>
             <TableRow bg='grey' color='white' textAlign='left'>
               <TableHeader p w='50'>
@@ -71,7 +80,7 @@ export default summonPrefs()(summon(({userSearch: query}) => ({
             </TableRow>
 	          {
 	            loaded && 
-                map(user => <Row currentUser={currentUser} user={user} />, value.items.sort(cmp))
+                map(user => <Row currentUser={currentUser} user={user} highlight={!!selMap[user._id]} selected={!!selMap[user._id]} />, value.items.sort(cmp))
 	          }
 	        </Table>
 	      </InfiniteScroll>
@@ -104,7 +113,7 @@ export default summonPrefs()(summon(({userSearch: query}) => ({
       })
     }
   }
-})))
+}))))
 
 
 const StudentHeader = wrap(CSSContainer, {p: true, textAlign: 'left', hoverProps: {hover: true}})({
@@ -139,12 +148,12 @@ const Row = wrap(CSSContainer, {
   }
 })(component({
   render ({props}) {
-    const {user, highlight, showSettings} = props
+    const {user, highlight, showSettings, selected} = props
     const {name: {givenName}, name: {familyName}, username} = user
     return (
-      <TableRow borderBottom='1px solid grey_light' bgColor={highlight ? '#fafdfe' : 'white'}>
+      <TableRow tag='label' display='table-row' borderBottom='1px solid grey_light' bgColor={highlight ? '#fafdfe' : 'white'}>
         <TableCell p w='50'>
-          <Checkbox />
+          <Checkbox name='selected[]' value={user._id} checked={selected} />
         </TableCell>
         <TableCell {...cellProps}>
           <Avatar display='flex' actor={user} mr='s' sq='26' />

@@ -38,7 +38,7 @@ export default component({
 					</Block>
 	    	</Card>
 	    	<Card>
-	    		<Block boxShadow='0 2px 1px rgba(75,82,87,0.1)' z='1' relative p/>
+	    		<Block boxShadow='0 2px 1px rgba(grey,0.1)' z='1' relative p/>
 		        <Item icon='view_headline' href='/school/stream'>
 		        	Stream
 		        </Item>
@@ -51,7 +51,7 @@ export default component({
 		        <Item icon='settings' href='/school/settings'>
 		        	Settings
 		        </Item>
-	    		<Block boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p/>
+	    		<Block boxShadow='0 -2px 1px rgba(grey,0.1)' z='1' relative p/>
 	    	</Card>
 	    </Block>
     )
