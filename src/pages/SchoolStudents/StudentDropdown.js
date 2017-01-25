@@ -33,7 +33,7 @@ export default component({
         <StudentItem icon='lock' modal={<PasswordModal group={group} user={student} />}>
           Reset Password
         </StudentItem>
-        <StudentItem icon='cancel' modal={<RemoveFromClassModal group={group} user={student} />}>
+        <StudentItem icon='class' modal={<RemoveFromClassModal group={group} user={student} />}>
           Edit Classes
         </StudentItem>
       </Dropdown>

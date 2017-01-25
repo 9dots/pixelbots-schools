@@ -41,7 +41,7 @@ export default component({
 					</Block>
 	    	</Card>
 	    	<Card>
-	    		<Block boxShadow='0 2px 1px rgba(75,82,87,0.1)' z='1' relative p />
+	    		<Block boxShadow='0 2px 1px rgba(grey,0.1)' z='1' relative p />
 		        <Item icon='view_headline' href='/school/stream'>
 		        	Stream
 		        </Item>
@@ -54,7 +54,7 @@ export default component({
 		        <Item icon='settings' href='/school/settings'>
 		        	Settings
 		        </Item>
-	    		<Block boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p />
+	    		<Block boxShadow='0 -2px 1px rgba(grey,0.1)' z='1' relative p />
 	    	</Card>
 	    </Block>
     )
@@ -67,17 +67,28 @@ export default component({
   }
 })
 
+/**
+ * Constants
+ */
+
+const currentProps = {borderLeftColor: 'blue', highlight: 0.05, color: 'text'}
+const hoverProps = {color: 'text'}
+
+/**
+ * <Item/>
+ */
+
 const Item = component({
 	render({props, children}) {
 		const {icon, href} = props
 		return (
-			<Link currentProps={{borderLeftColor: 'blue', highlight: 0.05, color: 'text'}}
+			<Link currentProps={currentProps}
 		  	borderLeft='3px solid transparent'
 		  	href={href}
 			  align='start center'
 			  ui={MenuItem}
 			  color='grey_medium'
-			  hoverProps={{color: 'text'}}
+			  hoverProps={hoverProps}
 			  p>
 				<Icon name={icon} fs='s' mr />
 				{ children }

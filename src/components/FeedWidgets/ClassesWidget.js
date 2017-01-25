@@ -40,11 +40,11 @@ export default summon(() => ({
 
     return (
       <Card {...props}>
-        <Block p uppercase boxShadow='0 2px 1px rgba(75,82,87,0.1)' z='1' relative align='space-between center'>
+        <Block p uppercase boxShadow='0 2px 1px rgba(grey,0.1)' z='1' relative align='space-between center'>
           <Block>Classes</Block>
           <RoundedInput type='search' onInput={actions.setFilter} placeholder='Filter…' py='s' px={10} m='-6px 0' bgColor='#FDFDFD' inputProps={alignLeft} w={120} hide={clsLength < 7} />
         </Block>
-        <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(75,82,87,0.05)' borderWidth='1px 0'>
+        <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(grey,0.05)' borderWidth='1px 0'>
           {[
             !state.filter && <Item cls={allClasses} />,
             loaded && value.items.filter(search(state.filter)).sort(cmp).map(item => <Item cls={item} hasSettings={userType === 'teacher'} />),
@@ -53,7 +53,7 @@ export default summon(() => ({
               : <AddClassItem Modal={CreateClassModal} text='New Class' />
           ]}
         </Block>
-        <Block boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p />
+        <Block boxShadow='0 -2px 1px rgba(grey,0.1)' z='1' relative p />
       </Card>
     )
   },
