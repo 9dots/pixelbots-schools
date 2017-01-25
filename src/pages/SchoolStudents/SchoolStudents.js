@@ -85,7 +85,7 @@ export default summonPrefs()(
             </TableRow>
 	          {
 	            loaded &&
-                map(user => <Row currentUser={currentUser} user={user} highlight={!!selMap[user._id]} selected={!!selMap[user._id]} />, value.items.sort(cmp))
+                map(user => <Row currentUser={currentUser} user={user} highlight={!!selMap[user._id]} selected={!!selMap[user._id]} />, value.items)
 	          }
 	        </Table>
 	      </InfiniteScroll>
