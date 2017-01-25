@@ -26,6 +26,10 @@ const tileWidth = 230
  */
 
 export default component({
+  * onCreate ({props, actions}) {
+    yield props.setUpload(actions.submit)
+  },
+
   render ({props, actions, context, state}) {
     const {url, loading} = state
 
@@ -41,32 +45,25 @@ export default component({
   },
 
   controller: {
-    * submit ({props, actions, state}) {
+    * submit ({props, actions, state, context}) {
       const {url, crop} = state
       let uploadUrl = url
 
-      if (props.onStart) yield props.onStart()
+      if (crop) {
+        const {x, y, width, height} = crop.detail
+        const blob = cropImage(
+          yield createImage(crop.target.src),
+          x,
+          y,
+          width,
+          height,
+          tileWidth,
+          tileWidth)
 
-      try {
-        if (crop) {
-          const {x, y, width, height} = crop.detail
-          const blob = cropImage(
-            yield createImage(crop.target.src),
-            x,
-            y,
-            width,
-            height,
-            tileWidth,
-            tileWidth)
-
-          uploadUrl = yield context.uploadFile(blob)
-        }
-
-        console.log('asdf', uploadUrl)
-        if (props.onSuccess) yield props.onSuccess(uploadUrl)
-      } catch(err) {
-        if (props.onSuccess) yield props.onError()
+        uploadUrl = yield context.uploadFile(blob)
       }
+
+      return uploadUrl
     }
   },
 

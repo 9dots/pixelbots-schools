@@ -42,7 +42,7 @@ export default summon(props => ({
           <ModalHeader>
             Upload An Image
           </ModalHeader>
-          <ImageUploader onStart={actions.beginLoading} onSuccess={actions.submit} />
+          <ImageUploader setUpload={actions.setUpload} />
         </ModalBody>
         <ModalFooter bg='grey'>
           <Block flex>
@@ -66,8 +66,9 @@ export default summon(props => ({
       yield context.openModal(() => <AvatarPickerModal user={props.user} />)
     },
 
-    * submit ({props, context, actions}, url) {
-      console.log('here', arguments)
+    * submit ({props, context, state, actions}) {
+      yield actions.beginLoading()
+      const url = yield state.upload()
       yield props.changeAvatar(url)
       yield context.closeModal()
       yield context.updateAvatar()
@@ -76,6 +77,7 @@ export default summon(props => ({
   },
 
   reducer: {
+    setUpload: (state, upload) => ({upload}),
     beginLoading: () => ({loading: true}),
     endLoading: () => ({loading: false})
   }

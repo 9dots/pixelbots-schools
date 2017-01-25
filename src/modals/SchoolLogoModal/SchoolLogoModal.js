@@ -3,6 +3,7 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Text, Block, Icon} from 'vdux-ui'
+import ImageUploader from 'components/ImageUploader'
 import FileUpload from 'components/FileUpload'
 import Cropper from 'components/Cropper'
 import {component, element} from 'vdux'
@@ -40,13 +41,7 @@ export default summon(({school}) => ({
           <ModalHeader>
             Upload An Image
           </ModalHeader>
-          <Block align='center center' h='360'>
-            {
-              url
-                ? <Cropper url={url} onCrop={actions.setCrop} />
-                : <FileUpload onUpload={actions.setImage} validate={validateFile} sq={300} />
-            }
-          </Block>
+          <ImageUploader setUpload={actions.setUpload} />
         </ModalBody>
         <ModalFooter bg='grey'>
           <Text fs='xxs'>
@@ -60,66 +55,18 @@ export default summon(({school}) => ({
   },
 
   controller: {
-    * submit ({props, actions, context, state}) {
-      const {url, crop} = state
-      let uploadUrl = url
-
+    * submit ({props, context, state, actions}) {
       yield actions.beginLoading()
-
-      try {
-        if (crop) {
-          const {x, y, width, height} = crop.detail
-          const blob = cropImage(
-            crop.target,
-            x,
-            y,
-            width,
-            height,
-            tileWidth,
-            tileWidth)
-
-          uploadUrl = yield context.uploadFile(blob)
-        }
-
-        yield props.changeLogo(uploadUrl)
-      } finally {
-        yield actions.endLoading
-      }
-
+      const url = yield state.upload()
+      yield props.changeLogo(url)
       yield context.closeModal()
+      yield actions.endLoading()
     }
   },
 
   reducer: {
-    setImage: (state, {url}) => ({url}),
-    setCrop: (state, crop) => ({crop}),
+    setUpload: (state, upload) => ({upload}),
     beginLoading: () => ({loading: true}),
     endLoading: () => ({loading: false})
   }
 }))
-
-/**
- * Helpers
- */
-
-const validLogoType = /\.(?:jpg|jpeg|gif|png)$/i
-
-function validateFile (file) {
-  if (!file) return {valid: true}
-
-  const {size, name} = file
-
-  if (size > 20 * 1000000) {
-    return {
-      valid: false,
-      message: 'File too big. Must be under 20MB.'
-    }
-  } else if (!validLogoType.test(name)) {
-    return {
-      valid: false,
-      message: 'Invalid file type. Must be a picture.'
-    }
-  }
-
-  return {valid: true}
-}
