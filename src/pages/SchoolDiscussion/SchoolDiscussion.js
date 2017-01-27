@@ -8,14 +8,16 @@ import EmptyState from 'components/EmptyState'
 import {Block, Card, Icon} from 'vdux-ui'
 import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
+import summon from 'vdux-summon'
 
 /**
- * <School Discussion/>
+ * <SchoolDiscussion/>
  */
 
 export default component({
   render ({props, actions}) {
   	const {currentUser} = props
+
     return (
     	<Block>
     		<Card p>
@@ -52,6 +54,6 @@ export default component({
   controller: {
     * inviteTeacher ({context}) {
       yield context.openModal(() => <InviteTeacherModal />)
-    },
+    }
   }
 })
