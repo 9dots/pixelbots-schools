@@ -4,6 +4,7 @@
 
 import InviteTeacherModal from 'modals/InviteTeacherModal'
 import {Block, Card, Divider, MenuItem} from 'vdux-ui'
+import SchoolLogo from 'components/SchoolLogo'
 import {Button, Icon} from 'vdux-containers'
 import {component, element} from 'vdux'
 import Link from 'components/Link'
@@ -20,18 +21,18 @@ export default component({
     return (
     	<Block mr>
 	    	<Card w={230} mb>
-	    		<Block bg='blue' h='60' />
+	    		<Block bg={school.color || 'blue'} h='60' />
 	    		<Block align='start' p='s'>
-							<Block bg={school.color} circle='75px' m='-37.5px 6px 0 0' boxShadow='z1' border='2px solid white' />
-	        		<Block overflow='hidden' flex>
-		            <Block ellipsis fw='bolder'>
-		              {school.name}
-		            </Block>
-		            <Block ellsipis fs='xxs'>
-		              {school.location}
-		            </Block>
-		          </Block>
+	    			<SchoolLogo school={school} circle='75px' m='-37.5px 6px 0 0' boxShadow='z1' border='2px solid white' />
+        		<Block overflow='hidden' flex>
+	            <Block ellipsis fw='bolder'>
+	              {school.name}
+	            </Block>
+	            <Block ellsipis fs='xxs'>
+	              {school.location}
+	            </Block>
 	          </Block>
+          </Block>
 	    		<Divider m='s' color='#EEE'/>
 	    		<Block align='center center' p pb='18px'>
 	    			<Button py='s' px='32px' onClick={actions.inviteTeacher}>

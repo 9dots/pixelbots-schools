@@ -4,6 +4,7 @@
 
 import AddToClassModal from 'modals/AddToClassModal'
 import PrintLoginModal from 'modals/PrintLoginModal'
+import RoundedInput from 'components/RoundedInput'
 import PasswordModal from 'modals/PasswordModal'
 import {Button, Tooltip} from 'vdux-containers'
 import {component, element} from 'vdux'
@@ -30,7 +31,7 @@ export default component({
 
 
 		return(
-			<Block mb align='start'>
+			<Block mb align='start center'>
 				<Tooltip message={!count && 'Select Students to Enable'}>
 					<Button {...btnProps} onClick={actions.addToClassModal}>
 						<Icon fs='s' mr='s' name='add'/>
@@ -49,13 +50,25 @@ export default component({
 						Print Login Info
 					</Button>
 				</Tooltip>
+				<Block flex align='end'>
+					<RoundedInput 
+						placeholder='Find students...'
+            inputProps={{textAlign: 'left', appearance: 'none', h: '17px', lh: '17px'}} 
+            type='search'
+            icon='search'
+            w='242px'
+            py='8px'
+            mb={0} />
+          </Block>
 			</Block>
 		)
 	},
 
   controller: {
     * addToClassModal ({props, context}) {
-      yield context.openModal(() => <AddToClassModal students={props.selected} />)
+    	const {students, selected} = props
+			const users = students.filter(({_id}) => selected.indexOf(_id) !== -1)
+      yield context.openModal(() => <AddToClassModal user={users} />)
     },
 
 		* passwordModal ({props, context}) {

@@ -3,9 +3,11 @@
  */
 
 import SubjectSelector from 'components/SubjectSelector'
+import {Flex, Icon, ModalHeader, Block} from 'vdux-ui'
 import {Button, Text, Tooltip} from 'vdux-containers'
 import GradeSelector from 'components/GradeSelector'
-import {Flex, Icon, ModalHeader} from 'vdux-ui'
+import BlockInput from 'components/BlockInput'
+import JoinSchool from 'components/JoinSchool'
 import {component, element} from 'vdux'
 import summon from 'vdux-summon'
 
@@ -69,16 +71,32 @@ export default summon(({currentUser}) => ({
 }))(component({
   initialState: {
     grades: [],
-    subjects: []
+    subjects: [],
+    step: 0
   },
 
   render ({props, state, actions, context}) {
     const {saveGrades, savingSubjects, savingPreference} = props
-    const {isDone, grades, subjects} = state
+    const {step, grades, subjects} = state
 
     return (
       <Flex column align='center center' tall wide>
-        <Flex column align='center center' tall wide hide={isDone}>
+        <Flex column align='center center' tall wide hide={step !== 0}>
+          <ModalHeader>
+            Find Your School
+          </ModalHeader>
+          <Block w={350} h={200} align='center center' column>
+            <Icon name='school' fs='80px' mb='l'/>
+            <JoinSchool wide />
+          </Block>
+          <Button {...btnProps} onClick={[saveGrades(grades), actions.next]} disabled={false}>
+              <Flex align='center center' fw='lighter'>
+                Next
+                <Icon name='keyboard_arrow_right' />
+              </Flex>
+          </Button>
+        </Flex>
+        <Flex column align='center center' tall wide hide={step !== 1}>
           <ModalHeader>
             What Grades Do You Teach?
           </ModalHeader>
@@ -93,7 +111,7 @@ export default summon(({currentUser}) => ({
           </Tooltip>
         </Flex>
 
-        <Flex column align='center center' tall wide hide={!isDone}>
+        <Flex column align='center center' tall wide hide={step !== 2}>
           <ModalHeader>
             What Subjects Do You Teach?
           </ModalHeader>
@@ -108,7 +126,7 @@ export default summon(({currentUser}) => ({
           </Tooltip>
         </Flex>
 
-        <Text pointer onClick={actions.skip} absolute bottom right m color='grey' hoverProps={{underline: true}}>
+        <Text hide={step === 0} pointer onClick={actions.skip} absolute bottom right m color='grey' hoverProps={{underline: true}}>
           Skip
         </Text>
       </Flex>
@@ -129,7 +147,7 @@ export default summon(({currentUser}) => ({
   },
 
   reducer: {
-    next: state => ({isDone: true}),
+    next: state => ({step: ++state.step}),
     toggleGrade: (state, grade) => ({
       grades: state.grades.indexOf(grade) === -1
         ? [...state.grades, grade]

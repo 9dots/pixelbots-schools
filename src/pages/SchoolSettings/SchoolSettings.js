@@ -28,7 +28,7 @@ export default component({
           <SchoolLogo sq='40px' school={school} display='block' />
         </SettingsRow>
         <SettingsRow name='Color' Modal={<SchoolColorPickerModal school={school} selected={school.color} />} message="The color that appears in the top bar of your school's page.">
-          <Block circle='40px' bgColor={school.color} />
+          <Block circle='40px' bgColor={school.color || 'blue'} />
         </SettingsRow>
     	</Card>
     )
