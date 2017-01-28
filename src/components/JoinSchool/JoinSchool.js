@@ -37,7 +37,7 @@ export default summon(() => ({
     return (
     	<Block align='start center' relative {...rest}>
         <BlockInput autofocus autocomplete='off' name='name' onInput={actions.debouncedLookup} autofocus placeholder='Search for your school by name…' mb={0}  />
-        <Card z={2} maxHeight={250} overflow='auto' py='s' mt='-1' absolute top='100%' wide border='grey_light' hide={!schools.length}>
+        <Card z={2} maxHeight={175} overflow='auto' py='s' mt='-1' absolute top='100%' wide border='grey_light' hide={!schools.length}>
           {
             (schools || []).map(school => (
               <MenuItem wide p onClick={actions.joinAndClose(school._id)}>

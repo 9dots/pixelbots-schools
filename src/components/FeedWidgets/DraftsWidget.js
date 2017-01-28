@@ -16,7 +16,7 @@ export default component({
     const size = '25px'
 
     return (
-      <Card align='start center' pointer p {...props} hide={!draftCount} onClick={context.setUrl(`/${user.username}/boards/drafts`)}>
+      <Block align='start center' pointer p {...props} hide={!draftCount} onClick={context.setUrl(`/${user.username}/boards/drafts`)}>
         <WeoIcon fs='m' mr name='drafts' />
         <Block align='start center' flex>
           Drafts
@@ -24,7 +24,7 @@ export default component({
             {draftCount < 100 ? draftCount : '99+'}
           </Block>
         </Block>
-      </Card>
+      </Block>
     )
   }
 })

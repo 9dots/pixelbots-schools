@@ -29,9 +29,15 @@ export default summon(() => ({
       <Modal onDismiss={context.closeModal}>
         <Form onSubmit={createSchool} onSuccess={context.closeModal}>
           <ModalBody py='l' w='col_m' mx='auto'>
-            <Block align='start center'>
-              <LineInput autofocus name='name' placeholder='School name' mr='l' />
-              <LineInput name='location' placeholder='Location' mr='l' />
+            <ModalHeader pb>
+              Create a New School
+            </ModalHeader>
+            <Block mb='l'  textAlign='center'>
+              Enter your school name and location below to create a new school.
+            </Block>
+            <Block w='250' m='0 auto'>
+              <LineInput autofocus name='name' placeholder='School Name' mb='l' />
+              <LineInput name='location' placeholder='School Location' />
             </Block>
           </ModalBody>
           <ModalFooter bg='grey'>

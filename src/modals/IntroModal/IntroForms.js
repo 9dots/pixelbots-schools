@@ -87,7 +87,18 @@ export default summon(({currentUser}) => ({
           </ModalHeader>
           <Block w={350} h={200} align='center center' column>
             <Icon name='school' fs='80px' mb='l'/>
-            <JoinSchool wide />
+            <JoinSchool mb wide />
+            <Text 
+              // onClick={context.openModal(() => <CreateSchoolModal />)}
+              color='grey_medium'
+              textAlign='center'
+              display='block'
+              underline 
+              fs='xxs'
+              pointer
+              mb='l'>
+              Can't find your school? Click to create it!
+            </Text>
           </Block>
           <Button {...btnProps} onClick={[saveGrades(grades), actions.next]} disabled={false}>
               <Flex align='center center' fw='lighter'>

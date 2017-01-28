@@ -2,7 +2,7 @@
  * Imports
  */
 
-import CreateSchoolModal from 'modals/CreateSchoolModal'
+import JoinSchoolModal from 'modals/JoinSchoolModal'
 import {Card, Icon, Block, Divider} from 'vdux-ui'
 import ProfileWidget from './ProfileWidget'
 import ClassesWidget from './ClassesWidget'
@@ -35,22 +35,23 @@ export default component({
     const cardMargin = '8px 6px 12px 0'
     const isTeacher = user.userType === 'teacher'
     const draftCount = user.drafts.canonicalTotal.items
+    const joinedSchool = !!user.school
 
     return (
       <Block mr {...rest}>
         <Card w='230px' hide={!isTeacher}>
-          <Link ui={Card} align='start center' {...linkProps} pointer p href='/discussion' hide={user.userType === 'student'}>
+          <Link ui={Card} align='start center' {...linkProps} pointer p href='/discussion' hide={user.userType === 'student' || !joinedSchool}>
             <Icon fs='m' mr name='forum' />
             <Block flex>Discussion</Block>
+          </Link>
+          <Link ui={Card} onClick={context.openModal(() => <JoinSchoolModal />)} w={230} m={cardMargin} my={0} align='start center' {...linkProps} pointer p hide={user.userType === 'student' || joinedSchool}>
+            <Icon fs='m' mr name='school' />
+            <Block flex>Join a School</Block>
           </Link>
           <Divider m={0} color='#EEE'/>
           <Link ui={Card} w={230} m={cardMargin} my={0} align='start center' {...linkProps} pointer p href='/feed' hide={user.userType === 'student'}>
             <Icon fs='m' mr name='view_headline' />
             <Block flex>My Feed</Block>
-          </Link>
-          <Link ui={Card} onClick={context.openModal(() => <CreateSchoolModal />)} w={230} m={cardMargin} my={0} align='start center' {...linkProps} pointer p hide={user.userType === 'student'}>
-            <Icon fs='m' mr name='view_headline' />
-            <Block flex>Create School</Block>
           </Link>
           <Divider m={0} color='#EEE' hide={!draftCount} />
           <DraftsWidget boxShadow='0 0' w={230} {...linkProps} m={cardMargin} my={0} draftCount={draftCount} user={user} />
