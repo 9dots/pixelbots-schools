@@ -40,7 +40,7 @@ export default summon(() => ({
         <Card z={2} maxHeight={175} overflow='auto' py='s' mt='-1' absolute top='100%' wide border='grey_light' hide={!schools.length}>
           {
             (schools || []).map(school => (
-              <MenuItem wide p onClick={actions.joinAndClose(school._id)}>
+              <MenuItem wide p onClick={actions.join(school._id)}>
                 {school.name}
               </MenuItem>
             ))
@@ -60,9 +60,9 @@ export default summon(() => ({
       yield props.lookup(query)
     },
 
-    * joinAndClose ({props, context}, id) {
+    * join ({props, context}, id) {
       yield props.joinSchool(id)
-      yield context.closeModal()
+      yield props.fn()
     }
   }
 }))

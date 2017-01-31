@@ -35,7 +35,7 @@ export default summon(() => ({
             <Block mb='l'  textAlign='center'>
               Enter your school name and location below to create a new school.
             </Block>
-            <Block w='250' m='0 auto'>
+            <Block w='250' m='0 auto 12px'>
               <LineInput autofocus name='name' placeholder='School Name' mb='l' />
               <LineInput name='location' placeholder='School Location' />
             </Block>

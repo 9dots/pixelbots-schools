@@ -56,10 +56,6 @@ export default summonPrefs()(
       return (
         <EmptyState icon='people' color='blue' fill>
           No Students Have Joined Your School Yet
-          <Button py mt='l' px='32px' boxShadow='z2'>
-            <Icon fs='s' name='add' mr />
-            Add Students
-          </Button>
         </EmptyState>
       )
     }

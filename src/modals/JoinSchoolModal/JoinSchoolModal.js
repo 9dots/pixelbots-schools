@@ -24,7 +24,7 @@ export default component({
           <ModalHeader>
             Join a School
           </ModalHeader>
-          <JoinSchool mt='l' mb />
+          <JoinSchool mt='l' mb fn={context.closeModal} />
           <Text 
             onClick={context.openModal(() => <CreateSchoolModal />)}
             color='grey_medium'

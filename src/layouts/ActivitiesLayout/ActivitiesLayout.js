@@ -75,7 +75,9 @@ export default summon(({user, currentUser}) => ({
             </Menu>
             <Block boxShadow='0 -2px 1px rgba(75,82,87,0.1)' z='1' relative p>
               <Block fs='xxs' color='grey_medium' hide={!isMe}>
-                Storage: {user.pinCount} / 1000
+                {
+                  //`Storage: ${user.pinCount} / 1000`
+                }
               </Block>
             </Block>
           </Card>

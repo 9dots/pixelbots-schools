@@ -8,8 +8,10 @@ import {Button, Text, Tooltip} from 'vdux-containers'
 import GradeSelector from 'components/GradeSelector'
 import BlockInput from 'components/BlockInput'
 import JoinSchool from 'components/JoinSchool'
+import LineInput from 'components/LineInput'
 import {component, element} from 'vdux'
 import summon from 'vdux-summon'
+import Form from 'vdux-form'
 
 /**
  * Constants
@@ -34,6 +36,16 @@ const btnProps = {
   px: '35px',
   mt: 'l',
   fs: 's'
+}
+
+const textLinkProps = {
+  color: 'grey_medium',
+  textAlign: 'center',
+  display: 'block',
+  // underline: true,
+  fs: 'xxs',
+  pointer: true,
+  mb: 'l'
 }
 
 /**
@@ -67,6 +79,13 @@ export default summon(({currentUser}) => ({
         value: true
       }
     }
+  }),
+  createSchool: body => ({
+    creatingSchool: {
+      url: '/school',
+      method: 'POST',
+      body
+    }
   })
 }))(component({
   initialState: {
@@ -76,37 +95,51 @@ export default summon(({currentUser}) => ({
   },
 
   render ({props, state, actions, context}) {
-    const {saveGrades, savingSubjects, savingPreference} = props
-    const {step, grades, subjects} = state
+    const {saveGrades, savingSubjects, savingPreference, creatingSchool = {}, createSchool} = props
+    const {step, grades, subjects, schoolCreate} = state
 
     return (
       <Flex column align='center center' tall wide>
-        <Flex column align='center center' tall wide hide={step !== 0}>
-          <ModalHeader>
-            Find Your School
-          </ModalHeader>
-          <Block w={350} h={200} align='center center' column>
-            <Icon name='school' fs='80px' mb='l'/>
-            <JoinSchool mb wide />
-            <Text 
-              // onClick={context.openModal(() => <CreateSchoolModal />)}
-              color='grey_medium'
-              textAlign='center'
-              display='block'
-              underline 
-              fs='xxs'
-              pointer
-              mb='l'>
-              Can't find your school? Click to create it!
-            </Text>
-          </Block>
-          <Button {...btnProps} onClick={[saveGrades(grades), actions.next]} disabled={false}>
-              <Flex align='center center' fw='lighter'>
-                Next
-                <Icon name='keyboard_arrow_right' />
-              </Flex>
-          </Button>
-        </Flex>
+        <Block hide={step !== 0}>
+          <Flex column align='center center' tall wide hide={schoolCreate}>
+            <ModalHeader>
+              Find My School
+            </ModalHeader>
+            <Block w={350} h={200} align='start center' column>
+              <Icon name='school' fs='80px' mb='l'/>
+              <JoinSchool mb wide fn={actions.next} />
+              <Text onClick={actions.toggleSchoolCreate} underline {...textLinkProps}>
+                Can't find your school? Click to create it!
+              </Text>
+            </Block>
+            <Block h={84}/>
+          </Flex>
+          <Flex column align='center center' tall wide  hide={!schoolCreate}>
+            <ModalHeader>
+              Create a New School
+            </ModalHeader>
+            <Form column align='center center' onSubmit={createSchool} onSuccess={actions.next}>
+              <Block w={350} h={200} align='center center' column>
+                <Block w='250' m='28px auto 24px'>
+                  <LineInput autofocus name='name' placeholder='School Name' mb='l' />
+                  <LineInput name='location' placeholder='School Location' />
+                </Block>
+                <Text onClick={actions.toggleSchoolCreate} {...textLinkProps} align='center center'>
+                  <Icon name='keyboard_arrow_left' fs='xxs' mr='xs' textDecoration='none' />
+                  <Text underline>
+                    Back to Find My School.
+                  </Text>
+                </Text>
+              </Block>
+              <Button {...btnProps} type='submit' busy={creatingSchool.loading}>
+                <Flex align='center center' fw='lighter'>
+                  Next
+                  <Icon name='keyboard_arrow_right' />
+                </Flex>
+              </Button>
+            </Form>
+          </Flex>
+        </Block>
         <Flex column align='center center' tall wide hide={step !== 1}>
           <ModalHeader>
             What Grades Do You Teach?
@@ -159,6 +192,7 @@ export default summon(({currentUser}) => ({
 
   reducer: {
     next: state => ({step: ++state.step}),
+    toggleSchoolCreate: state => ({schoolCreate: !state.schoolCreate}),
     toggleGrade: (state, grade) => ({
       grades: state.grades.indexOf(grade) === -1
         ? [...state.grades, grade]
