@@ -6,16 +6,26 @@ import InviteTeacherModal from 'modals/InviteTeacherModal'
 import {Textarea, Button} from 'vdux-containers'
 import EmptyState from 'components/EmptyState'
 import {Block, Card, Icon} from 'vdux-ui'
+import Loading from 'components/Loading'
 import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
+import summon from 'vdux-summon'
 
 /**
  * <School Discussion/>
  */
 
-export default component({
+export default summon(({currentUser}) => ({
+  people: `/school/${currentUser.school}/teachers`
+}))(component({
   render ({props, actions}) {
-  	const {currentUser} = props
+  	const {currentUser, people} = props
+    const {value, loaded, loading} = people
+
+    if (!loaded && loading) return <Loading show h={200} />
+
+      const teachCount = value.items.length
+
     return (
     	<Block>
     		<Card p>
@@ -34,7 +44,14 @@ export default component({
 		            p />
 	          </Block>
           </Block>
-          <Block align='end center' mt>
+          <Block align='start start' mt>
+            <Block flex ml={52} fs='xxs' color='grey_medium' italic>
+              {
+                teachCount - 1
+                  ? `${teachCount} teachers in this school.`
+                  : 'No other teachers have joined your school yet.'
+              }
+            </Block>
             <Button mr py='s' onClick={actions.inviteTeacher}>
               <Icon name='local_activity' fs='s' mr />
               Invite Colleagues
@@ -54,4 +71,4 @@ export default component({
       yield context.openModal(() => <InviteTeacherModal />)
     },
   }
-})
+}))

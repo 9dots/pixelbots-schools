@@ -120,7 +120,7 @@ export default summon(({currentUser}) => ({
             </ModalHeader>
             <Form column align='center center' onSubmit={createSchool} onSuccess={actions.next}>
               <Block w={350} h={200} align='center center' column>
-                <Block w='250' m='28px auto 24px'>
+                <Block w='300' m='28px auto 24px'>
                   <LineInput autofocus name='name' placeholder='School Name' mb='l' />
                   <LineInput name='location' placeholder='School Location' />
                 </Block>
