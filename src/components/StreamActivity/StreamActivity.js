@@ -78,8 +78,6 @@ function getHref (object) {
     }
 
     return baseLink + 'preview'
-  } else if (object.status === 'followed_user') {
-    return '/' + object.object.username
   }
 
   return baseLink
