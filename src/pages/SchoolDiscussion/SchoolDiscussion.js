@@ -28,7 +28,7 @@ export default summon(({currentUser}) => ({
 
     return (
     	<Block>
-    		<Card p>
+    		<Card p='l' bg='#FCFCFC'>
     			<Block align='start start'>
 	    			<Avatar actor={currentUser} size='40px' />
 	    			<Block flex ml>
@@ -40,7 +40,7 @@ export default summon(({currentUser}) => ({
 		            focusProps={{borderColor: 'rgba(blue, 0.35)'}}
 		            name='comment'
 		            lh='1.5em'
-		            rows={3}
+		            rows={4}
 		            p />
 	          </Block>
           </Block>
@@ -49,7 +49,11 @@ export default summon(({currentUser}) => ({
               {
                 teachCount - 1
                   ? `${teachCount} teachers in this school.`
-                  : 'No other teachers have joined your school yet.'
+                  : <Block lh='17px'>
+                      No other teachers are in your school yet.
+                      <br/>
+                      Invite your colleagues to join!
+                    </Block>
               }
             </Block>
             <Button mr py='s' onClick={actions.inviteTeacher}>

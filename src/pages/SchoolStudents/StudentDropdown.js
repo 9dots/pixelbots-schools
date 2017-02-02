@@ -2,7 +2,6 @@
  * Imports
  */
 
-import RemoveFromClassModal from 'modals/RemoveFromClassModal'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import {component, element, preventDefault} from 'vdux'
 import UsernameModal from 'modals/UsernameModal'
@@ -21,11 +20,11 @@ export default component({
 
     return (
       <Dropdown z='2' {...rest} btn={({toggle}, open) => <DropButton showSettings={showSettings} open={open} toggle={toggle} />} whiteSpace='nowrap' minWidth='180px' onClick={preventDefault}>
-        <StudentItem icon='edit' modal={<UsernameModal user={student} />}>
-          Change Username
-        </StudentItem>
         <StudentItem icon='info' modal={<NameModal user={student} />}>
           Change Name
+        </StudentItem>
+        <StudentItem icon='edit' modal={<UsernameModal user={student} />}>
+          Change Username
         </StudentItem>
         <StudentItem icon='person' modal={<IdModal user={student} />}>
           Change ID
@@ -33,11 +32,6 @@ export default component({
         <StudentItem icon='lock' modal={<PasswordModal user={student} />}>
           Reset Password
         </StudentItem>
-        {
-          // <StudentItem icon='class' modal={<RemoveFromClassModal group={group} user={student} />}>
-          //   Edit Classes
-          // </StudentItem>
-        }
       </Dropdown>
     )
   }
