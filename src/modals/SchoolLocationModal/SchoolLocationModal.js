@@ -3,7 +3,7 @@
  */
 
 import {Modal, ModalFooter, ModalBody, Flex, ModalHeader, Text} from 'vdux-ui'
-import LineInput from 'components/LineInput'
+import RoundedInput from 'components/RoundedInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
@@ -33,9 +33,9 @@ export default summon(({school}) => ({
           <ModalBody>
             <Flex column align='space-around center'>
               <ModalHeader>
-                Change School Location
+                Edit Location
               </ModalHeader>
-              <LineInput my autofocus name='location' value={school.location} placeholder='Where is your school located?' />
+              <RoundedInput mb='xl' mt w='250' autofocus name='location' value={school.location} placeholder='Where is your school located?' />
             </Flex>
           </ModalBody>
           <ModalFooter bg='grey'>

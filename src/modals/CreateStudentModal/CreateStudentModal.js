@@ -36,7 +36,7 @@ export default summon(({groupId}) => ({
 
     return (
       <Modal onDismiss={context.closeModal}>
-        <Form onSubmit={actions.studentJoin} onSuccess={context.closeModal} validate={validateStudent}>
+        <Form onSubmit={actions.studentJoin} onSuccess={context.closeModal} validate={validateStudent} autocomplete='off'>
           <ModalBody pb='l' w='col_m' mx='auto'>
             <ModalHeader>
               Create New Student

@@ -23,8 +23,9 @@ const focusProps = {borderColor: 'rgba(blue, 0.35)'}
  * <SchoolDiscussion/>
  */
 
-export default summon(({school}) => ({
+export default summon(({school, currentUser}) => ({
   comments: school && `/message/${school.channels[0]._id}/list`,
+  people: `/school/${currentUser.school}/teachers`,
   submit: ({text = ''}) => ({
     submitting: {
       url: '/message',
@@ -45,30 +46,45 @@ export default summon(({school}) => ({
 }))(
   component({
   render ({props, actions}) {
-  	const {currentUser, comments, submitting = {}} = props
+  	const {currentUser, comments, submitting = {}, people = {}} = props
     const commentList = (comments.value && comments.value.items) || []
+
+    const teachCount = people.loading
+      ? ''
+      : people.value.items.length
 
     return (
     	<Block>
-          <Form onSubmit={props.submit}>
-            <Card p>
-              <Block align='start start'>
-                <Avatar actor={currentUser} size='40px' />
-      	    			<Block flex ml>
-      		    				<Textarea
-                        key={submitting.loading}
-        		            border='rgba(grey, 0.15)'
-        		            errorPlacement='left'
-        		            placeholder='Write your comment…'
-        		            borderColor='grey_light'
-        		            focusProps={focusProps}
-        		            name='text'
-        		            lh='1.5em'
-        		            rows={3}
-        		            p />
-      	         </Block>
+        <Form onSubmit={props.submit}>
+          <Card p='l' bg='#FCFCFC'>
+            <Block align='start start'>
+              <Avatar actor={currentUser} size='40px' />
+      	    	<Block flex ml>
+  		    			<Textarea
+                  key={submitting.loading}
+  		            border='rgba(grey, 0.15)'
+  		            errorPlacement='left'
+  		            placeholder='Write your comment…'
+  		            borderColor='grey_light'
+  		            focusProps={focusProps}
+  		            name='text'
+  		            lh='1.5em'
+  		            rows={4}
+  		            p />
+      	       </Block>
+            </Block>
+            <Block align='start start' mt>
+              <Block flex ml={52} fs='xxs' color='grey_medium' italic>
+                {
+                  teachCount - 1
+                    ? `${teachCount} teachers in this school.`
+                    : <Block lh='17px'>
+                        No other teachers are in your school yet.
+                        <br/>
+                        Invite your colleagues to join!
+                      </Block>
+                }
               </Block>
-            <Block align='end center' mt>
               <Button mr py='s' onClick={actions.inviteTeacher}>
                 <Icon name='local_activity' fs='s' mr />
                 Invite Colleagues

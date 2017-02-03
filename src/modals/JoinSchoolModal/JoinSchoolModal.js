@@ -3,53 +3,39 @@
  */
 
 import {Modal, ModalBody, ModalFooter, ModalHeader, Block, Text} from 'vdux-ui'
+import CreateSchoolModal from 'modals/CreateSchoolModal'
+import JoinSchool from 'components/JoinSchool'
 import LineInput from 'components/LineInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
-import {debounce} from 'redux-timing'
-import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
  * <JoinSchoolModal/>
  */
 
-export default summon(() => ({
-  joinSchool: id => ({
-    joiningSchool: {
-      url: `/school/${id}/join`,
-      method: 'PUT'
-    }
-  }),
-
-  lookup: query => ({
-    schools: {
-      url: '/school/lookup',
-      params: {
-        query
-      }
-    }
-  })
-}))(component({
+export default component({
   render ({props, actions, context}) {
     const {joinSchool, joiningSchool = {}} = props
-    const schools = (props.schools && props.schools.value && props.schools.value.items) || []
 
     return (
       <Modal onDismiss={context.closeModal}>
         <ModalBody pb='l' w='col_m' mx='auto'>
-          <Block align='start center'>
-            <LineInput autofocus autocomplete='off' name='name' onInput={actions.debouncedLookup} placeholder='School name' mr='l' />
-          </Block>
-          <Block align='start center'>
-            {
-              (schools || []).map(school => (
-                <Block onClick={actions.joinAndClose(school._id)}>
-                  {school.name}
-                </Block>
-              ))
-            }
-          </Block>
+          <ModalHeader>
+            Join a School
+          </ModalHeader>
+          <JoinSchool mt='l' mb fn={context.closeModal} />
+          <Text 
+            onClick={context.openModal(() => <CreateSchoolModal />)}
+            color='grey_medium'
+            textAlign='center'
+            display='block'
+            underline 
+            fs='xxs'
+            pointer
+            mb='l'>
+            Can't find your school? Click to create it!
+          </Text>
         </ModalBody>
         <ModalFooter bg='grey'>
           <Text fs='xxs'>
@@ -60,20 +46,5 @@ export default summon(() => ({
         </ModalFooter>
       </Modal>
     )
-  },
-
-  middleware: [
-    debounce('debouncedLookup', 500)
-  ],
-
-  controller: {
-    * debouncedLookup ({props}, query) {
-      yield props.lookup(query)
-    },
-
-    * joinAndClose ({props, context}, id) {
-      yield props.joinSchool(id)
-      yield context.closeModal()
-    }
   }
-}))
+})

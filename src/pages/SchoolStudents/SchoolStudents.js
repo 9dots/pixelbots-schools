@@ -51,15 +51,11 @@ export default summonPrefs()(
 	  const {value, loaded, loading} = students
     const sort = prefs.schoolStudentSort || defaultSort
 
-  	if (!loaded && loading) return <Loading show h={200} />
+  	if (!loaded && loading || !value) return <Loading show h={200} />
     if (!value.items || !value.items.length) {
       return (
         <EmptyState icon='people' color='blue' fill>
           No Students Have Joined Your School Yet
-          <Button py mt='l' px='32px' boxShadow='z2'>
-            <Icon fs='s' name='add' mr />
-            Add Students
-          </Button>
         </EmptyState>
       )
     }
@@ -74,10 +70,7 @@ export default summonPrefs()(
           <StudentOptions selected={selected} students={value.items} />
 	        <Table bg='white' boxShadow='card' wide tall>
             <TableRow bg='grey' color='white' textAlign='left'>
-              <TableHeader p w='50'>
-                <Checkbox />
-              </TableHeader>
-              <TableHeader />
+              <TableHeader colspan='2' />
               <SortHeader text='First Name' prop='name.givenName' sort={sort} setSort={actions.setSort} p ta='left' />
               <SortHeader text='Last Name' prop='name.familyName' sort={sort} setSort={actions.setSort} p ta='left' />
               <SortHeader text='Username' prop='username' sort={sort} setSort={actions.setSort} p ta='left' />
@@ -139,7 +132,7 @@ const Row = wrap(CSSContainer, {
           {username}
         </TableCell>
         <TableCell>
-          <StudentDropdown showSettings={showSettings} />
+          <StudentDropdown student={user} showSettings={showSettings} />
         </TableCell>
       </TableRow>
     )
