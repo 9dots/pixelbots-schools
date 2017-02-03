@@ -4866,9 +4866,9 @@ vdux-position@^1.0.5:
   dependencies:
     "@f/position-element" "^1.1.3"
 
-vdux-summon:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/vdux-summon/-/vdux-summon-0.2.6.tgz#944cdd11c70fe53a76f0d87e6da2ece28033ffda"
+vdux-summon@0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/vdux-summon/-/vdux-summon-0.2.7.tgz#217a2bfdde0f98ea31460ba36ba1f32c9f0a73da"
   dependencies:
     "@f/filter" "^1.1.1"
     "@f/foreach" "^1.2.2"
