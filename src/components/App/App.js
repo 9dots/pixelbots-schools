@@ -15,13 +15,21 @@ import live from 'lib/live'
  */
 
 export default summon(() => ({
-  currentUser: '/user'
-}))(live(({currentUser}) => ({
+  currentUser: '/user',
+  school: '/school'
+}))(live(({currentUser, school}) => ({
   currentUser: {
     url: '/user',
     clear: true,
     params: {
       id: currentUser.value && currentUser.value._id
+    }
+  },
+  school: {
+    url: '/school',
+    clear: true,
+    params: {
+      id: school.value && school.value._id
     }
   }
 }))(component({
@@ -46,8 +54,10 @@ export default summon(() => ({
   },
 
   render ({props, state, context}) {
-    const {toast, modal, currentUser} = props
+    const {toast, modal, currentUser, school} = props
+
     if (currentUser.loading && !currentUser.error) return <span />
+    if (school.loading && !school.error) return <span />
 
     return (
       <Block>
@@ -58,7 +68,7 @@ export default summon(() => ({
         <Block z={0}>
           {
             state.ready
-              ? <Router {...props} currentUser={currentUser.error ? null : currentUser.value} {...state} />
+              ? <Router {...props} currentUser={currentUser.error ? null : currentUser.value} school={school.value} {...state} />
               : <Loading />
           }
         </Block>

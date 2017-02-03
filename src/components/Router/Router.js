@@ -131,11 +131,11 @@ const router = enroute({
     <Redirect to='/school/stream' />)),
   '/school/teachers': track('School Teachers', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      {school => <SchoolTeachers {...props} {...params} school={school} />}
+      <SchoolTeachers {...props} {...params} />
     </SchoolLayout>)),
   '/school/students': track('School Students', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      {school => <SchoolStudents {...props} {...params} school={school} />}
+      <SchoolStudents {...props} {...params} />
     </SchoolLayout>)),
   '/school/stream': track('School Stream', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
@@ -143,9 +143,7 @@ const router = enroute({
     </SchoolLayout>)),
   '/school/settings': track('School Settings', auth('teacher', (params, props) =>
     <SchoolLayout {...props} {...params}>
-      {
-        school => <SchoolSettings {...props} {...params} school={school} />
-      }
+        <SchoolSettings {...props} {...params} />
     </SchoolLayout>)),
 
   // Class
