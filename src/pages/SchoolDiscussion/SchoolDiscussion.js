@@ -3,6 +3,7 @@
  */
 
 import InviteTeacherModal from 'modals/InviteTeacherModal'
+import SchoolComment from 'components/SchoolComment'
 import {Textarea, Button} from 'vdux-containers'
 import EmptyState from 'components/EmptyState'
 import {Block, Card, Icon} from 'vdux-ui'
@@ -107,9 +108,9 @@ export default summon(({school, currentUser}) => ({
 
 function renderComments (comments, loading) {
   if (loading) return <Loading />
-
+  const sorted = comments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   return comments.length
-    ? comments.map(comment => <Block>{comment.text}</Block>)
+    ? sorted.map(comment => <SchoolComment comment={comment} />)
     : <EmptyState mt p='60px 12px' wide icon='forum' color='blue' bg='grey_light' border='1px solid #D4D4D4'>
         Be the first to add a comment to get your school's discussion board started!
       </EmptyState>
