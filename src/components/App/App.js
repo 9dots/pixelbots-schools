@@ -41,9 +41,9 @@ export default summon(() => ({
 
   * onUpdate (prev, next) {
     const {props, actions, state, context} = next
-    const {currentUser = {}} = props
+    const {currentUser = {}, school = {}} = props
 
-    if (!state.ready && (!currentUser.loading || currentUser.error)) {
+    if (!state.ready && (!currentUser.loading || currentUser.error) && (!school.loading || school.error)) {
       yield actions.appDidInitialize()
       yield appReady({title: next.props.title})
     }

@@ -16,7 +16,7 @@ export default component({
     return (
       <AppLayout {...props}>
         <Block align='start' w='col_main' mx='auto' py px='s' mt='s'>
-          <SchoolSidebar school={school} />
+          <SchoolSidebar school={props.school} />
           <Block w='col_xl'>
             {children}
           </Block>
