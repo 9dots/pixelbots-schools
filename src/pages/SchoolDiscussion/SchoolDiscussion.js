@@ -94,7 +94,9 @@ export default summon(({school, currentUser}) => ({
             </Block>
           </Card>
         </Form>
-        {renderComments(comments.value && comments.value.items, comments.loading)}
+        {
+          renderComments(comments.value && comments.value.items, comments.loading)
+        }
     	</Block>
     )
   },
