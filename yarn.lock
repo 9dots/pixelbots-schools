@@ -732,6 +732,10 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@f/splice/-/splice-1.0.0.tgz#93e41a0ed80de6248beaddf299327eeedb596a61"
 
+"@f/srand@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@f/srand/-/srand-1.0.1.tgz#1f7dc812d63fc94fd928bc33e7e083489ed95030"
+
 "@f/string-is-boolean@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@f/string-is-boolean/-/string-is-boolean-1.0.0.tgz#a7cdf42b5378805a7d5f5c1dd2dd8c99a81263d8"
@@ -5454,6 +5458,10 @@ split@^1.0.0:
   resolved "https://registry.yarnpkg.com/split/-/split-1.0.0.tgz#c4395ce683abcd254bc28fe1dabb6e5c27dcffae"
   dependencies:
     through "2"
+
+srand@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/srand/-/srand-1.0.1.tgz#9065e7248cee93f086e060eea18f94ab00cc0a9e"
 
 sshpk@^1.7.0:
   version "1.10.1"
