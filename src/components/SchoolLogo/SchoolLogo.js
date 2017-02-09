@@ -15,6 +15,13 @@ import theme from 'lib/theme'
 const {AVATAR_SERVER} = process.env
 
 /**
+ *  Assets
+ */
+
+const cloudFS = require('cloud-fs')
+const logo = cloudFS.url('./schoolLogo.png')
+
+/**
  * <Avatar/>
  */
 
@@ -23,9 +30,10 @@ export default imageLoaded(({school, thumb}) => logoUrl(school, thumb))(componen
     const {school, thumb, link, isLoaded} = props
 
     return <Avatar
+      hidden={!isLoaded}
       bgColor='grey_light'
       onClick={link && context.setUrl(`/school/${school._id}`)}
-      src={logoUrl(state.loadFailed ? 'default' : school, thumb)}
+      src={logoUrl(school, thumb) }
       onError={actions.loadFailed}
       pointer={link}
       {...props} />
@@ -42,5 +50,5 @@ export default imageLoaded(({school, thumb}) => logoUrl(school, thumb))(componen
 
 function logoUrl (school, thumb) {
   const {avatarScale} = theme
-  return thumb ? resize(school.logo, avatarScale['s']) : school.logo
+  return thumb ? resize(school.logo, avatarScale['s']) : school.logo || logo
 }
