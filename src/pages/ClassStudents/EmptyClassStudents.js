@@ -4,6 +4,7 @@
 
 import AddStudentModal from 'modals/AddStudentModal'
 import {Button, Tooltip} from 'vdux-containers'
+import EmptyState from 'components/EmptyState'
 import {Icon, Block, Text} from 'vdux-ui'
 import {component, element} from 'vdux'
 
@@ -16,8 +17,7 @@ export default component({
     const {group} = props
     const btnProps = {py: '12px', boxShadow: 'z2'}
     return (
-      <Block p textAlign='center'>
-        <Icon name='people' fs='xxl' color='green' />
+      <EmptyState wide fill icon='people' color='green' mt='-12'>
         <Block my fs='m' lighter>
           Your class has no students
         </Block>
@@ -34,7 +34,7 @@ export default component({
             {group.code}
           </Text>
         </Block>
-      </Block>
+      </EmptyState>
     )
   },
 
