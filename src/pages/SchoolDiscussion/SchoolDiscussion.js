@@ -8,8 +8,10 @@ import {Textarea, Button} from 'vdux-containers'
 import EmptyState from 'components/EmptyState'
 import {Block, Card, Icon} from 'vdux-ui'
 import Loading from 'components/Loading'
+import validate from '@weo-edu/validate'
 import {component, element} from 'vdux'
 import Avatar from 'components/Avatar'
+import Schema from '@weo-edu/schema'
 import summon from 'vdux-summon'
 import live from 'lib/live'
 import Form from 'vdux-form'
@@ -56,7 +58,7 @@ export default summon(({school, currentUser}) => ({
 
     return (
     	<Block>
-        <Form onSubmit={props.submit}>
+        <Form onSubmit={props.submit} validate={validateComment}>
           <Card p='l' bg='#FCFCFC'>
             <Block align='start start'>
               <Avatar actor={currentUser} size='40px' />
@@ -116,4 +118,14 @@ function renderComments (comments, loading) {
     : <EmptyState mt p='60px 12px' wide icon='forum' color='blue' bg='grey_light' border='1px solid #D4D4D4'>
         Be the first to add a comment to get your school's discussion board started!
       </EmptyState>
+}
+
+/**
+ * Validate
+ */
+
+function validateComment (model) {
+  return validate(Schema()
+    .prop('text', Schema('string').min(1, 'Required'))
+    .required('text'))(model)
 }
