@@ -8,6 +8,7 @@ import SchoolLogoModal from 'modals/SchoolLogoModal'
 import SchoolNameModal from 'modals/SchoolNameModal'
 import SettingsRow from 'components/SettingsRow'
 import SchoolLogo from 'components/SchoolLogo'
+import PageTitle from 'components/PageTitle'
 import {component, element} from 'vdux'
 import {pickerColors} from 'lib/colors'
 import {Block, Card} from 'vdux-ui'
@@ -22,6 +23,7 @@ export default component({
 
     return (
     	<Card>
+        <PageTitle title={props.school.name + ' | Settings'} />
         <SettingsRow name='School' prop={school.name} placeholder='What is the name of your school?' Modal={<SchoolNameModal school={school} />} />
         <SettingsRow name='Location' prop={school.location} placeholder='Where is your school located?' Modal={<SchoolLocationModal school={school} />} />
         <SettingsRow name='Logo' Modal={<SchoolLogoModal school={school} />}>

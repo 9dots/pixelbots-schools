@@ -59,7 +59,7 @@ export default summon(({school, currentUser}) => ({
 
     return (
     	<Block>
-        <PageTitle title='Discussion' />
+        <PageTitle title={`${props.school.name} | Discussion`} />
         <Form onSubmit={props.submit} validate={validateComment}>
           <Card p='l' bg='#FCFCFC'>
             <Block align='start start'>

@@ -5,6 +5,7 @@
 import InviteTeacherModal from 'modals/InviteTeacherModal'
 import InfiniteScroll from 'components/InfiniteScroll'
 import EmptyState from 'components/EmptyState'
+import PageTitle from 'components/PageTitle'
 import UserTile from 'components/UserTile'
 import {Block, Grid, Icon} from 'vdux-ui'
 import Loading from 'components/Loading'
@@ -33,6 +34,7 @@ export default summon(({userSearch: query, school}) => ({
 
     return (
     	<Block>
+        <PageTitle title={props.school.name + ' | Teachers'} />
     		<InfiniteScroll more={more(value.nextPageToken)}>
           {
             loaded && renderItems(currentUser, user, value.items, actions.inviteTeacher)

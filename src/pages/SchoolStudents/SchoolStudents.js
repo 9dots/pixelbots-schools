@@ -9,6 +9,7 @@ import StudentDropdown from './StudentDropdown'
 import EmptyState from 'components/EmptyState'
 import SortHeader from 'components/SortHeader'
 import StudentOptions from './StudentOptions'
+import PageTitle from 'components/PageTitle'
 import UserTile from 'components/UserTile'
 import summonPrefs from 'lib/summon-prefs'
 import Loading from 'components/Loading'
@@ -55,6 +56,7 @@ export default summonPrefs()(
     if (!value.items || !value.items.length) {
       return (
         <EmptyState icon='people' color='blue' fill>
+          <PageTitle title={props.school.name + ' | Students'} />
           No Students Have Joined Your School Yet
         </EmptyState>
       )
@@ -66,6 +68,7 @@ export default summonPrefs()(
 
     return (
     	<Block>
+        <PageTitle title={props.school.name + ' | Students'} />
     		<InfiniteScroll more={more(value.nextPageToken)}>
           <StudentOptions selected={selected} students={value.items} />
 	        <Table bg='white' boxShadow='card' wide tall>

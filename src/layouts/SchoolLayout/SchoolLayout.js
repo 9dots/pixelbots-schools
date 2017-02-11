@@ -16,7 +16,6 @@ export default component({
   render ({props, children}) {
     return (
       <AppLayout {...props}>
-        <PageTitle title={props.school.name}/>
         <Block align='start' w='col_main' mx='auto' py px='s' mt='s'>
           <SchoolSidebar school={props.school} />
           <Block w='col_xl'>
