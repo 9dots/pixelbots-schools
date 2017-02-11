@@ -6,6 +6,7 @@ import InviteTeacherModal from 'modals/InviteTeacherModal'
 import SchoolComment from 'components/SchoolComment'
 import {Textarea, Button} from 'vdux-containers'
 import EmptyState from 'components/EmptyState'
+import PageTitle from 'components/PageTitle'
 import {Block, Card, Icon} from 'vdux-ui'
 import Loading from 'components/Loading'
 import validate from '@weo-edu/validate'
@@ -58,6 +59,7 @@ export default summon(({school, currentUser}) => ({
 
     return (
     	<Block>
+        <PageTitle title='Discussion' />
         <Form onSubmit={props.submit} validate={validateComment}>
           <Card p='l' bg='#FCFCFC'>
             <Block align='start start'>
