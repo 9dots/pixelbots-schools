@@ -24,6 +24,7 @@ export default summon(() => ({
   lookup: query => ({
     schools: {
       url: '/school/lookup',
+      clear: true,
       params: {
         query
       }
@@ -39,11 +40,9 @@ export default summon(() => ({
         <BlockInput autofocus autocomplete='off' name='name' onInput={actions.debouncedLookup} autofocus placeholder='Search for your school by name…' mb={0}  />
         <Card z={2} maxHeight={175} overflow='auto' py='s' mt='-1' absolute top='100%' wide border='grey_light' hide={!schools.length}>
           {
-            (schools || []).map(school => (
-              <MenuItem wide p onClick={actions.join(school._id)}>
-                {school.name}
-              </MenuItem>
-            ))
+            (schools || []).map(school =>
+              <School onClick={actions.join(school._id)} school={school} />
+            )
           }
         </Card>
       </Block>
@@ -52,7 +51,7 @@ export default summon(() => ({
   },
 
   middleware: [
-    debounce('debouncedLookup', 500)
+    debounce('debouncedLookup', 250)
   ],
 
   controller: {
@@ -66,3 +65,17 @@ export default summon(() => ({
     }
   }
 }))
+
+
+const School = component({
+  render ({props}) {
+    const {school} = props
+
+    return (
+      <MenuItem wide p {...props}>
+        <Block>{school.name}</Block>
+        <Block color='grey'>{school.city}, {school.state}</Block>
+      </MenuItem>
+    )
+  }
+})
