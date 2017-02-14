@@ -46,7 +46,7 @@ export default component({
           </Link>
           <Divider m={0} color='#EEE'/>
           <Link ui={Card} w={230} m={cardMargin} my={0} align='start center' {...linkProps} pointer p href='/feed' hide={user.userType === 'student'}>
-            <Icon fs='m' mr name='view_headline' />
+            <Icon fs='m' mr name='dashboard' />
             <Block flex>My Feed</Block>
           </Link>
           <Divider m={0} color='#EEE' hide={!draftCount} />
