@@ -58,7 +58,7 @@ export default summon(({userSearch: query, school}) => ({
 function renderItems (me, user, items, fn) {
   return (
     items && items.length > 1 // Don't show teachers if you're the only one
-      ? <Grid mt={-8}>
+      ? <Grid mt={-8} itemsPerRow={3}>
           { map(user => <UserTile currentUser={me} user={user} />, items) }
         </Grid>
       : <EmptyState icon='school' color='blue' fill>

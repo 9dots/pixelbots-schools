@@ -49,7 +49,7 @@ export default summon(({school, currentUser}) => ({
   }
 }))(
   component({
-  render ({props, actions}) {
+  render ({props}) {
   	const {currentUser, comments, submitting = {}, people = {}} = props
     const commentList = (comments.value && comments.value.items) || []
 
@@ -90,10 +90,6 @@ export default summon(({school, currentUser}) => ({
                       </Block>
                 }
               </Block>
-              <Button mr py='s' onClick={actions.inviteTeacher}>
-                <Icon name='local_activity' fs='s' mr />
-                Invite Colleagues
-              </Button>
               <Button busy={submitting.loading} bgColor='grey' py='s' type='submit'>Submit</Button>
             </Block>
           </Card>
@@ -103,12 +99,6 @@ export default summon(({school, currentUser}) => ({
         }
     	</Block>
     )
-  },
-
-  controller: {
-    * inviteTeacher ({context}) {
-      yield context.openModal(() => <InviteTeacherModal />)
-    }
   }
 })))
 

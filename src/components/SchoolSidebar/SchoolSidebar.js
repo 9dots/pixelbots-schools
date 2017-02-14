@@ -43,6 +43,9 @@ export default component({
 	    	</Card>
 	    	<Card>
 	    		<Block boxShadow='0 2px 1px rgba(grey,0.1)' z='1' relative p />
+	    			<Item icon='forum' href='/school/discussion'>
+		        	Discussion
+		        </Item>
 		        <Item icon='view_headline' href='/school/stream'>
 		        	Stream
 		        </Item>

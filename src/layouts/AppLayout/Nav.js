@@ -38,7 +38,7 @@ export default component({
               </Flex>
               {
                 currentUser && [
-                  <Item href='/discussion' icon='dashboard' text='Dashboard' />,
+                  <Item href='/class' icon='assignment' text='Classes' />,
                   <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />,
                   <Item href='/school' icon='school' text='School' hide={!currentUser.school || isStudent} />,
                   <Item href='/get-started' icon='stars' text='Get Started' relative hide={!stepsLeft || isStudent}>

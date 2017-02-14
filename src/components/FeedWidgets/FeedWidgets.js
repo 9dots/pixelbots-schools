@@ -40,10 +40,6 @@ export default component({
     return (
       <Block mr {...rest}>
         <Card w='230px' hide={!isTeacher}>
-          <Link ui={Card} align='start center' {...linkProps} pointer p href='/discussion' hide={user.userType === 'student' || !joinedSchool}>
-            <Icon fs='m' mr name='forum' />
-            <Block flex>Discussion</Block>
-          </Link>
           <Link ui={Card} onClick={context.openModal(() => <JoinSchoolModal />)} w={230} m={cardMargin} my={0} align='start center' {...linkProps} pointer p hide={user.userType === 'student' || joinedSchool}>
             <Icon fs='m' mr name='school' />
             <Block flex>Join a School</Block>
