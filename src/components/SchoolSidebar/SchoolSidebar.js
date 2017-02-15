@@ -16,7 +16,7 @@ import summon from 'vdux-summon'
 
 export default component({
   render ({props, actions}) {
-  	const {school} = props
+  	const school = props.school || {}
 
     return (
     	<Block mr>

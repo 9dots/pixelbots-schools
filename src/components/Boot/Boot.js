@@ -141,7 +141,7 @@ export default component({
     * postLogin ({actions}, user) {
       const token = user ? user.token : null
       yield actions.setAuthToken(token)
-      yield invalidate('/user')
+      yield [invalidate('/user'), invalidate('/school')]
       yield actions.setUrl('/')
     },
 

@@ -20,14 +20,12 @@ export default summon(() => ({
 }))(live(({currentUser, school}) => ({
   currentUser: {
     url: '/user',
-    clear: true,
     params: {
       id: currentUser.value && currentUser.value._id
     }
   },
   school: {
     url: '/school',
-    clear: true,
     params: {
       id: school.value && school.value._id
     }
@@ -42,6 +40,8 @@ export default summon(() => ({
   * onUpdate (prev, next) {
     const {props, actions, state, context} = next
     const {currentUser = {}, school = {}} = props
+    const nprops = next.props
+    const pprops = prev.props
 
     if (!state.ready && (!currentUser.loading || currentUser.error) && (!school.loading || school.error)) {
       yield actions.appDidInitialize()
@@ -51,13 +51,17 @@ export default summon(() => ({
     if (prev.props.currentUser.loading && !next.props.currentUser.loading) {
       yield context.identify(next.props.currentUser.value)
     }
+
+    if (!nprops.school.loading && pprops.currentUser.value && nprops.currentUser.value && pprops.currentUser.value.school !== nprops.currentUser.value.school) {
+      yield next.props.summonInvalidate('/school')
+    }
   },
 
   render ({props, state, context}) {
     const {toast, modal, currentUser, school} = props
 
     if (currentUser.loading && !currentUser.error) return <span />
-    if (school.loading && !school.error) return <span />
+    if (!school.loaded && !school.error) return <span />
 
     return (
       <Block>

@@ -35,7 +35,7 @@ export default summon(({school, currentUser}) => ({
       url: '/message',
       method: 'POST',
       body: {
-        channel: school.channels[0]._id,
+        channel: school && school.channels[0]._id,
         text
       }
     }
@@ -44,7 +44,7 @@ export default summon(({school, currentUser}) => ({
   comments: {
     url: '/message',
     params: {
-      channel: school.channels[0]._id
+      channel: school && school.channels[0]._id
     }
   }
 }))(
@@ -52,6 +52,7 @@ export default summon(({school, currentUser}) => ({
   render ({props}) {
   	const {currentUser, comments, submitting = {}, people = {}} = props
     const commentList = (comments.value && comments.value.items) || []
+    const school = props.school || {}
 
     const teachCount = people.loading
       ? ''
@@ -59,7 +60,7 @@ export default summon(({school, currentUser}) => ({
 
     return (
     	<Block>
-        <PageTitle title={`${props.school.name} | Discussion`} />
+        <PageTitle title={`${school.name} | Discussion`} />
         <Form onSubmit={props.submit} validate={validateComment}>
           <Card p='l' bg='#FCFCFC'>
             <Block align='start start'>
