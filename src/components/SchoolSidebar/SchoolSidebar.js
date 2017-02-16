@@ -29,7 +29,7 @@ export default component({
 	              {school.name}
 	            </Block>
 	            <Block ellsipis fs='xxs'>
-	              {school.location}
+	              {school.city}, {school.state}
 	            </Block>
 	          </Block>
           </Block>

@@ -6,6 +6,7 @@ import {Modal, ModalBody, ModalFooter, Card, ModalHeader, Block, Text} from 'vdu
 import LineInput from 'components/LineInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
+import validate from 'lib/validate'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
@@ -27,7 +28,7 @@ export default summon(() => ({
 
     return (
       <Modal onDismiss={context.closeModal}>
-        <Form onSubmit={createSchool} onSuccess={context.closeModal}>
+        <Form onSubmit={createSchool} onSuccess={context.closeModal} validate={validate.school}>
           <ModalBody py='l' w='col_m' mx='auto'>
             <ModalHeader pb>
               Create a New School
@@ -37,7 +38,10 @@ export default summon(() => ({
             </Block>
             <Block w='250' m='0 auto 12px'>
               <LineInput autofocus name='name' placeholder='School Name' mb='l' />
-              <LineInput name='location' placeholder='School Location' />
+              <Block align='space-between' flex>
+                <LineInput name='city' placeholder='City' mb='l' w='70%' />
+                <LineInput name='state' placeholder='State' mb='l' w='23%' />
+              </Block>
             </Block>
           </ModalBody>
           <ModalFooter bg='grey'>

@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {Modal, ModalFooter, ModalBody, Flex, ModalHeader, Text} from 'vdux-ui'
-import RoundedInput from 'components/RoundedInput'
+import {Block, Modal, ModalFooter, ModalBody, Flex, ModalHeader, Text} from 'vdux-ui'
+import LineInput from 'components/LineInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import summon from 'vdux-summon'
@@ -14,13 +14,11 @@ import Form from 'vdux-form'
  */
 
 export default summon(({school}) => ({
-  changeLocation: model => ({
+  changeLocation: body => ({
     changingLocation: {
       url: `/school/${school._id}/location`,
       method: 'PUT',
-      body: {
-        value: model.location
-      }
+      body
     }
   })
 }))(component({
@@ -35,7 +33,10 @@ export default summon(({school}) => ({
               <ModalHeader>
                 Edit Location
               </ModalHeader>
-              <RoundedInput mb='xl' mt w='250' autofocus name='location' value={school.location} placeholder='Where is your school located?' />
+              <Block align='space-between' flex>
+                <LineInput name='city' value={school.city} placeholder='City' mb='l' w='70%' />
+                <LineInput name='state' value={school.state} placeholder='State' mb='l' w='23%' />
+              </Block>
             </Flex>
           </ModalBody>
           <ModalFooter bg='grey'>
