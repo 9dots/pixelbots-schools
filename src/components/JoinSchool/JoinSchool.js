@@ -72,9 +72,9 @@ const School = component({
     const {school} = props
 
     return (
-      <MenuItem wide p {...props}>
-        <Block>{school.name}</Block>
-        <Block color='grey'>{school.city}, {school.state}</Block>
+      <MenuItem wide p {...props} borderBottom='1px solid grey_light'>
+        <Block color='blue' bold mb='s' ellipsis>{school.name}</Block>
+        <Block lighter>{school.city}, {school.state}</Block>
       </MenuItem>
     )
   }

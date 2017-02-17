@@ -42,9 +42,7 @@ export default component({
                   <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />,
                   <Item href='/school' icon='school' text='School' hide={!currentUser.school || isStudent} />,
                   <Item href='/get-started' icon='stars' text='Get Started' relative hide={!stepsLeft || isStudent}>
-                    <Block circle={15} bg='red' absolute left={3} top={7} boxShadow='z2' fs='xxs' textAlign='center' lh='14px'>
-                      {stepsLeft}
-                    </Block>
+                    <Block circle={15} bg='red' absolute left={3} top={7} boxShadow='z2' fs='10' textAlign='center' lh='14px' textIndent={-2}>{stepsLeft}</Block>
                   </Item>
                 ]
               }
