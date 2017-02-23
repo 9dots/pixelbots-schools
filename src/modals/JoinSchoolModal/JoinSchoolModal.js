@@ -24,18 +24,7 @@ export default component({
           <ModalHeader>
             Join a School
           </ModalHeader>
-          <JoinSchool mt='l' mb fn={context.closeModal} />
-          <Text 
-            onClick={context.openModal(() => <CreateSchoolModal />)}
-            color='grey_medium'
-            textAlign='center'
-            display='block'
-            underline 
-            fs='xxs'
-            pointer
-            mb='l'>
-            Can't find your school? Click to create it!
-          </Text>
+          <JoinSchool mt='l' mb fn={context.closeModal} noSchoolFn={context.openModal(() => <CreateSchoolModal />)} />
         </ModalBody>
         <ModalFooter bg='grey'>
           <Text fs='xxs'>

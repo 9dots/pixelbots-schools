@@ -42,7 +42,6 @@ const textLinkProps = {
   color: 'grey_medium',
   textAlign: 'center',
   display: 'block',
-  // underline: true,
   fs: 'xxs',
   pointer: true,
   mb: 'l'
@@ -107,10 +106,7 @@ export default summon(({currentUser}) => ({
             </ModalHeader>
             <Block w={350} h={200} align='start center' column>
               <Icon name='school' fs='80px' mb='l'/>
-              <JoinSchool mb wide fn={actions.next} />
-              <Text onClick={actions.toggleSchoolCreate} underline {...textLinkProps}>
-                Can't find your school? Click to create it!
-              </Text>
+              <JoinSchool mb wide fn={actions.next} noSchoolFn={actions.toggleSchoolCreate} />
             </Block>
             <Block h={84}/>
           </Flex>

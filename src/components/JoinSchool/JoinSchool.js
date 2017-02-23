@@ -3,7 +3,7 @@
  */
 
 import BlockInput from 'components/BlockInput'
-import {MenuItem} from 'vdux-containers'
+import {MenuItem, Text} from 'vdux-containers'
 import {component, element} from 'vdux'
 import {debounce} from 'redux-timing'
 import {Block, Card} from 'vdux-ui'
@@ -32,18 +32,23 @@ export default summon(() => ({
   })
 }))(component({
   render ({props, actions}) {
-  	const {...rest} = props
+  	const {noSchoolFn, ...rest} = props
   	const schools = (props.schools && props.schools.value && props.schools.value.items) || []
 
     return (
     	<Block align='start center' relative {...rest}>
         <BlockInput autofocus autocomplete='off' name='name' onInput={actions.debouncedLookup} autofocus placeholder='Search for your school by name…' mb={0}  />
-        <Card z={2} maxHeight={175} overflow='auto' py='s' mt='-1' absolute top='100%' wide border='grey_light' hide={!schools.length}>
-          {
-            (schools || []).map(school =>
-              <School onClick={actions.join(school._id)} school={school} />
-            )
-          }
+        <Card z={2} mt='-1' absolute top='100%' wide border='grey_light' hide={!schools.length}>
+          <Block maxHeight={160} overflow='auto'>
+            {
+              (schools || []).map(school =>
+                <School onClick={actions.join(school._id)} school={school} />
+              )
+            }
+          </Block>
+          <Text onClick={noSchoolFn} color='blue' hoverProps={{opacity: .8}} textAlign='center' fs='xxs' pointer={true} bold py='10' bg='white' wide display='block' borderTop='1px solid grey_light' mt='-1' relative boxShadow='0 -1px 1px rgba(black, .1)'>
+            Can't find your school? Click to create one!
+          </Text>
         </Card>
       </Block>
 
