@@ -107,6 +107,9 @@ export default summon(({currentUser}) => ({
             <Block w={350} h={200} align='start center' column>
               <Icon name='school' fs='80px' mb='l'/>
               <JoinSchool mb wide fn={actions.next} noSchoolFn={actions.toggleSchoolCreate} />
+              <Text onClick={actions.toggleSchoolCreate} underline {...textLinkProps}>
+                Can't find your school? Click to create it!
+              </Text>
             </Block>
             <Block h={84}/>
           </Flex>
