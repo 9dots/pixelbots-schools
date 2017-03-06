@@ -46,9 +46,6 @@ export default component({
 	    			<Item icon='forum' href='/school/discussion'>
 		        	Discussion
 		        </Item>
-		        <Item icon='view_headline' href='/school/stream'>
-		        	Stream
-		        </Item>
 		        <Item icon='school' href='/school/teachers'>
 		        	Teachers
 		        </Item>

@@ -8,7 +8,7 @@ import {component, element} from 'vdux'
 import {Block} from 'vdux-ui'
 
 /**
- * <School Stream/>
+ * <SchoolStream/>
  */
 
 export default component({
