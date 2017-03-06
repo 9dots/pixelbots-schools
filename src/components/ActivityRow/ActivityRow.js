@@ -63,9 +63,9 @@ export default wrap(CSSContainer, {
                 </Flex>
             }
             {
-              options && hover && currentUser._id &&
+              options && hover &&
                 <Flex align='end center'>
-                  <ActivityCardActions {...options} align='end center' wide activity={activity} user={currentUser} />
+                  <ActivityCardActions {...options} align='end center' wide activity={activity} user={currentUser || {}} />
                   {
                     ddMenu &&
                       <Block mr ml='-6' onClick={stopPropagation}>
