@@ -17,6 +17,7 @@ import {query} from 'redux-effects-credentials'
 import {component, element} from 'vdux'
 import modalMw from 'middleware/modal'
 import printMw from 'middleware/print'
+import flox, {fork} from '@flox/fork'
 import escapeRe from 'escape-regexp'
 import cookieParser from 'cookie'
 import App from 'components/App'
@@ -97,7 +98,8 @@ export default component({
       fastclickMw,
       analyticsMw,
       modalMw,
-      OAuthMw
+      OAuthMw,
+      flox
     ],
 
     shared: [
@@ -141,7 +143,9 @@ export default component({
     * postLogin ({actions}, user) {
       const token = user ? user.token : null
       yield actions.setAuthToken(token)
-      yield [invalidate('/user'), invalidate('/school')]
+      yield fork(function * () {
+        yield [invalidate('/user'), invalidate('/school')]
+      })
       yield actions.setUrl('/')
     },
 

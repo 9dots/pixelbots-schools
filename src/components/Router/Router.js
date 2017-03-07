@@ -422,10 +422,10 @@ function activityRedirect ({published, contexts, _id}, {currentUser}) {
   }
 
   if (contexts[0].descriptor.id === 'public') {
-    if (currentUser.userType === 'teacher') {
-      return <Redirect to={`/activity/${_id}/preview`} />
-    } else {
+    if (currentUser.userType === 'student') {
       return <Redirect to='/' />
+    } else {
+      return <Redirect to={`/activity/${_id}/preview`} />
     }
   }
 

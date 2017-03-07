@@ -24,10 +24,10 @@ export default summon(({user, currentUser}) => ({
     : `/user/${user._id}/boards`
 }))(component({
   render ({props, children, actions, state}) {
-    const {boards, user, currentUser} = props
+    const {boards, user, currentUser = {}} = props
     const isMe = currentUser._id === user._id
     const {username} = user
-    const drafts = currentUser.drafts.canonicalTotal.items
+    const drafts = currentUser.drafts ? currentUser.drafts.canonicalTotal.items : 0
     const iconSize = '25px'
     const {value = [], loaded} = boards
 

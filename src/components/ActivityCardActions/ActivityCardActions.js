@@ -42,6 +42,8 @@ export default component({
 
     if (user.userType === 'student') return <span />
 
+    const canEdit = user._id === activity.actor.id
+
     return (
       <Block p align='center' {...rest}>
         {assign && <AssignButton
@@ -51,7 +53,7 @@ export default component({
           text={assign}
           user={user} />}
         <Block hide={!spread || !activity.published} flex />
-        {edit && <EditButton
+        {canEdit && edit && <EditButton
           onClick={stopPropagation}
           activity={activity}
           hide={!edit}
