@@ -46,11 +46,13 @@ function page ({html, state, title}) {
 
 
           <!-- Open Graph -->
-          <meta property ='og:site_name' content='${og.site_name}' />
+          <meta property='fb:app_id' content='${og.app_id}' />
+          <meta property='og:site_name' content='${og.site_name}' />
           <meta property='og:description' content='${og.description}' />
           <meta property='og:image' content='${og.image}' />
           <meta property='og:title' content='${og.title}' />
           <meta property='og:type' content='${og.type}' />
+          <meta property='og:url' content='${og.url}'
 
           <title>${title || 'Weo'}</title>
           ${
