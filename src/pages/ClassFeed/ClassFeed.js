@@ -36,7 +36,7 @@ export default summonChannels(({group}) => `group!${group._id}.board`)(
           <PageTitle title={`${group.displayName} | Feed`} />
           {
             <RowFeed {...props} item={Item} emptyState={<EmptyClassFeed currentUser={currentUser} />} />
-        }
+          }
         </Block>
     )
     }
