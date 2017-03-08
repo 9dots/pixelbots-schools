@@ -21,8 +21,9 @@ import Search from './Search'
 export default component({
   render ({props, actions}) {
     const {currentUser, currentUrl, bgColor = 'grey', search, query} = props
-    const isStudent = currentUser && currentUser.userType === 'student'
-    const stepsLeft = currentUser && getSteps(currentUser)
+    const isLoggedIn = currentUser && currentUser._id
+    const isStudent = isLoggedIn && currentUser.userType === 'student'
+    const stepsLeft = isLoggedIn && getSteps(currentUser)
 
     return (
       <Block>
@@ -32,12 +33,12 @@ export default component({
               <Flex align='center center' mx='m'>
                 <HomeOwl />
                 {
-                  !currentUser &&
+                  !isLoggedIn &&
                   <Text fs='m' ml bold>WEO</Text>
                 }
               </Flex>
               {
-                currentUser && [
+                isLoggedIn && [
                   <Item href='/class' icon='assignment' text='Classes' />,
                   <Item href={`/${currentUser.username}`} icon='person' text={isStudent ? 'My Profile' : 'My Activities'} />,
                   <Item href='/school' icon='school' text='School' hide={!currentUser.school || isStudent} />,
@@ -50,7 +51,7 @@ export default component({
             <Menu flex align='end center'>
               <Search url={currentUrl} searching={search} query={query} hide={isStudent} mr='s' />
               {
-                currentUser && [
+                isLoggedIn && [
                   <NotificationsButton currentUser={currentUser} />,
                   <AccountMenu ml currentUser={currentUser} />
                 ]
@@ -67,7 +68,7 @@ export default component({
                 Create Activity
               </Button>
               {
-                !currentUser &&
+                !isLoggedIn &&
                   <Button
                     px='16'
                     mr
@@ -95,7 +96,7 @@ export default component({
 
     * createActivity ({context, props}) {
       yield context.openModal(() =>
-        props.currentUser
+        props.currentUser && props.currentUser._id
           ? <CreateActivityModal currentUser={props.currentUser} />
           : <SignUpModal />
       )

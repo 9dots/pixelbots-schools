@@ -23,7 +23,6 @@ const optType = t.maybe(t.union([t.Boolean, t.String]))
 export default component({
   propTypes: {
     activity: t.Object,
-    user: t.Object,
     assign: optType,
     edit: optType,
     like: optType,

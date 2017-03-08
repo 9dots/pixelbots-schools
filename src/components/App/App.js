@@ -72,7 +72,7 @@ export default summon(() => ({
         <Block z={0}>
           {
             state.ready
-              ? <Router {...props} currentUser={currentUser.error ? null : currentUser.value} school={school.value} {...state} />
+              ? <Router {...props} currentUser={currentUser.error ? {} : (currentUser.value || {})} school={school.value} {...state} />
               : <Loading />
           }
         </Block>

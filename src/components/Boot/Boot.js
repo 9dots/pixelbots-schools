@@ -244,6 +244,31 @@ summon.configure({
     token: ({getContext}) => getContext().authToken
   },
 
+  transformRequest (req) {
+    let clientId
+    let distinctId
+
+    if (typeof window !== 'undefined') {
+      window['ga'] && window['ga'](tracker => clientId = tracker.get('clientId'))
+      distinctId = mixpanel && mixpanel.get_distinct_id()
+    }
+
+    return {
+      ...req,
+      payload: {
+        ...req.payload,
+        params: {
+          ...(req.payload.params || {}),
+          headers: {
+            ...((req.payload.params || {}).headers || {}),
+            'X-Google-ClientId': clientId,
+            'X-Mixpanel-DistinctId': distinctId
+          }
+        }
+      }
+    }
+  },
+
   transformError (err) {
     if (err.url && isApiServer(err.url) && err.status >= 400 && err.status < 500) {
       if (!(err.value && err.value.errors)) return err

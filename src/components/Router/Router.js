@@ -391,7 +391,7 @@ function track (name, route) {
 function isAuthorized (type, {currentUser}) {
   switch (type) {
     case 'user':
-      return !!currentUser
+      return !!(currentUser && currentUser._id)
     case 'student':
       return currentUser.userType === 'student'
     case 'nonstudent':
@@ -402,7 +402,7 @@ function isAuthorized (type, {currentUser}) {
 }
 
 function isLoggedIn (state) {
-  return !!state.currentUser
+  return !!(state.currentUser && state.currentUser._id)
 }
 
 function profileRedirect (props, user) {
