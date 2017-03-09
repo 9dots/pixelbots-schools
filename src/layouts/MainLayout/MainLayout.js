@@ -14,12 +14,13 @@ import {Block} from 'vdux-ui'
 
 export default component({
   * onCreate ({props, context}) {
-    const {currentUser} = props
+    const {currentUser, school} = props
     const {preferences = {}, userType} = currentUser
     const {slideshow = {}} = preferences
 
+
     if (!slideshow.done && userType === 'teacher') {
-      yield context.openModal(() => <IntroModal currentUser={currentUser} />)
+      yield context.openModal(() => <IntroModal currentUser={currentUser} school={school} />)
     }
   },
 

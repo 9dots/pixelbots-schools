@@ -52,7 +52,7 @@ function page ({html, state, title}) {
           <meta property='og:image' content='${og.image}' />
           <meta property='og:title' content='${og.title}' />
           <meta property='og:type' content='${og.type}' />
-          <meta property='og:url' content='${og.url}'
+          <meta property='og:url' content='${og.url}' />
 
           <title>${title || 'Weo'}</title>
           ${

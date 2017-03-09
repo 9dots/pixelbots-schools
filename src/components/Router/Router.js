@@ -89,6 +89,10 @@ const router = enroute({
     <HomeLayout action='signup'>
       <Login {...props} />
     </HomeLayout>),
+  '/teacher/:schoolId': track('Teacher Signup', (params, props) =>
+    <HomeLayout {...props}>
+      <TeacherSignup {...props} {...params} />
+    </HomeLayout>),
   '/teacher(\\?.*)?': track('Teacher Signup', (params, props) =>
     <HomeLayout action='login'>
       <TeacherSignup {...props} />

@@ -87,37 +87,53 @@ export default summon(({currentUser}) => ({
     }
   })
 }))(component({
-  initialState: {
+  initialState: ({props}) => ({
     grades: [],
     subjects: [],
-    step: 0
-  },
+    step: 0,
+    schoolState: props.currentUser.school ? 'invited' : 'join'
+  }),
 
   render ({props, state, actions, context}) {
-    const {saveGrades, savingSubjects, savingPreference, creatingSchool = {}, createSchool} = props
-    const {step, grades, subjects, schoolCreate} = state
+    const {saveGrades, savingSubjects, savingPreference, creatingSchool = {}, createSchool, school} = props
+    const {step, grades, subjects, schoolState} = state
 
     return (
       <Flex column align='center center' tall wide>
         <Block hide={step !== 0}>
-          <Flex column align='center center' tall wide hide={schoolCreate}>
+          <Flex column align='center center' tall wide hide={schoolState !== 'invited'}>
+            <ModalHeader>
+              You were invited to join
+            </ModalHeader>
+            <Block w={350} h={200} align='start center' column>
+              {school.name}
+            </Block>
+            <Button {...btnProps} onClick={actions.step(step + 1)}>
+              Next
+            </Button>
+            <Text onClick={actions.setSchoolState('join')} underline {...textLinkProps}>
+              This isn't my school. Click here to join a different one.
+            </Text>
+            <Block h={84} />
+          </Flex>
+          <Flex column align='center center' tall wide hide={schoolState !== 'join'}>
             <ModalHeader>
               Find My School
             </ModalHeader>
             <Block w={350} h={200} align='start center' column>
               <Icon name='school' fs='80px' mb='l'/>
-              <JoinSchool mb wide fn={actions.next} noSchoolFn={actions.toggleSchoolCreate} />
-              <Text onClick={actions.toggleSchoolCreate} underline {...textLinkProps}>
+              <JoinSchool mb wide fn={actions.step(step + 1)} noSchoolFn={actions.setSchoolState('create')} />
+              <Text onClick={actions.setSchoolState('create')} underline {...textLinkProps}>
                 Can't find your school? Click to create it!
               </Text>
             </Block>
             <Block h={84}/>
           </Flex>
-          <Flex column align='center center' tall wide  hide={!schoolCreate}>
+          <Flex column align='center center' tall wide  hide={schoolState !== 'create'}>
             <ModalHeader>
               Create a New School
             </ModalHeader>
-            <Form column align='center center' onSubmit={createSchool} onSuccess={actions.next}>
+            <Form column align='center center' onSubmit={createSchool} onSuccess={actions.step(step + 1)}>
               <Block w={350} h={200} align='center center' column>
                 <Block w='300' m='28px auto 24px'>
                   <LineInput autofocus name='name' placeholder='School Name' mb='l' />
@@ -145,7 +161,7 @@ export default summon(({currentUser}) => ({
           </ModalHeader>
           <GradeSelector toggle={actions.toggleGrade} selected={grades} />
           <Tooltip message={!grades.length && 'Please select one or more grades'} {...ttProps}>
-            <Button {...btnProps} onClick={[saveGrades(grades), actions.next]} disabled={!grades.length}>
+            <Button {...btnProps} onClick={[saveGrades(grades), actions.step(step + 1)]} disabled={!grades.length}>
               <Flex align='center center' fw='lighter'>
                 Next
                 <Icon name='keyboard_arrow_right' />
@@ -190,8 +206,8 @@ export default summon(({currentUser}) => ({
   },
 
   reducer: {
-    next: state => ({step: ++state.step}),
-    toggleSchoolCreate: state => ({schoolCreate: !state.schoolCreate}),
+    step: (state, step) => ({step}),
+    setSchoolState: (state, schoolState) => ({schoolState}),
     toggleGrade: (state, grade) => ({
       grades: state.grades.indexOf(grade) === -1
         ? [...state.grades, grade]
