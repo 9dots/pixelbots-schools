@@ -7,6 +7,7 @@ import {Flex, Icon, ModalHeader, Block} from 'vdux-ui'
 import {Button, Text, Tooltip} from 'vdux-containers'
 import GradeSelector from 'components/GradeSelector'
 import BlockInput from 'components/BlockInput'
+import SchoolLogo from 'components/SchoolLogo'
 import JoinSchool from 'components/JoinSchool'
 import LineInput from 'components/LineInput'
 import {component, element} from 'vdux'
@@ -102,18 +103,24 @@ export default summon(({currentUser}) => ({
       <Flex column align='center center' tall wide>
         <Block hide={step !== 0}>
           <Flex column align='center center' tall wide hide={schoolState !== 'invited'}>
-            <ModalHeader>
+            <ModalHeader color='text'>
               You were invited to join
             </ModalHeader>
-            <Block w={350} h={200} align='start center' column>
-              {school.name}
+            <Block w={350} h={200} align='center center'>
+              <Block textAlign='center'>
+                <SchoolLogo school={school} circle='75px' boxShadow='z1' border='2px solid white' mb />
+                <Block fs='m' lighter color='blue' bolder mb='s'>{school.name}</Block>
+                <Block fs='s' color='grey_medium' lighter>{school.city + ', ' + school.state}</Block>
+              </Block>
             </Block>
-            <Button {...btnProps} onClick={actions.step(step + 1)}>
-              Next
-            </Button>
-            <Text onClick={actions.setSchoolState('join')} underline {...textLinkProps}>
-              This isn't my school. Click here to join a different one.
-            </Text>
+            <Block align='center center'>
+              <Button {...btnProps} fs='xs' bgColor='grey' mr onClick={actions.setSchoolState('join')}>
+                Change School
+              </Button>
+              <Button {...btnProps} fs='xs' onClick={actions.step(step + 1)}>
+                Accept
+              </Button>
+            </Block>
             <Block h={84} />
           </Flex>
           <Flex column align='center center' tall wide hide={schoolState !== 'join'}>
@@ -139,7 +146,7 @@ export default summon(({currentUser}) => ({
                   <LineInput autofocus name='name' placeholder='School Name' mb='l' />
                   <LineInput name='location' placeholder='School Location' />
                 </Block>
-                <Text onClick={actions.toggleSchoolCreate} {...textLinkProps} align='center center'>
+                <Text onClick={actions.setSchoolState('join')} {...textLinkProps} align='center center'>
                   <Icon name='keyboard_arrow_left' fs='xxs' mr='xs' textDecoration='none' />
                   <Text underline>
                     Back to Find My School.

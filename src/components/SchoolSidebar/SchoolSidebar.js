@@ -17,7 +17,7 @@ import summon from 'vdux-summon'
 export default component({
   render ({props, actions}) {
   	const school = props.school || {}
-
+  	
     return (
     	<Block mr>
 	    	<Card w={230} mb>
