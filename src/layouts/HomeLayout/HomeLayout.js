@@ -27,8 +27,6 @@ export default component({
   render ({props, children}) {
     const {action, title} = props
 
-    console.log('<HomeLayout/>:', title)
-
     return (
       <Block bg='#FFF'>
         <PageTitle title={title || 'Weo'} />
