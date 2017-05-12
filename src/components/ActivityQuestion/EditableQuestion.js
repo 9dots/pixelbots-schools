@@ -118,7 +118,7 @@ export default component({
                 onChange={actions.setRandomize}
                 label={<Block align='start center'>
                     Shuffle Choice Order
-                    <Tooltip 
+                    <Tooltip
                       tooltipProps={{w: 200, whiteSpace: 'normal', fs: 'xs'}}
                       message='When enabled, each student will receive their options in a different randomized order.'>
                       <Icon fs='s' ml='s' name='help_outline'/>
@@ -134,7 +134,7 @@ export default component({
                 onChange={actions.setCaseSensitivity}
                 label={<Block align='start center'>
                     Case Sensitive
-                    <Tooltip 
+                    <Tooltip
                       tooltipProps={{w: 200, whiteSpace: 'normal', fs: 'xs'}}
                       message={'When enabled, students\' answers will need to match the same case as the provided answers.'}>
                       <Icon fs='s' ml='s' name='help_outline'/>
@@ -150,7 +150,7 @@ export default component({
               <Toggle
                 label={<Block align='start center'>
                     Spell Check
-                    <Tooltip 
+                    <Tooltip
                       tooltipProps={{w: 200, whiteSpace: 'normal', fs: 'xs'}}
                       message={'When enabled, students will see spell check information as they type their solutions.'}>
                       <Icon fs='s' ml='s' name='help_outline'/>
