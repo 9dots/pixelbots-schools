@@ -14,6 +14,8 @@ function questionIcon (question) {
     return typeIcon(question)
   } else if (question.poll) {
     return typeIcon('poll')
+  } else if (question.objectType === 'assignment_item') {
+    return typeIcon('assignment')
   } else {
     return typeIcon(question.attachments[0].objectType)
   }
@@ -24,6 +26,8 @@ function questionDisplay (question) {
     return typeDisplay(question)
   } else if (question.poll) {
     return typeDisplay('poll')
+  } else if (question.objectType === 'assignment_item') {
+    return typeIcon(question.objectType)
   } else {
     return typeDisplay(question.attachments[0].objectType)
   }
@@ -39,6 +43,8 @@ function typeIcon (type) {
       return 'edit'
     case 'text':
       return 'message'
+    case 'assignment':
+      return 'assignment'
     default:
       return 'help'
   }
@@ -62,7 +68,7 @@ function totalPoints (activity) {
 
   return activity._object[0].attachments
     .reduce((total, att) => total +
-      (att.objectType === 'question' && !att.poll
+      ((att.objectType === 'question' || att.objectType === 'assignment_item') && !att.poll
         ? parseFloat(att.points.max, 10)
         : 0), 0)
 }
@@ -166,7 +172,7 @@ function constructInstance (activity, instance) {
         return {
           ...obj,
           attachments: obj.attachments
-            .map(sub => sub.objectType !== 'question' ? sub : {
+            .map(sub => sub.objectType !== 'question' && sub.objectType !== 'assignment_item' ? sub : {
               ...sub,
               response: (resps[sub._id] || {}).response,
               points: {

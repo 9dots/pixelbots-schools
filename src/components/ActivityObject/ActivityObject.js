@@ -2,7 +2,10 @@
  * Imports
  */
 
+import ActivityAssignmentItem from 'components/ActivityAssignmentItem'
+import ActivityAssignment from 'components/ActivityAssignment'
 import ActivityQuestion from 'components/ActivityQuestion'
+import ActivitySection from 'components/ActivitySection'
 import ActivityMedia from 'components/ActivityMedia'
 import {CSSContainer, wrap} from 'vdux-containers'
 import ActivityPost from 'components/ActivityPost'
@@ -21,7 +24,10 @@ const typeMap = {
   image: ActivityMedia,
   document: ActivityMedia,
   rich: ActivityMedia,
-  file: ActivityMedia
+  file: ActivityMedia,
+  section: ActivitySection,
+  assignment: ActivityAssignment,
+  assignment_item: ActivityAssignmentItem
 }
 
 const editingProps = {

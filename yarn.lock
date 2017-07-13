@@ -281,6 +281,10 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@f/form-elements/-/form-elements-1.0.0.tgz#5a8b2424b076cb57192c9d73042382c5108c001b"
 
+"@f/format-qs":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@f/format-qs/-/format-qs-1.0.0.tgz#6ac2cc73c7c14f8cdae031f4ab3911f61dd5e61f"
+
 "@f/gen-to-promise@^1.1.1":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@f/gen-to-promise/-/gen-to-promise-1.2.0.tgz#1fd98ba4b6f451e9ea5c8944cf3fe18bfb1b7bdf"
@@ -571,6 +575,10 @@
   resolved "https://registry.yarnpkg.com/@f/parse-color/-/parse-color-1.0.1.tgz#23d3ab4741eee01fdd4017c50b14e4cc7f630fa2"
   dependencies:
     "@f/hex-to-rgba" "^1.0.0"
+
+"@f/parse-qs":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@f/parse-qs/-/parse-qs-1.0.2.tgz#6e89f25d764ea96b24060a09d081fc43745d7370"
 
 "@f/pick@^1.1.4":
   version "1.1.4"

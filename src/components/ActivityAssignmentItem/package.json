@@ -1,0 +1,5 @@
+{
+  "name": "ActivityAssignmentItem",
+  "main": "ActivityAssignmentItem.js",
+  "browser": "ActivityAssignmentItem.js"
+}

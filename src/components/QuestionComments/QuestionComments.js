@@ -14,7 +14,7 @@ import Comments from './Comments'
 export default component({
   render ({props}) {
     const {
-      showComments, commentsId, question, comments, ...rest
+      showComments, commentsId, question, comments = [], ...rest
     } = props
     const hasComments = !!comments.length
     const isShown = commentsId === question._id

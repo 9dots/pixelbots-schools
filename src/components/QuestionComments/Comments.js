@@ -47,6 +47,7 @@ export default summon(({activityId, question}) => ({
       comments, currentUser, actor, deleteAnnot,
       makingAnnot = {}, editingAnnot = {}
     } = props
+
     const showNew = !comments.length || state.showNew
     const isStudent = currentUser.userType === 'student'
 

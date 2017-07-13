@@ -1,0 +1,5 @@
+{
+  "name": "ActivitySection",
+  "main": "ActivitySection.js",
+  "browser": "ActivitySection.js"
+}

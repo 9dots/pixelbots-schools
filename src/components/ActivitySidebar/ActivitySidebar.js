@@ -40,7 +40,7 @@ export default component({
     let count = 0
     const questions = _object[0].attachments
       .filter(att => {
-        if (att.objectType === 'question') {
+        if (att.objectType === 'question' || att.objectType === 'assignment_item') {
           const {response = []} = att
           count = response.length ? count + 1 : count
           return true
