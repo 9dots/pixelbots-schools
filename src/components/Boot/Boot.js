@@ -2,17 +2,25 @@
  * Imports
  */
 
-import objectIdMw, {generateObjectId as generateObjectIdEffect} from 'middleware/objectId'
-import uploadMw, {uploadFile as uploadFileEffect} from 'middleware/upload'
 import scrollMw, {scrollTo as scrollToEffect} from 'middleware/scroll'
 import summon, {invalidate, middleware as summonMw} from 'vdux-summon'
 import fetchMw, {fetch, fetchEncodeJSON} from 'redux-effects-fetch'
+import auth, {signInWithProvider, signOut} from 'middleware/auth'
 import fastclickMw, {initFastclick} from 'middleware/fastclick'
 import analyticsMw, * as analytics from 'middleware/analytics'
 import locationMw, * as location from 'redux-effects-location'
 import OAuthMw, {beginOAuthFlow} from 'middleware/oauth'
 import mediaMw, {watchMedia} from 'redux-effects-media'
 import cookieMw, {cookie} from 'redux-effects-cookie'
+import {
+  middleware as firebaseMw,
+  set as firebaseSet,
+  update as firebaseUpdate,
+  once as firebaseOnce,
+  push as firebasePush,
+  transaction
+} from 'vdux-fire'
+import firebaseConfig from 'lib/firebase-config'
 import {query} from 'redux-effects-credentials'
 import {component, element} from 'vdux'
 import modalMw from 'middleware/modal'
@@ -40,7 +48,6 @@ const apiServer = process.env.API_SERVER
 export default component({
   onCreate ({actions}) {
     return [
-      actions.initializeAuth(),
       actions.initializeMedia(),
       actions.watchUrl(),
       initFastclick()
@@ -49,11 +56,8 @@ export default component({
 
   initialState ({props}) {
     if (props.req) {
-      const cookieObj = cookieParser.parse(props.req.headers.cookie || '')
-
       return {
-        currentUrl: props.req.url,
-        authToken: cookieObj.authToken || ''
+        currentUrl: props.req.url
       }
     }
 
@@ -61,7 +65,7 @@ export default component({
   },
 
   getContext ({props, state, actions}) {
-    const {media, authToken, currentUrl, avatarUpdates} = state
+    const {media, currentUrl, avatarUpdates} = state
     const userAgent = props.req
       ? props.req.headers['user-agent']
       : window.navigator.userAgent
@@ -72,15 +76,13 @@ export default component({
       uiPrefixUserAgent: userAgent,
       currentUrl,
       avatarUpdates,
-      authToken,
+      userId: state.userId,
       ...actions
     }
   },
 
   render ({props, state}) {
-    return state.authToken !== undefined
-      ? <App {...state} {...props} />
-      : <span />
+    return <App {...state} {...props} />
   },
 
   onUpdate (prev, next) {
@@ -91,39 +93,29 @@ export default component({
 
   middleware: {
     browser: [
+      auth,
       scrollMw,
       locationMw(),
-      cookieMw(),
-      objectIdMw,
       fastclickMw,
       analyticsMw,
       modalMw,
-      OAuthMw,
       flox
     ],
 
     shared: [
-      query(isApiServer, 'access_token', ({getState}) => getState().authToken),
-      fetchEncodeJSON,
+      firebaseMw(firebaseConfig),
       fetchMw,
-      summonMw,
-      uploadMw,
       mediaMw,
       printMw
     ]
   },
 
   controller: {
-    * initializeAuth ({actions, state}) {
-      if (state.authToken === undefined) {
-        const token = yield cookie('authToken')
-        yield actions.updateToken(token || '')
-      }
+    * signInWithProvider (model, ...args) {
+      yield signInWithProvider(...args)
     },
-
-    * setAuthToken ({actions}, token) {
-      yield cookie('authToken', token, {path: '/'})
-      yield actions.updateToken(token)
+    * signOut (model, ...args) {
+      yield signOut(...args)
     },
 
     * initializeMedia ({actions}) {
@@ -140,52 +132,18 @@ export default component({
       yield location.bindUrl(actions.updateUrl)
     },
 
-    * postLogin ({actions}, user) {
-      const token = user ? user.token : null
-      yield actions.setAuthToken(token)
-      yield fork(function * () {
-        yield [invalidate('/user'), invalidate('/school')]
-      })
-      yield actions.setUrl('/')
-    },
-
     * toast ({actions}, fn, time = 4500) {
       yield actions.showToast(fn)
       yield sleep(time)
       yield actions.hideToast()
     },
 
-    * logoutUser ({actions}) {
-      yield actions.postLogin(null)
-    },
-
-    * oauthLogin ({actions}, provider, params = {}, cb) {
-      const data = yield beginOAuthFlow(provider)
-      const {value} = yield fetch(`${apiServer}/auth/login/${provider}`, {
-        method: 'PUT',
-        body: {
-          ...data,
-          ...params
-        }
-      })
-      yield actions.postLogin(value)
-    },
-
-    * oauthCreate ({actions}, provider, params = {}) {
-      const data = yield beginOAuthFlow(provider)
-      const {value} = yield fetch(`${apiServer}/auth/${provider}`, {
-        method: 'POST',
-        body: {
-          ...data,
-          ...params
-        }
-      })
-      yield actions.postLogin(value)
-    },
-
-    generateObjectId: wrapEffect(generateObjectIdEffect),
     scrollTo: wrapEffect(scrollToEffect),
-    uploadFile: wrapEffect(uploadFileEffect),
+    firebaseSet: wrapEffect(firebaseSet),
+    firebaseUpdate: wrapEffect(firebaseUpdate),
+    firebaseOnce: wrapEffect(firebaseOnce),
+    firebaseTransaction: wrapEffect(transaction),
+    firebasePush: wrapEffect(firebasePush),
     ...map(wrapEffect, location),
     ...map(wrapEffect, analytics)
   },
@@ -203,7 +161,6 @@ export default component({
       currentUrl,
       modal: state.currentUrl === currentUrl ? state.modal : null
     }),
-    updateToken: (state, authToken) => ({authToken}),
     openModal: (state, modal) => ({
       // Dont allow modal opening on the server, because it causes
       // issues with server-side rendering
@@ -212,7 +169,9 @@ export default component({
     closeModal: () => ({modal: null}),
     showToast: (state, toast) => ({toast}),
     hideToast: () => ({toast: null}),
-    setTitle: (state, title) => ({title})
+    setTitle: (state, title) => ({title}),
+    setUserId: (state, userId) => ({userId}),
+    setUsername: (state, username) => ({username})
   }
 })
 
@@ -225,72 +184,8 @@ function wrapEffect (fn) {
 }
 
 /**
- * Test whether or not a URL points to our API server
- * Useful for adding credentials and such
- */
-
-const apiRe = new RegExp(`^(?:https?\:)?${escapeRe(process.env.API_SERVER)}`)
-
-function isApiServer (url) {
-  return apiRe.test(url)
-}
-
-/**
  * Global config
  */
-
-summon.configure({
-  baseUrl: process.env.API_SERVER,
-  credentials: {
-    type: 'query',
-    pattern: isApiServer,
-    name: 'access_token',
-    token: ({getContext}) => getContext().authToken
-  },
-
-  transformRequest (req) {
-    let clientId
-    let distinctId
-
-    if (typeof window !== 'undefined') {
-      window['ga'] && window['ga'](tracker => clientId = tracker.get('clientId'))
-      distinctId = window['mixpanel'] && window['mixpanel'].get_distinct_id && mixpanel.get_distinct_id()
-    }
-
-    return {
-      ...req,
-      payload: {
-        ...req.payload,
-        params: {
-          ...(req.payload.params || {}),
-          headers: {
-            ...((req.payload.params || {}).headers || {}),
-            'X-Google-ClientId': clientId,
-            'X-Mixpanel-DistinctId': distinctId
-          }
-        }
-      }
-    }
-  },
-
-  transformError (err) {
-    if (err.url && isApiServer(err.url) && err.status >= 400 && err.status < 500) {
-      if (!(err.value && err.value.errors)) return err
-
-      return {
-        ...err,
-        value: {
-          ...err.value,
-          errors: Object
-            .keys(err.value.errors)
-            .map(field => ({field, message: err.value.errors[field].message}))
-        }
-      }
-    }
-
-    return err
-  }
-})
 
 Form.setTransformError(err => {
   if (err.status >= 400 && err.status < 500) {

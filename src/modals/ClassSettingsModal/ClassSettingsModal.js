@@ -8,29 +8,19 @@ import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import Confirm from 'modals/Confirm'
 import validate from 'lib/validate'
-import summon from 'vdux-summon'
 import Form from 'vdux-form'
 
 /**
  * <ClassSettingsModal/>
  */
 
-export default summon(({group}) => ({
-  renameClass: body => ({
-    renaming: {
-      url: `/group/${group._id}`,
-      method: 'PUT',
-      invalidates: '/user/classes',
-      body
-    }
-  })
-}))(component({
+export default component({
   render ({props, context, actions}) {
-    const {renameClass, renaming = {}, group} = props
+    const {group} = props
 
     return (
       <Modal onDismiss={context.closeModal}>
-        <Form onSubmit={renameClass} onSuccess={context.closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
+        <Form onSubmit={actions.renameClass} onSuccess={context.closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
           <ModalBody>
             <Flex column align='space-around center'>
               <ModalHeader>
@@ -48,7 +38,7 @@ export default summon(({group}) => ({
                 <Text pointer underline onClick={context.closeModal}>cancel</Text>
                 <Text mx>or</Text>
               </Text>
-              <Button type='submit' busy={renaming.loading}>Update</Button>
+              <Button type='submit'>Update</Button>
             </Block>
           </ModalFooter>
         </Form>
@@ -57,30 +47,50 @@ export default summon(({group}) => ({
   },
 
   controller: {
-    * deleteClass ({props, context}) {
-      const {group} = props
-      const isCurrentClass = context.currentUrl.indexOf(group._id) !== -1
+    * deleteClass ({props, context, actions}) {
+      const {groupId} = props
+      const isCurrentClass = context.currentUrl.indexOf(groupId) !== -1
 
       yield context.openModal(() =>
-        <ConfirmDeleteClass
+        <ConfirmDeleteModal
           redirect={isCurrentClass && '/class/all'}
-          classId={group._id}
-          message={'Are you sure you want to delete your class "' + group.displayName + '?"'} />
+          {...props} />
       )
+    },
+
+    * renameClass ({context, props}) {
+
     }
+  },
+
+  reducer: {
+    setLoading: () => ({})
   }
-}))
+})
 
 /**
- * <ConfirmDeleteClass/>
+ * <ConfirmDeleteModal/>
  */
 
-const ConfirmDeleteClass = summon(({classId}) => ({
-  onAccept: () => ({
-    accepting: {
-      url: `/group/${classId}`,
-      method: 'DELETE',
-      invalidates: '/user/classes',
+const ConfirmDeleteModal = component({
+  render ({props, actions}) {
+    const {group} = props
+
+    return (
+      <Confirm
+        onAccept={actions.deleteClass}
+        message={'Are you sure you want to delete your class "' + group.displayName + '?"'} />
+    )
+  },
+
+  controller: {
+    * deleteClass ({props, context}) {
+      if (props.redirect) {
+        yield context.setUrl(props.redirect)
+      }
+
+      yield context.firebaseSet(`/users/${context.userId}/teacherOf/${props.groupId}`, null)
+      yield context.firebaseSet('/classes/' + props.groupId, null)
     }
-  })
-}))(Confirm)
+  }
+})

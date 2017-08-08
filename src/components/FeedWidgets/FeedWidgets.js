@@ -34,7 +34,6 @@ export default component({
     const {user, ...rest} = props
     const cardMargin = '8px 6px 12px 0'
     const isTeacher = user.userType === 'teacher'
-    const draftCount = user.drafts.canonicalTotal.items
     const joinedSchool = user.school || (props.school && props.school._id)
 
     return (
@@ -49,8 +48,6 @@ export default component({
             <Icon fs='m' mr name='dashboard' />
             <Block flex>My Feed</Block>
           </Link>
-          <Divider m={0} color='#EEE' hide={!draftCount} />
-          <DraftsWidget boxShadow='0 0' w={230} {...linkProps} m={cardMargin} my={0} draftCount={draftCount} user={user} />
         </Card>
         <ClassesWidget user={user} w={230} m={cardMargin}  mt={isTeacher ? true : 0}/>
       </Block>

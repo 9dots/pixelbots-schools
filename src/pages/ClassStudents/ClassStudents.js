@@ -4,45 +4,50 @@
 
 import RemoveFromClassModal from 'modals/RemoveFromClassModal'
 import InviteStudentsModal from 'modals/InviteStudentsModal'
-import EmptyClassStudents from './EmptyClassStudents'
 import CreateStudentModal from 'modals/CreateStudentModal'
+import EmptyClassStudents from './EmptyClassStudents'
+import {Button, form, Tooltip} from 'vdux-containers'
 import AddStudentModal from 'modals/AddStudentModal'
 import PrintLoginModal from 'modals/PrintLoginModal'
-import {Button, form, Tooltip} from 'vdux-containers'
 import PasswordModal from 'modals/PasswordModal'
 import PageTitle from 'components/PageTitle'
 import {Icon, Flex, Block} from 'vdux-ui'
 import Loading from 'components/Loading'
 import StudentGrid from './StudentGrid'
 import {component, element} from 'vdux'
-import summon from 'vdux-summon'
+import mapValues from '@f/map-values'
 import index from '@f/index'
+import fire from 'vdux-fire'
 
 /**
  * <ClassStudents/>
  */
 
-export default summon(({group}) => ({
-  students: `/group/students?group=${group._id}`
-}))(
-  form(({students}) => ({
-    fields: ['selected']
-  }))(component({
+export default fire(({group, groupId}) => ({
+  students: {
+    ref: `/classes/${groupId}`,
+    join: {
+      ref: '/users',
+      child: 'students',
+      childRef: (val, ref) => mapValues((v, key) => ref.child(key), val.students || {})
+    }
+  }
+}))(form(({students}) => ({
+  fields: ['selected']
+}))(component({
     render ({props}) {
-      const {group, students, toggleAll, fields, currentUser} = props
-      const {value, loading, loaded} = students
+      const {toggleAll, fields, group, currentUser, students} = props
 
-      if (!loaded && loading) return <Loading show h='200' />
+      if (students.loading) return <span/>
 
-      const {items: studentList} = value
-      const studentIds = index(({_id}) => _id, studentList)
-      const selected = (fields.selected.value || []).filter(id => studentIds[id])
+      const studentList = mapValues((s, id) => ({...s, id}), students.value.students)
+      const selected = (fields.selected.value || []).filter(id => students.value.students[id])
 
       return (
         <Block maxWidth='714px' my py mx='auto' relative>
           <PageTitle title={`${group.displayName} | Students`} />
           {
-            loaded && studentList.length
+            studentList.length
               ? <Block>
                   <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} />
                   <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
@@ -73,7 +78,7 @@ const StudentMenu = component({
     const {students, selected, currentUser} = props
     const isStudent = currentUser.userType === 'student'
     const {length: count} = selected
-    const users = students.filter(({_id}) => selected.indexOf(_id) !== -1)
+    const users = students.filter(({id}) => selected.indexOf(id) !== -1)
 
     if (isStudent) return <span />
 
@@ -81,18 +86,8 @@ const StudentMenu = component({
       <Flex align='space-between center' mb>
         <Button {...btnProps} onClick={actions.addStudentModal}>
           <Icon name='group_add' mr='s' fs='s'/>
-          Add Students 
+          Add Students
         </Button>
-        <Tooltip message={!count && 'Select Students to Enable'}>
-          <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={highlightProps} focusProps={highlightProps} color='text' onClick={actions.passwordModal(users)}>
-            <Icon name='lock' mr='s' fs='s' />Reset Password
-          </Button>
-        </Tooltip>
-        <Tooltip message={!count && 'Select Students to Enable'}>
-          <Button disabled={!count} bgColor='white' {...btnProps} hoverProps={highlightProps} focusProps={highlightProps} color='text' onClick={actions.printLoginModal(users)}>
-            <Icon name='print' mr='s' fs='s' />Print Login Info
-          </Button>
-        </Tooltip>
         <Tooltip message={!count && 'Select Students to Enable'}>
           <Button disabled={!count} bgColor='red' color='white' {...btnProps} onClick={actions.removeModal(users)}>
             <Icon name='delete' mr='s' fs='s' />Remove

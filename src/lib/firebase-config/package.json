@@ -1,0 +1,5 @@
+{
+  "name": "firebase-config",
+  "main": "firebase-config.js",
+  "browser": "firebase-config.js"
+}

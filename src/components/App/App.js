@@ -6,30 +6,15 @@ import {appReady, component, element, t} from 'vdux'
 import Transition from 'vdux-transition'
 import Router from 'components/Router'
 import Loading from 'pages/Loading'
-import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
-import live from 'lib/live'
+import fire from 'vdux-fire'
 
 /**
  * <App/>
  */
 
-export default summon(() => ({
-  currentUser: '/user',
-  school: '/school'
-}))(live(({currentUser, school}) => ({
-  currentUser: {
-    url: '/user',
-    params: {
-      id: currentUser.value && currentUser.value._id
-    }
-  },
-  school: {
-    url: '/school',
-    params: {
-      id: school.value && school.value._id
-    }
-  }
+export default fire(props => ({
+  currentUser: `/users/${props.userId}`
 }))(component({
   onCreate ({props, context}) {
     if (!props.currentUser.loading) {
@@ -43,7 +28,7 @@ export default summon(() => ({
     const nprops = next.props
     const pprops = prev.props
 
-    if (!state.ready && (!currentUser.loading || currentUser.error) && (!school.loading || school.error)) {
+    if (!state.ready) {
       yield actions.appDidInitialize()
       yield appReady({title: next.props.title})
     }
@@ -52,16 +37,16 @@ export default summon(() => ({
       yield context.identify(next.props.currentUser.value)
     }
 
-    if (!nprops.school.loading && pprops.currentUser.value && nprops.currentUser.value && pprops.currentUser.value.school !== nprops.currentUser.value.school) {
-      yield next.props.summonInvalidate('/school')
-    }
+    // if (!nprops.school.loading && pprops.currentUser.value && nprops.currentUser.value && pprops.currentUser.value.school !== nprops.currentUser.value.school) {
+    //   yield next.props.summonInvalidate('/school')
+    // }
   },
 
   render ({props, state, context}) {
     const {toast, modal, currentUser, school} = props
 
     if (currentUser.loading && !currentUser.error) return <span />
-    if (!school.loaded && !school.error) return <span />
+    // if (!school.loaded && !school.error) return <span />
 
     return (
       <Block>
@@ -72,7 +57,7 @@ export default summon(() => ({
         <Block z={0}>
           {
             state.ready
-              ? <Router {...props} currentUser={currentUser.error ? {} : (currentUser.value || {})} school={school.value} {...state} />
+              ? <Router {...props} currentUser={currentUser.error ? {} : (currentUser.value || {})} {...state} />
               : <Loading />
           }
         </Block>
@@ -81,6 +66,8 @@ export default summon(() => ({
   },
 
   reducer: {
-    appDidInitialize: () => ({ready: true})
+    appDidInitialize: () => ({
+      ready: true
+    })
   }
-})))
+}))

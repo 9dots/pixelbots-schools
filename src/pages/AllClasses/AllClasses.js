@@ -13,6 +13,7 @@ import {Block, Card, Text} from 'vdux-ui'
 import RowFeed from 'components/RowFeed'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
+import fire from 'vdux-fire'
 
 /**
  * Constants
@@ -24,11 +25,7 @@ const itemProps = {showClass: true}
  * <AllClasses/>
  */
 
-export default summonChannels(({currentUser}) =>
-  currentUser.groups
-    .filter(group => group.groupType === 'class' && group.status !== 'archived')
-    .map(cls => `group!${cls.id}.board`)
-)(component({
+export default component({
   render ({props}) {
     const {currentUser} = props
     const {userType, preferences = {}} = currentUser
@@ -43,7 +40,40 @@ export default summonChannels(({currentUser}) =>
         <Card p fs='s' lighter mb>
           All Classes
         </Card>
+        <Block>
+          {
+            Object
+              .keys(currentUser.teacherOf || {})
+              .map(key => (
+                <ClassTile groupId={key} />
+              ))
+          }
+        </Block>
         <RowFeed {...props} itemProps={itemProps} item={item} emptyState={<Empty isTeacher={isTeacher} />} />
+      </Block>
+    )
+  }
+})
+
+/**
+ * <ClassTile/>
+ */
+
+const ClassTile = fire(props => ({
+  group: `/classes/${props.groupId}`
+}))(component({
+  render ({props}) {
+    const {groupId, group} = props
+
+    if (group.loading) return <span/>
+
+    console.log('group', group)
+
+    return (
+      <Block onClick={context.setUrl(`/class/${props.groupId}/feed`)}>
+        {
+          group.value.displayName
+        }
       </Block>
     )
   }

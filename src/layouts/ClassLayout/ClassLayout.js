@@ -12,28 +12,24 @@ import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 import maybeOver from '@f/maybe-over'
 import getProp from '@f/get-prop'
-import summon from 'vdux-summon'
+import fire from 'vdux-fire'
 
 /**
  * <ClassLayout/>
  */
 
-export default summon(({groupId}) => ({
-  group: `/group/${groupId}`,
-  students: `/group/students?group=${groupId}`
+export default fire(props => ({
+  group: `/classes/${props.groupId}`
 }))(component({
-  render ({props, children}) {
-    const {group, currentUser, students} = props
-    const {value, loaded, error} = group
-    const isStudent = currentUser.userType === 'student'
+  render ({props, children, context}) {
+    const {group, currentUser, groupId} = props
+    const {value, loading, error} = group
 
-    if (!loaded || !students.loaded) return <span />
-    if (currentUser.groups.every(g => g.id !== value._id)) return <Redirect to='/' />
-    if (error || students.error) return <FourOhFour />
+    if (loading) return <span />
 
     return (
       <Block>
-        <Header group={value} isStudent={isStudent} students={students.value} />
+        <Header group={value} groupId={groupId} />
         <Block>
           {maybeOver(value, children)}
         </Block>
@@ -56,8 +52,8 @@ const highlight = {highlight: 0.03}
 
 const Header = component({
   render ({props, actions}) {
-    const {group, isStudent, students} = props
-    const {_id: id, displayName, code, owners} = group
+    const {group, groupId: id, isStudent, students} = props
+    const {displayName, code, owners} = group
 
     return (
       <Block boxShadow='0 1px 2px 0 rgba(0,0,0,0.22)'>
@@ -96,18 +92,6 @@ const Header = component({
               </Text>
               <Icon ml='s' fs='xs' name='help' circle />
             </Button>
-          </Block>
-          <Block align='start center' my fs='xs'>
-            <Block>
-              {owners[0].displayName}
-            </Block>
-            <Block fs='s' mx='s'>
-              &middot;
-            </Block>
-            <Block align='start center'>
-              {students && students.items && students.items.length} &nbsp;
-              Students
-            </Block>
           </Block>
         </Block>
 

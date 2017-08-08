@@ -24,14 +24,8 @@ export default component({
         <StudentItem icon='info' modal={<NameModal group={group} user={student} />}>
           Change Name
         </StudentItem>
-        <StudentItem icon='edit' modal={<UsernameModal group={group} user={student} />}>
-          Change Username
-        </StudentItem>
         <StudentItem icon='person' modal={<IdModal group={group} user={student} />}>
           Change ID
-        </StudentItem>
-        <StudentItem icon='lock' modal={<PasswordModal group={group} user={student} />}>
-          Reset Password
         </StudentItem>
         <StudentItem icon='cancel' modal={<RemoveFromClassModal group={group} user={student} />}>
           Remove From Class

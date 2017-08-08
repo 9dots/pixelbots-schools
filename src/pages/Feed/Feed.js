@@ -8,22 +8,14 @@ import {component, element} from 'vdux'
 import EmptyFeed from './EmptyFeed'
 import summon from 'vdux-summon'
 import {Block} from 'vdux-ui'
+import fire from 'vdux-fire'
 
 /**
  * <Feed/>
  */
 
-export default summon(props => ({
-  activities: {
-    url: '/share/feed?maxResults=32'
-  },
-  more: pageToken => ({
-    activities: {
-      params: pageToken && {
-        pageToken
-      }
-    }
-  })
+export default fire(props => ({
+  activities: `/feed/`
 }))(component({
   render ({props}) {
     const {activities, more, currentUser} = props

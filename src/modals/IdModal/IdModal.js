@@ -13,31 +13,13 @@ import Form from 'vdux-form'
  * <IdModal/>
  */
 
-export default summon(({user, group}) => {
-  const invalidates = ['/user', `/user/${user._id}`]
-
-  if (group) {
-    invalidates.push(`/group/students?group=${group._id}`)
-  }
-
-  return {
-    changeId: body => ({
-      changingId: {
-        url: `/user/${user._id}/sis`,
-        method: 'PUT',
-        body,
-        invalidates
-      }
-    })
-  }
-})(component({
-  render ({props, context}) {
-    const {user, changeId, changingId = {}} = props
-    const {loading} = changingId
+export default component({
+  render ({props, context, actions}) {
+    const {user} = props
 
     return (
       <Modal onDismiss={context.closeModal}>
-        <Form onSubmit={changeId} onSuccess={context.closeModal}>
+        <Form onSubmit={actions.changeId} onSuccess={context.closeModal}>
           <Flex ui={ModalBody} column align='center center' pb='l'>
             <ModalHeader>
               Change Student ID
@@ -56,10 +38,17 @@ export default summon(({user, group}) => {
               <Text pointer underline onClick={context.closeModal}>cancel</Text>
               <Text mx>or</Text>
             </Text>
-            <Button type='submit' busy={loading}>Update</Button>
+            <Button type='submit'>Update</Button>
           </ModalFooter>
         </Form>
       </Modal>
     )
+  },
+
+  controller: {
+    * changeId ({context, props}, {sisId}) {
+      yield context.firebaseSet(`/users/${props.user.id}/sisId`, sisId)
+      yield context.closeModal()
+    }
   }
-}))
+})

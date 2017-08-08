@@ -10,7 +10,7 @@ import CreateClassModal from 'modals/CreateClassModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import RoundedInput from 'components/RoundedInput'
 import Link from 'components/Link'
-import summon from 'vdux-summon'
+import fire from 'vdux-fire'
 
 /**
  * Constants
@@ -26,59 +26,50 @@ const alignLeft = {textAlign: 'left'}
  * <ClassesWidget/>
  */
 
-export default summon(() => ({
-  classes: '/user/classes'
-}))(component({
-  render ({props, context, state, actions}) {
-    const {classes, user} = props
-    const {value, loaded} = classes
-    const clsLength = loaded && value.items.length
-    const {drafts: {canonicalTotal: {items}}, userType} = user
-    const offset = userType === 'teacher'
-      ? items ? '318px' : '270px'
-      : '150px'
+export default component({
+  render ({props, context, actions}) {
+    const {user} = props
+    const {teacherOf = {}} = user
+    const offset = clsLength ? '318px' : '270px'
+    const classes = Object.keys(teacherOf)
+    const clsLength = classes.length
 
     return (
       <Card {...props}>
-        <Block p uppercase boxShadow='0 2px 1px rgba(grey,0.1)' z='1' relative align='space-between center'>
-          <Block>Classes</Block>
-          <RoundedInput type='search' onInput={actions.setFilter} placeholder='Filter…' py='s' px={10} m='-6px 0' bgColor='#FDFDFD' inputProps={alignLeft} w={120} hide={clsLength < 7} />
-        </Block>
         <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(grey,0.05)' borderWidth='1px 0'>
           {[
-            !state.filter && <Item cls={allClasses} />,
-            loaded && value.items.filter(search(state.filter)).sort(cmp).map(item => <Item cls={item} hasSettings={userType === 'teacher'} />),
-            user.userType === 'student'
-              ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
-              : <AddClassItem Modal={CreateClassModal} text='New Class' />
+            classes.map(id => <Item clsId={id} hasSettings />),
+            <AddClassItem Modal={CreateClassModal} text='New Class' />
           ]}
         </Block>
         <Block boxShadow='0 -2px 1px rgba(grey,0.1)' z='1' relative p />
       </Card>
     )
-  },
-
-  reducer: {
-    setFilter: (state, filter) => ({filter})
   }
-}))
+})
 
 /**
  * <Item/>
  */
 
-const Item = wrap(CSSContainer, {
+const Item = fire(props => ({
+  cls: `/classes/${props.clsId}`
+}))(wrap(CSSContainer, {
   hoverProps: {showIcon: true}
 })(component({
   render ({props, actions}) {
-    const {cls, hasSettings, showIcon} = props
-    const {_id, displayName} = cls
+    const {cls, clsId, hasSettings, showIcon} = props
+
+    if (cls.loading) return <span/>
+
+    const {value} = cls
+    const {displayName} = value
 
     return (
       <Link
         currentProps={itemCurrentProps}
         borderLeft='3px solid transparent'
-        href={`/class/${_id}`}
+        href={`/class/${clsId}`}
         align='start center'
         ui={MenuItem}
         color='grey_medium'
@@ -103,10 +94,10 @@ const Item = wrap(CSSContainer, {
 
   controller: {
     * classSettings ({context, props}) {
-      yield context.openModal(() => <ClassSettingsModal group={props.cls} />)
+      yield context.openModal(() => <ClassSettingsModal group={props.cls.value} groupId={props.clsId} />)
     }
   }
-}))
+})))
 
 /**
  * <AddClassItem/>

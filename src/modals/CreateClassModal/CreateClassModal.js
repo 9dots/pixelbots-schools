@@ -14,23 +14,11 @@ import Form from 'vdux-form'
  * <CreateClassModal/>
  */
 
-export default summon(props => ({
-  createClass: body => ({
-    creatingClass: {
-      url: '/group/',
-      method: 'POST',
-      invalidates: '/user/classes',
-      body
-    }
-  })
-}))(component({
-  render ({props, context, actions}) {
-    const {createClass, creatingClass = {}} = props
-    const {loading} = creatingClass
-
+export default component({
+  render ({props, context, state, actions}) {
     return (
       <Modal onDismiss={context.closeModal} opacity='1'>
-        <Form onSubmit={createClass} onSuccess={actions.goToClass} tall validate={validate.group} autocomplete='off'>
+        <Form onSubmit={actions.createClass} tall validate={validate.group} autocomplete='off'>
           <ModalBody>
             <Flex column align='space-around center'>
               <ModalHeader>
@@ -44,7 +32,7 @@ export default summon(props => ({
               <Text pointer underline onClick={context.closeModal}>cancel</Text>
               <Text mx>or</Text>
             </Text>
-            <Button type='submit' busy={loading}>Create</Button>
+            <Button type='submit' busy={state.loading}>Create</Button>
           </ModalFooter>
         </Form>
       </Modal>
@@ -52,8 +40,24 @@ export default summon(props => ({
   },
 
   controller: {
-    * goToClass ({context}, {_id}) {
-      yield context.setUrl(`/class/${_id}/feed`)
+    * createClass ({context, actions}, cls) {
+      try {
+        yield actions.setLoading(true)
+        const {key} = yield context.firebasePush('/classes', {
+          teacherID: context.userId,
+          ...cls
+        })
+
+        yield context.firebaseSet(`/users/${context.userId}/teacherOf/${key}`, Date.now())
+        yield context.setUrl(`/class/${key}/feed`)
+      } catch (e) {
+        console.log('e', e)
+        yield actions.setLoading(false)
+      }
     }
+  },
+
+  reducer: {
+    setLoading: (state, loading) => ({loading})
   }
-}))
+})
