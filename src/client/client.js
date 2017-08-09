@@ -11,10 +11,7 @@ import vdux from 'vdux/dom'
  * Render loop
  */
 
-const {forceRerender} = vdux(() => <Boot />, {
-  prerendered: !!window.__initialState__,
-  initialState: window.__initialState__
-})
+const {forceRerender} = vdux(() => <Boot />)
 
 /**
  * Hot module replacement

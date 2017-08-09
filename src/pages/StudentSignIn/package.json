@@ -1,0 +1,5 @@
+{
+  "name": "StudentSignIn",
+  "main": "StudentSignIn.js",
+  "browser": "StudentSignIn.js"
+}

@@ -3,6 +3,7 @@
  */
 
 import SettingsLayout from 'layouts/SettingsLayout'
+import ActivityLayout from 'layouts/ActivityLayout'
 import ClassLayout from 'layouts/ClassLayout'
 import MainLayout from 'layouts/MainLayout'
 import HomeLayout from 'layouts/HomeLayout'
@@ -28,6 +29,7 @@ import Feed from 'pages/Feed'
 
 import StudentSignIn from 'pages/StudentSignIn'
 
+import ActivityOverview from 'pages/ActivityOverview'
 import Redirect from 'components/Redirect'
 import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
@@ -104,6 +106,12 @@ const router = enroute({
         {group => <ClassGradebook {...props} group={group} />}
       </ClassLayout>
     </MainLayout>)),
+
+  '/activity/:activityRef': track('Activity', auth((params, props) =>
+    <ActivityLayout {...props} {...params}>
+      <ActivityOverview {...props} {...params} />
+    </ActivityLayout>
+  )),
 
   // Account
   '/account/settings': track('Account Settings', auth((params, props) =>

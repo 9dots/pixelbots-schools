@@ -38,7 +38,9 @@ export default fire(props => ({
             {
               Object.keys(value).map(key => (
                 <Block>
-                  {value[key].playlistUrl}
+                  <Block pointer onClick={context.setUrl(`/activity/${key}`)}>
+                    {value[key].playlistUrl}
+                  </Block>
                 </Block>
               ))
             }
