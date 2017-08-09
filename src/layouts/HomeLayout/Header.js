@@ -27,9 +27,8 @@ export default component({
 
     return (
       <Flex tag='header' align='start center' wide py='4px' px='30px' z={1} flex absolute h='53px' bgColor='rgba(255, 255, 255, 0.2)'>
-        <Nav />
         <Text tag='a' href='/' ml='m' color='white' fs='m' bold letterSpacing={1}>
-          WEO
+          Pixel Bots
         </Text>
         <Flex flex align='end center'>
           {button}

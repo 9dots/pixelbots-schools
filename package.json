@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "postversion": "git push && git push --tags && npm publish --access=public",
-    "dev": "unv dev",
+    "dev": "unv dev --modules src",
     "build": "export NODE_ENV=`git symbolic-ref --short -q HEAD` && unv build --production",
     "start": "unv serve"
   },

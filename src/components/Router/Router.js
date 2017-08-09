@@ -26,6 +26,8 @@ import AllClasses from 'pages/AllClasses'
 import Login from 'pages/Login'
 import Feed from 'pages/Feed'
 
+import StudentSignIn from 'pages/StudentSignIn'
+
 import Redirect from 'components/Redirect'
 import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
@@ -116,6 +118,18 @@ const router = enroute({
     <SettingsLayout {...props} {...params}>
       <AccountEmail {...props} />
     </SettingsLayout>)),
+
+  // Student Sign In
+  '/schools/:schoolId': track('Student Log In', auth((params, props) => 
+    <HomeLayout {...props} {...params}>
+      <StudentSignIn {...props} {...params}/>
+    </HomeLayout>
+  )),
+  '/schools/:schoolId/:classId': track('Student Log In: Class', auth((params, props) => 
+    <HomeLayout {...props} {...params}>
+      <StudentSignIn {...props} {...params}/>
+    </HomeLayout>
+  )),
 
   // 404
   '*': track('404', (params, props) =>
