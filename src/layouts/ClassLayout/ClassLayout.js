@@ -3,6 +3,7 @@
  */
 
 import ClassSettingsModal from 'modals/ClassSettingsModal'
+import JoinSchoolModal from 'modals/JoinSchoolModal'
 import ClassCodeModal from 'modals/ClassCodeModal'
 import Redirect from 'components/Redirect'
 import {Text, Block, Icon} from 'vdux-ui'
@@ -21,6 +22,11 @@ import fire from 'vdux-fire'
 export default fire(props => ({
   group: `/classes/${props.groupId}`
 }))(component({
+  // * onCreate ({props, context}) {
+  //   if (!Object.keys(props.currentUser.schools || {}).length) {
+  //     yield context.openModal(() => <JoinSchoolModal />)
+  //   }
+  // },
   render ({props, children, context}) {
     const {group, currentUser, groupId} = props
     const {value, loading, error} = group
