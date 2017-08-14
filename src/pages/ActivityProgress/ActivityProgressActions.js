@@ -51,9 +51,6 @@ export default component({
           </Block>
           <Button icon='link' onClick={actions.openActivityLink} {...iconProps} />
         </Block>
-        <Block align='end center'>
-          <ClassActivityBadge mt='0' w='175' activity={activity} />
-        </Block>
       </Flex>
     )
   },

@@ -28,16 +28,15 @@ export default component({
       progress, overview, preview, discussion, isEdit,
       isOwner, back, savingIndicator, intent, exit
     } = props
-    const {_id: id, displayName} = activity
+    const {_id: id, name} = activity
     const {locallyLiked} = state
-    const comments = activity.replies.canonicalTotal.items
 
     return (
       <Block printProps={{hide: true}}>
         <Fixed bgColor='white' wide top z={3} boxShadow='card' align='start center' h={53}>
           <Flex align='start center' wide px flex ellipsis>
             <Button icon='arrow_back' fs='s' onClick={back} color='text' mr />
-            <Text fs='s' lighter ellipsis mr>{displayName}</Text>
+            <Text fs='s' lighter ellipsis mr>{name}</Text>
           </Flex>
           <Flex align='center center' hide={isEdit}>
             <NavTile highlight='red' path={`${id}/students`} hide={!progress}>
@@ -51,12 +50,6 @@ export default component({
             </NavTile>
             <NavTile highlight='blue' path={`${id}/instance/${user._id}`} hide={!instance}>
               Activity
-            </NavTile>
-            <NavTile highlight='yellow' path={`${id}/discussion`} hide={!discussion}>
-              <Text color='grey_medium' mr='s' hide={!comments}>
-                {comments}
-              </Text>
-              Discussion
             </NavTile>
           </Flex>
           <Block flex px hide={isEdit}>

@@ -18,7 +18,7 @@ import fire from 'vdux-fire'
  */
 
 export default fire(props => ({
-  activities: `/feed/${props.groupId}`
+  activities: `/feed/${props.groupId}#orderByChild=inverseTimestamp`
 }))(component({
     render ({props, context, actions}) {
       const {group, currentUser, activities} = props
@@ -28,7 +28,7 @@ export default fire(props => ({
 
       if (activities.loading) return <span/>
 
-      const value = activities.value || {}
+      const value = activities.value || []
 
       return (
         <Block my pb mx='auto' relative>
@@ -36,11 +36,9 @@ export default fire(props => ({
           <PageTitle title={`${group.displayName} | Feed`} />
           <Block>
             {
-              Object.keys(value).map(key => (
+              value.map(activity => (
                 <Block>
-                  <Block pointer onClick={context.setUrl(`/activity/${key}`)}>
-                    {value[key].playlistUrl}
-                  </Block>
+                  <ClassActivityRow activity={activity} />
                 </Block>
               ))
             }
@@ -52,12 +50,32 @@ export default fire(props => ({
     controller: {
       * assign ({props, context}, {url}) {
         const {groupId} = props
+        const playlistRef = parseRef(url)
+        const snap = yield context.firebaseOnce('/playlists/' + playlistRef)
+        const playlist = snap.val()
 
         yield context.firebasePush(`/feed/${groupId}`, {
-          playlistUrl: url,
+          playlistRef,
+          publishedAt: new Date(),
+          inverseTimestamp: -new Date(),
+          displayName: playlist.name,
+          description: playlist.description,
+          image: {
+            url: playlist.imageUrl
+          },
           groupId
         })
       }
     }
   }
 ))
+
+/**
+ * Helpers
+ */
+
+function parseRef (url) {
+  const parts = url.split('/').filter(Boolean)
+  const idx = parts.indexOf('playlist')
+  return parts[idx + 1]
+}
