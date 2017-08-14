@@ -4,7 +4,7 @@
 
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import ActivityCardActions from 'components/ActivityCardActions'
-import {t, stopPropagation, component, element} from 'vdux'
+import {stopPropagation, component, element} from 'vdux'
 import {wrap, CSSContainer} from 'vdux-containers'
 import {Flex, Block, Card} from 'vdux-ui'
 import BgImg from 'components/BgImg'
@@ -17,12 +17,6 @@ import Meta from './Meta'
 export default wrap(CSSContainer, {
   hoverProps: {hover: true}
 })(component({
-  propTypes: {
-    activity: t.Object,
-    options: t.maybe(t.Object),
-    showClass: t.maybe(t.Boolean)
-  },
-
   render ({props, context}) {
     const {
       hover, activity, metaUi: MetaUi = Meta, ddMenu,
@@ -31,7 +25,7 @@ export default wrap(CSSContainer, {
     const {image, displayName, description, _id: id} = activity
 
     return (
-      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='pointer' onClick={context.setUrl(`/activity/${id}`)}>
+      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='pointer' onClick={context.setUrl(`/activity/${activity.groupId}/${activity.playlistRef}`)}>
         <Flex tall align='start start'>
           <Flex p='m' tall column align='space-between' flex='49%'>
             <Block fs='s' fw='200' ellipsis>{displayName}</Block>
@@ -65,7 +59,6 @@ export default wrap(CSSContainer, {
             {
               options && hover &&
                 <Flex align='end center'>
-                  <ActivityCardActions {...options} align='end center' wide activity={activity} user={currentUser || {}} />
                   {
                     ddMenu &&
                       <Block mr ml='-6' onClick={stopPropagation}>

@@ -11,7 +11,9 @@ import EmptyState from 'components/EmptyState'
 import SortHeader from 'components/SortHeader'
 import summonPrefs from 'lib/summon-prefs'
 import {component, element} from 'vdux'
+import mapValues from '@f/map-values'
 import index from '@f/index'
+import map from '@f/map'
 
 /**
  * <ActivityProgress/>
@@ -25,20 +27,26 @@ component({
   render ({props, context, actions}) {
     const {
     activity, students, setStatus, settingStatus, prefs,
-    toggleAll, fields, instances, classId
+    toggleAll, fields, instances, classId, sequence
   } = props
     const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
 
-    const instanceList = combineInstancesAndStudents(activity, students, instances)
-    .sort(activitySort(sort))
+    // const instanceList = combineInstancesAndStudents(activity, students, instances)
+    // .sort(activitySort(sort))
+
+    const studentInsts = map((student, id) => ({
+      ...student,
+      ...(instances[id] || {})
+    }), students)
+    console.log('instances', studentInsts)
 
     const headProps = {sort, setSort: actions.setSort, lighter: true, p: true}
 
     // Multi Select Variables
-    const instanceIds = index(({instanceId}) => instanceId, instanceList)
+    const instanceIds = Object.keys(instances)
     const selected = (fields.selected.value || []).filter(id => instanceIds[id])
     const selMap = index(selected)
-    const allSelected = instanceList.length === selected.length && students.length
+    const allSelected = instanceIds.length === selected.length && Object.keys(students).length
     const indeterminate = !allSelected && selected.length
 
     return (
@@ -53,20 +61,19 @@ component({
             <TableHeader {...headProps}>
               <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
             </TableHeader>
-            <SortHeader {...headProps} prop='givenName' text='First' />
-            <SortHeader {...headProps} prop='familyName' text='Last' />
+            <SortHeader {...headProps} prop='givenName' text='Name' />
             <SortHeader {...headProps} prop='percent' text='Score' />
             <SortHeader {...headProps} prop='status' text='Status' />
-            <SortHeader {...headProps} prop='turnedInAt' text='Turned In' />
             <TableHeader {...headProps} />
           </TableRow>
           {
-          instanceList.length
-          ? instanceList.map(instance =>
+          instanceIds.length
+          ? mapValues((instance, id) =>
             <ActivityProgressRow
-              selected={!!selMap[instance.instanceId]}
-              instance={instance}
-              activityId={activity._id} />
+              selected={!!selMap[id]}
+              sequence={sequence}
+              instance={instance} />,
+              studentInsts
             )
           : <tr>
             <EmptyState tag='td' icon='person' color='green' colspan='100' pb='l'>

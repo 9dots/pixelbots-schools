@@ -9,11 +9,12 @@ import Redirect from 'components/Redirect'
 import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
 import maybeOver from '@f/maybe-over'
-import summon from 'vdux-summon'
+import mapValues from '@f/map-values'
 import {Block} from 'vdux-ui'
+import fire from 'vdux-fire'
 import index from '@f/index'
-import live from 'lib/live'
 import find from '@f/find'
+import map from '@f/map'
 import Nav from './Nav'
 
 /**
@@ -26,77 +27,75 @@ const printProps = {pb: 0}
  * <ActivityLayout/>
  */
 
-export default summon(({userId, activityId}) => ({
+export default fire(({classRef, playlistRef}) => ({
   activity: {
-    url: `/share/${activityId}`,
-    subscribe: 'refresh_activity'
-  }
-}))(summon(({activity, activityId}) => ({
-  setStatus: (id, status) => ({
-    settingStatus: {
-      url: `/instance/${id}/${status}`,
-      invalidates: false,
-      method: 'PUT'
-    }
-  }),
-  students: activity.value
-      ? `/group/students?group=${activity.value.contexts[0].descriptor.id}`
-      : null,
-  instances: activity.value
-    ? `/share?channel=share!${activity.value._id}.instances`
-    : null,
-  getInstance: (userId, context) => ({
-    gettingInstance: {
-      url: `/share/${activity.value._id}/instance/${userId}?context=${activity.value.contexts[0].descriptor.id}`
-    }
-  })
-}))(live(({activityId, activity, instance}) => ({
-  activity: {
-    url: '/share',
-    params: {
-      id: activityId
+    ref: `/classes/${classRef}`,
+    join: {
+      ref: '/playlistInstances',
+      child: 'studentPlaylists',
+      childRef: (val, ref) =>
+        map((u, k) => ref.root
+          .child('/playlistsByUser')
+          .child(k)
+          .child('byPlaylistRef')
+          .child(playlistRef)
+          .child('instanceRef')
+          .once('value')
+          .then(s => s.val())
+          .then(iref => iref && ref.child(iref)), val.students || {})
     }
   },
-  instances: {
-    url: '/share',
-    params: {
-      channel: `share!${activityId}.instances`
+
+  students: {
+    ref: `/classes/${classRef}`,
+    join: {
+      ref: '/users/',
+      child: 'students',
+      childRef: (val, ref) => mapValues((v, key) => ref.child(key), val.students || {})
     }
   },
-  students: activity.value && {
-    url: '/share',
-    params: {
-      channel: `share!${activity.value.contexts[0].descriptor.id}`
-    }
-  }
+
+  playlist: `/playlists/${playlistRef}`
 }))(component({
-  render (model) {
+  render ({props, children, actions}) {
+    const {currentUser, activity, playlist, students} = props
+
+    if (activity.loading || students.loading || playlist.loading) {
+      return <span/>
+    }
+
     return (
       <Block class='app' pb='60vh' printProps={printProps}>
-        { internal(model) }
+        {
+          maybeOver({
+            students: students.value.students,
+            // sequence: playlist.value.sequence,
+            instances: activity.value.studentPlaylists
+          }, children)
+        }
       </Block>
     )
   },
 
   * onUpdate (prev, next) {
-    const {instances, students, getInstance, gettingInstance, userId} = next.props
+    // const {instances, students, getInstance, gettingInstance, userId} = next.props
 
-    if (!gettingInstance && instances.value && students.value) {
-      const studentMap = index(student => student._id, students.value.items)
-      const seen = {}
-      const insts = instances.value.items.filter(inst => {
-        if (seen[inst.actor.id]) return false
-        seen[inst.actor.id] = true
-        return studentMap[inst.actor.id]
-      })
+    // if (!gettingInstance && instances.value && students.value) {
+    //   const studentMap = index(student => student._id, students.value.items)
+    //   const seen = {}
+    //   const insts = instances.value.items.filter(inst => {
+    //     if (seen[inst.actor.id]) return false
+    //     seen[inst.actor.id] = true
+    //     return studentMap[inst.actor.id]
+    //   })
 
-      if (insts.length < students.value.items.length) {
-        const filtered = students.value.items.filter(({_id}) => instances.value.items.every(inst => inst.actor.id !== _id))
-        yield filtered.map(student => getInstance(student._id))
-      } else if (userId && !instances.value.items.some(inst => inst.actor.id === userId)) {
-        yield getInstance(userId)
-      }
-    }
+    //   if (insts.length < students.value.items.length) {
+    //     const filtered = students.value.items.filter(({_id}) => instances.value.items.every(inst => inst.actor.id !== _id))
+    //     yield filtered.map(student => getInstance(student._id))
+    //   } else if (userId && !instances.value.items.some(inst => inst.actor.id === userId)) {
+    //     yield getInstance(userId)
+    //   }
+    // }
   },
 
   controller: {
@@ -110,10 +109,6 @@ export default summon(({userId, activityId}) => ({
       }
     },
 
-    * discardDraftAccept ({props, actions, context}) {
-      yield props.canExit ? context.back() : context.setUrl('/')
-    },
-
     * exit ({props, actions, context}, action, stay) {
       const {activity, canExit, exitDepth} = props
 
@@ -125,16 +120,8 @@ export default summon(({userId, activityId}) => ({
         yield context.setUrl(escapeUrl(props))
       }
     }
-  },
-
-  reducer: {
-    setSpeaking: (state, speakingId) => ({speakingId}),
-    setPlayState: (state, playState) => ({playState}),
-    setSpeechText: (state, speechText) => ({speechText}),
-    setIndicator: (state, savingIndicator) => ({savingIndicator}),
-    selectObject: (state, selectedObject) => ({selectedObject})
   }
-}))))
+}))
 
 /**
  * Internal rendering method
@@ -145,7 +132,7 @@ function internal ({props, children, actions, context, state}) {
   const {value, loaded, error} = activity
   const isInstance = !!userId
 
-  if (error || students.error) {
+  if (error) {
     return <FourOhFour />
   }
 

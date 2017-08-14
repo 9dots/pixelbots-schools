@@ -15,7 +15,7 @@ import moment from 'moment'
 export default component({
   render ({props}) {
     return (
-      <ActivityRow options={{pin: true}} ddMenu badgeUi={ClassActivityBadge} metaUi={ClassMeta} {...props} />
+      <ActivityRow options={{pin: true}} ddMenu metaUi={ClassMeta} {...props} />
     )
   }
 })

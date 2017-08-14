@@ -27,7 +27,7 @@ import AllClasses from 'pages/AllClasses'
 import Login from 'pages/Login'
 import Feed from 'pages/Feed'
 
-import ActivityOverview from 'pages/ActivityOverview'
+import ActivityProgress from 'pages/ActivityProgress'
 import Redirect from 'components/Redirect'
 import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
@@ -105,9 +105,11 @@ const router = enroute({
       </ClassLayout>
     </MainLayout>)),
 
-  '/activity/:activityRef': track('Activity', auth((params, props) =>
+  '/activity/:classRef/:playlistRef': track('Activity', auth((params, props) =>
     <ActivityLayout {...props} {...params}>
-      <ActivityOverview {...props} {...params} />
+      {
+        (extra = {}) => <ActivityProgress {...props} {...params} {...extra} />
+      }
     </ActivityLayout>
   )),
 
