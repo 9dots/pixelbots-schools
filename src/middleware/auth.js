@@ -10,6 +10,7 @@ const SIGN_OUT = 'Sign Out'
 const SIGN_IN_WITH_PROVIDER = 'Sign In With Provider'
 
 const signInWithProvider = createAction(SIGN_IN_WITH_PROVIDER)
+const signInWithToken = createAction('SIGN_IN_WITH_TOKEN')
 const signOut = createAction(signOut)
 
 const providers = {
@@ -37,6 +38,11 @@ export default ({actions, dispatch}) => {
         if (error.code === 'auth/credential-already-in-use') {
           return auth.signInWithCredential(error.credential)
         }
+      })
+    }
+    if (action.type === signInWithToken.type) {
+      auth().signInWithCustomToken(action.payload).then(function (result) {
+        window.location = 'http://localhost:8080'
       })
     }
     if (action.type === SIGN_OUT) {
@@ -92,5 +98,6 @@ function * checkUsers (uid) {
 
 export {
   signInWithProvider,
+  signInWithToken,
   signOut
 }

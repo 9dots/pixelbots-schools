@@ -5,7 +5,7 @@
 import scrollMw, {scrollTo as scrollToEffect} from 'middleware/scroll'
 import summon, {invalidate, middleware as summonMw} from 'vdux-summon'
 import fetchMw, {fetch, fetchEncodeJSON} from 'redux-effects-fetch'
-import auth, {signInWithProvider, signOut} from 'middleware/auth'
+import auth, {signInWithProvider, signInWithToken, signOut} from 'middleware/auth'
 import fastclickMw, {initFastclick} from 'middleware/fastclick'
 import analyticsMw, * as analytics from 'middleware/analytics'
 import locationMw, * as location from 'redux-effects-location'
@@ -137,13 +137,14 @@ export default component({
       yield sleep(time)
       yield actions.hideToast()
     },
-
+    signInWithToken: wrapEffect(signInWithToken),
     scrollTo: wrapEffect(scrollToEffect),
     firebaseSet: wrapEffect(firebaseSet),
     firebaseUpdate: wrapEffect(firebaseUpdate),
     firebaseOnce: wrapEffect(firebaseOnce),
     firebaseTransaction: wrapEffect(transaction),
     firebasePush: wrapEffect(firebasePush),
+    fetch: wrapEffect(fetch),
     ...map(wrapEffect, location),
     ...map(wrapEffect, analytics)
   },

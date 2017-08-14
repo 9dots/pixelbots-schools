@@ -2,11 +2,10 @@
  * Imports
  */
 
-import ClassListLoader from 'components/ClassListLoader'
 import {MenuItem, Button} from 'vdux-containers'
+import {Block, Menu, Icon} from 'vdux-ui'
 import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
-import {Block, Menu} from 'vdux-ui'
 import enroute from 'enroute'
 import fire from 'vdux-fire'
 
@@ -26,7 +25,7 @@ export default component({
   	const route = classId ? 'studentList' : 'classList'
 
     return (
-    	<Block key={route} column w='col_s' h={400} p='l' bgColor='white' boxShadow='0 1px 2px rgba(0,0,0,.3)'>
+    	<Block column w='col_s' h={400} p='l' bgColor='white' boxShadow='0 1px 2px rgba(0,0,0,.3)'>
     		{router(route, props)}
     	</Block>
     )
@@ -36,23 +35,45 @@ export default component({
 const StudentList = fire(({classId}) => ({
 	classInfo: {
 		ref: `/classes/${classId}`,
+		join: {
+			ref: '/users',
+			child: 'students',
+			childRef: (val, ref) => mapValues((val, key) => ref.child(key), val.students)
+		}
 	},
 }))(component({
-  render ({props, context}) {
-  	const {classInfo} = props
+  render ({props, context, actions}) {
+  	const {classInfo, schoolId} = props
   	if (classInfo.loading) return <span/>
-  	console.log(classInfo.value)
 
     return (
     	<Block>
-    		<Block fs='m' pb='l'>Select Your Name</Block>
+    		<Block
+    			onClick={context.setUrl(`/schools/${schoolId}`)}
+    			cursor='pointer'
+    			fs='m'
+          pb
+    			align='start center'>
+            <Icon pr name='arrow_back'/>
+    				{classInfo.value.displayName}
+    		</Block>
+    		<Block fs='s' pb>Select Your Name</Block>
 				<Menu flex column>
     			{mapValues((val, key) => (
-    				<MenuItem key={key}>{val.displayName}</MenuItem>
+    				<MenuItem onClick={actions.getSignInToken(key)} key={key}>{val.displayName}</MenuItem>
     			), classInfo.value.students)}
     		</Menu>
     	</Block>
     )
+  },
+  controller: {
+    * getSignInToken ({context}, uid) {
+      const {value} = yield context.fetch('https://us-central1-artbot-dev.cloudfunctions.net/weoAuth', {
+        method: 'POST',
+        body: JSON.stringify({uid})
+      })
+      yield context.signInWithToken(value.token)
+    }
   }
 }))
 
@@ -69,7 +90,6 @@ const ClassList = fire(({schoolId}) => ({
   render ({props, context}) {
   	const {school} = props
   	if (school.loading) return <span/>
-  	console.log(school.value)
 
     return (
     	<Block>
