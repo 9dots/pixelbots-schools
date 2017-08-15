@@ -52,7 +52,7 @@ export default fire(({group, groupId}) => ({
                   <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} groupId={groupId}/>
                   <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
                 </Block>
-              : <EmptyClassStudents group={group} />
+              : <EmptyClassStudents group={group} groupId={groupId} />
           }
         </Block>
       )

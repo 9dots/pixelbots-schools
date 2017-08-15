@@ -2,7 +2,7 @@
  * Imports
  */
 
-import AddStudentModal from 'modals/AddStudentModal'
+import CreateStudentModal from 'modals/CreateStudentModal'
 import {Button, Tooltip} from 'vdux-containers'
 import EmptyState from 'components/EmptyState'
 import {Icon, Block, Text} from 'vdux-ui'
@@ -28,7 +28,7 @@ export default component({
           </Button>
         </Block>
         <Block fs='s' lighter mx='auto' w='col_m'>
-          Or instruct them to sign up at <Text bold>weo.io/student</Text> and
+          Or instruct them to sign up on <Text bold>PixelBots</Text> and
           join your class using the following code:
           <Text fontFamily='monospace' color='blue' ml='s'>
             {group.code}
@@ -40,7 +40,7 @@ export default component({
 
   controller: {
     * addStudentModal ({props, context}) {
-      yield context.openModal(() => <AddStudentModal group={props.group} />)
+      yield context.openModal(() => <CreateStudentModal groupId={props.groupId} />)
     }
     
   }

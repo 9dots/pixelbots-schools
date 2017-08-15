@@ -27,10 +27,10 @@ component({
   render ({props, context, actions}) {
     const {
     activity, students, setStatus, settingStatus, prefs,
-    toggleAll, fields, instances, classId, sequence
+    toggleAll, fields, instances, classRef, sequence
   } = props
     const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
-
+    console.log(props)
     // const instanceList = combineInstancesAndStudents(activity, students, instances)
     // .sort(activitySort(sort))
 
@@ -74,7 +74,7 @@ component({
               <Block>
                 You must add students to your class in order to view results.
               </Block>
-              <Button onClick={context.setUrl(`/class/${classId}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
+              <Button onClick={context.setUrl(`/class/${classRef}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
                 <Icon name='person_add' mr='s' fs='s' />
                   Add Students
               </Button>
