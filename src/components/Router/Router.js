@@ -40,7 +40,11 @@ import enroute from 'enroute'
 const router = enroute({
   '/': track('Login', (params, props) =>
     <HomeLayout title='Login - Weo'>
-      <Login {...props} />
+      {
+        props.userId
+          ? <Redirect to='/class/all/' />
+          : <Login {...props} />
+      }
     </HomeLayout>),
 
   // Home
