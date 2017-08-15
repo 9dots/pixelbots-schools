@@ -108,7 +108,7 @@ const StudentMenu = component({
     },
 
     * removeModal ({props, context}, users) {
-      yield context.openModal(() => <RemoveFromClassModal user={users} group={props.group} />)
+      yield context.openModal(() => <RemoveFromClassModal user={users} groupId={props.groupId} />)
     },
 
     * printLoginModal ({props, context}, users) {
