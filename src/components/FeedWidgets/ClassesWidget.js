@@ -60,7 +60,7 @@ const Item = fire(props => ({
   render ({props, actions}) {
     const {cls, clsId, hasSettings, showIcon} = props
 
-    if (cls.loading) return <span/>
+    if (cls.loading || !cls.value) return <span/>
 
     const {value} = cls
     const {displayName} = value
@@ -118,7 +118,7 @@ const AddClassItem = component({
   controller: {
     * openModal ({props, context}) {
       const {Modal} = props
-      yield context.openModal(() => <Modal />)
+      yield context.openModal(() => <Modal userId={context.userId} />)
     }
   }
 })

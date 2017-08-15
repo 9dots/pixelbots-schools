@@ -38,7 +38,6 @@ component({
       ...student,
       ...(instances[id] || {})
     }), students)
-    console.log('instances', studentInsts)
 
     const headProps = {sort, setSort: actions.setSort, lighter: true, p: true}
 

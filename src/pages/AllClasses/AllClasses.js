@@ -134,7 +134,7 @@ const Join = component({
     },
 
     * createClass ({context}) {
-      yield context.openModal(() => <CreateClassModal />)
+      yield context.openModal(() => <CreateClassModal userId={context.userId} />)
     }
   }
 })
