@@ -14,22 +14,7 @@ import Form from 'vdux-form'
  * <Create Student Modal/>
  */
 
-export default summon(({groupId}) => ({
-  createStudent: body => ({
-    creatingStudent: {
-      url: '/auth/user',
-      method: 'POST',
-      body
-    }
-  }),
-  joinClass: userId => ({
-    joiningClass: {
-      url: `/group/${groupId}/members/${userId}`,
-      method: 'PUT',
-      invalidates: [`/group/students?group=${groupId}`]
-    }
-  })
-}))(component({
+export default component({
   render ({props, actions, context}) {
     const {creatingStudent = {}, joiningClass = {}} = props
     const loading = creatingStudent.loading || joiningClass.loading
@@ -50,9 +35,9 @@ export default summon(({groupId}) => ({
               <LineInput name='username' mr='l' placeholder='Username' />
               <LineInput name='sisId' placeholder='ID (Optional)' />
             </Block>
-            <Block>
+            {/*<Block>
               <LineInput name='password' mr placeholder='Password' type='password' />
-            </Block>
+            </Block>*/}
           </ModalBody>
           <ModalFooter bg='grey'>
             <Text fs='xxs'>
@@ -67,12 +52,18 @@ export default summon(({groupId}) => ({
   },
 
   controller: {
-    * studentJoin ({props}, model) {
-      const user = yield props.createStudent(model)
-      yield props.joinClass(user.id)
+    * studentJoin ({props, context}, model) {
+      const {value} = yield context.fetch(`${process.env.CLOUD_FUNCTION_SERVER}/createNewUser`, {
+        method: 'POST',
+        headers: {'CONTENT-TYPE': 'application/json'},
+        body: JSON.stringify({...model, classId: props.groupId})
+      })
+      if (value.status === 'failed') {
+        throw ([{field: 'username', message: value.payload}])
+      }
     }
   }
-}))
+})
 
 /**
  * validateStudent

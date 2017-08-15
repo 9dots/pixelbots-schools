@@ -34,7 +34,7 @@ const user = Schema()
   .prop('password', password)
   .prop('name', name)
   .prop('email', email)
-  .required(['password', 'name'])
+  .required(['name'])
 
 /**
  * Exports

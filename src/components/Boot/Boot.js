@@ -188,11 +188,11 @@ function wrapEffect (fn) {
  * Global config
  */
 
-Form.setTransformError(err => {
-  if (err.status >= 400 && err.status < 500) {
-    return err.value && err.value.errors
-  }
-})
+// Form.setTransformError(err => {
+//   if (err.status >= 400 && err.status < 500) {
+//     return err.value && err.value.errors
+//   }
+// })
 
 moment.updateLocale('en', {
   calendar: {

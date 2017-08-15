@@ -106,11 +106,13 @@ const router = enroute({
     </MainLayout>)),
 
   '/activity/:classRef/:playlistRef': track('Activity', auth((params, props) =>
-    <ActivityLayout {...props} {...params}>
-      {
-        (extra = {}) => <ActivityProgress {...props} {...params} {...extra} />
-      }
-    </ActivityLayout>
+    <AppLayout>
+      <ActivityLayout {...props} {...params}>
+        {
+          (extra = {}) => <ActivityProgress {...props} {...params} {...extra} />
+        }
+      </ActivityLayout>
+    </AppLayout>
   )),
 
   // Account
