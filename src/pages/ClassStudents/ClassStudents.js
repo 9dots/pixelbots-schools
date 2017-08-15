@@ -36,7 +36,7 @@ export default fire(({group, groupId}) => ({
   fields: ['selected']
 }))(component({
     render ({props}) {
-      const {toggleAll, fields, group, currentUser, students} = props
+      const {toggleAll, fields, group, currentUser, students, groupId} = props
 
       if (students.loading) return <span/>
 
@@ -49,10 +49,10 @@ export default fire(({group, groupId}) => ({
           {
             studentList.length
               ? <Block>
-                  <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} />
+                  <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} groupId={groupId}/>
                   <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
                 </Block>
-              : <EmptyClassStudents group={group} />
+              : <EmptyClassStudents group={group} groupId={groupId} />
           }
         </Block>
       )
@@ -104,11 +104,11 @@ const StudentMenu = component({
 
   controller: {
     * addStudentModal ({props, context}) {
-      yield context.openModal(() => <AddStudentModal group={props.group} />)
+      yield context.openModal(() => <CreateStudentModal groupId={props.groupId}  />)
     },
 
     * removeModal ({props, context}, users) {
-      yield context.openModal(() => <RemoveFromClassModal user={users} group={props.group} />)
+      yield context.openModal(() => <RemoveFromClassModal user={users} groupId={props.groupId} />)
     },
 
     * printLoginModal ({props, context}, users) {

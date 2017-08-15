@@ -32,7 +32,6 @@ export default component({
           <TableHeader p w='50' hide={isStudent}>
             <Checkbox checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
           </TableHeader>
-          <TableHeader w='40' />
           <StudentHeader text='Name' prop='displayName' sort={sort} setSort={actions.setSort} />
           <StudentHeader text='Username' prop='username' sort={sort} setSort={actions.setSort} />
           <TableHeader hide={isStudent} />
@@ -123,9 +122,6 @@ const StudentRow = wrap(CSSContainer, {
       <TableRow tag={isStudent ? 'tr' : 'label'} display='table-row' py bgColor={highlight && !isStudent ? '#fafdfe' : 'white'} borderBottom='1px solid grey_light'>
         <TableCell {...cellProps} hide={isStudent}>
           <Checkbox name='selected[]' value={student.id} checked={selected} />
-        </TableCell>
-        <TableCell {...cellProps}>
-          <Avatar display='flex' actor={student} mr='s' sq='26' />
         </TableCell>
         <TableCell {...cellProps}>
           <Block hoverProps={underline}>

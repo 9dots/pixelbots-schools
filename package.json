@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "postversion": "git push && git push --tags && npm publish --access=public",
-    "dev": "unv dev",
+    "dev": "unv dev --modules src",
     "build": "export NODE_ENV=`git symbolic-ref --short -q HEAD` && unv build --production",
     "start": "unv serve"
   },
@@ -116,7 +116,7 @@
     "track-prep": "^0.2.0",
     "vdux": "^3.0.6",
     "vdux-containers": "^1.2.8",
-    "vdux-fire": "latest",
+    "vdux-fire": "^1.2.17",
     "vdux-form": "^1.2.3",
     "vdux-position": "^1.0.5",
     "vdux-summon": "^0.2.9",
@@ -188,12 +188,14 @@
       "WEO_TAGLINE": "Empower Your Classroom",
       "WEO_DESCRIPTION": "Weo is a place to create and discover activities for your classroom that can be assigned to your students with a simple click.",
       "OFFICE365_CLIENT_ID": "570e8309-8141-4588-b74d-ca708fd29ac3",
-      "TEMPLATE_BOARD_ID": "56149fd19c9d5d0c0024ad3c"
+      "TEMPLATE_BOARD_ID": "56149fd19c9d5d0c0024ad3c",
+      "CLOUD_FUNCTION_SERVER": "https://us-central1-artbot-26016.cloudfunctions.net"
     },
     "development": {
       "API_SERVER": "http://localhost:1337/",
       "AVATAR_SERVER": "http://localhost:1337",
-      "FACEBOOK_APP_ID": "1768047533430073"
+      "FACEBOOK_APP_ID": "1768047533430073",
+      "CLOUD_FUNCTION_SERVER": "https://us-central1-artbot-dev.cloudfunctions.net"
     }
   },
   "engines": {

@@ -22,15 +22,17 @@ export default component({
     			<ModalHeader>
     				Add Students
   				</ModalHeader>
-  				<BlockInput placeholder='Find students in your school…' autofocus />
+  				{/*<BlockInput placeholder='Find students in your school…' autofocus />*/}
   				<Block align='center center' mt='l'>
-	  				<Button mr {...btnProps} onClick={actions.inviteStudentsModal}>
-	            <Icon name='mail' mr fs='s' />
-	            Invite
-	            <Tooltip message='Send an email to your students that will instruct them on how to join your class.' align='center center' tooltipProps={{whiteSpace: 'normal', w: '200'}}>
-	              <Icon name='info' ml='s' fs='xs' />
-	            </Tooltip>
-	          </Button>
+	  				{/*
+            <Button mr {...btnProps} onClick={actions.inviteStudentsModal}>
+              <Icon name='mail' mr fs='s' />
+              Invite
+              <Tooltip message='Send an email to your students that will instruct them on how to join your class.' align='center center' tooltipProps={{whiteSpace: 'normal', w: '200'}}>
+                <Icon name='info' ml='s' fs='xs' />
+              </Tooltip>
+            </Button>
+            */}
 	          <Button {...btnProps} onClick={actions.createStudentModal}>
 	            <Icon name='edit' mr fs='s' />
 	            Create New

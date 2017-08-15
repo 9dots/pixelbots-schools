@@ -40,7 +40,11 @@ import enroute from 'enroute'
 const router = enroute({
   '/': track('Login', (params, props) =>
     <HomeLayout title='Login - Weo'>
-      <Login {...props} />
+      {
+        props.userId
+          ? <Redirect to='/class/all/' />
+          : <Login {...props} />
+      }
     </HomeLayout>),
 
   // Home
@@ -106,11 +110,13 @@ const router = enroute({
     </MainLayout>)),
 
   '/activity/:classRef/:playlistRef': track('Activity', auth((params, props) =>
-    <ActivityLayout {...props} {...params}>
-      {
-        (extra = {}) => <ActivityProgress {...props} {...params} {...extra} />
-      }
-    </ActivityLayout>
+    <AppLayout>
+      <ActivityLayout {...props} {...params}>
+        {
+          (extra = {}) => <ActivityProgress {...props} {...params} {...extra} />
+        }
+      </ActivityLayout>
+    </AppLayout>
   )),
 
   // Account
@@ -126,6 +132,18 @@ const router = enroute({
     <SettingsLayout {...props} {...params}>
       <AccountEmail {...props} />
     </SettingsLayout>)),
+
+  // Student Sign In
+  '/schools/:schoolId': track('Student Log In', auth((params, props) => 
+    <HomeLayout {...props} {...params}>
+      <StudentSignIn {...props} {...params}/>
+    </HomeLayout>
+  )),
+  '/schools/:schoolId/:classId': track('Student Log In: Class', auth((params, props) => 
+    <HomeLayout {...props} {...params}>
+      <StudentSignIn {...props} {...params}/>
+    </HomeLayout>
+  )),
 
   // 404
   '*': track('404', (params, props) =>

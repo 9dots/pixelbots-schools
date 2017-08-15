@@ -32,8 +32,8 @@ export default fire(props => ({
 
       return (
         <Block my pb mx='auto' relative>
-          <Button onClick={context.openModal(() => <MediaModal onAccept={actions.assign} />)}>Submit a Link</Button>
           <PageTitle title={`${group.displayName} | Feed`} />
+          <Button mb onClick={context.openModal(() => <MediaModal onAccept={actions.assign} />)}>Submit a Link</Button>
           <Block>
             {
               value.map(activity => (

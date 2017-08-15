@@ -27,16 +27,16 @@ component({
   render ({props, context, actions}) {
     const {
     activity, students, setStatus, settingStatus, prefs,
-    toggleAll, fields, instances, classId, sequence
+    toggleAll, fields, instances, classRef, sequence
   } = props
     const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
-
+    console.log(props)
     // const instanceList = combineInstancesAndStudents(activity, students, instances)
     // .sort(activitySort(sort))
 
     const studentInsts = map((student, id) => ({
       ...student,
-      ...(instances[id] || {})
+      ...(instances[id] || {notStarted: true})
     }), students)
 
     const headProps = {sort, setSort: actions.setSort, lighter: true, p: true}
@@ -50,20 +50,15 @@ component({
 
     return (
       <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
-        <ActivityProgressActions
-          settingStatus={settingStatus}
-          setStatus={setStatus}
-          activity={activity}
-          selected={selected} />
         <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
           <TableRow bgColor='grey' color='white'>
-            <TableHeader {...headProps}>
+            {/*<TableHeader {...headProps}>
               <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
-            </TableHeader>
+            </TableHeader>*/}
             <SortHeader {...headProps} prop='givenName' text='Name' />
             <SortHeader {...headProps} prop='percent' text='Score' />
             <SortHeader {...headProps} prop='status' text='Status' />
-            <TableHeader {...headProps} />
+            {/*<TableHeader {...headProps} />*/}
           </TableRow>
           {
           instanceIds.length
@@ -79,7 +74,7 @@ component({
               <Block>
                 You must add students to your class in order to view results.
               </Block>
-              <Button onClick={context.setUrl(`/class/${classId}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
+              <Button onClick={context.setUrl(`/class/${classRef}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
                 <Icon name='person_add' mr='s' fs='s' />
                   Add Students
               </Button>

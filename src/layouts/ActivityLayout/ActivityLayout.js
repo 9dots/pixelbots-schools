@@ -65,7 +65,7 @@ export default fire(({classRef, playlistRef}) => ({
     }
 
     return (
-      <Block class='app' pb='60vh' printProps={printProps}>
+      <Block class='app' pt pb='60vh' printProps={printProps}>
         {
           maybeOver({
             students: students.value.students,

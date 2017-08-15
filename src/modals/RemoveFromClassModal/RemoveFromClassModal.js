@@ -12,14 +12,7 @@ import Form from 'vdux-form'
  * <RemoveFromClassModal/>
  */
 
-export default summon(() => ({
-  remove: (user, group) => ({
-    removing: {
-      url: `/group/${group._id}/members/${user._id || user.id}`,
-      method: 'DELETE'
-    }
-  })
-}))(component({
+export default component({
   render ({props, actions, context}) {
     const {removing = {}} = props
     const {loading} = removing
@@ -64,11 +57,20 @@ export default summon(() => ({
   },
 
   controller: {
-    * handleSubmit ({props}, body) {
-      const {group, user, remove} = props
-      const users = [].concat(user)
-      yield users.map(user => remove(user, group))
-      yield props.summonInvalidate(`/group/students?group=${group._id}`)
+    * handleSubmit ({props, actions}, body) {
+      const users = [].concat(props.user)
+      yield users.map(({id}) => actions.remove(id))
+    },
+    * remove ({context, props}, uid) {
+      const {groupId} = props
+      yield [
+        context.firebaseUpdate(`/classes/${groupId}/students`, {
+          [uid]: null
+        }),
+        context.firebaseUpdate(`/users/${uid}/studentOf`, {
+          [groupId]: null
+        })
+      ]
     }
   }
-}))
+})

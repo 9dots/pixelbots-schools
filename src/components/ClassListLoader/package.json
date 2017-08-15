@@ -1,0 +1,5 @@
+{
+  "name": "ClassListLoader",
+  "main": "ClassListLoader.js",
+  "browser": "ClassListLoader.js"
+}
