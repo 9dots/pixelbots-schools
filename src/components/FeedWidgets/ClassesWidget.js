@@ -53,7 +53,13 @@ export default component({
  */
 
 const Item = fire(props => ({
-  cls: `/classes/${props.clsId}`
+  cls: {
+    ref: `/classes/${props.clsId}`,
+    join: {
+      ref: '/schools',
+      child: 'school'
+    }
+  }
 }))(wrap(CSSContainer, {
   hoverProps: {showIcon: true}
 })(component({
@@ -77,6 +83,7 @@ const Item = fire(props => ({
         p>
         <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
         <Text capitalize flex bolder>{displayName}</Text>
+        <Text capitalize flex fs='xs'>{value.school.name}</Text>
         <Block onClick={stopPropagation} align='end center'>
           <Button
             onClick={actions.classSettings}

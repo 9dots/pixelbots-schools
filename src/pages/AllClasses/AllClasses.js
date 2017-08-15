@@ -5,6 +5,7 @@
 import ActivityRowStudent from 'components/ActivityRowStudent'
 import ClassActivityRow from 'components/ClassActivityRow'
 import CreateClassModal from 'modals/CreateClassModal'
+import JoinSchoolModal from 'modals/JoinSchoolModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import summonChannels from 'lib/summon-channels'
 import EmptyState from 'components/EmptyState'
@@ -26,6 +27,12 @@ const itemProps = {showClass: true}
  */
 
 export default component({
+  * onCreate ({props, context}) {
+    if (!Object.keys(props.currentUser.schools || {}).length) {
+      yield context.openModal(() => <JoinSchoolModal />)
+    }
+  },
+
   render ({props}) {
     const {currentUser} = props
     const {userType, preferences = {}} = currentUser
