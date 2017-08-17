@@ -9,7 +9,9 @@ import {stopPropagation, component, element} from 'vdux'
 import CreateClassModal from 'modals/CreateClassModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import RoundedInput from 'components/RoundedInput'
+import mapValues from '@f/map-values'
 import Link from 'components/Link'
+import filter from '@f/filter'
 import fire from 'vdux-fire'
 
 /**
@@ -26,24 +28,70 @@ const alignLeft = {textAlign: 'left'}
  * <ClassesWidget/>
  */
 
-export default component({
+export default fire(props => ({
+  classes: {
+    ref: '/classes',
+    list: Object.keys(props.user.teacherOf),
+    join: {
+      ref: '/schools',
+      child: 'school'
+    }
+  }
+}))(component({
   render ({props, context, actions}) {
-    const {user} = props
-    const {teacherOf = {}} = user
+    const {user, classes} = props
+    const {teacherOf = {}, classSchools = {}} = user
     const offset = clsLength ? '318px' : '270px'
-    const classes = Object.keys(teacherOf)
-    const clsLength = classes.length
+    const clsLength = Object.keys(teacherOf).length
+
+    if (classes.loading) return <span/>
+
+    const schools = Object
+      .keys(classes.value)
+      .reduce((acc, id) => {
+        const cls = classes.value[id]
+        if (!acc[cls.school.key]) {
+          acc[cls.school.key] = {
+            ...cls.school,
+            classes: {}
+          }
+        }
+
+        acc[cls.school.key].classes[id] = cls
+        return acc
+      }, {})
 
     return (
       <Card {...props}>
         <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(grey,0.05)' borderWidth='1px 0'>
-          {[
-            classes.map(id => <Item clsId={id} hasSettings />),
-            <AddClassItem Modal={CreateClassModal} text='New Class' />
-          ]}
+          {
+            mapValues((school, id) => <SchoolItem schoolId={id} school={school} />, schools)
+          }
+          <AddClassItem Modal={CreateClassModal} text='New Class' />
         </Block>
         <Block boxShadow='0 -2px 1px rgba(grey,0.1)' z='1' relative p />
       </Card>
+    )
+  }
+}))
+
+/**
+ * <SchoolItem/>
+ */
+
+const SchoolItem = component({
+  render ({props}) {
+    const {school} = props
+
+    return (
+      <Block>
+        {school.name}
+        <Block>
+          {
+            mapValues((cls, id) => <Item clsId={id} cls={cls} hasSettings />, school.classes)
+          }
+        </Block>
+      </Block>
     )
   }
 })
@@ -52,24 +100,12 @@ export default component({
  * <Item/>
  */
 
-const Item = fire(props => ({
-  cls: {
-    ref: `/classes/${props.clsId}`,
-    join: {
-      ref: '/schools',
-      child: 'school'
-    }
-  }
-}))(wrap(CSSContainer, {
+const Item = wrap(CSSContainer, {
   hoverProps: {showIcon: true}
 })(component({
   render ({props, actions}) {
     const {cls, clsId, hasSettings, showIcon} = props
-
-    if (cls.loading || !cls.value) return <span/>
-
-    const {value} = cls
-    const {displayName} = value
+    const {displayName} = cls
 
     return (
       <Link
@@ -83,7 +119,7 @@ const Item = fire(props => ({
         p>
         <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
         <Text capitalize flex bolder>{displayName}</Text>
-        <Text capitalize flex fs='xs'>{value.school.name}</Text>
+        <Text capitalize flex fs='xs'>{cls.school.name}</Text>
         <Block onClick={stopPropagation} align='end center'>
           <Button
             onClick={actions.classSettings}
@@ -104,7 +140,7 @@ const Item = fire(props => ({
       yield context.openModal(() => <ClassSettingsModal group={props.cls.value} groupId={props.clsId} />)
     }
   }
-})))
+}))
 
 /**
  * <AddClassItem/>
