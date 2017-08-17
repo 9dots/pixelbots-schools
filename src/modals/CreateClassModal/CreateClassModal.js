@@ -2,8 +2,8 @@
  * Imports
  */
 
-import {Block, Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text, Icon, MenuItem} from 'vdux-ui'
-import {Checkbox, Dropdown, Button} from 'vdux-containers'
+import {Block, Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text, Icon} from 'vdux-ui'
+import {Checkbox, Dropdown, Button, MenuItem} from 'vdux-containers'
 import RoundedInput from 'components/RoundedInput'
 import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
@@ -61,17 +61,19 @@ export default fire(({userId}) => ({
               <ModalHeader>
                 Create Class
               </ModalHeader>
-              <RoundedInput my autofocus name='displayName' placeholder='Class name' />
-              <Dropdown btn={<DDBtn text={grade ? grade : 'Grade selector'} />}>
-                {
-                  grades.map(grade => <MenuItem onClick={actions.setGrade(grade)}>{grade}</MenuItem>)
-                }
-              </Dropdown>
-              <Dropdown btn={<DDBtn text={school ? user.value.schools[school].name : 'School selector'} />}>
-                {
-                  mapValues((school, key) => <MenuItem onClick={actions.setSchool(key)}>{school.name}</MenuItem>, user.value.schools || {})
-                }
-              </Dropdown>
+              <RoundedInput w={300} autofocus name='displayName' placeholder='Class name' />
+              <Block my align='space-between center' w={300}>
+                <Dropdown wide maxHeight={200} overflowY='auto' btn={<DDBtn text={grade ? grade : 'Grade'} />}>
+                  {
+                    grades.map(grade => <MenuItem onClick={actions.setGrade(grade)}>{grade}</MenuItem>)
+                  }
+                </Dropdown>
+                <Dropdown wide maxHeight={200} overflowY='auto' btn={<DDBtn text={school ? user.value.schools[school].name : 'School'} />}>
+                  {
+                    mapValues((school, key) => <MenuItem onClick={actions.setSchool(key)}>{school.name}</MenuItem>, user.value.schools || {})
+                  }
+                </Dropdown>
+              </Block>
             </Flex>
           </ModalBody>
           <ModalFooter bg='grey'>
@@ -131,11 +133,13 @@ function DDBtn ({props}) {
       lh='2.8em'
       ellipsis
       fs='xxs'
-      wide
+      w={142}
+      maxWidth={142}
       px
+      py='xs'
       {...rest}>
       <Block flex ellipsis>{text}</Block>
-      <Icon fs='s' name='keyboard_arrow_down' />
+      <Icon fs='s' mt={3} ml={3} mr={-2} name='keyboard_arrow_down' />
     </Button>
   )
 }

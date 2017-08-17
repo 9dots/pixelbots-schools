@@ -2,11 +2,11 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, Card, ModalHeader, Block, Text} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, Card, ModalHeader, Block} from 'vdux-ui'
 import JoinSchoolModal from 'modals/JoinSchoolModal'
-import LineInput from 'components/LineInput'
+import RoundedInput from 'components/RoundedInput'
 import {component, element} from 'vdux'
-import {Button} from 'vdux-containers'
+import {Button, Text} from 'vdux-containers'
 import validate from 'lib/validate'
 import Form from 'vdux-form'
 
@@ -17,26 +17,26 @@ import Form from 'vdux-form'
 export default component({
   render ({props, actions, state, context}) {
     return (
-      <Modal onDismiss={context.closeModal}>
+      <Modal>
         <Form onSubmit={actions.createSchool} onSuccess={context.closeModal}>
           <ModalBody py='l' w='col_m' mx='auto'>
             <ModalHeader pb>
               Create a New School
             </ModalHeader>
-            <Block mb='l'  textAlign='center'>
-              Enter your school name below to create a new school.
+            <Block align='space-between center' column mt>
+              <RoundedInput mb={0} w={210} mx={0} mt autofocus name='name' placeholder='School Name' />
+              <Text textDecoration='underline' pointer mt='l' italic opacity='.5' hoverProps={{opacity: .7}} onClick={context.openModal(() => <JoinSchoolModal />)}>
+                or go back to join school
+              </Text>
             </Block>
-            <Block w='250' m='0 auto 12px'>
-              <LineInput autofocus name='name' placeholder='School Name' mb='l' />
-            </Block>
-            <Block>or</Block>
-            <Button onClick={context.openModal(() => <JoinSchoolModal />)}>Join an existing school</Button>
           </ModalBody>
           <ModalFooter bg='grey'>
-            <Text fs='xxs'>
-              <Text pointer underline onClick={context.closeModal}>Cancel</Text>
-              <Text mx>or</Text>
-            </Text>
+            {
+            // <Text fs='xxs'>
+            //   <Text pointer underline onClick={context.closeModal}>Cancel</Text>
+            //   <Text mx>or</Text>
+            // </Text>
+            }
             <Button type='submit' busy={state.loading}>Create</Button>
           </ModalFooter>
         </Form>

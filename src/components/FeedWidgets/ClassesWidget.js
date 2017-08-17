@@ -34,13 +34,16 @@ export default component({
     const classes = Object.keys(teacherOf)
     const clsLength = classes.length
 
+    console.log(classes)
+
     return (
       <Card {...props}>
         <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(grey,0.05)' borderWidth='1px 0'>
-          {[
-            classes.map(id => <Item clsId={id} hasSettings />),
-            <AddClassItem Modal={CreateClassModal} text='New Class' />
-          ]}
+          {
+          // <Item text='All Classes'/>
+            classes.map(id => <Item clsId={id} hasSettings />)
+          }
+          <AddClassItem Modal={CreateClassModal} text='New Class' />
         </Block>
         <Block boxShadow='0 -2px 1px rgba(grey,0.1)' z='1' relative p />
       </Card>
@@ -89,7 +92,7 @@ const Item = fire(props => ({
             onClick={actions.classSettings}
             activeProps={itemActiveProps}
             hoverProps={itemHoverProps}
-            hide={!(hasSettings && showIcon)}
+            hidden={!(hasSettings && showIcon)}
             icon='settings'
             opacity={0.7}
             color='text'
@@ -105,6 +108,51 @@ const Item = fire(props => ({
     }
   }
 })))
+
+/**
+ * <Item/>
+ */
+
+const Item2 = wrap(CSSContainer, {
+  hoverProps: {showIcon: true}
+})(component({
+  render ({props, actions}) {
+    const {title, url, hasSettings, showIcon} = props
+
+    return (
+      <Link
+        currentProps={itemCurrentProps}
+        borderLeft='3px solid transparent'
+        href={url}
+        align='start center'
+        ui={MenuItem}
+        color='grey_medium'
+        hoverProps={{color: 'text'}}
+        p>
+        <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{title[0]}</Block>
+        <Text capitalize flex bolder>{title}</Text>
+        <Block onClick={stopPropagation} align='end center'>
+          <Button
+            onClick={actions.classSettings}
+            activeProps={itemActiveProps}
+            hoverProps={itemHoverProps}
+            hidden={!(hasSettings && showIcon)}
+            icon='settings'
+            opacity={0.7}
+            color='text'
+            fs='xs' />
+        </Block>
+      </Link>
+    )
+  },
+
+  controller: {
+    * classSettings ({context, props}) {
+      yield context.openModal(() => <ClassSettingsModal group={props.cls.value} groupId={props.clsId} />)
+    }
+  }
+}))
+
 
 /**
  * <AddClassItem/>
