@@ -70,7 +70,7 @@ function getSteps(ctx, user) {
       text: 'Classes allow you to assign Activities to your students. Create your first class to start using Weo!',
       color: 'green',
       prop: 'group_joined',
-      action: ctx.openModal(() => <CreateClassModal />)
+      action: ctx.openModal(() => <CreateClassModal userId={ctx.userId} />)
     },
     {
       icon: 'people',

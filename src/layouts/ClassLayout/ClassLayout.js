@@ -20,7 +20,13 @@ import fire from 'vdux-fire'
  */
 
 export default fire(props => ({
-  group: `/classes/${props.groupId}`
+  group: {
+    ref: `/classes/${props.groupId}`,
+    join: {
+      ref: '/schools',
+      child: 'school'
+    }
+  }
 }))(component({
   * onCreate ({props, context}) {
     if (!Object.keys(props.currentUser.schools || {}).length) {
@@ -79,6 +85,13 @@ const Header = component({
                 ml='s'
                 pr
                 />
+              <Block>
+                {group.school.name}
+              </Block>
+              &middot;
+              <Block>
+                {group.grade} grade
+              </Block>
             </Block>
             <Button
               onClick={actions.classCodeModal}
