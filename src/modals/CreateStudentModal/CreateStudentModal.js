@@ -15,8 +15,9 @@ import Form from 'vdux-form'
  */
 
 export default component({
-  render ({props, actions, context}) {
+  render ({props, actions, context, state}) {
     const {creatingStudent = {}, joiningClass = {}} = props
+    const {fetching} = state
     const loading = creatingStudent.loading || joiningClass.loading
 
     return (
@@ -35,16 +36,13 @@ export default component({
               <LineInput name='username' mr='l' placeholder='Username' />
               <LineInput name='sisId' placeholder='ID (Optional)' />
             </Block>
-            {/*<Block>
-              <LineInput name='password' mr placeholder='Password' type='password' />
-            </Block>*/}
           </ModalBody>
           <ModalFooter bg='grey'>
             <Text fs='xxs'>
-              <Text pointer underline onClick={context.closeModal}>cancel</Text>
+              <Text pointer underline onClick={!fetching && context.closeModal}>cancel</Text>
               <Text mx>or</Text>
             </Text>
-            <Button type='submit' busy={loading}>Create</Button>
+            <Button disabled={fetching} type='submit' busy={loading}>Create</Button>
           </ModalFooter>
         </Form>
       </Modal>
@@ -52,16 +50,22 @@ export default component({
   },
 
   controller: {
-    * studentJoin ({props, context}, model) {
+    * studentJoin ({props, context, actions}, model) {
+      yield actions.isFetching(true)
       const {value} = yield context.fetch(`${process.env.CLOUD_FUNCTION_SERVER}/createNewUser`, {
         method: 'POST',
         headers: {'CONTENT-TYPE': 'application/json'},
         body: JSON.stringify({...model, classId: props.groupId})
       })
       if (value.status === 'failed') {
+        yield actions.isFetching(false)
         throw ([{field: 'username', message: value.payload}])
       }
     }
+  },
+
+  reducer: {
+    isFetching: (state, fetching) => ({fetching})
   }
 })
 
