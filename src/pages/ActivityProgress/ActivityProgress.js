@@ -30,7 +30,7 @@ component({
     toggleAll, fields, instances, classRef, sequence
   } = props
     const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
-    console.log(props)
+
     // const instanceList = combineInstancesAndStudents(activity, students, instances)
     // .sort(activitySort(sort))
 

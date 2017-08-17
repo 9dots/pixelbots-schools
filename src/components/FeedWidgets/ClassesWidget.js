@@ -7,9 +7,13 @@ import ClassSettingsModal from 'modals/ClassSettingsModal'
 import {Icon, Block, Card, Text, MenuItem} from 'vdux-ui'
 import {stopPropagation, component, element} from 'vdux'
 import CreateClassModal from 'modals/CreateClassModal'
+import JoinSchoolModal from 'modals/JoinSchoolModal'
+import SchoolCodeModal from 'modals/SchoolCodeModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import RoundedInput from 'components/RoundedInput'
+import mapValues from '@f/map-values'
 import Link from 'components/Link'
+import filter from '@f/filter'
 import fire from 'vdux-fire'
 
 /**
@@ -26,26 +30,68 @@ const alignLeft = {textAlign: 'left'}
  * <ClassesWidget/>
  */
 
-export default component({
+export default fire(props => ({
+  classes: {
+    ref: '/classes',
+    list: Object.keys(props.user.teacherOf),
+    join: {
+      ref: '/schools',
+      child: 'school'
+    }
+  }
+}))(component({
   render ({props, context, actions}) {
-    const {user} = props
-    const {teacherOf = {}} = user
+    const {user, classes} = props
+    const {teacherOf = {}, classSchools = {}} = user
     const offset = clsLength ? '318px' : '270px'
-    const classes = Object.keys(teacherOf)
-    const clsLength = classes.length
+    const clsLength = Object.keys(teacherOf).length
 
-    console.log(classes)
+    if (classes.loading) return <span/>
+
+    const schools = Object
+      .keys(classes.value)
+      .reduce((acc, id) => {
+        const cls = classes.value[id]
+        if (!acc[cls.school.key]) {
+          acc[cls.school.key] = {
+            ...cls.school,
+            classes: {}
+          }
+        }
+
+        acc[cls.school.key].classes[id] = cls
+        return acc
+      }, {})
 
     return (
-      <Card {...props}>
-        <Block maxHeight={`calc(100vh - ${offset})`} overflow='auto' border='1px solid rgba(grey,0.05)' borderWidth='1px 0'>
+      <Block {...props} mb borderWidth='1px 0'>
+        {
+          mapValues((school, id) => <SchoolItem schoolId={id} school={school} />, schools)
+        }
+        <AddClassItem Modal={CreateClassModal} text='Create/Join Class ' />
+        <Block borderBottom='1px solid divider' />
+        <AddSchoolItem />
+      </Block>
+    )
+  }
+}))
+
+/**
+ * <SchoolItem/>
+ */
+
+const SchoolItem = component({
+  render ({props}) {
+    const {school} = props
+
+    return (
+      <Card mb>
+        <School school={school}/>
+        <Block>
           {
-          // <Item text='All Classes'/>
-            classes.map(id => <Item clsId={id} hasSettings />)
+            mapValues((cls, id) => <Item clsId={id} cls={cls} />, school.classes)
           }
-          <AddClassItem Modal={CreateClassModal} text='New Class' />
         </Block>
-        <Block boxShadow='0 -2px 1px rgba(grey,0.1)' z='1' relative p />
       </Card>
     )
   }
@@ -55,103 +101,66 @@ export default component({
  * <Item/>
  */
 
-const Item = fire(props => ({
-  cls: {
-    ref: `/classes/${props.clsId}`,
-    join: {
-      ref: '/schools',
-      child: 'school'
-    }
-  }
-}))(wrap(CSSContainer, {
-  hoverProps: {showIcon: true}
-})(component({
+const Item = component({
   render ({props, actions}) {
-    const {cls, clsId, hasSettings, showIcon} = props
-
-    if (cls.loading || !cls.value) return <span/>
-
-    const {value} = cls
-    const {displayName} = value
+    const {cls, clsId} = props
+    const {displayName} = cls
 
     return (
       <Link
         currentProps={itemCurrentProps}
         borderLeft='3px solid transparent'
+        hoverProps={{color: 'text'}}
         href={`/class/${clsId}`}
         align='start center'
-        ui={MenuItem}
         color='grey_medium'
-        hoverProps={{color: 'text'}}
+        minHeight={42}
+        ui={MenuItem}
         p>
-        <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{displayName[0]}</Block>
         <Text capitalize flex bolder>{displayName}</Text>
-        <Text capitalize flex fs='xs'>{value.school.name}</Text>
-        <Block onClick={stopPropagation} align='end center'>
-          <Button
-            onClick={actions.classSettings}
-            activeProps={itemActiveProps}
-            hoverProps={itemHoverProps}
-            hidden={!(hasSettings && showIcon)}
-            icon='settings'
-            opacity={0.7}
-            color='text'
-            fs='xs' />
-        </Block>
       </Link>
     )
-  },
-
-  controller: {
-    * classSettings ({context, props}) {
-      yield context.openModal(() => <ClassSettingsModal group={props.cls.value} groupId={props.clsId} />)
-    }
   }
-})))
+})
 
 /**
  * <Item/>
  */
 
-const Item2 = wrap(CSSContainer, {
-  hoverProps: {showIcon: true}
-})(component({
+const School = component({
   render ({props, actions}) {
-    const {title, url, hasSettings, showIcon} = props
+    const {school} = props
+    const {name} = school
 
     return (
-      <Link
+      <Block
         currentProps={itemCurrentProps}
-        borderLeft='3px solid transparent'
-        href={url}
         align='start center'
-        ui={MenuItem}
-        color='grey_medium'
-        hoverProps={{color: 'text'}}
+        relative
+        borderBottom='1px solid divider'
         p>
-        <Block circle='25px' lh='25px' mr textAlign='center' bg='green' color='white' uppercase>{title[0]}</Block>
-        <Text capitalize flex bolder>{title}</Text>
+        <Text capitalize flex letterSpacing='1px'>{name}</Text>
         <Block onClick={stopPropagation} align='end center'>
           <Button
-            onClick={actions.classSettings}
+            onClick={actions.schoolInfo}
             activeProps={itemActiveProps}
             hoverProps={itemHoverProps}
-            hidden={!(hasSettings && showIcon)}
-            icon='settings'
-            opacity={0.7}
-            color='text'
-            fs='xs' />
+            py='5'
+            px
+            fs='xxs'>
+            Code
+          </Button>
         </Block>
-      </Link>
+      </Block>
     )
   },
 
   controller: {
-    * classSettings ({context, props}) {
-      yield context.openModal(() => <ClassSettingsModal group={props.cls.value} groupId={props.clsId} />)
+    * schoolInfo ({context, props}) {
+      yield context.openModal(() => <SchoolCodeModal school={props.school} />)
     }
   }
-}))
+})
 
 
 /**
@@ -163,10 +172,12 @@ const AddClassItem = component({
     const {text} = props
 
     return (
-      <Link ui={MenuItem} hoverProps={{color: 'text'}} onClick={actions.openModal} py='m' color='grey_medium' bolder display='flex' align='start center'>
-        <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' bolder />
-        {text}
-      </Link>
+      <Card>
+        <Link ui={MenuItem} hoverProps={{color: 'text'}} onClick={actions.openModal} py='m' color='grey_medium' bolder display='flex' align='start center'>
+          <Icon name='class' fs='s' mr='m' circle='29' bgColor='green' align='center center' color='white' bolder />
+          {text}
+        </Link>
+      </Card>
     )
   },
 
@@ -174,6 +185,31 @@ const AddClassItem = component({
     * openModal ({props, context}) {
       const {Modal} = props
       yield context.openModal(() => <Modal userId={context.userId} />)
+    }
+  }
+})
+
+/**
+ * <AddClassItem/>
+ */
+
+const AddSchoolItem = component({
+  render ({props, actions}) {
+    const {text} = props
+
+    return (
+      <Card>
+        <Link ui={MenuItem} hoverProps={{color: 'text'}} onClick={actions.openModal} py='m' color='grey_medium' bolder display='flex' align='start center'>
+          <Icon name='school' fs='s' mr='m' circle='29' bgColor='blue' align='center center' color='white' bolder />
+          Create/Join School
+        </Link>
+      </Card>
+    )
+  },
+
+  controller: {
+    * openModal ({props, context}) {
+      yield context.openModal(() => <JoinSchoolModal enableDismiss />)
     }
   }
 })

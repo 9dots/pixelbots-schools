@@ -5008,9 +5008,15 @@ vdux-containers@^1.2.8:
     "@f/serialize-form" "^1.0.0"
     vdux-ui "^1.3.4"
 
+<<<<<<< HEAD
 vdux-fire@^1.2.20:
   version "1.2.20"
   resolved "https://registry.yarnpkg.com/vdux-fire/-/vdux-fire-1.2.20.tgz#664b8c060ec4122760f0186dfac53e5e744ba717"
+=======
+vdux-fire@^1.2.25:
+  version "1.2.25"
+  resolved "https://registry.yarnpkg.com/vdux-fire/-/vdux-fire-1.2.25.tgz#024f3b48a256547fc2bb4193c825472f08b6b745"
+>>>>>>> f6ea65a92ac3ab98e0233f005001487e3c9c00e4
   dependencies:
     "@f/create-action" "^1.1.1"
     "@f/deep-equal" "^1.0.2"

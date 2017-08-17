@@ -27,8 +27,8 @@ export default component({
     return (
       <AppLayout {...props}>
         <Block align='start' w='col_main' mx='auto' py px='s' mt='s'>
-          <FeedWidgets user={props.currentUser} fixed />
-          <Block mr minWidth={230}  />
+          <FeedWidgets user={props.currentUser} />
+          {/*<Block mr minWidth={230}  />*/}
           <Block w='col_xl'>
             { children }
           </Block>

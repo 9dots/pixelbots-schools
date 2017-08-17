@@ -85,13 +85,6 @@ const Header = component({
                 ml='s'
                 pr
                 />
-              <Block>
-                {group.school.name}
-              </Block>
-              &middot;
-              <Block>
-                {group.grade} grade
-              </Block>
             </Block>
             <Button
               onClick={actions.classCodeModal}
@@ -112,6 +105,11 @@ const Header = component({
               </Text>
               <Icon ml='s' fs='xs' name='help' circle />
             </Button>
+          </Block>
+          <Block align='start center' fs='xs' mt='s'>
+            <Block>{group.school.name}</Block>
+            <Block mx='s'>&middot;</Block>
+            <Block>{group.grade}</Block>
           </Block>
         </Block>
 

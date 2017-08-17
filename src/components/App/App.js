@@ -8,17 +8,24 @@ import Router from 'components/Router'
 import Loading from 'pages/Loading'
 import {Block} from 'vdux-ui'
 import fire from 'vdux-fire'
+import map from '@f/map'
 
 /**
  * <App/>
  */
 
 export default fire(props => ({
-  currentUser: `/users/${props.userId}`
+  currentUser: props.userId && {
+    ref: `/users/${props.userId}`
+  }
 }))(component({
-  onCreate ({props, context}) {
+  * onCreate ({props, state, actions, context}) {
+    if (!state.ready) {
+      yield actions.appDidInitialize()
+      yield appReady({title: props.title})
+    }
     if (!props.currentUser.loading) {
-      return context.identify(props.currentUser.value)
+      yield context.identify(props.currentUser.value)
     }
   },
 
@@ -27,11 +34,6 @@ export default fire(props => ({
     const {currentUser = {}, school = {}} = props
     const nprops = next.props
     const pprops = prev.props
-
-    if (!state.ready) {
-      yield actions.appDidInitialize()
-      yield appReady({title: next.props.title})
-    }
 
     if (prev.props.currentUser.loading && !next.props.currentUser.loading) {
       yield context.identify(next.props.currentUser.value)
@@ -43,7 +45,7 @@ export default fire(props => ({
   },
 
   render ({props, state, context}) {
-    const {toast, modal, currentUser, school} = props
+    const {toast, modal, currentUser = {}, school} = props
 
     if (currentUser.loading && !currentUser.error) return <span />
     // if (!school.loaded && !school.error) return <span />

@@ -17,8 +17,10 @@ import fire from 'vdux-fire'
 
 export default component({
   render ({props, actions, state, context}) {
+    const {enableDismiss} = props
+
     return (
-      <Modal opacity='1'>
+      <Modal opacity='1' onDismiss={enableDismiss && context.closeModal}>
         <Form onSubmit={actions.joinSchool} onSuccess={context.closeModal} tall autocomplete='off'>
           <ModalBody>
             <Flex column align='space-around center'>
@@ -32,10 +34,10 @@ export default component({
           </ModalBody>
           <ModalFooter bg='grey'>
             {
-            // <Text fs='xxs'>
-            //   <Text pointer underline onClick={context.closeModal}>cancel</Text>
-            //   <Text mx>or</Text>
-            // </Text>
+            <Text fs='xxs' hide={!enableDismiss}>
+              <Text pointer underline onClick={context.closeModal}>cancel</Text>
+              <Text mx>or</Text>
+            </Text>
             }
             <Button type='submit' busy={state.loading}>Join</Button>
           </ModalFooter>

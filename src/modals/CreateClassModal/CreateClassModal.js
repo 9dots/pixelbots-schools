@@ -4,7 +4,7 @@
 
 import {Block, Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text, Icon} from 'vdux-ui'
 import {Checkbox, Dropdown, Button, MenuItem} from 'vdux-containers'
-import RoundedInput from 'components/RoundedInput'
+import BlockInput from 'components/BlockInput'
 import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
 import validate from 'lib/validate'
@@ -61,7 +61,7 @@ export default fire(({userId}) => ({
               <ModalHeader>
                 Create Class
               </ModalHeader>
-              <RoundedInput w={300} autofocus name='displayName' placeholder='Class name' />
+              <BlockInput w={300} autofocus name='displayName' placeholder='Class name' />
               <Block my align='space-between center' w={300}>
                 <Dropdown wide maxHeight={200} overflowY='auto' btn={<DDBtn text={grade ? grade : 'Grade'} />}>
                   {
