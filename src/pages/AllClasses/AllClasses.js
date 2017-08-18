@@ -36,10 +36,9 @@ export default component({
   render ({props}) {
     const {currentUser} = props
     const {userType, preferences = {}} = currentUser
-    const isTeacher = userType === 'teacher'
-    const item = isTeacher ? ClassActivityRow : ActivityRowStudent
+    const item = ClassActivityRow
 
-    if (!preferences.group_joined) return <Join isTeacher={isTeacher} />
+    if (!preferences.group_joined) return <Join />
 
     return (
       <Block maxWidth='714px' mx='auto' relative>
@@ -56,7 +55,7 @@ export default component({
               ))
           }
         </Block>
-        <RowFeed {...props} itemProps={itemProps} item={item} emptyState={<Empty isTeacher={isTeacher} />} />
+        <RowFeed {...props} itemProps={itemProps} item={item} emptyState={<Empty />} />
       </Block>
     )
   }
@@ -73,8 +72,6 @@ const ClassTile = fire(props => ({
     const {groupId, group} = props
 
     if (group.loading) return <span/>
-
-    console.log('group', group)
 
     return (
       <Block onClick={context.setUrl(`/class/${props.groupId}/feed`)}>
@@ -95,43 +92,25 @@ const Join = component({
     const {isTeacher} = props
 
     return (
-      isTeacher
-        ? <EmptyState icon='school' color='blue' fill>
-            <Block fs='m' m>Welcome to Weo!</Block>
-            <Button
-              onClick={actions.createClass}
-              color='white'
-              bgColor='green'
-              boxShadow='z2'
-              border='1px solid rgba(black, .1)'
-              py='16px'
-              px='40px'
-              lighter
-              fs='s'
-              m='l'>
-              Create My First Class
-            </Button>
-            <Block>
-              <Text bold>Classes </Text> let you deliver engaging, interactive activities to your students. <Text bold>Click the button</Text> above to create your first class.
-            </Block>
-          </EmptyState>
-        : <EmptyState icon='school' color='blue' fill>
-            You're not in any classes yet!
-            <Block fs='xs' my>
-              Click the button below to join your first class:
-            </Block>
-            <Button
-              onClick={actions.joinClass}
-              bgColor='green'
-              boxShadow='z1'
-              border='1px solid rgba(black, .1)'
-              p='16px 40px'
-              lighter
-              fs='s'
-              mt>
-              Join Class
-            </Button>
-          </EmptyState>
+      <EmptyState icon='school' color='blue' fill>
+        <Block fs='m' m>Welcome to Weo!</Block>
+        <Button
+          onClick={actions.createClass}
+          color='white'
+          bgColor='green'
+          boxShadow='z2'
+          border='1px solid rgba(black, .1)'
+          py='16px'
+          px='40px'
+          lighter
+          fs='s'
+          m='l'>
+          Create My First Class
+        </Button>
+        <Block>
+          <Text bold>Classes </Text> let you deliver engaging, interactive activities to your students. <Text bold>Click the button</Text> above to create your first class.
+        </Block>
+      </EmptyState>
     )
   },
 
@@ -154,15 +133,9 @@ function Empty ({props}) {
   return (
     <EmptyState icon='assignment' color='green' fill py='60'>
       Nothing here yet.
-      {
-        props.isTeacher
-          ? <Block fs='xs' my>
-              Once you assign an Activity to any of your classes, it will show up here.
-            </Block>
-          : <Block fs='xs' my>
-              Once your teacher assigns something, it will appear here.
-            </Block>
-      }
+      <Block fs='xs' my>
+        Once you assign an Activity to any of your classes, it will show up here.
+      </Block>
     </EmptyState>
   )
 }

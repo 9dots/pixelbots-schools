@@ -136,7 +136,7 @@ const Header = component({
     },
 
     * classSettings ({context, props}) {
-      yield context.openModal(() => <ClassSettingsModal group={props.group} />)
+      yield context.openModal(() => <ClassSettingsModal groupId={props.groupId} group={props.group} />)
     }
   }
 })

@@ -33,7 +33,7 @@ const alignLeft = {textAlign: 'left'}
 export default fire(props => ({
   classes: {
     ref: '/classes',
-    list: Object.keys(props.user.teacherOf),
+    list: Object.keys(props.user.teacherOf || {}),
     join: {
       ref: '/schools',
       child: 'school'
