@@ -50,7 +50,7 @@ export default fire(({group, groupId}) => ({
             studentList.length
               ? <Block>
                   <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} groupId={groupId}/>
-                  <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} />
+                  <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} groupId={groupId} />
                 </Block>
               : <EmptyClassStudents group={group} groupId={groupId} />
           }

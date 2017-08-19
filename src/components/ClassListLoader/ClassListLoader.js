@@ -16,8 +16,9 @@ export default fire(({classId}) => ({
 }))(component({
   render ({props}) {
   	const {classData} = props
+
 		if (classData.loading) return <span/>
-		console.log(classData.value)
+
     return (
     	<MenuItem>{classData.value.displayName}</MenuItem>
     )

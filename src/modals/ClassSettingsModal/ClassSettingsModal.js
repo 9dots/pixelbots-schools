@@ -85,12 +85,20 @@ const ConfirmDeleteModal = component({
 
   controller: {
     * deleteClass ({props, context}) {
-      if (props.redirect) {
-        yield context.setUrl(props.redirect)
+      const {group, groupId, redirect} = props
+
+      if (redirect) {
+        yield context.setUrl(redirect)
       }
 
-      yield context.firebaseSet(`/users/${context.userId}/teacherOf/${props.groupId}`, null)
-      yield context.firebaseSet('/classes/' + props.groupId, null)
+      yield [
+        context.firebaseSet(`/users/${context.userId}/teacherOf/${groupId}`, null),
+        context.firebaseSet('/classes/' + groupId, null),
+        context.firebaseSet(`/schools/${group.school.key}/classes/${groupId}`, null),
+        ...Object
+          .keys(group.students || {})
+          .map(studentRef => context.firebaseSet(`/users/${studentRef}/studentOf/${groupId}`, null))
+      ]
     }
   }
 })

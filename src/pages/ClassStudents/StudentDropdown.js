@@ -17,7 +17,7 @@ import {Icon} from 'vdux-ui'
 
 export default component({
   render ({props}) {
-    const {student, group, showSettings, ...rest} = props
+    const {student, group, groupId, showSettings, ...rest} = props
 
     return (
       <Dropdown z='2' {...rest} btn={({toggle}, open) => <DropButton showSettings={showSettings} open={open} toggle={toggle} />} whiteSpace='nowrap' minWidth='180px'>
@@ -27,7 +27,7 @@ export default component({
         <StudentItem icon='person' modal={<IdModal group={group} user={student} />}>
           Change ID
         </StudentItem>
-        <StudentItem icon='cancel' modal={<RemoveFromClassModal group={group} user={student} />}>
+        <StudentItem icon='cancel' modal={<RemoveFromClassModal group={group} groupId={groupId} user={student} />}>
           Remove From Class
         </StudentItem>
       </Dropdown>

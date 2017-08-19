@@ -18,7 +18,7 @@ import index from '@f/index'
 
 export default component({
   render ({props, actions}) {
-    const {students, selected, group, toggleAll, currentUser} = props
+    const {students, selected, group, groupId, toggleAll, currentUser} = props
     const isStudent = currentUser.userType === 'student'
     const selMap = index(selected)
     const allSelected = students.length === selected.length
@@ -38,7 +38,7 @@ export default component({
         </TableRow>
         {
           sortedStudents.map(student => (
-            <StudentRow group={group} student={student} highlight={!!selMap[student.id]} selected={!!selMap[student.id]} isStudent={isStudent} />
+            <StudentRow group={group} groupId={groupId} student={student} highlight={!!selMap[student.id]} selected={!!selMap[student.id]} isStudent={isStudent} />
           ))
         }
       </Table>
@@ -115,7 +115,7 @@ const StudentRow = wrap(CSSContainer, {
   }
 })(component({
   render ({props, actions}) {
-    const {student, selected, group, highlight, showSettings, isStudent} = props
+    const {student, selected, group, groupId, highlight, showSettings, isStudent} = props
     const {username, displayName} = student
 
     return (
@@ -136,6 +136,7 @@ const StudentRow = wrap(CSSContainer, {
         <TableCell {...cellProps} textAlign='right' hide={isStudent}>
           <StudentDropdown
             group={group}
+            groupId={groupId}
             onClick={preventDefault}
             showSettings={showSettings}
             student={student} />

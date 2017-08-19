@@ -52,6 +52,11 @@ export default fire(props => ({
       .keys(classes.value)
       .reduce((acc, id) => {
         const cls = classes.value[id]
+
+        if (!cls.school) {
+          return acc
+        }
+
         if (!acc[cls.school.key]) {
           acc[cls.school.key] = {
             ...cls.school,
