@@ -29,7 +29,7 @@ export default component({
               </ModalHeader>
               <RoundedInput mb={0} w={210} mx={0} mt autofocus name='code' placeholder='Enter School code' />
               <Block italic my='m'>or</Block>
-              <Button mb='l' w={200} py='s' onClick={context.openModal(() => <CreateSchoolModal />)}>Create a School</Button>
+              <Button mb='l' w={200} py='s' onClick={context.openModal(() => <CreateSchoolModal enableDismiss={enableDismiss} />)}>Create a School</Button>
             </Flex>
           </ModalBody>
           <ModalFooter bg='grey'>

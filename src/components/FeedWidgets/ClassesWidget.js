@@ -11,6 +11,7 @@ import JoinSchoolModal from 'modals/JoinSchoolModal'
 import SchoolCodeModal from 'modals/SchoolCodeModal'
 import JoinClassModal from 'modals/JoinClassModal'
 import RoundedInput from 'components/RoundedInput'
+import orderBy from 'lodash/orderBy'
 import mapValues from '@f/map-values'
 import Link from 'components/Link'
 import filter from '@f/filter'
@@ -53,7 +54,7 @@ export default fire(props => ({
       .reduce((acc, id) => {
         const cls = classes.value[id]
 
-        if (!cls.school) {
+        if (!cls.school || !cls.displayName) {
           return acc
         }
 
@@ -64,14 +65,14 @@ export default fire(props => ({
           }
         }
 
-        acc[cls.school.key].classes[id] = cls
+        acc[cls.school.key].classes[id] = {...cls, id}
         return acc
       }, {})
 
     return (
       <Block {...props} mb borderWidth='1px 0'>
         {
-          mapValues((school, id) => <SchoolItem schoolId={id} school={school} />, schools)
+          orderBy(schools, [school => school.name.toLowerCase()]).map((school, id) => <SchoolItem schoolId={id} school={school} />)
         }
         <AddClassItem Modal={CreateClassModal} text='Create/Join Class ' />
         <Block borderBottom='1px solid divider' />
@@ -94,7 +95,7 @@ const SchoolItem = component({
         <School school={school}/>
         <Block>
           {
-            mapValues((cls, id) => <Item clsId={id} cls={cls} />, school.classes)
+            orderBy(school.classes, [cls => cls.displayName.toLowerCase()]).map(cls => <Item clsId={cls.id} cls={cls} />)
           }
         </Block>
       </Card>
@@ -218,20 +219,3 @@ const AddSchoolItem = component({
     }
   }
 })
-
-/**
- * Helpers
- */
-
-function cmp (a, b) {
-  return a.displayName.toUpperCase() > b.displayName.toUpperCase()
-    ? 1
-    : -1
-}
-
-function search (text = '') {
-  text = text.toUpperCase()
-  return cls => !text
-    ? true
-    : cls.displayName.toUpperCase().indexOf(text) !== -1
-}

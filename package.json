@@ -92,6 +92,7 @@
     "escape-regexp": "^0.0.1",
     "fastclick": "^1.0.6",
     "is-datauri": "^0.1.0",
+    "lodash": "^4.17.4",
     "moment": "^2.13.0",
     "oauth-facebook": "^0.1.4",
     "oauth-google": "^0.1.4",
