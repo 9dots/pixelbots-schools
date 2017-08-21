@@ -15,9 +15,7 @@ import map from '@f/map'
  */
 
 export default fire(props => ({
-  currentUser: props.userId && {
-    ref: `/users/${props.userId}`
-  }
+  currentUser: `/users/${props.userId}`
 }))(component({
   * onCreate ({props, state, actions, context}) {
     if (!state.ready) {
