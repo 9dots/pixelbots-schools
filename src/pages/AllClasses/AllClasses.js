@@ -94,7 +94,7 @@ const Join = component({
 
     return (
       <EmptyState icon='school' color='blue' fill>
-        <Block fs='m' m>Welcome to Weo!</Block>
+        <Block fs='m' m>Welcome to PixelBots!</Block>
         <Button
           onClick={actions.createClass}
           color='white'
