@@ -194,6 +194,7 @@
       "API_SERVER": "http://localhost:1337/",
       "AVATAR_SERVER": "http://localhost:1337",
       "FACEBOOK_APP_ID": "1768047533430073",
+      "NODE_ENV": "development",
       "CLOUD_FUNCTION_SERVER": "https://us-central1-artbot-dev.cloudfunctions.net"
     }
   },
