@@ -51,12 +51,14 @@ export default component({
       yield context.setUrl(`/class/${_id}/feed`)
     },
     * joinClass ({props, actions, context}, {code}) {
+      const codeCaps = (code || '').toUpperCase()
+
       yield actions.setLoading(true)
       try {
-        if (!code) {
+        if (!codeCaps) {
           throw [{field: 'code', message: 'Invalid class code'}]
         }
-        const snap = yield context.firebaseOnce('/class_codes/' + code)
+        const snap = yield context.firebaseOnce('/class_codes/' + codeCaps)
         const classId = snap.val()
         if (classId) {
           yield context.firebaseSet(`/users/${context.userId}/teacherOf/${classId}`, true)
