@@ -48,12 +48,14 @@ export default component({
 
   controller: {
     * joinSchool ({props, actions, context}, {code}) {
+      const codeCaps = (code || '').toUpperCase()
+
       yield actions.setLoading(true)
       try {
-        if (!code) {
+        if (!codeCaps) {
           throw [{field: 'code', message: 'Invalid school code'}]
         }
-        const snap = yield context.firebaseOnce('/school_codes/' + code)
+        const snap = yield context.firebaseOnce('/school_codes/' + codeCaps)
         const schoolId = snap.val()
         if (schoolId) {
           yield context.firebaseSet(`/schools/${schoolId}/teachers/${context.userId}`, true)
