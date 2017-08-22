@@ -2,7 +2,8 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text, Block} from 'vdux-ui'
+import {Modal, ModalBody, ModalFooter, ModalHeader, Block} from 'vdux-ui'
+import BlockInput from 'components/BlockInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
 
@@ -17,15 +18,15 @@ export default component({
     return (
       <Modal onDismiss={context.closeModal}>
         <ModalBody m='auto'>
-          <Flex column align='space-around center'>
+          <Block column align='space-around center'>
             <ModalHeader>
               Class Code
             </ModalHeader>
             <Block mx='auto' fs='s' fw='lighter' textAlign='center' pb lh='30px'>
-              To join this class, students should sign up at <Text bold>www.weo.io/student</Text> and then click the Join Class button to enter the code&nbsp;
-              <Text color='blue' bold fontFamily='monospace'>{code}</Text>.
+              To join this class, students can sign in and click the Join Class button and enter this code:&nbsp;
+              <BlockInput my autofocus value={code} readonly onFocus={{selectTarget: true}} mx='auto' w='50%' inputProps={{bgColor: '#FAFAFA', color: 'blue', textAlign: 'center', fontFamily: 'monospace', py: 's', fs: '18px'}} />
             </Block>
-          </Flex>
+          </Block>
         </ModalBody>
         <ModalFooter bg='grey'>
           <Button onClick={context.closeModal}>Close</Button>

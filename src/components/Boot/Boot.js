@@ -114,8 +114,10 @@ export default component({
     * signInWithProvider (model, ...args) {
       yield signInWithProvider(...args)
     },
-    * signOut (model, ...args) {
+    * signOut ({context}, ...args) {
       yield signOut(...args)
+      yield context.setUserId(null)
+      yield context.setUrl('/')
     },
 
     * initializeMedia ({actions}) {

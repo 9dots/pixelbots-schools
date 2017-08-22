@@ -18,14 +18,22 @@ export default component({
     return (
       <Modal onDismiss={context.closeModal}>
         <ModalBody>
-          <Block column align='space-around center'>
-            <ModalHeader>
-              School Link
-            </ModalHeader>
-            <BlockInput my autofocus value={`https://www.pixelbots.io/schools/${school.key}`} readonly onFocus={{selectTarget: true}} inputProps={{bgColor: '#FAFAFA', color: '#888'}} />
-            <Block p lh='1.5em' italic textAlign='center'>
-            	Bookmark this link on your students' computers to make it easier for them to log in to PixelBots!
+          <Block column align='space-around center' py='l'>
+            
+            <Block fs='s' lighter my uppercase color='blue'>Teacher Join</Block>
+            <Block lh='1.5em' italic textAlign='center'>
+            	Teachers can join your school by entering this code:
             </Block>
+            <BlockInput my value={school.code} w={120} readonly onClick={{selectTarget: true}} inputProps={{bgColor: '#FAFAFA', color: '#888', textAlign: 'center', py: 10}} />
+            
+            <Block borderBottom='1px solid divider' wide my />
+
+            <Block fs='s' lighter uppercase my color='blue'>Student Link</Block>
+            <Block w='120%' lh='1.5em' italic textAlign='center'>
+            	Bookmark this link on your students' computers for easier PixelBots login!
+            </Block>
+            <BlockInput my value={`https://www.pixelbots.io/schools/${school.key}`} readonly onClick={{selectTarget: true}} inputProps={{bgColor: '#FAFAFA', color: '#888', textAlign: 'center', py: 10}} />
+
           </Block>
         </ModalBody>
         <ModalFooter bg='grey' align='end center'>

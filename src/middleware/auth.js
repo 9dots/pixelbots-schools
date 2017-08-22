@@ -11,7 +11,7 @@ const SIGN_IN_WITH_PROVIDER = 'Sign In With Provider'
 
 const signInWithProvider = createAction(SIGN_IN_WITH_PROVIDER)
 const signInWithToken = createAction('SIGN_IN_WITH_TOKEN')
-const signOut = createAction(signOut)
+const signOut = createAction(SIGN_OUT)
 
 const providers = {
   google: () => new auth.GoogleAuthProvider(),
