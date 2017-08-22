@@ -39,6 +39,10 @@ export default fire(props => ({
       ref: '/schools',
       child: 'school'
     }
+  },
+  schools: {
+    ref: '/schools',
+    list: Object.keys(props.user.schools || {})
   }
 }))(component({
   render ({props, context, actions}) {
@@ -47,7 +51,9 @@ export default fire(props => ({
     const offset = clsLength ? '318px' : '270px'
     const clsLength = Object.keys(teacherOf).length
 
-    if (classes.loading) return <span/>
+    if (classes.loading /*|| props.schools.loading*/) return <span/>
+
+    console.log(props.schools.value)
 
     const schools = Object
       .keys(classes.value)

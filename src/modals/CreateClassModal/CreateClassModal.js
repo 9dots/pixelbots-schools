@@ -112,7 +112,6 @@ export default fire(({userId}) => ({
         yield context.firebaseSet(`/users/${context.userId}/teacherOf/${key}`, Date.now())
         yield context.setUrl(`/class/${key}/feed`)
       } catch (e) {
-        console.log(e)
         yield actions.setLoading(false)
         throw e
       }
