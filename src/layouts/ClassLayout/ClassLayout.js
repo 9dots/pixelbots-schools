@@ -29,10 +29,9 @@ export default fire(props => ({
   }
 }))(component({
   * onCreate ({props, context}) {
-    // if (!Object.keys(props.currentUser.schools || {}).length) {
-    //   console.log('jam')
-    //   yield context.openModal(() => <JoinSchoolModal />)
-    // }
+    if (!Object.keys(props.currentUser.schools || {}).length) {
+      yield context.openModal(() => <JoinSchoolModal />)
+    }
   },
 
   render ({props, children, context}) {

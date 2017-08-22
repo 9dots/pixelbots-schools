@@ -3560,17 +3560,13 @@ ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
 
-ms@0.7.2:
+ms@0.7.2, ms@^0.7.1:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
-
-ms@^0.7.1:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.3.tgz#708155a5e44e33f5fd0fc53e81d0d40a91be1fff"
 
 nan@^2.4.0:
   version "2.6.2"
@@ -5012,9 +5008,9 @@ vdux-containers@^1.2.8:
     "@f/serialize-form" "^1.0.0"
     vdux-ui "^1.3.4"
 
-vdux-fire@^1.2.26:
-  version "1.2.26"
-  resolved "https://registry.yarnpkg.com/vdux-fire/-/vdux-fire-1.2.26.tgz#7654629bb2cfca96a0f2fc5d2636d44a1f6612b2"
+vdux-fire@^1.2.28:
+  version "1.2.28"
+  resolved "https://registry.yarnpkg.com/vdux-fire/-/vdux-fire-1.2.28.tgz#2a03d9e68b1088bfcf07d79e38b09cb920b0418b"
   dependencies:
     "@f/create-action" "^1.1.1"
     "@f/deep-equal" "^1.0.2"

@@ -16,6 +16,7 @@ import mapValues from '@f/map-values'
 import Link from 'components/Link'
 import filter from '@f/filter'
 import fire from 'vdux-fire'
+import map from '@f/map'
 
 /**
  * Constants
@@ -39,18 +40,22 @@ export default fire(props => ({
       ref: '/schools',
       child: 'school'
     }
+  },
+  schools: {
+    ref: '/schools',
+    list: Object.keys(props.user.schools || {})
   }
 }))(component({
   render ({props, context, actions}) {
-    const {user, classes} = props
+    const {user, classes, schools} = props
     const {teacherOf = {}, classSchools = {}} = user
     const offset = clsLength ? '318px' : '270px'
     const clsLength = Object.keys(teacherOf).length
 
-    if (classes.loading) return <span/>
+    if (classes.loading || schools.loading) return <span/>
 
-    const schools = Object
-      .keys(classes.value)
+    const scls = Object
+      .keys(classes.value || {})
       .reduce((acc, id) => {
         const cls = classes.value[id]
 
@@ -67,14 +72,14 @@ export default fire(props => ({
 
         acc[cls.school.key].classes[id] = {...cls, id}
         return acc
-      }, {})
+      }, map((val, key) => ({...val, key}), schools.value || {}))
 
     return (
       <Block {...props} mb borderWidth='1px 0'>
         {
-          orderBy(schools, [school => school.name.toLowerCase()]).map((school, id) => <SchoolItem schoolId={id} school={school} />)
+          orderBy(filter(val => !!val.name, scls), [school => school.name.toLowerCase()]).map((school, id) => <SchoolItem schoolId={school.key} school={school} />)
         }
-        <AddClassItem Modal={CreateClassModal} text='Create/Join Class ' />
+        <AddClassItem Modal={JoinClassModal} text='Create/Join Class ' />
         <Block borderBottom='1px solid divider' />
         <AddSchoolItem />
       </Block>
@@ -95,7 +100,7 @@ const SchoolItem = component({
         <School school={school}/>
         <Block>
           {
-            orderBy(school.classes, [cls => cls.displayName.toLowerCase()]).map(cls => <Item clsId={cls.id} cls={cls} />)
+            orderBy(filter(val => !!val.displayName, school.classes), [cls => cls.displayName.toLowerCase()]).map(cls => <Item clsId={cls.id} cls={cls} />)
           }
         </Block>
       </Card>
