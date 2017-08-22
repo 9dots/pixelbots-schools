@@ -12,6 +12,8 @@ import summon from 'vdux-summon'
 import Form from 'vdux-form'
 import fire from 'vdux-fire'
 
+console.log(validate.group)
+
 /**
  * Constants
  */
@@ -92,6 +94,13 @@ export default fire(({userId}) => ({
     * createClass ({state, context, actions}, cls) {
       try {
         yield actions.setLoading(true)
+        if (!cls.displayName) {
+          throw [{field: 'displayName', message: 'Must add a class name.'}]
+        } else if (!state.grade){
+          throw [{field: 'grade', message: 'Must add a grade.'}]
+        } else if (!state.school){
+          throw [{field: 'school', message: 'Must add a school.'}]
+        }
         const {key} = yield context.firebasePush('/classes', {
           teacherID: context.userId,
           school: state.school,
@@ -103,7 +112,9 @@ export default fire(({userId}) => ({
         yield context.firebaseSet(`/users/${context.userId}/teacherOf/${key}`, Date.now())
         yield context.setUrl(`/class/${key}/feed`)
       } catch (e) {
+        console.log(e)
         yield actions.setLoading(false)
+        throw e
       }
     }
   },

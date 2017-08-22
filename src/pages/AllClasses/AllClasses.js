@@ -28,9 +28,9 @@ const itemProps = {showClass: true}
 
 export default component({
   * onCreate ({props, context}) {
-    // if (!Object.keys(props.currentUser.schools || {}).length) {
-    //   yield context.openModal(() => <JoinSchoolModal />)
-    // }
+    if (props.currentUser.value && !Object.keys(props.currentUser.schools || {}).length) {
+      yield context.openModal(() => <JoinSchoolModal />)
+    }
   },
 
   render ({props}) {
