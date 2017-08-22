@@ -7,7 +7,8 @@
   "scripts": {
     "postversion": "git push && git push --tags && npm publish --access=public",
     "dev": "unv dev --modules src",
-    "build": "export NODE_ENV=`git symbolic-ref --short -q HEAD` && unv build --production",
+    "build": "export CLOUD_FS_URL= && export NODE_ENV=production && unv build && cp -r assets public/ && cp index.html public/ && export NODE_ENV=",
+    "deploy": "yarn build; firebase deploy --only hosting",
     "start": "unv serve"
   },
   "dependencies": {
