@@ -12,8 +12,6 @@ import summon from 'vdux-summon'
 import Form from 'vdux-form'
 import fire from 'vdux-fire'
 
-console.log(validate.group)
-
 /**
  * Constants
  */
