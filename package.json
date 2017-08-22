@@ -173,10 +173,7 @@
     },
     "production": {
       "PORT": 3000,
-      "API_SERVER": "//api.weo.io",
-      "API_STATIC": "//weo-api.global.ssl.fastly.net",
-      "CLOUD_FS_URL": "//weo.global.ssl.fastly.net/assets/",
-      "AVATAR_SERVER": "//avatars.global.ssl.fastly.net",
+      "CLOUD_FS_URL": "/assets/",
       "SHARE_INTRO_ID": "56d61b4b1e6fae0a00f063f9",
       "CLEVER_CLIENT_ID": "504ffa19024513570be4",
       "FACEBOOK_APP_ID": "1662916197276541",

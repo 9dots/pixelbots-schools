@@ -54,16 +54,6 @@ export default component({
     ]
   },
 
-  initialState ({props}) {
-    if (props.req) {
-      return {
-        currentUrl: props.req.url
-      }
-    }
-
-    return {}
-  },
-
   getContext ({props, state, actions}) {
     const {media, currentUrl, avatarUpdates} = state
     const userAgent = props.req

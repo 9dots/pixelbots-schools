@@ -60,13 +60,8 @@ function page ({html, state, title}) {
           }
           <link rel=icon href="${favicon}"/>
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          <link href="${katex.cssUrl}" rel="stylesheet" />
           <link href="${fonts}" rel="stylesheet" />
-          <script type='text/javascript'>
-            window.__initialState__ = ${JSON.stringify(state)}
-          </script>
           <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-          <script type='text/javascript' src='${apiStatic + '/socket.io/socket.io.js'}'></script>
           <script type='text/javascript' src='${client}'></script>
         </head>
         <body>${html}</body>
