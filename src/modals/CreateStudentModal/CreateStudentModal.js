@@ -54,7 +54,7 @@ export default component({
       const {value} = yield context.fetch(`${process.env.CLOUD_FUNCTION_SERVER}/createNewUser`, {
         method: 'POST',
         headers: {'CONTENT-TYPE': 'application/json'},
-        body: JSON.stringify({...model, classId: props.groupId})
+        body: JSON.stringify({...model, classId: props.groupId, email: model.email || undefined})
       })
       yield context.closeModal()
     },
@@ -69,7 +69,7 @@ export default component({
       const {value} = yield context.fetch(`${process.env.CLOUD_FUNCTION_SERVER}/checkUserEmail`, {
         method: 'POST',
         headers: {'CONTENT-TYPE': 'application/json'},
-        body: JSON.stringify({...model, classId: props.groupId})
+        body: JSON.stringify({...model, classId: props.groupId, email: model.email || undefined})
       })
       if (value.status === 'success') {
         yield actions.createStudentAndJoin(model)
@@ -132,8 +132,9 @@ const OverwriteStudent = component({
  */
 
 function validateStudent (model) {
-  const result = validate.student(model)
+  const result = validate.student({...model, email: model.email ? model.email : undefined})
   model.tmpPassword = model.password
+  console.log(result)
 
   return result
 }
