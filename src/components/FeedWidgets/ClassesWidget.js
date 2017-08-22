@@ -79,7 +79,7 @@ export default fire(props => ({
         {
           orderBy(filter(val => !!val.name, scls), [school => school.name.toLowerCase()]).map((school, id) => <SchoolItem schoolId={school.key} school={school} />)
         }
-        <AddClassItem Modal={JoinClassModal} text='Create/Join Class ' />
+        <AddClassItem Modal={JoinClassModal} text='Class Join' />
         <Block borderBottom='1px solid divider' />
         <AddSchoolItem />
       </Block>
@@ -212,7 +212,7 @@ const AddSchoolItem = component({
       <Card>
         <Link ui={MenuItem} hoverProps={{color: 'text'}} onClick={actions.openModal} py='m' color='grey_medium' bolder display='flex' align='start center'>
           <Icon name='school' fs='s' mr='m' circle='29' bgColor='blue' align='center center' color='white' bolder />
-          Create/Join School
+          School Join
         </Link>
       </Card>
     )
