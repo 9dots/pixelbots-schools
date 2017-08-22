@@ -227,6 +227,10 @@ function isAuthorized ({currentUser}) {
   return !!currentUser
 }
 
+function hasSchool ({currentUser}) {
+  return !!currentUser.schools
+}
+
 function isLoggedIn (state) {
   return !!(state.currentUser && state.currentUser.username)
 }

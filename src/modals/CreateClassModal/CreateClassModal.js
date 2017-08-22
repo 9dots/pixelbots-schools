@@ -4,6 +4,7 @@
 
 import {Block, Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text, Icon} from 'vdux-ui'
 import {Checkbox, Dropdown, Button, MenuItem} from 'vdux-containers'
+import JoinClassModal from 'modals/JoinClassModal'
 import BlockInput from 'components/BlockInput'
 import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
@@ -48,10 +49,10 @@ export default fire(({userId}) => ({
   }
 }))(component({
   render ({props, context, state, actions}) {
-    const {user} = props
+    const {user, enableDismiss} = props
     const {grade, school} = state
 
-    if (user.loading) return <span/>
+    if ((user || {}).loading) return <span/>
 
     return (
       <Modal onDismiss={context.closeModal} opacity='1'>
@@ -62,19 +63,24 @@ export default fire(({userId}) => ({
                 Create Class
               </ModalHeader>
               <BlockInput w={300} autofocus name='displayName' placeholder='Class name' />
-              <Block my align='space-between center' w={300}>
+              <Block zIndex={9} my align='space-between center' w={300}>
                 <Dropdown wide maxHeight={200} overflowY='auto' btn={<DDBtn text={grade ? grade : 'Grade'} />}>
                   {
                     grades.map(grade => <MenuItem onClick={actions.setGrade(grade)}>{grade}</MenuItem>)
                   }
                 </Dropdown>
-                <Dropdown wide maxHeight={200} overflowY='auto' btn={<DDBtn text={school ? user.value.schools[school].name : 'School'} />}>
+                <Dropdown wide maxHeight={200} overflowY='auto' btn={<DDBtn text={school ? (user.value|| {}).schools[school].name : 'School'} />}>
                   {
-                    mapValues((school, key) => <MenuItem onClick={actions.setSchool(key)}>{school.name}</MenuItem>, user.value.schools || {})
+                    mapValues((school, key) => <MenuItem onClick={actions.setSchool(key)}>{school.name}</MenuItem>, (user.value|| {}).schools || {})
                   }
                 </Dropdown>
               </Block>
             </Flex>
+            <Block align='space-between center' column mt>
+              <Text textDecoration='underline' pointer mt='l' italic opacity='.5' hoverProps={{opacity: .7}} onClick={context.openModal(() => <JoinClassModal userId={context.userId} enableDismiss={enableDismiss} />)}>
+                or go back to join class
+              </Text>
+            </Block>
           </ModalBody>
           <ModalFooter bg='grey'>
             <Text fs='xxs'>
@@ -92,6 +98,13 @@ export default fire(({userId}) => ({
     * createClass ({state, context, actions}, cls) {
       try {
         yield actions.setLoading(true)
+        if (!cls.displayName) {
+          throw [{field: 'displayName', message: 'Must add a class name.'}]
+        } else if (!state.grade){
+          throw [{field: 'grade', message: 'Must add a grade.'}]
+        } else if (!state.school){
+          throw [{field: 'school', message: 'Must add a school.'}]
+        }
         const {key} = yield context.firebasePush('/classes', {
           teacherID: context.userId,
           school: state.school,
@@ -104,6 +117,7 @@ export default fire(({userId}) => ({
         yield context.setUrl(`/class/${key}/feed`)
       } catch (e) {
         yield actions.setLoading(false)
+        throw e
       }
     }
   },

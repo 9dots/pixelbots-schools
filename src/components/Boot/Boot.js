@@ -72,7 +72,7 @@ export default component({
   },
 
   render ({props, state}) {
-    return <App {...state} {...props} />
+    return <App key={state.userId} {...state} {...props} />
   },
 
   onUpdate (prev, next) {
