@@ -61,29 +61,29 @@ component({
             {/*<TableHeader {...headProps} />*/}
           </TableRow>
           {
-          instanceIds.length
-          ? mapValues((instance, id) =>
-            <ActivityProgressRow
-              selected={!!selMap[id]}
-              sequence={sequence}
-              instance={instance} />,
-              studentInsts
-            )
-          : <tr>
-            <EmptyState tag='td' icon='person' color='green' colspan='100' pb='l'>
-              <Block>
-                You must add students to your class in order to view results.
-              </Block>
-              <Button onClick={context.setUrl(`/class/${classRef}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
-                <Icon name='person_add' mr='s' fs='s' />
-                  Add Students
-              </Button>
-            </EmptyState>
-          </tr>
-        }
+            instanceIds.length
+              ? mapValues((instance, id) =>
+                  <ActivityProgressRow
+                    selected={!!selMap[id]}
+                    sequence={sequence}
+                    instance={instance} />,
+                    studentInsts
+                )
+              : <tr>
+                  <EmptyState tag='td' icon='person' color='green' colspan='100' pb='l'>
+                    <Block>
+                      You must add students to your class in order to view results.
+                    </Block>
+                    <Button onClick={context.setUrl(`/class/${classRef}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
+                      <Icon name='person_add' mr='s' fs='s' />
+                        Add Students
+                    </Button>
+                  </EmptyState>
+                </tr>
+          }
         </Table>
       </Block>
-  )
+    )
   },
 
   controller: {

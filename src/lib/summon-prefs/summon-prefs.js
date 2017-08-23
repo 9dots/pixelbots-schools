@@ -36,7 +36,6 @@ export default function summonPrefs (extras = {}) {
     controller: {
       * setPref ({actions, props}, name, value) {
         yield actions.updatePref(name, value)
-        yield props.persistPref(name, value)
       }
     },
 

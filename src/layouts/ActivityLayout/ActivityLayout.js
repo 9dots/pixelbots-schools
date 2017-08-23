@@ -69,7 +69,7 @@ export default fire(({classRef, playlistRef}) => ({
         {
           maybeOver({
             students: students.value.students,
-            // sequence: playlist.value.sequence,
+            sequence: playlist.value.sequence,
             instances: activity.value.studentPlaylists
           }, children)
         }

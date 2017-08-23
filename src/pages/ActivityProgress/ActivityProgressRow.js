@@ -23,7 +23,7 @@ export default component({
     const {instance = {}, activityId, selected, sequence} = props
 
     const {
-      turnedInAt, displayName, userId,
+      turnedInAt, displayName, userId, challengeScores = {},
       points, instanceId, completed, playlist, key
     } = instance
 
@@ -36,10 +36,9 @@ export default component({
     const p = '10px 12px'
 
     const status = getStatus(instance)
-    const numCompleted = Object.keys(instance.completedChallenges || {}).length
+    const score = Object.keys(challengeScores).reduce((sum, key) => sum + (challengeScores[key] || 0), 0)
     const total = Object.keys(sequence || {}).length || 1
-
-    const percent = Math.round((numCompleted / total) * 10000) / 100
+    const percent = Math.round((score / total) * 10000) / 100
 
     return (
       <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
