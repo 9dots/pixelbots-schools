@@ -59,9 +59,14 @@ export default component({
       yield context.closeModal()
     },
     * addStudentToClass ({context, props}, user) {
-      yield context.firebaseUpdate(`/classes/${props.groupId}/students`, {
-        [user.uid]: true
-      })
+      yield [
+        context.firebaseUpdate(`/classes/${props.groupId}/students`, {
+          [user.uid]: true
+        }),
+        context.firebaseUpdate(`/users/${user.uid}/studentOf`, {
+          [props.groupId]: true
+        })
+      ]
       yield context.closeModal()
     },
     * checkStudentCredentials ({props, context, actions}, model) {
