@@ -134,7 +134,6 @@ const OverwriteStudent = component({
 function validateStudent (model) {
   const result = validate.student({...model, email: model.email ? model.email : undefined})
   model.tmpPassword = model.password
-  console.log(result)
 
   return result
 }
