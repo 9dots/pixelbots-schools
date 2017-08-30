@@ -50,20 +50,25 @@ component({
 
     return (
       <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
+        <Button px  onClick={context.setUrl('/class/' + classRef)} mb>
+            <Icon name='arrow_back' fs='s' mr='s'/>
+            Back
+          </Button>
         <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
           <TableRow bgColor='grey' color='white'>
             {/*<TableHeader {...headProps}>
               <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
             </TableHeader>*/}
             <SortHeader {...headProps} prop='givenName' text='Name' />
-            <SortHeader {...headProps} prop='percent' text='Score' />
+            <SortHeader {...headProps} prop='percent' text='Progress' />
             <SortHeader {...headProps} prop='status' text='Status' />
-            {/*<TableHeader {...headProps} />*/}
+            <TableHeader {...headProps} />
           </TableRow>
           {
             instanceIds.length
               ? mapValues((instance, id) =>
                   <ActivityProgressRow
+                    classRef={classRef}
                     selected={!!selMap[id]}
                     sequence={sequence}
                     instance={instance} />,

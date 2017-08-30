@@ -1,0 +1,5 @@
+{
+  "name": "StudentProgress",
+  "main": "StudentProgress.js",
+  "browser": "StudentProgress.js"
+}
