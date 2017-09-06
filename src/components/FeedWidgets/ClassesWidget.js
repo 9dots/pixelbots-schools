@@ -148,9 +148,10 @@ const School = component({
         currentProps={itemCurrentProps}
         align='start center'
         relative
+        bgColor='#FEFEFE'
         borderBottom='1px solid divider'
         p>
-        <Text capitalize flex letterSpacing='1px'>{name}</Text>
+        <Text uppercase flex>{name}</Text>
         <Block onClick={stopPropagation} align='end center'>
           <Button
             onClick={actions.schoolInfo}

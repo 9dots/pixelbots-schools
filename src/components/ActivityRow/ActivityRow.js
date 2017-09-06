@@ -57,15 +57,15 @@ export default wrap(CSSContainer, {
                 </Flex>
             }
             {
-              options && hover &&
-                <Flex align='end center'>
-                  {
-                    ddMenu &&
-                      <Block mr ml='-6' onClick={stopPropagation}>
-                        <ActivityDropdownMenu activity={activity} />
-                      </Block>
-                  }
-                </Flex>
+              // options && hover &&
+              //   <Flex align='end center'>
+              //     {
+              //       ddMenu &&
+              //         <Block mr ml='-6' onClick={stopPropagation}>
+              //           <ActivityDropdownMenu activity={activity} />
+              //         </Block>
+              //     }
+              //   </Flex>
             }
           </Flex>
         </Flex>

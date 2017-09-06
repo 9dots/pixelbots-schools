@@ -20,11 +20,11 @@ function getStatus (instance) {
 
 export default component({
   render ({props, context}) {
-    const {instance = {}, activityId, selected, sequence} = props
+    const {instance = {}, activityId, selected, sequence, classRef} = props
 
     const {
-      turnedInAt, displayName, userId, challengeScores = {},
-      points, instanceId, completed, playlist, key
+      turnedInAt, displayName, uid, challengeScores = {},
+      points, instanceId, playlist, key, completedChallenges = {},
     } = instance
 
     const statProps = {
@@ -32,13 +32,15 @@ export default component({
       'In Progress': 'blue',
       'Completed': 'green'
     }
-    const url = `http://localhost:8080/playlist/${playlist}/play/${key}`
+
+
     const p = '10px 12px'
 
     const status = getStatus(instance)
     const score = Object.keys(challengeScores).reduce((sum, key) => sum + (challengeScores[key] || 0), 0)
     const total = Object.keys(sequence || {}).length || 1
     const percent = Math.round((score / total) * 10000) / 100
+    const progress = (completedChallenges.length || 0) / sequence.length * 100
 
     return (
       <TableRow bg='#FDFDFD' borderBottom='1px solid rgba(black, .1)'>
@@ -49,18 +51,27 @@ export default component({
           {displayName}
         </TableCell>
         <TableCell p={p}>
-          {percent}%
+          <Block relative w={100} h={26} bg='#CCC' overflow='hidden' align='center center' fs='14' color='white' borderRadius='99'>
+            <Block absolute left tall w={progress + '%'} bg={statProps[status]} />
+            {completedChallenges.length || 0} / {sequence.length} 
+          </Block>
+          
+          {
+            // percent || 0 + '%'
+          }
         </TableCell>
         <TableCell p={p}>
-          <Block pill h={26} fs='14' align='center center' bg={statProps[status]} color='white' capitalize w='108'>
+          <Block fs='14'  color={statProps[status]} uppercase bold>
             { status }
           </Block>
         </TableCell>
-        {/*<TableCell pointerEvents={instance.notStarted ? 'none' : 'all'} py={p.split(' ')[0]} w='68'>
-          <a href={url}>
-          <Button disabled={instance.notStarted} text='View' px='0' h='30' w='56' />
+        {
+        <TableCell pointerEvents={instance.notStarted ? 'none' : 'all'} py={p.split(' ')[0]} w='68'>
+          <a href={`/activity/${classRef}/${playlist}/${uid}`}>
+          <Button disabled={instance.notStarted} text='More' px='0' h='30' w='56' />
           </a>
-        </TableCell>*/}
+        </TableCell>
+         }
       </TableRow>
     )
   }

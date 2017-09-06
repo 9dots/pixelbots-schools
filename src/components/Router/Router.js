@@ -28,6 +28,7 @@ import Login from 'pages/Login'
 import Feed from 'pages/Feed'
 
 import ActivityProgress from 'pages/ActivityProgress'
+import StudentProgress from 'pages/StudentProgress'
 import Redirect from 'components/Redirect'
 import FourOhFour from 'pages/FourOhFour'
 import {component, element} from 'vdux'
@@ -114,6 +115,15 @@ const router = enroute({
       <ActivityLayout {...props} {...params}>
         {
           (extra = {}) => <ActivityProgress {...props} {...params} {...extra} />
+        }
+      </ActivityLayout>
+    </AppLayout>
+  )),
+  '/activity/:classRef/:playlistRef/:studentId': track('Activity', auth((params, props) =>
+    <AppLayout {...props}>
+      <ActivityLayout {...props} {...params}>
+        {
+          (extra = {}) => <StudentProgress {...props} {...params} {...extra} />
         }
       </ActivityLayout>
     </AppLayout>
