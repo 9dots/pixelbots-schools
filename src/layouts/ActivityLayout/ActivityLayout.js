@@ -33,7 +33,7 @@ export default fire(({classRef, playlistRef}) => ({
     join: {
       ref: '/users/',
       child: 'students',
-      childRef: (val, ref) => mapValues((v, key) => ref.child(key), val.students || {})
+      childRef: (val, ref) => map((v, key) => ref.child(key), val.students || {})
     }
   },
 
