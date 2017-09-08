@@ -53,9 +53,9 @@ export default component({
         <TableCell p={p}>
           <Block relative w={100} h={26} bg='#CCC' overflow='hidden' align='center center' fs='14' color='white' borderRadius='99'>
             <Block absolute left tall w={progress + '%'} bg={statProps[status]} />
-            {completedChallenges.length || 0} / {sequence.length} 
+            <Block zIndex={10}> {completedChallenges.length || 0} / {sequence.length} </Block>
           </Block>
-          
+
           {
             // percent || 0 + '%'
           }

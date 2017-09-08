@@ -29,6 +29,8 @@ component({
     activity, students, setStatus, settingStatus, prefs,
     toggleAll, fields, instances, classRef, sequence
   } = props
+
+    console.log(students, instances, sequence)
     const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
 
     // const instanceList = combineInstancesAndStudents(activity, students, instances)
