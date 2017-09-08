@@ -24,43 +24,50 @@ import Nav from './Nav'
 const printProps = {pb: 0}
 
 /**
- * <ActivityLayout/>
+ * <ClassLoader/>
  */
 
 export default fire(({classRef, playlistRef}) => ({
-  activity: {
-    ref: `/classes/${classRef}`,
-    join: {
-      ref: '/playlistInstances',
-      child: 'studentPlaylists',
-      childRef: (val, ref) =>
-        map((u, k) => ref.root
-          .child('/playlistsByUser')
-          .child(k)
-          .child('byPlaylistRef')
-          .child(playlistRef)
-          .child('instanceRef')
-          .once('value')
-          .then(s => s.val())
-          .then(iref => iref && ref.child(iref)), val.students || {})
-    }
-  },
-
-  students: {
+  classData: {
     ref: `/classes/${classRef}`,
     join: {
       ref: '/users/',
       child: 'students',
-      childRef: (val, ref) => mapValues((v, key) => ref.child(key), val.students || {})
+      childRef: (val, ref) => map((v, key) => ref.child(key), val.students || {})
     }
   },
 
   playlist: `/playlists/${playlistRef}`
 }))(component({
-  render ({props, children, actions}) {
-    const {currentUser, activity, playlist, students} = props
+  render ({props, children}) {
+    if (props.classData.loading || props.playlist.loading) {
+      return <span/>
+    }
+    return <ActivityLayout {...props} classData={props.classData.value} playlist={props.playlist.value}>
+      {children}
+    </ActivityLayout>
+  }
+}))
 
-    if (activity.loading || students.loading || playlist.loading) {
+/**
+ * <ActivityLayout/>
+ */
+
+const ActivityLayout = fire(({classData, playlistRef}) => ({
+  activity: {
+    ref: `/playlistsByUser`,
+    list: Object.keys(classData.students),
+    join: {
+      ref: '/playlistInstances',
+      child: 'playlistInstance',
+      childRef: (val, ref) => ref.child(val.byPlaylistRef[playlistRef].instanceRef)
+    }
+  },
+}))(component({
+  render ({props, children, actions}) {
+    const {currentUser, activity, playlist, students, classData} = props
+
+    if (activity.loading) {
       return <span/>
     }
 
@@ -68,9 +75,9 @@ export default fire(({classRef, playlistRef}) => ({
       <Block class='app' pt pb='60vh' printProps={printProps}>
         {
           maybeOver({
-            students: students.value.students,
-            sequence: playlist.value.sequence,
-            instances: activity.value.studentPlaylists
+            students: classData.students,
+            sequence: playlist.sequence,
+            instances: map(val => ({...val.playlistInstance}), activity.value)
           }, children)
         }
       </Block>

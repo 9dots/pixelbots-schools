@@ -40,11 +40,6 @@ export default ({actions, dispatch}) => {
         }
       })
     }
-    if (action.type === signInWithToken.type) {
-      auth().signInWithCustomToken(action.payload).then(function (result) {
-        window.location = 'http://localhost:8080'
-      })
-    }
     if (action.type === SIGN_OUT) {
       auth().signOut()
     }

@@ -18,6 +18,7 @@ import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
 import index from '@f/index'
 import fire from 'vdux-fire'
+import map from '@f/map'
 
 /**
  * <ClassStudents/>
@@ -29,7 +30,7 @@ export default fire(({group, groupId}) => ({
     join: {
       ref: '/users',
       child: 'students',
-      childRef: (val, ref) => mapValues((v, key) => ref.child(key), val.students || {})
+      childRef: (val, ref) => map((v, key) => ref.child(key), val.students || {})
     }
   }
 }))(form(({students}) => ({

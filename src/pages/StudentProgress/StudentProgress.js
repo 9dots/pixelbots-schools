@@ -5,6 +5,8 @@
 import {Block, Icon, Table, TableHeader, TableRow, TableCell, Image} from 'vdux-ui'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
+import Badge from 'components/Badge'
+import getProp from '@f/get-prop'
 import fire from 'vdux-fire'
 
 /**
@@ -15,7 +17,7 @@ export default component({
   render ({props, context}) {
   	const {instances, sequence, studentId, classRef, playlistRef, students} = props
   	const instance = instances[studentId] || {}
-  	const {challengeScores = {}} = instance
+  	const {challengeScores = {}, savedChallenges = {}} = instance
   	const backUrl = `/activity/${classRef}/${playlistRef}`
   	const student = students[studentId]
 
@@ -35,17 +37,24 @@ export default component({
 	    			<TableHeader lighter p textAlign='left'>
 	    				Title
 	    			</TableHeader>
-	    			<TableHeader lighter p textAlign='left'>
-	    				Status
+	    			<TableHeader w='25%' lighter p textAlign='left'>
+	    				Stretch
 	    			</TableHeader>
-	    			<TableHeader lighter p textAlign='left'>
-	    				Goals
+	    			<TableHeader w='25%' lighter p textAlign='left'>
+	    				Completed
 	    			</TableHeader>
 	    			<TableHeader lighter p textAlign='left' />
 	    		</TableRow>
 	    		{
-	    			sequence.map((val, key) => 
-	    				<Row completed={challengeScores[val]} log={console.log(val)} ref={val} i={key} />
+	    			sequence.map((val, key) =>
+	    				<Row
+	    					instanceRef={instance.key}
+	    					playlistRef={playlistRef}
+	    					key={savedChallenges[val] || key}
+	    					savedRef={savedChallenges[val]}
+	    					completed={challengeScores[val]}
+	    					ref={val}
+	    					i={key} />
   					)
 	    		}
     		</Table>
@@ -54,21 +63,26 @@ export default component({
   }
 })
 
-const Row = fire(({ref}) => ({
-	game: `/games/${ref}[once]`
+const Row = fire(({ref, savedRef}) => ({
+	game: `/games/${ref}[once]`,
+	saved: `/saved/${savedRef}/meta`
 }))(component({
 	render({props, children}) {
-		const {completed, i, game} = props
-		const {value} = game
-		
-		if(game.loading) return <span/>
+		const {completed, i, game, saved = {}, instanceRef, playlistRef} = props
 
-		const imgUrl = value.imageUrl.indexOf('/animalImages') === -1 
+		if(!game || game.loading || saved.loading) return <span/>
+
+		const {value} = game
+		const {value: savedValue} = saved
+		const imgUrl = value.imageUrl.indexOf('/animalImages') === -1
 			? value.imageUrl
 			: 'https://www.pixelbots.io/' + value.imageUrl
 
+		const stretchType = (value.stretch || {}).type
+	  const count = getProp(`badges.${stretchType}`, savedValue) || 0
+
 		return (
-			<TableRow border='1px solid divider' borderTopWidth={0}> 
+			<TableRow border='1px solid divider' borderTopWidth={0}>
 				<TableCell p>
 					<Block align='start center'>
 						<Image sq={50} mr src={imgUrl} outline='1px solid #EEE' outlineOffset='-1px' />
@@ -80,23 +94,21 @@ const Row = fire(({ref}) => ({
 						{value.title}
 					</Block>
 				</TableCell>
-				<TableCell p> 
-					<Block align='start center' fs='xs'>
-						<Circle size={26} bg={completed ? 'green' : 'red'} mr>
-							<Icon name={completed ? 'check' : 'close'} fs='s'/>
-						</Circle>
-						{completed ? 'Complete' : 'Incomplete'}
-					</Block>
+				<TableCell p>
+					<Block align='start center'>
+        		<Badge type={stretchType} size={32} hideTitle effects={false} count={count || 0} description={false} />
+      		</Block>
 				</TableCell>
 				<TableCell p>
 					{
-						Math.random() >= 0.3 
-							? Math.random() >= 0.5 ? 'Achieved' : 'Failed'
-							: '-'
+						completed &&
+							<Circle size={26} bg='green'>
+								<Icon name='check' fs='s'/>
+							</Circle>
 					}
 				</TableCell>
 				<TableCell p textAlign='right'>
-					<a target='_blank' href='https://www.pixelbots.io'>
+					<a target='_blank' href={`https://pixelbots.io/playlist/${playlistRef}/play/${instanceRef}/${i}`}>
 						<Button px='m'>View</Button>
 					</a>
 				</TableCell>
@@ -107,7 +119,7 @@ const Row = fire(({ref}) => ({
 
 const Circle = component({
 	render({props, children}) {
-		const {size = 32, ...rest} = props 
+		const {size = 32, ...rest} = props
 		return (
 			<Block color='white' bg='blue' align='center center' fs='xs' circle={size} {...rest}>
 				{children}

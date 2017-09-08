@@ -58,8 +58,8 @@ export default component({
       )
     },
 
-    * renameClass ({context, props}) {
-
+    * renameClass ({context, props}, {displayName}) {
+      yield context.firebaseUpdate(`/classes/${props.groupId}`, {displayName})
     }
   },
 

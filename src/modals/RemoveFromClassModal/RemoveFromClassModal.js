@@ -63,7 +63,6 @@ export default component({
     },
     * remove ({context, props}, uid) {
       const {groupId} = props
-
       yield [
         context.firebaseUpdate(`/classes/${groupId}/students`, {
           [uid]: null
