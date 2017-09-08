@@ -46,7 +46,7 @@ export default component({
 	    			<TableHeader lighter p textAlign='left' />
 	    		</TableRow>
 	    		{
-	    			sequence.map((val, key) => 
+	    			sequence.map((val, key) =>
 	    				<Row
 	    					instanceRef={instance.key}
 	    					playlistRef={playlistRef}
@@ -74,17 +74,15 @@ const Row = fire(({ref, savedRef}) => ({
 
 		const {value} = game
 		const {value: savedValue} = saved
-		const imgUrl = value.imageUrl.indexOf('/animalImages') === -1 
+		const imgUrl = value.imageUrl.indexOf('/animalImages') === -1
 			? value.imageUrl
 			: 'https://www.pixelbots.io/' + value.imageUrl
 
 		const stretchType = (value.stretch || {}).type
 	  const count = getProp(`badges.${stretchType}`, savedValue) || 0
-	  console.log(count)
-
 
 		return (
-			<TableRow border='1px solid divider' borderTopWidth={0}> 
+			<TableRow border='1px solid divider' borderTopWidth={0}>
 				<TableCell p>
 					<Block align='start center'>
 						<Image sq={50} mr src={imgUrl} outline='1px solid #EEE' outlineOffset='-1px' />
@@ -101,16 +99,16 @@ const Row = fire(({ref, savedRef}) => ({
         		<Badge type={stretchType} size={32} hideTitle effects={false} count={count || 0} description={false} />
       		</Block>
 				</TableCell>
-				<TableCell p> 
+				<TableCell p>
 					{
-						completed &&	
+						completed &&
 							<Circle size={26} bg='green'>
 								<Icon name='check' fs='s'/>
 							</Circle>
 					}
 				</TableCell>
 				<TableCell p textAlign='right'>
-					<a target='_blank' href={`http://localhost:8080/playlist/${playlistRef}/play/${instanceRef}/${i}`}>
+					<a target='_blank' href={`https://pixelbots.io/playlist/${playlistRef}/play/${instanceRef}/${i}`}>
 						<Button px='m'>View</Button>
 					</a>
 				</TableCell>
@@ -121,7 +119,7 @@ const Row = fire(({ref, savedRef}) => ({
 
 const Circle = component({
 	render({props, children}) {
-		const {size = 32, ...rest} = props 
+		const {size = 32, ...rest} = props
 		return (
 			<Block color='white' bg='blue' align='center center' fs='xs' circle={size} {...rest}>
 				{children}
