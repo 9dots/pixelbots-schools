@@ -108,7 +108,7 @@ const Row = fire(({ref, savedRef}) => ({
 					}
 				</TableCell>
 				<TableCell p textAlign='right'>
-					<a target='_blank' href={`https://pixelbots.io/playlist/${playlistRef}/play/${instanceRef}/${i}`}>
+					<a target='_blank' href={`https://www.pixelbots.io/playlist/${playlistRef}/play/${instanceRef}/${i}`}>
 						<Button px='m'>View</Button>
 					</a>
 				</TableCell>
