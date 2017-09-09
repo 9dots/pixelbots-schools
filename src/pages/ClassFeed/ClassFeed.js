@@ -49,6 +49,8 @@ export default fire(props => ({
 
     controller: {
       * assign ({props, context}, {url}) {
+        if (!url) return
+
         const {groupId} = props
         const playlistRef = parseRef(url)
         const snap = yield context.firebaseOnce('/playlists/' + playlistRef)
@@ -58,10 +60,10 @@ export default fire(props => ({
           playlistRef,
           publishedAt: new Date(),
           inverseTimestamp: -new Date(),
-          displayName: playlist.name,
-          description: playlist.description,
+          displayName: playlist.name || null,
+          description: playlist.description || null,
           image: {
-            url: playlist.imageUrl
+            url: playlist.imageUrl || null
           },
           groupId
         })
