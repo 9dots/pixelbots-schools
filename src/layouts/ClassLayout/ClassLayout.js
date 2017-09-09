@@ -120,9 +120,11 @@ const Header = component({
           <NavTile href={`/class/${id}/students`} highlight='green'>
             Students
           </NavTile>
-          <NavTile href={`/class/${id}/gradebook`} highlight='blue'>
-            Gradebook
-          </NavTile>
+          {
+          // <NavTile href={`/class/${id}/gradebook`} highlight='blue'>
+          //   Gradebook
+          // </NavTile>
+          }
         </Block>
       </Block>
     )
