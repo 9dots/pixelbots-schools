@@ -12,6 +12,7 @@ import validate from 'lib/validate'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
 import fire from 'vdux-fire'
+import map from '@f/map'
 
 /**
  * Constants
@@ -44,7 +45,7 @@ export default fire(({userId}) => ({
     join: {
       ref: '/schools',
       child: 'schools',
-      childRef: (val, ref) => mapValues((v, key) => ref.child(key), val.schools || {})
+      childRef: (val, ref) => map((v, key) => ref.child(key), val.schools || {})
     }
   }
 }))(component({
@@ -157,5 +158,3 @@ function DDBtn ({props}) {
     </Button>
   )
 }
-
-
