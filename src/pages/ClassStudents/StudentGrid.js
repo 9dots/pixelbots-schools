@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
+import {Checkbox, Table, TableHeader, TableCell, Block, Icon, Image} from 'vdux-ui'
 import {wrap, CSSContainer, TableRow, Text} from 'vdux-containers'
 import {preventDefault, component, element} from 'vdux'
 import StudentDropdown from './StudentDropdown'
@@ -11,10 +11,12 @@ import mapValues from '@f/map-values'
 import Link from 'components/Link'
 import getProp from '@f/get-prop'
 import index from '@f/index'
+import {images} from 'lib/picture-passwords'
 
 /**
  * <StudentGrid/> in class -> students page
  */
+
 
 export default component({
   render ({props, actions}) {
@@ -34,6 +36,7 @@ export default component({
           </TableHeader>
           <StudentHeader text='Name' prop='displayName' sort={sort} setSort={actions.setSort} />
           <StudentHeader text='Username' prop='username' sort={sort} setSort={actions.setSort} />
+          <StudentHeader text='Password' prop='pictureName' sort={sort} setSort={actions.setSort} />
           <TableHeader hide={isStudent} />
         </TableRow>
         {
@@ -116,7 +119,7 @@ const StudentRow = wrap(CSSContainer, {
 })(component({
   render ({props, actions}) {
     const {student, selected, group, groupId, highlight, showSettings, isStudent} = props
-    const {username, displayName} = student
+    const {username, displayName,pictureName} = student
 
     return (
       <TableRow tag={isStudent ? 'tr' : 'label'} display='table-row' py bgColor={highlight && !isStudent ? '#fafdfe' : 'white'} borderBottom='1px solid grey_light'>
@@ -131,6 +134,11 @@ const StudentRow = wrap(CSSContainer, {
         <TableCell {...cellProps}>
           <Block hoverProps={underline}>
             {username}
+          </Block>
+        </TableCell>
+        <TableCell {...cellProps}>
+          <Block hoverProps={underline}>
+            {images[pictureName]}
           </Block>
         </TableCell>
         <TableCell {...cellProps} textAlign='right' hide={isStudent}>

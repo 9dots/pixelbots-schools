@@ -9,6 +9,7 @@ import {Button} from 'vdux-containers'
 import validate from 'lib/validate'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
+import {passwords, getRandomInt} from 'lib/picture-passwords'
 
 /**
  * <Create Student Modal/>
@@ -19,7 +20,6 @@ export default component({
     const {creatingStudent = {}, joiningClass = {}} = props
     const {fetching} = state
     const loading = creatingStudent.loading || joiningClass.loading
-
     return (
       <Modal onDismiss={context.closeModal}>
         <Form onSubmit={actions.checkStudentCredentials} validate={validateStudent} autocomplete='off'>
@@ -54,7 +54,7 @@ export default component({
       const {value} = yield context.fetch(`${process.env.CLOUD_FUNCTION_SERVER}/createNewUser`, {
         method: 'POST',
         headers: {'CONTENT-TYPE': 'application/json'},
-        body: JSON.stringify({...model, classId: props.groupId, email: model.email || undefined})
+        body: JSON.stringify({...model, classId: props.groupId, email: model.email || undefined, pictureName: passwords[getRandomInt(0,24)]})
       })
       yield context.closeModal()
     },
@@ -142,3 +142,4 @@ function validateStudent (model) {
 
   return result
 }
+
