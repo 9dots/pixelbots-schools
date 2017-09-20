@@ -5,8 +5,9 @@
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import ActivityCardActions from 'components/ActivityCardActions'
 import {stopPropagation, component, element} from 'vdux'
-import {wrap, CSSContainer} from 'vdux-containers'
+import {wrap, CSSContainer, Button} from 'vdux-containers'
 import {Flex, Block, Card} from 'vdux-ui'
+import WeoIcon from 'components/WeoIcon'
 import BgImg from 'components/BgImg'
 import Meta from './Meta'
 
@@ -17,15 +18,20 @@ import Meta from './Meta'
 export default wrap(CSSContainer, {
   hoverProps: {hover: true}
 })(component({
-  render ({props, context}) {
+  render ({props, context, state, actions}) {
     const {
       hover, activity, metaUi: MetaUi = Meta, ddMenu,
       badgeUi: BadgeUi = Badge, currentUser = {}, options, showClass
     } = props
-    const {image, displayName, description, _id: id} = activity
+    const {image, displayName, description, _id: id, pinned} = activity
+    const {isUpdatingPin} = state
+
+    const btnProps = pinned 
+      ? {bgColor: 'red', color: 'white'}
+      : {bgColor: 'white', color: 'red'}
 
     return (
-      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='pointer' onClick={context.setUrl(`/activity/${activity.groupId}/${activity.playlistRef}`)}>
+      <Card h={132} wide mt={0} borderBottom='rgba(52, 52, 52, 0.08)' cursor='pointer' onClick={context.setUrl(`/activity/${activity.groupId}/${activity.playlistRef}`)} >
         <Flex tall align='start start'>
           <Flex p='m' tall column align='space-between' flex='49%'>
             <Block fs='s' fw='200' ellipsis>{displayName}</Block>
@@ -57,12 +63,22 @@ export default wrap(CSSContainer, {
                 </Flex>
             }
             {
+              (hover || pinned) &&
+                <Flex align='end center'>
+                  <Block onClick={stopPropagation}>
+                    <Button disabled={isUpdatingPin} m py='s' px hoverProps={{highlight: .01}} focusProps={{highlight: .02}} {...btnProps} onClick={actions.pin}>
+                      <WeoIcon name='pin' fs='21px' mb={-2} />
+                    </Button>
+                  </Block>
+                </Flex>
+            }
+            {
               // options && hover &&
-              //   <Flex align='end center'>
+              //   <Flex align='end center' mt='s'>
               //     {
               //       ddMenu &&
               //         <Block mr ml='-6' onClick={stopPropagation}>
-              //           <ActivityDropdownMenu activity={activity} />
+              //           <ActivityDropdownMenu key={activity.key} activity={activity} />
               //         </Block>
               //     }
               //   </Flex>
@@ -71,6 +87,27 @@ export default wrap(CSSContainer, {
         </Flex>
       </Card>
     )
+  },
+  controller: {
+    * pin ({props, actions, context}) {
+      const {activity} = props
+      const {groupId, playlistRef, pinned, key} = activity
+      console.log(pinned, props)
+
+      yield actions.updatingPin(true)
+      yield [
+        context.fetch(process.env.CLOUD_FUNCTION_SERVER + '/pinAssignment', {
+          method: 'POST',
+          headers: {'CONTENT-TYPE': 'application/json'},
+          body: JSON.stringify({groupId, playlistRef, pinned})
+        }),
+        context.firebaseUpdate(`/feed/${groupId}/${key}`, {pinned: !pinned})
+      ]
+      yield actions.updatingPin(false)
+    }
+  },
+  reducer: {
+    updatingPin: (state, isUpdatingPin) => ({isUpdatingPin})
   }
 }))
 

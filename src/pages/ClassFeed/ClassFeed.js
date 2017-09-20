@@ -38,7 +38,7 @@ export default fire(props => ({
             {
               value.map(activity => (
                 <Block>
-                  <ClassActivityRow activity={activity} />
+                  <ClassActivityRow options activity={activity} />
                 </Block>
               ))
             }
