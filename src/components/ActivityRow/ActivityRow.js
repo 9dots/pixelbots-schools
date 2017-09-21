@@ -63,25 +63,36 @@ export default wrap(CSSContainer, {
                 </Flex>
             }
             {
-              (hover || pinned) &&
-                <Flex align='end center'>
-                  <Block onClick={stopPropagation}>
-                    <Button disabled={isUpdatingPin} m py='s' px hoverProps={{highlight: .01}} focusProps={{highlight: .02}} {...btnProps} onClick={actions.pin}>
-                      <WeoIcon name='pin' fs='21px' mb={-2} />
-                    </Button>
-                  </Block>
-                </Flex>
+              // (hover || pinned) &&
+              //   <Flex align='end center'>
+              //     <Block onClick={stopPropagation}>
+              //       <Button disabled={isUpdatingPin} m py='s' px hoverProps={{highlight: .01}} focusProps={{highlight: .02}} {...btnProps} onClick={actions.pin}>
+              //         <WeoIcon name='pin' fs='21px' mb={-2} />
+              //       </Button>
+              //     </Block>
+              //   </Flex>
             }
             {
-              // options && hover &&
-              //   <Flex align='end center' mt='s'>
-              //     {
-              //       ddMenu &&
-              //         <Block mr ml='-6' onClick={stopPropagation}>
-              //           <ActivityDropdownMenu key={activity.key} activity={activity} />
-              //         </Block>
-              //     }
-              //   </Flex>
+              options &&
+                <Flex column wide align='space-between end' tall  mb='s'>
+                  {
+                    <Block hidden={!pinned} sq={60} relative>
+                      <Block 
+                        sq={60}
+                        border='30px solid transparent'
+                        borderTopColor='red'
+                        borderRightColor='red'
+                        />
+                      <WeoIcon name='pin' color='white' absolute top right mt={8} mr={5} />
+                    </Block>
+                  }
+                  {
+                    ddMenu &&
+                      <Block mr ml='-6' onClick={stopPropagation} disabled={isUpdatingPin}>
+                        <ActivityDropdownMenu pinAction={actions.pin} key={activity.kye} activity={activity} />
+                      </Block>
+                  }
+                </Flex>
             }
           </Flex>
         </Flex>
@@ -92,7 +103,6 @@ export default wrap(CSSContainer, {
     * pin ({props, actions, context}) {
       const {activity} = props
       const {groupId, playlistRef, pinned, key} = activity
-      console.log(pinned, props)
 
       yield actions.updatingPin(true)
       yield [

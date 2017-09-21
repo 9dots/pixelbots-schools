@@ -117,7 +117,7 @@
     "to-csv": "weo-edu/to-csv",
     "track-prep": "^0.2.0",
     "vdux": "^3.0.6",
-    "vdux-containers": "^1.2.8",
+    "vdux-containers": "^1.2.9",
     "vdux-fire": "^1.2.30",
     "vdux-form": "^1.2.3",
     "vdux-position": "^1.0.5",

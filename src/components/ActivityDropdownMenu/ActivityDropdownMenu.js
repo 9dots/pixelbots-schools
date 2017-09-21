@@ -13,8 +13,6 @@ import {Icon, Block} from 'vdux-ui'
  * <ActivityDropdownMenu/>
  */
 
-let close
-
 export default component({
   propTypes: {
     activity: t.Object,
@@ -23,20 +21,18 @@ export default component({
   },
 
   render ({props, context, actions}) {
-    const {activity, reassign = true, ...rest} = props
+    const {activity, pinAction, ...rest} = props
     const editUrl = `/activity/${activity._id}/edit`
-
-    console.log(close)
 
     return (
       <Dropdown 
         btn={<Btn {...rest} />}
-        ref={function (api) { close = api.close }}
-        w={150}>
+        w={150}
+        z={9999}>
         <Item
-          onClick={close}
+          onClick={pinAction}
           text='Pin to Top'
-          color='green'
+          color='red'
           weoicon='pin' />
         {
         // <Item
@@ -67,27 +63,6 @@ export default component({
     * openDeleteModal ({props, context}) {
       const {onDelete, activity} = props
       yield context.openModal(() => <DeleteActivityModal onDelete={onDelete} activity={activity} />)
-    },
-    * pin ({props, context}, open) {
-      console.log('pin', props.activity)
-      // if (!url) return
-
-      // const {groupId} = props
-      // const playlistRef = parseRef(url)
-      // const snap = yield context.firebaseOnce('/playlists/' + playlistRef)
-      // const playlist = snap.val()
-
-      // yield context.firebasePush(`/feed/${groupId}`, {
-      //   playlistRef,
-      //   publishedAt: new Date(),
-      //   inverseTimestamp: -new Date(),
-      //   displayName: playlist.name || null,
-      //   description: playlist.description || null,
-      //   image: {
-      //     url: playlist.imageUrl || null
-      //   },
-      //   groupId
-      // })
     }
   }
 })
