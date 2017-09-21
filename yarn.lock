@@ -5032,9 +5032,9 @@ vary@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.1.tgz#67535ebb694c1d52257457984665323f587e8d37"
 
-vdux-containers@^1.2.8:
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/vdux-containers/-/vdux-containers-1.2.8.tgz#027956cbb1e7edba692f8076d8b33d8d6d772a3a"
+vdux-containers@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/vdux-containers/-/vdux-containers-1.2.9.tgz#293f633b3897e146c9688a28ea2fa3a0e59e97fc"
   dependencies:
     "@f/contains-element" "^1.0.0"
     "@f/debounce" "^1.0.4"
