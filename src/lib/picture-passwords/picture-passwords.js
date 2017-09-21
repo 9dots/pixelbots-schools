@@ -8,7 +8,7 @@ const passwords = [
 ]
 
 const images = passwords.reduce((acc, password) => {
-  acc[password] = `localhost:8080/passwordImages/${password}.png`
+  acc[password] = `assets/${password}.png`
   return acc
 }, {})
 
