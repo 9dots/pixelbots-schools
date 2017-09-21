@@ -2,16 +2,16 @@
  * Imports
  */
 
-import {combineInstancesAndStudents, activitySort} from 'lib/activity-helpers'
 import {Block, Table, TableHeader, TableRow, Icon} from 'vdux-ui'
-import ActivityProgressActions from './ActivityProgressActions'
 import ActivityProgressRow from './ActivityProgressRow'
-import {Checkbox, form, Button} from 'vdux-containers'
 import EmptyState from 'components/EmptyState'
+import datauriDownload from 'datauri-download'
 import SortHeader from 'components/SortHeader'
+import {form, Button} from 'vdux-containers'
 import summonPrefs from 'lib/summon-prefs'
 import {component, element} from 'vdux'
 import mapValues from '@f/map-values'
+import toCsv from 'to-csv'
 import index from '@f/index'
 import map from '@f/map'
 
@@ -26,19 +26,18 @@ export default summonPrefs()(
 component({
   render ({props, context, actions}) {
     const {
-    activity, students, setStatus, settingStatus, prefs,
-    toggleAll, fields, instances, classRef, sequence
-  } = props
+      students, prefs, fields, instances, classRef, sequence, playlistRef
+    } = props
 
     const sort = prefs.shareStudentSort || {property: 'name.givenName', dir: 1}
 
     // const instanceList = combineInstancesAndStudents(activity, students, instances)
     // .sort(activitySort(sort))
 
-    const studentInsts = map((student, id) => ({
+    const studentInsts = map((student, id) => mapToInstance({
       ...student,
       ...(instances[id] || {notStarted: true})
-    }), students)
+    }, sequence), students)
 
     const headProps = {sort, setSort: actions.setSort, lighter: true, p: true}
 
@@ -46,15 +45,19 @@ component({
     const instanceIds = Object.keys(instances)
     const selected = (fields.selected.value || []).filter(id => instanceIds[id])
     const selMap = index(selected)
-    const allSelected = instanceIds.length === selected.length && Object.keys(students).length
-    const indeterminate = !allSelected && selected.length
 
     return (
       <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
-        <Button px  onClick={context.setUrl('/class/' + classRef)} mb>
-            <Icon name='arrow_back' fs='s' mr='s'/>
+        <Block mb align='space-between center' wide>
+          <Button px onClick={context.setUrl('/class/' + classRef)}>
+            <Icon name='arrow_back' fs='s' mr='s' />
             Back
           </Button>
+          <Button onClick={actions.exportAll(studentInsts)} bgColor='green' px>
+            <Icon name='file_download' fs='m' mr='s' />
+            Download
+          </Button>
+        </Block>
         <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
           <TableRow bgColor='grey' color='white'>
             {/*<TableHeader {...headProps}>
@@ -68,24 +71,26 @@ component({
           {
             instanceIds.length
               ? mapValues((instance, id) =>
-                  <ActivityProgressRow
-                    classRef={classRef}
-                    selected={!!selMap[id]}
-                    sequence={sequence}
-                    instance={instance} />,
-                    studentInsts
+                <ActivityProgressRow
+                  classRef={classRef}
+                  selected={!!selMap[id]}
+                  completedChallenges={instance.completedChallenges}
+                  playlistRef={playlistRef}
+                  sequence={sequence}
+                  instance={instance} />,
+                  studentInsts
                 )
               : <tr>
-                  <EmptyState tag='td' icon='person' color='green' colspan='100' pb='l'>
-                    <Block>
-                      You must add students to your class in order to view results.
-                    </Block>
-                    <Button onClick={context.setUrl(`/class/${classRef}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
-                      <Icon name='person_add' mr='s' fs='s' />
-                        Add Students
-                    </Button>
-                  </EmptyState>
-                </tr>
+                <EmptyState tag='td' icon='person' color='green' colspan='100' pb='l'>
+                  <Block>
+                    You must add students to your class in order to view results.
+                  </Block>
+                  <Button onClick={context.setUrl(`/class/${classRef}/students`)} fs='s' lighter py boxShadow='z2' bgColor='green' mt='l'>
+                    <Icon name='person_add' mr='s' fs='s' />
+                      Add Students
+                  </Button>
+                </EmptyState>
+              </tr>
           }
         </Table>
       </Block>
@@ -98,6 +103,50 @@ component({
         property,
         dir: property === sort.property ? sort.dir * -1 : 1
       })
+    },
+    exportAll ({props}, data) {
+      const {playlist} = props
+      const headers = ['Last Name', 'First Name', 'Activity Name', 'Completed', 'Possible', 'Progress Pct']
+      const content = mapValues((inst, key) => [
+        inst.familyName,
+        inst.givenName,
+        playlist.name,
+        inst.numCompleted,
+        inst.possibleCompleted,
+        inst.progress
+      ], data)
+      downloadCsv(playlist.name, [headers, ...content])
     }
   }
 })))
+
+function mapToInstance (instance, sequence) {
+  const {displayName, uid, completedChallenges = []} = instance
+  const [givenName, familyName] = displayName.split(' ')
+  return {
+    progress: `${(completedChallenges.length || 0) / sequence.length * 100}%`,
+    numCompleted: completedChallenges.length.toString(),
+    possibleCompleted: sequence.length.toString(),
+    status: getStatus(instance),
+    completedChallenges,
+    displayName,
+    familyName,
+    givenName,
+    uid
+  }
+}
+
+function getStatus (instance) {
+  if (instance.notStarted) return 'Not Started'
+  if (instance.completed) return 'Completed'
+  return 'In Progress'
+}
+
+function downloadCsv (filename, data) {
+  datauriDownload(filename + '-' + today() + '.csv', 'text/csv;charset=utf-8', toCsv(data, ',', false))
+}
+
+function today () {
+  var d = new Date()
+  return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-')
+}

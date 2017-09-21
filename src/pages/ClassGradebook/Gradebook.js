@@ -165,18 +165,18 @@ function deriveData (props) {
   }
 
   function cmp (a, b) {
-      if (!sort) return
-      const prop = sort.property
-      const bool = norm(prop, a) === norm(prop, b)
-        ? norm('displayName', a) > norm('displayName', b)
-        : norm(prop, a) > norm(prop, b)
+    if (!sort) return
+    const prop = sort.property
+    const bool = norm(prop, a) === norm(prop, b)
+      ? norm('displayName', a) > norm('displayName', b)
+      : norm(prop, a) > norm(prop, b)
 
-      return bool ? 1 * sort.dir : -1 * sort.dir
+    return bool ? 1 * sort.dir : -1 * sort.dir
 
-      function norm(prop, obj) {
-        return getProp(prop, obj).toUpperCase()
-      }
+    function norm(prop, obj) {
+      return getProp(prop, obj).toUpperCase()
     }
+  }
 }
 
 function downloadCsv (filename, data) {

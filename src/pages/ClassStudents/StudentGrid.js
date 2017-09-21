@@ -6,9 +6,6 @@ import {Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
 import {wrap, CSSContainer, TableRow, Text} from 'vdux-containers'
 import {preventDefault, component, element} from 'vdux'
 import StudentDropdown from './StudentDropdown'
-import Avatar from 'components/Avatar'
-import mapValues from '@f/map-values'
-import Link from 'components/Link'
 import getProp from '@f/get-prop'
 import index from '@f/index'
 
@@ -53,7 +50,7 @@ export default component({
 
       return bool ? 1 * sort.dir : -1 * sort.dir
 
-      function norm(prop, obj) {
+      function norm (prop, obj) {
         return getProp(prop, obj).toUpperCase()
       }
     }

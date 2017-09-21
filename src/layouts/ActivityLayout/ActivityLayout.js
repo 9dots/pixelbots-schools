@@ -41,7 +41,7 @@ export default fire(({classRef, playlistRef}) => ({
 }))(component({
   render ({props, children}) {
     if (props.classData.loading || props.playlist.loading) {
-      return <span/>
+      return <span />
     }
     return <ActivityLayout {...props} classData={props.classData.value} playlist={props.playlist.value}>
       {children}
@@ -65,10 +65,10 @@ const ActivityLayout = fire(({classData, playlistRef}) => ({
   },
 }))(component({
   render ({props, children, actions}) {
-    const {currentUser, activity, playlist, students, classData} = props
+    const {activity, playlist, classData, playlistRef} = props
 
     if (activity.loading) {
-      return <span/>
+      return <span />
     }
 
     return (
@@ -77,6 +77,8 @@ const ActivityLayout = fire(({classData, playlistRef}) => ({
           maybeOver({
             students: classData.students,
             sequence: playlist.sequence,
+            playlist: playlist,
+            playlistRef: playlistRef,
             instances: map(val => ({...val.playlistInstance}), activity.value)
           }, children)
         }
