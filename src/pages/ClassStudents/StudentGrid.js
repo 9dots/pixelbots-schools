@@ -137,8 +137,8 @@ const StudentRow = wrap(CSSContainer, {
           </Block>
         </TableCell>
         <TableCell {...cellProps}>
-          <Block hoverProps={underline}>
-            {images[pictureName]}
+          <Block log={console.log(images[pictureName])} hoverProps={underline}>
+            <img src={images[pictureName]} />
           </Block>
         </TableCell>
         <TableCell {...cellProps} textAlign='right' hide={isStudent}>
