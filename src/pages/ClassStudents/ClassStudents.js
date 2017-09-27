@@ -99,8 +99,11 @@ const StudentMenu = component({
           <Icon name='autorenew' mr='s' fs='s'/>
           Reset All Passwords
         </Button>
-        <Button onClick={actions.printLoginModal} bgColor='grey'> 
-          <Icon name='print' mr='s' fs='s' /> Print Student Info </Button>
+        <Tooltip message={!count && 'Select Students to Enable'}>
+          <Button disabled={!count} onClick={actions.printLoginModal(users)} bgColor='grey'> 
+          <Icon name='print' mr='s' fs='s' /> Print Student Cards
+          </Button>
+        </Tooltip>
         <Flex flex align='end center'>
           <Block color='blue' align='center center' hide={!count}>
             {count} selected
@@ -124,7 +127,7 @@ const StudentMenu = component({
     },
 
     * printLoginModal ({props, context}, users) {
-      yield context.openModal(() => <PrintLoginModal users={props.students} />)
+      yield context.openModal(() => <PrintLoginModal users={users} />)
     },
 
     * passwordModal ({props, context}, users) {

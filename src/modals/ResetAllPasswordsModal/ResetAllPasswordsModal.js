@@ -21,10 +21,10 @@ export default component({
         <Form onSubmit={actions.changePasswords} onSuccess={context.closeModal}>
           <Flex ui={ModalBody} column align='center center' pb='l'>
             <ModalHeader>
-              Change Student Password
+              Reset All Passwords
             </ModalHeader>
             <Block my>
-              Are you sure you want to reset all passwords in this class?
+              Are you sure you want to reset all student passwords in this class?
             </Block>
           </Flex>
           <ModalFooter bg='grey'>
