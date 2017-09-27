@@ -99,7 +99,7 @@ const StudentMenu = component({
           <Icon name='autorenew' mr='s' fs='s'/>
           Reset All Passwords
         </Button>
-        <Button onClick={actions.printPage} bgColor='grey'> 
+        <Button onClick={actions.printLoginModal} bgColor='grey'> 
           <Icon name='print' mr='s' fs='s' /> Print Student Info </Button>
         <Flex flex align='end center'>
           <Block color='blue' align='center center' hide={!count}>
@@ -115,10 +115,6 @@ const StudentMenu = component({
       yield context.openModal(() => <CreateStudentModal groupId={props.groupId}  />)
     },
 
-    * printPage(){
-      window.print()
-    },
-
     * resetPasswordsModal ({props, context}) {
       yield context.openModal(() => <ResetAllPasswordsModal users={props.students} />)
     },  
@@ -128,7 +124,7 @@ const StudentMenu = component({
     },
 
     * printLoginModal ({props, context}, users) {
-      yield context.openModal(() => <PrintLoginModal user={users} />)
+      yield context.openModal(() => <PrintLoginModal users={props.students} />)
     },
 
     * passwordModal ({props, context}, users) {

@@ -4,7 +4,18 @@
 
 import {Modal, Block, Icon, Text} from 'vdux-ui'
 import {component, element} from 'vdux'
-import {Button} from 'vdux-containers'
+import {Button, Image} from 'vdux-containers'
+import {apple, bat, bea, butterfly, camel,
+  cupcake, dino, don, elephant, gorilla,
+  kitty, lotus, monster, narwhal, octopus,
+  penguin, pop, potato, rabbit, ramen,
+  redpanda, remy, rhino, tiger, whale, yellow} from '../AvatarPickerModal/avatars/index.js'
+
+const animalImages= {"apple": apple, "bat": bat, "bea": bea, "butterfly": butterfly, "camel": camel,
+"cupcake": cupcake, "dino": dino, "don": don, "elephant": elephant, "gorilla": gorilla,
+"kitty": kitty, "lotus": lotus, "monster": monster, "narwhal": narwhal, "octopus": octopus,
+"penguin": penguin, "pop": pop, "potato": potato, "rabbit": rabbit, "ramen": ramen,
+"redpanda": redpanda, "remy": remy, "rhino": rhino, "tiger": tiger, "whale":whale, "yellow": yellow }
 
 /**
  * Constants
@@ -23,7 +34,7 @@ const overlayPrint = {
 
 export default component({
   render ({props, actions, context}) {
-    const {user} = props
+    const {users} = props
 
     return (
       <Modal mt='0' w='800px' onDismiss={context.closeModal} pb='s' overlayProps={{printProps: overlayPrint}} printProps={{w: '100%', h: 'auto'}} relative>
@@ -36,7 +47,7 @@ export default component({
           </Button>
         </Block>
         {
-            user.map((u, i) => <InfoBlock last={user.length === i + 1} user={u} />)
+            users.map((u, i) => <InfoBlock last={users.length === i + 1} user={u} />)
           }
       </Modal>
     )
@@ -62,19 +73,13 @@ function InfoBlock ({props}) {
           {user.displayName}
         </Block>
         <Block tag='ol' fs='s' flex='50%'>
-          <Block tag='li' mb='s'>
-            Go to <Text color='blue'>weo.io/login</Text>
-          </Block>
-          <Block tag='li'>
-            Log in with the following info:
-            <Block align='start center' mt='s'>
+          <Block align='start center' mt='s'>
               <Text bold flex='40%'>username:</Text>
               <Text fontFamily='monospace'>{user.username}</Text>
-            </Block>
-            <Block align='start center'>
-              <Text bold flex='40%'>password:</Text>
-              <Text fontFamily='monospace'>{user.tmpPassword || '<Your Password>'}</Text>
-            </Block>
+          </Block>
+          <Block align='start right'>
+            <Text bold flex='40%'> password: </Text>
+            <Image h='100px' w='100px' src={animalImages[user.pictureName]} />
           </Block>
         </Block>
       </Block>
