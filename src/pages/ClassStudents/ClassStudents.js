@@ -96,7 +96,7 @@ const StudentMenu = component({
           </Button>
         </Tooltip>
         <Button {...btnProps} bgColor='green' onClick={actions.resetPasswordsModal}>
-          <Icon name='autorenew' mr='s' fs='s'/>
+          <Icon name='lock' mr='s' fs='s'/>
           Reset All Passwords
         </Button>
         <Tooltip message={!count && 'Select Students to Enable'}>

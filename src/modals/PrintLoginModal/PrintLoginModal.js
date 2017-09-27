@@ -69,17 +69,19 @@ function InfoBlock ({props}) {
   return (
     <Block borderBottom={!last && '1px dashed grey_medium'} p='l' pageBreakInside='avoid' relative>
       <Block border='1px solid grey_medium' align='start center' borderRadius='10'>
-        <Block fs='l' color='blue' flex='35%' maxWidth='35%' overflow='hidden' textAlign='center'>
+        <Block fs='l' color='blue' flex='40%' maxWidth='40%' overflow='hidden' textAlign='center' pl>
           {user.displayName}
         </Block>
         <Block tag='ol' fs='s' flex='50%'>
-          <Block align='start center' mt='s'>
-              <Text bold flex='40%'>username:</Text>
-              <Text fontFamily='monospace'>{user.username}</Text>
-          </Block>
-          <Block align='start right'>
+          {
+          // <Block align='start center' mt='s'>
+          //   <Text bold flex='40%'>username:</Text>
+          //   <Text fontFamily='monospace'>{user.username}</Text>
+          // </Block>
+          }
+          <Block align='start center'>
             <Text bold flex='40%'> password: </Text>
-            <Image h='100px' w='100px' src={animalImages[user.pictureName]} />
+            <Image sq={100} src={animalImages[user.pictureName]} />
           </Block>
         </Block>
       </Block>

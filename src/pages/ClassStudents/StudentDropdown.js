@@ -31,7 +31,7 @@ export default component({
         <StudentItem icon='cancel' modal={<RemoveFromClassModal group={group} groupId={groupId} user={student} />}>
           Remove From Class
         </StudentItem>
-        <StudentItem icon='cancel' modal={<ChangeStudentPasswordModal group={group} groupId={groupId} user={student} />}>
+        <StudentItem icon='lock' modal={<ChangeStudentPasswordModal group={group} groupId={groupId} user={student} />}>
           Change Password
         </StudentItem>
       </Dropdown>

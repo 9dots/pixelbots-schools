@@ -86,11 +86,6 @@ const Row = fire(({ref, savedRef}) => ({
 				<TableCell p>
 					<Block align='start center'>
 						<Image sq={50} mr src={imgUrl} outline='1px solid #EEE' outlineOffset='-1px' />
-						{
-						// <Circle size='32' bg='#AAA' mr>
-						// 	{i + 1}
-						// </Circle>
-						}
 						{value.title}
 					</Block>
 				</TableCell>
