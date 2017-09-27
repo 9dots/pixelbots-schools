@@ -10,6 +10,7 @@ import {Button, form, Tooltip} from 'vdux-containers'
 import AddStudentModal from 'modals/AddStudentModal'
 import PrintLoginModal from 'modals/PrintLoginModal'
 import PasswordModal from 'modals/PasswordModal'
+import ResetAllPasswordsModal from 'modals/ResetAllPasswordsModal'
 import PageTitle from 'components/PageTitle'
 import {Icon, Flex, Block} from 'vdux-ui'
 import Loading from 'components/Loading'
@@ -94,6 +95,12 @@ const StudentMenu = component({
             <Icon name='delete' mr='s' fs='s' />Remove
           </Button>
         </Tooltip>
+        <Button {...btnProps} bgColor='green' onClick={actions.resetPasswordsModal}>
+          <Icon name='autorenew' mr='s' fs='s'/>
+          Reset All Passwords
+        </Button>
+        <Button onClick={actions.printPage} bgColor='grey'> 
+          <Icon name='print' mr='s' fs='s' /> Print Student Info </Button>
         <Flex flex align='end center'>
           <Block color='blue' align='center center' hide={!count}>
             {count} selected
@@ -107,6 +114,14 @@ const StudentMenu = component({
     * addStudentModal ({props, context}) {
       yield context.openModal(() => <CreateStudentModal groupId={props.groupId}  />)
     },
+
+    * printPage(){
+      window.print()
+    },
+
+    * resetPasswordsModal ({props, context}) {
+      yield context.openModal(() => <ResetAllPasswordsModal users={props.students} />)
+    },  
 
     * removeModal ({props, context}, users) {
       yield context.openModal(() => <RemoveFromClassModal user={users} groupId={props.groupId} />)

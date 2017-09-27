@@ -2448,7 +2448,7 @@ clone@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.2.tgz#260b7a99ebb1edfe247538175f783243cb19d149"
 
-cloud-fs@^0.1.1, cloud-fs@^0.1.7:
+cloud-fs@^0.1.1, cloud-fs@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/cloud-fs/-/cloud-fs-0.1.9.tgz#13b6e0615bb764effc0aff69231d526fefc94d0a"
   dependencies:

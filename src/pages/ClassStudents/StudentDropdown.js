@@ -6,11 +6,11 @@ import RemoveFromClassModal from 'modals/RemoveFromClassModal'
 import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import UsernameModal from 'modals/UsernameModal'
 import PasswordModal from 'modals/PasswordModal'
+import ChangeStudentPasswordModal from 'modals/ChangeStudentPasswordModal'
 import NameModal from 'modals/NameModal'
 import {component, element} from 'vdux'
 import IdModal from 'modals/IdModal'
 import {Icon} from 'vdux-ui'
-import {passwords, getRandomInt} from 'lib/picture-passwords'
 
 /**
  * StudentDropdown
@@ -18,7 +18,7 @@ import {passwords, getRandomInt} from 'lib/picture-passwords'
 
 export default component({
   render ({props, actions}) {
-    const {student, group, groupId, showSettings, ...rest} = props
+    const {student, group, groupId, showSettings, changePassword, ...rest} = props
 
     return (
       <Dropdown z='2' {...rest} btn={({toggle}, open) => <DropButton showSettings={showSettings} open={open} toggle={toggle} />} whiteSpace='nowrap' minWidth='180px'>
@@ -31,20 +31,11 @@ export default component({
         <StudentItem icon='cancel' modal={<RemoveFromClassModal group={group} groupId={groupId} user={student} />}>
           Remove From Class
         </StudentItem>
-        <MenuItem onClick={actions.changePassword} align = 'start center'> 
-          <Icon name ={'vpn_key'} mr fs='s'/>
+        <StudentItem icon='cancel' modal={<ChangeStudentPasswordModal group={group} groupId={groupId} user={student} />}>
           Change Password
-        </MenuItem>
+        </StudentItem>
       </Dropdown>
     )
-  },
-
-  controller: {
-    * changePassword ({context, props}) {
-      const {student} = props
-      var pw= passwords[getRandomInt(0,24)]
-      yield context.firebaseSet(`/users/${student.id}/pictureName`, pw)
-    }
   }
 })
 

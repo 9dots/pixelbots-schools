@@ -67,6 +67,7 @@ export default component({
           [props.groupId]: true
         })
       ]
+      yield context.firebaseSet(`/users/${user.uid}/pictureName`, passwords[getRandomInt(0,24)])
       yield context.closeModal()
     },
     * checkStudentCredentials ({props, context, actions}, model) {

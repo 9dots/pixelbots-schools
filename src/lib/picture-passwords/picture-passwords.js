@@ -1,4 +1,5 @@
 
+
 const passwords = [
   'apple','bat','bea','butterfly','camel',
   'cupcake','dino','don','elephant','gorilla',
@@ -6,11 +7,6 @@ const passwords = [
   'penguin','pop','potato','ramen','redpanda',
   'remy','rhino','tiger','whale','yellow'
 ]
-
-const images = passwords.reduce((acc, password) => {
-  acc[password] = `assets/${password}.png`
-  return acc
-}, {})
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -20,6 +16,5 @@ function getRandomInt(min, max) {
 
 export {
 	passwords,
-	images,
 	getRandomInt
 }

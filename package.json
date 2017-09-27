@@ -80,7 +80,7 @@
     "browserify": "^13.0.1",
     "browserify-hmr": "github:ashaffer/browserify-hmr",
     "browserify-mime": "^1.2.9",
-    "cloud-fs": "^0.1.7",
+    "cloud-fs": "^0.1.9",
     "color": "^0.11.1",
     "cookie": "^0.2.4",
     "cropperjs": "^1.0.0-beta.1",
@@ -193,6 +193,7 @@
       "CLOUD_FUNCTION_SERVER": "https://us-central1-artbot-26016.cloudfunctions.net"
     },
     "development": {
+      "CLOUD_FS_URL": "/assets/",
       "API_SERVER": "http://localhost:1337/",
       "AVATAR_SERVER": "http://localhost:1337",
       "FACEBOOK_APP_ID": "1768047533430073",

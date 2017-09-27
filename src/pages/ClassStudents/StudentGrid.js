@@ -11,12 +11,21 @@ import mapValues from '@f/map-values'
 import Link from 'components/Link'
 import getProp from '@f/get-prop'
 import index from '@f/index'
-import {images} from 'lib/picture-passwords'
+import {apple, bat, bea, butterfly, camel,
+  cupcake, dino, don, elephant, gorilla,
+  kitty, lotus, monster, narwhal, octopus,
+  penguin, pop, potato, rabbit, ramen,
+  redpanda, remy, rhino, tiger, whale, yellow} from './avatars/index.js'
 
 /**
  * <StudentGrid/> in class -> students page
  */
 
+const animalImages= {"apple": apple, "bat": bat, "bea": bea, "butterfly": butterfly, "camel": camel,
+"cupcake": cupcake, "dino": dino, "don": don, "elephant": elephant, "gorilla": gorilla,
+"kitty": kitty, "lotus": lotus, "monster": monster, "narwhal": narwhal, "octopus": octopus,
+"penguin": penguin, "pop": pop, "potato": potato, "rabbit": rabbit, "ramen": ramen,
+"redpanda": redpanda, "remy": remy, "rhino": rhino, "tiger": tiger, "whale":whale, "yellow": yellow }
 
 export default component({
   render ({props, actions}) {
@@ -137,8 +146,8 @@ const StudentRow = wrap(CSSContainer, {
           </Block>
         </TableCell>
         <TableCell {...cellProps}>
-          <Block log={console.log(images[pictureName])} hoverProps={underline}>
-            <Image w='100px' h='100px' src='/assets/apple-6452503929437706292.png' />
+          <Block hoverProps={underline}>
+            <Image h='100px' w='100px' src={animalImages[pictureName]} />
           </Block>
         </TableCell>
         <TableCell {...cellProps} textAlign='right' hide={isStudent}>
@@ -152,4 +161,5 @@ const StudentRow = wrap(CSSContainer, {
       </TableRow>
     )
   }
+
 }))
