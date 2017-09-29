@@ -26,10 +26,10 @@ export default component({
 
 function ClassMeta ({props}) {
   const {activity, showClass} = props
-  const {publishedAt, contexts} = activity
+  const {inverseTimestamp, contexts} = activity
   const text = showClass
     ? contexts[0].descriptor.displayName
-    : 'Assigned ' + moment(publishedAt).fromNow()
+    : 'Updated ' + moment(-inverseTimestamp).fromNow()
 
   return (
     <Text fs='xxs' color='grey_medium'>

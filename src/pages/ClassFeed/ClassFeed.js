@@ -36,7 +36,12 @@ export default fire(props => ({
           <Button mb onClick={context.openModal(() => <MediaModal onAccept={actions.assign} />)}>Submit a Link</Button>
           <Block>
             {
-              value.map(activity => (
+              value.slice().sort((a, b) => {
+                if (a.pinned != b.pinned) {
+                  return a.pinned ? -1 : 1
+                }
+                return a.inverseTimestamp - b.inverseTimestamp
+              }).map(activity => (
                 <Block>
                   <ClassActivityRow options activity={activity} />
                 </Block>

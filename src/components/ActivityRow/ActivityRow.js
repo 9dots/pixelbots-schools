@@ -111,7 +111,10 @@ export default wrap(CSSContainer, {
           headers: {'CONTENT-TYPE': 'application/json'},
           body: JSON.stringify({groupId, playlistRef, pinned})
         }),
-        context.firebaseUpdate(`/feed/${groupId}/${key}`, {pinned: !pinned})
+        context.firebaseUpdate(`/feed/${groupId}/${key}`, {
+          pinned: !pinned,
+          inverseTimestamp: -Date.now()
+        })
       ]
       yield actions.updatingPin(false)
     }
