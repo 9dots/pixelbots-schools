@@ -89,7 +89,11 @@ export default wrap(CSSContainer, {
                   {
                     ddMenu &&
                       <Block mr ml='-6' onClick={stopPropagation} disabled={isUpdatingPin}>
-                        <ActivityDropdownMenu pinAction={actions.pin} key={activity.kye} activity={activity} />
+                        <ActivityDropdownMenu
+                          pinAction={actions.pin}
+                          deleteAction={actions.remove}
+                          key={activity.key}
+                          activity={activity} />
                       </Block>
                   }
                 </Flex>
@@ -117,6 +121,14 @@ export default wrap(CSSContainer, {
         })
       ]
       yield actions.updatingPin(false)
+    },
+
+    * remove ({props, actions, context}) {
+      const {activity} = props
+      const {groupId, pinned, key} = activity
+
+      if (pinned) yield actions.pin()
+      yield context.firebaseSet(`/feed/${groupId}/${key}`, null)
     }
   },
   reducer: {

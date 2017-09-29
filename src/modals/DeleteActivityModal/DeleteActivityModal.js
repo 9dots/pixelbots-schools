@@ -5,20 +5,12 @@
 import {component, element} from 'vdux'
 import Confirm from 'modals/Confirm'
 import {Block, Text} from 'vdux-ui'
-import summon from 'vdux-summon'
 
 /**
  * <DeleteActivityModal/>
  */
 
-export default summon(({activity}) => ({
-  deleteActivity: () => ({
-    deleting: {
-      url: `/share/${activity._id}`,
-      method: 'DELETE'
-    }
-  })
-}))(component({
+export default component({
   render ({props, actions}) {
     const {activity, deleting} = props
 
@@ -32,10 +24,8 @@ export default summon(({activity}) => ({
 
   controller: {
     * accept ({props}) {
-      const {deleteActivity, onDelete} = props
-
-      yield deleteActivity()
+      const {onDelete} = props
       if (onDelete) yield onDelete()
     }
   }
-}))
+})
