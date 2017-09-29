@@ -33,26 +33,26 @@ export default fire(({group, groupId}) => ({
       child: 'students',
       childRef: (val, ref) => map((v, key) => ref.child(key), val.students || {})
     }
-  }
+  },
+  passwordSetting: `/classes/${groupId}/hasPicturePassword`
 }))(form(({students}) => ({
   fields: ['selected']
 }))(component({
     render ({props}) {
-      const {toggleAll, fields, group, currentUser, students, groupId} = props
-
+      const {toggleAll, fields, group, currentUser, students, groupId, passwordSetting} = props
       if (students.loading) return <span/>
 
       const studentList = mapValues((s, id) => ({...s, id}), students.value.students)
       const selected = (fields.selected.value || []).filter(id => students.value.students[id])
-
+      const showPasswords = passwordSetting.value
       return (
         <Block maxWidth='714px' my py mx='auto' relative>
           <PageTitle title={`${group.displayName} | Students`} />
           {
             studentList.length
               ? <Block>
-                  <StudentMenu students={studentList} group={group} selected={selected} currentUser={currentUser} groupId={groupId}/>
-                  <StudentGrid students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} groupId={groupId} />
+                  <StudentMenu showPasswords={showPasswords} students={studentList} group={group} selected={selected} currentUser={currentUser} groupId={groupId}/>
+                  <StudentGrid showPasswords={showPasswords} students={studentList} group={group} selected={selected} toggleAll={toggleAll} currentUser={currentUser} groupId={groupId} />
                 </Block>
               : <EmptyClassStudents group={group} groupId={groupId} />
           }
@@ -77,7 +77,7 @@ const btnProps = {
 
 const StudentMenu = component({
   render ({props, actions}) {
-    const {students, selected, currentUser} = props
+    const {students, selected, currentUser, showPasswords} = props
     const isStudent = currentUser.userType === 'student'
     const {length: count} = selected
     const users = students.filter(({id}) => selected.indexOf(id) !== -1)
@@ -95,15 +95,17 @@ const StudentMenu = component({
             <Icon name='delete' mr='s' fs='s' />Remove
           </Button>
         </Tooltip>
+        {showPasswords ?
         <Button {...btnProps} bgColor='green' onClick={actions.resetPasswordsModal}>
           <Icon name='lock' mr='s' fs='s'/>
           Reset All Passwords
-        </Button>
+        </Button> : null }
+        {showPasswords ?
         <Tooltip message={!count && 'Select Students to Enable'}>
           <Button disabled={!count} onClick={actions.printLoginModal(users)} bgColor='grey'> 
           <Icon name='print' mr='s' fs='s' /> Print Student Cards
-          </Button>
-        </Tooltip>
+          </Button> 
+        </Tooltip> : null }
         <Flex flex align='end center'>
           <Block color='blue' align='center center' hide={!count}>
             {count} selected

@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
+import {Checkbox, Modal, ModalBody, ModalFooter, ModalHeader, Flex, Block, Text} from 'vdux-ui'
 import RoundedInput from 'components/RoundedInput'
 import {component, element} from 'vdux'
 import {Button} from 'vdux-containers'
@@ -15,18 +15,23 @@ import Form from 'vdux-form'
  */
 
 export default component({
-  render ({props, context, actions}) {
-    const {group} = props
+  initialState({props}) {
+    return {passwordSetting: props.passwordSetting}
+  },
 
+  render ({state, props, context, actions}) {
+    const {group, groupId} = props
+    const {passwordSetting} = state
     return (
       <Modal onDismiss={context.closeModal}>
-        <Form onSubmit={actions.renameClass} onSuccess={context.closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
+        <Form onSubmit={actions.submitForm} onSuccess={context.closeModal} cast={changes => ({...group, ...changes})} tall validate={validate.group} autocomplete='off'>
           <ModalBody>
             <Flex column align='space-around center'>
               <ModalHeader>
                 Class Settings
               </ModalHeader>
               <RoundedInput my autofocus name='displayName' placeholder='Class name' defaultValue={group.displayName} />
+              <Checkbox name='passwordSetting' checked={passwordSetting} onChange={actions.toggle} label='Students have Picture Passwords' />
             </Flex>
           </ModalBody>
           <ModalFooter bg='grey' align='space-between center'>
@@ -58,13 +63,23 @@ export default component({
       )
     },
 
+    * submitForm ({props, actions}, {displayName}) {
+      yield actions.renameClass({displayName})
+      yield actions.setPasswordType()
+    },
+
     * renameClass ({context, props}, {displayName}) {
       yield context.firebaseUpdate(`/classes/${props.groupId}`, {displayName})
+    },
+
+    * setPasswordType ({state,context,props}) {
+      yield context.firebaseSet(`/classes/${props.groupId}/hasPicturePassword`, state.passwordSetting)
     }
   },
 
   reducer: {
-    setLoading: () => ({})
+    setLoading: () => ({}),
+    toggle: (state) => ({passwordSetting: !state.passwordSetting})
   }
 })
 

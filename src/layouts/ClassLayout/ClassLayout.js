@@ -136,7 +136,8 @@ const Header = component({
     },
 
     * classSettings ({context, props}) {
-      yield context.openModal(() => <ClassSettingsModal groupId={props.groupId} group={props.group} />)
+      const snap =  yield context.firebaseOnce(`/classes/${props.groupId}/hasPicturePassword`)
+      yield context.openModal(() => <ClassSettingsModal passwordSetting={snap.val()} groupId={props.groupId} group={props.group} />)
     }
   }
 })
