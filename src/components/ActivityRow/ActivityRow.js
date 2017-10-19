@@ -4,8 +4,8 @@
 
 import ActivityDropdownMenu from 'components/ActivityDropdownMenu'
 import ActivityCardActions from 'components/ActivityCardActions'
-import { stopPropagation, component, element } from 'vdux'
 import { wrap, CSSContainer, Button } from 'vdux-containers'
+import { stopPropagation, component, element } from 'vdux'
 import { Flex, Block, Card } from 'vdux-ui'
 import WeoIcon from 'components/WeoIcon'
 import BgImg from 'components/BgImg'
@@ -133,7 +133,8 @@ export default wrap(CSSContainer, {
                     >
                       <ActivityDropdownMenu
                         pinAction={actions.pin}
-                        key={activity.kye}
+                        deleteAction={actions.remove}
+                        key={activity.key}
                         activity={activity}
                       />
                     </Block>
@@ -157,9 +158,20 @@ export default wrap(CSSContainer, {
             headers: { 'CONTENT-TYPE': 'application/json' },
             body: JSON.stringify({ groupId, playlistRef, pinned })
           }),
-          context.firebaseUpdate(`/feed/${groupId}/${key}`, { pinned: !pinned })
+          context.firebaseUpdate(`/feed/${groupId}/${key}`, {
+            pinned: !pinned,
+            inverseTimestamp: -Date.now()
+          })
         ]
         yield actions.updatingPin(false)
+      },
+      *remove({ props, actions, context }) {
+        const { activity } = props
+        const { groupId, pinned, key } = activity
+
+        yield context.closeModal()
+        if (pinned) yield actions.pin()
+        yield context.firebaseSet(`/feed/${groupId}/${key}`, null)
       }
     },
     reducer: {

@@ -29,28 +29,18 @@ export default component({
         btn={<Btn {...rest} />}
         w={150}
         z={9999}>
-        <Item
-          onClick={pinAction}
-          text='Pin to Top'
-          color='red'
-          weoicon='pin' />
-        {
-        // <Item
-        //   onClick={actions.openAssignModal}
-        //   text='Reassign'
-        //   hide={!reassign}
-        //   color='green'
-        //   icon='send' />
-        // <Item onClick={context.setUrl(editUrl)}
-        //   text='Edit'
-        //   color='blue'
-        //   icon='edit' />
-        // <Item
-        //   onClick={actions.openDeleteModal}
-        //   icon='delete'
-        //   text='Delete'
-        //   color='red' />
-        }
+        <Block>
+          <Item
+            onClick={pinAction}
+            text='Pin to Top'
+            color='red'
+            weoicon='pin' />
+          <Item
+            onClick={actions.openDeleteModal}
+            icon='delete'
+            text='Delete'
+            color='text' />
+        </Block>
       </Dropdown>
     )
   },
@@ -61,8 +51,8 @@ export default component({
     },
 
     * openDeleteModal ({props, context}) {
-      const {onDelete, activity} = props
-      yield context.openModal(() => <DeleteActivityModal onDelete={onDelete} activity={activity} />)
+      const {deleteAction, activity} = props
+      yield context.openModal(() => <DeleteActivityModal onDelete={deleteAction} activity={activity} />)
     }
   }
 })
