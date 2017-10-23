@@ -19,9 +19,8 @@ export default wrap(CSSContainer, {
   hoverProps: { hover: true }
 })(
   component({
-    render({ props, context, state, actions }) {
+    render ({ props, context, state, actions }) {
       const {
-        hover,
         activity,
         metaUi: MetaUi = Meta,
         ddMenu,
@@ -30,66 +29,58 @@ export default wrap(CSSContainer, {
         options,
         showClass
       } = props
-      const { image, displayName, description, _id: id, pinned } = activity
+      const { image, displayName, description, pinned } = activity
       const { isUpdatingPin } = state
-
-      const btnProps = pinned
-        ? { bgColor: 'red', color: 'white' }
-        : { bgColor: 'white', color: 'red' }
 
       return (
         <Card
           h={132}
           wide
           mt={0}
-          borderBottom="rgba(52, 52, 52, 0.08)"
-          cursor="pointer"
+          borderBottom='rgba(52, 52, 52, 0.08)'
+          cursor='pointer'
           onClick={context.setUrl(
             `/activity/${activity.groupId}/${activity.playlistRef}`
-          )}
-        >
-          <Flex tall align="start start">
-            <Flex p="m" tall column align="space-between" flex="49%">
-              <Block fs="s" fw="200" ellipsis>
+          )}>
+          <Flex tall align='start start'>
+            <Flex p='m' tall column align='space-between' flex='49%'>
+              <Block fs='s' fw='200' ellipsis>
                 {displayName}
               </Block>
               <Block
-                fs="xs"
-                lh="20px"
-                maxHeight="40px"
-                overflow="hidden"
-                fw="200"
-                color="text"
-              >
+                fs='xs'
+                lh='20px'
+                maxHeight='40px'
+                overflow='hidden'
+                fw='200'
+                color='text'>
                 {description}
               </Block>
               <MetaUi
                 activity={activity}
                 currentUser={currentUser}
-                showClass={showClass}
-              />
+                showClass={showClass} />
             </Flex>
-            <Block flex="22%" mr>
+            <Block flex='22%' mr>
               {image &&
                 image.url && (
                   <BgImg
-                    backgroundPosition="center center"
+                    backgroundPosition='center center'
                     img={image.url}
                     thumb={350}
-                    backgroundSize="cover"
-                    overflow="hidden"
-                    boxShadow="card"
+                    backgroundSize='cover'
+                    overflow='hidden'
+                    boxShadow='card'
                     wide
-                    h="108px"
+                    h='108px'
                     relative
                     rounded
-                    my="m"
-                  />
+                    my='m' />
                 )}
             </Block>
-            <Flex column flex="28%" pl align="space-between" tall>
+            <Flex column flex='28%' pl align='space-between' tall>
               {props.badgeUi && (
-                <Flex flex align="end start">
+                <Flex flex align='end start'>
                   <BadgeUi activity={activity} currentUser={currentUser} />
                 </Flex>
               )}
@@ -104,39 +95,35 @@ export default wrap(CSSContainer, {
                 //   </Flex>
               }
               {options && (
-                <Flex column wide align="space-between end" tall mb="s">
+                <Flex column wide align='space-between end' tall mb='s'>
                   {
                     <Block hidden={!pinned} sq={60} relative>
                       <Block
                         sq={60}
-                        border="30px solid transparent"
-                        borderTopColor="red"
-                        borderRightColor="red"
-                      />
+                        border='30px solid transparent'
+                        borderTopColor='red'
+                        borderRightColor='red' />
                       <WeoIcon
-                        name="pin"
-                        color="white"
+                        name='pin'
+                        color='white'
                         absolute
                         top
                         right
                         mt={8}
-                        mr={5}
-                      />
+                        mr={5} />
                     </Block>
                   }
                   {ddMenu && (
                     <Block
                       mr
-                      ml="-6"
+                      ml='-6'
                       onClick={stopPropagation}
-                      disabled={isUpdatingPin}
-                    >
+                      disabled={isUpdatingPin}>
                       <ActivityDropdownMenu
                         pinAction={actions.pin}
                         deleteAction={actions.remove}
                         key={activity.key}
-                        activity={activity}
-                      />
+                        activity={activity} />
                     </Block>
                   )}
                 </Flex>
@@ -147,7 +134,7 @@ export default wrap(CSSContainer, {
       )
     },
     controller: {
-      *pin({ props, actions, context }) {
+      * pin ({ props, actions, context }) {
         const { activity } = props
         const { groupId, playlistRef, pinned, key } = activity
 
@@ -165,7 +152,7 @@ export default wrap(CSSContainer, {
         ]
         yield actions.updatingPin(false)
       },
-      *remove({ props, actions, context }) {
+      * remove ({ props, actions, context }) {
         const { activity } = props
         const { groupId, pinned, key } = activity
 
@@ -184,6 +171,6 @@ export default wrap(CSSContainer, {
  * <Badge/>
  */
 
-function Badge() {
+function Badge () {
   return <span />
 }

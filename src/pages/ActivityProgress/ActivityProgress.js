@@ -24,7 +24,7 @@ export default summonPrefs()(
     fields: ['selected']
   }))(
     component({
-      render({ props, context, actions }) {
+      render ({ props, context, actions }) {
         const {
           students,
           prefs,
@@ -70,29 +70,28 @@ export default summonPrefs()(
         const selMap = index(selected)
 
         return (
-          <Block w="col_main" m="auto" bgColor="white" boxShadow="card" p mb>
-            <Block mb align="space-between center" wide>
+          <Block w='col_main' m='auto' bgColor='white' boxShadow='card' p mb>
+            <Block mb align='space-between center' wide>
               <Button px onClick={context.setUrl('/class/' + classRef)}>
-                <Icon name="arrow_back" fs="s" mr="s" />
+                <Icon name='arrow_back' fs='s' mr='s' />
                 Back
               </Button>
               <Button
                 onClick={actions.exportAll(studentInsts)}
-                bgColor="green"
-                px
-              >
-                <Icon name="file_download" fs="m" mr="s" />
+                bgColor='green'
+                px>
+                <Icon name='file_download' fs='m' mr='s' />
                 Download
               </Button>
             </Block>
-            <Table wide border="1px solid rgba(black, .1)" fs="s" lighter>
-              <TableRow bgColor="grey" color="white">
-                {/*<TableHeader {...headProps}>
+            <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
+              <TableRow bgColor='grey' color='white'>
+                {/* <TableHeader {...headProps}>
               <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
-            </TableHeader>*/}
-                <SortHeader {...headProps} prop="givenName" text="Name" />
-                <SortHeader {...headProps} prop="percent" text="Progress" />
-                <SortHeader {...headProps} prop="status" text="Status" />
+            </TableHeader> */}
+                <SortHeader {...headProps} prop='givenName' text='Name' />
+                <SortHeader {...headProps} prop='percent' text='Progress' />
+                <SortHeader {...headProps} prop='status' text='Status' />
                 <TableHeader {...headProps} />
               </TableRow>
               {instanceIds.length ? (
@@ -104,34 +103,31 @@ export default summonPrefs()(
                       completedChallenges={instance.completedChallenges}
                       playlistRef={playlistRef}
                       sequence={sequence}
-                      instance={instance}
-                    />
+                      instance={instance} />
                   ),
                   studentInsts
                 )
               ) : (
                 <tr>
                   <EmptyState
-                    tag="td"
-                    icon="person"
-                    color="green"
-                    colspan="100"
-                    pb="l"
-                  >
+                    tag='td'
+                    icon='person'
+                    color='green'
+                    colspan='100'
+                    pb='l'>
                     <Block>
                       You must add students to your class in order to view
                       results.
                     </Block>
                     <Button
                       onClick={context.setUrl(`/class/${classRef}/students`)}
-                      fs="s"
+                      fs='s'
                       lighter
                       py
-                      boxShadow="z2"
-                      bgColor="green"
-                      mt="l"
-                    >
-                      <Icon name="person_add" mr="s" fs="s" />
+                      boxShadow='z2'
+                      bgColor='green'
+                      mt='l'>
+                      <Icon name='person_add' mr='s' fs='s' />
                       Add Students
                     </Button>
                   </EmptyState>
@@ -143,14 +139,15 @@ export default summonPrefs()(
       },
 
       controller: {
-        *setSort({ props }, sort, property) {
+        * setSort ({ props }, sort, property) {
           yield props.setPref('shareStudentSort', {
             property,
             dir: property === sort.property ? sort.dir * -1 : 1
           })
         },
-        exportAll({ props }, data) {
-          const { playlist } = props
+        exportAll ({ props }, data) {
+          const { sequence, playlist } = props
+          console.log(data)
 
           const headers = [
             'Last Name',
@@ -159,7 +156,7 @@ export default summonPrefs()(
             'Completed',
             'Possible',
             'Progress Pct',
-            ...playlist.sequence.map((val, i) => i)
+            ...sequence.map((val, i) => i)
           ]
           const content = mapValues(
             (inst, key) => [
@@ -169,7 +166,7 @@ export default summonPrefs()(
               inst.numCompleted,
               inst.possibleCompleted,
               inst.progress,
-              ...playlist.sequence.map((val, i) => inst.challengeScores[i] || 0)
+              ...sequence.map((val, i) => inst.challengeScores[i] || 0)
             ],
             data
           )
@@ -181,19 +178,18 @@ export default summonPrefs()(
   )
 )
 
-function getScore(score) {
-  switch (score) {
-    case 1:
-      return 2
-    case 0.75:
-      return 1
-    default:
-      return 0
-  }
-}
+// function getScore (score) {
+//   switch (score) {
+//     case 1:
+//       return 2
+//     case 0.75:
+//       return 1
+//     default:
+//       return 0
+//   }
+// }
 
-function mapToInstance(instance, sequence) {
-  console.log(instance)
+function mapToInstance (instance, sequence) {
   const {
     completedChallenges = [],
     challengeScores = {},
@@ -215,13 +211,13 @@ function mapToInstance(instance, sequence) {
   }
 }
 
-function getStatus(instance) {
+function getStatus (instance) {
   if (instance.notStarted) return 'Not Started'
   if (instance.completed) return 'Completed'
   return 'In Progress'
 }
 
-function downloadCsv(filename, data) {
+function downloadCsv (filename, data) {
   datauriDownload(
     filename + '-' + today() + '.csv',
     'text/csv;charset=utf-8',
@@ -229,7 +225,7 @@ function downloadCsv(filename, data) {
   )
 }
 
-function today() {
+function today () {
   var d = new Date()
   return [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-')
 }
