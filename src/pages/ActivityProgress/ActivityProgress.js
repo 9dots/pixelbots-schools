@@ -147,7 +147,6 @@ export default summonPrefs()(
         },
         exportAll ({ props }, data) {
           const { sequence, playlist } = props
-          console.log(data)
 
           const headers = [
             'Last Name',
@@ -156,7 +155,7 @@ export default summonPrefs()(
             'Completed',
             'Possible',
             'Progress Pct',
-            ...sequence.map((val, i) => i)
+            ...sequence.map((val, i) => i + 1)
           ]
           const content = mapValues(
             (inst, key) => [
@@ -170,8 +169,8 @@ export default summonPrefs()(
             ],
             data
           )
-          console.log(headers, content)
-          // downloadCsv(playlist.name, [headers, ...content])
+          // console.log(headers, content)
+          downloadCsv(playlist.name, [headers, ...content])
         }
       }
     })
@@ -199,7 +198,10 @@ function mapToInstance (instance, sequence) {
   const [givenName, familyName] = displayName.split(' ')
   return {
     progress: `${(completedChallenges.length || 0) / sequence.length * 100}%`,
-    challengeScores: mapValues(val => val, challengeScores),
+    challengeScores: mapValues(
+      ({ completed = 0, badge = 0 }) => completed + badge,
+      challengeScores
+    ),
     numCompleted: completedChallenges.length.toString(),
     possibleCompleted: sequence.length.toString(),
     status: getStatus(instance),
