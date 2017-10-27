@@ -81,6 +81,8 @@ export default fire(props => ({
         }
         <AddClassItem user={user} Modal={JoinClassModal} text='Class Join' />
         <Block borderBottom='1px solid divider' />
+        <CreateClassItem user={user} Modal={CreateClassModal} text='Class Create' />
+        <Block borderBottom='1px solid divider' />
         <AddSchoolItem />
       </Block>
     )
@@ -187,6 +189,32 @@ const AddClassItem = component({
       <Card>
         <Link ui={MenuItem} hoverProps={{color: 'text'}} onClick={actions.openModal} py='m' color='grey_medium' bolder display='flex' align='start center'>
           <Icon name='class' fs='s' mr='m' circle='29' bgColor='green' align='center center' color='white' bolder />
+          {text}
+        </Link>
+      </Card>
+    )
+  },
+
+  controller: {
+    * openModal ({props, context}) {
+      const {Modal, user} = props
+      yield context.openModal(() => <Modal userId={context.userId} user={user} />)
+    }
+  }
+})
+
+/**
+ * <AddClassItem/>
+ */
+
+const CreateClassItem = component({
+  render ({props, actions}) {
+    const {text} = props
+
+    return (
+      <Card>
+        <Link ui={MenuItem} hoverProps={{color: 'text'}} onClick={actions.openModal} py='m' color='grey_medium' bolder display='flex' align='start center'>
+          <Icon name='create' fs='s' mr='m' circle='29' bgColor='yellow' align='center center' color='white' bolder />
           {text}
         </Link>
       </Card>

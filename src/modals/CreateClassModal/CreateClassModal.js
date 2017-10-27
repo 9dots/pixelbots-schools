@@ -77,11 +77,6 @@ export default fire(({userId}) => ({
                 </Dropdown>
               </Block>
             </Flex>
-            <Block align='space-between center' column mt>
-              <Text textDecoration='underline' pointer mt='l' italic opacity='.5' hoverProps={{opacity: .7}} onClick={context.openModal(() => <JoinClassModal userId={context.userId} enableDismiss={enableDismiss} />)}>
-                or go back to join class
-              </Text>
-            </Block>
           </ModalBody>
           <ModalFooter bg='grey'>
             <Text fs='xxs'>

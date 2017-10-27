@@ -6,7 +6,7 @@ import {Block, Modal, ModalBody, ModalFooter, ModalHeader, Flex, Text} from 'vdu
 import CreateClassModal from 'modals/CreateClassModal'
 import RoundedInput from 'components/RoundedInput'
 import {component, element} from 'vdux'
-import {Button} from 'vdux-containers'
+import {Button, Dropdown, MenuItem} from 'vdux-containers'
 import mapValues from '@f/map-values'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
@@ -19,14 +19,14 @@ import map from '@f/map'
 
 
 export default fire((props) => ({
-  // classes: {
-  //   ref: '/classes',
-  //   list: Object.keys(props.user.teacherOf || {}),
-  //   join: {
-  //     ref: '/schools',
-  //     child: 'school'
-  //   }
-  // },
+  userClasses: {
+    ref: '/classes',
+    list: Object.keys(props.user.teacherOf || {}),
+    join: {
+      ref: '/schools',
+      child: 'school'
+    }
+  },
   schools: {
     ref: '/schools',
     list: Object.keys(props.user.schools || {}),
@@ -36,12 +36,17 @@ export default fire((props) => ({
       childRef: (val, ref) => map((v, key) => ref.child(key), val.classes || {})
     }
   }
-  mySchools: {
 
-  }
+
 }))(component({
+    initialState: {
+      currentSchool: null,
+      currentClass: null
+    },
+
   render ({props, context, actions, state}) {
-    const {enableDismiss, user, schools} = props
+    const {enableDismiss, user, schools,userClasses} = props
+    const {currentSchool, currentClass} = state
     if (!schools.value) return <span/>
     return (
       <Modal onDismiss={context.closeModal} opacity='1'>
@@ -51,12 +56,17 @@ export default fire((props) => ({
               <ModalHeader>
                 Join Class
               </ModalHeader>
-              <Block>
-                {mapValues(school => <SchoolWithClasses school={school} joinClass={actions.joinClass}/>, schools.value)}
-              </Block>
-              <RoundedInput mb={0} w={210} mx={0} mt autofocus name='code' placeholder='Enter Class code' />
+              <Flex justify='space-between' align='center'>
+                <Dropdown z-index='1' btn={<Button bgColor='white' color='black' text={currentSchool ? currentSchool.name : "Choose a School"} />}>
+                  {schools.value ? mapValues(school => <MenuItem onClick={actions.setSchool(school)}> {school.name} </MenuItem>, schools.value) : null}
+                </Dropdown>
+                <Dropdown z-index='1' btn={<Button bgColor='white' color='black' text={currentClass ? currentClass.displayName : "Choose a Class"} />}>
+                  {currentSchool ?  mapValues(currClass => currClass.key in (userClasses.value || {}) ? null :
+                                 <MenuItem onClick={actions.setClass(currClass)}> {currClass.displayName} </MenuItem>, currentSchool.classes): null }
+                </Dropdown>
+              </Flex>
               <Block italic my='m'>or</Block>
-              <Button mb='l' w={200} py='s' onClick={context.openModal(() => <CreateClassModal userId={context.userId} enableDismiss={enableDismiss} />)}>Create a Class</Button>
+              <RoundedInput mb={0} w={210} mx={0} mt autofocus name='code' placeholder='Enter Class code' />
             </Flex>
           </ModalBody>
           <ModalFooter bg='grey'>
@@ -77,7 +87,10 @@ export default fire((props) => ({
     * goToClass ({context}, {_id}) {
       yield context.setUrl(`/class/${_id}/feed`)
     },
-    * joinClass ({props, actions, context}, {code}) {
+    * joinClass ({props, state, actions, context}, {code}) {
+      if (state.currentClass) {
+        code = state.currentClass.code
+      }
       const codeCaps = (code || '').toUpperCase()
 
       yield actions.setLoading(true)
@@ -100,22 +113,8 @@ export default fire((props) => ({
     }
   },
   reducer: {
+    setSchool: (state, currentSchool) => ({currentSchool}),
+    setClass: (state, currentClass) => ({currentClass}),
     setLoading: (state, loading) => ({loading})
   }
 }))
-
-const SchoolWithClasses = component({
-  render ({props, state, actions, context}) {
-    const {school, joinClass} = props
-    //indexOf
-
-    return (
-      <Block>
-        <Text> {school.name} </Text>
-        {mapValues((currClass) => <Button log={console.log(context.userId)} onClick={joinClass(currClass.code)}> {currClass.displayName} </Button>, school.classes)}
-      </Block>
-      
-    )
-  }
-})
-
