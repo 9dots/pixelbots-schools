@@ -11,14 +11,38 @@ import mapValues from '@f/map-values'
 import summon from 'vdux-summon'
 import Form from 'vdux-form'
 import fire from 'vdux-fire'
+import map from '@f/map'
 
 /**
  * <JoinClassModal/>
  */
 
-export default component({
+
+export default fire((props) => ({
+  // classes: {
+  //   ref: '/classes',
+  //   list: Object.keys(props.user.teacherOf || {}),
+  //   join: {
+  //     ref: '/schools',
+  //     child: 'school'
+  //   }
+  // },
+  schools: {
+    ref: '/schools',
+    list: Object.keys(props.user.schools || {}),
+    join: {
+      ref: '/classes',
+      child: 'classes',
+      childRef: (val, ref) => map((v, key) => ref.child(key), val.classes || {})
+    }
+  }
+  mySchools: {
+
+  }
+}))(component({
   render ({props, context, actions, state}) {
-    const {enableDismiss, user} = props
+    const {enableDismiss, user, schools} = props
+    if (!schools.value) return <span/>
     return (
       <Modal onDismiss={context.closeModal} opacity='1'>
         <Form onSubmit={actions.joinClass} tall autocomplete='off'>
@@ -27,6 +51,9 @@ export default component({
               <ModalHeader>
                 Join Class
               </ModalHeader>
+              <Block>
+                {mapValues(school => <SchoolWithClasses school={school} joinClass={actions.joinClass}/>, schools.value)}
+              </Block>
               <RoundedInput mb={0} w={210} mx={0} mt autofocus name='code' placeholder='Enter Class code' />
               <Block italic my='m'>or</Block>
               <Button mb='l' w={200} py='s' onClick={context.openModal(() => <CreateClassModal userId={context.userId} enableDismiss={enableDismiss} />)}>Create a Class</Button>
@@ -74,6 +101,21 @@ export default component({
   },
   reducer: {
     setLoading: (state, loading) => ({loading})
+  }
+}))
+
+const SchoolWithClasses = component({
+  render ({props, state, actions, context}) {
+    const {school, joinClass} = props
+    //indexOf
+
+    return (
+      <Block>
+        <Text> {school.name} </Text>
+        {mapValues((currClass) => <Button log={console.log(context.userId)} onClick={joinClass(currClass.code)}> {currClass.displayName} </Button>, school.classes)}
+      </Block>
+      
+    )
   }
 })
 

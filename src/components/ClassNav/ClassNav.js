@@ -40,8 +40,8 @@ export default summon(() => ({
             <Divider hide={!numClasses} />
             {
               isStudent
-                ? <AddClassItem Modal={JoinClassModal} text='Join Class' />
-                : <AddClassItem Modal={CreateClassModal} text='New Class' />
+                ? <AddClassItem currentUser={currentUser} Modal={JoinClassModal} text='Join Class' />
+                : <AddClassItem currentUser={currentUser} Modal={CreateClassModal} text='New Class' />
             }
           </Block>
         </Block>
@@ -60,8 +60,8 @@ export default summon(() => ({
 
 const AddClassItem = component({
   render ({props, actions}) {
-    const {text} = props
-
+    const {text, currentUser} = props
+    console.log(currentUser)
     return (
       <MenuItem onClick={actions.openModal} py='m' color='text_color' display='flex' align='start center'>
         <Icon name='add' fs='s' mr='m' sq='25' textAlign='center' />
@@ -72,8 +72,8 @@ const AddClassItem = component({
 
   controller: {
     * openModal ({context, props}) {
-      const {Modal} = props
-      yield context.openModal(() => <Modal />)
+      const {Modal, currentUser} = props
+      yield context.openModal(() => <Modal currentUser={currentUser} />)
     }
   }
 })

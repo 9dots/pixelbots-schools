@@ -85,6 +85,10 @@ const StudentMenu = component({
 
     return (
       <Flex align='space-between center' mb>
+        <Button {...btnProps} onClick={actions.createStudentModal}>
+          <Icon name='group_add' mr='s' fs='s'/>
+          Create New Student
+        </Button>
         <Button {...btnProps} onClick={actions.addStudentModal}>
           <Icon name='group_add' mr='s' fs='s'/>
           Add Students
@@ -104,9 +108,14 @@ const StudentMenu = component({
   },
 
   controller: {
-    * addStudentModal ({props, context}) {
+    * createStudentModal ({props, context}) {
       yield context.openModal(() => <CreateStudentModal groupId={props.groupId}  />)
     },
+
+    * addStudentModal ({props, context}) {
+      yield context.openModal(() => <AddStudentModal groupId={props.groupId}  />)
+    },
+
 
     * removeModal ({props, context}, users) {
       yield context.openModal(() => <RemoveFromClassModal user={users} groupId={props.groupId} />)

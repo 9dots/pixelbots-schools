@@ -189,14 +189,14 @@
       "WEO_DESCRIPTION": "Weo is a place to create and discover activities for your classroom that can be assigned to your students with a simple click.",
       "OFFICE365_CLIENT_ID": "570e8309-8141-4588-b74d-ca708fd29ac3",
       "TEMPLATE_BOARD_ID": "56149fd19c9d5d0c0024ad3c",
-      "CLOUD_FUNCTION_SERVER": "https://us-central1-artbot-26016.cloudfunctions.net"
+      "CLOUD_FUNCTION_SERVER": "https://www.pixelbots.io/api"
     },
     "development": {
       "API_SERVER": "http://localhost:1337/",
       "AVATAR_SERVER": "http://localhost:1337",
       "FACEBOOK_APP_ID": "1768047533430073",
       "NODE_ENV": "development",
-      "CLOUD_FUNCTION_SERVER": "https://us-central1-artbot-dev.cloudfunctions.net"
+      "CLOUD_FUNCTION_SERVER": "https://artbot-dev.firebaseapp.com/api"
     }
   },
   "engines": {

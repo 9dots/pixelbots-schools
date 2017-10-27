@@ -77,8 +77,10 @@ export default component({
         body: JSON.stringify({...model, classId: props.groupId, email: model.email || undefined})
       })
       if (value.status === 'success') {
+        console.log(value.payload)
         yield actions.createStudentAndJoin(model)
       } else {
+        console.log(value.payload)
         const {field, message, user} = value.payload
         if (field === 'email') {
           yield context.openModal(() => <OverwriteStudent {...actions} groupId={props.groupId} user={user} />)

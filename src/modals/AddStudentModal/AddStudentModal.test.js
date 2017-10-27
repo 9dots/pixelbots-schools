@@ -3,12 +3,12 @@
  */
 
 import test from 'tape'
-import AddStudentModal from '.'
+import CreateStudentModal from '.'
 
 /**
- * <Add Student Modal/> tests
+ * <CreateStudentModal/> tests
  */
 
-test('<AddStudentModal/> should work', t => {
+test('<CreateStudentModal/> should work', t => {
 
 })
