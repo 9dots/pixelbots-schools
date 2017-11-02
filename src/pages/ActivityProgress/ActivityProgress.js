@@ -86,9 +86,6 @@ export default summonPrefs()(
             </Block>
             <Table wide border='1px solid rgba(black, .1)' fs='s' lighter>
               <TableRow bgColor='grey' color='white'>
-                {/* <TableHeader {...headProps}>
-              <Checkbox pointer checked={allSelected} indeterminate={indeterminate} onChange={toggleAll('selected')} />
-            </TableHeader> */}
                 <SortHeader {...headProps} prop='givenName' text='Name' />
                 <SortHeader {...headProps} prop='percent' text='Progress' />
                 <SortHeader {...headProps} prop='status' text='Status' />
@@ -152,20 +149,20 @@ export default summonPrefs()(
             'Last Name',
             'First Name',
             'Activity Name',
+            ...sequence.map((val, i) => i + 1),
             'Completed',
             'Possible',
-            'Progress Pct',
-            ...sequence.map((val, i) => i + 1)
+            'Progress Pct'
           ]
           const content = mapValues(
             (inst, key) => [
               inst.familyName,
               inst.givenName,
               playlist.name,
+              ...sequence.map((val, i) => inst.challengeScores[i] || 0),
               inst.numCompleted,
               inst.possibleCompleted,
-              inst.progress,
-              ...sequence.map((val, i) => inst.challengeScores[i] || 0)
+              inst.progress
             ],
             data
           )
