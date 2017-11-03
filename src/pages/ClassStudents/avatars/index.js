@@ -28,12 +28,33 @@ const whale = cloudFS.url('./whale.png')
 const wiette = cloudFS.url('./wiette.png')
 const yellow = cloudFS.url('./yellow.png')
 
-
-
 export {
-  apple, bat, bea, butterfly, camel,
-	cupcake, dino, don, elephant, gorilla,
- 	kitty, lotus, monster, narwhal, octopus,
-	penguin, pop, potato, rabbit, ramen,
-	redpanda, remy, rhino, tiger, whale, yellow
+  apple,
+  bat,
+  bea,
+  butterfly,
+  camel,
+  cupcake,
+  dino,
+  don,
+  elephant,
+  gorilla,
+  kitty,
+  lotus,
+  monster,
+  narwhal,
+  octopus,
+  penguin,
+  pop,
+  potato,
+  rabbit,
+  ramen,
+  redpanda,
+  remy,
+  rhino,
+  tiger,
+  weo,
+  whale,
+  wiette,
+  yellow
 }

@@ -48,7 +48,7 @@ export default summonPrefs()(
             mapToInstance(
               {
                 ...student,
-                ...(instances[id] || { notStarted: true })
+                ...instances[id]
               },
               sequence
             ),
@@ -211,9 +211,9 @@ function mapToInstance (instance, sequence) {
 }
 
 function getStatus (instance) {
-  if (instance.notStarted) return 'Not Started'
   if (instance.completed) return 'Completed'
-  return 'In Progress'
+  if (instance.started || instance.completedChallenges) return 'In Progress'
+  return 'Not Started'
 }
 
 function downloadCsv (filename, data) {

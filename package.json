@@ -81,7 +81,7 @@
     "browserify": "^13.0.1",
     "browserify-hmr": "github:ashaffer/browserify-hmr",
     "browserify-mime": "^1.2.9",
-    "cloud-fs": "^0.1.7",
+    "cloud-fs": "^0.1.9",
     "color": "^0.11.1",
     "cookie": "^0.2.4",
     "cropperjs": "^1.0.0-beta.1",
@@ -95,6 +95,7 @@
     "escape-regexp": "^0.0.1",
     "fastclick": "^1.0.6",
     "is-datauri": "^0.1.0",
+    "khaos": "^0.9.3",
     "lodash": "^4.17.4",
     "moment": "^2.13.0",
     "oauth-facebook": "^0.1.4",
@@ -118,6 +119,7 @@
     "tcomb": "^3.2.15",
     "to-csv": "weo-edu/to-csv",
     "track-prep": "^0.2.0",
+    "unv": "^0.3.10",
     "vdux": "^3.0.6",
     "vdux-containers": "^1.2.9",
     "vdux-fire": "^1.2.30",
@@ -206,7 +208,7 @@
         "https://us-central1-artbot-26016.cloudfunctions.net"
     },
     "development": {
-      "API_SERVER": "https://artbot-dev.firebaseapp.com/api",
+      "API_SERVER": "http://localhost:5000/api",
       "AVATAR_SERVER": "http://localhost:5000",
       "FACEBOOK_APP_ID": "1768047533430073",
       "NODE_ENV": "development",

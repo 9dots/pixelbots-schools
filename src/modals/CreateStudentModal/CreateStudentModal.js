@@ -2,6 +2,12 @@
  * Imports
  */
 
+import { getRandomPassword } from 'lib/picture-passwords'
+import LineInput from 'components/LineInput'
+import { component, element } from 'vdux'
+import { Button } from 'vdux-containers'
+import validate from 'lib/validate'
+import Form from 'vdux-form'
 import {
   Modal,
   ModalBody,
@@ -10,55 +16,46 @@ import {
   Block,
   Text
 } from 'vdux-ui'
-import LineInput from 'components/LineInput'
-import { component, element } from 'vdux'
-import { Button } from 'vdux-containers'
-import validate from 'lib/validate'
-import summon from 'vdux-summon'
-import Form from 'vdux-form'
 
 /**
  * <Create Student Modal/>
  */
 
 export default component({
-  render({ props, actions, context, state }) {
+  render ({ props, actions, context, state }) {
     const { creatingStudent = {}, joiningClass = {} } = props
     const { fetching } = state
     const loading = creatingStudent.loading || joiningClass.loading
-
     return (
       <Modal onDismiss={context.closeModal}>
         <Form
           onSubmit={actions.checkStudentCredentials}
           validate={validateStudent}
-          autocomplete="off"
-        >
-          <ModalBody pb="l" w="col_m" mx="auto">
+          autocomplete='off'>
+          <ModalBody pb='l' w='col_m' mx='auto'>
             <ModalHeader>Create New Student</ModalHeader>
-            <input type="hidden" name="userType" value="student" />
-            <Block align="start center">
+            <input type='hidden' name='userType' value='student' />
+            <Block align='start center'>
               <LineInput
                 autofocus
-                name="name[givenName]"
-                mr="l"
-                placeholder="First Name"
-              />
-              <LineInput name="name[familyName]" placeholder="Last Name" />
+                name='name[givenName]'
+                mr='l'
+                placeholder='First Name' />
+              <LineInput name='name[familyName]' placeholder='Last Name' />
             </Block>
-            <Block align="start center" my="l">
-              <LineInput name="username" mr="l" placeholder="Username" />
-              <LineInput name="email" placeholder="email (Optional)" />
+            <Block align='start center' my='l'>
+              <LineInput name='username' mr='l' placeholder='Username' />
+              <LineInput name='email' placeholder='email (Optional)' />
             </Block>
           </ModalBody>
-          <ModalFooter bg="grey">
-            <Text fs="xxs">
+          <ModalFooter bg='grey'>
+            <Text fs='xxs'>
               <Text pointer underline onClick={!fetching && context.closeModal}>
                 cancel
               </Text>
               <Text mx>or</Text>
             </Text>
-            <Button disabled={fetching} type="submit" busy={loading}>
+            <Button disabled={fetching} type='submit' busy={loading}>
               Create
             </Button>
           </ModalFooter>
@@ -68,7 +65,7 @@ export default component({
   },
 
   controller: {
-    *createStudentAndJoin({ props, context, actions }, model) {
+    * createStudentAndJoin ({ props, context, actions }, model) {
       const { value } = yield context.fetch(
         `${process.env.API_SERVER}/createNewUser`,
         {
@@ -77,13 +74,14 @@ export default component({
           body: JSON.stringify({
             ...model,
             classId: props.groupId,
-            email: model.email || undefined
+            email: model.email || undefined,
+            pictureName: getRandomPassword()
           })
         }
       )
       yield context.closeModal()
     },
-    *addStudentToClass({ context, props }, user) {
+    * addStudentToClass ({ context, props, actions }, user) {
       yield [
         context.firebaseUpdate(`/classes/${props.groupId}/students`, {
           [user.uid]: true
@@ -94,7 +92,13 @@ export default component({
       ]
       yield context.closeModal()
     },
-    *checkStudentCredentials({ props, context, actions }, model) {
+    * maybeAddPassword ({ context }, studentId) {
+      yield context.firebaseTransaction(
+        `/users/${studentId}/pictureName`,
+        pictureName => pictureName || getRandomPassword()
+      )
+    },
+    * checkStudentCredentials ({ props, context, actions }, model) {
       yield actions.isFetching(true)
       const { value } = yield context.fetch(
         `${process.env.API_SERVER}/checkUserEmail`,
@@ -115,10 +119,12 @@ export default component({
         if (field === 'email') {
           yield context.openModal(() => (
             <OverwriteStudent
-              {...actions}
+              onAccept={[
+                actions.maybeAddPassword(user.uid),
+                actions.addStudentToClass(user)
+              ]}
               groupId={props.groupId}
-              user={user}
-            />
+              user={user} />
           ))
         } else {
           yield actions.isFetching(false)
@@ -134,42 +140,30 @@ export default component({
 })
 
 const OverwriteStudent = component({
-  initialState({ props }) {
-    return {
-      user: props.user
-    }
-  },
-  render({ props, state, context }) {
-    const { fetching, user } = state
-    const [firstName, lastName] = user.username
+  render ({ props, state, context }) {
+    const { user } = props
     return (
       <Modal onDismiss={context.closeModal}>
-        <Form autocomplete="off">
-          <ModalBody pb="l" w="col_m" mx="auto">
+        <Form autocomplete='off'>
+          <ModalBody pb='l' w='col_m' mx='auto'>
             <ModalHeader>Create New Student</ModalHeader>
             <Block>
               That email is in use for the username <b>{user.username}</b>.
               Would you like to add this person to your class?
             </Block>
           </ModalBody>
-          <ModalFooter bg="grey">
-            <Text fs="xxs">
-              <Text pointer underline onClick={!fetching && context.closeModal}>
+          <ModalFooter bg='grey'>
+            <Text fs='xxs'>
+              <Text pointer underline onClick={context.closeModal}>
                 cancel
               </Text>
               <Text mx>or</Text>
             </Text>
-            <Button onClick={props.addStudentToClass(user)}>
-              Add To Class
-            </Button>
+            <Button onClick={props.onAccept}>Add To Class</Button>
           </ModalFooter>
         </Form>
       </Modal>
     )
-  },
-  reducer: {
-    isFetching: (state, fetching) => ({ fetching }),
-    updateUser: (state, obj) => ({ ...state.user, ...obj })
   }
 })
 
@@ -177,7 +171,7 @@ const OverwriteStudent = component({
  * validateStudent
  */
 
-function validateStudent(model) {
+function validateStudent (model) {
   const result = validate.student({
     ...model,
     email: model.email ? model.email : undefined

@@ -1,0 +1,5 @@
+{
+  "name": "ResetAllPasswordsModal",
+  "main": "ResetAllPasswordsModal.js",
+  "browser": "ResetAllPasswordsModal.js"
+}
