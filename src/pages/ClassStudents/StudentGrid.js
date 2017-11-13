@@ -2,20 +2,31 @@
  * Imports
  */
 
-import {Checkbox, Table, TableHeader, TableCell, Block, Icon} from 'vdux-ui'
+import {Checkbox, Table, TableHeader, TableCell, Block, Icon, Image} from 'vdux-ui'
 import {wrap, CSSContainer, TableRow, Text} from 'vdux-containers'
 import {preventDefault, component, element} from 'vdux'
 import StudentDropdown from './StudentDropdown'
 import getProp from '@f/get-prop'
 import index from '@f/index'
+import {apple, bat, bea, butterfly, camel,
+  cupcake, dino, don, elephant, gorilla,
+  kitty, lotus, monster, narwhal, octopus,
+  penguin, pop, potato, rabbit, ramen,
+  redpanda, remy, rhino, tiger, whale, yellow} from './avatars/index.js'
 
 /**
  * <StudentGrid/> in class -> students page
  */
 
+const animalImages= {"apple": apple, "bat": bat, "bea": bea, "butterfly": butterfly, "camel": camel,
+"cupcake": cupcake, "dino": dino, "don": don, "elephant": elephant, "gorilla": gorilla,
+"kitty": kitty, "lotus": lotus, "monster": monster, "narwhal": narwhal, "octopus": octopus,
+"penguin": penguin, "pop": pop, "potato": potato, "rabbit": rabbit, "ramen": ramen,
+"redpanda": redpanda, "remy": remy, "rhino": rhino, "tiger": tiger, "whale":whale, "yellow": yellow }
+
 export default component({
   render ({props, actions}) {
-    const {students, selected, group, groupId, toggleAll, currentUser} = props
+    const {students, selected, group, groupId, toggleAll, currentUser, showPasswords} = props
     const isStudent = currentUser.userType === 'student'
     const selMap = index(selected)
     const allSelected = students.length === selected.length
@@ -31,11 +42,12 @@ export default component({
           </TableHeader>
           <StudentHeader text='Name' prop='displayName' sort={sort} setSort={actions.setSort} />
           <StudentHeader text='Username' prop='username' sort={sort} setSort={actions.setSort} />
+          {showPasswords ? <StudentHeader text='Password' prop='pictureName' sort={sort} setSort={actions.setSort} /> : null }
           <TableHeader hide={isStudent} />
         </TableRow>
         {
           sortedStudents.map(student => (
-            <StudentRow group={group} groupId={groupId} student={student} highlight={!!selMap[student.id]} selected={!!selMap[student.id]} isStudent={isStudent} />
+            <StudentRow group={group} showPasswords={showPasswords} groupId={groupId} student={student} highlight={!!selMap[student.id]} selected={!!selMap[student.id]} isStudent={isStudent} />
           ))
         }
       </Table>
@@ -112,8 +124,8 @@ const StudentRow = wrap(CSSContainer, {
   }
 })(component({
   render ({props, actions}) {
-    const {student, selected, group, groupId, highlight, showSettings, isStudent} = props
-    const {username, displayName} = student
+    const {student, selected, group, groupId, highlight, showSettings, isStudent, showPasswords} = props
+    const {username, displayName,pictureName} = student
 
     return (
       <TableRow tag={isStudent ? 'tr' : 'label'} display='table-row' py bgColor={highlight && !isStudent ? '#fafdfe' : 'white'} borderBottom='1px solid grey_light'>
@@ -130,8 +142,15 @@ const StudentRow = wrap(CSSContainer, {
             {username}
           </Block>
         </TableCell>
+        {showPasswords ? 
+        <TableCell {...cellProps}>
+          <Block hoverProps={underline}>
+            <Image h='100px' w='100px' src={animalImages[pictureName]} />
+          </Block>
+        </TableCell> : null }
         <TableCell {...cellProps} textAlign='right' hide={isStudent}>
           <StudentDropdown
+            showPasswords = {showPasswords}
             group={group}
             groupId={groupId}
             onClick={preventDefault}
@@ -141,4 +160,5 @@ const StudentRow = wrap(CSSContainer, {
       </TableRow>
     )
   }
+
 }))

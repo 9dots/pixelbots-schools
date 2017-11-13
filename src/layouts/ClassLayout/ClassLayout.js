@@ -3,16 +3,15 @@
  */
 
 import ClassSettingsModal from 'modals/ClassSettingsModal'
+import { getRandomPassword } from 'lib/picture-passwords'
 import JoinSchoolModal from 'modals/JoinSchoolModal'
 import ClassCodeModal from 'modals/ClassCodeModal'
-import Redirect from 'components/Redirect'
-import {Text, Block, Icon} from 'vdux-ui'
-import FourOhFour from 'pages/FourOhFour'
+import { Text, Block, Icon } from 'vdux-ui'
 import NavTile from 'components/NavTile'
-import {component, element} from 'vdux'
-import {Button} from 'vdux-containers'
+import { component, element } from 'vdux'
+import { Button } from 'vdux-containers'
+import mapValues from '@f/map-values'
 import maybeOver from '@f/maybe-over'
-import getProp from '@f/get-prop'
 import fire from 'vdux-fire'
 
 /**
@@ -27,50 +26,57 @@ export default fire(props => ({
       child: 'school'
     }
   }
-}))(component({
-  * onCreate ({props, context}) {
-    if (!Object.keys(props.currentUser.schools || {}).length) {
-      yield context.openModal(() => <JoinSchoolModal />)
-    }
-  },
+}))(
+  component({
+    * onCreate ({ props, context }) {
+      if (!Object.keys(props.currentUser.schools || {}).length) {
+        yield context.openModal(() => <JoinSchoolModal />)
+      }
+    },
 
-  render ({props, children, context}) {
-    const {group, currentUser, groupId} = props
-    const {value, loading, error} = group
+    render ({ props, children, context }) {
+      const { group, groupId } = props
+      const { value, loading } = group
 
-    if (loading) return <span />
+      if (loading) return <span />
 
-    return (
-      <Block>
-        <Header group={value} groupId={groupId} />
+      return (
         <Block>
-          {maybeOver(value, children)}
+          <Header group={value} groupId={groupId} />
+          <Block>{maybeOver(value, children)}</Block>
         </Block>
-      </Block>
-    )
-  }
-}))
+      )
+    }
+  })
+)
 
 /**
  * Constants
  */
 
-const activeProps = {opacity: 1}
-const hoverProps = {opacity: 0.7}
-const highlight = {highlight: 0.03}
+const activeProps = { opacity: 1 }
+const hoverProps = { opacity: 0.7 }
+const highlight = { highlight: 0.03 }
 
 /**
  * <Header/>
  */
 
 const Header = component({
-  render ({props, actions}) {
-    const {group, groupId: id, isStudent, students} = props
-    const {displayName, code, owners} = group
+  render ({ props, actions }) {
+    const { group, groupId: id, isStudent } = props
+    const { displayName, code } = group
 
     return (
       <Block boxShadow='0 1px 2px 0 rgba(0,0,0,0.22)'>
-        <Block p='m' fs='s' fw='lighter' capitalize bgColor='green' color='white' minHeight={107}>
+        <Block
+          p='m'
+          fs='s'
+          fw='lighter'
+          capitalize
+          bgColor='green'
+          color='white'
+          minHeight={107}>
           <Block align='space-between center'>
             <Block ellipsis fs='m' lighter align='start center'>
               {displayName}
@@ -83,8 +89,7 @@ const Header = component({
                 opacity={1}
                 fs='xs'
                 ml='s'
-                pr
-                />
+                pr />
             </Block>
             <Button
               onClick={actions.classCodeModal}
@@ -121,9 +126,9 @@ const Header = component({
             Students
           </NavTile>
           {
-          // <NavTile href={`/class/${id}/gradebook`} highlight='blue'>
-          //   Gradebook
-          // </NavTile>
+            // <NavTile href={`/class/${id}/gradebook`} highlight='blue'>
+            //   Gradebook
+            // </NavTile>
           }
         </Block>
       </Block>
@@ -131,12 +136,33 @@ const Header = component({
   },
 
   controller: {
-    * classCodeModal ({context, props}) {
+    * classCodeModal ({ context, props }) {
       yield context.openModal(() => <ClassCodeModal code={props.group.code} />)
     },
 
-    * classSettings ({context, props}) {
-      yield context.openModal(() => <ClassSettingsModal groupId={props.groupId} group={props.group} />)
+    * classSettings ({ context, props, actions }) {
+      const snap = yield context.firebaseOnce(
+        `/classes/${props.groupId}/hasPicturePassword`
+      )
+      yield context.openModal(() => (
+        <ClassSettingsModal
+          passwordSetting={snap.val()}
+          groupId={props.groupId}
+          onPasswordAdd={actions.addStudentPasswords}
+          group={props.group} />
+      ))
+    },
+    * addStudentPasswords ({ props, actions }) {
+      yield mapValues(
+        (val, id) => actions.maybeAddPassword(id),
+        props.group.students
+      )
+    },
+    * maybeAddPassword ({ context }, studentId) {
+      yield context.firebaseTransaction(
+        `/users/${studentId}/pictureName`,
+        pictureName => pictureName || getRandomPassword()
+      )
     }
   }
 })
