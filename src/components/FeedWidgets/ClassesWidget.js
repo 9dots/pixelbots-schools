@@ -79,7 +79,9 @@ export default fire(props => ({
         {
           orderBy(filter(val => !!val.name, scls), [school => school.name.toLowerCase()]).map((school, id) => <SchoolItem schoolId={school.key} school={school} />)
         }
-        <AddClassItem Modal={JoinClassModal} text='Class Join' />
+        <AddClassItem user={user} Modal={JoinClassModal} text='Class Join' />
+        <Block borderBottom='1px solid divider' />
+        <CreateClassItem user={user} Modal={CreateClassModal} text='Class Create' />
         <Block borderBottom='1px solid divider' />
         <AddSchoolItem />
       </Block>
@@ -195,8 +197,34 @@ const AddClassItem = component({
 
   controller: {
     * openModal ({props, context}) {
-      const {Modal} = props
-      yield context.openModal(() => <Modal userId={context.userId} />)
+      const {Modal, user} = props
+      yield context.openModal(() => <Modal userId={context.userId} user={user} />)
+    }
+  }
+})
+
+/**
+ * <AddClassItem/>
+ */
+
+const CreateClassItem = component({
+  render ({props, actions}) {
+    const {text} = props
+
+    return (
+      <Card>
+        <Link ui={MenuItem} hoverProps={{color: 'text'}} onClick={actions.openModal} py='m' color='grey_medium' bolder display='flex' align='start center'>
+          <Icon name='create' fs='s' mr='m' circle='29' bgColor='yellow' align='center center' color='white' bolder />
+          {text}
+        </Link>
+      </Card>
+    )
+  },
+
+  controller: {
+    * openModal ({props, context}) {
+      const {Modal, user} = props
+      yield context.openModal(() => <Modal userId={context.userId} user={user} />)
     }
   }
 })
