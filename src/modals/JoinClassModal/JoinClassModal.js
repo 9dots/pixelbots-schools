@@ -12,6 +12,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  DecoLine,
   Block,
   Modal,
   Flex,
@@ -37,9 +38,13 @@ export default component({
             <Flex column align='space-around center'>
               <ModalHeader>Join Class</ModalHeader>
               <FindClass {...actions} {...state} {...props} />
-              <Block italic my='m'>
-                or
-              </Block>
+              <Flex wide align='center center'>
+                <DecoLine w='36%' />
+                <Block italic m='m'>
+                  or
+                </Block>
+                <DecoLine w='36%' />
+              </Flex>
               <RoundedInput
                 w={210}
                 mx={0}

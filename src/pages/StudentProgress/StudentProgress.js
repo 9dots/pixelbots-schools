@@ -98,7 +98,7 @@ const Row = fire(({ ref, savedRef }) => ({
           ? img
           : 'https://www.pixelbots.io/' + img
 
-      const stretchType = (value.stretch || {}).type
+      const { type: stretchType, hard } = value.stretch || {}
       const count = getProp(`badges.${stretchType}`, savedValue) || 0
 
       return (
@@ -117,6 +117,7 @@ const Row = fire(({ ref, savedRef }) => ({
           <TableCell p>
             <Block align='start center'>
               <Badge
+                hard={hard}
                 type={stretchType}
                 size={32}
                 hideTitle
@@ -135,7 +136,9 @@ const Row = fire(({ ref, savedRef }) => ({
           <TableCell p textAlign='right'>
             <a
               target='_blank'
-              href={`https://www.pixelbots.io/activity/${playlistRef}/instance/${props.instanceRef}/${i}`}>
+              href={`https://www.pixelbots.io/activity/${
+                playlistRef
+              }/instance/${props.instanceRef}/${i}`}>
               <Button px='m'>View</Button>
             </a>
           </TableCell>
