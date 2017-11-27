@@ -68,7 +68,7 @@ export default component({
       ...rest
     } = props
 
-    if (!badgeTypes[type] || !hard) return <span />
+    if (!badgeTypes[type] || hard) return <span />
 
     const style = count && effects ? badgeStyle : {}
     const description = props.description || badgeTypes[type].description

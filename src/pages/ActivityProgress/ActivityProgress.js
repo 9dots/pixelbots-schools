@@ -159,14 +159,16 @@ export default summonPrefs()(
               inst.familyName,
               inst.givenName,
               playlist.name,
-              ...sequence.map((val, i) => inst.challengeScores[i] || 0),
+              ...sequence
+                .map(val => inst.challengeScores[val.gameRef] || 0)
+                .map(({ badge = 0, completed = 0 }) => badge + completed),
               inst.numCompleted,
               inst.possibleCompleted,
               inst.progress
             ],
             data
           )
-          // console.log(headers, content)
+          // console.log(content)
           downloadCsv(playlist.name, [headers, ...content])
         }
       }
@@ -195,14 +197,11 @@ function mapToInstance (instance, sequence) {
   const [givenName, familyName] = displayName.split(' ')
   return {
     progress: `${(completedChallenges.length || 0) / sequence.length * 100}%`,
-    challengeScores: mapValues(
-      ({ completed = 0, badge = 0 }) => completed + badge,
-      challengeScores
-    ),
     numCompleted: completedChallenges.length.toString(),
     possibleCompleted: sequence.length.toString(),
     status: getStatus(instance),
     completedChallenges,
+    challengeScores,
     displayName,
     familyName,
     givenName,
