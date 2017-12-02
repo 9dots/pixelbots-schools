@@ -14,6 +14,8 @@ import mapValues from '@f/map-values'
 import toCsv from 'to-csv'
 import index from '@f/index'
 import map from '@f/map'
+import Airtable from 'airtable'
+var base = new Airtable({apiKey: 'key1dbkUICnTbG7vO'}).base('appRt18Qzf64edPUO');
 
 /**
  * <ActivityProgress/>
@@ -75,6 +77,13 @@ export default summonPrefs()(
               <Button px onClick={context.setUrl('/class/' + classRef)}>
                 <Icon name='arrow_back' fs='s' mr='s' />
                 Back
+              </Button>
+              <Button
+                onClick={actions.uploadToAirtable(studentInsts)}
+                bgColor='blue'
+                px>
+                <Icon name='file_upload' fs='m' mr='s' />
+                Export to Airtable
               </Button>
               <Button
                 onClick={actions.exportAll(studentInsts)}
@@ -142,6 +151,50 @@ export default summonPrefs()(
             dir: property === sort.property ? sort.dir * -1 : 1
           })
         },
+
+        uploadToAirtable({props}, data) {
+          const {sequence, playlist} = props
+          const content = mapValues(
+            (inst, key) => [
+              inst.familyName,
+              inst.givenName,
+              playlist.name,
+              ...sequence.map((val, i) => inst.challengeScores[i] || 0),
+              inst.numCompleted,
+              inst.possibleCompleted,
+              inst.progress
+            ],
+            // need to change this into object to use find!
+          )
+          console.log(content[1])
+          base('All Students').select({
+            filterByFormula: "Teacher = 'ARGUETA, LUIS'",
+            view: 'getCoding'
+          }).eachPage(function page(records, fetchNextPage) {
+            // This function (`page`) will get called for each page of records.
+        
+            records.forEach(function(record) {
+                console.log('Retrieved', record.get('Last Name'));
+
+                base('ALL Students').update(record.id, {
+                  "New Overall": Number(content[1][11])
+                }, function(err, record) {
+                    if (err) { console.error(err); return; }
+                    console.log(record.get('Last Name'));
+                });
+            });
+        
+            // To fetch the next page of records, call `fetchNextPage`.
+            // If there are more records, `page` will get called again.
+            // If there are no more records, `done` will get called.
+            fetchNextPage();
+        
+        }, function done(err) {
+            if (err) { console.error(err); return; }
+        });
+
+        },
+
         exportAll ({ props }, data) {
           const { sequence, playlist } = props
 
