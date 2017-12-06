@@ -152,46 +152,63 @@ export default summonPrefs()(
           })
         },
 
-        uploadToAirtable({props}, data) {
-          const {sequence, playlist} = props
+        uploadToAirtable({props,context}, data) {
+          const {sequence, playlist, teacherName} = props
+          console.log(props, context)
           const content = mapValues(
-            (inst, key) => [
-              inst.familyName,
-              inst.givenName,
-              playlist.name,
-              ...sequence.map((val, i) => inst.challengeScores[i] || 0),
-              inst.numCompleted,
-              inst.possibleCompleted,
-              inst.progress
-            ],
-            // need to change this into object to use find!
+            (inst, key) => ({
+              familyName: inst.familyName,
+              givenName: inst.givenName,
+              playlist: playlist.name,
+              scores: sequence.map((val, i) => inst.challengeScores[i] || 0),
+              numCompleted: inst.numCompleted,
+              possibleCompleted: inst.possibleCompleted,
+              progress: inst.progress
+            }),
+            data
           )
-          console.log(content[1])
+          console.log(teacherName)
+          const filter = "({Teacher} = '" + teacherName + "')"
           base('All Students').select({
-            filterByFormula: "Teacher = 'ARGUETA, LUIS'",
+            filterByFormula: filter,
             view: 'getCoding'
           }).eachPage(function page(records, fetchNextPage) {
             // This function (`page`) will get called for each page of records.
-        
             records.forEach(function(record) {
-                console.log('Retrieved', record.get('Last Name'));
+              const currentStudent = content.find((student)=>student.givenName.toUpperCase() === record.get('First Name').toUpperCase() 
+                && student.familyName.toUpperCase() === record.get('Last Name').toUpperCase())
+              if (currentStudent) {
+                //currentStudent.scores.map((score, i) => {
+                  console.log(currentStudent.numCompleted)
+                  base('ALL Students').update(record.id, {
+                    // Had to hardcode, can't use variables for Question field
+                    "Question 1": currentStudent.scores[0],
+                    "Question 2": currentStudent.scores[1],
+                    "Question 3": currentStudent.scores[2],
+                    "Question 4": currentStudent.scores[3],
+                    "Question 5": currentStudent.scores[4],
+                    "Question 6": currentStudent.scores[5],
+                    "Question 7": currentStudent.scores[6],
+                    "Question 8": currentStudent.scores[7],
+                    "Question 9": currentStudent.scores[8],
+                    //"Question 10": currentStudent.numCompleted,
+                    // "Question 10": currentStudent.scores[9],
 
-                base('ALL Students').update(record.id, {
-                  "New Overall": Number(content[1][11])
-                }, function(err, record) {
-                    if (err) { console.error(err); return; }
-                    console.log(record.get('Last Name'));
-                });
-            });
-        
-            // To fetch the next page of records, call `fetchNextPage`.
-            // If there are more records, `page` will get called again.
-            // If there are no more records, `done` will get called.
+                  }, function(err, record) {
+                      if (err) { console.error(err); return; }
+                      console.log(record.get('First Name'));
+                  });
+                  //})
+              }
+            })
             fetchNextPage();
-        
-        }, function done(err) {
+          }, function done(err) {
             if (err) { console.error(err); return; }
-        });
+          });
+
+
+
+                    //: score
 
         },
 
