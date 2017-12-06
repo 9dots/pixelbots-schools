@@ -3,21 +3,18 @@
  */
 
 import RemoveFromClassModal from 'modals/RemoveFromClassModal'
-import InviteStudentsModal from 'modals/InviteStudentsModal'
+// import InviteStudentsModal from 'modals/InviteStudentsModal'
 import CreateStudentModal from 'modals/CreateStudentModal'
 import EmptyClassStudents from './EmptyClassStudents'
 import { Button, form, Tooltip } from 'vdux-containers'
 import AddStudentModal from 'modals/AddStudentModal'
 import PrintLoginModal from 'modals/PrintLoginModal'
 import PasswordModal from 'modals/PasswordModal'
-import ResetAllPasswordsModal from 'modals/ResetAllPasswordsModal'
 import PageTitle from 'components/PageTitle'
 import { Icon, Flex, Block } from 'vdux-ui'
-import Loading from 'components/Loading'
 import StudentGrid from './StudentGrid'
 import { component, element } from 'vdux'
 import mapValues from '@f/map-values'
-import index from '@f/index'
 import fire from 'vdux-fire'
 import map from '@f/map'
 
@@ -115,6 +112,10 @@ const StudentMenu = component({
 
     return (
       <Flex align='space-between center' mb>
+        <Button {...btnProps} onClick={actions.createStudentModal}>
+          <Icon name='group_add' mr='s' fs='s' />
+          Create New Student
+        </Button>
         <Button {...btnProps} onClick={actions.addStudentModal}>
           <Icon name='group_add' mr='s' fs='s' />
           Add Students
@@ -150,16 +151,14 @@ const StudentMenu = component({
   },
 
   controller: {
-    * addStudentModal ({ props, context }) {
+    * createStudentModal ({ props, context }) {
       yield context.openModal(() => (
         <CreateStudentModal groupId={props.groupId} />
       ))
     },
 
-    * resetPasswordsModal ({ props, context }) {
-      yield context.openModal(() => (
-        <ResetAllPasswordsModal users={props.students} />
-      ))
+    * addStudentModal ({ props, context }) {
+      yield context.openModal(() => <AddStudentModal groupId={props.groupId} />)
     },
 
     * removeModal ({ props, context }, users) {
