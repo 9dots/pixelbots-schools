@@ -15,7 +15,7 @@ import Form from 'vdux-form'
 export default component({
   render ({ props, context, actions, state }) {
     return (
-      <Modal onDismiss={context.closeModal} w='col_xl'>
+      <Modal onDismiss={!state.busy && context.closeModal} w='col_xl'>
         <Block p='l' h={275} align='stretch'>
           <Block column align='center center' wide>
             <Block mb='l' fs='s' lighter>
@@ -34,6 +34,7 @@ export default component({
             color='text'
             hoverProps={{ highlight: 0.03 }}
             focusProps={{ highlight: 0.03 }}
+            disabled={state.busy}
             onClick={context.closeModal}>
             Cancel
           </Button>

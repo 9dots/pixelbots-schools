@@ -4,10 +4,8 @@
 
 import ActivityRowStudent from 'components/ActivityRowStudent'
 import ClassActivityRow from 'components/ClassActivityRow'
-import EmptyClassFeed from './EmptyClassFeed'
 import PageTitle from 'components/PageTitle'
 import MediaModal from 'modals/MediaModal'
-import RowFeed from 'components/RowFeed'
 import { component, element } from 'vdux'
 import { Button } from 'vdux-containers'
 import { Block } from 'vdux-ui'
@@ -70,26 +68,28 @@ export default fire(props => ({
         const snap = yield context.firebaseOnce('/playlists/' + playlistRef)
         const playlist = snap.val()
 
-        yield context.firebasePush(`/feed/${groupId}`, {
-          playlistRef,
-          publishedAt: new Date(),
-          inverseTimestamp: -new Date(),
-          assiging: true,
-          displayName: playlist.name || null,
-          description: playlist.description || null,
-          image: {
-            url: playlist.imageUrl || null
-          },
-          groupId
-        })
-        yield context.fetch(`${process.env.API_SERVER}/assignPlaylist`, {
-          method: 'POST',
-          headers: { 'CONTENT-TYPE': 'application/json' },
-          body: JSON.stringify({
+        yield [
+          context.firebasePush(`/feed/${groupId}`, {
             playlistRef,
+            publishedAt: new Date(),
+            inverseTimestamp: -new Date(),
+            assiging: true,
+            displayName: playlist.name || null,
+            description: playlist.description || null,
+            image: {
+              url: playlist.imageUrl || null
+            },
             groupId
+          }),
+          context.fetch(`${process.env.API_SERVER}/assignPlaylist`, {
+            method: 'POST',
+            headers: { 'CONTENT-TYPE': 'application/json' },
+            body: JSON.stringify({
+              playlistRef,
+              groupId
+            })
           })
-        })
+        ]
       }
     }
   })
