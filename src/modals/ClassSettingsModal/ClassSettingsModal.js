@@ -101,9 +101,7 @@ export default component({
         `/classes/${props.groupId}/hasPicturePassword`,
         state.passwordSetting
       )
-      console.log('outside')
       if (state.passwordSetting && props.onPasswordAdd) {
-        console.log('inside')
         yield props.onPasswordAdd()
       }
     }

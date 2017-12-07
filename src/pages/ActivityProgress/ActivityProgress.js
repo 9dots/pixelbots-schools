@@ -161,7 +161,8 @@ export default summonPrefs()(
               playlist.name,
               ...sequence
                 .map(val => inst.challengeScores[val.gameRef] || 0)
-                .map(({ badge = 0, completed = 0 }) => badge + completed),
+                .map(({ badge = 0, completed = 0 }) => badge + completed)
+                .map(val => val.toString()),
               inst.numCompleted,
               inst.possibleCompleted,
               inst.progress
