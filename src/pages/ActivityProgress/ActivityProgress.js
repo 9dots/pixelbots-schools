@@ -2,7 +2,7 @@
  * Imports
  */
 
-import { Block, Table, TableHeader, TableRow, Icon } from 'vdux-ui'
+import { Block, Table, TableHeader, TableRow, Icon, Toast } from 'vdux-ui'
 import ActivityProgressRow from './ActivityProgressRow'
 import EmptyState from 'components/EmptyState'
 import datauriDownload from 'datauri-download'
@@ -15,6 +15,7 @@ import toCsv from 'to-csv'
 import index from '@f/index'
 import map from '@f/map'
 import Airtable from 'airtable'
+import AirtableModal from 'modals/AirtableModal'
 var base = new Airtable({apiKey: 'key1dbkUICnTbG7vO'}).base('appRt18Qzf64edPUO');
 
 /**
@@ -79,7 +80,7 @@ export default summonPrefs()(
                 Back
               </Button>
               <Button
-                onClick={actions.uploadToAirtable(studentInsts)}
+                onClick={actions.openConfirmationModal(studentInsts)} 
                 bgColor='blue'
                 px>
                 <Icon name='file_upload' fs='m' mr='s' />
@@ -152,8 +153,13 @@ export default summonPrefs()(
           })
         },
 
+        * openConfirmationModal({context,actions}, studentInsts) {
+          yield context.openModal(() => <AirtableModal onSubmit={actions.uploadToAirtable(studentInsts)} />)
+        },
+
         uploadToAirtable({props,context}, data) {
           const {sequence, playlist, teacherName} = props
+          let success = false;
           console.log(props, context)
           const content = mapValues(
             (inst, key) => ({
@@ -191,12 +197,18 @@ export default summonPrefs()(
                     "Question 7": currentStudent.scores[6],
                     "Question 8": currentStudent.scores[7],
                     "Question 9": currentStudent.scores[8],
-                    //"Question 10": currentStudent.numCompleted,
-                    // "Question 10": currentStudent.scores[9],
+                    "Question 10": currentStudent.scores[9],
 
                   }, function(err, record) {
                       if (err) { console.error(err); return; }
                       console.log(record.get('First Name'));
+                      // context.showToast(
+                      //   <Toast key='a' bg='grey' color='white' align='center center' w={520}>
+                      //     <Block align='center center'>
+                      //       <Text fw='bolder' mr> Data successfully exported.</Text>
+                      //     </Block>
+                      //   </Toast>
+                      // )
                   });
                   //})
               }
