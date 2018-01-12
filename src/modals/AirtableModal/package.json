@@ -1,0 +1,5 @@
+{
+  "name": "AirtableModal",
+  "main": "AirtableModal.js",
+  "browser": "AirtableModal.js"
+}
