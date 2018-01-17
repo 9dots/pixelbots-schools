@@ -2,7 +2,7 @@
  * Imports
  */
 
-import { Block, Table, TableHeader, TableRow, Icon } from 'vdux-ui'
+import { Block, Table, TableHeader, TableRow, Icon, Toast } from 'vdux-ui'
 import ActivityProgressRow from './ActivityProgressRow'
 import EmptyState from 'components/EmptyState'
 import datauriDownload from 'datauri-download'
@@ -14,6 +14,9 @@ import mapValues from '@f/map-values'
 import toCsv from 'to-csv'
 import index from '@f/index'
 import map from '@f/map'
+import Airtable from 'airtable'
+import AirtableModal from 'modals/AirtableModal'
+var base = new Airtable({apiKey: 'key1dbkUICnTbG7vO'}).base('appRt18Qzf64edPUO');
 
 /**
  * <ActivityProgress/>
@@ -75,6 +78,13 @@ export default summonPrefs()(
               <Button px onClick={context.setUrl('/class/' + classRef)}>
                 <Icon name='arrow_back' fs='s' mr='s' />
                 Back
+              </Button>
+              <Button
+                onClick={actions.openConfirmationModal(studentInsts)} 
+                bgColor='blue'
+                px>
+                <Icon name='file_upload' fs='m' mr='s' />
+                Export to Airtable
               </Button>
               <Button
                 onClick={actions.exportAll(studentInsts)}
@@ -142,6 +152,78 @@ export default summonPrefs()(
             dir: property === sort.property ? sort.dir * -1 : 1
           })
         },
+
+        * openConfirmationModal({context,actions}, studentInsts) {
+          yield context.openModal(() => <AirtableModal onSubmit={actions.uploadToAirtable(studentInsts)} />)
+        },
+
+        uploadToAirtable({props,context}, data) {
+          const {sequence, playlist, teacherName} = props
+          let success = false;
+          console.log(props, context)
+          const content = mapValues(
+            (inst, key) => ({
+              familyName: inst.familyName,
+              givenName: inst.givenName,
+              playlist: playlist.name,
+              scores: sequence.map((val, i) => inst.challengeScores[i] || 0),
+              numCompleted: inst.numCompleted,
+              possibleCompleted: inst.possibleCompleted,
+              progress: inst.progress
+            }),
+            data
+          )
+          console.log(teacherName)
+          const filter = "({Teacher} = '" + teacherName + "')"
+          base('All Students').select({
+            filterByFormula: filter,
+            view: 'getCoding'
+          }).eachPage(function page(records, fetchNextPage) {
+            // This function (`page`) will get called for each page of records.
+            records.forEach(function(record) {
+              const currentStudent = content.find((student)=>student.givenName.toUpperCase() === record.get('First Name').toUpperCase() 
+                && student.familyName.toUpperCase() === record.get('Last Name').toUpperCase())
+              if (currentStudent) {
+                //currentStudent.scores.map((score, i) => {
+                  console.log(currentStudent.numCompleted)
+                  base('ALL Students').update(record.id, {
+                    // Had to hardcode, can't use variables for Question field
+                    "Question 1": currentStudent.scores[0],
+                    "Question 2": currentStudent.scores[1],
+                    "Question 3": currentStudent.scores[2],
+                    "Question 4": currentStudent.scores[3],
+                    "Question 5": currentStudent.scores[4],
+                    "Question 6": currentStudent.scores[5],
+                    "Question 7": currentStudent.scores[6],
+                    "Question 8": currentStudent.scores[7],
+                    "Question 9": currentStudent.scores[8],
+                    "Question 10": currentStudent.scores[9],
+
+                  }, function(err, record) {
+                      if (err) { console.error(err); return; }
+                      console.log(record.get('First Name'));
+                      // context.showToast(
+                      //   <Toast key='a' bg='grey' color='white' align='center center' w={520}>
+                      //     <Block align='center center'>
+                      //       <Text fw='bolder' mr> Data successfully exported.</Text>
+                      //     </Block>
+                      //   </Toast>
+                      // )
+                  });
+                  //})
+              }
+            })
+            fetchNextPage();
+          }, function done(err) {
+            if (err) { console.error(err); return; }
+          });
+
+
+
+                    //: score
+
+        },
+
         exportAll ({ props }, data) {
           const { sequence, playlist } = props
 

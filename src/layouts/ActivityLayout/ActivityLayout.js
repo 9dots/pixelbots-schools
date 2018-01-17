@@ -77,7 +77,6 @@ const ActivityLayout = fire(({ classData, playlistRef }) => ({
   component({
     render ({ props, children, actions }) {
       const { activity, playlist, classData, playlistRef } = props
-
       if (activity.loading) {
         return <span />
       }
@@ -86,6 +85,7 @@ const ActivityLayout = fire(({ classData, playlistRef }) => ({
         <Block class='app' pt pb='60vh' printProps={printProps}>
           {maybeOver(
             {
+              teacherName: classData.displayName,
               students: classData.students,
               sequence: orderBy(
                 mapValues((val, key) => ({ ...val, key }), playlist.sequence),

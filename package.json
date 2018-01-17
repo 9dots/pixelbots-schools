@@ -7,8 +7,7 @@
   "scripts": {
     "postversion": "git push && git push --tags && npm publish --access=public",
     "dev": "unv dev --modules src",
-    "build":
-      "export CLOUD_FS_URL= && export NODE_ENV=production && unv build && cp -r assets public/ && cp index.html public/ && export NODE_ENV=",
+    "build": "export CLOUD_FS_URL= && export NODE_ENV=production && unv build && cp -r assets public/ && cp index.html public/ && export NODE_ENV=",
     "deploy": "yarn build; firebase deploy --only hosting",
     "start": "unv serve"
   },
@@ -68,6 +67,7 @@
     "@weo-edu/schema": "github:weo-edu/schema",
     "@weo-edu/subjects": "^0.1.9",
     "@weo-edu/validate": "github:weo-edu/validate",
+    "airtable": "^0.5.1",
     "babel-plugin-syntax-flow": "^6.18.0",
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
@@ -135,6 +135,7 @@
     "weo-redux-logger": "^2.6.1"
   },
   "devDependencies": {
+    "ava": "^0.10.0",
     "babel-eslint": "^8.0.1",
     "eslint": "^4.7.2",
     "eslint-config-standard": "^10.2.1",
@@ -144,7 +145,6 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-standard": "^3.0.1",
-    "ava": "^0.10.0",
     "flow-bin": "^0.35.0",
     "tap-dev-tool": "^1.3.0",
     "tape": "^4.2.0"
@@ -152,13 +152,14 @@
   "unv": {
     "modules": "src/",
     "outFile": "src/server/scripts/weo.js",
-    "transforms": ["br-cloud-fs"]
+    "transforms": [
+      "br-cloud-fs"
+    ]
   },
   "environment": {
     "base": {
       "IMAGE_RESIZE": "//images.global.ssl.fastly.net",
-      "GOOGLE_CLIENT_ID":
-        "696300823052-2696vo4mtj8off6d577sn1vjjrr14o6t.apps.googleusercontent.com",
+      "GOOGLE_CLIENT_ID": "696300823052-2696vo4mtj8off6d577sn1vjjrr14o6t.apps.googleusercontent.com",
       "CLEVER_CLIENT_ID": "9e85d73ee95c90414fbd",
       "ASSETS_DIR": "/assets/"
     },
@@ -172,8 +173,7 @@
       "FACEBOOK_APP_ID": "1696938930540934",
       "CRAWLABLE": false,
       "DEBUG": "weo:*",
-      "GOOGLE_CLIENT_ID":
-        "696300823052-39m3901cceuiehfiac4s9l9su5tlps2r.apps.googleusercontent.com",
+      "GOOGLE_CLIENT_ID": "696300823052-39m3901cceuiehfiac4s9l9su5tlps2r.apps.googleusercontent.com",
       "INTERCOM_APP_ID": "so9uchl4",
       "PAPERTRAIL_HOST": "logs2.papertrailapp.com",
       "PAPERTRAIL_PORT": 15920,
@@ -193,15 +193,13 @@
       "CLEVER_CLIENT_ID": "504ffa19024513570be4",
       "FACEBOOK_APP_ID": "1662916197276541",
       "CRAWLABLE": true,
-      "GOOGLE_CLIENT_ID":
-        "696300823052-gluo2j11ec7jfocj7opqt8qpmosbducq.apps.googleusercontent.com",
+      "GOOGLE_CLIENT_ID": "696300823052-gluo2j11ec7jfocj7opqt8qpmosbducq.apps.googleusercontent.com",
       "NODE_ENV": "production",
       "SEGMENT_IO_KEY": "0mhgcgv6ao",
       "IMAGE_SERVER": "https://images.global.ssl.fastly.net",
       "WEO_TITLE": "Weo | Empower Your Classroom",
       "WEO_TAGLINE": "Empower Your Classroom",
-      "WEO_DESCRIPTION":
-        "Weo is a place to create and discover activities for your classroom that can be assigned to your students with a simple click.",
+      "WEO_DESCRIPTION": "Weo is a place to create and discover activities for your classroom that can be assigned to your students with a simple click.",
       "OFFICE365_CLIENT_ID": "570e8309-8141-4588-b74d-ca708fd29ac3",
       "TEMPLATE_BOARD_ID": "56149fd19c9d5d0c0024ad3c",
       "CLOUD_FUNCTION_SERVER": "https://www.pixelbots.io/api"
@@ -213,9 +211,6 @@
       "NODE_ENV": "development",
       "CLOUD_FUNCTION_SERVER": "https://artbot-dev.firebaseapp.com/api"
     }
-  },
-  "engines": {
-    "node": "~6.3.0"
   },
   "license": "UNLICENSED"
 }
