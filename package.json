@@ -212,8 +212,5 @@
       "CLOUD_FUNCTION_SERVER": "https://artbot-dev.firebaseapp.com/api"
     }
   },
-  "engines": {
-    "node": "~6.3.0"
-  },
   "license": "UNLICENSED"
 }
