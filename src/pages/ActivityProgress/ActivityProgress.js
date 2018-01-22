@@ -185,7 +185,7 @@ export default summonPrefs()(
                 && student.familyName.toUpperCase() === record.get('Last Name').toUpperCase())
               if (currentStudent) {
                 //currentStudent.scores.map((score, i) => {
-                  console.log(currentStudent.numCompleted)
+                  console.log(currentStudent)
                   base('ALL Students').update(record.id, {
                     // Had to hardcode, can't use variables for Question field
                     "Question 1": currentStudent.scores[0],
