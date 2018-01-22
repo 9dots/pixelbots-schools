@@ -164,7 +164,6 @@ export default summonPrefs()(
         uploadToAirtable ({ props, context }, data) {
           const { sequence, playlist, teacherName } = props
           let success = false
-          console.log(data)
           const content = mapValues(
             (inst, key) => ({
               familyName: inst.familyName,
@@ -172,15 +171,13 @@ export default summonPrefs()(
               playlist: playlist.name,
               scores: sequence
                 .map(val => inst.challengeScores[val.gameRef] || 0)
-                .map(({ badge = 0, completed = 0 }) => badge + completed)
-                .map(val => val.toString()),
+                .map(({ badge = 0, completed = 0 }) => badge + completed),
               numCompleted: inst.numCompleted,
               possibleCompleted: inst.possibleCompleted,
               progress: inst.progress
             }),
             data
           )
-          console.log(teacherName)
           const filter = "({Teacher} = '" + teacherName + "')"
           base('All Students')
             .select({
@@ -200,7 +197,6 @@ export default summonPrefs()(
                   )
                   if (currentStudent) {
                     // currentStudent.scores.map((score, i) => {
-                    console.log(currentStudent)
                     base('ALL Students').update(
                       record.id,
                       {
@@ -218,20 +214,9 @@ export default summonPrefs()(
                       },
                       function (err, record) {
                         if (err) {
-                          console.error(err)
-                          return
                         }
-                        console.log(record.get('First Name'))
-                        // context.showToast(
-                        //   <Toast key='a' bg='grey' color='white' align='center center' w={520}>
-                        //     <Block align='center center'>
-                        //       <Text fw='bolder' mr> Data successfully exported.</Text>
-                        //     </Block>
-                        //   </Toast>
-                        // )
                       }
                     )
-                    // })
                   }
                 })
                 fetchNextPage()
@@ -306,6 +291,7 @@ function mapToInstance (instance, sequence) {
     possibleCompleted: sequence.length.toString(),
     status: getStatus(instance),
     completedChallenges,
+    challengeScores,
     displayName,
     familyName,
     givenName,
