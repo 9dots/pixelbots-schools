@@ -29,6 +29,8 @@ export default fire(props => ({
       if (activities.loading) return <span />
 
       const value = activities.value || []
+      const pinned = value.filter(act => !!act.pinned)
+      const unpinned = value.filter(act => !act.pinned)
 
       return (
         <Block my pb mx='auto' relative>
@@ -41,19 +43,11 @@ export default fire(props => ({
             Submit a Link
           </Button>
           <Block>
-            {value
-              .slice()
-              .sort((a, b) => {
-                if (a.pinned != b.pinned) {
-                  return a.pinned ? -1 : 1
-                }
-                return a.inverseTimestamp - b.inverseTimestamp
-              })
-              .map(activity => (
-                <Block key={activity.id}>
-                  <ClassActivityRow options activity={activity} />
-                </Block>
-              ))}
+            {pinned.concat(unpinned).map(activity => (
+              <Block key={activity.id}>
+                <ClassActivityRow options activity={activity} />
+              </Block>
+            ))}
           </Block>
         </Block>
       )
@@ -68,28 +62,17 @@ export default fire(props => ({
         const snap = yield context.firebaseOnce('/playlists/' + playlistRef)
         const playlist = snap.val()
 
-        yield [
-          context.firebasePush(`/feed/${groupId}`, {
-            playlistRef,
-            publishedAt: new Date(),
-            inverseTimestamp: -new Date(),
-            assiging: true,
-            displayName: playlist.name || null,
-            description: playlist.description || null,
-            image: {
-              url: playlist.imageUrl || null
-            },
-            groupId
-          }),
-          context.fetch(`${process.env.API_SERVER}/assignPlaylist`, {
-            method: 'POST',
-            headers: { 'CONTENT-TYPE': 'application/json' },
-            body: JSON.stringify({
-              playlistRef,
-              groupId
-            })
-          })
-        ]
+        yield context.firebasePush(`/feed/${groupId}`, {
+          playlistRef,
+          publishedAt: Date.now(),
+          inverseTimestamp: -Date.now(),
+          displayName: playlist.name || null,
+          description: playlist.description || null,
+          image: {
+            url: playlist.imageUrl || null
+          },
+          groupId
+        })
       }
     }
   })
