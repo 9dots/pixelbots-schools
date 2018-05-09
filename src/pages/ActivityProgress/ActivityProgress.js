@@ -160,13 +160,13 @@ export default summonPrefs()(
         uploadToAirtable({props,context}, data) {
           const {sequence, playlist, teacherName} = props
           let success = false;
-          console.log(props, context)
           const content = mapValues(
             (inst, key) => ({
               familyName: inst.familyName,
               givenName: inst.givenName,
               playlist: playlist.name,
               scores: sequence.map((val, i) => inst.challengeScores[i] || 0),
+              //...sequence.map((val, i) => inst.challengeScores[i] || 0),
               numCompleted: inst.numCompleted,
               possibleCompleted: inst.possibleCompleted,
               progress: inst.progress
@@ -198,7 +198,11 @@ export default summonPrefs()(
                     "Question 8": currentStudent.scores[7],
                     "Question 9": currentStudent.scores[8],
                     "Question 10": currentStudent.scores[9],
-
+                    "Question 11": currentStudent.scores[10],
+                    "Question 12": currentStudent.scores[11],
+                    "Question 13": currentStudent.scores[12],
+                    "Question 14": currentStudent.scores[13],
+                    "Question 15": currentStudent.scores[14],
                   }, function(err, record) {
                       if (err) { console.error(err); return; }
                       console.log(record.get('First Name'));
