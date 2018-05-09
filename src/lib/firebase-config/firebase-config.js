@@ -18,6 +18,4 @@ const prodConfig = {
 
 const config = process.env.NODE_ENV === 'development' ? devConfig : prodConfig
 
-console.log(config)
-
 export default config
