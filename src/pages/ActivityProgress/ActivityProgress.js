@@ -179,47 +179,6 @@ export default summonPrefs()(
             data
           )
           const filter = "({Teacher} = '" + teacherName + "')"
-          base('All Students').select({
-            filterByFormula: filter,
-            view: 'getCoding'
-          }).eachPage(function page(records, fetchNextPage) {
-            // This function (`page`) will get called for each page of records.
-            records.forEach(function(record) {
-              const currentStudent = content.find((student)=>student.givenName.toUpperCase() === record.get('First Name').toUpperCase() 
-                && student.familyName.toUpperCase() === record.get('Last Name').toUpperCase())
-              if (currentStudent) {
-                //currentStudent.scores.map((score, i) => {
-                  console.log(currentStudent)
-                  base('ALL Students').update(record.id, {
-                    // Had to hardcode, can't use variables for Question field
-                    "Question 1": currentStudent.scores[0],
-                    "Question 2": currentStudent.scores[1],
-                    "Question 3": currentStudent.scores[2],
-                    "Question 4": currentStudent.scores[3],
-                    "Question 5": currentStudent.scores[4],
-                    "Question 6": currentStudent.scores[5],
-                    "Question 7": currentStudent.scores[6],
-                    "Question 8": currentStudent.scores[7],
-                    "Question 9": currentStudent.scores[8],
-                    "Question 10": currentStudent.scores[9],
-                    "Question 11": currentStudent.scores[10],
-                    "Question 12": currentStudent.scores[11],
-                    "Question 13": currentStudent.scores[12],
-                    "Question 14": currentStudent.scores[13],
-                    "Question 15": currentStudent.scores[14],
-                  }, function(err, record) {
-                      if (err) { console.error(err); return; }
-                      console.log(record.get('First Name'));
-                      // context.showToast(
-                      //   <Toast key='a' bg='grey' color='white' align='center center' w={520}>
-                      //     <Block align='center center'>
-                      //       <Text fw='bolder' mr> Data successfully exported.</Text>
-                      //     </Block>
-                      //   </Toast>
-                      // )
-                  });
-                  //})
-              }
           base('All Students')
             .select({
               filterByFormula: filter,
@@ -251,7 +210,12 @@ export default summonPrefs()(
                         'Question 7': currentStudent.scores[6],
                         'Question 8': currentStudent.scores[7],
                         'Question 9': currentStudent.scores[8],
-                        'Question 10': currentStudent.scores[9]
+                        'Question 10': currentStudent.scores[9],
+                        'Question 11': currentStudent.scores[10],
+                        'Question 12': currentStudent.scores[11],
+                        'Question 13': currentStudent.scores[12],
+                        'Question 14': currentStudent.scores[13],
+                        'Question 15': currentStudent.scores[14]
                       },
                       function (err, record) {
                         if (err) {
